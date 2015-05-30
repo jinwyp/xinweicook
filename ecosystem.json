@@ -1,0 +1,50 @@
+{
+  "apps" : [
+    {
+      "name": "cook-api",
+      "script": "index.coffee",
+      "instances": 0,
+      "exec_mode": "cluster_mode",
+      "max_memory_restart" : "1024M",
+      "env": {
+        "NODE_ENV": "development",
+        "LEVEL": "debug",
+        "BASE": "http://115.239.196.25",
+        "HOST": "127.0.0.1",
+        "PORT": "3003",
+        "REDIS": "[{\"host\":\"10.4.3.101\",\"port\":\"6379\"},{\"host\":\"10.4.3.142\",\"port\":\"6379\"}]",
+        "DB": "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
+      },
+      "env_production" : {
+        "NODE_ENV": "production",
+        "BASE": "https://xinweicook.com",
+        "HOST": "127.0.0.1",
+        "PORT": "3000",
+        "DB": "mongodb://cook-api:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.18.51/cook-api"
+      }
+    }
+  ],
+
+  "deploy" : {
+    "development" : {
+      "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
+      "user" : "root",
+      "host" : ["183.131.78.182"],
+      "port": "2222",
+      "ref": "origin/develop",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/development",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development",
+    },
+    "production" : {
+      "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
+      "user" : "root",
+      "host" : ["183.131.78.182"],
+      "port": "2222",
+      "ref": "origin/master",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/production",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production",
+    },
+  }
+}

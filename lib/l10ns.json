@@ -1,0 +1,26 @@
+{
+  "defaultProject": "cook-api",
+  "projects": {
+    "cook-api": {
+      "timezones": [
+        "Asia/Shanghai"
+      ],
+      "currencies": [
+        "CNY"
+      ],
+      "interface": {
+        "autoOpen": true,
+        "port": 3002
+      },
+      "languages": {
+        "zh-CN": "Chinese",
+        "en-US": "English"
+      },
+      "defaultLanguage": "zh-CN",
+      "programmingLanguage": "javascript",
+      "store": "localizations/",
+      "output": "localizations/output",
+      "source": ["**/*.coffee"]
+    }
+  }
+}
