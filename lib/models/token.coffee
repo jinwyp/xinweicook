@@ -31,8 +31,9 @@ module.exports =
           else
             t
       )
-    findTokenByAccessToken: (access_token) ->
-      @findOneAsync(access_token: access_token).then(@tokenFound).then(@accessTokenNotExpired)
+    findTokenAndUserByAccessToken: (access_token) ->
+      @findOne(access_token: access_token).populate("user").execAsync()
+      .then(@tokenFound).then(@accessTokenNotExpired)
     refreshAccessToken: (refresh_token) ->
       @findOne(refresh_token:refresh_token).populate("user").execAsync().then(@tokenFound)
       .then (t)->

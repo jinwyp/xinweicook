@@ -90,13 +90,12 @@ module.exports =
       else
         @findOneAsync(_id: _id).then(@UserFound).then(@UserNotSpam)
     findUserByAccessToken: (access_token) ->
-      userId = parseInt access_token?.split(":")[0]
-      Promise.join(@findUserById(userId), models.token.findTokenByAccessToken(access_token), (u, t) ->
-        if u._id.toString() is t.user.toString()
-          u
+      models.token.findTokenAndUserByAccessToken(access_token).then((t)->
+        if t.user
+          t.user
         else
-          throw new Err "Access Token 错误", 401
-      )
+          throw new Err "找不到该用户", 404
+      ).then(@UserFound).then(@UserNotSpam)
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4
