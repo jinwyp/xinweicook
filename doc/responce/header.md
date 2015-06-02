@@ -1,5 +1,3 @@
-# Header
-
 | Name | Desc |
 |:-------|:-----------|
 | Content-Type | `application/json` |

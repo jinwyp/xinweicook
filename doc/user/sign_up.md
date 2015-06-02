@@ -1,5 +1,3 @@
-# Sign Up
-
 ## Req
 
 POST `/signup`

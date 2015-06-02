@@ -1,4 +1,3 @@
-# Send Verification Code Via Sms
 ## Req
 POST `/sms`
 

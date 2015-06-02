@@ -1,5 +1,3 @@
-# Obtain Access Token
-
 [The OAuth 2.0 Authorization Framework - Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3)
 
 ## Req

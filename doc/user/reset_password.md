@@ -1,5 +1,3 @@
-# Reset Password
-
 ## Req
 POST `/resetPwd`
 

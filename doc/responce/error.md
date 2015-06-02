@@ -1,5 +1,3 @@
-# Error
-
 ## Res
 
 | Param    | Desc            |

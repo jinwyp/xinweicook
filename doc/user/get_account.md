@@ -1,4 +1,3 @@
-# Get Account
 ## Req
 
 GET `/account`

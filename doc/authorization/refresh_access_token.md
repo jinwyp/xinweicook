@@ -1,4 +1,3 @@
-# Refresh Access Token
 ## Req
 POST `/token`
 

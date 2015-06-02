@@ -1,4 +1,3 @@
-# Revoke Access Token
 ## Req
 POST `/revoke`
 
