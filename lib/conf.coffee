@@ -9,7 +9,7 @@ conf =
     db: "info"
   port: port
   host: host
-  db: ENV.DB or "mongodb://cook-api:9wvpfcm7tZ&j.WBX6ZAGH&eRk@127.0.0.1/cook-api"
+  db: ENV.DB or "mongodb://127.0.0.1/cook-api"
   redis: if ENV.REDIS then JSON.parse ENV.REDIS else [
     { host: "127.0.0.1", port: "6379" }
     { host: "127.0.0.1", port: "6379" }

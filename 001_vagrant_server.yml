@@ -1,0 +1,12 @@
+---
+# A playbook for testing all roles.
+- hosts: test
+  sudo: yes
+  vars:
+    dest_folder: /opt/xinwei
+
+  roles:
+    - common
+    - nodejs
+    - xinwei_api
+    - nginx
