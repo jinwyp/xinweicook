@@ -20,14 +20,21 @@ brew install nodejs mongodb redis nginx
 
 为了方便启动服务，可以用 `gem install lunchy` 安装 [lunchy]。
 
+服务都启动后，用 `rake update_node` 更新 npm 依赖。
+
+然后 `rake server` 启动服务。
+
 ### 本地虚拟机调试
 
+本地虚拟机调试，主要用于测试服务是否能在各种纯净的发行版中成功部署。依赖以下工具：
+
 1. [Vagrant]
-2. [Ansible]
+2. [VirtualBox]
+3. [Ansible]
 
 ``` bash
-rake test # 在 VirtualBox 中测试 API
-rake server # 在 VirtualBox 中创建干净的开发环境
+rake vagrant_test # 在 VirtualBox 中测试 API
+rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
 ```
 
 ## 远程部署
@@ -52,3 +59,4 @@ rake update # 自动更新服务端代码
 [nginx]: (http://nginx.org)
 [Vagrant]: (https://vagrantup.com)
 [lunchy]: (https://github.com/eddiezane/lunchy)
+[VirtualBox]: (https://www.virtualbox.org)
