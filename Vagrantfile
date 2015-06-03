@@ -27,8 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.limit = 'all'
-    ansible.playbook = "000_vagrant_test.yml"
-    ansible.inventory_path = "vagrant_hosts.ini"
+    ansible.playbook = "000_vagrant.yml"
+    ansible.inventory_path = "hosts.ini"
     ansible.host_key_checking = false
     ansible.extra_vars = { ssh_user: 'vagrant' }
   end

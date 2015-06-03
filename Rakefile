@@ -66,24 +66,25 @@ task :pm2_deploy do
   system 'pm2 deploy ecosystem.json development'
 end
 
+desc "Deploy to Ucloud Development server"
+task :deploy do
+  system 'ansible-playbook 010_ucloud.yml'
+end
+
+desc "Deploy to Ucloud Production server"
+task :deploy_pro do
+  system 'ansible-playbook 010_ucloud.yml -e PRODUCTION=true'
+end
+
 # Vagrant related ##############################################################
 
-desc 'CI test with Vagrant'
-task :vagrant_test do
+desc 'Start server in Vagrant'
+task :vagrant do
   system 'vagrant up --no-provision'
   system 'vagrant provision'
 end
 
-desc 'Install XinweiServer in VirtualBox'
-task :vagrant_server do
-  system 'vagrant up --no-provision'
-  system 'vagrant provision'
-end
-
-desc 'Install XinweiServer on your Mac'
-task :mac do
-  system 'ansible-playbook 010_mac.yml'
-end
+# Default ######################################################################
 
 task :default => [
   :test, :start, :update, :setup, :deploy, :nodemon,

@@ -1,7 +1,5 @@
 ---
 
-- name: install redis
-  apt: pkg=redis-server state=present
+- apt: pkg=redis-server state=present
 
-- name: reload redis
-  service: name=redis-server state=restarted
+- service: name=redis-server state=restarted

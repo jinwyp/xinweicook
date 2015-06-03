@@ -1,12 +1,12 @@
 ---
 # A playbook for testing all roles.
-- hosts: test
+- hosts: vagrant
   sudo: yes
-  vars:
-    dest_folder: /opt/xinwei
 
   roles:
     - common
+    - docker
+    - redis
+    - mongodb
     - nodejs
-    - xinwei_api
-    - nginx
+    - api_server
