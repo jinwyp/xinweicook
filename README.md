@@ -39,7 +39,7 @@ rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
 
 ## 远程部署
 
-运程部署使用 [Ansible] 实现。
+运程部署使用 [Ansible] 实现。用于连接服务端的私钥可以放在 `./keys` 目录下，已经被 gitignore。
 
 ``` bash
 rake deploy # 自动设置服务端环境并部署服务
