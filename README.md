@@ -48,15 +48,16 @@ rake update # 自动更新服务端代码
 
 ## 文档
 
-`doc` 下的文档使用 [GitBook](https://gitbook.com) 编写，通过我们的 CI 服务自动发布到文档服务器。
+`doc` 下的文档使用 [GitBook] 编写，通过我们的 CI 服务自动发布到文档服务器。
 
 
-[Ansible]: (http://ansible.com)
-[Homebrew]: (https://brew.sh)
-[nodejs]: (https://nodejs.org)
-[mongodb]: (https://www.mongodb.org)
-[redis]: (http://redis.io)
-[nginx]: (http://nginx.org)
-[Vagrant]: (https://vagrantup.com)
-[lunchy]: (https://github.com/eddiezane/lunchy)
-[VirtualBox]: (https://www.virtualbox.org)
+[Ansible]: http://ansible.com
+[Homebrew]: https://brew.sh
+[nodejs]: https://nodejs.org
+[mongodb]: https://www.mongodb.org
+[redis]: http://redis.io
+[nginx]: http://nginx.org
+[Vagrant]: https://vagrantup.com
+[lunchy]: https://github.com/eddiezane/lunchy
+[VirtualBox]: https://www.virtualbox.org
+[GitBook]: https://gitbook.com
