@@ -1,6 +1,6 @@
 # 新味服务端
 
-## 本地开发
+## 本地开发环境
 
 ### Mac 物理机开发环境
 
@@ -20,9 +20,16 @@ brew install nodejs mongodb redis nginx
 
 为了方便启动服务，可以用 `gem install lunchy` 安装 [lunchy]。
 
+#### 使用Ruby的Rake 任务工具启动服务器
+
 服务都启动后，用 `rake update_node` 更新 npm 依赖。
 
 然后 `rake server` 启动服务。
+
+#### 使用Nodejs下的Nodemon 工具启动服务器
+
+然后 `nodemon index.coffee` 启动服务。 注意nodemon 配置文件为nodemon.json
+
 
 ### 本地虚拟机调试
 
@@ -36,6 +43,9 @@ brew install nodejs mongodb redis nginx
 rake vagrant_test # 在 VirtualBox 中测试 API
 rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
 ```
+
+
+
 
 ## 远程部署
 

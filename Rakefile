@@ -87,6 +87,6 @@ end
 # Default ######################################################################
 
 task :default => [
-  :test, :start, :update, :setup, :deploy, :nodemon,
+  :test, :start, :update, :setup, :deploy, :server,
   :watch, :doc, :lang, :lang_interface
   ]
