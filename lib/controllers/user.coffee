@@ -5,6 +5,7 @@ module.exports = (router)->
     obj = req.u.toJSON()
     delete obj.pwd
     res.json obj
+
   ).post("/signup", (req, res, next) ->
     # 注册
     { mobile, pwd, code } = req.body
@@ -19,6 +20,7 @@ module.exports = (router)->
         token_type: "Bearer"
         expires_in: t.getExpiresIn()
     , next
+
   ).post("/resetPwd", (req, res, next) ->
     # 重置密码
     { mobile, pwd, code } = req.body
