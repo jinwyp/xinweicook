@@ -31,10 +31,9 @@ module.exports =
     tag: [zh:String, en:String] # tag
     attr: [ # 属性
       name: zh:String, en:String
-      attr: [
-        name: zh:String, en:String
-        price: Number
-        isDefault: type: Boolean, default: false
+      foodMaterial: [
+        dish: type: Schema.ObjectId, ref: "dish"
+        default: type: Boolean, default: false
       ]
     ]
     originalPrice: Number # 原价
@@ -42,19 +41,23 @@ module.exports =
       num: Number
       price: Number
     ]
-    add: [ # 附加 类似浇头概念
-      name: zh:String, en:String
-      price: Number
+    topping: [ # 附加 类似浇头概念
+      type: Schema.ObjectId, ref: "dish"
     ]
     region: [ # 地区
       zh:String, en:String
     ]
     storage: Number # 即食包冷藏保存期
     type: zh:String, en:String # ready to cook, ready to eat
+    sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / attr菜属性
+
     pair: [ # 推荐搭配
       dish: type: Schema.ObjectId, ref: "dish"
       desc: zh:String, en:String
     ]
+    cook:
+      user: type: Schema.ObjectId, ref: "user"
+      tips: String # 厨师点评
   statics: {}
   methods: {}
   rest: {}

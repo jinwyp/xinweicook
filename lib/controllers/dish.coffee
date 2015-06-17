@@ -8,7 +8,9 @@ module.exports = (router)->
     , next
   ).get("/dishes", (req, res, next) ->
     # 获取所有菜品
-    models.dish.findAsync {}
+    models.dish.find {}
+    .populate "cook.user"
+    .execAsync()
     .then (dishes) ->
       res.json dishes
     , next
