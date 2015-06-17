@@ -11,18 +11,23 @@ app.disable "x-powered-by"
 app.set "views", path.join(__dirname, "views")
 app.set "view engine", "jade"
 app.use cors() if conf.debug
+
 app.use "/api/public", express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
+
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
 app.use methodOverride("X-HTTP-Method-Override")
+
 app.use libs.logger.middleware()
 app.use libs.secure.middleware
 app.use libs.lang.middleware
 app.use libs.cache.lastModified
+
 app.use models.Router
 require("./controllers")(app)
 require("./test")() if conf.debug
+
 app.use (req, res, next) ->
   next new Err l("ErrNotFound"), 404
 
