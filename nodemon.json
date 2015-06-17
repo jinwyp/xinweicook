@@ -1,6 +1,6 @@
 {
   "watch": [
-    "lib"
+    "app"
   ],
   "ext": "coffee",
   "ignore": [

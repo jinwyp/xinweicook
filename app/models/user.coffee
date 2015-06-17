@@ -66,7 +66,7 @@ module.exports =
         else
           throw new Err "密码错误", 401
     signUp: (mobile, pwd, code) ->
-      models.sms.verifyCode("verifyMobile", mobile, code).then(->
+      models.sms.verifyCode("signUp", mobile, code).then(->
         # todo: 检查合法性等
         models.user.createAsync(mobile: mobile, pwd: pwd)
       )

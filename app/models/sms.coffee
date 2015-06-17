@@ -40,6 +40,8 @@ module.exports =
         sendSmsVia3rd(form).return(code)
     # 创建并记录验证码
     logCode: (type, mobile) ->
+      if conf.code.type.indexOf(type) is -1
+        throw new Err "短信类型不对", 400
       code = chance.natural(min: 100000, max: 999999)
       expiredAt = moment().add(conf.code.expire, "m")
       logger.debug "sms", "#{type}, #{code}, \

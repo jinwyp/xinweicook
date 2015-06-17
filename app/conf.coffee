@@ -43,8 +43,9 @@ conf =
         "【新味食材包】您的验证码为 #{code}。"
   code:
     trys: 5
-    sends: 5
+    sends: 10
     expire: 5 # mins
+    type:["signUp", "resetPwd"]
   token:
     expires_in: 3600
     sso: true

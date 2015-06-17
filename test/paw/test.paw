@@ -140,7 +140,7 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"refresh_token\\",\\"refresh_token\\":\\"0:5Xh9kkhPiXOfJo37s3X+T+HJGnwCd5gk\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">4</attribute>
+        <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">refresh access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -175,9 +175,9 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"18600000000\\",\\"pwd\\":\\"901121XXy\\",\\"code\\":\\"988192\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">5</attribute>
-        <attribute name="name" type="string">user-Signup</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"18600000000\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"944673\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="order" type="int64">2</attribute>
+        <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z106 z119 z113 z148 z105 z142 z136"></relationship>
@@ -222,7 +222,7 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"token_type_hint\\":\\"refresh_token\\",\\"token\\":\\"0:eO4D8VfwjDVFJSRToZTWhqcMoghxm+DW\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">3</attribute>
+        <attribute name="order" type="int64">5</attribute>
         <attribute name="name" type="string">revoke token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -332,9 +332,9 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"18600000000\\",\\"type\\":\\"resetPwd\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">2</attribute>
-        <attribute name="name" type="string">user-getSMS</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"18600000000\\",\\"type\\":\\"signUp\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">user-getSMSForSignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z104 z130 z110 z121 z153 z129 z152"></relationship>
@@ -465,7 +465,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">7</attribute>
+        <attribute name="order" type="int64">8</attribute>
         <attribute name="name" type="string">logs</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -577,9 +577,9 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"18600000000\\",\\"password\\":\\"901121XXy\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">1</attribute>
-        <attribute name="name" type="string">obtain access token</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"18600000000\\",\\"password\\":\\"123456\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="order" type="int64">3</attribute>
+        <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z124 z128 z144 z150 z143 z108 z114"></relationship>
@@ -625,7 +625,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z160"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z156">
-        <attribute name="value" type="string">Bearer 1:r07eQxLmiy68pkvhN0mTeQjyAWEQmqmv</attribute>
+        <attribute name="value" type="string">Bearer 0:oEuXVeDnWMm/tCJH3AwZbVeMJoHFwNfm</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -673,8 +673,8 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">8</attribute>
-        <attribute name="name" type="string">account</attribute>
+        <attribute name="order" type="int64">4</attribute>
+        <attribute name="name" type="string">user-InfoAccount</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z159 z161 z154 z156 z157 z158 z155"></relationship>
@@ -739,7 +739,7 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"18600000000\\",\\"pwd\\":\\"901121XXy\\",\\"code\\":\\"412802\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">6</attribute>
+        <attribute name="order" type="int64">7</attribute>
         <attribute name="name" type="string">reset pwd</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
