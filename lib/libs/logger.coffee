@@ -34,9 +34,9 @@ module.exports =
       if level is "error"
         libs.talk.alert msg, meta
     logger
+
   middleware: ->
     expressWinston.requestWhitelist.push "body"
     expressWinston.requestWhitelist.push "params"
     expressWinston.requestWhitelist.push "_id"
-    # expressWinston.responseWhitelist.push "body"
-    expressWinston.logger winstonInstance: logger, level: conf.level.express, statusLevels: true
+    expressWinston.logger winstonInstance: logger, level: conf.level.db, statusLevels: true

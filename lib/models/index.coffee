@@ -18,15 +18,15 @@ connect = () ->
 connect()
 
 connection.on "open", ->
-  logger.debug "db", "connection opened"
+  logger.debug "Database", "connection opened"
 connection.on "error", (err) ->
-  logger.warn "db", err
+  logger.warn "Database", err
   errs.push err
   mongoose.disconnect()
 connection.on "disconnected", ->
-  logger.warn "db", "disconnnected"
+  logger.warn "Database", "disconnnected"
   if errs.length >= 5
-    logger.error "db", errs.pop()
+    logger.error "Database", errs.pop()
     errs = []
   else
     setTimeout () ->
