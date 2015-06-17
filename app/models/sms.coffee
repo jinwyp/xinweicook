@@ -10,7 +10,7 @@ module.exports =
     expiredAt: Date
   statics:
     # 发送短信
-    sendSms: (form) ->
+    sendSmsVia3rd: (form) ->
       opts =
         method: "POST"
         timeout: 5000
@@ -37,7 +37,7 @@ module.exports =
       if conf.debug
         Promise.resolve(code)
       else
-        @sendSms(form).return(code)
+        sendSmsVia3rd(form).return(code)
     # 创建并记录验证码
     logCode: (type, mobile) ->
       code = chance.natural(min: 100000, max: 999999)
