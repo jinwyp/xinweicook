@@ -71,7 +71,7 @@ module.exports =
         models.user.createAsync(mobile: mobile, pwd: pwd)
       )
     resetPwd: (mobile, pwd, code) ->
-      models.sms.verifyCode("resetPwd", mobile, code).then(->
+      models.sms.verifyCode("resetPassword", mobile, code).then(->
         models.user.findOneAsync(mobile: mobile).then(@UserFound).then(@UserNotSpam).then((u)->
           u.pwd = pwd
           u.saveAsync()

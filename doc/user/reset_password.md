@@ -1,5 +1,5 @@
 ## Req
-POST `/resetPwd`
+POST `/user/resetpassword`
 
 ### Body
 | Name   | Type   | Desc   |
@@ -11,8 +11,8 @@ POST `/resetPwd`
 ```js
 {
   "mobile": "18600000000",
-  "pwd": "boo",
-  "code": "123456",
+  "pwd": "123456",
+  "code": "841114",
 }
 ```
 

@@ -1,5 +1,5 @@
 ## Req
-POST `user/sms`
+POST `/user/sms`
 
 ### Body
 | Name   | Type   | Desc                                         |

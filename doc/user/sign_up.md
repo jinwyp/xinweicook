@@ -1,6 +1,6 @@
 ## Req
 
-POST `/signup`
+POST `/user/signup`
 
 ### Body
 
@@ -22,9 +22,9 @@ POST `/signup`
 ### Body
 ```js
 {
-    "access_token": "2YotnFZFEjr1zCsicMWpAA",
-    "refresh_token": "tGzv3JOkF0XG5Qx2TlKWIA",
-    "token_type": "Bearer",
-    "expires_in": 3600
+  "access_token": "1:+AABOCGhQ8uZTtNqa5uNbYtICCE8zPJp",
+  "refresh_token": "1:tESymptHpXXPImUl0gp7DNAPItwu87iJ",
+  "token_type": "Bearer",
+  "expires_in": 3599
 }
 ```

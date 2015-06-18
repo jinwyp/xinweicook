@@ -24,7 +24,7 @@ expressRoutes = (app) ->
   app.post("/api/user/signup", userController.userSignUp)
   app.post("/api/user/sms", smsController.sendSMS)
 
-  app.post("/api/user/resetpassword", userController.userSignUp)
+  app.post("/api/user/resetpassword", userController.resetPassword)
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)

@@ -29,7 +29,7 @@ require("./routes")(app)
 require("./test")() if conf.debug
 
 app.use (req, res, next) ->
-  next new Err l("ErrNotFound"), 404
+  next new Err l("Page Not Found"), 404
 
 app.use libs.err.middleware()
 
