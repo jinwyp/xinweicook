@@ -25,7 +25,6 @@ app.use libs.lang.middleware
 app.use libs.cache.lastModified
 
 app.use models.Router
-#require("./controllers")(app)
 require("./routes")(app)
 require("./test")() if conf.debug
 

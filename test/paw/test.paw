@@ -325,7 +325,7 @@
     </object>
     <object type="LMREQUEST" id="z127">
         <attribute name="uuid" type="string">10B13D2C-B000-4E74-9D8F-9638AD0BDE2F</attribute>
-        <attribute name="url" type="string">http://127.0.0.1:3003/api/sms</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:3003/api/user/sms</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>

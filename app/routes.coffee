@@ -11,10 +11,10 @@ orderController = require "./controllers/order.coffee"
 
 expressRoutes = (app) ->
   app.get("/api/dishes", dishController.dishList)
-  app.get("/api/dish/:_id", dishController.dishSingleInfo)
+  app.get("/api/dishes/:_id", dishController.dishSingleInfo)
 
   app.get("/api/articles", articleController.articleList)
-  app.get("/api/article/:_id", articleController.articleSingleInfo)
+  app.get("/api/articles/:_id", articleController.articleSingleInfo)
 
 
 
@@ -25,6 +25,7 @@ expressRoutes = (app) ->
   app.post("/api/user/sms", smsController.sendSMS)
 
   app.post("/api/user/resetpassword", userController.userSignUp)
+
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
 
