@@ -6,13 +6,13 @@ shell = require "gulp-shell"
 
 
 
-gulp.task "doc", shell.task([
+gulp.task "generatedoc", shell.task([
   "cd doc; ../node_modules/.bin/gitbook build"
 ], ignoreErrors: false)
 
 
 gulp.task "watchdoc",  ->
-  gulp.watch ["doc/**/*.md"], ["doc"]
+  gulp.watch ["doc/**/*.md"], ["generatedoc"]
 
 
 gulp.task "nodemon", shell.task([
@@ -23,7 +23,7 @@ gulp.task "nodemon", shell.task([
 
 
 gulp.task "doc", [
-  "watchdoc"
+  "generatedoc", "watchdoc"
 ]
 
 
