@@ -37,7 +37,7 @@ exports.tokenRevoke = (req, res, next) ->
         res.sendStatus 200
       , next
     else
-      next new Err "错误的请求", 400
+      next new Err "错误的请求, revoke token failed", 400
 
 
 

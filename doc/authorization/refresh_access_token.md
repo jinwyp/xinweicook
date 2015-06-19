@@ -1,5 +1,5 @@
 ## Req
-POST `/token`
+POST `/user/token`
 
 Name          | Type   | Desc
 :------------ | :----- | :--------------

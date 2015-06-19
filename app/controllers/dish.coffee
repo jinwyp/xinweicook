@@ -159,7 +159,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "你知道吗？"
         en : "Did you know?"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。"
         en : "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -167,7 +167,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "特点"
         en : "Unique Feature"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。"
         en : "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -177,7 +177,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "彩椒"
         en : "Bell Pepper"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "1/2个"
         en : "1/2"
@@ -185,7 +185,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "洋葱"
         en : "Onion"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "1/4个"
         en : "1/4"
@@ -195,7 +195,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "准备工作"
         en : "Preparation work"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。"
         en : "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
@@ -203,7 +203,7 @@ exports.addNewDish = (req, res, next) ->
       title :
         zh : "干煸茶树菇"
         en : "Dry-fry the poplar mushroom"
-      type : "txt"
+      contentType : "txt"
       value :
         zh : "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。"
         en : "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
@@ -266,7 +266,6 @@ exports.addNewDish = (req, res, next) ->
 #    createDish = preferencesAndTopping
     createDish = sampleDishes
 
-#  console.log "aaaaa", sampleDishes[0].infoUniqueFeature
   models.dish.createAsync createDish
   .then (resultDishes) ->
     res.json resultDishes

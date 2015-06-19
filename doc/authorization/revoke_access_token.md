@@ -1,5 +1,5 @@
 ## Req
-POST `/revoke`
+POST `/user/logout`
 
 Name            | Type   | Desc
 :-------------- | :----- | :-------------

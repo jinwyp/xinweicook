@@ -21,17 +21,17 @@ module.exports =
 
     infoUniqueFeature: [ # 特色
       title: zh:String, en:String
-      type: String # pic, txt, url, video
+      contentType: String # pic, txt, url, video
       value: zh:String, en:String
     ]
     infoIngredient: [ # 原料
       title: zh:String, en:String
-      type: String # pic, txt, url, video
+      contentType: String # pic, txt, url, video
       value: zh:String, en:String
     ]
     infoCookingStep: [ # 步骤
       title: zh:String, en:String
-      type: String # pic, txt, url, video
+      contentType: String # pic, txt, url, video
       value: zh:String, en:String
     ]
 
