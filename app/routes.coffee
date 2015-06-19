@@ -13,6 +13,7 @@ expressRoutes = (app) ->
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
 
+
   app.get("/api/articles", articleController.articleList)
   app.get("/api/articles/:_id", articleController.articleSingleInfo)
 
@@ -37,7 +38,7 @@ expressRoutes = (app) ->
 
 
 
-
+  app.post("/api/administrator/dishes", dishController.addNewDish)
 
 
 module.exports = expressRoutes

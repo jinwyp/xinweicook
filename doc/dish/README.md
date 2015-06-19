@@ -1,4 +1,4 @@
-# Dish
+# Dish 菜品
 
 ```js
 {
