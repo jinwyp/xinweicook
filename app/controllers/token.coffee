@@ -20,6 +20,7 @@ exports.tokenSignIn = (req, res, next) ->
           access_token: t.access_token
           token_type: "Bearer"
           expires_in: t.getExpiresIn()
+      , next
     else
       next new Err "grant_type 错误", 400
 

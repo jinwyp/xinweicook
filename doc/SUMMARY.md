@@ -22,7 +22,7 @@
    * [获取所有菜品](dish/get_dishes.md)
    * [获取单一菜品](dish/get_single_dish.md)
 * [Order 订单](order/README.md)
-   * [获取用户的所有订单](order/get_orders.md)
+   * [获取该用户的所有订单](order/get_orders.md)
    * [获取单一订单](order/get_single_order.md)
    * [生成订单](order/add_new_order.md)
 * [Article 文章](article/README.md)
