@@ -14,7 +14,7 @@ module.exports =
     servings: Number # 几人份
     brief: zh:String, en:String # 简介
 
-    storage: Number # 即食包冷藏保存期
+    storageLife: Number # 即食包冷藏保存期
     cover: [zh:String, en:String] # 封面
     kitchenware: [zh:String, en:String] # 厨具 "toaster","pot","pan","oven","mixer","bowl"
 

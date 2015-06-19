@@ -6,8 +6,10 @@
 
 exports.dishList = (req, res, next) ->
   # 获取所有菜品
-  models.dish.find {}
+  models.dish.find {sideDishType : "main"}
   .populate "cook.user"
+  .populate "preferences.foodMaterial.dish"
+  .populate "topping"
   .execAsync()
   .then (dishes) ->
     res.json dishes
@@ -18,6 +20,8 @@ exports.dishSingleInfo = (req, res, next) ->
   # 获取菜品
   models.dish.findOne _id: req.params._id
   .populate "cook.user"
+  .populate "preferences.foodMaterial.dish"
+  .populate "topping"
   .execAsync()
   .then (dish) ->
     res.json dish
@@ -32,6 +36,7 @@ exports.addNewDish = (req, res, next) ->
   # 新建菜品
 
   preferencesAndTopping = [
+    _id : ObjectId("5583b7faa2845dec35276b92")
     isPublished : true
     sortId : 100
     cookingType:
@@ -43,7 +48,7 @@ exports.addNewDish = (req, res, next) ->
       en : "aoniu"
     priceOriginal : 20
   ,
-
+    _id : ObjectId("5583b7faa2845dec35276b93")
     isPublished : true
     sortId : 101
     cookingType:
@@ -56,6 +61,7 @@ exports.addNewDish = (req, res, next) ->
     priceOriginal : 25
   ,
 
+    _id : ObjectId("5583b7faa2845dec35276b94")
     isPublished : true
     sortId : 201
     cookingType:
@@ -68,6 +74,7 @@ exports.addNewDish = (req, res, next) ->
     priceOriginal : 10
   ,
 
+    _id : ObjectId("5583b7faa2845dec35276b95")
     isPublished : true
     sortId : 202
     cookingType:
@@ -80,6 +87,7 @@ exports.addNewDish = (req, res, next) ->
     priceOriginal : 15
   ,
 
+    _id : ObjectId("5583b7faa2845dec35276b96")
     isPublished : true
     sortId : 203
     cookingType:
@@ -92,7 +100,7 @@ exports.addNewDish = (req, res, next) ->
     priceOriginal : 20
   ,
 
-
+    _id : ObjectId("5583b7faa2845dec35276b97")
     isPublished : true
     sortId : 501
     cookingType:
@@ -105,6 +113,7 @@ exports.addNewDish = (req, res, next) ->
     priceOriginal : 20
   ,
 
+    _id : ObjectId("5583b7faa2845dec35276b98")
     isPublished : true
     sortId : 502
     cookingType:
@@ -131,7 +140,7 @@ exports.addNewDish = (req, res, next) ->
 
     title :
       zh : "干煸茶树菇孜然雪花牛柳"
-      en : "ganbianchashugu"
+      en : "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
 
     difficulty : 2
     time : 15
@@ -152,14 +161,45 @@ exports.addNewDish = (req, res, next) ->
       price : 42
     ]
 
+    preferences : [
+      name :
+        zh : "牛肉"
+        en : "beef"
+      foodMaterial : [
+        dish : "5583b7faa2845dec35276b92"
+        default : true
+      ,
+        dish : "5583b7faa2845dec35276b93"
+        default : false
+      ]
+    ,
+      name :
+        zh : "菌菇"
+        en : "mushroom"
+      foodMaterial : [
+        dish : "5583b7faa2845dec35276b94"
+        default : true
+      ,
+        dish : "5583b7faa2845dec35276b95"
+        default : false
+      ,
+        dish : "5583b7faa2845dec35276b96"
+        default : false
+      ]
+    ]
+
+    topping : [
+      "5583b7faa2845dec35276b97", "5583b7faa2845dec35276b98"
+    ]
+
   ]
 
   createDish = _.assign createDish, req.body
 
   if conf.debug
-    createDish = preferencesAndTopping
+#    createDish = preferencesAndTopping
+    createDish = sampleDishes
 
-  console.log "aaaaa", createDish
   models.dish.createAsync createDish
   .then (resultDishes) ->
     res.json resultDishes
