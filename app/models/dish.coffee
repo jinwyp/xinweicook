@@ -72,7 +72,7 @@ module.exports =
 
     statisticHot: type: Number, default: 0 # 热度
     statisticSales: type: Number, default: 0 # 销量
-    statisticLikes: type: Number, default: 0 # 赞数
+    statisticLike: type: Number, default: 0 # 赞数
     statisticViews: type: Number, default: 0 # 浏览量
 
 
