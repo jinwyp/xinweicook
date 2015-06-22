@@ -1,6 +1,6 @@
 ## Req
 
-GET `/dishes/:_id""`
+GET `/dishes/:_id`
 
 
 ## Res
@@ -8,4 +8,4 @@ GET `/dishes/:_id""`
 
 
 
-[Dish](../dish)
+[Dish](../Dish)

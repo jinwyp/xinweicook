@@ -9,4 +9,4 @@ GET `/dishes`
 
 
 
-[Dish](../dish)
+[Dish](../Dish)

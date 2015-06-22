@@ -2,6 +2,8 @@
 
 POST `/orders`
 
+Group `member`
+
 
 | Name       | Type   | Desc       |
 |:-----------|:-------|:-----------|

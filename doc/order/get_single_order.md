@@ -2,6 +2,8 @@
 
 GET `/orders/:_id`
 
+Group `member`
+
 
 ## Res
 ### Body
@@ -9,4 +11,4 @@ GET `/orders/:_id`
 
 
 
-[Orders](../order)
+[Orders](../Order)
