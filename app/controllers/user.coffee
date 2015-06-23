@@ -40,3 +40,18 @@ exports.resetPassword = (req, res, next) ->
 
 
 
+exports.addDishToCart = (req, res, next) ->
+  # 加入购物车
+  { mobile, pwd, code } = req.body
+  models.user.signUp mobile, pwd, code
+  .then ->
+    models.token.findTokenByMobilePwd(mobile, pwd)
+  .then (t) ->
+    libs.cache.setHeader res
+    res.json
+      access_token: t.access_token
+      refresh_token: t.refresh_token
+      token_type: "Bearer"
+      expires_in: t.getExpiresIn()
+  , next
+

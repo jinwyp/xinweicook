@@ -10,7 +10,7 @@ module.exports =
     mobile: type: String, unique: true,trim:true
     mail: type: String, sparse: true, unique: true, trim:true, lowercase:true
     name: type:String, trim:true
-    addr: [
+    info: [
       geo:
         lat: Number
         lng: Number
@@ -25,7 +25,7 @@ module.exports =
       remark: String
       isDefault: type: Boolean, default: false
     ]
-    loc: [
+    location: [
       geo:
         lat: Number
         lng: Number
@@ -39,17 +39,13 @@ module.exports =
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
     lang: String
-    cart: [
+    shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"
-      attr: [
-        name: zh:String, en:String
-        price: Number
-      ]
-      add: [
-        name: zh:String, en:String
-        price: Number
-      ]
       number: Number
+      subDish : [
+        dish : type: Schema.ObjectId, ref: "dish"
+        number: Number
+      ]
     ]
   statics:
     UserFound: (u) ->

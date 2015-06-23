@@ -5,7 +5,7 @@ module.exports =
     isPublished: type: Boolean, default: false # 是否已发布
     sortId: Number # 排序值
 
-    cookingType: zh:String, en:String # ready to cook食材包, ready to eat既食包
+    cookingType: String # ready to cook食材包, ready to eat既食包
     sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性
 
 
