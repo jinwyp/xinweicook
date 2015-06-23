@@ -9,8 +9,9 @@ module.exports =
       transports: [
         new (winston.transports.Console)(
           level: conf.level.console
+          silent: false
           handleExceptions: true
-          colorize: true
+          colorize: false
           prettyPrint: true
           debugStdout: true
         )
