@@ -8,7 +8,7 @@ module.exports =
     getAccessTokenFromReqHeaders: (req)->
       req.get("authorization")?.split("Bearer ")[1]
     tokenFound: (t) ->
-      t or throw new Err "找不到该 token", 404
+      t or throw new Err "找不到该 token", 401
     accessTokenNotExpired: (t) ->
       if t.isAccessTokenExpired()
         throw new Err "Access Token 已过期", 401

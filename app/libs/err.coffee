@@ -15,9 +15,9 @@ module.exports =
         status: err.status or 500
         _id: req._id
       if error.status < 500
-        logger.warn "err", error
+        logger.warn "4XX Error: ", error
       else
-        logger.error "err", error
+        logger.error "5XX Error: ", error
       res.status(error.status).json
         message: error.message
         _id: error._id
