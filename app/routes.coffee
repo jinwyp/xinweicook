@@ -11,6 +11,9 @@ orderController = require "./controllers/order.coffee"
 
 
 expressRoutes = (app) ->
+
+
+
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
 
@@ -43,5 +46,6 @@ expressRoutes = (app) ->
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)
 
+  app.get("/api/administrator/initdish", dishController.initNewDish)
 
 module.exports = expressRoutes

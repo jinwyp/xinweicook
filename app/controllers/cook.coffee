@@ -25,24 +25,7 @@ exports.addNewCook = (req, res, next) ->
   # 新建厨师
 
 
-  sampleCook =
-    _id: ObjectId("5583c96c7313f6c849c3aeb1")
-
-    name :
-      zh : "王大厨"
-      en : "Jin Wang"
-
-    description:
-      zh : "王大厨牛啊"
-      en : "Best Cook in China"
-
-    avatar : ""
-
-
   createCook = _.assign createCook, req.body
-
-  if conf.debug
-    createCook = sampleCook
 
   models.cook.createAsync createCook
   .then (resultCook) ->

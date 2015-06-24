@@ -39,7 +39,7 @@ module.exports =
       zh:String, en:String
     ]
 
-    tag: [zh:String, en:String] # tag
+    tagFilter: [type: Schema.ObjectId, ref: "tag"] # tagFilter
 
     cook:
       user: type: Schema.ObjectId, ref: "user"
