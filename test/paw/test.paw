@@ -863,22 +863,22 @@
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z200"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z202">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">http</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z199"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z203">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">192.168.1.15</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z186"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z204">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">api</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z200"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z205">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">3003</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z191"></relationship>
     </object>
@@ -949,7 +949,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z219 z218"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z218">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">api/admin</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z217"></relationship>
     </object>
@@ -1087,7 +1087,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z229"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z232">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">api/administrator</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z206"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z233"></relationship>
     </object>
