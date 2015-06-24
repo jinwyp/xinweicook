@@ -17,10 +17,8 @@ expressRoutes = (app) ->
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
 
-
   app.get("/api/articles", articleController.articleList)
   app.get("/api/articles/:_id", articleController.articleSingleInfo)
-
 
 
   app.post("/api/user/token", tokenController.tokenSignIn)
@@ -33,12 +31,14 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
-  app.get("/api/user/shoppingcart", libs.auth("member"), userController.addDishToCart)
-
+  app.post("/api/user/shoppingcart", libs.auth("member"), userController.addDishToCart)
 
   app.get("/api/orders", libs.auth("member"), orderController.orderListByUser)
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
+
+
+
 
 
 

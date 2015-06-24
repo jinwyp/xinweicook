@@ -412,6 +412,7 @@ exports.initNewDish = (req, res, next) ->
 
   models.cook.createAsync sampleCook
   .then (resultCook) ->
+    throw new Err "Field validation error,  sideDish must be 2-10", 400
     models.dish.createAsync preferencesAndTopping
   .then (result1Dishes) ->
     models.dish.createAsync sampleDishes
