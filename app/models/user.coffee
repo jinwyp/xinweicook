@@ -56,7 +56,7 @@ module.exports =
         throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
       else
         for dish,dishIndex in req.body.shoppingCart
-          unless libs.validator.isInt dish.number, {min:1, max:100}
+          unless libs.validator.isInt dish.number, {min: 1, max: 100}
             throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 30
             throw new Err "Field validation error,  dishID must be 24-24", 400
