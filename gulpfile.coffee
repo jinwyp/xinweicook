@@ -28,7 +28,7 @@ gulp.task "doc", [
 
 
 gulp.task "default", [
-  "nodemon", "doc"
+  "nodemon"
 ]
 
 
