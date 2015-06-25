@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Header 请求头 | 新味 API 文档</title>
+        <title>更新购物车 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../responce/index.html" />
+    <link rel="next" href="../dish/index.html" />
     
     
-    <link rel="prev" href="../request/method.html" />
+    <link rel="prev" href="../user/get_account.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="1.3" data-basepath=".." data-revision="Thu Jun 25 2015 13:35:25 GMT+0800 (CST)">
+    <div class="book" data-level="4.5" data-basepath=".." data-revision="Thu Jun 25 2015 13:35:25 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -112,7 +112,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="request/header.html">
+        <li class="chapter " data-level="1.3" data-path="request/header.html">
             
                 
                     <a href="../request/header.html">
@@ -340,7 +340,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5" data-path="user/update_shoppingcart.html">
+        <li class="chapter active" data-level="4.5" data-path="user/update_shoppingcart.html">
             
                 
                     <a href="../user/update_shoppingcart.html">
@@ -633,45 +633,114 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="header">Header</h1>
+                        <h2 id="req">Req</h2>
+<p>POST <code>/user/shoppingcart</code></p>
+<p>Group <code>member</code></p>
+<h3 id="body">Body</h3>
 <table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
 <th style="text-align:left">Desc</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">Accept</td>
-<td style="text-align:left"><code>application/vnd.cook.v1+json</code></td>
+<td style="text-align:left">shoppingCart</td>
+<td style="text-align:left">Array</td>
+<td style="text-align:left">&#x5546;&#x54C1;&#x6570;&#x7EC4;</td>
 </tr>
 <tr>
-<td style="text-align:left">Accept-Language</td>
-<td style="text-align:left"><code>zh-CN</code>/<code>en-US</code></td>
+<td style="text-align:left">-&gt; dish</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x5546;&#x54C1;ID</td>
 </tr>
 <tr>
-<td style="text-align:left">Authorization</td>
-<td style="text-align:left"><code>Bearer access_token</code></td>
+<td style="text-align:left">-&gt; number</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x5546;&#x54C1;&#x6570;&#x91CF;</td>
 </tr>
 <tr>
-<td style="text-align:left">Content-Type</td>
-<td style="text-align:left"><code>application/json</code></td>
+<td style="text-align:left">-&gt; subDish</td>
+<td style="text-align:left">Array</td>
+<td style="text-align:left">&#x5B50;&#x5546;&#x54C1; &#x4F8B;&#x5982; &#x725B;&#x8089;&#x5C5E;&#x6027;preferences &#x548C; &#x6D47;&#x5934;topping</td>
 </tr>
 <tr>
-<td style="text-align:left">X-HTTP-Method-Override</td>
-<td style="text-align:left"><code>PUT</code>/<code>DELETE</code>/<code>POST</code>/<code>GET</code></td>
+<td style="text-align:left">-&gt; =&gt; dish</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x5546;&#x54C1;ID</td>
 </tr>
 <tr>
-<td style="text-align:left">If-None-Match</td>
-<td style="text-align:left"><code>W/&quot;d6-2a10c203&quot;</code>/<code>*</code> ETag</td>
-</tr>
-<tr>
-<td style="text-align:left">If-Modified-Since</td>
-<td style="text-align:left"><code>Mon, 18 May 2015 08:49:58 GMT</code> Last-Modified</td>
+<td style="text-align:left">-&gt; =&gt; number</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x5546;&#x54C1;&#x6570;&#x91CF;</td>
 </tr>
 </tbody>
 </table>
+<pre><code class="lang-js">{
+    <span class="hljs-string">&quot;shoppingCart&quot;</span> : [
+        {
+            <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;558a602a3eba152266ff2b8c&quot;</span>,
+            <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-string">&quot;subDish&quot;</span> : [
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b92&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
+                },
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b95&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
+                },
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b97&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>
+                }
+            ]
+        },
+        {
+            <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;558a602a3eba152266ff2b8c&quot;</span>,
+            <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-string">&quot;subDish&quot;</span> : [
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b92&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
+                },
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b95&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
+                },
+                {
+                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b97&quot;</span>,
+                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<h2 id="res">Res</h2>
+<h3 id="body">Body</h3>
+<blockquote>
+<p>&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x4E2D; pwd &#x5BC6;&#x7801;&#x5B57;&#x6BB5;&#x4F1A;&#x6392;&#x9664;&#x6389;</p>
+</blockquote>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;5582903e4eb98f251a0478d4&quot;</span>,
+  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-18T09:32:46.692Z&quot;</span>,
+  <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-06-18T09:32:46.692Z&quot;</span>,
+  <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;18600000000&quot;</span>,
+  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;cart&quot;</span>: [],
+  <span class="hljs-string">&quot;isPromoOn&quot;</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">&quot;isSpam&quot;</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">&quot;credit&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;loc&quot;</span>: [],
+  <span class="hljs-string">&quot;addr&quot;</span>: [],
+  <span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;member&quot;</span>
+}
+</code></pre>
+<p><a href="../User">User</a></p>
 
                     
                     </section>
@@ -682,10 +751,10 @@
         </div>
 
         
-        <a href="../request/method.html" class="navigation navigation-prev " aria-label="Previous page: Method 请求方法"><i class="fa fa-angle-left"></i></a>
+        <a href="../user/get_account.html" class="navigation navigation-prev " aria-label="Previous page: 获取帐户信息"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../responce/index.html" class="navigation navigation-next " aria-label="Next page: Responce 响应"><i class="fa fa-angle-right"></i></a>
+        <a href="../dish/index.html" class="navigation navigation-next " aria-label="Next page: Dish 菜品"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -10,10 +10,8 @@
   "sortId": "", # 排序值
   "isPublished": false, # 是否已发布
 
-  "cookingType": { # ready to cook, ready to eat
-    "zh": "",
-    "en": ""
-  },
+  "cookingType": "ready to cook", # ready to cook, ready to eat
+
   "sideDishType": "main", #主菜或配菜  main主菜 / topping浇头 / preferences菜属性
 
 
@@ -97,11 +95,8 @@
   "statisticViews": 0, # 浏览量
 
 
-  "tag": [ # tag
-    {
-      "zh": "",
-      "en": ""
-    }
+  "tagFilter": [ # ref to tag
+    "Schema.ObjectId1", "Schema.ObjectId2"
   ],
 
 
@@ -193,7 +188,7 @@
       "topping": [],
       "preferences": [],
       "priceWholesale": [],
-      "tag": [],
+      "tagFilter": [],
       "region": [],
       "infoCookingStep": [],
       "infoIngredient": [],
@@ -204,10 +199,7 @@
         "zh": "澳牛",
         "en": "aoniu"
       },
-      "cookingType": {
-        "zh": "食材包",
-        "en": "ready to cook"
-      },
+      "cookingType": "ready to cook",
       "isPublished": true,
       "publishedAt": "2015-06-19T08:13:25.662Z"
     },
@@ -227,7 +219,7 @@
       "topping": [],
       "preferences": [],
       "priceWholesale": [],
-      "tag": [],
+      "tagFilter": [],
       "region": [],
       "infoCookingStep": [],
       "infoIngredient": [],
@@ -238,10 +230,7 @@
         "zh": "和牛",
         "en": "heniu"
       },
-      "cookingType": {
-        "zh": "食材包",
-        "en": "ready to cook"
-      },
+      "cookingType": "ready to cook",
       "isPublished": true,
       "publishedAt": "2015-06-19T08:13:25.664Z"
     }
@@ -267,7 +256,7 @@
             "topping": [],
             "preferences": [],
             "priceWholesale": [],
-            "tag": [],
+            "tagFilter": [],
             "region": [],
             "infoCookingStep": [],
             "infoIngredient": [],
@@ -278,10 +267,7 @@
               "zh": "澳牛",
               "en": "aoniu"
             },
-            "cookingType": {
-              "zh": "食材包",
-              "en": "ready to cook"
-            },
+            "cookingType": "ready to cook",
             "isPublished": true,
             "publishedAt": "2015-06-19T08:13:25.649Z"
           },
@@ -305,7 +291,7 @@
             "topping": [],
             "preferences": [],
             "priceWholesale": [],
-            "tag": [],
+            "tagFilter": [],
             "region": [],
             "infoCookingStep": [],
             "infoIngredient": [],
@@ -316,10 +302,7 @@
               "zh": "和牛",
               "en": "heniu"
             },
-            "cookingType": {
-              "zh": "食材包",
-              "en": "ready to cook"
-            },
+            "cookingType": "ready to cook",
             "isPublished": true,
             "publishedAt": "2015-06-19T08:13:25.655Z"
           },
@@ -352,7 +335,7 @@
             "topping": [],
             "preferences": [],
             "priceWholesale": [],
-            "tag": [],
+            "tagFilter": [],
             "region": [],
             "infoCookingStep": [],
             "infoIngredient": [],
@@ -363,10 +346,7 @@
               "zh": "茶树菇",
               "en": "chashugu"
             },
-            "cookingType": {
-              "zh": "食材包",
-              "en": "ready to cook"
-            },
+            "cookingType": "ready to cook",
             "isPublished": true,
             "publishedAt": "2015-06-19T08:13:25.657Z"
           },
@@ -390,7 +370,7 @@
             "topping": [],
             "preferences": [],
             "priceWholesale": [],
-            "tag": [],
+            "tagFilter": [],
             "region": [],
             "infoCookingStep": [],
             "infoIngredient": [],
@@ -401,10 +381,7 @@
               "zh": "香菇",
               "en": "xiaogu"
             },
-            "cookingType": {
-              "zh": "食材包",
-              "en": "ready to cook"
-            },
+            "cookingType": "ready to cook",
             "isPublished": true,
             "publishedAt": "2015-06-19T08:13:25.660Z"
           },
@@ -428,7 +405,7 @@
             "topping": [],
             "preferences": [],
             "priceWholesale": [],
-            "tag": [],
+            "tagFilter": [],
             "region": [],
             "infoCookingStep": [],
             "infoIngredient": [],
@@ -439,10 +416,7 @@
               "zh": "平菇",
               "en": "pinggu"
             },
-            "cookingType": {
-              "zh": "食材包",
-              "en": "ready to cook"
-            },
+            "cookingType": "ready to cook",
             "isPublished": true,
             "publishedAt": "2015-06-19T08:13:25.662Z"
           },
@@ -470,7 +444,7 @@
       "en": "not bad"
     }
   },
-  "tag": [],
+  "tagFilter": [],
   "region": [],
   "infoCookingStep": [
     {
@@ -566,10 +540,7 @@
     "zh": "干煸茶树菇孜然雪花牛柳",
     "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
   },
-  "cookingType": {
-    "zh": "既食包",
-    "en": "ready to eat"
-  },
+  "cookingType": "ready to eat",
   "isPublished": true,
   "publishedAt": "2015-06-19T08:23:55.094Z"
 }
