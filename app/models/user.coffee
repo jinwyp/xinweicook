@@ -39,6 +39,7 @@ module.exports =
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
     lang: String
+
     shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"
       number: Number
@@ -102,6 +103,8 @@ module.exports =
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
           t.user
+          .populate({path: 'shoppingCart.dish'})
+          .populateAsync({path: 'shoppingCart.subDish.dish'})
         else
           throw new Err "找不到该用户", 404
       ).then(@UserFound).then(@UserNotSpam)

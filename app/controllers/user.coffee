@@ -5,9 +5,8 @@
 
 exports.userInfo = (req, res, next) ->
   # 取用户信息
-  obj = req.u.toJSON()
+#  obj = req.u.toJSON()
   res.json req.u
-
 
 
 

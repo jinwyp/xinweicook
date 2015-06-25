@@ -42,7 +42,7 @@ module.exports =
     tagFilter: [type: Schema.ObjectId, ref: "tag"] # tagFilter
 
     cook:
-      user: type: Schema.ObjectId, ref: "user"
+      user: type: Schema.ObjectId, ref: "cook"
       tips: zh:String, en:String # 厨师点评
 
 

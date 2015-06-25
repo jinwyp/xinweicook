@@ -31,5 +31,7 @@ gulp.task "default", [
   "nodemon"
 ]
 
-
+gulp.task "webdoc", [
+  "nodemon", "doc"
+]
 

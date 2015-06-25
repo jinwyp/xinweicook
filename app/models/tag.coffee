@@ -1,10 +1,8 @@
 # Tag
 module.exports =
   schema:
-    name: String
+    name: zh:String, en:String # 名字
     group: String
-    zh: String
-    en: String
   statics: {}
   methods: {}
   rest: {}
