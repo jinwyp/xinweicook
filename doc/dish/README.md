@@ -156,10 +156,11 @@
 
 ```js
 {
-  "_id": "5583d19b66b1ff4b530d5567",
-  "modifiedAt": "2015-06-19T08:23:55.116Z",
-  "createdAt": "2015-06-19T08:23:55.116Z",
+  "_id": "558a602a3eba152266ff2b8c",
+  "modifiedAt": "2015-06-25T04:25:36.643Z",
+  "createdAt": "2015-06-25T04:25:36.643Z",
   "sortId": 100,
+  "cookingType": "ready to cook",
   "sideDishType": "main",
   "difficulty": 2,
   "time": 15,
@@ -167,21 +168,22 @@
   "priceOriginal": 48,
   "__v": 0,
   "statisticViews": 0,
-  "statisticLikes": 0,
+  "statisticLike": 0,
   "statisticSales": 0,
   "statisticHot": 0,
   "recommendSet": [],
   "topping": [
     {
       "_id": "5583b7faa2845dec35276b97",
-      "modifiedAt": "2015-06-19T08:13:25.672Z",
-      "createdAt": "2015-06-19T08:13:25.672Z",
+      "modifiedAt": "2015-06-25T04:25:36.584Z",
+      "createdAt": "2015-06-25T04:25:36.584Z",
       "sortId": 501,
+      "cookingType": "ready to cook",
       "sideDishType": "topping",
       "priceOriginal": 20,
       "__v": 0,
       "statisticViews": 0,
-      "statisticLikes": 0,
+      "statisticLike": 0,
       "statisticSales": 0,
       "statisticHot": 0,
       "recommendSet": [],
@@ -199,20 +201,20 @@
         "zh": "澳牛",
         "en": "aoniu"
       },
-      "cookingType": "ready to cook",
       "isPublished": true,
-      "publishedAt": "2015-06-19T08:13:25.662Z"
+      "publishedAt": "2015-06-25T04:25:36.577Z"
     },
     {
       "_id": "5583b7faa2845dec35276b98",
-      "modifiedAt": "2015-06-19T08:13:25.673Z",
-      "createdAt": "2015-06-19T08:13:25.673Z",
+      "modifiedAt": "2015-06-25T04:25:36.584Z",
+      "createdAt": "2015-06-25T04:25:36.584Z",
       "sortId": 502,
+      "cookingType": "ready to cook",
       "sideDishType": "topping",
       "priceOriginal": 25,
       "__v": 0,
       "statisticViews": 0,
-      "statisticLikes": 0,
+      "statisticLike": 0,
       "statisticSales": 0,
       "statisticHot": 0,
       "recommendSet": [],
@@ -230,26 +232,26 @@
         "zh": "和牛",
         "en": "heniu"
       },
-      "cookingType": "ready to cook",
       "isPublished": true,
-      "publishedAt": "2015-06-19T08:13:25.664Z"
+      "publishedAt": "2015-06-25T04:25:36.578Z"
     }
   ],
   "preferences": [
     {
-      "_id": "5583d19b66b1ff4b530d556c",
+      "_id": "558b82c069943ad7b259401a",
       "foodMaterial": [
         {
           "dish": {
             "_id": "5583b7faa2845dec35276b92",
-            "modifiedAt": "2015-06-19T08:13:25.666Z",
-            "createdAt": "2015-06-19T08:13:25.666Z",
+            "modifiedAt": "2015-06-25T04:25:36.582Z",
+            "createdAt": "2015-06-25T04:25:36.582Z",
             "sortId": 100,
+            "cookingType": "ready to cook",
             "sideDishType": "preferences",
             "priceOriginal": 20,
             "__v": 0,
             "statisticViews": 0,
-            "statisticLikes": 0,
+            "statisticLike": 0,
             "statisticSales": 0,
             "statisticHot": 0,
             "recommendSet": [],
@@ -267,24 +269,24 @@
               "zh": "澳牛",
               "en": "aoniu"
             },
-            "cookingType": "ready to cook",
             "isPublished": true,
-            "publishedAt": "2015-06-19T08:13:25.649Z"
+            "publishedAt": "2015-06-25T04:25:36.566Z"
           },
-          "_id": "5583d19b66b1ff4b530d556e",
+          "_id": "558b82c069943ad7b259401c",
           "default": true
         },
         {
           "dish": {
             "_id": "5583b7faa2845dec35276b93",
-            "modifiedAt": "2015-06-19T08:13:25.671Z",
-            "createdAt": "2015-06-19T08:13:25.671Z",
+            "modifiedAt": "2015-06-25T04:25:36.583Z",
+            "createdAt": "2015-06-25T04:25:36.583Z",
             "sortId": 101,
+            "cookingType": "ready to cook",
             "sideDishType": "preferences",
             "priceOriginal": 25,
             "__v": 0,
             "statisticViews": 0,
-            "statisticLikes": 0,
+            "statisticLike": 0,
             "statisticSales": 0,
             "statisticHot": 0,
             "recommendSet": [],
@@ -302,11 +304,10 @@
               "zh": "和牛",
               "en": "heniu"
             },
-            "cookingType": "ready to cook",
             "isPublished": true,
-            "publishedAt": "2015-06-19T08:13:25.655Z"
+            "publishedAt": "2015-06-25T04:25:36.571Z"
           },
-          "_id": "5583d19b66b1ff4b530d556d",
+          "_id": "558b82c069943ad7b259401b",
           "default": false
         }
       ],
@@ -316,19 +317,20 @@
       }
     },
     {
-      "_id": "5583d19b66b1ff4b530d5568",
+      "_id": "558b82c069943ad7b2594016",
       "foodMaterial": [
         {
           "dish": {
             "_id": "5583b7faa2845dec35276b94",
-            "modifiedAt": "2015-06-19T08:13:25.671Z",
-            "createdAt": "2015-06-19T08:13:25.671Z",
+            "modifiedAt": "2015-06-25T04:25:36.583Z",
+            "createdAt": "2015-06-25T04:25:36.583Z",
             "sortId": 201,
+            "cookingType": "ready to cook",
             "sideDishType": "preferences",
             "priceOriginal": 10,
             "__v": 0,
             "statisticViews": 0,
-            "statisticLikes": 0,
+            "statisticLike": 0,
             "statisticSales": 0,
             "statisticHot": 0,
             "recommendSet": [],
@@ -346,24 +348,24 @@
               "zh": "茶树菇",
               "en": "chashugu"
             },
-            "cookingType": "ready to cook",
             "isPublished": true,
-            "publishedAt": "2015-06-19T08:13:25.657Z"
+            "publishedAt": "2015-06-25T04:25:36.572Z"
           },
-          "_id": "5583d19b66b1ff4b530d556b",
+          "_id": "558b82c069943ad7b2594019",
           "default": true
         },
         {
           "dish": {
             "_id": "5583b7faa2845dec35276b95",
-            "modifiedAt": "2015-06-19T08:13:25.672Z",
-            "createdAt": "2015-06-19T08:13:25.672Z",
+            "modifiedAt": "2015-06-25T04:25:36.583Z",
+            "createdAt": "2015-06-25T04:25:36.583Z",
             "sortId": 202,
+            "cookingType": "ready to cook",
             "sideDishType": "preferences",
             "priceOriginal": 15,
             "__v": 0,
             "statisticViews": 0,
-            "statisticLikes": 0,
+            "statisticLike": 0,
             "statisticSales": 0,
             "statisticHot": 0,
             "recommendSet": [],
@@ -381,24 +383,24 @@
               "zh": "香菇",
               "en": "xiaogu"
             },
-            "cookingType": "ready to cook",
             "isPublished": true,
-            "publishedAt": "2015-06-19T08:13:25.660Z"
+            "publishedAt": "2015-06-25T04:25:36.574Z"
           },
-          "_id": "5583d19b66b1ff4b530d556a",
+          "_id": "558b82c069943ad7b2594018",
           "default": false
         },
         {
           "dish": {
             "_id": "5583b7faa2845dec35276b96",
-            "modifiedAt": "2015-06-19T08:13:25.672Z",
-            "createdAt": "2015-06-19T08:13:25.672Z",
+            "modifiedAt": "2015-06-25T04:25:36.583Z",
+            "createdAt": "2015-06-25T04:25:36.583Z",
             "sortId": 203,
+            "cookingType": "ready to cook",
             "sideDishType": "preferences",
             "priceOriginal": 20,
             "__v": 0,
             "statisticViews": 0,
-            "statisticLikes": 0,
+            "statisticLike": 0,
             "statisticSales": 0,
             "statisticHot": 0,
             "recommendSet": [],
@@ -416,11 +418,10 @@
               "zh": "平菇",
               "en": "pinggu"
             },
-            "cookingType": "ready to cook",
             "isPublished": true,
-            "publishedAt": "2015-06-19T08:13:25.662Z"
+            "publishedAt": "2015-06-25T04:25:36.576Z"
           },
-          "_id": "5583d19b66b1ff4b530d5569",
+          "_id": "558b82c069943ad7b2594017",
           "default": false
         }
       ],
@@ -434,11 +435,25 @@
     {
       "quantity": 4,
       "price": 42,
-      "_id": "5583d19b66b1ff4b530d556f"
+      "_id": "558b82c069943ad7b259401d"
     }
   ],
   "cook": {
-    "user": null,
+    "user": {
+      "_id": "5583c96c7313f6c849c3aeb1",
+      "modifiedAt": "2015-06-25T04:25:36.558Z",
+      "createdAt": "2015-06-25T04:25:36.558Z",
+      "avatar": "",
+      "__v": 0,
+      "description": {
+        "zh": "王厨牛啊",
+        "en": "Best Cook in China"
+      },
+      "name": {
+        "zh": "王厨",
+        "en": "Cook Wang"
+      }
+    },
     "tips": {
       "zh": "一般般",
       "en": "not bad"
@@ -449,7 +464,7 @@
   "infoCookingStep": [
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5571",
+      "_id": "558b82c069943ad7b259401f",
       "value": {
         "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
         "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
@@ -461,7 +476,7 @@
     },
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5570",
+      "_id": "558b82c069943ad7b259401e",
       "value": {
         "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
         "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
@@ -475,7 +490,7 @@
   "infoIngredient": [
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5573",
+      "_id": "558b82c069943ad7b2594021",
       "value": {
         "zh": "1/2个",
         "en": "1/2"
@@ -487,7 +502,7 @@
     },
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5572",
+      "_id": "558b82c069943ad7b2594020",
       "value": {
         "zh": "1/4个",
         "en": "1/4"
@@ -501,7 +516,7 @@
   "infoUniqueFeature": [
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5575",
+      "_id": "558b82c069943ad7b2594023",
       "value": {
         "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
         "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -513,7 +528,7 @@
     },
     {
       "contentType": "txt",
-      "_id": "5583d19b66b1ff4b530d5574",
+      "_id": "558b82c069943ad7b2594022",
       "value": {
         "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
         "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -528,7 +543,7 @@
     {
       "zh": "pan",
       "en": "pan",
-      "_id": "5583d19b66b1ff4b530d5576"
+      "_id": "558b82c069943ad7b2594024"
     }
   ],
   "cover": [],
@@ -540,9 +555,8 @@
     "zh": "干煸茶树菇孜然雪花牛柳",
     "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
   },
-  "cookingType": "ready to eat",
   "isPublished": true,
-  "publishedAt": "2015-06-19T08:23:55.094Z"
+  "publishedAt": "2015-06-25T04:25:36.607Z"
 }
 
 ```
