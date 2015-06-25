@@ -10,31 +10,25 @@ module.exports =
     mobile: type: String, unique: true,trim:true
     mail: type: String, sparse: true, unique: true, trim:true, lowercase:true
     name: type:String, trim:true
-    info: [
+
+    address: [
       geo:
         lat: Number
         lng: Number
       province: String
       city: String
       region: String
-      addr: String
+      street : String
+      fullAddress: String
       isValid: type: Boolean, default: false # 客服验证过true, 上述信息改变false
-      name: String
+
+      fullName: String
       mobile: String
       alias: String
       remark: String
       isDefault: type: Boolean, default: false
     ]
-    location: [
-      geo:
-        lat: Number
-        lng: Number
-      province: String
-      city: String
-      region: String
-      addr: String
-      alias: String
-    ]
+
     credit: type: Number, default: 0
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
@@ -59,7 +53,7 @@ module.exports =
         for dish,dishIndex in req.body.shoppingCart
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             throw new Err "Field validation error,  dish.number must be 1-100", 400
-          unless libs.validator.isLength dish.dish, 24, 30
+          unless libs.validator.isLength dish.dish, 24, 24
             throw new Err "Field validation error,  dishID must be 24-24", 400
 
     UserFound: (u) ->

@@ -2,7 +2,7 @@
 autoIncrement = require "mongoose-auto-increment"
 module.exports =
   schema:
-    number: type: String, unique: true # 订单号
+    orderNumber: type: String, unique: true# 订单号
     user: type: Schema.ObjectId, ref: "user"
     cookingType: String # ready to cook, ready to eat, credit
 
@@ -13,12 +13,21 @@ module.exports =
       province: String
       city: String
       region: String
-      addr: String
+      street : String
+      fullAddress: String
       isValid: type: Boolean, default: false
-      name: String
+
+      fullName: String
       mobile: String
       alias: String
       remark: String
+
+    express: # 快递
+      name: String
+      number: String
+      displayName: zh:String, en:String
+      info: zh:String, en:String
+
     delivery: # 送达时间
       date: String
       time: String
@@ -28,7 +37,7 @@ module.exports =
     payment: String # 支付方式
     status: String # 未支付 已支付 制作中 已发货 已取消
 
-    dish:[
+    dishList:[
       dish: type: Schema.ObjectId, ref: "dish"
       number: Number
       subDish : [
@@ -45,16 +54,22 @@ module.exports =
     totalPrice: Number # 总价
 
 
-    express: # 快递
-      name: String
-      number: String
-      displayName: zh:String, en:String
-      info: zh:String, en:String
+
 
     userComment: String # 用户备注
     csComment: String # 客服备注
 
-  statics: {}
+  statics:{
+    validationNewOrder : (req) ->
+      unless Array.isArray req.body.dishList
+        throw new Err "Field validation error,  dishList must be ArrayObject", 400
+      else
+        for dish,dishIndex in req.body.dishList
+          unless libs.validator.isInt dish.number, {min: 1, max: 100}
+            throw new Err "Field validation error,  dish.number must be 1-100", 400
+          unless libs.validator.isLength dish.dish, 24, 24
+            throw new Err "Field validation error,  dishID must be 24-24", 400
+  }
   methods: {}
   rest: {}
   plugin: (schema) ->

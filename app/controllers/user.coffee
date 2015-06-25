@@ -46,6 +46,8 @@ exports.updateShoppingCart = (req, res, next) ->
   req.u.shoppingCart = req.body.shoppingCart
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->
-    console.log "-----------------------: ", resultUser, numberAffected
-    res.json resultUser
+    resultUser.populate({path: 'shoppingCart.dish'})
+    .populateAsync({path: 'shoppingCart.subDish.dish'})
+  .then (user) ->
+    res.json user
   .catch next

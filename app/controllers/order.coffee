@@ -28,13 +28,21 @@ exports.orderSingleInfo = (req, res, next) ->
 
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
-  body = user: req.u._id
-  body = _.assign body, req.body
-  models.order.createAsync body
+  models.order.validationNewOrder req
+
+#  newOrder = _.assign newOrder, req.body
+
+
+  newOrder =
+    orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
+    user : req.u._id.toString()
+    dishList : req.body.dishList
+
+  console.log "-------------------: ", newOrder
+
+  models.order.createAsync newOrder
   .then (orders) ->
     res.json orders
   , next
-
-
 
 
