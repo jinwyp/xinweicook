@@ -6,8 +6,7 @@
 exports.userInfo = (req, res, next) ->
   # 取用户信息
   obj = req.u.toJSON()
-  delete obj.pwd
-  res.json obj
+  res.json req.u
 
 
 
@@ -40,24 +39,14 @@ exports.resetPassword = (req, res, next) ->
 
 
 
-exports.addDishToCart = (req, res, next) ->
+exports.updateShoppingCart = (req, res, next) ->
   # 加入购物车
-  console.log "AAAA: ", req.body.shoppingCart
 
-  unless Array.isArray req.body.shoppingCart
-    throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
-  else
-    console.log "AAAA: ", req.body.shoppingCart
-    req.u.shoppingCart = req.body.shoppingCart
-    req.u.saveAsync()
-    .spread (resultUser, numberAffected) ->
-      console.log "BBBB: ", resultUser, numberAffected
-      res.json resultUser
-    .catch next
+  models.user.validationShoppingCart req
 
-#a = [
-#  {
-#    dish : "558a602a3eba152266ff2b8c"
-#    number : 1
-#  }
-#]
+  req.u.shoppingCart = req.body.shoppingCart
+  req.u.saveAsync()
+  .spread (resultUser, numberAffected) ->
+    console.log "-----------------------: ", resultUser, numberAffected
+    res.json resultUser
+  .catch next

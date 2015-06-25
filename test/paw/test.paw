@@ -539,7 +539,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z160"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z156">
-        <attribute name="value" type="string">Bearer 1:s9yErecu/nrsmb+DhzhynBXRqpdChOoz</attribute>
+        <attribute name="value" type="string">Bearer 1:Bkg+xqgQ3T/lZhEmvUvYAzGdWb7LZaOL</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -1424,7 +1424,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z269"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z265">
-        <attribute name="value" type="string">Bearer 1:s9yErecu/nrsmb+DhzhynBXRqpdChOoz</attribute>
+        <attribute name="value" type="string">Bearer 1:Bkg+xqgQ3T/lZhEmvUvYAzGdWb7LZaOL</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -1470,12 +1470,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n    \\"shoppingCart\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]\\n}"]</attribute>
         <attribute name="order" type="int64">5</attribute>
-        <attribute name="name" type="string">user-addShoppingCart</attribute>
+        <attribute name="name" type="string">user-updateShoppingCart</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z263 z264 z265 z266 z267 z268 z270"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z267 z268 z263 z264 z265 z270 z266"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z270">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>

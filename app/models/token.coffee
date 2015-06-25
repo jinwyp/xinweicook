@@ -32,7 +32,7 @@ module.exports =
             t
       )
     findTokenAndUserByAccessToken: (access_token) ->
-      @findOne(access_token: access_token).populate("user").execAsync()
+      @findOne(access_token: access_token).populate("user", models.user.fields()).execAsync()
       .then(@tokenFound).then(@accessTokenNotExpired)
     refreshAccessToken: (refresh_token) ->
       @findOne(refresh_token:refresh_token).populate("user").execAsync().then(@tokenFound)
