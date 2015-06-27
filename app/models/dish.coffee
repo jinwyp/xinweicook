@@ -77,5 +77,16 @@ module.exports =
 
 
   statics: {}
-  methods: {}
+  methods: {
+    getPrice : (number) ->
+      if number < 2 or @priceWholesale.length is 0
+        @priceOriginal
+      else
+        finalPrice = @priceOriginal
+        for wholesale,wholesaleIndex in @priceWholesale
+          if number < wholesale.quantity
+            finalPrice = wholesale.price
+            break
+        finalPrice
+  }
   rest: {}

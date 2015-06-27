@@ -12,21 +12,24 @@ module.exports =
     name: type:String, trim:true
 
     address: [
-      geo:
-        lat: Number
-        lng: Number
+      geoLatitude: Number # 纬度
+      geoLongitude: Number # 纬度
+
+      country : String
       province: String
       city: String
-      region: String
+      district: String
       street : String
-      fullAddress: String
-      isValid: type: Boolean, default: false # 客服验证过true, 上述信息改变false
+      address: String
 
-      fullName: String
+      isTemporary : type: Boolean, default: false  #临时地址 下单后变为false
+      isValid: type: Boolean, default: false # 客服验证过true, 上述信息改变false
+      isDefault: type: Boolean, default: false
+
+      contactPerson: String
       mobile: String
       alias: String
       remark: String
-      isDefault: type: Boolean, default: false
     ]
 
     credit: type: Number, default: 0
@@ -52,9 +55,9 @@ module.exports =
       else
         for dish,dishIndex in req.body.shoppingCart
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
-            throw new Err "Field validation error,  dish.number must be 1-100", 400
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24
-            throw new Err "Field validation error,  dishID must be 24-24", 400
+            return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     UserFound: (u) ->
       u or throw new Err "找不到该用户", 404
