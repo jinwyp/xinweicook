@@ -24,7 +24,7 @@ module.exports =
       alias: String
       remark: String
 
-    clientFrom: String # desktop, mobile, ios, android, wechat(公众号支付), 第三方
+    clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
     payment: String # 支付方式
     paymentStatus: String # 未支付 已支付

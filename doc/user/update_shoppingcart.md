@@ -76,8 +76,7 @@ Group `member`
   "id": 1,
   "mobile": "18600000000",
   "cart": [],
-  "loc": [],
-  "addr": [],
+  "address": [],
   "__v": 18,
   "shoppingCart": [
     {
@@ -664,7 +663,6 @@ Group `member`
   "isPromoOn": true,
   "isSpam": false,
   "credit": 0,
-  "location": [],
   "info": [],
   "group": "member"
 }

@@ -18,12 +18,11 @@
   "id" : 1,
   "mobile" : "18600000000",
   "pwd" : "$2a$04$GWmySEGq8FBCrhJLE.6goOPWR9JxC7s8zP6eVKeo4S3jga3QgMQMe",
-  "cart" : [],
+  "shoppingCart" : [],
   "isPromoOn" : true,
   "isSpam" : false,
   "credit" : 0,
-  "loc" : [],
-  "addr" : [],
+  "address" : [],
   "group" : "member"
 }
 ```
