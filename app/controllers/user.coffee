@@ -3,13 +3,6 @@
 
 
 
-exports.userInfo = (req, res, next) ->
-  # 取用户信息
-#  obj = req.u.toJSON()
-  res.json req.u
-
-
-
 
 
 exports.userSignUp = (req, res, next) ->
@@ -35,6 +28,33 @@ exports.resetPassword = (req, res, next) ->
   models.user.resetPwd(mobile, pwd, code).then ->
     res.sendStatus 200
   , next
+
+
+
+
+
+exports.userInfo = (req, res, next) ->
+  # 取用户信息
+  #  obj = req.u.toJSON()
+  res.json req.u
+
+
+
+
+
+exports.updateUserInfo = (req, res, next) ->
+  # 修改用户信息 收货地址
+
+  models.user.validationUserInfo req
+
+  req.u.address = req.body.address
+  req.u.saveAsync()
+  .spread (resultUser, numberAffected) ->
+    resultUser.populate({path: 'shoppingCart.dish'})
+    .populateAsync({path: 'shoppingCart.subDish.dish'})
+  .then (user) ->
+    res.json user
+  .catch next
 
 
 

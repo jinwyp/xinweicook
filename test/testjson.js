@@ -3,6 +3,30 @@
  */
 
 
+user = {
+    "address":[
+        {
+            "geoLatitude" : 20, // 纬度
+            "geoLongitude" : 20, // 纬度
+
+            "country" : "china",
+            "province": "shanghai",
+            "city": "shanghai",
+            "district": "shanghai",
+            "street" : "枫林路",
+            "address": "510号",
+
+            "isTemporary" : false,  //临时地址 下单后变为false
+            "isDefault":  false,
+
+            "contactPerson": "xinwei",
+            "mobile": "13564568304",
+            "alias": "",
+            "remark": ""
+        }
+    ]
+}
+
 
 dish =
 {

@@ -35,6 +35,7 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
+  app.put("/api/user", libs.auth("member"), userController.updateUserInfo)
   app.post("/api/user/shoppingcart", libs.auth("member"), userController.updateShoppingCart)
 
   app.get("/api/orders", libs.auth("member"), orderController.orderListByUser)

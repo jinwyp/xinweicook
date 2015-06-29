@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>A33E2BBA-1BCE-47DA-95B5-7D5D6B60502C</UUID>
-        <nextObjectID>298</nextObjectID>
+        <nextObjectID>306</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -134,7 +134,7 @@
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z136 z113 z106 z148 z142 z119 z105"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z106 z136 z142 z105 z148 z113 z119"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string"></attribute>
@@ -176,11 +176,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"token_type_hint\\":\\"access_token\\",\\"token\\":\\"1:nep2JA\\\\\\/VfWnphIg82rM4yS1XVL7CGIiW\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">9</attribute>
+        <attribute name="order" type="int64">10</attribute>
         <attribute name="name" type="string">user-Logout revoke access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z120 z137 z126 z135 z122 z145 z103"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z126 z122 z137 z103 z135 z120 z145"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z117">
         <attribute name="value" type="string">Mon, 18 May 2015 08:49:58 GMT</attribute>
@@ -281,7 +281,7 @@
         <attribute name="name" type="string">user-getSMSForSignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z129 z153 z110 z152 z130 z104 z121"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z104 z110 z130 z153 z121 z152 z129"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z128">
         <attribute name="value" type="string">application/json</attribute>
@@ -325,7 +325,7 @@
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">user api</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z160 z269 z239 z289 z247 z127 z226 z140 z255 z166 z293 z151 z116 z180 z197 z276 z112"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z276 z127 z151 z197 z293 z247 z180 z160 z166 z306 z255 z289 z140 z239 z269 z116 z112 z226"></relationship>
         <relationship name="bodyparameters" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
@@ -389,11 +389,11 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">16</attribute>
+        <attribute name="order" type="int64">17</attribute>
         <attribute name="name" type="string">logs</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z117 z138 z147 z118 z139 z146 z115"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z118 z147 z117 z115 z139 z138 z146"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z142">
         <attribute name="value" type="string">Mon, 18 May 2015 08:49:58 GMT</attribute>
@@ -492,11 +492,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"18600000000\\",\\"password\\":\\"123456\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">8</attribute>
+        <attribute name="order" type="int64">9</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z114 z144 z124 z150 z143 z128 z108"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z108 z128 z143 z124 z150 z114 z144"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z152">
         <attribute name="value" type="string">["W\\/\\"d6-2a10c203\\""]</attribute>
@@ -591,7 +591,7 @@
         <attribute name="name" type="string">user-Info</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z158 z159 z156 z154 z157 z161 z155"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z156 z154 z157 z161 z155 z159 z158"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z161">
         <attribute name="value" type="string"></attribute>
@@ -657,7 +657,7 @@
         <attribute name="name" type="string">user-Reset Password</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z163 z165 z167 z164 z162 z168 z169"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z164 z169 z165 z168 z163 z162 z167"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z167">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -718,11 +718,11 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">14</attribute>
+        <attribute name="order" type="int64">15</attribute>
         <attribute name="name" type="string">article-getArticleList</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z182 z178 z185 z181 z183 z179 z184"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z185 z182 z184 z181 z178 z183 z179"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z181">
         <attribute name="value" type="string">application/json</attribute>
@@ -832,11 +832,11 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">12</attribute>
+        <attribute name="order" type="int64">13</attribute>
         <attribute name="name" type="string">dish-getDishList</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z208 z211 z207"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z207 z211 z208"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z198">
         <attribute name="value" type="string">http</attribute>
@@ -1032,7 +1032,7 @@
         <attribute name="name" type="string">user-getSMSForResetPassword</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z222 z224 z227 z221 z223 z220 z225"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z225 z224 z221 z220 z222 z227 z223"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z227">
         <attribute name="order" type="int64">7</attribute>
@@ -1157,7 +1157,7 @@
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">13</attribute>
+        <attribute name="order" type="int64">14</attribute>
         <attribute name="name" type="string">dish-getDishById</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -1239,11 +1239,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"refresh_token\\",\\"refresh_token\\":\\"1:iPc00UGWuwN4X78dSbIspVtYbwz\\\\\\/Ud1\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">10</attribute>
+        <attribute name="order" type="int64">11</attribute>
         <attribute name="name" type="string">user-refresh access token Duplicate</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z244 z246 z248 z249 z243 z250 z245"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z248 z243 z244 z246 z245 z249 z250"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z248">
         <attribute name="value" type="string">Bearer </attribute>
@@ -1323,11 +1323,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"token_type_hint\\":\\"refresh_token\\",\\"token\\":\\"1:Nb0ncarAHELmNWx985OtLI3sFLZv0r4y\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">11</attribute>
+        <attribute name="order" type="int64">12</attribute>
         <attribute name="name" type="string">user-revoke refresh token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z254 z256 z257 z258 z252 z251 z253"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z252 z256 z253 z258 z254 z251 z257"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z256">
         <attribute name="value" type="string">application/json</attribute>
@@ -1424,7 +1424,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z269"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z265">
-        <attribute name="value" type="string">Bearer 1:Q4pf1LJSdcN4WioYSEZkloE7bPh1dEaE</attribute>
+        <attribute name="value" type="string">Bearer 1:EmON6NuJwoer48MQ5DNleZs4illu2LWY</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -1471,11 +1471,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">["{\\n    \\"shoppingCart\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]\\n}"]</attribute>
-        <attribute name="order" type="int64">5</attribute>
+        <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">user-updateShoppingCart</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z267 z268 z263 z264 z265 z270 z266"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z268 z270 z263 z266 z265 z264 z267"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z270">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -1545,11 +1545,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n    \\"coupon\\" : \\"5590d256103f46d9ac31e3ee\\",\\n    \\"promotionCode\\" : \\"xxxxxxx\\",\\n\\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDate\\" : \\"2015-06-13\\",\\n    \\"deliveryTime\\" : \\"10\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"wangyupeng\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]\\n}"]</attribute>
-        <attribute name="order" type="int64">6</attribute>
+        <attribute name="order" type="int64">7</attribute>
         <attribute name="name" type="string">user-addNewOrder</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z271 z272 z273 z274 z275 z277 z278"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z271 z275 z273 z278 z274 z272 z277"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z277">
         <attribute name="value" type="string">delete</attribute>
@@ -1682,11 +1682,11 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">15</attribute>
+        <attribute name="order" type="int64">16</attribute>
         <attribute name="name" type="string">tag-getTagFilterList</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z283 z284 z285 z286 z287 z288 z290"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z287 z284 z290 z286 z283 z288 z285"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z290">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -1728,11 +1728,11 @@
         <attribute name="method" type="string">PUT</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{\\"isPaymentPaid\\":\\"true\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">7</attribute>
+        <attribute name="order" type="int64">8</attribute>
         <attribute name="name" type="string">user-updateOrder</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z291 z292 z294 z295 z296 z297 z298"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z295 z297 z294 z296 z292 z291 z298"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z294">
         <attribute name="order" type="int64">7</attribute>
@@ -1781,5 +1781,89 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z293"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z299">
+        <attribute name="value" type="string">delete</attribute>
+        <attribute name="order" type="int64">4</attribute>
+        <attribute name="name" type="string">X-HTTP-Method-Override</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z300">
+        <attribute name="value" type="string">Mon, 18 May 2015 08:49:58 GMT</attribute>
+        <attribute name="order" type="int64">6</attribute>
+        <attribute name="name" type="string">If-Modified-Since</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z301">
+        <attribute name="value" type="string">["W\\/\\"d6-2a10c203\\""]</attribute>
+        <attribute name="order" type="int64">5</attribute>
+        <attribute name="name" type="string">If-None-Match</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z302">
+        <attribute name="value" type="string">application/json</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">Content-Type</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z303">
+        <attribute name="value" type="string">Bearer 1:EmON6NuJwoer48MQ5DNleZs4illu2LWY</attribute>
+        <attribute name="order" type="int64">2</attribute>
+        <attribute name="name" type="string">Authorization</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z304">
+        <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">Accept</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z305">
+        <attribute name="order" type="int64">7</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z306"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z306">
+        <attribute name="uuid" type="string">F953656A-FAE6-4069-A892-D60951672F88</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user"]</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">PUT</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">["{\\n    \\"address\\":[\\n        {\\n            \\"geoLatitude\\" : 20, \\n            \\"geoLongitude\\" : 20,\\n\\n            \\"country\\" : \\"china\\",\\n            \\"province\\": \\"shanghai\\",\\n            \\"city\\": \\"shanghai\\",\\n            \\"district\\": \\"shanghai\\",\\n            \\"street\\" : \\"枫林路\\",\\n            \\"address\\": \\"510号\\",\\n\\n            \\"isTemporary\\" : false, \\n            \\"isDefault\\":  false,\\n\\n            \\"contactPerson\\": \\"xinwei\\",\\n            \\"mobile\\": \\"13564568304\\",\\n            \\"alias\\": \\"\\",\\n            \\"remark\\": \\"\\"\\n        }\\n    ]\\n}"]</attribute>
+        <attribute name="order" type="int64">5</attribute>
+        <attribute name="name" type="string">user-updateUserInfo</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z303 z301 z300 z302 z299 z304 z305"></relationship>
     </object>
 </database>

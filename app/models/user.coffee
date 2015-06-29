@@ -48,6 +48,21 @@ module.exports =
   statics:
     fields : ->
       selectFields = "-pwd"
+    validationUserInfo : (req) ->
+      unless Array.isArray req.body.address
+        throw new Err "Field validation error,  address must be ArrayObject", 400
+      else
+        for address,addressIndex in req.body.address
+          unless libs.validator.isInt address.geoLatitude, {min: 1, max: 9999}
+            return throw new Err "Field validation error,  geoLatitude must be 1-9999", 400
+          unless libs.validator.isInt address.geoLongitude, {min: 1, max: 9999}
+            return throw new Err "Field validation error,  geoLongitude must be 1-9999", 400
+          unless libs.validator.isLength address.province, 2, 99
+            return throw new Err "Field validation error,  province must be 2-99", 400
+          unless libs.validator.isLength address.city, 2, 99
+            return throw new Err "Field validation error,  city must be 2-99", 400
+          unless libs.validator.isLength address.district, 2, 99
+            return throw new Err "Field validation error,  district must be 2-99", 400
 
     validationShoppingCart : (req) ->
       unless Array.isArray req.body.shoppingCart
