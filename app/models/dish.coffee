@@ -6,7 +6,7 @@ module.exports =
     sortId: Number # 排序值
 
     cookingType: String # ready to cook食材包, ready to eat既食包
-    sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性
+    sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性 / drink饮料
     setType: String # 餐食类型  单品single 或 套餐set
 
 

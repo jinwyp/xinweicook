@@ -54,11 +54,17 @@ order =
     "cookingType" : "ready to cook",
     "clientFrom" : "ios",
     "credit" : 0,
-    "discount" : 0,
     "freight" : 20,
+
+    "coupon" : "5590d256103f46d9ac31e3ee",
+    "promotionCode" : "xxxxxxx",
+
+    "payment" : "alipay direct",
+    "paymentUsedCash" : false,
 
     "deliveryDate" : "2015-06-13",
     "deliveryTime" : "10",
+
 
 
     "address" : {

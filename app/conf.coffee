@@ -41,6 +41,10 @@ conf =
         "【新味食材包】Your verification code is #{code}."
       else
         "【新味食材包】您的验证码为 #{code}。"
+  alipay :
+    key : "iilt312jb1ijgct5ocpxiehw0yyodic0"
+
+
   code:
     trys: 5
     sends: 10

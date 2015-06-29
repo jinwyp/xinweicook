@@ -32,6 +32,7 @@ exports.addNewOrder = (req, res, next) ->
 
   dishIdList = []
   dishNumberList = {}
+  dishHistoryList = []
 
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
@@ -50,9 +51,12 @@ exports.addNewOrder = (req, res, next) ->
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : "not paid"
-    paymentStatus : "not paid"
+    payment : req.body.payment
+    isPaymentPaid : false
+    paymentUsedCash : req.body.paymentUsedCash
+    coupon : req.body.coupon
+    promotionCode : req.body.promotionCode
     credit : req.body.credit
-    discount : req.body.discount
     freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
@@ -66,13 +70,36 @@ exports.addNewOrder = (req, res, next) ->
 #  .populate "topping"
   .execAsync()
   .then (resultDishes) ->
+
     for dish,dishIndex in resultDishes
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
+      dishHistoryList.push dish
 
-    newOrder.totalPrice = newOrder.dishesPrice - newOrder.discount + newOrder.freight
+    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+    newOrder.dishHistory = dishHistoryList
     models.order.createAsync newOrder
   .then (resultOrder) ->
     res.json resultOrder
   , next
+
+
+
+
+exports.updateOrder = (req, res, next) ->
+  # 修改订单
+  models.order.validationUpdateOrder req
+
+  models.order.findById req.params._id
+#  .populate "preferences.foodMaterial.dish"
+#  .populate "topping"
+  .execAsync()
+  .then (resultOrder) ->
+    if not resultOrder
+      throw new Err "Order ID not found !", 400
+    resultOrder.isPaymentPaid = true if req.body.isPaymentPaid
+    resultOrder.saveAsync()
+  .spread (resultOrder, numberAffected) ->
+    res.json resultOrder
+  .catch next
 
 

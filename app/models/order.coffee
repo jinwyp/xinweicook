@@ -26,9 +26,9 @@ module.exports =
 
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
-    payment: String # 支付方式
+    payment: String # 支付方式 alipay direct / wechat / paypal
     paymentUsedCash: type: Boolean # 是否现金支付
-    paymentStatus: String # 未支付not paid 已支付paid
+    isPaymentPaid: type: Boolean, default: false # 未支付 已支付
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
@@ -50,20 +50,28 @@ module.exports =
         number: Number
       ]
     ]
+    dishHistory: Array
 
     dishesPrice: Number # 菜品总价
 
     credit: Number # 积分抵扣
     freight: Number # 运费
-    discount: Number # 折扣
     totalPrice: Number # 总价
+    promotionCode: String # 优惠码
+    coupon: String # 优惠券
 
     userComment: String # 用户备注
     csComment: String # 客服备注
 
   statics:{
+    validationUpdateOrder : (req) ->
+      unless libs.validator.isLength req.params._id, 24, 24
+        return throw new Err "Field validation error,  dishID length must be 24-24", 400
+      unless libs.validator.isBoolean req.body.isPaymentPaid
+        return throw new Err "Field validation error,  paymentStatus must be true or false", 400
+
     validationNewOrder : (req) ->
-      unless libs.validator.isLength req.body.cookingType, 3, 20
+      unless libs.validator.isLength req.body.cookingType, 3, 30
         throw new Err "Field validation error,  cookingType must be string", 400
       unless libs.validator.isLength req.body.userComment, 0, 300
         throw new Err "Field validation error,  userComment must be string", 400
@@ -71,8 +79,18 @@ module.exports =
         throw new Err "Field validation error,  clientFrom must be string", 400
       unless libs.validator.isInt req.body.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt req.body.discount, {min: 0}
-        return throw new Err "Field validation error,  discount must be number", 400
+      unless libs.validator.isLength req.body.coupon, 24, 24
+        return throw new Err "Field validation error,  coupon id length must be 24-24", 400
+      unless libs.validator.isLength req.body.promotionCode, 6, 30
+        return throw new Err "Field validation error,  promotionCode id length must be 6-30", 400
+      unless libs.validator.isLength req.body.payment, 4, 30
+        return throw new Err "Field validation error,  payment length must be 4-30", 400
+      unless libs.validator.isBoolean req.body.paymentUsedCash
+        return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+      unless libs.validator.isLength req.body.deliveryTime, 2, 2
+        return throw new Err "Field validation error,  deliveryTime length must be 2-2", 400
+      unless libs.validator.isLength req.body.deliveryDate, 10, 10
+        return throw new Err "Field validation error,  deliveryTime length must be 10-10", 400
       unless Array.isArray req.body.dishList
         throw new Err "Field validation error,  dishList must be ArrayObject", 400
       else
