@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="4" data-basepath=".." data-revision="Mon Jun 29 2015 18:46:08 GMT+0800 (CST)">
+    <div class="book" data-level="4" data-basepath=".." data-revision="Mon Jun 29 2015 22:50:41 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -340,13 +340,28 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5" data-path="user/update_shoppingcart.html">
+        <li class="chapter " data-level="4.5" data-path="user/update_userinfo.html">
+            
+                
+                    <a href="../user/update_userinfo.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.5.</b>
+                        
+                        更新用户信息
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="user/update_shoppingcart.html">
             
                 
                     <a href="../user/update_shoppingcart.html">
                         <i class="fa fa-check"></i>
                         
-                            <b>4.5.</b>
+                            <b>4.6.</b>
                         
                         更新购物车
                     </a>
@@ -696,65 +711,15 @@
 </tr>
 </tbody>
 </table>
-<h2 id="%E5%AD%97%E6%AE%B5%E7%BB%93%E6%9E%84">&#x5B57;&#x6BB5;&#x7ED3;&#x6784;</h2>
-<pre><code class="lang-js">{
-
-    group: type:<span class="hljs-built_in">String</span>, <span class="hljs-keyword">default</span>:<span class="hljs-string">&quot;member&quot;</span>
-    pwd: # &#x5BC6;&#x7801;
-      type: <span class="hljs-built_in">String</span>
-      set: (pwd) -&gt;
-        @encryptPwd(pwd)
-    mobile: type: <span class="hljs-built_in">String</span>, unique: <span class="hljs-literal">true</span>,trim:<span class="hljs-literal">true</span>
-    mail: type: <span class="hljs-built_in">String</span>, sparse: <span class="hljs-literal">true</span>, unique: <span class="hljs-literal">true</span>, trim:<span class="hljs-literal">true</span>, lowercase:<span class="hljs-literal">true</span>
-    name: type:<span class="hljs-built_in">String</span>, trim:<span class="hljs-literal">true</span>
-
-    address: [
-      geoLatitude: <span class="hljs-built_in">Number</span> # &#x7EAC;&#x5EA6;
-      geoLongitude: <span class="hljs-built_in">Number</span> # &#x7EAC;&#x5EA6;
-
-      country : <span class="hljs-built_in">String</span>
-      province: <span class="hljs-built_in">String</span>
-      city: <span class="hljs-built_in">String</span>
-      district: <span class="hljs-built_in">String</span>
-      street : <span class="hljs-built_in">String</span>
-      address: <span class="hljs-built_in">String</span>
-
-      isTemporary : type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">false</span>  #&#x4E34;&#x65F6;&#x5730;&#x5740; &#x4E0B;&#x5355;&#x540E;&#x53D8;&#x4E3A;<span class="hljs-literal">false</span>
-      isValid: type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">false</span> # &#x5BA2;&#x670D;&#x9A8C;&#x8BC1;&#x8FC7;<span class="hljs-literal">true</span>, &#x4E0A;&#x8FF0;&#x4FE1;&#x606F;&#x6539;&#x53D8;<span class="hljs-literal">false</span>
-      isDefault: type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">false</span>
-
-      contactPerson: <span class="hljs-built_in">String</span>
-      mobile: <span class="hljs-built_in">String</span>
-      alias: <span class="hljs-built_in">String</span>
-      remark: <span class="hljs-built_in">String</span>
-    ]
-
-    credit: type: <span class="hljs-built_in">Number</span>, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span>
-    isSpam: type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">false</span>
-    isPromoOn: type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">true</span>
-    lang: <span class="hljs-built_in">String</span>
-
-    shoppingCart: [
-      dish: type: Schema.ObjectId, ref: <span class="hljs-string">&quot;dish&quot;</span>
-      number: <span class="hljs-built_in">Number</span>
-      subDish : [
-        dish : type: Schema.ObjectId, ref: <span class="hljs-string">&quot;dish&quot;</span>
-        number: <span class="hljs-built_in">Number</span>
-      ]
-    ]
-}
-
-
-
-## User
-```js
+<h2 id="user">User</h2>
+<pre><code class="lang-js">
 {
   <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;5582903e4eb98f251a0478d4&quot;</span>,
-  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T10:24:13.488Z&quot;</span>,
+  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T14:37:20.313Z&quot;</span>,
   <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-06-18T09:32:46.692Z&quot;</span>,
   <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">1</span>,
   <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;18600000000&quot;</span>,
-  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">24</span>,
+  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">27</span>,
   <span class="hljs-string">&quot;shoppingCart&quot;</span>: [
     {
       <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -941,7 +906,7 @@
         <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.178Z&quot;</span>
       },
       <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-      <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7ae001&quot;</span>,
+      <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe585&quot;</span>,
       <span class="hljs-string">&quot;subDish&quot;</span>: [
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -976,7 +941,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.142Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7ae004&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe588&quot;</span>
         },
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -1011,7 +976,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.149Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7ae003&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe587&quot;</span>
         },
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -1046,7 +1011,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.154Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7ae002&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe586&quot;</span>
         }
       ]
     },
@@ -1235,7 +1200,7 @@
         <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.178Z&quot;</span>
       },
       <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-      <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7adffd&quot;</span>,
+      <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe581&quot;</span>,
       <span class="hljs-string">&quot;subDish&quot;</span>: [
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -1270,7 +1235,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.142Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7ae000&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe584&quot;</span>
         },
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -1305,7 +1270,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.149Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7adfff&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe583&quot;</span>
         },
         {
           <span class="hljs-string">&quot;dish&quot;</span>: {
@@ -1340,7 +1305,7 @@
             <span class="hljs-string">&quot;publishedAt&quot;</span>: <span class="hljs-string">&quot;2015-06-29T06:10:56.154Z&quot;</span>
           },
           <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>,
-          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;558bc90ca6e1a5b92e7adffe&quot;</span>
+          <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;559155c8f0ceb661087fe582&quot;</span>
         }
       ]
     }
@@ -1348,7 +1313,26 @@
   <span class="hljs-string">&quot;isPromoOn&quot;</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-string">&quot;isSpam&quot;</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-string">&quot;credit&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;address&quot;</span>: [],
+  <span class="hljs-string">&quot;address&quot;</span>: [
+    {
+      <span class="hljs-string">&quot;geoLatitude&quot;</span>: <span class="hljs-number">20</span>,
+      <span class="hljs-string">&quot;geoLongitude&quot;</span>: <span class="hljs-number">20</span>,
+      <span class="hljs-string">&quot;country&quot;</span>: <span class="hljs-string">&quot;china&quot;</span>,
+      <span class="hljs-string">&quot;province&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span>,
+      <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span>,
+      <span class="hljs-string">&quot;district&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span>,
+      <span class="hljs-string">&quot;street&quot;</span>: <span class="hljs-string">&quot;&#x67AB;&#x6797;&#x8DEF;&quot;</span>,
+      <span class="hljs-string">&quot;address&quot;</span>: <span class="hljs-string">&quot;510&#x53F7;&quot;</span>,
+      <span class="hljs-string">&quot;contactPerson&quot;</span>: <span class="hljs-string">&quot;xinwei&quot;</span>,
+      <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;13564568304&quot;</span>,
+      <span class="hljs-string">&quot;alias&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+      <span class="hljs-string">&quot;remark&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+      <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;5591582037db4aaf0936e5f8&quot;</span>,
+      <span class="hljs-string">&quot;isDefault&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">&quot;isValid&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">&quot;isTemporary&quot;</span>: <span class="hljs-literal">false</span>
+    }
+  ],
   <span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;member&quot;</span>
 }
 </code></pre>

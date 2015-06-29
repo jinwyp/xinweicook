@@ -18,6 +18,7 @@
    * [注册](user/sign_up.md)
    * [重设密码](user/reset_password.md)
    * [获取帐户信息](user/get_account.md)
+   * [更新用户信息](user/update_userinfo.md)
    * [更新购物车](user/update_shoppingcart.md)
 * [Dish 菜品](dish/README.md)
    * [获取菜品筛选项](dish/get_tag_filters.md)

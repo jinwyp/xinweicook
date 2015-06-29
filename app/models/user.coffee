@@ -8,8 +8,8 @@ module.exports =
       set: (pwd) ->
         @encryptPwd(pwd)
     mobile: type: String, unique: true,trim:true
-    mail: type: String, sparse: true, unique: true, trim:true, lowercase:true
-    name: type:String, trim:true
+    email: type: String, sparse: true, unique: true, trim:true, lowercase:true
+    username: type:String, trim:true
 
     address: [
       geoLatitude: Number # 纬度
