@@ -20,6 +20,7 @@
    * [获取帐户信息](user/get_account.md)
    * [更新购物车](user/update_shoppingcart.md)
 * [Dish 菜品](dish/README.md)
+   * [获取菜品筛选项](dish/get_tag_filters.md)
    * [获取所有菜品](dish/get_dishes.md)
    * [获取单一菜品](dish/get_single_dish.md)
 * [Order 订单](order/README.md)

@@ -11,6 +11,8 @@ Group `member`
 | clientFrom       | String   | "website" "ios" "android"         |
 | freight          | Number   | 运费                               |
 | discount         | Number   | 打折       |
+| deliveryDate     | String   | 预计到达日期 年月日  注意用双位数表达日期 2015-06-13      |
+| deliveryTime     | String   | 预计到达时间 三个时间点 #10-12  #12-17 #17-20       |
 | address          | Object   | 地址       |
 |   -> geoLatitude   | Number   | 纬度       |
 |   -> geoLongitude  | Number   | 经度       |
@@ -37,6 +39,9 @@ Group `member`
     "credit" : 0,
     "discount" : 0,
     "freight" : 20,
+
+    "deliveryDate" : "2015-06-13",
+    "deliveryTime" : "10",
 
 
     "address" : {

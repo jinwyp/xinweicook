@@ -44,7 +44,7 @@ dish =
             ]
         }
     ]
-}
+};
 
 
 
@@ -56,6 +56,10 @@ order =
     "credit" : 0,
     "discount" : 0,
     "freight" : 20,
+
+    "deliveryDate" : "2015-06-13",
+    "deliveryTime" : "10",
+
 
     "address" : {
         "geoLatitude" : 30,
@@ -112,4 +116,4 @@ order =
             ]
         }
     ]
-}
+};

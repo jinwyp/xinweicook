@@ -53,6 +53,78 @@ exports.addNewDish = (req, res, next) ->
 exports.initNewDish = (req, res, next) ->
 # 新建菜品
 
+  tagFilterList = [
+    _id : ObjectId("5590d256103f46d9ac31e3ee")
+    isFilter : true
+    group :
+      zh : "菜系"
+      en : "dishes system"
+    name :
+      zh : "家常中餐"
+      en : "zhongcan"
+  ,
+    _id : ObjectId("5590d256103f46d9ac31e3ef")
+    isFilter : true
+    group :
+      zh : "菜系"
+      en : "dishes system"
+    name :
+      zh : "逼格西餐"
+      en : "xican"
+  ,
+
+    _id : ObjectId("5590d256103f46d9ac31e3f0")
+    isFilter : true
+    group :
+      zh : "菜系"
+      en : "dishes system"
+    name :
+      zh : "清新日餐"
+      en : "rican"
+  ,
+
+    _id : ObjectId("5590d256103f46d9ac31e3f1")
+    isFilter : true
+    group :
+      zh : "菜系"
+      en : "dishes system"
+    name :
+      zh : "风味亚餐"
+      en : "yacan"
+  ,
+
+    _id : ObjectId("5590d256103f46d9ac31e3f2")
+    isFilter : true
+    group :
+      zh : "食材"
+      en : "ingredients"
+    name :
+      zh : "海鲜"
+      en : "seafood"
+  ,
+
+    _id : ObjectId("5590d256103f46d9ac31e3f3")
+    isFilter : true
+    group :
+      zh : "食材"
+      en : "ingredients"
+    name :
+      zh : "肉类"
+      en : "meat"
+  ,
+
+    _id : ObjectId("5590d256103f46d9ac31e3f4")
+    isFilter : true
+    group :
+      zh : "食材"
+      en : "ingredients"
+    name :
+      zh : "素食"
+      en : "vegetarian"
+  ]
+
+
+
   preferencesAndTopping = [
     _id : ObjectId("5583b7faa2845dec35276b92")
     isPublished : true
@@ -141,6 +213,7 @@ exports.initNewDish = (req, res, next) ->
     cookingType:  "ready to cook"
 
     sideDishType: "main"
+    setType: "single"
 
     title :
       zh : "干煸茶树菇孜然雪花牛柳"
@@ -261,6 +334,8 @@ exports.initNewDish = (req, res, next) ->
     topping : [
       "5583b7faa2845dec35276b97", "5583b7faa2845dec35276b98"
     ]
+
+    tagFilter : ["5590d256103f46d9ac31e3ee", "5590d256103f46d9ac31e3f2"]
   ,
 
 
@@ -272,6 +347,7 @@ exports.initNewDish = (req, res, next) ->
     cookingType:  "ready to cook"
 
     sideDishType: "main"
+    setType: "single"
 
     title :
       zh : "22 干煸茶树菇孜然雪花牛柳"
@@ -392,6 +468,8 @@ exports.initNewDish = (req, res, next) ->
     topping : [
       "5583b7faa2845dec35276b97", "5583b7faa2845dec35276b98"
     ]
+
+    tagFilter : ["5590d256103f46d9ac31e3ee", "5590d256103f46d9ac31e3f2"]
   ]
 
 
@@ -409,8 +487,9 @@ exports.initNewDish = (req, res, next) ->
 
     avatar : ""
 
-
-  models.cook.createAsync sampleCook
+  models.tag.createAsync tagFilterList
+  .then (resultTag) ->
+    models.cook.createAsync sampleCook
   .then (resultCook) ->
     models.dish.createAsync preferencesAndTopping
   .then (result1Dishes) ->

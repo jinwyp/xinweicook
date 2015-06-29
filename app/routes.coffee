@@ -4,6 +4,7 @@ smsController = require "./controllers/sms.coffee"
 articleController = require "./controllers/article.coffee"
 dishController = require "./controllers/dish.coffee"
 cookController = require "./controllers/cook.coffee"
+tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 
 
@@ -20,6 +21,7 @@ expressRoutes = (app) ->
   app.get("/api/articles", articleController.articleList)
   app.get("/api/articles/:_id", articleController.articleSingleInfo)
 
+  app.get("/api/tagfilters", tagController.tagFilterList)
 
   app.post("/api/user/token", tokenController.tokenSignIn)
   app.post("/api/user/logout", tokenController.tokenRevoke)
@@ -45,6 +47,7 @@ expressRoutes = (app) ->
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)
+  app.post("/api/administrator/tags", tagController.addNewTag)
 
   app.get("/api/administrator/initdish", dishController.initNewDish)
 

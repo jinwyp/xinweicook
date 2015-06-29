@@ -27,7 +27,8 @@ module.exports =
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
     payment: String # 支付方式
-    paymentStatus: String # 未支付 已支付
+    paymentUsedCash: type: Boolean # 是否现金支付
+    paymentStatus: String # 未支付not paid 已支付paid
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
@@ -37,9 +38,9 @@ module.exports =
       displayName: zh:String, en:String
       info: zh:String, en:String
 
-    delivery: Date   # 送达时间
-    deliveryDate : String
-    deliveryTime : String
+    deliveryDateTime: Date   # 送达时间
+    deliveryDate : String  #一周时间
+    deliveryTime : String  #10-12  #12-17 #17-20
 
     dishList:[
       dish: type: Schema.ObjectId, ref: "dish"

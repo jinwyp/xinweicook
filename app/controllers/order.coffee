@@ -56,6 +56,9 @@ exports.addNewOrder = (req, res, next) ->
     freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDate : req.body.deliveryDate
+    deliveryTime : req.body.deliveryTime
 
 
   models.dish.find {"_id" : {$in:dishIdList}}
