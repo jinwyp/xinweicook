@@ -1,5 +1,0 @@
----
-
-- apt: pkg=redis-server state=present
-
-- service: name=redis-server state=restarted

@@ -1,9 +1,0 @@
----
-# A playbook for testing all roles.
-- hosts: ucloud
-  sudo: yes
-
-  roles:
-    - common
-    - nodejs
-    - api_server
