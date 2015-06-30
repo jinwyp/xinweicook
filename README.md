@@ -20,15 +20,26 @@ brew install nodejs mongodb redis nginx
 
 为了方便启动服务，可以用 `gem install lunchy` 安装 [lunchy]。
 
+
+#### 使用Nodejs下的Nodemon 工具启动服务器
+
+然后 `nodemon index.coffee` 启动服务。 注意nodemon 配置文件为nodemon.json
+
+#### 使用Gulp 工具启动服务器
+
+安装好gulp 和 coffeescript 后 命令行运行gulp 即可启动服务器
+
+#### 使用Gulp 工具启动Gitbook
+运行gulp doc 启动生成gitbook文档的工具
+
+
 #### 使用Ruby的Rake 任务工具启动服务器
 
 服务都启动后，用 `rake update_node` 更新 npm 依赖。
 
 然后 `rake server` 启动服务。
 
-#### 使用Nodejs下的Nodemon 工具启动服务器
 
-然后 `nodemon index.coffee` 启动服务。 注意nodemon 配置文件为nodemon.json
 
 
 ### 本地虚拟机调试
