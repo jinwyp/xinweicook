@@ -29,6 +29,9 @@
    * [获取单一订单](order/get_single_order.md)
    * [生成新订单](order/add_new_order.md)
    * [更新订单与支付状态](order/update_order.md)
+   * [生成订单](order/add_new_order.md)
+   * [配送时间计算](order/deliver_time.md)
 * [Article 文章](article/README.md)
    * [获取所有文章](article/get_articles.md)
    * [获取单一文章](article/get_single_article.md)
+
