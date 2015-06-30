@@ -25,11 +25,11 @@ brew install nodejs mongodb redis nginx
 
 然后 `nodemon index.coffee` 启动服务。 注意nodemon 配置文件为nodemon.json
 
-#### 使用Gulp 工具启动服务器
+#### 使用Gulp 启动服务器
 
 安装好gulp 和 coffeescript 后 命令行运行gulp 即可启动服务器
 
-#### 使用Gulp 工具启动Gitbook
+#### 使用Gulp 启动Gitbook文档工具
 运行gulp doc 启动生成gitbook文档的工具
 
 
