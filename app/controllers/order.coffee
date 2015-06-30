@@ -5,9 +5,12 @@
 
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
+  models.order.validationGetOrderList req
+
   models.order.find user: req.u._id
   .sort "-createdAt"
-  .limit "50"
+  .limit (50)
+  .skip (req.query.skip)
   .execAsync()
   .then (orders) ->
     res.json orders

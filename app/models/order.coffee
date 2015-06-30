@@ -64,6 +64,13 @@ module.exports =
     csComment: String # 客服备注
 
   statics:{
+    validationGetOrderList : (req) ->
+      if req.query.skip
+        unless libs.validator.isInt req.query.skip, {min: 0}
+          return throw new Err "Field validation error,  query skip must be integer", 400
+      else
+        req.query.skip = 0
+
     validationUpdateOrder : (req) ->
       unless libs.validator.isLength req.params._id, 24, 24
         return throw new Err "Field validation error,  dishID length must be 24-24", 400
