@@ -4,6 +4,7 @@ smsController = require "./controllers/sms.coffee"
 articleController = require "./controllers/article.coffee"
 dishController = require "./controllers/dish.coffee"
 cookController = require "./controllers/cook.coffee"
+couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 
@@ -48,6 +49,8 @@ expressRoutes = (app) ->
 
 
 
+
+  app.post("/api/administrator/coupons", couponController.addNewCoupon)
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)

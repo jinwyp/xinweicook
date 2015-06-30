@@ -45,6 +45,9 @@ module.exports =
         number: Number
       ]
     ]
+
+    couponList :[type: Schema.ObjectId, ref: "coupon"]
+
   statics:
     fields : ->
       selectFields = "-pwd"
