@@ -89,13 +89,17 @@ exports.addNewCoupon = (req, res, next) ->
 exports.assignCouponToUser = (req, res, next) ->
 
   dataUser = {}
-  models.user.find ({_id : req.body.userId })
+  models.user.findOne ({_id : req.body.userId })
     .then (resultUser) ->
       models.user.UserFound (resultUser)
       dataUser = resultUser
-      models.coupon.find ({_id : req.body.couponId, isUsed:false, isExpired:false })
+      models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
     .then (resultCoupon) ->
-      if resultCoupon
-        throw new Err "Coupon not Found or used or expired!", 400
+      models.coupon.CouponNotFound resultCoupon
+      dataUser.couponList.push resultCoupon._id
+      dataUser.saveAsync()
       resultCoupon.user = dataUser._id.toString()
+      resultCoupon.saveAsync()
+    .spread (resultCoupon2, numberAffected) ->
+      res.json resultCoupon2
     .catch next

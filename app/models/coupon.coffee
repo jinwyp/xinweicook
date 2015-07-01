@@ -14,6 +14,11 @@ module.exports =
     user : type: Schema.Types.ObjectId, ref: 'User'
 
   statics :
+    CouponNotFound : (coupon) ->
+      if not coupon
+        throw new Err "Coupon not Found or used or expired!", 400
+      else
+        coupon
     gencode : () ->
       randomString = (length = 8)->
         chars = '23456789ABCDEFGHJKMNPQRSTUVWXTZacdefghikmnpqrstuvwxyz'.split('');
