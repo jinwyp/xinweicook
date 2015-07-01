@@ -2076,12 +2076,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"userId\\":\\"5582903e4eb98f251a0478d4\\",\\"couponId\\":\\"55926f10d5eb6b6f834dec8d\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"userId\\":\\"5582903e4eb98f251a0478d4\\",\\"couponId\\":\\"55926f4b06d06ab2835cc444\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">coupon-assignCouponToUser</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z325 z326 z328"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z326 z328 z325"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z328">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>

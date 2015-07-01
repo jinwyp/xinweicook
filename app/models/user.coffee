@@ -118,6 +118,7 @@ module.exports =
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
           t.user
+          .populate({path: 'couponList'})
           .populate({path: 'shoppingCart.dish'})
           .populateAsync({path: 'shoppingCart.subDish.dish'})
         else

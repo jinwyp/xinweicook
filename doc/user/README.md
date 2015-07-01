@@ -13,16 +13,72 @@
 
 
 
-## User
+## User 范例
 ```js
 
 {
   "_id": "5582903e4eb98f251a0478d4",
-  "modifiedAt": "2015-06-29T14:37:20.313Z",
+  "modifiedAt": "2015-07-01T10:36:56.892Z",
   "createdAt": "2015-06-18T09:32:46.692Z",
   "id": 1,
   "mobile": "18600000000",
-  "__v": 27,
+  "__v": 35,
+  "couponList": [
+    {
+      "_id": "55926f4e06d06ab2835cc453",
+      "modifiedAt": "2015-07-01T10:31:31.708Z",
+      "createdAt": "2015-06-30T10:31:36.465Z",
+      "price": 1,
+      "code": "WYEcSUDJHW",
+      "__v": 0,
+      "user": "5582903e4eb98f251a0478d4",
+      "isExpired": false,
+      "isUsed": false,
+      "endDate": "2015-07-30T10:31:26.000Z",
+      "startDate": "2015-06-30T10:31:26.000Z",
+      "priceLimit": 100,
+      "name": {
+        "zh": "优惠券444",
+        "en": "coupon444"
+      }
+    },
+    {
+      "_id": "55926f10d5eb6b6f834dec8d",
+      "modifiedAt": "2015-07-01T10:32:55.641Z",
+      "createdAt": "2015-06-30T10:31:36.464Z",
+      "price": 1,
+      "code": "WZxcDhcrca",
+      "__v": 0,
+      "user": "5582903e4eb98f251a0478d4",
+      "isExpired": false,
+      "isUsed": false,
+      "endDate": "2015-07-30T10:31:26.000Z",
+      "startDate": "2015-06-30T10:31:26.000Z",
+      "priceLimit": 10,
+      "name": {
+        "zh": "优惠券111",
+        "en": "coupon111"
+      }
+    },
+    {
+      "_id": "55926f4b06d06ab2835cc444",
+      "modifiedAt": "2015-07-01T10:36:56.889Z",
+      "createdAt": "2015-06-30T10:31:36.464Z",
+      "price": 2,
+      "code": "XZfpRTG3dt",
+      "__v": 0,
+      "user": "5582903e4eb98f251a0478d4",
+      "isExpired": false,
+      "isUsed": false,
+      "endDate": "2015-07-30T10:31:26.000Z",
+      "startDate": "2015-06-30T10:31:26.000Z",
+      "priceLimit": 10,
+      "name": {
+        "zh": "优惠券222",
+        "en": "coupon222"
+      }
+    }
+  ],
   "shoppingCart": [
     {
       "dish": {
@@ -209,7 +265,7 @@
         "publishedAt": "2015-06-29T06:10:56.178Z"
       },
       "number": 1,
-      "_id": "559155c8f0ceb661087fe585",
+      "_id": "55921372346b694d27a63956",
       "subDish": [
         {
           "dish": {
@@ -244,7 +300,7 @@
             "publishedAt": "2015-06-29T06:10:56.142Z"
           },
           "number": 1,
-          "_id": "559155c8f0ceb661087fe588"
+          "_id": "55921372346b694d27a63959"
         },
         {
           "dish": {
@@ -279,7 +335,7 @@
             "publishedAt": "2015-06-29T06:10:56.149Z"
           },
           "number": 1,
-          "_id": "559155c8f0ceb661087fe587"
+          "_id": "55921372346b694d27a63958"
         },
         {
           "dish": {
@@ -314,7 +370,7 @@
             "publishedAt": "2015-06-29T06:10:56.154Z"
           },
           "number": 2,
-          "_id": "559155c8f0ceb661087fe586"
+          "_id": "55921372346b694d27a63957"
         }
       ]
     },
@@ -503,7 +559,7 @@
         "publishedAt": "2015-06-29T06:10:56.178Z"
       },
       "number": 1,
-      "_id": "559155c8f0ceb661087fe581",
+      "_id": "55921372346b694d27a63952",
       "subDish": [
         {
           "dish": {
@@ -538,7 +594,7 @@
             "publishedAt": "2015-06-29T06:10:56.142Z"
           },
           "number": 1,
-          "_id": "559155c8f0ceb661087fe584"
+          "_id": "55921372346b694d27a63955"
         },
         {
           "dish": {
@@ -573,7 +629,7 @@
             "publishedAt": "2015-06-29T06:10:56.149Z"
           },
           "number": 1,
-          "_id": "559155c8f0ceb661087fe583"
+          "_id": "55921372346b694d27a63954"
         },
         {
           "dish": {
@@ -608,7 +664,7 @@
             "publishedAt": "2015-06-29T06:10:56.154Z"
           },
           "number": 2,
-          "_id": "559155c8f0ceb661087fe582"
+          "_id": "55921372346b694d27a63953"
         }
       ]
     }
@@ -630,7 +686,7 @@
       "mobile": "13564568304",
       "alias": "",
       "remark": "",
-      "_id": "5591582037db4aaf0936e5f8",
+      "_id": "55921363346b694d27a63950",
       "isDefault": false,
       "isValid": false,
       "isTemporary": false
