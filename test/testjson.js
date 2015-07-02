@@ -148,8 +148,7 @@ order =
 };
 
 
-alipay =
-{ discount: '0.00',
+alipay = { discount: '0.00',
     payment_type: '1',
     subject: '新味',
     trade_no: '2015070200001000020056308303',
@@ -172,4 +171,5 @@ alipay =
     use_coupon: 'N',
     sign_type: 'RSA',
     sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
-}
+};
+
