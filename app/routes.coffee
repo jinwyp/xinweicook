@@ -14,7 +14,10 @@ orderController = require "./controllers/order.coffee"
 
 expressRoutes = (app) ->
 
+  app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
 
+
+  app.use libs.secure.middleware
 
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
@@ -43,8 +46,6 @@ expressRoutes = (app) ->
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
-  app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-
 
 
 

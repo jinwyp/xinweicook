@@ -20,7 +20,7 @@ app.use bodyParser.urlencoded(extended: true)
 app.use methodOverride("X-HTTP-Method-Override")
 
 app.use libs.logger.middleware()
-app.use libs.secure.middleware
+
 app.use libs.lang.middleware
 app.use libs.cache.lastModified
 
