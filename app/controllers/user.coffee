@@ -50,8 +50,8 @@ exports.updateUserInfo = (req, res, next) ->
   req.u.address = req.body.address
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->
-    resultUser.populate({path: 'shoppingCart.dish'})
-    .populateAsync({path: 'shoppingCart.subDish.dish'})
+    resultUser.populate({path: 'shoppingCart.dish', select: models.dish.fields()})
+    .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
   .then (user) ->
     res.json user
   .catch next
@@ -66,8 +66,8 @@ exports.updateShoppingCart = (req, res, next) ->
   req.u.shoppingCart = req.body.shoppingCart
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->
-    resultUser.populate({path: 'shoppingCart.dish'})
-    .populateAsync({path: 'shoppingCart.subDish.dish'})
+    resultUser.populate({path: 'shoppingCart.dish', select: models.dish.fields()})
+    .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
   .then (user) ->
     res.json user
   .catch next

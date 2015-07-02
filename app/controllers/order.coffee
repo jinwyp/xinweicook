@@ -108,7 +108,6 @@ exports.updateOrder = (req, res, next) ->
 
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
-  console.log "------", req.body
   models.order.validationAlipayNotify req
 
   models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}

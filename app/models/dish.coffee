@@ -77,7 +77,10 @@ module.exports =
     statisticViews: type: Number, default: 0 # 浏览量
 
 
-  statics: {}
+  statics:
+    fields : ->
+      selectFields = "-topping -preferences"
+
   methods: {
     getPrice : (number) ->
       if number < 2 or @priceWholesale.length is 0

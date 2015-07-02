@@ -119,8 +119,8 @@ module.exports =
         if t.user
           t.user
           .populate({path: 'couponList'})
-          .populate({path: 'shoppingCart.dish'})
-          .populateAsync({path: 'shoppingCart.subDish.dish'})
+          .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
+          .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
         else
           throw new Err "找不到该用户", 404
       ).then(@UserFound).then(@UserNotSpam)
