@@ -53,7 +53,7 @@ exports.addNewOrder = (req, res, next) ->
     dishList : req.body.dishList
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
-    status : "not paid"
+    status : models.order.OrderStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
@@ -97,12 +97,48 @@ exports.updateOrder = (req, res, next) ->
 #  .populate "topping"
   .execAsync()
   .then (resultOrder) ->
-    if not resultOrder
-      throw new Err "Order ID not found !", 400
-    resultOrder.isPaymentPaid = true if req.body.isPaymentPaid
+    models.order.OrderNotFound(resultOrder)
+    if req.body.isPaymentPaid
+      resultOrder.isPaymentPaid = true
+      resultOrder.status = models.order.OrderStatus().paid
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
     res.json resultOrder
   .catch next
 
 
+exports.updateOrderAlipayNotify = (req, res, next) ->
+  console.log "------", req.body
+  models.order.validationAlipayNotify req
+
+  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}
+#  .populate "preferences.foodMaterial.dish"
+#  .populate "topping"
+  .execAsync()
+  .then (resultOrder) ->
+    models.order.OrderNotFound(resultOrder)
+
+    resultOrder.isPaymentPaid = true
+    resultOrder.status = models.order.OrderStatus().paid
+
+    resultOrder.paymentAlipay =
+      notify_time : req.body.notify_time
+      notify_type : req.body.notify_type
+      notify_id : req.body.notify_id
+      out_trade_no : req.body.out_trade_no
+      subject : req.body.subject
+      payment_type : req.body.payment_type
+      trade_no : req.body.trade_no
+      trade_status : req.body.trade_status
+      total_fee : req.body.total_fee
+      quantity : req.body.quantity
+      gmt_create : req.body.gmt_create
+      gmt_payment : req.body.gmt_payment
+      refund_status : req.body.refund_status
+      gmt_refund : req.body.gmt_refund
+
+    resultOrder.saveAsync()
+  .spread (resultOrder, numberAffected) ->
+    res.set('Content-Type', 'text/plain');
+    res.send "success"
+  .catch next

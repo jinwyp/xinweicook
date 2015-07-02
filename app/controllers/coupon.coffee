@@ -21,6 +21,45 @@ exports.couponSingleInfo = (req, res, next) ->
 
 exports.addNewCoupon = (req, res, next) ->
 
+  createCoupon = _.assign createCoupon, req.body
+
+  models.coupon.createAsync createCoupon
+  .then (resultCoupon) ->
+    res.json resultCoupon
+  , next
+
+
+
+
+
+exports.assignCouponToUser = (req, res, next) ->
+
+  dataUser = {}
+  models.user.findOne ({_id : req.body.userId })
+    .then (resultUser) ->
+      models.user.UserFound (resultUser)
+      dataUser = resultUser
+      models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
+    .then (resultCoupon) ->
+      models.coupon.CouponNotFound resultCoupon
+      if dataUser.couponList.indexOf(resultCoupon._id) > -1
+        throw new Err "user already have this coupon", 400
+      if resultCoupon.user
+        throw new Err "coupon already belong to other user", 400
+      dataUser.couponList.push resultCoupon._id
+      dataUser.saveAsync()
+      resultCoupon.user = dataUser._id.toString()
+      resultCoupon.saveAsync()
+    .spread (resultCoupon2, numberAffected) ->
+      res.json resultCoupon2
+    .catch next
+
+
+
+
+
+exports.initNewCoupon = (req, res, next) ->
+
   couponList = [
     _id : ObjectId("55926f10d5eb6b6f834dec8d")
     isUsed : false
@@ -73,38 +112,10 @@ exports.addNewCoupon = (req, res, next) ->
     code : models.coupon.gencode()
   ]
 
-  createCoupon = _.assign createCoupon, req.body
-  createCoupon = couponList
 
 
-  models.coupon.createAsync createCoupon
+  models.coupon.createAsync couponList
   .then (resultCoupon) ->
     res.json resultCoupon
   , next
-
-
-
-
-
-exports.assignCouponToUser = (req, res, next) ->
-
-  dataUser = {}
-  models.user.findOne ({_id : req.body.userId })
-    .then (resultUser) ->
-      models.user.UserFound (resultUser)
-      dataUser = resultUser
-      models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
-    .then (resultCoupon) ->
-      models.coupon.CouponNotFound resultCoupon
-      if dataUser.couponList.indexOf(resultCoupon._id) > -1
-        throw new Err "user already have this coupon", 400
-      if resultCoupon.user
-        throw new Err "coupon already belong to other user", 400
-      dataUser.couponList.push resultCoupon._id
-      dataUser.saveAsync()
-      resultCoupon.user = dataUser._id.toString()
-      resultCoupon.saveAsync()
-    .spread (resultCoupon2, numberAffected) ->
-      res.json resultCoupon2
-    .catch next
 

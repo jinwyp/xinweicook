@@ -43,7 +43,7 @@ expressRoutes = (app) ->
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
-  app.post("/api/orders/payment/alipay/mobile", orderController.updateOrder)
+  app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
 
 
 
@@ -59,5 +59,6 @@ expressRoutes = (app) ->
   app.post("/api/administrator/tags", tagController.addNewTag)
 
   app.get("/api/administrator/initdish", dishController.initNewDish)
+  app.get("/api/administrator/initcoupon", couponController.initNewCoupon)
 
 module.exports = expressRoutes

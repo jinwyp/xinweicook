@@ -29,6 +29,23 @@ module.exports =
     payment: String # 支付方式 alipay direct / wechat / paypal
     paymentUsedCash: type: Boolean # 是否现金支付
     isPaymentPaid: type: Boolean, default: false # 未支付 已支付
+    paymentAlipay :
+      notify_time : type: String
+      notify_type : type: String
+      notify_id : type: String
+      out_trade_no : type: String
+      subject : type: String
+      payment_type : type: String
+      trade_no : type: String
+      trade_status : type: String
+      total_fee : type: Number
+      quantity : type: Number
+      gmt_create : type: String
+      gmt_payment : type : String
+      refund_status : type : String
+      gmt_refund : type : String
+
+
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
@@ -64,6 +81,18 @@ module.exports =
     csComment: String # 客服备注
 
   statics:{
+    OrderNotFound : (order) ->
+      if not order
+        throw new Err "Order ID or OrderNumber not found !", 400
+    OrderStatus : () ->
+      status =
+        notpaid : "not paid"
+        paid : "paid"
+        makingdish : "making dish"
+        shipped : "shipped"
+        finished : "finished"
+        canceled : "canceled"
+
     validationGetOrderList : (req) ->
       if req.query.skip
         unless libs.validator.isInt req.query.skip, {min: 0}
@@ -73,7 +102,7 @@ module.exports =
 
     validationUpdateOrder : (req) ->
       unless libs.validator.isLength req.params._id, 24, 24
-        return throw new Err "Field validation error,  dishID length must be 24-24", 400
+        return throw new Err "Field validation error,  orderID length must be 24-24", 400
       unless libs.validator.isBoolean req.body.isPaymentPaid
         return throw new Err "Field validation error,  paymentStatus must be true or false", 400
 
@@ -106,6 +135,11 @@ module.exports =
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
+
+    validationAlipayNotify : (req) ->
+        unless libs.validator.isLength req.body.out_trade_no, 21, 22
+          return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
+
   }
   methods: {}
   rest: {}
