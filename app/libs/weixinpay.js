@@ -1,7 +1,7 @@
 var util = require('./weixinutil');
 var md5 = require('MD5');
 var request = require('request');
-
+var xml2js = require('xml2js');
 
 
 
@@ -19,7 +19,7 @@ var wxpay_config = {
 
 // 签名
 var sign = function(obj){
-    var str = Object.keys(obj)
+    var querystring = Object.keys(obj)
         .filter(function (key) {
             return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
         })
@@ -29,9 +29,9 @@ var sign = function(obj){
         })
         .join("&");
 
-    str = md5( str + "&key=" + wxpay_config.key ).toUpperCase();
+    querystring = querystring + "&key=" + wxpay_config.key ;
 
-    return str;
+    return md5( querystring ).toUpperCase();
 };
 
 
@@ -53,7 +53,7 @@ exports.createUnifiedOrder = function (item, callback){
         spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
         notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
         trade_type: item.trade_type || 'NATIVE', //JSAPI，NATIVE，APP，WAP
-        openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        openid: item.openid || "", //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : item.product_id, //trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
         body:  item.body, //商品描述
@@ -66,7 +66,10 @@ exports.createUnifiedOrder = function (item, callback){
     };
     newOrder.sign = sign (newOrder) ;
 
-
+    for(var key in newOrder){
+        console.log(key);
+        newOrder[key] = newOrder[key].toString();
+    }
     var opts = {
         method: 'POST',
         url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',

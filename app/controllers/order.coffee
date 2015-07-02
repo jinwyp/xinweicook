@@ -82,11 +82,27 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.dishHistory = dishHistoryList
     models.order.createAsync newOrder
   .then (resultOrder) ->
-    console.log resultOrder.payment, models.order.OrderPayment().weixinpay
-    if resultOrder.payment is models.order.OrderPayment.weixinpay
-      weixinpay.createUnifiedOrder item, (err, resultWeixinPay) ->
+
+    if resultOrder.payment is models.order.OrderPayment().weixinpay
+      weixinpayOrder =
+        out_trade_no: resultOrder.orderNumber
+        total_fee: resultOrder.totalPrice
+#        spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+#        notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
+#        trade_type: item.trade_type || 'NATIVE', //JSAPI，NATIVE，APP，WAP
+#      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+
+        body:  resultOrder.dishHistory[0].title.zh
+        detail:  resultOrder.dishHistory[0].title.zh
+
+        attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+
+      console.log weixinpayOrder
+      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         console.log resultWeixinPay
-        res.json resultWeixinPay
+        res.send resultWeixinPay
     else
       res.json resultOrder
   , next
