@@ -1,4 +1,5 @@
 require "./env"
+alipayBodyParser = require "./libs/alipay.js"
 bodyParser = require "body-parser"
 cors = require "cors"
 methodOverride = require "method-override"
@@ -15,6 +16,7 @@ app.use cors() if conf.debug
 app.use "/api/public", express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
+app.use alipayBodyParser
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
 app.use methodOverride("X-HTTP-Method-Override")

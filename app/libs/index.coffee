@@ -11,6 +11,7 @@ requireDir = (opts, callback)->
         base = require pathname
 
 requireOthers = exports.requireOthers = (filename, callback)->
+
   dirname = path.dirname filename
   filename = path.basename filename
   extname = path.extname filename
@@ -20,6 +21,7 @@ requireOthers = exports.requireOthers = (filename, callback)->
     exclude: exclude
     extname: extname
   , callback
+
 
 requireOthers __filename, (basename, pathname) ->
   exports[basename] = require(pathname)
