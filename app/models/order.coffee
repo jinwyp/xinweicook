@@ -26,25 +26,34 @@ module.exports =
 
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
-    payment: String # 支付方式 alipay direct / wechat / paypal
+    payment: String # 支付方式 alipay direct / weixinpay / paypal
     paymentUsedCash: type: Boolean # 是否现金支付
     isPaymentPaid: type: Boolean, default: false # 未支付 已支付
     paymentAlipay :
       notify_time : type: String
       notify_type : type: String
       notify_id : type: String
+      sign_type: type: String
+      sign: type: String
       out_trade_no : type: String
       subject : type: String
       payment_type : type: String
       trade_no : type: String
       trade_status : type: String
+      price : type: Number
       total_fee : type: Number
       quantity : type: Number
+      body : type: Number
+      is_total_fee_adjust : type: String
+      use_coupon : type: String
       gmt_create : type: String
       gmt_payment : type : String
       refund_status : type : String
       gmt_refund : type : String
-
+      seller_email : type : String
+      buyer_email : type : String
+      seller_id : type : String
+      buyer_id : type : String
 
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
@@ -92,6 +101,11 @@ module.exports =
         shipped : "shipped"
         finished : "finished"
         canceled : "canceled"
+    OrderPayment : () ->
+      payment =
+        alipaydirect : "alipay direct"
+        weixinpay : "weixinpay"
+        paypal : "paypal"
 
     validationGetOrderList : (req) ->
       if req.query.skip

@@ -44,6 +44,12 @@ conf =
   alipay :
     key : "iilt312jb1ijgct5ocpxiehw0yyodic0"
 
+  weixinpay :
+    appid: "wx37a1323e488cef84"
+    mch_id: "1231161502"
+    secret: "5e21fb82b13330f462bcf4a008a3670c"
+    key: "Gothicjk1129xinwei789tencentsbsb"
+
 
   code:
     trys: 5

@@ -1,5 +1,5 @@
 # 订单
-
+weixinpay = require "../libs/weixinpay"
 
 
 
@@ -82,7 +82,13 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.dishHistory = dishHistoryList
     models.order.createAsync newOrder
   .then (resultOrder) ->
-    res.json resultOrder
+    console.log resultOrder.payment, models.order.OrderPayment().weixinpay
+    if resultOrder.payment is models.order.OrderPayment.weixinpay
+      weixinpay.createUnifiedOrder item, (err, resultWeixinPay) ->
+        console.log resultWeixinPay
+        res.json resultWeixinPay
+    else
+      res.json resultOrder
   , next
 
 
@@ -107,6 +113,8 @@ exports.updateOrder = (req, res, next) ->
   .catch next
 
 
+
+
 exports.updateOrderAlipayNotify = (req, res, next) ->
   console.log "------------------Order======== ::", req.body
   models.order.validationAlipayNotify req
@@ -125,20 +133,43 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
       notify_time : req.body.notify_time
       notify_type : req.body.notify_type
       notify_id : req.body.notify_id
+#      sign_type: 'RSA',
+#      sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
       out_trade_no : req.body.out_trade_no
       subject : req.body.subject
       payment_type : req.body.payment_type
       trade_no : req.body.trade_no
       trade_status : req.body.trade_status
+      price : req.body.price
       total_fee : req.body.total_fee
       quantity : req.body.quantity
+      body : req.body.body
+      is_total_fee_adjust : req.body.is_total_fee_adjust
+      use_coupon : req.body.use_coupon
       gmt_create : req.body.gmt_create
       gmt_payment : req.body.gmt_payment
-      refund_status : req.body.refund_status
-      gmt_refund : req.body.gmt_refund
+#      refund_status : req.body.refund_status
+#      gmt_refund : req.body.gmt_refund
+      seller_email : req.body.seller_email
+      buyer_email : req.body.buyer_email
+      seller_id : req.body.seller_id
+      buyer_id : req.body.buyer_id
+
 
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
     res.set('Content-Type', 'text/plain');
     res.send "success"
   .catch next
+
+
+
+weixinCreateUnifiedOrder = (newOrder, callback) ->
+  newOrder =
+    body: '扫码支付测试',
+    out_trade_no: '20140703'+Math.random().toString().substr(2, 10),
+    total_fee: 1,
+    spbill_create_ip: '192.168.2.210',
+    notify_url: 'http://wxpay_notify_url',
+    trade_type: 'NATIVE',
+    product_id: '1234567890'

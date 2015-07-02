@@ -30,6 +30,7 @@
     "l10ns": "^2.2.0",
     "locale-detector": "^1.0.1",
     "lodash": "^3.9.3",
+    "md5": "^1.0.0",
     "method-override": "^2.3.3",
     "moment": "^2.10.3",
     "mongoose": "^4.0",
@@ -40,7 +41,8 @@
     "request": "^2.56.0",
     "validator": "^3.40.0",
     "winston": "^1.0.0",
-    "winston-mongodb": "^1.1.1"
+    "winston-mongodb": "^1.1.1",
+    "xml2js": "^0.4.9"
   },
   "devDependencies": {
     "gitbook-cli": "^0.3.4",
