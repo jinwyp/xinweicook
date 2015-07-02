@@ -90,7 +90,6 @@ order =
     "deliveryTime" : "10",
 
 
-
     "address" : {
         "geoLatitude" : 30,
         "geoLongitude" : 30,
@@ -147,3 +146,30 @@ order =
         }
     ]
 };
+
+
+alipay =
+{ discount: '0.00',
+    payment_type: '1',
+    subject: '新味',
+    trade_no: '2015070200001000020056308303',
+    buyer_email: '18629641521',
+    gmt_create: '2015-07-02 15:35:23',
+    notify_type: 'trade_status_sync',
+    quantity: '1',
+    out_trade_no: 'XWORDER399Tf121313',
+    seller_id: '2088111042213083',
+    notify_time: '2015-07-02 15:35:24',
+    body: '新味用',
+    trade_status: 'TRADE_SUCCESS',
+    is_total_fee_adjust: 'N',
+    total_fee: '0.01',
+    gmt_payment: '2015-07-02 15:35:24',
+    seller_email: 'steve.ge@me.com',
+    price: '0.01',
+    buyer_id: '2088412033326020',
+    notify_id: '5242e77a99040f2c845e80b98f83b21e24',
+    use_coupon: 'N',
+    sign_type: 'RSA',
+    sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
+}
