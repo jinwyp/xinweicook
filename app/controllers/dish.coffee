@@ -191,9 +191,11 @@ exports.initNewDish2 = (req, res, next) ->
 
   sampleDishes = []
   for i in [1..10]
+    newDish = {}
     sampleDishObj.title.zh = sampleDishObj.title.zh + i.toString() + i.toString()
     sampleDishObj.cookingType = if i%2 then "ready to cook" else "ready to eat"
-    sampleDishes.push sampleDishObj
+    newDish = _.assign newDish, sampleDishObj
+    sampleDishes.push newDish
 
   models.dish.createAsync sampleDishes
   .then (result2Dishes) ->
