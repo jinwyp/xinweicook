@@ -11,7 +11,7 @@ exports.couponList = (req, res, next) ->
 
 
 exports.couponSingleInfo = (req, res, next) ->
-  models.coupon.validationCouponId req
+  models.coupon.validationCouponId req.params._id
 
   models.coupon.findOne ({_id: req.params._id, isExpired : false, isUsed : false})
   .select models.coupon.fields()
@@ -25,12 +25,12 @@ exports.couponSingleInfo = (req, res, next) ->
 
 exports.addNewCoupon = (req, res, next) ->
 
-  createCoupon = _.assign createCoupon, req.body
+  models.coupon.validationNewCoupon req.body
 
-  models.coupon.createAsync createCoupon
+  models.coupon.addNew req.body
   .then (resultCoupon) ->
     res.json resultCoupon
-  , next
+  .catch next
 
 
 
@@ -115,7 +115,6 @@ exports.initNewCoupon = (req, res, next) ->
     priceLimit : 60
     code : models.coupon.gencode()
   ]
-
 
 
   models.coupon.createAsync couponList
