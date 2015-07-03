@@ -191,10 +191,9 @@ exports.initNewDish2 = (req, res, next) ->
 
   sampleDishes = []
   for i in [1..10]
-    newDish = {}
-    sampleDishObj.title.zh = sampleDishObj.title.zh + i.toString() + i.toString()
-    sampleDishObj.cookingType = if i%2 then "ready to cook" else "ready to eat"
-    newDish = _.assign newDish, sampleDishObj
+    newDish = _.clone(sampleDishObj, true);
+    newDish.title.zh = newDish.title.zh + i.toString() + "-" + Math.floor(Math.random() * 9 + 10)
+    newDish.cookingType = if i%2 then "ready to cook" else "ready to eat"
     sampleDishes.push newDish
 
   models.dish.createAsync sampleDishes
