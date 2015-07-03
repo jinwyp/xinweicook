@@ -67,7 +67,6 @@ exports.createUnifiedOrder = function (item, callback){
     newOrder.sign = sign (newOrder) ;
 
     for(var key in newOrder){
-        console.log(key);
         newOrder[key] = newOrder[key].toString();
     }
     var opts = {

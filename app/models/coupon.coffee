@@ -14,11 +14,17 @@ module.exports =
     user : type: Schema.Types.ObjectId, ref: 'User'
 
   statics :
+    fields : ->
+      selectFields = "-isExpired -isUsed"
     CouponNotFound : (coupon) ->
       if not coupon
         throw new Err "Coupon not Found or used or expired!", 400
       else
         coupon
+    validationCouponId : (req) ->
+      unless libs.validator.isLength req.params._id, 24, 24
+        return throw new Err "Field validation error,  coupon ID length must be 24-24", 400
+
     gencode : () ->
       randomString = (length = 8)->
         chars = '23456789ABCDEFGHJKMNPQRSTUVWXTZacdefghikmnpqrstuvwxyz'.split('');

@@ -3,17 +3,21 @@
 
 
 exports.couponList = (req, res, next) ->
-  models.cook.findAsync {}
-  .then (cooks) ->
-    res.json cooks
+  models.coupon.findAsync {}
+  .then (coupons) ->
+    res.json coupons
   , next
 
 
 
 exports.couponSingleInfo = (req, res, next) ->
-  models.cook.findOneAsync _id: req.params._id
-  .then (cook) ->
-    res.json cook
+  models.coupon.validationCouponId req
+
+  models.coupon.findOne ({_id: req.params._id, isExpired : false, isUsed : false})
+  .select models.coupon.fields()
+  .execAsync()
+  .then (resultCoupon) ->
+    res.json resultCoupon
   , next
 
 
