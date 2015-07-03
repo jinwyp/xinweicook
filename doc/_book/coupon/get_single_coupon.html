@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>通过短信发送验证码 | 新味 API 文档</title>
+        <title>获取单一优惠码信息 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../user/sign_up.html" />
+    <link rel="next" href="../order/index.html" />
     
     
-    <link rel="prev" href="../user/index.html" />
+    <link rel="prev" href="../coupon/index.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="4.1" data-basepath=".." data-revision="Fri Jul 03 2015 14:30:01 GMT+0800 (CST)">
+    <div class="book" data-level="5.1" data-basepath=".." data-revision="Fri Jul 03 2015 14:30:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -280,7 +280,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="4.1" data-path="user/send_verification_code_via_sms.html">
+        <li class="chapter " data-level="4.1" data-path="user/send_verification_code_via_sms.html">
             
                 
                     <a href="../user/send_verification_code_via_sms.html">
@@ -391,7 +391,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.1" data-path="coupon/get_single_coupon.html">
+        <li class="chapter active" data-level="5.1" data-path="coupon/get_single_coupon.html">
             
                 
                     <a href="../coupon/get_single_coupon.html">
@@ -744,45 +744,11 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>POST <code>/user/sms</code></p>
-<h3 id="body">Body</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">mobile</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">&#x624B;&#x673A;&#x53F7;</td>
-</tr>
-<tr>
-<td style="text-align:left">type</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left"><code>signUp</code>&#x6CE8;&#x518C; <code>verifyMobile</code>&#x9A8C;&#x8BC1;&#x624B;&#x673A;&#x53F7;, <code>resetPassword</code>&#x91CD;&#x7F6E;&#x5BC6;&#x7801;</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="lang-js">{
-  <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;18600000000&quot;</span>,
-  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;signUp&quot;</span>
-}
-</code></pre>
+<p>GET <code>/coupons/:_id</code></p>
+<p>Group <code>member</code></p>
 <h2 id="res">Res</h2>
 <h3 id="body">Body</h3>
-<blockquote>
-<p><code>development</code> &#x5F00;&#x53D1;&#x73AF;&#x5883;&#x4E0D;&#x4F1A;&#x53D1;&#x9001; <code>code</code>, &#x800C;&#x662F;&#x5728; <code>body</code> &#x4E2D;&#x8FD4;&#x56DE; <code>code</code>
-<code>production</code> &#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E0D;&#x4F1A;&#x5728; <code>body</code> &#x4E2D;&#x8FD4;&#x56DE; <code>code</code>, &#x800C;&#x662F;&#x8FD4;&#x56DE;&#x72B6;&#x6001;&#x7801; 200</p>
-</blockquote>
-<pre><code class="lang-js">HTTP/<span class="hljs-number">1.1</span> <span class="hljs-number">200</span> OK
-{
-  <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">123456</span>
-}
-</code></pre>
+<p><a href="../Coupon">Coupon</a></p>
 
                     
                     </section>
@@ -793,10 +759,10 @@
         </div>
 
         
-        <a href="../user/index.html" class="navigation navigation-prev " aria-label="Previous page: 用户"><i class="fa fa-angle-left"></i></a>
+        <a href="../coupon/index.html" class="navigation navigation-prev " aria-label="Previous page: 优惠码与优惠券"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../user/sign_up.html" class="navigation navigation-next " aria-label="Next page: 注册"><i class="fa fa-angle-right"></i></a>
+        <a href="../order/index.html" class="navigation navigation-next " aria-label="Next page: Order 订单"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

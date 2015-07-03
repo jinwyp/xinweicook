@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>通过短信发送验证码 | 新味 API 文档</title>
+        <title>优惠码与优惠券 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../user/sign_up.html" />
+    <link rel="next" href="../coupon/get_single_coupon.html" />
     
     
-    <link rel="prev" href="../user/index.html" />
+    <link rel="prev" href="../user/update_shoppingcart.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="4.1" data-basepath=".." data-revision="Fri Jul 03 2015 14:30:01 GMT+0800 (CST)">
+    <div class="book" data-level="5" data-basepath=".." data-revision="Fri Jul 03 2015 14:30:01 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -280,7 +280,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="4.1" data-path="user/send_verification_code_via_sms.html">
+        <li class="chapter " data-level="4.1" data-path="user/send_verification_code_via_sms.html">
             
                 
                     <a href="../user/send_verification_code_via_sms.html">
@@ -375,7 +375,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5" data-path="coupon/index.html">
+        <li class="chapter active" data-level="5" data-path="coupon/index.html">
             
                 
                     <a href="../coupon/index.html">
@@ -743,44 +743,35 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="req">Req</h2>
-<p>POST <code>/user/sms</code></p>
-<h3 id="body">Body</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">mobile</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">&#x624B;&#x673A;&#x53F7;</td>
-</tr>
-<tr>
-<td style="text-align:left">type</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left"><code>signUp</code>&#x6CE8;&#x518C; <code>verifyMobile</code>&#x9A8C;&#x8BC1;&#x624B;&#x673A;&#x53F7;, <code>resetPassword</code>&#x91CD;&#x7F6E;&#x5BC6;&#x7801;</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="lang-js">{
-  <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;18600000000&quot;</span>,
-  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;signUp&quot;</span>
-}
-</code></pre>
-<h2 id="res">Res</h2>
-<h3 id="body">Body</h3>
+                        <h1 id="coupon-%E4%BC%98%E6%83%A0%E5%88%B8%E4%B8%8E%E4%BC%98%E6%83%A0%E7%A0%81">Coupon &#x4F18;&#x60E0;&#x5238;&#x4E0E;&#x4F18;&#x60E0;&#x7801;</h1>
+<h4 id="%E4%BC%98%E6%83%A0%E5%88%B8%E5%92%8C%E4%BC%98%E6%83%A0%E7%A0%81%E5%B9%B6%E4%B8%8D%E7%9B%B8%E5%90%8C">&#x4F18;&#x60E0;&#x5238;&#x548C;&#x4F18;&#x60E0;&#x7801;&#x5E76;&#x4E0D;&#x76F8;&#x540C;</h4>
+<ul>
+<li><p>&#x4F18;&#x60E0;&#x5238; &#x662F;&#x76F4;&#x63A5;&#x53D1;&#x653E;&#x5230;&#x7528;&#x6237;&#x8D26;&#x6237;&#xFF0C;&#x4E0E;&#x7528;&#x6237;&#x7ED1;&#x5B9A;</p>
+</li>
+<li><p>&#x4F18;&#x60E0;&#x7801; &#x662F;&#x4E0D;&#x4E0E;&#x7528;&#x6237;&#x7ED1;&#x5B9A;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8BA2;&#x5355;&#x9875;&#x9762;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x4F18;&#x60E0;&#x7801;&#x8FDB;&#x884C;&#x8BA2;&#x5355;&#x91D1;&#x989D;&#x6253;&#x6298;&#x6263;</p>
+</li>
+<li><p>&#x4F18;&#x60E0;&#x7801;&#x53EF;&#x4EE5;&#x8F6C;&#x5316;&#x4E3A;&#x4F18;&#x60E0;&#x5238; &#x7528;&#x6237;&#x53EF;&#x4EE5;&#x5728;&#x7528;&#x6237;&#x4E2D;&#x5FC3;&#x76F4;&#x63A5;&#x8F93;&#x5165;&#x4F18;&#x60E0;&#x7801;&#x540E;&#x8FDB;&#x884C;&#x7ED1;&#x5B9A;&#xFF0C;&#x7ED1;&#x5B9A;&#x540E;&#x8BE5;&#x4F18;&#x60E0;&#x7801;&#x53EA;&#x80FD;&#x7531;&#x8BE5;&#x7528;&#x6237;&#x4F7F;&#x7528;&#xFF0C;&#x65E0;&#x6CD5;&#x8F6C;&#x79FB;&#x7ED9;&#x5176;&#x4ED6;&#x7528;&#x6237;</p>
+</li>
+</ul>
 <blockquote>
-<p><code>development</code> &#x5F00;&#x53D1;&#x73AF;&#x5883;&#x4E0D;&#x4F1A;&#x53D1;&#x9001; <code>code</code>, &#x800C;&#x662F;&#x5728; <code>body</code> &#x4E2D;&#x8FD4;&#x56DE; <code>code</code>
-<code>production</code> &#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E0D;&#x4F1A;&#x5728; <code>body</code> &#x4E2D;&#x8FD4;&#x56DE; <code>code</code>, &#x800C;&#x662F;&#x8FD4;&#x56DE;&#x72B6;&#x6001;&#x7801; 200</p>
+<p>code &#x5B57;&#x6BB5;&#x4E3A;&#x4F18;&#x60E0;&#x7801;</p>
 </blockquote>
-<pre><code class="lang-js">HTTP/<span class="hljs-number">1.1</span> <span class="hljs-number">200</span> OK
+<h2 id="coupon-%E8%8C%83%E4%BE%8B">Coupon &#x8303;&#x4F8B;</h2>
+<pre><code class="lang-js">
 {
-  <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">123456</span>
+  <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;55926f4e06d06ab2835cc454&quot;</span>,
+  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-07-02T02:35:17.963Z&quot;</span>,
+  <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-07-02T02:35:17.963Z&quot;</span>,
+  <span class="hljs-string">&quot;price&quot;</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;ZXC4PZFw6M&quot;</span>,
+  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;endDate&quot;</span>: <span class="hljs-string">&quot;2015-08-01T02:34:04.000Z&quot;</span>,
+  <span class="hljs-string">&quot;startDate&quot;</span>: <span class="hljs-string">&quot;2015-07-02T02:34:04.000Z&quot;</span>,
+  <span class="hljs-string">&quot;priceLimit&quot;</span>: <span class="hljs-number">60</span>,
+  <span class="hljs-string">&quot;name&quot;</span>: {
+    <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;&#x4F18;&#x60E0;&#x5238;555&quot;</span>,
+    <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;coupon555&quot;</span>
+  }
 }
 </code></pre>
 
@@ -793,10 +784,10 @@
         </div>
 
         
-        <a href="../user/index.html" class="navigation navigation-prev " aria-label="Previous page: 用户"><i class="fa fa-angle-left"></i></a>
+        <a href="../user/update_shoppingcart.html" class="navigation navigation-prev " aria-label="Previous page: 更新购物车"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../user/sign_up.html" class="navigation navigation-next " aria-label="Next page: 注册"><i class="fa fa-angle-right"></i></a>
+        <a href="../coupon/get_single_coupon.html" class="navigation navigation-next " aria-label="Next page: 获取单一优惠码信息"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
