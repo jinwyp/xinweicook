@@ -1,19 +1,32 @@
-var util = require('./weixinutil');
-var md5 = require('MD5');
+/**
+ * Module dependencies.
+ */
+
+
+var util    = require('./weixinutil');
+var md5     = require('MD5');
 var request = require('request');
-var xml2js = require('xml2js');
+var xml2js  = require('xml2js');
+var _       = require('lodash');
+
+
+
 
 
 
 // 基本配置
-var wxpay_config = {
-    appid: conf.weixinpay.appid,
-    mch_id: conf.weixinpay.mch_id,
+var configWeiXinPay = {
+    appid: "",
+    mch_id: "",
     secret: conf.weixinpay.secret,
-    key: conf.weixinpay.key
+    key: conf.weixinpay.key,
+
+    notify_url : "",
+
+    url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder"
+
+
 };
-
-
 
 
 
@@ -36,39 +49,82 @@ var sign = function(obj){
 
 
 
+/**
+ * Expose `createApplication()`.
+ */
+
+module.exports = createApplication;
+
+
+/**
+ * Create an express application.
+ *
+ * @return {Function}
+ * @api public
+ */
+
+function createApplication() {
+    var app = new weiXinPay(arguments[0]);
+    return app;
+}
+
+
+
+
+
+function weiXinPay() {
+
+    //default config
+    this.config = configWeiXinPay;
+    var tempConfig = arguments[0];
+    if (tempConfig){
+        this.config = _.assign (configWeiXinPay, tempConfig)
+    }
+
+}
+
+
+
+
+
 
 
 // 统一下单 https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=9_1
 
-exports.createUnifiedOrder = function (item, callback){
-
+weiXinPay.prototype.createUnifiedOrder = function (item, callback){
     var newOrder = {
-        appid: wxpay_config.appid,
-        mch_id: wxpay_config.mch_id,
-        //device_info : "WEB",
+        appid: this.config.appid,
+        mch_id: this.config.mch_id,
+        //device_info : "WEB", //终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         nonce_str: util.generateNonceString(),
+        notify_url: item.weixin_notify_url || this.config.notify_url,
 
-        out_trade_no: item.out_trade_no,
+        out_trade_no: item.out_trade_no || "sample out_trade_no",
         total_fee: item.total_fee || 1,
         spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
-        notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
-        trade_type: item.trade_type || 'NATIVE', //JSAPI，NATIVE，APP，WAP
-        openid: item.openid || "", //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
-        product_id : item.product_id, //trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        body:  item.body, //商品描述
-        detail:  item.detail, //商品详情
+        trade_type: item.trade_type || 'NATIVE', // JSAPI，NATIVE，APP，WAP
+        openid: item.openid || "sample openid", // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        product_id : item.product_id || "sample product_id", // trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        attach: item.attach, //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+        body:  item.body || "sample body 商品描述", //商品描述 商品或支付单简要描述
+
+        // 上面为必填 下面为选填
+        detail:  item.detail || "sample detail" , //商品详情 商品名称明细列表
+        attach: item.attach || "sample attach" , // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : item.goods_tag, //商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
         fee_type : item.fee_type || "CNY" //符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
 
     };
     newOrder.sign = sign (newOrder) ;
 
+    console.log (newOrder);
+    //下面处理buildXML toString() 方法报错
     for(var key in newOrder){
         newOrder[key] = newOrder[key].toString();
     }
+
+
     var opts = {
         method: 'POST',
         url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
@@ -77,15 +133,15 @@ exports.createUnifiedOrder = function (item, callback){
     };
 
     request(opts, function(err, response, body){
-        console.log("---------:", err);
-        console.log("---------:", response.statusCode);
-        console.log("---------:", body);
+        console.log("---------err :", err);
+        console.log("---------statusCode :", response.statusCode);
+        console.log("--------- body:", body);
 
         if (err) {
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
-                console.log("---------:", json);
+                console.log("--------- createUnifiedOrder json:", json);
                 if(json && json.xml && json.xml.prepay_id && json.xml.sign == sign(json.xml)){
                     return callback(null, {
                         prepay_id: json.xml.prepay_id,
@@ -318,3 +374,5 @@ var orderquery = exports.orderquery = function (out_trade_no, callback){
     })
 }
 */
+
+

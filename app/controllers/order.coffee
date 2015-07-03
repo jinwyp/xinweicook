@@ -2,6 +2,14 @@
 weixinpay = require "../libs/weixinpay"
 
 
+configWeiXinPay =
+  appid: conf.weixinpay.appid
+  mch_id: conf.weixinpay.mch_id
+  secret: conf.weixinpay.secret
+  key: conf.weixinpay.key
+  notify_url : ""
+
+
 
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
@@ -100,6 +108,9 @@ exports.addNewOrder = (req, res, next) ->
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
       console.log weixinpayOrder
+      weixinpay(configWeiXinPay)
+      console.log weixinpay.createUnifiedOrder()
+
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         console.log resultWeixinPay
         res.send resultWeixinPay
@@ -132,7 +143,7 @@ exports.updateOrder = (req, res, next) ->
 
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
-  console.log "------------------Order======== ::", req.body
+  console.log "========================OrderAlipayNotify :: ", req.body
   models.order.validationAlipayNotify req
 
   models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}
