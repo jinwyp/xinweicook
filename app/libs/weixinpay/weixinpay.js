@@ -3,11 +3,33 @@
  */
 
 
-var util    = require('./weixinutil');
 var md5     = require('MD5');
 var request = require('request');
 var xml2js  = require('xml2js');
 var _       = require('lodash');
+
+
+
+var util = {
+    buildXML : function(json){
+        var builder = new xml2js.Builder();
+        return builder.buildObject(json);
+    },
+    parseXML : function(xml, fn){
+        var parser = new xml2js.Parser({ trim:true, explicitArray:false, explicitRoot:false });
+        parser.parseString(xml, fn);
+    },
+    generateNonceString : function(length){
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var maxPos = chars.length;
+        var noceStr = "";
+        for (var i = 0; i < (length || 32); i++) {
+            noceStr += chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return noceStr;
+    }
+
+};
 
 
 
@@ -158,6 +180,33 @@ weiXinPay.prototype.sign = function(obj){
 
     querystring = querystring + "&key=" + this.config.key ;
     return md5( querystring ).toUpperCase();
+};
+
+
+
+weiXinPay.prototype.parserNotify = function(xml, callback){
+
+    util.parseXML(xml, callback);
+
+};
+
+
+weiXinPay.prototype.responseNotify = function(res, isFailed){
+
+    resSuccessObj= {
+        return_code : "SUCCESS",
+        return_msg : "OK"
+    };
+    resFailObj= {
+        return_code : "FAIL",
+        return_msg : ""
+    };
+
+    if (isFailed){
+        res.send ( util.buildXML( resFailObj ) )
+    }else{
+        res.send ( util.buildXML( resSuccessObj ) )
+    }
 };
 
 
@@ -381,5 +430,8 @@ var orderquery = exports.orderquery = function (out_trade_no, callback){
     })
 }
 */
+
+
+
 
 

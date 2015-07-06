@@ -44,7 +44,7 @@ erm.defaults
   findOneAndUpdate: false
   onError: (err, req, res, next) ->
     next err
-  middleware: libs.auth("admin")
+  middleware: libs.auth("member")
   # protected: "__v"
   # prereq: (req) ->
   #   true

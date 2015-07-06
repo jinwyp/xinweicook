@@ -18,7 +18,7 @@ couponController = require "./controllers/coupon.coffee"
 expressRoutes = (app) ->
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-
+  app.post("/api/orders/payment/weixinpay/mobile", orderController.updateOrderWeixinPayNotify)
 
   app.use libs.secure.middleware
 
@@ -52,7 +52,7 @@ expressRoutes = (app) ->
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
 
-  app.post("/api/orders/payment/weixinpay/mobile", orderController.updateOrderAlipayNotify)
+
 
 
 

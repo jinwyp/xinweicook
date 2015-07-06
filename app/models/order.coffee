@@ -57,11 +57,22 @@ module.exports =
       buyer_id : type : String
 
     paymentWeixinpay :
-      nonce_str : type: String
+      nonce_str : type: String # 微信返回的随机字符串
       sign : type: String
-      trade_type : type: String
-      prepay_id: type: String
-      code_url: type: String
+      trade_type : type: String # 调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
+      prepay_id: type: String # 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
+      code_url: type: String # trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
+      device_info : type: String
+      bank_type : type: String
+      total_fee : type: Number #总金额
+      fee_type : type: String
+      cash_fee : type: Number # 现金支付金额
+      cash_fee_type : type: String # 现金支付货币类型
+      coupon_fee : type: Number
+      coupon_count : type: Number #代金券或立减优惠使用数量
+      transaction_id : type: String
+      time_end : type: String
+
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
@@ -165,10 +176,15 @@ module.exports =
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
-    validationAlipayNotify : (req) ->
-        unless libs.validator.isLength req.body.out_trade_no, 21, 22
+    validationAlipayNotify : (order) ->
+        unless libs.validator.isLength order.out_trade_no, 21, 22
           return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
+    validationWeixinPayNotify : (order) ->
+      unless libs.validator.isLength order.return_code, 4, 7
+        return throw new Err "Field validation error,  return_code must be 4-7", 400
+      unless libs.validator.isLength order.out_trade_no, 21, 22
+        return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
   }
   methods: {}
   rest: {}

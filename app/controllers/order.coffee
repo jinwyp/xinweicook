@@ -152,7 +152,7 @@ exports.updateOrder = (req, res, next) ->
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
   console.log "========================OrderAlipayNotify :: ", req.body
-  models.order.validationAlipayNotify req
+  models.order.validationAlipayNotify req.body
 
   models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}
 #  .populate "preferences.foodMaterial.dish"
@@ -192,19 +192,43 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 
     resultOrder.saveAsync()
-  .spread (resultOrder, numberAffected) ->
+  .spread (resultOrder2, numberAffected) ->
     res.set('Content-Type', 'text/plain');
     res.send "success"
   .catch next
 
 
 
-weixinCreateUnifiedOrder = (newOrder, callback) ->
-  newOrder =
-    body: '扫码支付测试',
-    out_trade_no: '20140703'+Math.random().toString().substr(2, 10),
-    total_fee: 1,
-    spbill_create_ip: '192.168.2.210',
-    notify_url: 'http://wxpay_notify_url',
-    trade_type: 'NATIVE',
-    product_id: '1234567890'
+exports.updateOrderWeixinPayNotify = (req, res, next) ->
+  console.log "========================OrderWeixinPayNotify :: ", req.body
+
+  weixinpay.parserNotify req.body, (err, resWeixinPay)->
+    if err
+      next new Err err
+      
+    models.order.validationWeixinPayNotify resWeixinPay
+
+    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.OrderStatus().notpaid}
+    .execAsync()
+    .then (resultOrder) ->
+      models.order.OrderNotFound(resultOrder)
+
+      resultOrder.isPaymentPaid = true
+      resultOrder.status = models.order.OrderStatus().paid
+
+      resultOrder.paymentWeixinpay =
+        bank_type : resWeixinPay.bank_type
+        total_fee : resWeixinPay.total_fee
+        fee_type : resWeixinPay.fee_type
+        cash_fee : resWeixinPay.cash_fee
+        cash_fee_type : resWeixinPay.cash_fee_type
+        coupon_fee : resWeixinPay.coupon_fee
+        transaction_id : resWeixinPay.transaction_id
+        time_end : resWeixinPay.time_end
+
+      resultOrder.saveAsync()
+    .spread (resultOrder2, numberAffected) ->
+      weixinpay.responseNotify res, false
+
+    .catch next
+
