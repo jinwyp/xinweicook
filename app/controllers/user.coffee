@@ -45,9 +45,12 @@ exports.userInfo = (req, res, next) ->
 exports.updateUserInfo = (req, res, next) ->
   # 修改用户信息 收货地址
 
-  models.user.validationUserInfo req
+  models.user.validationUserInfo req.body
 
   req.u.address = req.body.address
+  req.u.gender.zh = req.body.gender.zh if req.body.gender
+  req.u.gender.en = req.body.gender.en if req.body.gender
+
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->
     resultUser.populate({path: 'shoppingCart.dish', select: models.dish.fields()})
@@ -58,10 +61,11 @@ exports.updateUserInfo = (req, res, next) ->
 
 
 
+
 exports.updateShoppingCart = (req, res, next) ->
   # 加入购物车
 
-  models.user.validationShoppingCart req
+  models.user.validationShoppingCart req.body
 
   req.u.shoppingCart = req.body.shoppingCart
   req.u.saveAsync()

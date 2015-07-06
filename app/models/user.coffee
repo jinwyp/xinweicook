@@ -53,11 +53,19 @@ module.exports =
   statics:
     fields : ->
       selectFields = "-pwd"
-    validationUserInfo : (req) ->
-      unless Array.isArray req.body.address
+    validationUserInfo : (updateUser) ->
+      if updateUser.gender
+        if updateUser.gender.zh
+          unless libs.validator.isLength updateUser.gender.zh, 2, 20
+            return throw new Err "Field validation error,  gender must be 2-20", 400
+        if updateUser.gender.en
+          unless libs.validator.isLength updateUser.gender.en, 4, 20
+            return throw new Err "Field validation error,  gender must be 4-20", 400
+
+      unless Array.isArray updateUser.address
         throw new Err "Field validation error,  address must be ArrayObject", 400
       else
-        for address,addressIndex in req.body.address
+        for address,addressIndex in updateUser.address
           unless libs.validator.isInt address.geoLatitude, {min: 1, max: 9999}
             return throw new Err "Field validation error,  geoLatitude must be 1-9999", 400
           unless libs.validator.isInt address.geoLongitude, {min: 1, max: 9999}
@@ -69,11 +77,11 @@ module.exports =
           unless libs.validator.isLength address.district, 2, 99
             return throw new Err "Field validation error,  district must be 2-99", 400
 
-    validationShoppingCart : (req) ->
-      unless Array.isArray req.body.shoppingCart
+    validationShoppingCart : (updateUser) ->
+      unless Array.isArray updateUser.shoppingCart
         throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
       else
-        for dish,dishIndex in req.body.shoppingCart
+        for dish,dishIndex in updateUser.shoppingCart
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24
