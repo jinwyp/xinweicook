@@ -48,8 +48,7 @@ exports.updateUserInfo = (req, res, next) ->
   models.user.validationUserInfo req.body
 
   req.u.address = req.body.address
-  req.u.gender.zh = req.body.gender.zh if req.body.gender
-  req.u.gender.en = req.body.gender.en if req.body.gender
+  req.u.gender = req.body.gender if req.body.gender
 
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->

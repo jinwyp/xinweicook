@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>获取单一订单 | 新味 API 文档</title>
+        <title>支付状态通知微信 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../order/add_new_order.html" />
+    <link rel="next" href="../order/deliver_time.html" />
     
     
-    <link rel="prev" href="../order/get_orders.html" />
+    <link rel="prev" href="../order/payment_notify_alipaydirect.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="6.2" data-basepath=".." data-revision="Mon Jul 06 2015 18:13:21 GMT+0800 (CST)">
+    <div class="book" data-level="6.6" data-basepath=".." data-revision="Mon Jul 06 2015 18:13:21 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -442,7 +442,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.2" data-path="order/get_single_order.html">
+        <li class="chapter " data-level="6.2" data-path="order/get_single_order.html">
             
                 
                     <a href="../order/get_single_order.html">
@@ -502,7 +502,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.6" data-path="order/payment_notify_weixinpay.html">
+        <li class="chapter active" data-level="6.6" data-path="order/payment_notify_weixinpay.html">
             
                 
                     <a href="../order/payment_notify_weixinpay.html">
@@ -760,11 +760,31 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>GET <code>/orders/:_id</code></p>
-<p>Group <code>member</code></p>
+<p>POST <code>/orders/payment/weixinpay/mobile</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">out_trade_no</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x8BA2;&#x5355;&#x53F7;orderNumber</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;out_trade_no&quot;</span>: <span class="hljs-string">&quot;201507021144282581219&quot;</span>
+}
+</code></pre>
 <h2 id="res">Res</h2>
 <h3 id="body">Body</h3>
-<p><a href="../Order">Orders</a></p>
+<p>&#x8FD4;&#x56DE;&#x7ED9;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8;&#x670D;&#x52A1;&#x5668; success</p>
+<p><a href="https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=9_7&amp;index=3" target="_blank">&#x76F8;&#x5173;&#x6587;&#x6863; &#x652F;&#x4ED8;&#x7ED3;&#x679C;&#x901A;&#x7528;&#x901A;&#x77E5;</a></p>
 
                     
                     </section>
@@ -775,10 +795,10 @@
         </div>
 
         
-        <a href="../order/get_orders.html" class="navigation navigation-prev " aria-label="Previous page: 获取该用户的所有订单"><i class="fa fa-angle-left"></i></a>
+        <a href="../order/payment_notify_alipaydirect.html" class="navigation navigation-prev " aria-label="Previous page: 支付状态通知支付宝即时到账"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../order/add_new_order.html" class="navigation navigation-next " aria-label="Next page: 生成新订单"><i class="fa fa-angle-right"></i></a>
+        <a href="../order/deliver_time.html" class="navigation navigation-next " aria-label="Next page: 配送时间计算"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

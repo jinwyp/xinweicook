@@ -28,7 +28,7 @@
    * [生成新订单](order/add_new_order.md)
    * [更新订单与支付状态](order/update_order.md)
    * [支付状态通知支付宝即时到账](order/payment_notify_alipaydirect.md)
-   * [支付状态通知微信](order/payment_notify_wechat.md)
+   * [支付状态通知微信](order/payment_notify_weixinpay.md)
    * [配送时间计算](order/deliver_time.md)
 * [Dish 菜品](dish/README.md)
    * [获取菜品筛选项](dish/get_tag_filters.md)

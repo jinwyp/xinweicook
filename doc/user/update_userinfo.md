@@ -8,6 +8,7 @@ Group `member`
 ### Body
 | Name                  | Type   | Desc    |
 |:-------               |:-------|:------- |
+| gender                | Number |  性别 1 male 2 female    |
 | address               | Array  | 收货地址  |
 |   -> geoLatitude      | Number | 纬度     |
 |   -> geoLongitude     | Number | 经度     |

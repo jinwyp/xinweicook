@@ -10,7 +10,7 @@ module.exports =
     mobile: type: String, unique: true,trim:true
     email: type: String, sparse: true, unique: true, trim:true, lowercase:true
     username: type:String, trim:true
-    gender: zh:String, en:String
+    gender: Number # 1 male 2 female
 
     address: [
       geoLatitude: Number # 纬度
@@ -55,12 +55,8 @@ module.exports =
       selectFields = "-pwd"
     validationUserInfo : (updateUser) ->
       if updateUser.gender
-        if updateUser.gender.zh
-          unless libs.validator.isLength updateUser.gender.zh, 2, 20
-            return throw new Err "Field validation error,  gender must be 2-20", 400
-        if updateUser.gender.en
-          unless libs.validator.isLength updateUser.gender.en, 4, 20
-            return throw new Err "Field validation error,  gender must be 4-20", 400
+          unless libs.validator.isInt updateUser.gender, {min: 1, max: 9}
+            return throw new Err "Field validation error,  gender must be 1-9", 400
 
       unless Array.isArray updateUser.address
         throw new Err "Field validation error,  address must be ArrayObject", 400
