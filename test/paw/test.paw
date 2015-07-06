@@ -2127,7 +2127,7 @@
         <attribute name="name" type="string">coupon-initNewCoupon</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z332 z330 z329"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z332 z329 z330"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z332">
         <attribute name="order" type="int64">3</attribute>
