@@ -172,6 +172,49 @@
   "__v": 0,
   "statisticViews": 0,
   "statisticLike": 0,
+  "statisticLikeUserList": [
+      {
+        "_id": "559a1d9dfd69a2071deac899",
+        "modifiedAt": "2015-07-06T09:34:45.909Z",
+        "createdAt": "2015-07-06T06:18:05.916Z",
+        "id": 0,
+        "mobile": "18600000000",
+        "__v": 16,
+        "dishLikeList": [
+          "558a602a3eba152266ff2b8c",
+          "558a602a3eba152266ff2b8c"
+        ],
+        "couponList": [
+          "55926f4b06d06ab2835cc444"
+        ],
+        "shoppingCart": [],
+        "isPromoOn": true,
+        "isSpam": false,
+        "credit": 0,
+        "address": [
+          {
+            "geoLatitude": 20,
+            "geoLongitude": 20,
+            "country": "china",
+            "province": "shanghai",
+            "city": "shanghai",
+            "district": "shanghai",
+            "street": "枫林路",
+            "address": "510号",
+            "contactPerson": "xinwei",
+            "mobile": "13564568304",
+            "alias": "",
+            "remark": "",
+            "_id": "559a4a60cc04631053d9ccc4",
+            "isDefault": false,
+            "isValid": false,
+            "isTemporary": false
+          }
+        ],
+        "group": "member"
+      }
+    ],
+
   "statisticSales": 0,
   "statisticHot": 0,
   "recommendSet": [],

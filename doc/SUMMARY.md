@@ -34,6 +34,7 @@
    * [获取菜品筛选项](dish/get_tag_filters.md)
    * [获取所有菜品](dish/get_dishes.md)
    * [获取单一菜品](dish/get_single_dish.md)
+   * [点赞和取消点赞单一菜品](dish/like_single_dish.md)
 * [Article 文章](article/README.md)
    * [获取所有文章](article/get_articles.md)
    * [获取单一文章](article/get_single_article.md)
