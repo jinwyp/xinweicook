@@ -205,7 +205,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
   weixinpay.parserNotify req.body, (err, resWeixinPay)->
     if err
       next new Err err
-      
+
     models.order.validationWeixinPayNotify resWeixinPay
 
     models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.OrderStatus().notpaid}
