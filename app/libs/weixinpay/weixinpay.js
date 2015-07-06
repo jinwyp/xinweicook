@@ -127,7 +127,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         newOrder[key] = newOrder[key].toString();
     }
 
-
+    //console.log("========== WeixinPay createUnifiedOrder:", newOrder);
     var opts = {
         method: 'POST',
         url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',

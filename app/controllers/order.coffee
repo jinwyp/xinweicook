@@ -7,7 +7,7 @@ configWeiXinPay =
   mch_id: conf.weixinpay.mch_id
   secret: conf.weixinpay.secret
   key: conf.weixinpay.key
-  notify_url : "http://192.168.1.1/api/orders/payment/weixinpay/mobile"
+  notify_url : conf.url.base + conf.weixinpay.notify_url
 
 weixinpay = WXPay(configWeiXinPay)
 

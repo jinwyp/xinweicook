@@ -49,7 +49,7 @@ conf =
     mch_id: "1231161502"
     secret: "5e21fb82b13330f462bcf4a008a3670c"
     key: "Gothicjk1129xinwei789tencentsbsb"
-
+    notify_url : "/api/orders/payment/weixinpay/mobile"
 
   code:
     trys: 5
