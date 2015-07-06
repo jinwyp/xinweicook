@@ -74,12 +74,30 @@ module.exports =
     statisticHot: type: Number, default: 0 # 热度
     statisticSales: type: Number, default: 0 # 销量
     statisticLike: type: Number, default: 0 # 赞数
+    statisticLikeUserList: [ # 赞过的用户
+      type: Schema.ObjectId, ref: "user"
+    ]
     statisticViews: type: Number, default: 0 # 浏览量
 
 
   statics:
     fields : ->
       selectFields = "-topping -preferences"
+
+    DishNotFound : (dish) ->
+      if not dish
+        return throw new Err "Dish ID or dish not found !", 400
+
+    validationDishId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  dishID length must be 24-24", 400
+
+    validationNewDish : (dish) ->
+      unless libs.validator.isLength dish.sideDishType, 2,10
+        return throw new Err "Field validation error,  sideDish must be 2-10", 400
+
+    find1 : (options) ->
+      @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate("statisticLikeUserList").execAsync()
 
   methods: {
     getPrice : (number) ->

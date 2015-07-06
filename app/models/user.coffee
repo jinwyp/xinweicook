@@ -10,6 +10,7 @@ module.exports =
     mobile: type: String, unique: true,trim:true
     email: type: String, sparse: true, unique: true, trim:true, lowercase:true
     username: type:String, trim:true
+    gender: zh:String, en:String
 
     address: [
       geoLatitude: Number # 纬度
@@ -47,6 +48,7 @@ module.exports =
     ]
 
     couponList :[type: Schema.ObjectId, ref: "coupon"]
+    dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
   statics:
     fields : ->
@@ -118,9 +120,10 @@ module.exports =
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
           t.user
+          .populate({path: 'dishLikeList'})
           .populate({path: 'couponList'})
-          .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-          .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+          .populate({path: 'shoppingCart.dish'})
+          .populateAsync({path: 'shoppingCart.subDish.dish'})
         else
           throw new Err "找不到该用户", 404
       ).then(@UserFound).then(@UserNotSpam)

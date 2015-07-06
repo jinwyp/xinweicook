@@ -17,17 +17,41 @@ exports.dishList = (req, res, next) ->
 
 
 exports.dishSingleInfo = (req, res, next) ->
-  # 获取菜品
 
-  models.dish.findOne _id: req.params._id
-  .populate "cook.user"
-  .populate "preferences.foodMaterial.dish"
-  .populate "topping"
-  .execAsync()
-  .then (dish) ->
-    res.json dish
-  , next
+  models.dish.validationDishId req.params._id
 
+  models.dish.find1(_id: req.params._id).then (resultDish) ->
+    models.dish.DishNotFound resultDish
+
+    res.json resultDish
+  .catch next
+
+
+
+
+exports.updateDishStatisticLike = (req, res, next) ->
+
+  models.dish.validationDishId req.params._id
+
+  models.dish.findOne(_id: req.params._id).then (resultDish) ->
+    models.dish.DishNotFound resultDish
+
+    if resultDish.statisticLikeUserList.indexOf(req.u._id) > -1
+      resultDish.statisticLike = resultDish.statisticLike - 1
+      resultDish.statisticLikeUserList.splice(resultDish.statisticLikeUserList.indexOf(req.u._id), 1)
+      req.u.dishLikeList.splice(req.u.dishLikeList.indexOf(resultDish._id), 1)
+    else
+      resultDish.statisticLikeUserList.push(req.u._id)
+      req.u.dishLikeList.push(resultDish._id)
+      resultDish.statisticLike = resultDish.statisticLike + 1
+
+    req.u.saveAsync()
+    resultDish.saveAsync()
+  .spread (resultDish2, numberAffected) ->
+    resultDish2.populateAsync("statisticLikeUserList", models.user.fields())
+  .then (resultDish3) ->
+    res.json resultDish3
+  .catch next
 
 
 
@@ -35,9 +59,7 @@ exports.dishSingleInfo = (req, res, next) ->
 
 exports.addNewDish = (req, res, next) ->
   # 新建菜品
-
-  unless libs.validator.isLength req.body.sideDishType, 2,10
-    throw new Err "Field validation error,  sideDish must be 2-10", 400
+  models.dish.validationNewDish req.body
 
   createDish = _.assign createDish, req.body
 

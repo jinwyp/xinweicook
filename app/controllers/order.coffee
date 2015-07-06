@@ -12,9 +12,11 @@ configWeiXinPay =
 weixinpay = WXPay(configWeiXinPay)
 
 
+
+
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
-  models.order.validationGetOrderList req
+  models.order.validationGetOrderList req.query
 
   models.order.find user: req.u._id
   .sort "-createdAt"
@@ -31,10 +33,14 @@ exports.orderListByUser = (req, res, next) ->
 
 exports.orderSingleInfo = (req, res, next) ->
   # 获取某个订单
+  models.order.validationOrderId req.params._id
+
   models.dish.findOneAsync _id: req.params._id
   .then (dish) ->
     res.json dish
   , next
+
+
 
 
 
@@ -131,7 +137,8 @@ exports.addNewOrder = (req, res, next) ->
 
 exports.updateOrder = (req, res, next) ->
   # 修改订单
-  models.order.validationUpdateOrder req
+  models.order.validationOrderId req.params._id
+  models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
 #  .populate "preferences.foodMaterial.dish"
@@ -199,6 +206,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 
 
+
 exports.updateOrderWeixinPayNotify = (req, res, next) ->
   console.log "========================OrderWeixinPayNotify :: ", req.body
 
@@ -217,6 +225,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
       resultOrder.status = models.order.OrderStatus().paid
 
       resultOrder.paymentWeixinpay =
+        openid : resWeixinPay.openid
         bank_type : resWeixinPay.bank_type
         total_fee : resWeixinPay.total_fee
         fee_type : resWeixinPay.fee_type

@@ -24,6 +24,8 @@ expressRoutes = (app) ->
 
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
+  app.put("/api/dishes/:_id/like", libs.auth("member"), dishController.updateDishStatisticLike)
+
 
   app.get("/api/articles", articleController.articleList)
   app.get("/api/articles/:_id", articleController.articleSingleInfo)

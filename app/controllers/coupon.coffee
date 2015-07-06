@@ -46,10 +46,12 @@ exports.assignCouponToUser = (req, res, next) ->
       models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
     .then (resultCoupon) ->
       models.coupon.CouponNotFound resultCoupon
+
       if dataUser.couponList.indexOf(resultCoupon._id) > -1
         throw new Err "user already have this coupon", 400
       if resultCoupon.user
         throw new Err "coupon already belong to other user", 400
+
       dataUser.couponList.push resultCoupon._id
       dataUser.saveAsync()
       resultCoupon.user = dataUser._id.toString()

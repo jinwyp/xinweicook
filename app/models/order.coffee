@@ -62,7 +62,9 @@ module.exports =
       trade_type : type: String # 调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
       prepay_id: type: String # 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
       code_url: type: String # trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
-      device_info : type: String
+
+      device_info : type: String  # 下面是通知返回字段
+      openid : type: String
       bank_type : type: String
       total_fee : type: Number #总金额
       fee_type : type: String
@@ -125,17 +127,19 @@ module.exports =
         weixinpay : "weixinpay"
         paypal : "paypal"
 
-    validationGetOrderList : (req) ->
-      if req.query.skip
-        unless libs.validator.isInt req.query.skip, {min: 0}
+    validationOrderId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  orderID length must be 24-24", 400
+
+    validationGetOrderList : (query) ->
+      if query.skip
+        unless libs.validator.isInt query.skip, {min: 0}
           return throw new Err "Field validation error,  query skip must be integer", 400
       else
-        req.query.skip = 0
+        query.skip = 0
 
-    validationUpdateOrder : (req) ->
-      unless libs.validator.isLength req.params._id, 24, 24
-        return throw new Err "Field validation error,  orderID length must be 24-24", 400
-      unless libs.validator.isBoolean req.body.isPaymentPaid
+    validationUpdateOrder : (order) ->
+      unless libs.validator.isBoolean order.isPaymentPaid
         return throw new Err "Field validation error,  paymentStatus must be true or false", 400
 
     validationNewOrder : (newOrder) ->
