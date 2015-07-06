@@ -1,5 +1,5 @@
 # 订单
-weixinpay = require "../libs/weixinpay"
+WXPay = require "../libs/weixinpay/weixinpay"
 
 
 configWeiXinPay =
@@ -7,8 +7,9 @@ configWeiXinPay =
   mch_id: conf.weixinpay.mch_id
   secret: conf.weixinpay.secret
   key: conf.weixinpay.key
-  notify_url : ""
+  notify_url : "http://192.168.1.1/api/orders/payment/weixinpay/mobile"
 
+weixinpay = WXPay(configWeiXinPay)
 
 
 exports.orderListByUser = (req, res, next) ->
@@ -39,7 +40,7 @@ exports.orderSingleInfo = (req, res, next) ->
 
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
-  models.order.validationNewOrder req
+  models.order.validationNewOrder req.body
 
   dishIdList = []
   dishNumberList = {}
@@ -89,6 +90,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
     newOrder.dishHistory = dishHistoryList
     models.order.createAsync newOrder
+
   .then (resultOrder) ->
 
     if resultOrder.payment is models.order.OrderPayment().weixinpay
@@ -96,8 +98,9 @@ exports.addNewOrder = (req, res, next) ->
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice
 #        spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+
 #        notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
-#        trade_type: item.trade_type || 'NATIVE', //JSAPI，NATIVE，APP，WAP
+        trade_type: "NATIVE" #JSAPI，NATIVE，APP，WAP
 #      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
@@ -107,16 +110,21 @@ exports.addNewOrder = (req, res, next) ->
         attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
-      console.log weixinpayOrder
-      weixinpay(configWeiXinPay)
-      console.log weixinpay.createUnifiedOrder()
-
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
-        console.log resultWeixinPay
-        res.send resultWeixinPay
+        if err
+          next new Err err
+
+        resultOrder.paymentWeixinpay =
+          nonce_str : resultWeixinPay.nonce_str
+          sign : resultWeixinPay.sign
+          trade_type : resultWeixinPay.trade_type
+          prepay_id: resultWeixinPay.prepay_id
+          code_url: resultWeixinPay.code_url
+        resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
+          res.json resultOrder2
     else
       res.json resultOrder
-  , next
+  .catch next
 
 
 

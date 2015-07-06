@@ -29,6 +29,7 @@ module.exports =
     payment: String # 支付方式 alipay direct / weixinpay / paypal
     paymentUsedCash: type: Boolean # 是否现金支付
     isPaymentPaid: type: Boolean, default: false # 未支付 已支付
+
     paymentAlipay :
       notify_time : type: String
       notify_type : type: String
@@ -55,6 +56,12 @@ module.exports =
       seller_id : type : String
       buyer_id : type : String
 
+    paymentWeixinpay :
+      nonce_str : type: String
+      sign : type: String
+      trade_type : type: String
+      prepay_id: type: String
+      code_url: type: String
 
     status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
@@ -120,31 +127,39 @@ module.exports =
       unless libs.validator.isBoolean req.body.isPaymentPaid
         return throw new Err "Field validation error,  paymentStatus must be true or false", 400
 
-    validationNewOrder : (req) ->
-      unless libs.validator.isLength req.body.cookingType, 3, 30
-        throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength req.body.userComment, 0, 300
-        throw new Err "Field validation error,  userComment must be string", 400
-      unless libs.validator.isLength req.body.clientFrom, 2, 100
-        throw new Err "Field validation error,  clientFrom must be string", 400
-      unless libs.validator.isInt req.body.credit, {min: 0}
+    validationNewOrder : (newOrder) ->
+      unless libs.validator.isLength newOrder.cookingType, 3, 30
+        return throw new Err "Field validation error,  cookingType must be string", 400
+      unless libs.validator.isLength newOrder.userComment, 0, 300
+        return throw new Err "Field validation error,  userComment must be string", 400
+      unless libs.validator.isLength newOrder.clientFrom, 2, 100
+        return throw new Err "Field validation error,  clientFrom must be string", 400
+      unless libs.validator.isInt newOrder.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isLength req.body.coupon, 24, 24
+      unless libs.validator.isLength newOrder.coupon, 24, 24
         return throw new Err "Field validation error,  coupon id length must be 24-24", 400
-      unless libs.validator.isLength req.body.promotionCode, 6, 30
+      unless libs.validator.isLength newOrder.promotionCode, 6, 30
         return throw new Err "Field validation error,  promotionCode id length must be 6-30", 400
-      unless libs.validator.isLength req.body.payment, 4, 30
+      unless libs.validator.isLength newOrder.payment, 4, 30
         return throw new Err "Field validation error,  payment length must be 4-30", 400
-      unless libs.validator.isBoolean req.body.paymentUsedCash
+
+      if newOrder.payment is @OrderPayment().weixinpay
+        unless libs.validator.isIP newOrder.spbill_create_ip
+          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
+        unless libs.validator.isLength newOrder.trade_type, 3,7
+          return throw new Err "Field validation error,  trade_type length must be 3-7", 400
+
+      unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
-      unless libs.validator.isLength req.body.deliveryTime, 2, 2
+      unless libs.validator.isLength newOrder.deliveryTime, 2, 2
         return throw new Err "Field validation error,  deliveryTime length must be 2-2", 400
-      unless libs.validator.isLength req.body.deliveryDate, 10, 10
+      unless libs.validator.isLength newOrder.deliveryDate, 10, 10
         return throw new Err "Field validation error,  deliveryTime length must be 10-10", 400
-      unless Array.isArray req.body.dishList
-        throw new Err "Field validation error,  dishList must be ArrayObject", 400
+
+      unless Array.isArray newOrder.dishList
+        return throw new Err "Field validation error,  dishList must be ArrayObject", 400
       else
-        for dish,dishIndex in req.body.dishList
+        for dish,dishIndex in newOrder.dishList
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24

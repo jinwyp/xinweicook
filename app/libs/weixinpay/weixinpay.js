@@ -16,36 +16,19 @@ var _       = require('lodash');
 
 // 基本配置
 var configWeiXinPay = {
-    appid: "",
-    mch_id: "",
-    secret: conf.weixinpay.secret,
-    key: conf.weixinpay.key,
+    appid: "",  //公众账号ID
+    mch_id: "", //商户号
 
-    notify_url : "",
+    secret: "",
+    key: "",
+
+    notify_url : "http://pay.weixin.qq.com",
 
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder"
 
 
 };
 
-
-
-// 签名
-var sign = function(obj){
-    var querystring = Object.keys(obj)
-        .filter(function (key) {
-            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
-        })
-        .sort()
-        .map(function (key) {
-            return key + "=" + obj[key];
-        })
-        .join("&");
-
-    querystring = querystring + "&key=" + wxpay_config.key ;
-
-    return md5( querystring ).toUpperCase();
-};
 
 
 
@@ -72,13 +55,12 @@ function createApplication() {
 
 
 
-function weiXinPay() {
+function weiXinPay(config) {
 
     //default config
     this.config = configWeiXinPay;
-    var tempConfig = arguments[0];
-    if (tempConfig){
-        this.config = _.assign (configWeiXinPay, tempConfig)
+    if (typeof config === "object"){
+        this.config = _.assign (configWeiXinPay, config)
     }
 
 }
@@ -93,18 +75,18 @@ function weiXinPay() {
 
 weiXinPay.prototype.createUnifiedOrder = function (item, callback){
     var newOrder = {
-        appid: this.config.appid,
-        mch_id: this.config.mch_id,
+        appid: this.config.appid,  //微信分配的公众账号ID
+        mch_id: this.config.mch_id, //微信支付分配的商户号
         //device_info : "WEB", //终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         nonce_str: util.generateNonceString(),
         notify_url: item.weixin_notify_url || this.config.notify_url,
 
-        out_trade_no: item.out_trade_no || "sample out_trade_no",
+        out_trade_no: item.out_trade_no || "sample out_trade_no", //商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
         total_fee: item.total_fee || 1,
         spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         trade_type: item.trade_type || 'NATIVE', // JSAPI，NATIVE，APP，WAP
-        openid: item.openid || "sample openid", // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        openid: item.openid || "", // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : item.product_id || "sample product_id", // trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
         body:  item.body || "sample body 商品描述", //商品描述 商品或支付单简要描述
@@ -116,9 +98,8 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         fee_type : item.fee_type || "CNY" //符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
 
     };
-    newOrder.sign = sign (newOrder) ;
+    newOrder.sign = this.sign (newOrder, this.config.key) ;
 
-    console.log (newOrder);
     //下面处理buildXML toString() 方法报错
     for(var key in newOrder){
         newOrder[key] = newOrder[key].toString();
@@ -133,28 +114,54 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
     };
 
     request(opts, function(err, response, body){
-        console.log("---------err :", err);
-        console.log("---------statusCode :", response.statusCode);
-        console.log("--------- body:", body);
+        //console.log("========== WeixinPay createUnifiedOrder error:", err);
 
         if (err) {
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
-                console.log("--------- createUnifiedOrder json:", json);
-                if(json && json.xml && json.xml.prepay_id && json.xml.sign == sign(json.xml)){
+                //console.log("========== WeixinPay createUnifiedOrder body json:", json);
+                if(json && json.return_code === "SUCCESS" && json.result_code === "SUCCESS" && json.prepay_id ){
                     return callback(null, {
-                        prepay_id: json.xml.prepay_id,
-                        out_trade_no: out_trade_no
+                        return_code: json.return_code,
+                        return_msg: json.return_msg,
+                        result_code: json.result_code,
+                        trade_type: json.trade_type, //调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
+                        prepay_id: json.prepay_id,  //微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
+                        code_url: json.code_url, //trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
+                        nonce_str: json.nonce_str,
+                        sign: json.sign,
+                        out_trade_no: newOrder.out_trade_no
                     });
                 }else{
-                    return  callback("invalid prepay_id");
+                    return  callback("WeixinPay invalid prepay_id and " + json.return_msg + " and " + json.err_code);
                 }
             })
         }
 
     })
 };
+
+
+
+
+weiXinPay.prototype.sign = function(obj){
+    var querystring = Object.keys(obj)
+        .filter(function (key) {
+            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+        })
+        .sort()
+        .map(function (key) {
+            return key + "=" + obj[key];
+        })
+        .join("&");
+
+    querystring = querystring + "&key=" + this.config.key ;
+    return md5( querystring ).toUpperCase();
+};
+
+
+
 /*
 
 // 支付结果通用通知
