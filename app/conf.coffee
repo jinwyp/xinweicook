@@ -34,9 +34,9 @@ conf =
         "en-US": "Verification Code: "
         "zh-CN": "验证码: "
   yunpian:
-    apikey: "4aba5d380c442c3729c1bbc5035527dd"
+    apikey: "4aba5d380c442c3729c1bbc5035527dd"  # https://www.yunpian.com/api/sms.html
     url: "http://yunpian.com/v1/sms/send.json"
-    text: (lang, code) ->
+    template1: (code, lang) ->
       if lang is "en-US"
         "【新味食材包】Your verification code is #{code}."
       else
@@ -53,7 +53,7 @@ conf =
 
   code:
     trys: 5
-    sends: 10
+    sends: 20
     expire: 5 # mins
 
   token:

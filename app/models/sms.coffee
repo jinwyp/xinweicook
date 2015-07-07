@@ -2,7 +2,7 @@
 module.exports =
   schema:
     user: type: Schema.ObjectId, ref: "user"
-    type: String #
+    type: String
     code: String
     mobile: String
     sends: Number
@@ -27,24 +27,28 @@ module.exports =
       request(opts)
       .bind({})
       .spread((resp, body) ->
-        # logger.debug "sms", resp.statusCode
-        # logger.debug "sms", body
-        @statusCode = resp.statusCode
-        @body = body
-        libs.parse.json(body).should.have.property("code", 0)
-      ).catch (e)->
-        @err = e
-        logger.error "sms", @
-        throw new Err "短信发送失败", 500
+#        logger.debug "-----sendSMSYunpian", resp.statusCode
+#        logger.debug "sms", body
+#        @statusCode = resp.statusCode
+        result = JSON.parse(body)
+        if result.code isnt 0
+          throw(result)
+
+#        libs.parse.json(body).should.have.property("code", 0)
+      ).catch (err)->
+        logger.error "SendSMS", err
+        throw new Err "短信发送失败 " + err.msg + " " + err.detail, 500
+
     # 发送验证码
     sendCode: (mobile, code) ->
       form =
         apikey: conf.yunpian.apikey
         mobile: mobile
-        text: conf.yunpian.text code
+        text: conf.yunpian.template1 code
+
       if conf.debug
-        Promise.resolve(code)
-#        @sendSmsVia3rd(form).return(code)
+#        Promise.resolve(code)
+        @sendSmsVia3rd(form).return(code)
       else
         @sendSmsVia3rd(form).return(code)
 
@@ -54,22 +58,25 @@ module.exports =
 
       code = chance.natural(min: 100000, max: 999999)
       expiredAt = moment().add(conf.code.expire, "m")
-      logger.debug "sms", "#{type}, #{code}, \
+
+      logger.debug "----------Send SMS :", "#{type}, #{code}, \
       #{moment(expiredAt).format("YYYY-MM-DD hh:mm:ss")}"
 
-      @findOneAsync(type: type, mobile: mobile).then((log)->
-        if log
-          if log.modifiedAt < moment(moment().format("YYYY-MM-DD"))
-            log.sends = 0
-          if log.sends >= conf.code.sends
-            throw new Err "达到今日最大发送次数", 400
+      @findOneAsync(type: type, mobile: mobile).then((resultLog)->
+        if resultLog
+          if resultLog.modifiedAt < moment(moment().format("YYYY-MM-DD"))
+            resultLog.sends = 0  #如果修改时间小于今天 则把今天要发送短信的清零
+
+          if resultLog.sends >= conf.code.sends
+            throw new Err "达到今日最大发送次数" + conf.code.sends, 400
         else
-          log = new models.sms(type: type, mobile: mobile, sends: 0)
-        log.trys = 0
-        log.sends++
-        log.code = code
-        log.expiredAt = expiredAt
-        log.saveAsync()
+          resultLog = new models.sms(type: type, mobile: mobile, sends: 0)
+
+        resultLog.trys = 0
+        resultLog.sends++
+        resultLog.code = code
+        resultLog.expiredAt = expiredAt
+        resultLog.saveAsync()
       ).return(code)
 
     # 验证验证码

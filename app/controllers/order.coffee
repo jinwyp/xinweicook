@@ -1,5 +1,5 @@
 # 订单
-WXPay = require "../libs/weixinpay/weixinpay"
+WXPay = require "../libs/weixinpay"
 
 
 configWeiXinPay =
