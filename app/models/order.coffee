@@ -76,7 +76,7 @@ module.exports =
       time_end : type: String
 
 
-    status: String # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
+    status: type: String, default: "not paid" # not paid未支付  paid已支付 making dish制作中 shipped已发货 canceled已取消 finished已完成
 
     express: # 快递
       name: String

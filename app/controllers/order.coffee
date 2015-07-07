@@ -146,11 +146,11 @@ exports.updateOrder = (req, res, next) ->
   .execAsync()
   .then (resultOrder) ->
     models.order.OrderNotFound(resultOrder)
-    if req.body.isPaymentPaid
+    if req.body.isPaymentPaid is true and resultOrder.status isnt models.order.OrderStatus().canceled
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.OrderStatus().paid
     else
-      if req.body.status
+      if req.body.status is models.order.OrderStatus().canceled
         resultOrder.status = models.order.OrderStatus().canceled
 
     resultOrder.saveAsync()

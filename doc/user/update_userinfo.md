@@ -9,6 +9,7 @@ Group `member`
 | Name                  | Type   | Desc    |
 |:-------               |:-------|:------- |
 | gender                | Number |  性别 1 male 2 female    |
+| avatarPic             | String |  头像地址 用于七牛储存   |
 | address               | Array  | 收货地址  |
 |   -> geoLatitude      | Number | 纬度     |
 |   -> geoLongitude     | Number | 经度     |
