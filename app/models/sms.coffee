@@ -43,19 +43,20 @@ module.exports =
         mobile: mobile
         text: conf.yunpian.text code
       if conf.debug
-#        Promise.resolve(code)
-        sendSmsVia3rd(form).return(code)
+        Promise.resolve(code)
+#        @sendSmsVia3rd(form).return(code)
       else
-        sendSmsVia3rd(form).return(code)
+        @sendSmsVia3rd(form).return(code)
 
     # 创建并记录验证码
     logCode: (type, mobile) ->
-      if conf.code.type.indexOf(type) is -1
-        throw new Err "短信类型不对", 400
+      @validationSMSType type
+
       code = chance.natural(min: 100000, max: 999999)
       expiredAt = moment().add(conf.code.expire, "m")
       logger.debug "sms", "#{type}, #{code}, \
       #{moment(expiredAt).format("YYYY-MM-DD hh:mm:ss")}"
+
       @findOneAsync(type: type, mobile: mobile).then((log)->
         if log
           if log.modifiedAt < moment(moment().format("YYYY-MM-DD"))
