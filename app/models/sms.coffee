@@ -2,13 +2,21 @@
 module.exports =
   schema:
     user: type: Schema.ObjectId, ref: "user"
-    type: String
+    type: String #
     code: String
     mobile: String
     sends: Number
     trys: Number
     expiredAt: Date
   statics:
+
+    SMSType : () ->
+      type = ["signUp", "resetPassword", "verifyMobile"]
+
+    validationSMSType : (type) ->
+      unless libs.validator.isIn(type, @SMSType())
+        return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400
+
     # 发送短信
     sendSmsVia3rd: (form) ->
       opts =
@@ -35,9 +43,11 @@ module.exports =
         mobile: mobile
         text: conf.yunpian.text code
       if conf.debug
-        Promise.resolve(code)
+#        Promise.resolve(code)
+        sendSmsVia3rd(form).return(code)
       else
         sendSmsVia3rd(form).return(code)
+
     # 创建并记录验证码
     logCode: (type, mobile) ->
       if conf.code.type.indexOf(type) is -1
@@ -60,6 +70,7 @@ module.exports =
         log.expiredAt = expiredAt
         log.saveAsync()
       ).return(code)
+
     # 验证验证码
     verifyCode: (type, mobile, code) ->
       @findOneAsync(type: type, mobile: mobile).then((log)->

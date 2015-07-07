@@ -8,6 +8,8 @@
 exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code } = req.body
+  models.user.validationMobile(mobile)
+
   models.user.signUp mobile, pwd, code
   .then ->
     models.token.findTokenByMobilePwd(mobile, pwd)
@@ -52,10 +54,7 @@ exports.updateUserInfo = (req, res, next) ->
 
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->
-    resultUser.populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-    .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
-  .then (user) ->
-    res.json user
+    res.json resultUser
   .catch next
 
 

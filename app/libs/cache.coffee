@@ -11,6 +11,7 @@ module.exports = Cache =
         lastModified = (_.max body, (i)->
           moment(new Date(i.modifiedAt)).valueOf()
         ).modifiedAt
+
       if lastModified
         res.set "Last-Modified", lastModified
     next()

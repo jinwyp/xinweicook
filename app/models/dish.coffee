@@ -82,7 +82,7 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-topping -preferences"
+      selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
     DishNotFound : (dish) ->
       if not dish
@@ -97,7 +97,10 @@ module.exports =
         return throw new Err "Field validation error,  sideDish must be 2-10", 400
 
     find1 : (options) ->
-      @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate("statisticLikeUserList").execAsync()
+      @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+
+    find99 : (options) ->
+      @find(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
   methods: {
     getPrice : (number) ->

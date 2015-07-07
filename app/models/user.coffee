@@ -31,6 +31,8 @@ module.exports =
       mobile: String
       alias: String
       remark: String
+
+      sortOrder : Number
     ]
 
     credit: type: Number, default: 0
@@ -53,6 +55,13 @@ module.exports =
   statics:
     fields : ->
       selectFields = "-pwd"
+    fieldsLess : ->
+      selectFields = "-pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
+
+    validationMobile : (mobileNumber) ->
+        unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
+          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+
     validationUserInfo : (updateUser) ->
       if updateUser.gender
           unless libs.validator.isInt updateUser.gender, {min: 1, max: 9}
@@ -124,10 +133,10 @@ module.exports =
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
           t.user
-          .populate({path: 'dishLikeList'})
+          .populate({path: 'dishLikeList', select: models.dish.fields()})
           .populate({path: 'couponList'})
-          .populate({path: 'shoppingCart.dish'})
-          .populateAsync({path: 'shoppingCart.subDish.dish'})
+          .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
+          .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
         else
           throw new Err "找不到该用户", 404
       ).then(@UserFound).then(@UserNotSpam)

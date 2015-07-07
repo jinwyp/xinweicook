@@ -6,11 +6,7 @@
 
 exports.dishList = (req, res, next) ->
   # 获取所有菜品
-  models.dish.find {sideDishType : "main"}
-  .populate "cook.user"
-  .populate "preferences.foodMaterial.dish"
-  .populate "topping"
-  .execAsync()
+  models.dish.find99({sideDishType : "main"})
   .then (dishes) ->
     res.json dishes
   , next

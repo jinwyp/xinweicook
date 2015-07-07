@@ -55,7 +55,7 @@ conf =
     trys: 5
     sends: 10
     expire: 5 # mins
-    type:["signUp", "resetPassword", "verifyMobile"]
+
   token:
     expires_in: 3600 * 48 #hours
     sso: true
