@@ -149,6 +149,10 @@ exports.updateOrder = (req, res, next) ->
     if req.body.isPaymentPaid
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.OrderStatus().paid
+    else
+      if req.body.status
+        resultOrder.status = models.order.OrderStatus().canceled
+
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
     res.json resultOrder

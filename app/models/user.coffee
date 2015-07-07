@@ -12,6 +12,8 @@ module.exports =
     username: type:String, trim:true
     gender: Number # 1 male 2 female
 
+    avatarPic: String
+
     address: [
       geoLatitude: Number # 纬度
       geoLongitude: Number # 纬度
@@ -32,7 +34,7 @@ module.exports =
       alias: String
       remark: String
 
-      sortOrder : Number
+      sortOrder : type: Number, default: 0
     ]
 
     credit: type: Number, default: 0

@@ -51,6 +51,7 @@ exports.updateUserInfo = (req, res, next) ->
 
   req.u.address = req.body.address
   req.u.gender = req.body.gender if req.body.gender
+  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
   req.u.saveAsync()
   .spread (resultUser, numberAffected) ->

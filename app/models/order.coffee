@@ -139,6 +139,10 @@ module.exports =
         query.skip = 0
 
     validationUpdateOrder : (order) ->
+      if order.status
+        unless libs.validator.equals order.status, @OrderStatus().canceled
+          return throw new Err "Field validation error,  order status must be string canceled", 400
+
       unless libs.validator.isBoolean order.isPaymentPaid
         return throw new Err "Field validation error,  paymentStatus must be true or false", 400
 
