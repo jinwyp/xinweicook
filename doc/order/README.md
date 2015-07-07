@@ -1,6 +1,13 @@
 # Order 订单
 
 
+| Name             | Type     | Desc                              |
+|:-----------------|:---------|:----------------------------------|
+| cookingType      | String   | "ready to cook" 或 "ready to eat"                  |
+| status           | String   | 订单状态 not paid未支付 / paid已支付 / making dish制作中 / shipped已发货 / canceled已取消 / finished已完成     |
+| payment          | String   | 支付方式 alipay direct / weixinpay / paypal         |
+| isPaymentPaid    | Boolean  | 是否付款 未支付 false / 已支付 true                          |
+
 
 ## 订单 范例
 
