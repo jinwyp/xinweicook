@@ -40,8 +40,11 @@ Group `member`
 |   -> => number     | Number | 商品数量    |
 
 
+#### 注意 订单会拆分成子订单
 
+当提交的订单只包含 “ready to cook” 或 "ready to eat" 菜品时，订单只生成一个订单， 而当提交的菜品即有“ready to cook” 或 "ready to eat"时，订单会生成三个订单，一个主订单（用于支付）和另外两个子订单（用于以后在用户中心的订单里面查询）。
 
+订单生成后，只返回一个主订单，主订单的isSplitOrder属性为true, 主订单的childOrderList属性包括子订单的ID
 
 
 
