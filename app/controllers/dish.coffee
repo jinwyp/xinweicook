@@ -44,7 +44,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
     req.u.saveAsync()
     resultDish.saveAsync()
   .spread (resultDish2, numberAffected) ->
-    resultDish2.populateAsync("statisticLikeUserList", models.user.fields())
+    resultDish2.populateAsync("statisticLikeUserList", models.user.fieldsLess())
   .then (resultDish3) ->
     res.json resultDish3
   .catch next
