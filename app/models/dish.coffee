@@ -88,6 +88,11 @@ module.exports =
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
 
+    DishCookingType : () ->
+      type =
+        cook : "ready to cook"
+        eat : "ready to eat"
+
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
         return throw new Err "Field validation error,  dishID length must be 24-24", 400

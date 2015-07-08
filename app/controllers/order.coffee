@@ -50,7 +50,14 @@ exports.addNewOrder = (req, res, next) ->
 
   dishIdList = []
   dishNumberList = {}
+  dishDataList = {}
+
+
   dishHistoryList = []
+  dishReadyToCookList = []
+  dishReadyToEatList = []
+
+
 
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
@@ -58,7 +65,6 @@ exports.addNewOrder = (req, res, next) ->
     for subDish,subDishIndex in dish.subDish
       dishIdList.push subDish.dish
       dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
-
 
   newOrder =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -83,6 +89,51 @@ exports.addNewOrder = (req, res, next) ->
     deliveryTime : req.body.deliveryTime
 
 
+  newOrderReadyToCook =
+    orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
+    user : req.u._id.toString()
+    cookingType :  models.dish.DishCookingType().cook
+    address : req.body.address
+#    dishList : req.body.dishList
+    userComment : req.body.userComment
+    clientFrom : req.body.clientFrom
+    status : models.order.OrderStatus().notpaid
+    payment : req.body.payment
+    isPaymentPaid : false
+    paymentUsedCash : req.body.paymentUsedCash
+#    coupon : req.body.coupon
+#    promotionCode : req.body.promotionCode
+#    credit : req.body.credit
+#    freight : req.body.freight
+    dishesPrice : 0
+    totalPrice : 0
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDate : req.body.deliveryDate
+    deliveryTime : req.body.deliveryTime
+
+  newOrderReadyToEat =
+    orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
+    user : req.u._id.toString()
+    cookingType :  models.dish.DishCookingType().eat
+    address : req.body.address
+#    dishList : req.body.dishList
+    userComment : req.body.userComment
+    clientFrom : req.body.clientFrom
+    status : models.order.OrderStatus().notpaid
+    payment : req.body.payment
+    isPaymentPaid : false
+    paymentUsedCash : req.body.paymentUsedCash
+#    coupon : req.body.coupon
+#    promotionCode : req.body.promotionCode
+#    credit : req.body.credit
+#    freight : req.body.freight
+    dishesPrice : 0
+    totalPrice : 0
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDate : req.body.deliveryDate
+    deliveryTime : req.body.deliveryTime
+
+
   models.dish.find {"_id" : {$in:dishIdList}}
 #  .populate "preferences.foodMaterial.dish"
 #  .populate "topping"
@@ -92,13 +143,51 @@ exports.addNewOrder = (req, res, next) ->
     for dish,dishIndex in resultDishes
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push dish
+      dishDataList[dish._id] = dish
+
+    # 处理子订单菜品数量和总价
+    for dish,dishIndex in req.body.dishList
+      if dishDataList[dish.dish].cookingType is models.dish.DishCookingType().cook # 处理订单分子订单
+        newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
+        dishReadyToCookList.push dishDataList[dish.dish]
+      else
+        newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
+        dishReadyToEatList.push dishDataList[dish.dish]
+
+      for subDish,subDishIndex in dish.subDish
+        if dishDataList[dish.dish].cookingType is models.dish.DishCookingType().cook # 处理订单分子订单
+          newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+          dishReadyToCookList.push dishDataList[subDish.dish]
+        else
+          newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+          dishReadyToEatList.push dishDataList[subDish.dish]
+
 
     newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
     newOrder.dishHistory = dishHistoryList
-    models.order.createAsync newOrder
+
+    newOrderReadyToCook.totalPrice = newOrderReadyToCook.dishesPrice
+    newOrderReadyToCook.dishHistory = dishReadyToCookList
+
+    newOrderReadyToEat.totalPrice = newOrderReadyToCook.dishesPrice
+    newOrderReadyToEat.dishHistory = dishReadyToEatList
+
+    if dishReadyToCookList.length > 0 and dishReadyToEatList.length > 0
+      newOrder.isSplitOrder = true
+
+    if newOrder.isSplitOrder
+      newOrder.isSplitOrder = true
+      newOrder.childOrderList = []
+      models.order.createAsync [newOrderReadyToCook, newOrderReadyToEat]
+      .then (resultChildrenOrder) ->
+        for childOrder, childOrderIndex in resultChildrenOrder
+          newOrder.childOrderList.push childOrder._id
+        models.order.createAsync newOrder
+    else
+      models.order.createAsync newOrder
 
   .then (resultOrder) ->
-
+    #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.OrderPayment().weixinpay
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber

@@ -4,6 +4,10 @@ module.exports =
   schema:
     orderNumber: type: String, unique: true# 订单号
     user: type: Schema.ObjectId, ref: "user"
+
+    isSplitOrder : type: Boolean, default: false # 订单分割
+    childOrderList : [type: Schema.ObjectId, ref: "order"] # 子订单列表
+
     cookingType: String # ready to cook, ready to eat
 
     address: # 收货地址
@@ -126,6 +130,7 @@ module.exports =
         alipaydirect : "alipay direct"
         weixinpay : "weixinpay"
         paypal : "paypal"
+
 
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
