@@ -228,6 +228,7 @@ exports.addNewOrder = (req, res, next) ->
 
 exports.updateOrder = (req, res, next) ->
   # 修改订单
+  console.log "--------------"
   models.order.validationOrderId req.params._id
   models.order.validationUpdateOrder req.body
 
@@ -241,7 +242,7 @@ exports.updateOrder = (req, res, next) ->
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.OrderStatus().paid
     else
-      if req.body.status is models.order.OrderStatus().canceled
+      if req.body.status is models.order.OrderStatus().canceled and resultOrder.status is models.order.OrderStatus().notpaid
         resultOrder.status = models.order.OrderStatus().canceled
 
     resultOrder.saveAsync()

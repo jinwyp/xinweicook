@@ -19,8 +19,14 @@ Group `member`
   "isPaymentPaid": "true",
 }
 
+```
+
+或
+
+
+```js
 {
-  "isPaymentPaid": "false",
+  "isPaymentPaid": false,
   "status": "canceled"
 }
 ```
