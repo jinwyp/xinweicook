@@ -6,6 +6,7 @@ module.exports =
     user: type: Schema.ObjectId, ref: "user"
 
     isSplitOrder : type: Boolean, default: false # 订单分割
+    isChildOrder : type: Boolean, default: false # 是否是子订单
     childOrderList : [type: Schema.ObjectId, ref: "order"] # 子订单列表
 
     cookingType: String # ready to cook, ready to eat

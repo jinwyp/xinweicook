@@ -93,6 +93,7 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType :  models.dish.DishCookingType().cook
+    isChildOrder : true
     address : req.body.address
 #    dishList : req.body.dishList
     userComment : req.body.userComment
@@ -115,6 +116,7 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType :  models.dish.DishCookingType().eat
+    isChildOrder : true
     address : req.body.address
 #    dishList : req.body.dishList
     userComment : req.body.userComment
