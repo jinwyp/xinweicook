@@ -228,22 +228,33 @@ exports.addNewOrder = (req, res, next) ->
 
 exports.updateOrder = (req, res, next) ->
   # 修改订单
-  console.log "--------------"
   models.order.validationOrderId req.params._id
   models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
 #  .populate "preferences.foodMaterial.dish"
 #  .populate "topping"
+  .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
     models.order.OrderNotFound(resultOrder)
     if req.body.isPaymentPaid is true and resultOrder.status isnt models.order.OrderStatus().canceled
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.OrderStatus().paid
+
+      if resultOrder.childOrderList.length > 0
+        for childOrder in resultOrder.childOrderList
+          childOrder.isPaymentPaid = true
+          childOrder.status = models.order.OrderStatus().paid
+          childOrder.saveAsync()
     else
       if req.body.status is models.order.OrderStatus().canceled and resultOrder.status is models.order.OrderStatus().notpaid
         resultOrder.status = models.order.OrderStatus().canceled
+
+        if resultOrder.childOrderList.length > 0
+          for childOrder in resultOrder.childOrderList
+            resultOrder.status = models.order.OrderStatus().canceled
+            childOrder.saveAsync()
 
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
@@ -258,8 +269,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
   models.order.validationAlipayNotify req.body
 
   models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}
-#  .populate "preferences.foodMaterial.dish"
-#  .populate "topping"
+  .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
     models.order.OrderNotFound(resultOrder)
@@ -293,6 +303,11 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
       seller_id : req.body.seller_id
       buyer_id : req.body.buyer_id
 
+    if resultOrder.childOrderList.length > 0
+      for childOrder in resultOrder.childOrderList
+        childOrder.isPaymentPaid = true
+        childOrder.status = models.order.OrderStatus().paid
+        childOrder.saveAsync()
 
     resultOrder.saveAsync()
   .spread (resultOrder2, numberAffected) ->
@@ -330,6 +345,12 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
         coupon_fee : resWeixinPay.coupon_fee
         transaction_id : resWeixinPay.transaction_id
         time_end : resWeixinPay.time_end
+
+      if resultOrder.childOrderList.length > 0
+        for childOrder in resultOrder.childOrderList
+          childOrder.isPaymentPaid = true
+          childOrder.status = models.order.OrderStatus().paid
+          childOrder.saveAsync()
 
       resultOrder.saveAsync()
     .spread (resultOrder2, numberAffected) ->
