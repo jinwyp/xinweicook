@@ -57,10 +57,10 @@ module.exports =
           throw new Err "找不到对应的用户", 404
   methods:
     genAccessToken: (u)->
-      @access_token = Base62.encode(u.id)+":"+libs.crypto.random(24)
+      @access_token = Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
       @
     genRefreshToken: (u) ->
-      @refresh_token = Base62.encode(u.id)+":"+libs.crypto.random(24)
+      @refresh_token = Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
       @
     isAccessTokenExpired: ->
       moment(new Date(@modifiedAt)).add(conf.token.expires_in, "s") < moment()

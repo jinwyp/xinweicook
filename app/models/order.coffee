@@ -1,5 +1,7 @@
 # 订单
 autoIncrement = require "mongoose-auto-increment"
+
+
 module.exports =
   schema:
     orderNumber: type: String, unique: true# 订单号
@@ -203,4 +205,4 @@ module.exports =
   methods: {}
   rest: {}
   plugin: (schema) ->
-    schema.plugin autoIncrement.plugin, model: "order", field: "id"
+    schema.plugin autoIncrement.plugin, model: "order", field: "autoIncrementId", startAt: 10000

@@ -18,6 +18,7 @@ connect = () ->
 connect()
 
 connection.on "open", ->
+  mongoose.connection.db.dropDatabase() if conf.debug
   logger.debug "Database", "connection opened"
 
 
@@ -56,6 +57,8 @@ erm.defaults
   # outputFn: (req, res, result) ->
   #   { result, statusCode } = result
   #   res.status(statusCode).send(result)
+
+
 
 libs.requireOthers __filename, (basename, pathname) ->
   { schema, statics, methods, rest, plugin } = require pathname

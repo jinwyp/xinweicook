@@ -1,5 +1,7 @@
 # 用户
 autoIncrement = require "mongoose-auto-increment"
+
+
 module.exports =
   schema:
     group: type:String, default:"member"
@@ -147,4 +149,4 @@ module.exports =
       bcrypt.hashSync pwd.toString(), 4
   rest: {}
   plugin: (schema) ->
-    schema.plugin autoIncrement.plugin, model: "user", field: "id"
+    schema.plugin autoIncrement.plugin, model: "user", field: "autoIncrementId", startAt: 10000

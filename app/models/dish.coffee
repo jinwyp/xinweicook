@@ -1,4 +1,8 @@
 # 菜品
+
+autoIncrement = require "mongoose-auto-increment"
+
+
 module.exports =
   schema:
     publishedAt: type: Date, default: Date.now # 发布时间
@@ -120,3 +124,5 @@ module.exports =
         finalPrice
   }
   rest: {}
+  plugin: (schema) ->
+    schema.plugin autoIncrement.plugin, model: "dish", field: "autoIncrementId", startAt: 10000
