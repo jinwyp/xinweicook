@@ -55,7 +55,7 @@ exports.addNewOrder = (req, res, next) ->
   dishNumberList = {}
   dishDataList = {}
 
-  coupon = {}
+  couponPrice = 0
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -82,8 +82,6 @@ exports.addNewOrder = (req, res, next) ->
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-    coupon : req.body.coupon
-    promotionCode : req.body.promotionCode
     credit : req.body.credit
     freight : req.body.freight
     dishesPrice : 0
@@ -139,11 +137,12 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDate
     deliveryTime : req.body.deliveryTime
 
+  models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+  .then (resultCoupon) ->
+    if req.body.promotionCode
+      models.coupon.CouponNotFound resultCoupon
 
-  models.dish.find {"_id" : {$in:dishIdList}}
-#  .populate "preferences.foodMaterial.dish"
-#  .populate "topping"
-  .execAsync()
+    models.dish.find {"_id" : {$in:dishIdList}}.execAsync()
   .then (resultDishes) ->
 
     for dish,dishIndex in resultDishes

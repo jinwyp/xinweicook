@@ -29,7 +29,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
 
   models.dish.validationDishId req.params._id
 
-  models.dish.findOne(_id: req.params._id).then (resultDish) ->
+  models.dish.find1(_id: req.params._id).then (resultDish) ->
     models.dish.DishNotFound resultDish
 
     if resultDish.statisticLikeUserList.indexOf(req.u._id) > -1
