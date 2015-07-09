@@ -60,7 +60,16 @@ rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
 
 ## 远程部署
 
-运程部署使用 [Ansible] 实现。用于连接服务端的私钥可以放在 `./keys` 目录下，已经被 gitignore。
+
+### 使用PM2 部署
+
+首先需要安装PM2 npm install pm2 -g  [PM2 文档](https://github.com/Unitech/pm2)
+
+更新服务器开发分支代码并重启 pm2 deploy ecosystem.json devjin
+
+
+
+#### 运程部署使用 [Ansible] 实现。用于连接服务端的私钥可以放在 `./keys` 目录下，已经被 gitignore。
 
 ``` bash
 rake deploy # 自动设置服务端环境并部署服务
