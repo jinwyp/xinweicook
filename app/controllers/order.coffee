@@ -20,7 +20,7 @@ exports.orderListByUser = (req, res, next) ->
 
   models.order.find user: req.u._id
   .sort "-createdAt"
-  .limit (50)
+  .limit (req.query.limit)
   .skip (req.query.skip)
   .execAsync()
   .then (orders) ->

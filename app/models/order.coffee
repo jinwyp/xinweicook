@@ -146,6 +146,12 @@ module.exports =
       else
         query.skip = 0
 
+      if query.limit
+        unless libs.validator.isInt query.limit, {min: 0, max: 200}
+          return throw new Err "Field validation error,  query limit must be integer 0-200", 400
+      else
+        query.limit = 50
+
     validationUpdateOrder : (order) ->
       if order.status
         unless libs.validator.equals order.status, @OrderStatus().canceled
