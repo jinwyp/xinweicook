@@ -26,6 +26,10 @@ module.exports =
       unless libs.validator.isLength _id, 24, 24
         return throw new Err "Field validation error,  coupon ID length must be 24-24", 400
 
+    validationCouponCode : (code) ->
+      unless libs.validator.isLength code, 10, 10
+        return throw new Err "Field validation error,  coupon code length must be 10-10", 400
+
     validationNewCoupon : (coupon) ->
       unless libs.validator.isLength coupon.name.zh, 4, 100
         return throw new Err "Field validation error,  coupon zh name length must be 4-100", 400
@@ -33,6 +37,12 @@ module.exports =
         return throw new Err "Field validation error,  coupon price must be number 1-200", 400
       unless libs.validator.isLength coupon.couponType, 4, 20
         return throw new Err "Field validation error,  couponType ID length must be 4-20", 400
+
+    find1 : (options) ->
+      @findOne(options).select(@fields()).execAsync()
+      .then (coupon) ->
+        models.coupon.CouponNotFound coupon
+        coupon
 
     gencode : () ->
       randomString = (length = 8)->

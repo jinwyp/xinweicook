@@ -13,13 +13,19 @@ exports.couponList = (req, res, next) ->
 exports.couponSingleInfo = (req, res, next) ->
   models.coupon.validationCouponId req.params._id
 
-  models.coupon.findOne ({_id: req.params._id, isExpired : false, isUsed : false})
-  .select models.coupon.fields()
-  .execAsync()
+  models.coupon.find1 ({_id: req.params._id, isExpired : false, isUsed : false})
   .then (resultCoupon) ->
     res.json resultCoupon
   , next
 
+
+exports.couponSingleInfoByCode = (req, res, next) ->
+  models.coupon.validationCouponCode req.params.code
+
+  models.coupon.find1 ({code: req.params.code, isExpired : false, isUsed : false})
+  .then (resultCoupon) ->
+    res.json resultCoupon
+  , next
 
 
 
