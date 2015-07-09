@@ -120,3 +120,5 @@ module.exports =
         finalPrice
   }
   rest: {}
+  plugin: (schema) ->
+    schema.plugin autoIncrement.plugin, model: "dish", field: "id"

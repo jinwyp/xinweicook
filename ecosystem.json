@@ -34,7 +34,17 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
+    },
+    "devjin" : {
+      "key": "/Users/jinwyp/.ssh/id_rsa",
+      "user" : "root",
+      "host" : ["183.131.78.182"],
+      "port": "2222",
+      "ref": "origin/develop",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/development/source",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env devjin"
     },
     "production" : {
       "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
@@ -44,7 +54,7 @@
       "ref": "origin/master",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/production",
-      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production",
-    },
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production"
+    }
   }
 }
