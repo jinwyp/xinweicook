@@ -18,7 +18,7 @@ connect = () ->
 connect()
 
 connection.on "open", ->
-  mongoose.connection.db.dropDatabase() if conf.debug
+#  mongoose.connection.db.dropDatabase() if conf.debug
   logger.debug "Database", "connection opened"
 
 
