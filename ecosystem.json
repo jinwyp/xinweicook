@@ -43,7 +43,7 @@
       "port": "2222",
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
-      "path" : "/var/www/cook-api/development/source",
+      "path" : "/var/www/cook-api/development",
       "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env devjin"
     },
     "production" : {
