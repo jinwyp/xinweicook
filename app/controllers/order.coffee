@@ -47,11 +47,15 @@ exports.orderSingleInfo = (req, res, next) ->
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
   models.order.validationNewOrder req.body
+  models.coupon.validationCouponId req.body.coupon if req.body.coupon
+  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode
+
 
   dishIdList = []
   dishNumberList = {}
   dishDataList = {}
 
+  coupon = {}
 
   dishHistoryList = []
   dishReadyToCookList = []
