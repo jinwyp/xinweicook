@@ -9,9 +9,10 @@ exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code } = req.body
   models.user.validationMobile(mobile)
+  models.user.validationPassword(pwd)
 
-  models.user.signUp mobile, pwd, code
-  .then ->
+  models.user.signUp(mobile, pwd, code)
+  .then (resultUser)->
     models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
@@ -27,9 +28,13 @@ exports.userSignUp = (req, res, next) ->
 exports.resetPassword = (req, res, next) ->
   # 重置密码
   { mobile, pwd, code } = req.body
+
+  models.user.validationMobile(mobile)
+  models.user.validationPassword(pwd)
+
   models.user.resetPwd(mobile, pwd, code).then ->
     res.sendStatus 200
-  , next
+  .catch next
 
 
 

@@ -65,6 +65,9 @@ module.exports =
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
           return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+    validationPassword : (password) ->
+      unless libs.validator.isLength password, 6, 20
+        return throw new Err "Field validation error,  password mus be 6-20", 400
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender
@@ -97,6 +100,7 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     UserFound: (u) ->
+      console.log "----------",u
       u or throw new Err "找不到该用户", 404
     UserNotSpam: (u) ->
       if u.isSpam
@@ -110,12 +114,16 @@ module.exports =
         else
           throw new Err "密码错误", 401
     signUp: (mobile, pwd, code) ->
-      models.sms.verifyCode("signUp", mobile, code).then(->
-        # todo: 检查合法性等
+      models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
+        if smscode[1] isnt 1
+          throw new Err "验证码保存失败", 400
         models.user.createAsync(mobile: mobile, pwd: pwd)
       )
     resetPwd: (mobile, pwd, code) ->
-      models.sms.verifyCode("resetPassword", mobile, code).then(->
+      models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
+        if smscode[1] isnt 1
+          throw new Err "验证码保存失败", 400
+
         models.user.findOneAsync(mobile: mobile).then(@UserFound).then(@UserNotSpam).then((u)->
           u.pwd = pwd
           u.saveAsync()
