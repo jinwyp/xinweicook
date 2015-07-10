@@ -19,7 +19,7 @@ Group `member`
 | trade_type       | String   | 用于微信支付 取值如下：JSAPI，NATIVE，APP，WAP,详细说明见参数规定                          |
 | openid           | String   | 用于微信支付 非必填 trade_type=JSAPI时，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid                       |
 | deliveryDate     | String   | 预计到达日期 年月日  注意用双位数表达日期 2015-06-13      |
-| deliveryTime     | String   | 预计到达时间 三个时间点 #10-12  #12-17 #17-20          |
+| deliveryTime     | String   | 预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
 | address          | Object   | 地址       |
 |   -> geoLatitude   | Number   | 纬度       |
 |   -> geoLongitude  | Number   | 经度       |
