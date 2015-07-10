@@ -9,6 +9,7 @@ POST `/user/token`
 | grant_type | string | `password` |
 | username   | string | 手机号     |
 | password   | string | 密码       |
+| deviceId   | string | iOS设备ID       |
 
 ```js
 {

@@ -16,6 +16,7 @@
 * [用户](user/README.md)
    * [通过短信发送验证码](user/send_verification_code_via_sms.md)
    * [注册](user/sign_up.md)
+   * [提交DeviceID](user/add_device.md)
    * [重设密码](user/reset_password.md)
    * [用户信息包括收货地址购物车](user/get_account.md)
    * [更新用户信息和收货地址](user/update_userinfo.md)
