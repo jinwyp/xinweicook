@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>生成新订单 | 新味 API 文档</title>
+        <title>获取订单预计的配送时间 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../order/get_delivery_time.html" />
+    <link rel="next" href="../order/update_order.html" />
     
     
-    <link rel="prev" href="../order/get_single_order.html" />
+    <link rel="prev" href="../order/add_new_order.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="6.3" data-basepath=".." data-revision="Fri Jul 10 2015 16:59:31 GMT+0800 (CST)">
+    <div class="book" data-level="6.4" data-basepath=".." data-revision="Fri Jul 10 2015 16:59:31 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -457,7 +457,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.3" data-path="order/add_new_order.html">
+        <li class="chapter " data-level="6.3" data-path="order/add_new_order.html">
             
                 
                     <a href="../order/add_new_order.html">
@@ -472,7 +472,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.4" data-path="order/get_delivery_time.html">
+        <li class="chapter active" data-level="6.4" data-path="order/get_delivery_time.html">
             
                 
                     <a href="../order/get_delivery_time.html">
@@ -807,235 +807,149 @@
 <td style="text-align:left">&quot;ready to cook&quot; &#x6216; &quot;ready to eat&quot;</td>
 </tr>
 <tr>
-<td style="text-align:left">clientFrom</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&quot;website&quot; &quot;ios&quot; &quot;android&quot;</td>
-</tr>
-<tr>
-<td style="text-align:left">freight</td>
-<td style="text-align:left">Number</td>
-<td style="text-align:left">&#x8FD0;&#x8D39;</td>
-</tr>
-<tr>
-<td style="text-align:left">coupon</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x6237;&#x8D26;&#x53F7;&#x91CC;&#x9762;&#x7684;&#x4F18;&#x60E0;&#x5238; 24&#x4F4D;ID 5590d256103f46d9ac31e3ee</td>
-</tr>
-<tr>
-<td style="text-align:left">promotionCode</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x4F18;&#x60E0;&#x7801;</td>
-</tr>
-<tr>
-<td style="text-align:left">payment</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x652F;&#x4ED8;&#x65B9;&#x5F0F; alipay direct / weixinpay / paypal</td>
-</tr>
-<tr>
-<td style="text-align:left">paymentUsedCash</td>
+<td style="text-align:left">isCityShanghai</td>
 <td style="text-align:left">Boolean</td>
-<td style="text-align:left">&#x8D27;&#x5230;&#x4ED8;&#x6B3E; &#x4F7F;&#x7528;&#x73B0;&#x91D1;&#x8FD8;&#x662F;&#x5237;&#x5361;</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x5728;&#x4E0A;&#x6D77; true / false</td>
 </tr>
 <tr>
-<td style="text-align:left">device_info</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x975E;&#x5FC5;&#x586B; &#x7EC8;&#x7AEF;&#x8BBE;&#x5907;&#x53F7;(&#x95E8;&#x5E97;&#x53F7;&#x6216;&#x6536;&#x94F6;&#x8BBE;&#x5907;ID)&#xFF0C;&#x6CE8;&#x610F;&#xFF1A;PC&#x7F51;&#x9875;&#x6216;&#x516C;&#x4F17;&#x53F7;&#x5185;&#x652F;&#x4ED8;&#x8BF7;&#x4F20;&quot;WEB&quot;</td>
-</tr>
-<tr>
-<td style="text-align:left">spbill_create_ip</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; APP&#x548C;&#x7F51;&#x9875;&#x652F;&#x4ED8;&#x63D0;&#x4EA4;&#x7528;&#x6237;&#x7AEF;ip&#xFF0C;Native&#x652F;&#x4ED8;&#x586B;&#x8C03;&#x7528;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8;API&#x7684;&#x673A;&#x5668;IP&#x3002;</td>
-</tr>
-<tr>
-<td style="text-align:left">trade_type</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x53D6;&#x503C;&#x5982;&#x4E0B;&#xFF1A;JSAPI&#xFF0C;NATIVE&#xFF0C;APP&#xFF0C;WAP,&#x8BE6;&#x7EC6;&#x8BF4;&#x660E;&#x89C1;&#x53C2;&#x6570;&#x89C4;&#x5B9A;</td>
-</tr>
-<tr>
-<td style="text-align:left">openid</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x975E;&#x5FC5;&#x586B; trade_type=JSAPI&#x65F6;&#xFF0C;&#x6B64;&#x53C2;&#x6570;&#x5FC5;&#x4F20;&#xFF0C;&#x7528;&#x6237;&#x5728;&#x5546;&#x6237;appid&#x4E0B;&#x7684;&#x552F;&#x4E00;&#x6807;&#x8BC6;&#x3002;&#x4E0B;&#x5355;&#x524D;&#x9700;&#x8981;&#x8C03;&#x7528;&#x3010;&#x7F51;&#x9875;&#x6388;&#x6743;&#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;&#x3011;&#x63A5;&#x53E3;&#x83B7;&#x53D6;&#x5230;&#x7528;&#x6237;&#x7684;Openid</td>
-</tr>
-<tr>
-<td style="text-align:left">deliveryDate</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x9884;&#x8BA1;&#x5230;&#x8FBE;&#x65E5;&#x671F; &#x5E74;&#x6708;&#x65E5;  &#x6CE8;&#x610F;&#x7528;&#x53CC;&#x4F4D;&#x6570;&#x8868;&#x8FBE;&#x65E5;&#x671F; 2015-06-13</td>
-</tr>
-<tr>
-<td style="text-align:left">deliveryTime</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x9884;&#x8BA1;&#x5230;&#x8FBE;&#x65F6;&#x95F4; &#x683C;&#x5F0F; &#x5C0F;&#x65F6;:&#x5206;&#x949F; 12:00  &#x4E09;&#x4E2A;&#x65F6;&#x95F4;&#x70B9; 12:00 / 17:00 / 20:00</td>
-</tr>
-<tr>
-<td style="text-align:left">address</td>
-<td style="text-align:left">Object</td>
-<td style="text-align:left">&#x5730;&#x5740;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; geoLatitude</td>
-<td style="text-align:left">Number</td>
-<td style="text-align:left">&#x7EAC;&#x5EA6;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; geoLongitude</td>
-<td style="text-align:left">Number</td>
-<td style="text-align:left">&#x7ECF;&#x5EA6;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; country</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x56FD;&#x5BB6;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; province</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7701;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; city</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x57CE;&#x5E02;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; district</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x533A;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; street</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x8857;&#x6216;&#x8DEF;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; address</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x8BE6;&#x7EC6;&#x5730;&#x5740;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; contactPerson</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x8054;&#x7CFB;&#x4EBA;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; mobile</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x624B;&#x673A;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; remark</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x5907;&#x6CE8;</td>
-</tr>
-<tr>
-<td style="text-align:left">dishList</td>
-<td style="text-align:left">Array</td>
-<td style="text-align:left">&#x4E3B;&#x5546;&#x54C1;&#x5217;&#x8868;&#x6570;&#x7EC4;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; dish</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x5546;&#x54C1;ID</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; number</td>
-<td style="text-align:left">Number</td>
-<td style="text-align:left">&#x5546;&#x54C1;&#x6570;&#x91CF;</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; subDish</td>
-<td style="text-align:left">Array</td>
-<td style="text-align:left">&#x5B50;&#x5546;&#x54C1; &#x4F8B;&#x5982; &#x725B;&#x8089;&#x5C5E;&#x6027;preferences &#x548C; &#x6D47;&#x5934;topping</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; =&gt; dish</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x5546;&#x54C1;ID</td>
-</tr>
-<tr>
-<td style="text-align:left">-&gt; =&gt; number</td>
-<td style="text-align:left">Number</td>
-<td style="text-align:left">&#x5546;&#x54C1;&#x6570;&#x91CF;</td>
+<td style="text-align:left">isInRange3KM</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x5728;&#x516C;&#x53F8;&#x9644;&#x8FD1;3&#x516C;&#x91CC;&#x5185; true / false</td>
 </tr>
 </tbody>
 </table>
-<h4 id="%E6%B3%A8%E6%84%8F-%E8%AE%A2%E5%8D%95%E4%BC%9A%E6%8B%86%E5%88%86%E6%88%90%E5%AD%90%E8%AE%A2%E5%8D%95">&#x6CE8;&#x610F; &#x8BA2;&#x5355;&#x4F1A;&#x62C6;&#x5206;&#x6210;&#x5B50;&#x8BA2;&#x5355;</h4>
-<p>&#x5F53;&#x63D0;&#x4EA4;&#x7684;&#x8BA2;&#x5355;&#x53EA;&#x5305;&#x542B; &#x201C;ready to cook&#x201D; &#x6216; &quot;ready to eat&quot; &#x83DC;&#x54C1;&#x65F6;&#xFF0C;&#x8BA2;&#x5355;&#x53EA;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x8BA2;&#x5355;&#xFF0C; &#x800C;&#x5F53;&#x63D0;&#x4EA4;&#x7684;&#x83DC;&#x54C1;&#x5373;&#x6709;&#x201C;ready to cook&#x201D; &#x6216; &quot;ready to eat&quot;&#x65F6;&#xFF0C;&#x8BA2;&#x5355;&#x4F1A;&#x751F;&#x6210;&#x4E09;&#x4E2A;&#x8BA2;&#x5355;&#xFF0C;&#x4E00;&#x4E2A;&#x4E3B;&#x8BA2;&#x5355;&#xFF08;&#x7528;&#x4E8E;&#x652F;&#x4ED8;&#xFF09;&#x548C;&#x53E6;&#x5916;&#x4E24;&#x4E2A;&#x5B50;&#x8BA2;&#x5355;&#xFF08;&#x7528;&#x4E8E;&#x4EE5;&#x540E;&#x5728;&#x7528;&#x6237;&#x4E2D;&#x5FC3;&#x7684;&#x8BA2;&#x5355;&#x91CC;&#x9762;&#x67E5;&#x8BE2;&#xFF09;&#x3002;</p>
-<p>&#x8BA2;&#x5355;&#x751F;&#x6210;&#x540E;&#xFF0C;&#x53EA;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x4E3B;&#x8BA2;&#x5355;&#xFF0C;&#x4E3B;&#x8BA2;&#x5355;&#x7684;isSplitOrder&#x5C5E;&#x6027;&#x4E3A;true, &#x4E3B;&#x8BA2;&#x5355;&#x7684;childOrderList&#x5C5E;&#x6027;&#x5305;&#x62EC;&#x5B50;&#x8BA2;&#x5355;&#x7684;ID</p>
 <pre><code class="lang-js">{
-    <span class="hljs-string">&quot;cookingType&quot;</span> : <span class="hljs-string">&quot;ready to cook&quot;</span>,
-    <span class="hljs-string">&quot;clientFrom&quot;</span> : <span class="hljs-string">&quot;ios&quot;</span>,
-    <span class="hljs-string">&quot;credit&quot;</span> : <span class="hljs-number">0</span>,
-    <span class="hljs-string">&quot;freight&quot;</span> : <span class="hljs-number">20</span>,
-    <span class="hljs-string">&quot;coupon&quot;</span> : <span class="hljs-string">&quot;5590d256103f46d9ac31e3ee&quot;</span>,
-    <span class="hljs-string">&quot;promotionCode&quot;</span> : <span class="hljs-string">&quot;xxxxxxx&quot;</span>,
-
-    <span class="hljs-string">&quot;payment&quot;</span> : <span class="hljs-string">&quot;weixinpay&quot;</span>,
-    <span class="hljs-string">&quot;paymentUsedCash&quot;</span> : <span class="hljs-literal">false</span>,
-    <span class="hljs-string">&quot;spbill_create_ip&quot;</span> : <span class="hljs-string">&quot;192.168.1.1&quot;</span>,
-    <span class="hljs-string">&quot;trade_type&quot;</span> : <span class="hljs-string">&quot;NATIVE&quot;</span>,
-
-    <span class="hljs-string">&quot;deliveryDate&quot;</span> : <span class="hljs-string">&quot;2015-06-13&quot;</span>,
-    <span class="hljs-string">&quot;deliveryTime&quot;</span> : <span class="hljs-string">&quot;10&quot;</span>,
-
-    <span class="hljs-string">&quot;address&quot;</span> : {
-        <span class="hljs-string">&quot;geoLatitude&quot;</span> : <span class="hljs-number">30</span>,
-        <span class="hljs-string">&quot;geoLongitude&quot;</span> : <span class="hljs-number">30</span>,
-
-        <span class="hljs-string">&quot;country&quot;</span> : <span class="hljs-string">&quot;&quot;</span>,
-        <span class="hljs-string">&quot;province&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span>,
-        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span>,
-        <span class="hljs-string">&quot;district&quot;</span>: <span class="hljs-string">&quot;shanghai&quot;</span> ,
-        <span class="hljs-string">&quot;street&quot;</span> : <span class="hljs-string">&quot;shanghai&quot;</span> ,
-        <span class="hljs-string">&quot;address&quot;</span>: <span class="hljs-string">&quot;xxxxx&quot;</span> ,
-
-        <span class="hljs-string">&quot;contactPerson&quot;</span>: <span class="hljs-string">&quot;wangyupeng&quot;</span> ,
-        <span class="hljs-string">&quot;mobile&quot;</span>: <span class="hljs-string">&quot;13564568304&quot;</span> ,
-        <span class="hljs-string">&quot;remark&quot;</span>: <span class="hljs-string">&quot;comment&quot;</span>
-    },
-
-    <span class="hljs-string">&quot;dishList&quot;</span> : [
-        {
-            <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;558a602a3eba152266ff2b8c&quot;</span>,
-            <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-            <span class="hljs-string">&quot;subDish&quot;</span> : [
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b92&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
-                },
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b95&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
-                },
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b97&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>
-                }
-            ]
-        },
-        {
-            <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;558a602a3eba152266ff2b8c&quot;</span>,
-            <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>,
-            <span class="hljs-string">&quot;subDish&quot;</span> : [
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b92&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
-                },
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b95&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">1</span>
-                },
-                {
-                    <span class="hljs-string">&quot;dish&quot;</span>: <span class="hljs-string">&quot;5583b7faa2845dec35276b97&quot;</span>,
-                    <span class="hljs-string">&quot;number&quot;</span>: <span class="hljs-number">2</span>
-                }
-            ]
-        }
-    ]
+  <span class="hljs-string">&quot;cookingType&quot;</span>: <span class="hljs-string">&quot;ready to eat&quot;</span>,
+  <span class="hljs-string">&quot;isCityShanghai&quot;</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">&quot;isInRange3KM&quot;</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
 <h2 id="res">Res</h2>
 <h3 id="body">Body</h3>
-<p><a href="../Order">Orders</a></p>
+<p>&#x98DF;&#x6750;&#x5305;&#x548C;&#x65E2;&#x98DF;&#x5305; &#x9884;&#x8BA1;&#x914D;&#x9001;&#x65F6;&#x95F4;&#x8FD4;&#x56DE;&#x7684;&#x683C;&#x5F0F;&#x4E0D;&#x540C; &#x8BF7;&#x6CE8;&#x610F;</p>
+<p>&#x98DF;&#x6750;&#x5305;</p>
+<pre><code class="lang-js">[
+  {
+    <span class="hljs-string">&quot;day&quot;</span>: <span class="hljs-string">&quot;2015-07-10 16:54:36 PM&quot;</span>,
+    <span class="hljs-string">&quot;segment&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;12&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;10:00 - 12:00 AM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">false</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;17&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;12:00 - 17:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;17:00 - 20:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      }
+    ]
+  },
+  {
+    <span class="hljs-string">&quot;day&quot;</span>: <span class="hljs-string">&quot;2015-07-11 16:54:36 PM&quot;</span>,
+    <span class="hljs-string">&quot;segment&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;12&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;10:00 - 12:00 AM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">false</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;17&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;12:00 - 17:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;17:00 - 20:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      }
+    ]
+  },
+  {
+    <span class="hljs-string">&quot;day&quot;</span>: <span class="hljs-string">&quot;2015-07-12 16:54:36 PM&quot;</span>,
+    <span class="hljs-string">&quot;segment&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;12&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;10:00 - 12:00 AM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">false</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;17&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;12:00 - 17:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;17:00 - 20:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      }
+    ]
+  },
+  {
+    <span class="hljs-string">&quot;day&quot;</span>: <span class="hljs-string">&quot;2015-07-13 16:54:36 PM&quot;</span>,
+    <span class="hljs-string">&quot;segment&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;12&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;10:00 - 12:00 AM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">false</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;17&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;12:00 - 17:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;17:00 - 20:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      }
+    ]
+  },
+  {
+    <span class="hljs-string">&quot;day&quot;</span>: <span class="hljs-string">&quot;2015-07-14 16:54:36 PM&quot;</span>,
+    <span class="hljs-string">&quot;segment&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;12&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;10:00 - 12:00 AM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">false</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;17&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;12:00 - 17:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      },
+      {
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;17:00 - 20:00 PM&quot;</span>,
+        <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-literal">true</span>
+      }
+    ]
+  }
+]
+</code></pre>
+<p>&#x65E2;&#x98DF;&#x5305;</p>
+<pre><code class="lang-js">[
+  {
+    <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-07-10 18:00:19 PM&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-07-10 18:30:19 PM&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-07-10 19:00:19 PM&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-07-10 19:30:19 PM&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-07-10 20:00:19 PM&quot;</span>
+  }
+]
+</code></pre>
 
                     
                     </section>
@@ -1046,10 +960,10 @@
         </div>
 
         
-        <a href="../order/get_single_order.html" class="navigation navigation-prev " aria-label="Previous page: 获取单一订单"><i class="fa fa-angle-left"></i></a>
+        <a href="../order/add_new_order.html" class="navigation navigation-prev " aria-label="Previous page: 生成新订单"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../order/get_delivery_time.html" class="navigation navigation-next " aria-label="Next page: 获取订单预计的配送时间"><i class="fa fa-angle-right"></i></a>
+        <a href="../order/update_order.html" class="navigation navigation-next " aria-label="Next page: 更新订单与支付状态"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
