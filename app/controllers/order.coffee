@@ -79,7 +79,7 @@ exports.addNewOrder = (req, res, next) ->
     dishList : req.body.dishList
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
-    status : models.order.OrderStatus().notpaid
+    status : models.order.constantStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
@@ -89,7 +89,7 @@ exports.addNewOrder = (req, res, next) ->
     freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
     deliveryDate : req.body.deliveryDate
     deliveryTime : req.body.deliveryTime
 
@@ -97,13 +97,13 @@ exports.addNewOrder = (req, res, next) ->
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
-    cookingType :  models.dish.DishCookingType().cook
+    cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
     address : req.body.address
 #    dishList : req.body.dishList
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
-    status : models.order.OrderStatus().notpaid
+    status : models.order.constantStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
@@ -113,20 +113,20 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
     deliveryDate : req.body.deliveryDate
     deliveryTime : req.body.deliveryTime
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
-    cookingType :  models.dish.DishCookingType().eat
+    cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
     address : req.body.address
 #    dishList : req.body.dishList
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
-    status : models.order.OrderStatus().notpaid
+    status : models.order.constantStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
@@ -136,7 +136,7 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00:00")
+    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
     deliveryDate : req.body.deliveryDate
     deliveryTime : req.body.deliveryTime
 
@@ -156,7 +156,7 @@ exports.addNewOrder = (req, res, next) ->
 
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
-      if dishDataList[dish.dish].cookingType is models.dish.DishCookingType().cook # 处理订单分子订单
+      if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push dishDataList[dish.dish]
       else
@@ -164,7 +164,7 @@ exports.addNewOrder = (req, res, next) ->
         dishReadyToEatList.push dishDataList[dish.dish]
 
       for subDish,subDishIndex in dish.subDish
-        if dishDataList[dish.dish].cookingType is models.dish.DishCookingType().cook # 处理订单分子订单
+        if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
           newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToCookList.push dishDataList[subDish.dish]
         else
@@ -197,7 +197,7 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
     #处理如果是微信支付需要先生成微信支付的统一订单
-    if resultOrder.payment is models.order.OrderPayment().weixinpay
+    if resultOrder.payment is models.order.constantPayment().weixinpay
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice
@@ -244,23 +244,23 @@ exports.updateOrder = (req, res, next) ->
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
-    models.order.OrderNotFound(resultOrder)
-    if req.body.isPaymentPaid is true and resultOrder.status isnt models.order.OrderStatus().canceled
+    models.order.checkNotFound(resultOrder)
+    if req.body.isPaymentPaid is true and resultOrder.status isnt models.order.constantStatus().canceled
       resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.OrderStatus().paid
+      resultOrder.status = models.order.constantStatus().paid
 
       if resultOrder.childOrderList.length > 0
         for childOrder in resultOrder.childOrderList
           childOrder.isPaymentPaid = true
-          childOrder.status = models.order.OrderStatus().paid
+          childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
     else
-      if req.body.status is models.order.OrderStatus().canceled and resultOrder.status is models.order.OrderStatus().notpaid
-        resultOrder.status = models.order.OrderStatus().canceled
+      if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
+        resultOrder.status = models.order.constantStatus().canceled
 
         if resultOrder.childOrderList.length > 0
           for childOrder in resultOrder.childOrderList
-            resultOrder.status = models.order.OrderStatus().canceled
+            resultOrder.status = models.order.constantStatus().canceled
             childOrder.saveAsync()
 
     resultOrder.saveAsync()
@@ -275,14 +275,14 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
   console.log "========================OrderAlipayNotify :: ", req.body
   models.order.validationAlipayNotify req.body
 
-  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.OrderStatus().notpaid}
+  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
-    models.order.OrderNotFound(resultOrder)
+    models.order.checkNotFound(resultOrder)
 
     resultOrder.isPaymentPaid = true
-    resultOrder.status = models.order.OrderStatus().paid
+    resultOrder.status = models.order.constantStatus().paid
 
     resultOrder.paymentAlipay =
       notify_time : req.body.notify_time
@@ -313,7 +313,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
     if resultOrder.childOrderList.length > 0
       for childOrder in resultOrder.childOrderList
         childOrder.isPaymentPaid = true
-        childOrder.status = models.order.OrderStatus().paid
+        childOrder.status = models.order.constantStatus().paid
         childOrder.saveAsync()
 
     resultOrder.saveAsync()
@@ -334,13 +334,13 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
     models.order.validationWeixinPayNotify resWeixinPay
 
-    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.OrderStatus().notpaid}
+    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
     .execAsync()
     .then (resultOrder) ->
-      models.order.OrderNotFound(resultOrder)
+      models.order.checkNotFound(resultOrder)
 
       resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.OrderStatus().paid
+      resultOrder.status = models.order.constantStatus().paid
 
       resultOrder.paymentWeixinpay =
         openid : resWeixinPay.openid
@@ -356,7 +356,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
       if resultOrder.childOrderList.length > 0
         for childOrder in resultOrder.childOrderList
           childOrder.isPaymentPaid = true
-          childOrder.status = models.order.OrderStatus().paid
+          childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
 
       resultOrder.saveAsync()
@@ -364,4 +364,22 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
       weixinpay.responseNotify res, false
 
     .catch next
+
+
+
+exports.deliveryTimeArithmetic = (req, res, next) ->
+
+  if req.body.cookingType is "ready to cook"
+    if req.body.isCityShanghai is true
+      result = models.order.deliveryTimeArithmeticByRangeForReadyToCook(req.body.isInRange3KM)
+    else
+      result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
+  else
+    if req.body.isCityShanghai is true
+      result = models.order.deliveryTimeArithmeticForReadyToEat()
+
+  res.status(200).json(result)
+
+
+
 

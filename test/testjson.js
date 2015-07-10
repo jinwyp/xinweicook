@@ -173,3 +173,15 @@ alipay = { discount: '0.00',
     sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
 };
 
+
+
+var deliverTime = [
+    {
+        day : 11,
+        segment : [{
+            name : "12",
+            text : "10:00 - 12:00",
+            status : false
+        }]
+    }
+];

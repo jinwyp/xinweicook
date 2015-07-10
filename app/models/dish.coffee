@@ -88,11 +88,11 @@ module.exports =
     fields : ->
       selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
-    DishNotFound : (dish) ->
+    checkNotFound : (dish) ->
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
 
-    DishCookingType : () ->
+    constantCookingType : () ->
       type =
         cook : "ready to cook"
         eat : "ready to eat"

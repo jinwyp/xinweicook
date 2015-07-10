@@ -116,11 +116,12 @@ module.exports =
     userComment: String # 用户备注
     csComment: String # 客服备注
 
-  statics:{
-    OrderNotFound : (order) ->
+  statics:
+    checkNotFound : (order) ->
       if not order
         throw new Err "Order ID or OrderNumber not found !", 400
-    OrderStatus : () ->
+
+    constantStatus : () ->
       status =
         notpaid : "not paid"
         paid : "paid"
@@ -128,12 +129,25 @@ module.exports =
         shipped : "shipped"
         finished : "finished"
         canceled : "canceled"
-    OrderPayment : () ->
+    constantPayment : () ->
       payment =
         alipaydirect : "alipay direct"
         weixinpay : "weixinpay"
         paypal : "paypal"
-
+    constantDeliverTimeSegment : () ->
+      segment =
+        time12:
+          name : "12"
+          text : "10:00 - 12:00 AM"
+          status : true
+        time17:
+          name : "17"
+          text : "12:00 - 17:00 PM"
+          status : true
+        time20:
+          name : "20"
+          text : "17:00 - 20:00 PM"
+          status : true
 
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
@@ -154,7 +168,7 @@ module.exports =
 
     validationUpdateOrder : (order) ->
       if order.status
-        unless libs.validator.equals order.status, @OrderStatus().canceled
+        unless libs.validator.equals order.status, @constantStatuss().canceled
           return throw new Err "Field validation error,  order status must be string canceled", 400
 
       unless libs.validator.isBoolean order.isPaymentPaid
@@ -172,7 +186,7 @@ module.exports =
       unless libs.validator.isLength newOrder.payment, 4, 30
         return throw new Err "Field validation error,  payment length must be 4-30", 400
 
-      if newOrder.payment is @OrderPayment().weixinpay
+      if newOrder.payment is @constantPayment().weixinpay
         unless libs.validator.isIP newOrder.spbill_create_ip
           return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
         unless libs.validator.isLength newOrder.trade_type, 3,7
@@ -195,15 +209,107 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     validationAlipayNotify : (order) ->
-        unless libs.validator.isLength order.out_trade_no, 21, 22
-          return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
+      unless libs.validator.isLength order.out_trade_no, 21, 22
+        return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
     validationWeixinPayNotify : (order) ->
       unless libs.validator.isLength order.return_code, 4, 7
         return throw new Err "Field validation error,  return_code must be 4-7", 400
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
-  }
+
+
+    deliveryTimeArithmeticByRangeForReadyToCook : (isInRange3KM) ->
+      timeNow = moment()
+      resultTime = []
+
+      if isInRange3KM
+
+        if timeNow.hour() < 17 # 公司3公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
+          for i in [1..5]
+            segmentDay =
+              day : timeNow.clone().add(i-1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              segment : []
+
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
+            segmentDay.segment[0].status = false
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+
+            resultTime.push(segmentDay)
+        else
+          for i in [1..5]
+            segmentDay =
+              day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              segment : []
+
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+
+            resultTime.push(segmentDay)
+      else
+
+        if timeNow.hour() < 17 # 公司3公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
+          for i in [1..5]
+            segmentDay =
+              day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              segment : []
+
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+
+            resultTime.push(segmentDay)
+        else
+          for i in [1..5]
+            segmentDay =
+              day : timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              segment : []
+
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
+            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+
+            resultTime.push(segmentDay)
+
+      resultTime
+
+    deliveryTimeArithmeticNotInShangHaiForReadyToCook : () ->
+      timeNow = moment()
+      resultTime = []
+
+      for i in [1..5]
+        segmentDay =
+          day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+
+        if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
+          segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+        else
+          segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+
+        resultTime.push(segmentDay)
+
+      resultTime
+
+    deliveryTimeArithmeticForReadyToEat : () ->
+      timeNow = moment()
+      resultTime = []
+
+      if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+        if timeNow.minute()%30 >= 10
+          timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
+        else
+          timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
+
+        for i in [1..5]
+          segmentHour =
+            hour : timeStarter.clone().add(30*(i-1), 'minutes').format("YYYY-MM-DD HH:mm:ss A")
+
+          resultTime.push(segmentHour)
+
+      resultTime
+
   methods: {}
   rest: {}
   plugin: (schema) ->

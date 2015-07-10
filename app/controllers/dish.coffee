@@ -17,7 +17,7 @@ exports.dishSingleInfo = (req, res, next) ->
   models.dish.validationDishId req.params._id
 
   models.dish.find1(_id: req.params._id).then (resultDish) ->
-    models.dish.DishNotFound resultDish
+    models.dish.checkNotFound resultDish
 
     res.json resultDish
   .catch next
@@ -30,7 +30,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
   models.dish.validationDishId req.params._id
 
   models.dish.find1(_id: req.params._id).then (resultDish) ->
-    models.dish.DishNotFound resultDish
+    models.dish.checkNotFound resultDish
 
     if resultDish.statisticLikeUserList.indexOf(req.u._id) > -1
       resultDish.statisticLike = resultDish.statisticLike - 1

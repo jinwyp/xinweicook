@@ -100,7 +100,6 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     UserFound: (u) ->
-      console.log "----------",u
       u or throw new Err "找不到该用户", 404
     UserNotSpam: (u) ->
       if u.isSpam
