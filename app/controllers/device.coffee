@@ -27,10 +27,15 @@ exports.addNewDevice = (req, res, next) ->
 
   createDevice = _.assign({}, req.body)
 
-  models.device.createAsync createDevice
+  models.device.findOneAsync({deviceId:req.body.deviceId})
+  .then (resultDevice) ->
+    models.device.checkFound resultDevice
+
+    models.device.createAsync createDevice
   .then (resultDevice) ->
     res.json resultDevice
   , next
+
 
 
 
