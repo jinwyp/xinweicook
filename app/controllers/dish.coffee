@@ -88,9 +88,15 @@ exports.initNewDish2 = (req, res, next) ->
     title :
       zh : "干煸茶树菇孜然雪花牛柳"
       en : "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
-    cover :
+
+    cover :[
       zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
       en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
+    ,
+      zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+      en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+    ]
+
 
     difficulty : 2
     time : 15
@@ -396,9 +402,13 @@ exports.initNewDish = (req, res, next) ->
       zh : "干煸茶树菇孜然雪花牛柳"
       en : "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
 
-    cover :
+    cover :[
       zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
       en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
+    ,
+      zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+      en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+    ]
 
     difficulty : 2
     time : 15
@@ -669,9 +679,14 @@ exports.initNewDish = (req, res, next) ->
     title :
       zh : "干煸茶树菇孜然雪花牛柳"
       en : "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
-    cover :
+
+    cover :[
       zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
       en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg"
+    ,
+      zh : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+      en : "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg"
+    ]
 
     difficulty : 2
     time : 15
