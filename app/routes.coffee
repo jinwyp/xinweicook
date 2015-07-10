@@ -1,6 +1,7 @@
 
 
 userController = require "./controllers/user.coffee"
+deviceController = require "./controllers/device.coffee"
 tokenController = require "./controllers/token.coffee"
 smsController = require "./controllers/sms.coffee"
 articleController = require "./controllers/article.coffee"
@@ -34,6 +35,7 @@ expressRoutes = (app) ->
 
 
 
+  app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)
   app.post("/api/user/logout", tokenController.tokenRevoke)
 

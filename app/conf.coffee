@@ -51,6 +51,10 @@ conf =
     key: "Gothicjk1129xinwei789tencentsbsb"
     notify_url : "/api/orders/payment/weixinpay/mobile"
 
+  xingePush :
+    accessId : 2200130690
+    secretKey : "f2d9db2a6a5b30bbd0a1009de079ca80"
+
   code:
     trys: 5
     sends: 20

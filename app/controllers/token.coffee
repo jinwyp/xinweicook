@@ -2,7 +2,7 @@
 
 exports.tokenSignIn = (req, res, next) ->
   # 登录
-  { grant_type, username, password, refresh_token } = req.body
+  { grant_type, username, password, refresh_token, deviceId } = req.body
   switch grant_type
     when "password"
       models.token.findTokenByMobilePwd(username, password).then((t) ->
