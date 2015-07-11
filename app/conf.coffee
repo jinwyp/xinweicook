@@ -55,6 +55,10 @@ conf =
     accessId : 2200130690
     secretKey : "f2d9db2a6a5b30bbd0a1009de079ca80"
 
+  qiniu :
+    access_key : "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp"
+    secret_key : "ktbOSuZrHbGbFl-Zdo06SEAhRC4DLT9oQ2eqv-QR"
+
   code:
     trys: 5
     sends: 20

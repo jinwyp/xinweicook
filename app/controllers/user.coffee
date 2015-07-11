@@ -1,6 +1,15 @@
 # 用户
 
+qiniu = require "qiniu"
 
+
+qiniu.conf.ACCESS_KEY = conf.qiniu.access_key;
+qiniu.conf.SECRET_KEY = conf.qiniu.access_key;
+
+
+exports.getUploadQiniuToken = (req, res, next) ->
+  putPolicy = new qiniu.rs.PutPolicy( "userupload" );
+  res.send {uploadToken : putPolicy.token()};
 
 
 

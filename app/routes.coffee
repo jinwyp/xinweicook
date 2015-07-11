@@ -35,6 +35,9 @@ expressRoutes = (app) ->
 
 
 
+  app.post("/api/qiniu/token/upload", userController.getUploadQiniuToken)
+
+
   app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)
   app.post("/api/user/logout", tokenController.tokenRevoke)
