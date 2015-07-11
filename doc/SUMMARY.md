@@ -14,6 +14,7 @@
    * [Refresh Access Token 刷新令牌](authorization/refresh_access_token.md)
    * [Revoke Access Token 撤销令牌 登出](authorization/revoke_access_token.md)
 * [用户](user/README.md)
+   * [上传图片获取七牛上传凭证](user/get_qiniu_upload_token.md)
    * [通过短信发送验证码](user/send_verification_code_via_sms.md)
    * [注册](user/sign_up.md)
    * [提交DeviceID](user/add_device.md)

@@ -3,6 +3,7 @@ module.exports =
   schema:
     ip: String
     deviceId: String
+    deviceToken: String
     user: type: Schema.ObjectId, ref: "user"
   statics:
     checkNotFound : (device) ->
@@ -13,8 +14,8 @@ module.exports =
         return throw new Err "Device ID found !", 400
 
     validationNewDevice : (device) ->
-      unless libs.validator.isLength device.deviceId, 6,50
-        return throw new Err "Field validation error,  deviceId must be 6-50", 400
+      unless libs.validator.isLength device.deviceToken, 6,50
+        return throw new Err "Field validation error,  deviceToken must be 6-50", 400
   methods: {}
   rest: {}
 
