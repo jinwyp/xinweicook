@@ -14,8 +14,8 @@ module.exports =
         return throw new Err "Device Token already exist !", 400
 
     validationNewDevice : (device) ->
-      unless libs.validator.isLength device.deviceToken, 6,50
-        return throw new Err "Field validation error,  deviceToken must be 6-50", 400
+      unless libs.validator.isLength device.deviceToken, 30,70
+        return throw new Err "Field validation error,  deviceToken must be 30-70", 400
   methods: {}
   rest: {}
 

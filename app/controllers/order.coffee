@@ -44,6 +44,31 @@ exports.orderSingleInfo = (req, res, next) ->
 
 
 
+
+
+
+exports.pushMobileMessage = (req, res, next) ->
+
+  models.device.findOneAsync(user: req.u._id)
+  .then (resultDevice) ->
+    models.device.checkNotFound resultDevice
+
+    messageOption =
+      isPushMobile : true
+
+    models.message.sendMessage(resultDevice.deviceToken, models.message.constantContentType().orderAdd, messageOption)
+  .then (resultPush) ->
+    models.message.checkNotFound resultPush
+    res.json resultPush
+
+  .catch next
+
+
+
+
+
+
+
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
   models.order.validationNewOrder req.body

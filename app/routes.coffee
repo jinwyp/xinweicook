@@ -63,7 +63,7 @@ expressRoutes = (app) ->
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)
 
 
-
+  app.get("/api/order/push", libs.auth("member"), orderController.pushMobileMessage)
 
 
 
