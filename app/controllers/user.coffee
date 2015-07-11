@@ -56,6 +56,18 @@ exports.userInfo = (req, res, next) ->
 
 
 
+exports.getUserMessages = (req, res, next) ->
+
+  models.message.find({user:req.u._id})
+  .execAsync()
+  .then (resultMessages) ->
+    res.json resultMessages
+  .catch next
+
+
+
+
+
 
 
 exports.updateUserInfo = (req, res, next) ->

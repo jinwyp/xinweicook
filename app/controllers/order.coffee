@@ -56,7 +56,7 @@ exports.pushMobileMessage = (req, res, next) ->
     messageOption =
       isPushMobile : true
 
-    models.message.sendMessage(resultDevice.deviceToken, models.message.constantContentType().orderAdd, messageOption)
+    models.message.sendMessage(req.u._id, resultDevice.deviceToken, models.message.constantContentType().orderAdd, messageOption)
   .then (resultPush) ->
     models.message.checkNotFound resultPush
     res.json resultPush
