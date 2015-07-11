@@ -4,12 +4,12 @@
 
 POST `/user/token`
 
-| Name       | Type   | Desc       |
-|:-----------|:-------|:-----------|
-| grant_type | string | `password` |
-| username   | string | 手机号     |
-| password   | string | 密码       |
-| deviceId   | string | iOS设备ID       |
+| Name        | Type   | Desc       |
+|:----------- |:-------|:-----------|
+| grant_type  | String | `password` |
+| username    | String | 手机号     |
+| password    | String | 密码       |
+| deviceToken | String | iOS设备ID       |
 
 ```js
 {
@@ -21,12 +21,12 @@ POST `/user/token`
 
 ## Res
 
-| Name | Type| Desc |
-|:---|:---|:---|
-| access_token | string | Access Token |
+| Name          | Type   | Desc |
+|:---           |:---    |:---  |
+| access_token  | string | Access Token |
 | refresh_token | string | Refresh Token |
-| token_type | string | `Bearer` |
-| expires_in | number | 过期时间, 单位: 秒 |
+| token_type    | string | `Bearer` |
+| expires_in    | number | 过期时间, 单位: 秒 |
 
 
 ```js

@@ -8,10 +8,10 @@ module.exports =
   statics:
     checkNotFound : (device) ->
       if not device
-        return throw new Err "Device ID not found !", 400
+        return throw new Err "Device Token not found !", 400
     checkFound : (device) ->
       if device
-        return throw new Err "Device ID found !", 400
+        return throw new Err "Device Token already exist !", 400
 
     validationNewDevice : (device) ->
       unless libs.validator.isLength device.deviceToken, 6,50

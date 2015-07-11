@@ -18,7 +18,7 @@ module.exports =
       models.user.findUserByMobilePwd(mobile,pwd)
       .bind(@)
       .then((u)->
-        models.device.findOneAsync({deviceId:deviceId}).then (resultDevice) ->
+        models.device.findOneAsync({deviceToken:deviceToken}).then (resultDevice) ->
           if resultDevice
             resultDevice.user = u._id
             resultDevice.saveAsync()

@@ -27,7 +27,7 @@ exports.addNewDevice = (req, res, next) ->
 
   createDevice = _.assign({}, req.body)
 
-  models.device.findOneAsync({deviceId:req.body.deviceId})
+  models.device.findOneAsync({deviceToken:req.body.deviceToken})
   .then (resultDevice) ->
     models.device.checkFound resultDevice
 

@@ -4,9 +4,9 @@ POST `/user/device`
 
 ### Body
 
-| Name   | Type   | Desc   |
-|:-------|:-------|:-------|
-| deviceId | string | iOS推送设备ID |
+| Name        | Type   | Desc   |
+|:-------     |:-------|:-------|
+| deviceToken | String | iOS推送设备ID |
 
 
 ```js
@@ -22,7 +22,7 @@ POST `/user/device`
   "__v": 0,
   "modifiedAt": "2015-07-10T10:34:54.458Z",
   "createdAt": "2015-07-10T10:34:54.458Z",
-  "deviceId": "1234567",
+  "deviceToken": "1234567",
   "_id": "559f9fce3fdd12fd8d8adc7d"
 }
 ```
