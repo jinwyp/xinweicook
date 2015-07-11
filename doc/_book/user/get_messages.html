@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>配送时间计算 | 新味 API 文档</title>
+        <title>获取用户通知消息 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../order/push_message.html" />
+    <link rel="next" href="../user/update_userinfo.html" />
     
     
-    <link rel="prev" href="../order/payment_notify_weixinpay.html" />
+    <link rel="prev" href="../user/get_account.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="6.8" data-basepath=".." data-revision="Sun Jul 12 2015 05:06:34 GMT+0800 (CST)">
+    <div class="book" data-level="4.7" data-basepath=".." data-revision="Sun Jul 12 2015 05:06:34 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -370,7 +370,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.7" data-path="user/get_messages.html">
+        <li class="chapter active" data-level="4.7" data-path="user/get_messages.html">
             
                 
                     <a href="../user/get_messages.html">
@@ -577,7 +577,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.8" data-path="order/deliver_time.html">
+        <li class="chapter " data-level="6.8" data-path="order/deliver_time.html">
             
                 
                     <a href="../order/deliver_time.html">
@@ -849,31 +849,88 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="%E9%A3%9F%E6%9D%90%E5%8C%85%E9%85%8D%E9%80%81%E5%8E%9F%E5%88%99">&#x98DF;&#x6750;&#x5305;&#x914D;&#x9001;&#x539F;&#x5219;:</h1>
-<h3 id="%E4%B8%8A%E6%B5%B7%EF%BC%9A">&#x4E0A;&#x6D77;&#xFF1A;</h3>
-<p>&#x53EF;&#x9009;&#x65F6;&#x95F4;&#x6BB5;
-&#x4E0A;&#x5348;&#xFF1A;10:00 - 12:00
-&#x4E0B;&#x5348;&#xFF1A;12:00 - 17:00
-&#x508D;&#x665A;&#xFF1A;17:00 - 20:00</p>
-<p>&#x516C;&#x53F8;3&#x516C;&#x91CC;&#x8303;&#x56F4;&#x5185;&#xFF1A;
-&#x5F53;&#x5929;17:00&#x524D;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x5F53;&#x5929;&#x7684;&#x4E0B;&#x5348;&#x6216;&#x8005;&#x508D;&#x665A; &#x4EE5;&#x53CA;&#x4E4B;&#x540E;4&#x5929;&#x7684;&#x4EFB;&#x4F55;&#x65F6;&#x95F4;&#x6BB5;&#x3002;
-&#x5F53;&#x5929;17:00&#x540E;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x660E;&#x5929;&#x5728;&#x5185;&#x7684;5&#x586B;&#x7684;&#x4EFB;&#x4F55;&#x65F6;&#x95F4;&#x6BB5;&#x3002;</p>
-<p>&#x516C;&#x53F8;3&#x516C;&#x91CC;&#x8303;&#x56F4;&#x5916;&#xFF1A;
-&#x5F53;&#x5929;17:00&#x524D;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x660E;&#x5929;&#x5728;&#x5185;&#x7684;5&#x5929;&#x7684;&#x4EFB;&#x4F55;&#x65F6;&#x95F4;&#x6BB5;&#x3002;
-&#x5F53;&#x5929;17:00&#x540E;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x540E;&#x5929;&#x5728;&#x5185;&#x7684;5&#x5929;&#x7684;&#x4EFB;&#x4F55;&#x65F6;&#x95F4;&#x6BB5;&#x3002;</p>
-<h3 id="%E9%9D%9E%E4%B8%8A%E6%B5%B7%EF%BC%9A">&#x975E;&#x4E0A;&#x6D77;&#xFF1A;</h3>
-<p>&#x53EF;&#x9009;&#x65F6;&#x95F4;&#x6BB5;&#xFF1A; &#x65E0;&#x3002;
-&#x53EA;&#x80FD;&#x9009;&#x62E9;&#x67D0;&#x4E00;&#x5929;&#xFF0C;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x5230;&#x5E95;&#x54EA;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6BB5;&#x9001;&#x5230;&#x3002;</p>
-<p>&#x5F53;&#x5929;11:00 &#x524D;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x660E;&#x5929;&#x5728;&#x5185;&#x7684;5&#x5929;&#x3002;
-&#x5F53;&#x5929;11:00 &#x540E;&#x4E0B;&#x5355;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x540E;&#x5929;&#x5728;&#x5185;&#x7684;5&#x5929;&#x3002;</p>
-<h1 id="%E5%8D%B3%E9%A3%9F%E5%8C%85%E9%85%8D%E9%80%81%E5%8E%9F%E5%88%99">&#x5373;&#x98DF;&#x5305;&#x914D;&#x9001;&#x539F;&#x5219;:</h1>
-<p>&#x4E0A;&#x6D77; - &#x5F90;&#x6C47;&#x533A;&#x4E2D;&#x5C71;&#x5357;&#x4E8C;&#x8DEF;510&#x53F7;3&#x516C;&#x91CC;&#x8303;&#x56F4;&#x5185;&#x53EF;&#x4E0B;&#x5355;</p>
-<p>&#x4E0B;&#x5355;&#x65F6;&#x95F4;&#xFF1A;11&#xFF1A;00 - 20&#xFF1A;00</p>
-<p>&#x53EF;&#x9009;&#x65F6;&#x95F4;&#x6BCF;&#x534A;&#x4E2A;&#x5C0F;&#x65F6;&#x4E3A;&#x4E00;&#x4E2A;&#x5355;&#x4F4D;&#xFF0C;&#x65F6;&#x95F4;&#x70B9;&#x4EE5;&#x6574;&#x70B9;&#x7B97;&#x8D77; (11:00/11:30/12:00&#x2026;)</p>
-<p>&#x82E5;&#x4E0B;&#x5355;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x6574;&#x70B9;&#x534A;&#x5C0F;&#x65F6;10&#x5206;&#x949F;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4E00;&#x5C0F;&#x65F6;&#x5916;&#x6700;&#x8FD1;&#x7684;&#x4E00;&#x4E2A;&#x6574;&#x70B9;&#x534A;&#x5C0F;&#x65F6;&#x3002;
-&#xFF08;&#x4F8B;&#x5982;&#xFF1A;12:41 &#x4E0B;&#x5355;&#xFF0C;&#x6700;&#x65E9;&#x53EF;&#x4EE5;&#x9009;&#x62E9; 14:00&#xFF09;
-&#x82E5;&#x4E0B;&#x5355;&#x65F6;&#x95F4;&#x4E0D;&#x8D85;&#x8FC7;&#x6B63;&#x70B9;&#x534A;&#x5C0F;&#x65F6;10&#x5206;&#x949F;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4E00;&#x5C0F;&#x65F6;&#x4EE5;&#x5185;&#x6700;&#x8FDC;&#x7684;&#x4E00;&#x4E2A;&#x6574;&#x70B9;&#x534A;&#x5C0F;&#x65F6;&#x3002;
-&#xFF08;&#x4F8B;&#x5982;&#xFF1A;12:39&#x4E0B;&#x5355;&#xFF0C;&#x6700;&#x65E9;&#x53EF;&#x4EE5;&#x9009;&#x62E9;13:30&#xFF09;</p>
+                        <h2 id="req">Req</h2>
+<p>GET <code>/user/messages</code></p>
+<p>Group <code>member</code></p>
+<h2 id="res">Res</h2>
+<h3 id="body">Body</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">isViewd</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x9605;&#x8BFB;</td>
+</tr>
+<tr>
+<td style="text-align:left">isPushMobile</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x7528;&#x6765;&#x63A8;&#x9001;iOS&#x6216;Andorid &#x79FB;&#x52A8;&#x6D88;&#x606F;&#x63A8;&#x9001;</td>
+</tr>
+<tr>
+<td style="text-align:left">isPushSMS</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x53D1;&#x9001;&#x77ED;&#x4FE1;&#x63A8;&#x9001;</td>
+</tr>
+<tr>
+<td style="text-align:left">isPushEmail</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x53D1;&#x9001;&#x90AE;&#x4EF6;&#x63D0;&#x9192;&#x63A8;&#x9001;</td>
+</tr>
+<tr>
+<td style="text-align:left">text</td>
+<td style="text-align:left">Object</td>
+<td style="text-align:left">&#x63A8;&#x9001;&#x6587;&#x5B57;</td>
+</tr>
+<tr>
+<td style="text-align:left">-&gt; zh</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x4E2D;&#x6587;</td>
+</tr>
+<tr>
+<td style="text-align:left">-&gt; en</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x82F1;&#x6587;</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-js">[
+  {
+    <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;55a180f54823918401f09689&quot;</span>,
+    <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-07-11T20:47:49.571Z&quot;</span>,
+    <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-07-11T20:47:49.571Z&quot;</span>,
+    <span class="hljs-string">&quot;contentType&quot;</span>: <span class="hljs-string">&quot;orderAdd&quot;</span>,
+    <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;559e28764fa0f11b1d26eacc&quot;</span>,
+    <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-string">&quot;isViewed&quot;</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">&quot;isPushMobile&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">&quot;isPushSMS&quot;</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">&quot;isPushEmail&quot;</span>: <span class="hljs-literal">false</span>
+  },
+  {
+    <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;55a18227198f2c4803d08f69&quot;</span>,
+    <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-07-11T20:52:55.620Z&quot;</span>,
+    <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-07-11T20:52:55.620Z&quot;</span>,
+    <span class="hljs-string">&quot;contentType&quot;</span>: <span class="hljs-string">&quot;orderAdd&quot;</span>,
+    <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;559e28764fa0f11b1d26eacc&quot;</span>,
+    <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-string">&quot;isViewed&quot;</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">&quot;text&quot;</span>: {
+      <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;&#x60A8;&#x7684;&#x8BA2;&#x5355;&#x5DF2;&#x7ECF;&#x751F;&#x6210;&#xFF0C;&#x8BF7;&#x53CA;&#x65F6;&#x4ED8;&#x6B3E;&quot;</span>,
+      <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;Order have been submitted, please pay order as soon as possible&quot;</span>
+    },
+    <span class="hljs-string">&quot;isPushMobile&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">&quot;isPushSMS&quot;</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">&quot;isPushEmail&quot;</span>: <span class="hljs-literal">false</span>
+  }
+]
+</code></pre>
 
                     
                     </section>
@@ -884,10 +941,10 @@
         </div>
 
         
-        <a href="../order/payment_notify_weixinpay.html" class="navigation navigation-prev " aria-label="Previous page: 支付状态通知微信"><i class="fa fa-angle-left"></i></a>
+        <a href="../user/get_account.html" class="navigation navigation-prev " aria-label="Previous page: 用户信息包括收货地址购物车"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../order/push_message.html" class="navigation navigation-next " aria-label="Next page: 发送推送通知"><i class="fa fa-angle-right"></i></a>
+        <a href="../user/update_userinfo.html" class="navigation navigation-next " aria-label="Next page: 更新用户信息和收货地址"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
