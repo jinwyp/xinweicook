@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>A33E2BBA-1BCE-47DA-95B5-7D5D6B60502C</UUID>
-        <nextObjectID>431</nextObjectID>
+        <nextObjectID>435</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -793,15 +793,15 @@
         <attribute name="uuid" type="string">93565611-2B0B-47EA-B27A-65C5A885292C</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">Header</attribute>
-        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z193"></relationship>
-        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z209 z190 z320"></relationship>
+        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z434 z193"></relationship>
+        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z190 z320 z209"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLE" id="z190">
         <attribute name="uuid" type="string">018150F8-0AC9-47AA-877F-97F264B1EAEB</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z189"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z188"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z188 z433"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLE" id="z191">
         <attribute name="uuid" type="string">3F560FAA-A555-431A-9E0E-C1BDA871AB61</attribute>
@@ -914,7 +914,7 @@
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">Accept</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z189"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z210"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z210 z432"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z210">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -2005,7 +2005,7 @@
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">token</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z189"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z319"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z319 z435"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z321">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"CF6C20E6-62DA-4227-835F-1DA0FC6EA3C7"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
@@ -2791,12 +2791,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"deviceToken\\":\\"9036e1f50687c90d386cd8f672b2080f60315a1940fbf2a8ccb0af786dff5831\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">19</attribute>
         <attribute name="name" type="string">user-addDeviceId</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z400 z401 z402 z404 z406 z405 z407"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z402 z406 z400 z401 z407 z404 z405"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z404">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -3086,5 +3086,27 @@
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z424 z427 z426 z428 z429 z430 z425"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z432">
+        <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z209"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z433">
+        <attribute name="value" type="string">application/json</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z190"></relationship>
+    </object>
+    <object type="LMENVIRONMENT" id="z434">
+        <attribute name="uuid" type="string">75B9F3F5-275A-49EE-9F01-97DE6846B9E2</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">testing server</attribute>
+        <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z189"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z432 z435 z433"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z435">
+        <attribute name="value" type="string">Bearer </attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
 </database>

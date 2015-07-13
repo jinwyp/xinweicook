@@ -11,7 +11,7 @@ POST `/user/device`
 
 ```js
 {
-  "deviceId": "18600000000"
+  "deviceToken": "9036e1f50687c90d386cd8f672b2080f60315a1940fbf2a8ccb0af786dff5831"
 }
 ```
 
@@ -22,7 +22,7 @@ POST `/user/device`
   "__v": 0,
   "modifiedAt": "2015-07-10T10:34:54.458Z",
   "createdAt": "2015-07-10T10:34:54.458Z",
-  "deviceToken": "1234567",
+  "deviceToken": "9036e1f50687c90d386cd8f672b2080f60315a1940fbf2a8ccb0af786dff5831",
   "_id": "559f9fce3fdd12fd8d8adc7d"
 }
 ```

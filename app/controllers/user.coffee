@@ -1,15 +1,85 @@
 # 用户
-
+crypto = require 'crypto';
+qs = require 'querystring'
 qiniu = require "qiniu"
-
+qiniuTools = require "../libs/qiniu.js"
+fs = require 'fs'
 
 qiniu.conf.ACCESS_KEY = conf.qiniu.access_key;
 qiniu.conf.SECRET_KEY = conf.qiniu.access_key;
 
 
+exports.getUploadRespone = (req, res) ->
+
+  infoObject = req.body
+
+  # 数据形如：
+  # {"name":"download.png","hash":"FoO0sxxxx9mFVKcVo4D3wUzHpWW","imageInfo":"{\"format\":\"png\",\"width\":200,\"height\":200,\"colorModel\":\"nrgba\"}","fsize":"3908","key":"FoO0slsknA9mFVKcVo4D3wffffWW","ext":".png","bucket":"xxxxxx"}
+
+  # 处理infoObject，加工存储到数据库等。。
+  # do_something_to(infoObject)
+
+  # 返回, 之后七牛服务器会返回给浏览器端
+  res.json(infoObject)
+
+
+
 exports.getUploadQiniuToken = (req, res, next) ->
-  putPolicy = new qiniu.rs.PutPolicy( "userupload" );
-  res.send {uploadToken : putPolicy.token()};
+
+  bucketName = "userupload"
+
+  putPolicyOwn =
+    scope : bucketName
+    deadline : Math.floor(Date.now() / 1000) + 3600 * 24 * 2
+
+  putPolicy = new qiniu.rs.PutPolicy( bucketName );
+
+  callbackBodyObj =
+    name: '$(fname)'
+    hash: '$(etag)'
+    imageInfoW: '$(imageInfo.width)'
+    imageInfoH: '$(imageInfo.height)'
+    size: '$(fsize)'
+    bucket: '$(bucket)'
+
+#  callbackUrl = 'www.baidu.com/qiniu-callback'
+#  callbackBodyStr = qs.stringify(callbackBodyObj).replace(/\%24/g, '$')
+
+#  putPolicy.callbackUrl = callbackUrl
+#  putPolicy.callbackBody = callbackBodyStr
+  putPolicy.expires = 3600 * 24 * 2;
+
+
+
+
+  encoded = qiniuTools.base64encode(qiniuTools.utf16to8(JSON.stringify(putPolicyOwn)));
+  console.log encoded
+  hmac = crypto.createHmac('sha1', qiniu.conf.SECRET_KEY);
+  hmac.update(encoded);
+  encoded_signed = hmac.digest('base64');
+
+
+#  uptoken =  putPolicy.token()
+#  uptoken =  "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:we1r8Zy6CpAFvnrZ4cOuYLQ2BzQ=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjc5ODA1NH0="
+  uptoken =  qiniu.conf.ACCESS_KEY + ":" + qiniuTools.safe64(encoded_signed) + ":" + encoded;
+
+
+  fs.readFile("README.md", (err, localFile)->
+    console.log "-----", err;
+    console.log "-----", localFile;
+
+    extra = new qiniu.io.PutExtra()
+
+    qiniu.io.put(uptoken, "aaaaaa", localFile, extra, (err1, result)->
+      if err1
+        console.log(err1)
+      else
+        console.log(result)
+    )
+  )
+
+
+  res.send({uptoken : uptoken})
 
 
 

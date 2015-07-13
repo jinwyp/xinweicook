@@ -50,7 +50,7 @@ module.exports =
         iOSMessage.badge = 1
         iOSMessage.sound = "default"
 
-        iOSMessage.customContent = {page: 'home'}
+        iOSMessage.customContent = {page: 'home', contentType:newMessage.contentType}
         iOSMessage.loopTimes = 1 # 重复推送的次数
         iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
 
