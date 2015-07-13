@@ -10,6 +10,6 @@ POST `/qiniu/token/upload`
 ### Body
 ```js
 {
-  "uploadToken": "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:a3t8bqWEPXQiwcN9PRzAWGzcTcQ=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjYxMzgyOX0="
+  "uptoken": "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:kpmMFroLaXSG6tLhTU5y6IXpLbk=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjk1NTkxMX0="
 }
 ```
