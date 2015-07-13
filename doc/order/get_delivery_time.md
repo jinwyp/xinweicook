@@ -35,7 +35,7 @@ Group `member`
 ```js
 [
   {
-    "day": "2015-07-10 16:54:36 PM",
+    "day": "2015-07-13",
     "segment": [
       {
         "name": "12",
@@ -55,12 +55,12 @@ Group `member`
     ]
   },
   {
-    "day": "2015-07-11 16:54:36 PM",
+    "day": "2015-07-14",
     "segment": [
       {
         "name": "12",
         "text": "10:00 - 12:00 AM",
-        "status": false
+        "status": true
       },
       {
         "name": "17",
@@ -75,12 +75,12 @@ Group `member`
     ]
   },
   {
-    "day": "2015-07-12 16:54:36 PM",
+    "day": "2015-07-15",
     "segment": [
       {
         "name": "12",
         "text": "10:00 - 12:00 AM",
-        "status": false
+        "status": true
       },
       {
         "name": "17",
@@ -95,12 +95,12 @@ Group `member`
     ]
   },
   {
-    "day": "2015-07-13 16:54:36 PM",
+    "day": "2015-07-16",
     "segment": [
       {
         "name": "12",
         "text": "10:00 - 12:00 AM",
-        "status": false
+        "status": true
       },
       {
         "name": "17",
@@ -115,12 +115,12 @@ Group `member`
     ]
   },
   {
-    "day": "2015-07-14 16:54:36 PM",
+    "day": "2015-07-17",
     "segment": [
       {
         "name": "12",
         "text": "10:00 - 12:00 AM",
-        "status": false
+        "status": true
       },
       {
         "name": "17",
