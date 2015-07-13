@@ -258,7 +258,7 @@ exports.addNewOrder = (req, res, next) ->
         resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
           res.json resultOrder2
     else
-      res.json resultOrder
+      res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
   .catch next
 
 
