@@ -183,6 +183,8 @@ module.exports =
         return throw new Err "Field validation error,  clientFrom must be string", 400
       unless libs.validator.isInt newOrder.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
+      unless libs.validator.isInt newOrder.freight, {min: 0}
+        return throw new Err "Field validation error,  freight must be number", 400
       unless libs.validator.isLength newOrder.payment, 4, 30
         return throw new Err "Field validation error,  payment length must be 4-30", 400
 
@@ -214,6 +216,15 @@ module.exports =
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
+
+          if Array.isArray dish.subDish
+            for subDish,subDishIndex in dish.subDish
+              unless libs.validator.isInt subDish.number, {min: 1, max: 100}
+                return throw new Err "Field validation error,  subDish.number must be 1-100", 400
+              unless libs.validator.isLength subDish.dish, 24, 24
+                return throw new Err "Field validation error,  subDishID must be 24-24", 400
+          else
+              throw new Err "Field validation error,  subDish must be Array", 400
 
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 22
