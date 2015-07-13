@@ -198,13 +198,13 @@ module.exports =
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
-        unless libs.validator.isLength newOrder.deliveryTimeCook, 4, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 2-2", 400
+        unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
       else
         unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
-        unless libs.validator.isLength newOrder.deliveryTimeEat, 4, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 2-2", 400
+        unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
 
       unless Array.isArray newOrder.dishList
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400
