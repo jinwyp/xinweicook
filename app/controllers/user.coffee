@@ -1,12 +1,8 @@
 # 用户
-crypto = require 'crypto';
-qs = require 'querystring'
 qiniu = require "qiniu"
-qiniuTools = require "../libs/qiniu.js"
-fs = require 'fs'
 
 qiniu.conf.ACCESS_KEY = conf.qiniu.access_key;
-qiniu.conf.SECRET_KEY = conf.qiniu.access_key;
+qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 
 exports.getUploadRespone = (req, res) ->
@@ -28,10 +24,6 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
   bucketName = "userupload"
 
-#  putPolicyOwn =
-#    scope : bucketName
-#    deadline : Math.floor(Date.now() / 1000) + 3600 * 24 * 2
-
   putPolicy = new qiniu.rs.PutPolicy( bucketName );
 
   callbackBodyObj =
@@ -49,38 +41,7 @@ exports.getUploadQiniuToken = (req, res, next) ->
 #  putPolicy.callbackBody = callbackBodyStr
   putPolicy.expires = 3600 * 24 * 2;
 
-
-
-
-#  encoded = qiniuTools.base64encode(qiniuTools.utf16to8(JSON.stringify(putPolicyOwn)));
-#  console.log encoded
-#  hmac = crypto.createHmac('sha1', qiniu.conf.SECRET_KEY);
-#  hmac.update(encoded);
-#  encoded_signed = hmac.digest('base64');
-
-
-  uptoken =  putPolicy.token()
-  console.log uptoken
-#  uptoken =  "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:2E7pCvKX7QSouSf7VaxFUrn8bPc=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjc4NDc4Mn0="
-#  uptoken =  qiniu.conf.ACCESS_KEY + ":" + qiniuTools.safe64(encoded_signed) + ":" + encoded;
-
-
-  fs.readFile("README.md", (err, localFile)->
-    console.log "-----", err;
-    console.log "-----", localFile;
-
-    extra = new qiniu.io.PutExtra()
-
-    qiniu.io.put(uptoken, "aaaaaa", localFile, extra, (err1, result)->
-      if err1
-        console.log(err1)
-      else
-        console.log(result)
-    )
-  )
-
-
-  res.send({uptoken : uptoken})
+  res.send({uptoken : putPolicy.token()})
 
 
 
