@@ -227,6 +227,8 @@ module.exports =
 
 
     deliveryTimeArithmeticByRangeForReadyToCook : (isInRange3KM) ->
+      timeFormat = "YYYY-MM-DD HH:mm:ss A"
+      timeFormat2 = "YYYY-MM-DD"
       timeNow = moment()
       resultTime = []
 
@@ -235,19 +237,19 @@ module.exports =
         if timeNow.hour() < 17 # 公司3公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           for i in [1..5]
             segmentDay =
-              day : timeNow.clone().add(i-1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              day : timeNow.clone().add(i-1, 'days').format(timeFormat2)
               segment : []
 
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
-            segmentDay.segment[0].status = false
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
 
             resultTime.push(segmentDay)
+          resultTime[0].segment[0].status = false
         else
           for i in [1..5]
             segmentDay =
-              day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              day : timeNow.clone().add(i, 'days').format(timeFormat2)
               segment : []
 
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
@@ -260,7 +262,7 @@ module.exports =
         if timeNow.hour() < 17 # 公司3公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
           for i in [1..5]
             segmentDay =
-              day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              day : timeNow.clone().add(i, 'days').format(timeFormat2)
               segment : []
 
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
@@ -271,7 +273,7 @@ module.exports =
         else
           for i in [1..5]
             segmentDay =
-              day : timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+              day : timeNow.clone().add(i+1, 'days').format(timeFormat2)
               segment : []
 
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
@@ -291,9 +293,9 @@ module.exports =
           day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
 
         if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
-          segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+          segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD")
         else
-          segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD HH:mm:ss A")
+          segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD")
 
         resultTime.push(segmentDay)
 
