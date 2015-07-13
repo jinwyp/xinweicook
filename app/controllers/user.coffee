@@ -28,9 +28,9 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
   bucketName = "userupload"
 
-  putPolicyOwn =
-    scope : bucketName
-    deadline : Math.floor(Date.now() / 1000) + 3600 * 24 * 2
+#  putPolicyOwn =
+#    scope : bucketName
+#    deadline : Math.floor(Date.now() / 1000) + 3600 * 24 * 2
 
   putPolicy = new qiniu.rs.PutPolicy( bucketName );
 
@@ -52,16 +52,17 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 
 
-  encoded = qiniuTools.base64encode(qiniuTools.utf16to8(JSON.stringify(putPolicyOwn)));
-  console.log encoded
-  hmac = crypto.createHmac('sha1', qiniu.conf.SECRET_KEY);
-  hmac.update(encoded);
-  encoded_signed = hmac.digest('base64');
+#  encoded = qiniuTools.base64encode(qiniuTools.utf16to8(JSON.stringify(putPolicyOwn)));
+#  console.log encoded
+#  hmac = crypto.createHmac('sha1', qiniu.conf.SECRET_KEY);
+#  hmac.update(encoded);
+#  encoded_signed = hmac.digest('base64');
 
 
-#  uptoken =  putPolicy.token()
-#  uptoken =  "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:we1r8Zy6CpAFvnrZ4cOuYLQ2BzQ=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjc5ODA1NH0="
-  uptoken =  qiniu.conf.ACCESS_KEY + ":" + qiniuTools.safe64(encoded_signed) + ":" + encoded;
+  uptoken =  putPolicy.token()
+  console.log uptoken
+#  uptoken =  "244idmCB2Lsc-R3ylxEmbh97hKBfRXO6cUm1QJJp:2E7pCvKX7QSouSf7VaxFUrn8bPc=:eyJzY29wZSI6InVzZXJ1cGxvYWQiLCJkZWFkbGluZSI6MTQzNjc4NDc4Mn0="
+#  uptoken =  qiniu.conf.ACCESS_KEY + ":" + qiniuTools.safe64(encoded_signed) + ":" + encoded;
 
 
   fs.readFile("README.md", (err, localFile)->
