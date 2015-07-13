@@ -5,7 +5,7 @@ qiniu.conf.ACCESS_KEY = conf.qiniu.access_key;
 qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 
-exports.getUploadRespone = (req, res) ->
+exports.getUploadResponse = (req, res) ->
 
   infoObject = req.body
 
