@@ -119,7 +119,7 @@ exports.addNewOrder = (req, res, next) ->
   if req.body.cookingType is models.dish.constantCookingType().cook
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
-    newOrder.deliveryDateTime = moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
+    newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
@@ -144,7 +144,7 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
+    deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
 
@@ -167,7 +167,7 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
+    deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
 
