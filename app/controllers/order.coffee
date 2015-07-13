@@ -114,10 +114,16 @@ exports.addNewOrder = (req, res, next) ->
     freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
-    deliveryDate : req.body.deliveryDate
-    deliveryTime : req.body.deliveryTime
 
+
+  if req.body.cookingType is models.dish.constantCookingType().cook
+    newOrder.deliveryDate = req.body.deliveryDateCook
+    newOrder.deliveryTime = req.body.deliveryTimeCook
+    newOrder.deliveryDateTime = moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
+  else
+    newOrder.deliveryDate = req.body.deliveryDateEat
+    newOrder.deliveryTime = req.body.deliveryTimeEat
+    newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
 
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -138,9 +144,9 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
-    deliveryDate : req.body.deliveryDate
-    deliveryTime : req.body.deliveryTime
+    deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
+    deliveryDate : req.body.deliveryDateCook
+    deliveryTime : req.body.deliveryTimeCook
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -161,9 +167,9 @@ exports.addNewOrder = (req, res, next) ->
 #    freight : req.body.freight
     dishesPrice : 0
     totalPrice : 0
-    deliveryDateTime : moment(req.body.deliveryDate + "T" + req.body.deliveryTime + ":00")
-    deliveryDate : req.body.deliveryDate
-    deliveryTime : req.body.deliveryTime
+    deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
+    deliveryDate : req.body.deliveryDateEat
+    deliveryTime : req.body.deliveryTimeEat
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->

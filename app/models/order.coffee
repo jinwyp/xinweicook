@@ -194,10 +194,17 @@ module.exports =
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
-      unless libs.validator.isLength newOrder.deliveryTime, 2, 2
-        return throw new Err "Field validation error,  deliveryTime length must be 2-2", 400
-      unless libs.validator.isLength newOrder.deliveryDate, 10, 10
-        return throw new Err "Field validation error,  deliveryTime length must be 10-10", 400
+
+      if newOrder.deliveryDateCook
+        unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+        unless libs.validator.isLength newOrder.deliveryTimeCook, 4, 5
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 2-2", 400
+      else
+        unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+        unless libs.validator.isLength newOrder.deliveryTimeEat, 4, 5
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 2-2", 400
 
       unless Array.isArray newOrder.dishList
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400
