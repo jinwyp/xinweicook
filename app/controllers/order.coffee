@@ -177,7 +177,7 @@ exports.addNewOrder = (req, res, next) ->
       models.coupon.CouponNotFound resultCoupon
       promotionCodePrice = resultCoupon.price
 
-    models.dish.find({"_id" : {$in:dishIdList}}).execAsync()
+    models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
 
     for dish,dishIndex in resultDishes
