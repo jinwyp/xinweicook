@@ -237,6 +237,12 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
+    additionalContent =
+      userId : req.u._id
+      orderId : resultOrder._id
+
+    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
+
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
       weixinpayOrder =

@@ -30,7 +30,7 @@ module.exports =
       if not message
         return throw new Err "Push Message not found !", 400
 
-    sendMessage : ( deviceToken, contentType, options, additionalContent) ->
+    sendMessage : ( deviceToken, contentType, additionalContent, options ) ->
 
       newMessage =
         contentType : ""
@@ -76,14 +76,14 @@ module.exports =
             onFulfilled JSON.parse resultPush
           )
 
-    sendMessageToUser : ( userId, contentType, options, additionalContent) ->
+    sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
       models.device.findOneAsync(user: userId).then (resultDevice) ->
         models.device.checkNotFound resultDevice
 
-        messageOption =
+        pushOptions =
           isPushMobile : true
 
-        models.message.sendMessage(resultDevice.deviceToken, contentType, messageOption, additionalContent)
+        models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
 
   methods: {}
   rest: {}
