@@ -67,7 +67,6 @@ module.exports =
       @refresh_token = Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
       @
     isAccessTokenExpired: ->
-      console.log "-----", moment(new Date(@modifiedAt)).add(conf.token.expires_in, "s"), moment(), moment(new Date(@modifiedAt)).add(conf.token.expires_in, "s").isBefore(moment())
       moment(new Date(@modifiedAt)).add(conf.token.expires_in, "s").isBefore(moment())
     getExpiresIn: ->
       moment(new Date(@modifiedAt)).add(conf.token.expires_in, "s").diff(moment(), "s")

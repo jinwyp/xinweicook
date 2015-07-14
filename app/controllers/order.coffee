@@ -216,7 +216,6 @@ exports.addNewOrder = (req, res, next) ->
       newOrder.isSplitOrder = true
 
     if newOrder.isSplitOrder
-      newOrder.isSplitOrder = true
       newOrder.childOrderList = []
       models.order.createAsync [newOrderReadyToCook, newOrderReadyToEat]
       .then (resultChildrenOrder) ->
@@ -256,7 +255,7 @@ exports.addNewOrder = (req, res, next) ->
           prepay_id: resultWeixinPay.prepay_id
           code_url: resultWeixinPay.code_url
         resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-          res.json resultOrder2
+          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
     else
       res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
   .catch next

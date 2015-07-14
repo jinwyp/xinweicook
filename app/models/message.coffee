@@ -15,9 +15,16 @@ module.exports =
       contentType =
         orderAdd : "orderAdd"
         orderAddText :
-          zh : "您的订单已经生成，请及时付款"
-          en : "Order have been submitted, please pay order as soon as possible"
-
+          zh : "您的订单已创建，请及时付款"
+          en : "Your order has been created, continue to complete the payment"
+        orderPaid : "orderPaid"
+        orderPaidText :
+          zh : "您的订单已付款，正在打包中"
+          en : "Your order has been paid, we are preparing your package"
+        orderShipped : "orderShipped"
+        orderShippedText :
+          zh : "您的订单已发货，美味即将到家"
+          en : "Your order has been shipped, it is on its way"
 
     checkNotFound : (message) ->
       if not message
