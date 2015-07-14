@@ -50,14 +50,7 @@ exports.orderSingleInfo = (req, res, next) ->
 
 exports.pushMobileMessage = (req, res, next) ->
 
-  models.device.findOneAsync(user: req.u._id)
-  .then (resultDevice) ->
-    models.device.checkNotFound resultDevice
-
-    messageOption =
-      isPushMobile : true
-
-    models.message.sendMessage(req.u._id, resultDevice.deviceToken, models.message.constantContentType().orderAdd, messageOption)
+  models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd)
   .then (resultPush) ->
     models.message.checkNotFound resultPush
     res.json resultPush

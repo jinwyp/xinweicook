@@ -20,7 +20,7 @@ module.exports =
         orderPaid : "orderPaid"
         orderPaidText :
           zh : "您的订单已付款，正在打包中"
-          en : "Your order has been paid, we are preparing your package"
+          en : "Your order has been placed, we are preparing your package"
         orderShipped : "orderShipped"
         orderShippedText :
           zh : "您的订单已发货，美味即将到家"
@@ -30,12 +30,15 @@ module.exports =
       if not message
         return throw new Err "Push Message not found !", 400
 
-    sendMessage : (userId, deviceToken, contentType, options, callback) ->
+    sendMessage : ( deviceToken, contentType, options, additionalContent) ->
 
       newMessage =
         contentType : ""
         text : ""
-        user : userId
+
+      if additionalContent?
+        newMessage.userId = additionalContent.userId if additionalContent.userId
+        newMessage.orderId = additionalContent.orderId if additionalContent.orderId
 
       if contentType is @constantContentType().orderAdd
         newMessage.text = @constantContentType().orderAddText
@@ -57,7 +60,12 @@ module.exports =
         iOSMessage.badge = 1
         iOSMessage.sound = "default"
 
-        iOSMessage.customContent = {page: 'home', contentType:newMessage.contentType}
+        iOSMessage.customContent =
+          page : 'home'
+          contentType : newMessage.contentType
+          orderId : newMessage.orderId
+          userId : newMessage.userId
+
         iOSMessage.loopTimes = 1 # 重复推送的次数
         iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
 
@@ -67,6 +75,15 @@ module.exports =
               onRejected err
             onFulfilled JSON.parse resultPush
           )
+
+    sendMessageToUser : ( userId, contentType, options, additionalContent) ->
+      models.device.findOneAsync(user: userId).then (resultDevice) ->
+        models.device.checkNotFound resultDevice
+
+        messageOption =
+          isPushMobile : true
+
+        models.message.sendMessage(resultDevice.deviceToken, contentType, messageOption, additionalContent)
 
   methods: {}
   rest: {}
