@@ -51,7 +51,7 @@ exports.assignCouponToUser = (req, res, next) ->
       dataUser = resultUser
       models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
     .then (resultCoupon) ->
-      models.coupon.CouponNotFound resultCoupon
+      models.coupon.checkNotFound resultCoupon
 
       if dataUser.couponList.indexOf(resultCoupon._id) > -1
         throw new Err "user already have this coupon", 400

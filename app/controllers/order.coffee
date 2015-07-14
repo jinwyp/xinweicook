@@ -172,9 +172,14 @@ exports.addNewOrder = (req, res, next) ->
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
+    # 处理优惠券
     if req.body.promotionCode
-      models.coupon.CouponNotFound resultCoupon
+      models.coupon.checkNotFound resultCoupon
+      models.coupon.checkExpired resultCoupon
       promotionCodePrice = resultCoupon.price
+      promotionCodePriceLimit = resultCoupon.priceLimit
+      resultCoupon.isUsed = true
+      resultCoupon.saveAsync()
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->

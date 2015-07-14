@@ -88,14 +88,14 @@ module.exports =
     fields : ->
       selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
-    checkNotFound : (dish) ->
-      if not dish
-        return throw new Err "Dish ID or dish not found !", 400
-
     constantCookingType : () ->
       type =
         cook : "ready to cook"
         eat : "ready to eat"
+
+    checkNotFound : (dish) ->
+      if not dish
+        return throw new Err "Dish ID or dish not found !", 400
 
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24

@@ -16,11 +16,19 @@ module.exports =
   statics :
     fields : ->
       selectFields = "-isExpired -isUsed"
-    CouponNotFound : (coupon) ->
+    checkNotFound : (coupon) ->
       if not coupon
         throw new Err "Coupon not Found or used or expired!", 400
       else
         coupon
+
+    checkExpired : (coupon) ->
+      if moment(new Date(coupon.endDate)).isBefore(moment())
+        coupon.isExpired = true
+        coupon.save()
+        throw new Err "Coupon is expired!", 400
+      if moment(new Date(coupon.startDate)).isAfter(moment())
+        throw new Err "Coupon is not start to use!", 400
 
     validationCouponId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
@@ -41,7 +49,7 @@ module.exports =
     find1 : (options) ->
       @findOne(options).select(@fields()).execAsync()
       .then (coupon) ->
-        models.coupon.CouponNotFound coupon
+        models.coupon.checkNotFound coupon
         coupon
 
     gencode : () ->
