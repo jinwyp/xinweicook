@@ -120,6 +120,9 @@ module.exports =
     checkNotFound : (order) ->
       if not order
         throw new Err "Order ID or OrderNumber not found !", 400
+    checkInvalidDishIdListh : (dishIdList) ->
+      if dishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + dishIdList.toString(), 400
 
     constantStatus : () ->
       status =

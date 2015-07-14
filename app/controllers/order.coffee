@@ -178,6 +178,11 @@ exports.addNewOrder = (req, res, next) ->
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
+    tempResultDishIdList = _.map(resultDishes, (dish) ->
+      dish._id.toString()
+    )
+    invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
+    models.order.checkInvalidDishIdListh invalidDishIdList
 
     for dish,dishIndex in resultDishes
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
