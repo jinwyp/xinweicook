@@ -22,6 +22,8 @@ module.exports =
           if resultDevice
             resultDevice.user = u._id
             resultDevice.saveAsync()
+          else
+            models.device.createAsync({deviceToken:deviceToken, user: u._id})
         @u = u
         @findOneAsync(user:u._id)
       ).then((t)->
