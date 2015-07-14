@@ -134,6 +134,7 @@ module.exports =
         alipaydirect : "alipay direct"
         weixinpay : "weixinpay"
         paypal : "paypal"
+        cod : "cod"
     constantDeliverTimeSegment : () ->
       segment =
         time12:
@@ -187,6 +188,9 @@ module.exports =
         return throw new Err "Field validation error,  freight must be number", 400
       unless libs.validator.isLength newOrder.payment, 4, 30
         return throw new Err "Field validation error,  payment length must be 4-30", 400
+
+      if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod
+        return throw new Err "Field validation error,  payment text wrong", 400
 
       if newOrder.payment is @constantPayment().weixinpay
         unless libs.validator.isIP newOrder.spbill_create_ip
