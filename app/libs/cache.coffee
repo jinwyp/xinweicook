@@ -5,6 +5,7 @@ module.exports = Cache =
     res.setHeader "Expires", 0
   lastModified: (req, res, next) ->
     hooker.hook res, "json", (body)->
+      console.log "-----", body
       if body.modifiedAt
         lastModified = body.modifiedAt
       else if _.isArray body

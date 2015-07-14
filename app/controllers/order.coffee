@@ -35,9 +35,10 @@ exports.orderSingleInfo = (req, res, next) ->
   # 获取某个订单
   models.order.validationOrderId req.params._id
 
-  models.dish.findOneAsync _id: req.params._id
-  .then (dish) ->
-    res.json dish
+  models.order.findOneAsync _id: req.params._id
+  .then (resultOrder) ->
+    models.order.checkNotFound resultOrder
+    res.json resultOrder
   , next
 
 
