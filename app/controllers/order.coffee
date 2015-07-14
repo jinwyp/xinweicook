@@ -242,6 +242,9 @@ exports.addNewOrder = (req, res, next) ->
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
+#    .then (resultPush) ->
+#      models.message.checkNotFound resultPush
+#      console.log "-------:", resultPush
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay

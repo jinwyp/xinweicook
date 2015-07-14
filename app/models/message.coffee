@@ -61,10 +61,10 @@ module.exports =
         iOSMessage.sound = "default"
 
         iOSMessage.customContent =
-          page : 'home'
+          page : 1
           contentType : newMessage.contentType
-          orderId : newMessage.orderId
-          userId : newMessage.userId
+#          orderId : newMessage.orderId
+#          userId : newMessage.userId
 
         iOSMessage.loopTimes = 1 # 重复推送的次数
         iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
