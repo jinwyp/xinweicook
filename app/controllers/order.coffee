@@ -22,6 +22,8 @@ exports.orderListByUser = (req, res, next) ->
   .sort "-createdAt"
   .limit (req.query.limit)
   .skip (req.query.skip)
+  .populate({path: 'dishList.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .execAsync()
   .then (orders) ->
     res.json orders
@@ -35,7 +37,10 @@ exports.orderSingleInfo = (req, res, next) ->
   # 获取某个订单
   models.order.validationOrderId req.params._id
 
-  models.order.findOneAsync _id: req.params._id
+  models.order.findOne _id: req.params._id
+  .populate({path: 'dishList.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound resultOrder
     res.json resultOrder
