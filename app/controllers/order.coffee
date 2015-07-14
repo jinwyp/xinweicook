@@ -130,7 +130,7 @@ exports.addNewOrder = (req, res, next) ->
     cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
     address : req.body.address
-#    dishList : req.body.dishList
+    dishList : []
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
@@ -153,7 +153,7 @@ exports.addNewOrder = (req, res, next) ->
     cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
     address : req.body.address
-#    dishList : req.body.dishList
+    dishList : []
     userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
@@ -189,9 +189,11 @@ exports.addNewOrder = (req, res, next) ->
       if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push dishDataList[dish.dish]
+        newOrderReadyToCook.dishList.push dish
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push dishDataList[dish.dish]
+        newOrderReadyToEat.dishList.push dish
 
       for subDish,subDishIndex in dish.subDish
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
