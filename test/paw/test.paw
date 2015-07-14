@@ -491,7 +491,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"grant_type\\": \\"password\\",\\n  \\"username\\": \\"13564568304\\",\\n  \\"password\\": \\"123456\\",\\n  \\"deviceToken\\": \\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"\\n}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">19</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -1996,7 +1996,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z317 z313 z311 z315 z316 z314"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bk:qbnnBRLbv9GFT/l40WHlAb7mh5L1P+by</attribute>
+        <attribute name="value" type="string">Bearer 2Bk:1Yg3DWPSwXOS9HQWj9bq7gyZhoqAwqfl</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -3105,7 +3105,7 @@
         <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z432 z435 z433"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z435">
-        <attribute name="value" type="string">Bearer </attribute>
+        <attribute name="value" type="string">Bearer 2Bi:Eo9Y+8qZXu+xNFRAuq9wmbiXIDp5cfTP</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
