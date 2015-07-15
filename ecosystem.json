@@ -36,6 +36,16 @@
       "path" : "/var/www/cook-api/development",
       "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
+    "dev" : {
+      "key": "~/.ssh/id_rsa",
+      "user" : "root",
+      "host" : ["183.131.78.182"],
+      "port": "2222",
+      "ref": "origin/develop",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/development",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env dev"
+    },
     "devjin" : {
       "key": "/Users/jinwyp/.ssh/id_rsa",
       "user" : "root",

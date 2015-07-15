@@ -27,10 +27,10 @@ brew install nodejs mongodb redis nginx
 
 #### 使用 Gulp 启动服务器
 
-安装好 gulp 和 coffeescript 后 命令行运行gulp 即可启动服务器
+安装好 Gulp 和 CoffeeScript 后 命令行运行 `gulp` 即可启动服务器
 
 #### 使用 Gulp 启动 Gitbook 文档工具
-运行 gulp doc 启动生成 gitbook 文档的工具
+运行 gulp doc 启动生成 Gitbook 文档的工具
 
 
 #### 使用 Ruby 的 Rake 任务工具启动服务器
@@ -41,22 +41,6 @@ brew install nodejs mongodb redis nginx
 
 
 
-
-### 本地虚拟机调试
-
-本地虚拟机调试，主要用于测试服务是否能在各种纯净的发行版中成功部署，也可用于本地开发。依赖以下工具：
-
-1. [Vagrant]
-2. [VirtualBox]
-3. [Ansible]
-
-``` bash
-rake vagrant_test # 在 VirtualBox 中测试 API
-rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
-```
-
-
-
 ## 远程部署
 
 
@@ -64,29 +48,18 @@ rake vagrant_server # 在 VirtualBox 中创建干净的开发环境
 
 首先需要安装 PM2 `npm install pm2 -g` [PM2 文档](https://github.com/Unitech/pm2)
 
-更新服务器开发分支代码并重启 `pm2 deploy ecosystem.json devjin`
+先确认自己的公钥已经加到服务器上，对应的私钥存储在 `~/.ssh/id_rsa` 中，
+更新服务器开发分支代码并重启 `pm2 deploy ecosystem.json dev`
 
-
-
-#### 运程部署使用 [Ansible] 实现。用于连接服务端的私钥可以放在 `./keys` 目录下，已经被 gitignore。
-
-``` bash
-rake deploy # 自动设置服务端环境并部署服务
-rake update # 自动更新服务端代码
-```
 
 ## 文档
 
-`doc` 下的文档使用 [GitBook] 编写，通过我们的 CI 服务自动发布到文档服务器。
+`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。
 
 
-[Ansible]: http://ansible.com
 [Homebrew]: https://brew.sh
 [nodejs]: https://nodejs.org
 [mongodb]: https://www.mongodb.org
 [redis]: http://redis.io
 [nginx]: http://nginx.org
-[Vagrant]: https://vagrantup.com
-[lunchy]: https://github.com/eddiezane/lunchy
-[VirtualBox]: https://www.virtualbox.org
 [GitBook]: https://gitbook.com
