@@ -47,8 +47,8 @@ module.exports =
         text: conf.yunpian.template1 code
 
       if conf.debug
-        Promise.resolve(code)
-#        @sendSmsVia3rd(form).return(code)
+#        Promise.resolve(code)
+        @sendSmsVia3rd(form).return(code)
       else
         @sendSmsVia3rd(form).return(code)
 
