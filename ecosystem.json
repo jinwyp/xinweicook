@@ -15,6 +15,13 @@
         "REDIS": "[{\"host\":\"10.4.3.101\",\"port\":\"6379\"},{\"host\":\"10.4.3.142\",\"port\":\"6379\"}]",
         "DB": "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
       },
+
+      "env_production2" : {
+        "NODE_ENV": "production",
+        "BASE": "https://xn--btrz41b.com/",
+        "HOST": "127.0.0.1",
+        "PORT": "3000",
+      },
       "env_production" : {
         "NODE_ENV": "production",
         "BASE": "https://xinweicook.com",
@@ -44,7 +51,7 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env dev"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
     "devjin" : {
       "key": "/Users/jinwyp/.ssh/id_rsa",
@@ -54,7 +61,17 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env devjin"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
+    },
+    "devjinpro" : {
+      "key": "/Users/jinwyp/.ssh/id_rsa",
+      "user" : "root",
+      "host" : ["183.131.78.182"],
+      "port": "2222",
+      "ref": "origin/develop",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/development",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production2"
     },
     "production" : {
       "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
