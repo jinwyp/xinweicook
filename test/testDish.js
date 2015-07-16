@@ -1095,7 +1095,3 @@ sampleCook = {
 module.exports = {
     dataDishes : sampleDishes
 };
-
-
-
-
