@@ -1,5 +1,6 @@
 # 初始化网站数据
 initData = require "../../test/initdata.js"
+initOldData = require "../../test/oldDish.js"
 
 
 exports.createAdmin = (req, res, next) ->
@@ -25,3 +26,19 @@ exports.createDishTag = (req, res, next) ->
         res.json tags
 
   .catch next
+
+
+
+
+
+exports.createOldDish = (req, res, next) ->
+  oldDishList = []
+
+  for oldDish, oldDishIndex in initOldData.dataDishes
+    if oldDish.is_public
+      tempDish =
+        isPublished : oldDish.is_public
+        sortId            : 1001
+
+  res.json initOldData.dataDishes[0]
+
