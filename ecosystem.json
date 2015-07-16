@@ -20,7 +20,7 @@
         "NODE_ENV": "production",
         "BASE": "https://xn--btrz41b.com/",
         "HOST": "127.0.0.1",
-        "PORT": "3000",
+        "PORT": "3000"
       },
       "env_production" : {
         "NODE_ENV": "production",
@@ -63,10 +63,10 @@
       "path" : "/var/www/cook-api/development",
       "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
-    "devjinpro" : {
+    "productionjin" : {
       "key": "/Users/jinwyp/.ssh/id_rsa",
       "user" : "root",
-      "host" : ["183.131.78.182"],
+      "host" : ["123.58.137.201"],
       "port": "2222",
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
