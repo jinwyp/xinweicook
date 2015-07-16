@@ -227,7 +227,7 @@ sampleDishes = [
               },
               "contentType" : "txt",
               "value"       : {
-                  "zh" : "1包 猪颈肉<br/>1/4个 球生菜<br/>1颗 香菜<br/>1包 泰式酸辣汁<br/>1包 特制香脆粉 2茶匙 色拉油<br/>1包 蔬菜包（黄瓜、樱桃番茄）",
+                  "zh" : "1包 猪颈肉<br/> 1/4个 球生菜<br/> 1颗 香菜<br/> 1包 泰式酸辣汁<br/> 1包 特制香脆粉 2茶匙 色拉油<br/> 1包 蔬菜包（黄瓜、樱桃番茄）",
                   "en" : "1 Pack Pork Neck Meat<br/>1/4 Lettuce<br/>1 Coriander<br/>1 Pack Thai Dipping Sauce<br/>1 Pack Crispy Powder<br/>2 Tablespoon Cooking Oil<br/>1 Pack Mixed Vegetables"
               }
           }
@@ -1093,5 +1093,5 @@ sampleCook = {
 };
 
 module.exports = {
-
+    dataDishes : sampleDishes
 };
