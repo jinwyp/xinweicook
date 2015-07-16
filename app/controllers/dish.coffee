@@ -72,6 +72,7 @@ exports.initNewDish3 = (req, res, next) ->
   sampleDishes = require "../../test/testDish.js"
 
   models.dish.removeAsync({}).then () ->
+    models.order.removeAsync({})
     models.dish.createAsync sampleDishes.dataDishes
   .then (resultDishes) ->
     res.json resultDishes
