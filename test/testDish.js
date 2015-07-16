@@ -687,8 +687,8 @@ sampleDishes = [
       },
       "cover"             : [
           {
-              "zh" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_step_1.jpg",
-              "en" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_step_1.jpg"
+              "zh" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_cover_1.jpg",
+              "en" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_cover_1.jpg"
           }, {
               "zh" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_cover_2.jpg",
               "en" : "http://7xkf7i.com2.z0.glb.qiniucdn.com/Pan-searedCodwithBlackBeanSauce_cover_2.jpg"
