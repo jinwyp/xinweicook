@@ -129,12 +129,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"551504\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"421724\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z119 z136 z148 z113 z142 z106 z105"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z136 z119 z142 z148 z113 z106 z105"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string"></attribute>
@@ -1996,7 +1996,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z317 z313 z311 z315 z316 z314"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bk:1Yg3DWPSwXOS9HQWj9bq7gyZhoqAwqfl</attribute>
+        <attribute name="value" type="string">Bearer 2Bk:Yhx7FBN/E3iEbYLdvcuJiUPI61A1tdE1</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2725,12 +2725,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to cook\\",\\"isCityShanghai\\":true,\\"isInRange3KM\\":true}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to eat\\",\\"isCityShanghai\\":true,\\"isInRange3KM\\":true}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">14</attribute>
         <attribute name="name" type="string">user-getOrdersDeliveryTime</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z399 z394 z398 z396 z392 z395 z393"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z395 z392 z398 z396 z394 z393 z399"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z398">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -3105,7 +3105,7 @@
         <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z432 z435 z433"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z435">
-        <attribute name="value" type="string">Bearer 2Bi:Eo9Y+8qZXu+xNFRAuq9wmbiXIDp5cfTP</attribute>
+        <attribute name="value" type="string">Bearer 2BD:fTNqQ757IHvipyRFuXm3lYgDdY8L1ufq</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>

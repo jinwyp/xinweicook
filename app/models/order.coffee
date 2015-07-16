@@ -330,8 +330,18 @@ module.exports =
           timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
         for i in [1..5]
-          segmentHour =
-            hour : timeStarter.clone().add(30*(i-1), 'minutes').format("YYYY-MM-DD HH:mm:ss A")
+          timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+          if timeStarterTemp.hour() < 20 or  timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
+            segmentHour =
+              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
+          else
+            #  过20:00 要从第二天11:00开始
+            timeStarterTemp.add(15, 'hours').subtract(30, 'minutes')
+
+            segmentHour =
+              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
 
           resultTime.push(segmentHour)
 
