@@ -47,7 +47,7 @@ exports.assignCouponToUser = (req, res, next) ->
   dataUser = {}
   models.user.findOne ({_id : req.body.userId })
     .then (resultUser) ->
-      models.user.UserFound (resultUser)
+      models.user.checkNotFound (resultUser)
       dataUser = resultUser
       models.coupon.findOne ({_id : req.body.couponId, isUsed:false, isExpired:false })
     .then (resultCoupon) ->

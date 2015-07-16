@@ -62,6 +62,13 @@ module.exports =
     fieldsLess : ->
       selectFields = "-pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
 
+    constantUserRole : () ->
+      type =
+        admin : "admin"
+        member : "member"
+        partner : "partner"
+        guest : "guest"
+
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
           return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
@@ -99,19 +106,20 @@ module.exports =
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
-    UserFound: (u) ->
+    checkNotFound: (u) ->
       u or throw new Err "找不到该用户", 404
-    UserNotSpam: (u) ->
+    checkNotSpam: (u) ->
       if u.isSpam
         throw new Err "该用户被举报", 403
       else
         u
-    PwdCorrect: (pwd) ->
+    checkPwdCorrect: (pwd) ->
       (u) ->
         if bcrypt.compareSync pwd.toString(), u.pwd
           u
         else
           throw new Err "密码错误", 401
+
     signUp: (mobile, pwd, code) ->
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
         if smscode[1] isnt 1
@@ -123,23 +131,23 @@ module.exports =
         if smscode[1] isnt 1
           throw new Err "验证码保存失败", 400
 
-        models.user.findOneAsync(mobile: mobile).then(@UserFound).then(@UserNotSpam).then((u)->
+        models.user.findOneAsync(mobile: mobile).then(@checkNotFound).then(@checkNotSpam).then((u)->
           u.pwd = pwd
           u.saveAsync()
         )
       )
     findUserByMobilePwd: (mobile, pwd) ->
-      @findOneAsync(mobile: mobile).then(@UserFound).then(@UserNotSpam).then(@PwdCorrect(pwd))
+      @findOneAsync(mobile: mobile).then(@checkNotFound).then(@checkNotSpam).then(@checkPwdCorrect(pwd))
     findUserById: (userId) ->
       unless Number.isInteger userId
         Promise.reject(new Err "Access Token 错误", 401)
       else
-        @findOneAsync(id: userId).then(@UserFound).then(@UserNotSpam)
+        @findOneAsync(id: userId).then(@checkNotFound).then(@checkNotSpam)
     findUserBy_Id: (_id) ->
       unless libs.validator.isMongoId _id
         Promise.reject(new Err "用户 _id 错误", 400)
       else
-        @findOneAsync(_id: _id).then(@UserFound).then(@UserNotSpam)
+        @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
     findUserByAccessToken: (access_token) ->
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
@@ -150,7 +158,7 @@ module.exports =
           .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
         else
           throw new Err "找不到该用户", 404
-      ).then(@UserFound).then(@UserNotSpam)
+      ).then(@checkNotFound).then(@checkNotSpam)
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4

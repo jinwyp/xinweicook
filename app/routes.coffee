@@ -1,5 +1,5 @@
 
-
+initController = require "./controllers/initproject.coffee"
 userController = require "./controllers/user.coffee"
 deviceController = require "./controllers/device.coffee"
 tokenController = require "./controllers/token.coffee"
@@ -11,6 +11,7 @@ couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 couponController = require "./controllers/coupon.coffee"
+
 
 
 
@@ -81,5 +82,8 @@ expressRoutes = (app) ->
   app.get("/api/administrator/initdish10", dishController.initNewDish2)
   app.get("/api/administrator/initdish3", dishController.initNewDish3)
   app.get("/api/administrator/initcoupon", couponController.initNewCoupon)
+
+
+  app.get("/api/administrator/initadminuser", initController.createAdmin)
 
 module.exports = expressRoutes
