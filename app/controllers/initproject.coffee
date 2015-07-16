@@ -12,3 +12,16 @@ exports.createAdmin = (req, res, next) ->
         res.json resultUsers
 
   .catch next
+
+
+
+exports.createDishTag = (req, res, next) ->
+
+  models.tag.findOneAsync({}).then (resultTag) ->
+    if resultTag
+      return res.send("TagFilter already created before")
+    else
+      return models.tag.createAsync(initData.dishFilter).then (tags) ->
+        res.json tags
+
+  .catch next
