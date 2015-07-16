@@ -828,7 +828,7 @@ sampleDishes = [
           "zh": "炒蔬菜",
           "en": "Stir-fry the vegetables"
         },
-        "contentType": "text",
+        "contentType": "txt",
         "value": {
           "zh": "平底锅大火烧热，倒入剩余色拉油的一半，放入煮好的蔬菜，撒1勺盐，半勺白胡椒，翻炒均匀，盛出待用。",
           "en": "Heat the pan over high heat, pour in half of the remaining oil, put in boiled vegetables, add in 1 teaspoon of salt and 1/2 teaspoon of white pepper. Take out and set aside."
