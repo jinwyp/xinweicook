@@ -3,7 +3,7 @@
     {
       "name": "cook-api",
       "script": "index.coffee",
-      "instances": 0,
+      "instances": 1,
       "exec_mode": "cluster_mode",
       "max_memory_restart" : "1024M",
       "env": {
