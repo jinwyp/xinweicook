@@ -215,9 +215,12 @@ module.exports =
         unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
 
-      unless Array.isArray newOrder.dishList or newOrder.dishList.length is 0
+      unless Array.isArray newOrder.dishList
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400
       else
+        if newOrder.dishList.length is 0
+          return throw new Err "Field validation error,  dishList must have some dish", 400
+
         for dish,dishIndex in newOrder.dishList
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
