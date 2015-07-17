@@ -319,31 +319,33 @@ module.exports =
 
       resultTime
 
-    deliveryTimeArithmeticForReadyToEat : () ->
-      timeNow = moment()
+    deliveryTimeArithmeticForReadyToEat : (isInRange4KM) ->
       resultTime = []
 
-      if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
-        if timeNow.minute()%30 >= 10
-          timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
-        else
-          timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
+      if isInRange4KM is true
+        timeNow = moment()
 
-        for i in [1..5]
-          timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
-          if timeStarterTemp.hour() < 20 or  timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
-            segmentHour =
-              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
-
+        if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+          if timeNow.minute()%30 >= 10
+            timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
           else
-            #  过20:00 要从第二天11:00开始
-            timeStarterTemp.add(15, 'hours').subtract(30, 'minutes')
+            timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
-            segmentHour =
-              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+          for i in [1..5]
+            timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+            if timeStarterTemp.hour() < 20 or  timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
+              segmentHour =
+                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
+            else
+              #  过20:00 要从第二天11:00开始
+              timeStarterTemp.add(15, 'hours').subtract(30, 'minutes')
+
+              segmentHour =
+                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
 
 
-          resultTime.push(segmentHour)
+            resultTime.push(segmentHour)
 
       resultTime
 

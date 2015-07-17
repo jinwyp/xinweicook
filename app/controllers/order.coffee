@@ -428,7 +428,7 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
       result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
   else
     if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticForReadyToEat()
+      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
 
   res.status(200).json(result)
 
