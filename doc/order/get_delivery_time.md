@@ -9,7 +9,7 @@ Group `member`
 |:-----------------|:---------|:----------------------------------|
 | cookingType      | String   | "ready to cook" 或 "ready to eat"       |
 | isCityShanghai   | Boolean  | 是否在上海 true / false                  |
-| isInRange3KM     | Boolean  | 是否在公司附近3公里内 true / false        |
+| isInRange4KM     | Boolean  | 是否在公司附近4公里内 true / false        |
 
 
 
@@ -19,7 +19,7 @@ Group `member`
 {
   "cookingType": "ready to eat",
   "isCityShanghai": true,
-  "isInRange3KM": true
+  "isInRange4KM": true
 }
 ```
 

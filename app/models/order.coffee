@@ -244,13 +244,13 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
-    deliveryTimeArithmeticByRangeForReadyToCook : (isInRange3KM) ->
+    deliveryTimeArithmeticByRangeForReadyToCook : (isInRange4KM) ->
       timeFormat = "YYYY-MM-DD HH:mm:ss A"
       timeFormat2 = "YYYY-MM-DD"
       timeNow = moment()
       resultTime = []
 
-      if isInRange3KM
+      if isInRange4KM
 
         if timeNow.hour() < 17 # 公司3公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           for i in [1..5]
