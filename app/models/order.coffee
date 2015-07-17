@@ -172,7 +172,7 @@ module.exports =
 
     validationUpdateOrder : (order) ->
       if order.status
-        unless libs.validator.equals order.status, @constantStatuss().canceled
+        unless libs.validator.equals order.status, @constantStatus().canceled
           return throw new Err "Field validation error,  order status must be string canceled", 400
 
       unless libs.validator.isBoolean order.isPaymentPaid
