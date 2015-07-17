@@ -1,7 +1,7 @@
 winston = require "winston"
 require("winston-mongodb").MongoDB
 expressWinston = require "express-winston"
-pe = require "prettify-error"
+
 
 module.exports =
   logger: ->
@@ -26,18 +26,23 @@ module.exports =
       ]
       exitOnError: false
     )
-    # logger.emitErrs = false
+#    logger.emitErrs = true
+
     logger.on "error", (e)->
-      console.error e
-    logger.on "logging", (transport, level, msg, meta) ->
-      if _.isString meta.stack
-        console.error pe meta
-      if level is "error"
-        libs.talk.alert msg, meta
+      console.log "------------- winston logger on error :", e
+
+#    logger.on "logging", (transport, level, msg, meta) ->
+#      if _.isString meta.stack
+#        console.error prettify meta
+#      if level is "error"
+#        console.log "------------- winston logger on logging :", level, msg, meta
     logger
 
   middleware: ->
     expressWinston.requestWhitelist.push "body"
     expressWinston.requestWhitelist.push "params"
     expressWinston.requestWhitelist.push "_id"
-    expressWinston.logger winstonInstance: logger, level: conf.level.db, statusLevels: true
+
+    requestLogger = new winston.transports.Console({ json: true, colorize: true, prettyPrint:true, humanReadableUnhandledException:true, debugStdout:true})
+
+    expressWinston.logger({transports: [requestLogger], level: conf.level.db, statusLevels: false, meta: true, expressFormat: false, colorStatus: true})

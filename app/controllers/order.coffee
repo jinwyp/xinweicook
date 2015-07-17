@@ -241,7 +241,7 @@ exports.addNewOrder = (req, res, next) ->
       userId : req.u._id
       orderId : resultOrder._id
 
-#    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
+    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
 #    .then (resultPush) ->
 #      models.message.checkNotFound resultPush
 #      console.log "-------:", resultPush
