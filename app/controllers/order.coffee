@@ -289,8 +289,8 @@ exports.updateOrder = (req, res, next) ->
   models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
-#  .populate "preferences.foodMaterial.dish"
-#  .populate "topping"
+  .populate({path: 'dishList.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
