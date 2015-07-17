@@ -189,8 +189,8 @@ module.exports =
         return throw new Err "Field validation error,  credit must be number", 400
       unless libs.validator.isInt newOrder.freight, {min: 0}
         return throw new Err "Field validation error,  freight must be number", 400
-      unless libs.validator.isLength newOrder.payment, 4, 30
-        return throw new Err "Field validation error,  payment length must be 4-30", 400
+      unless libs.validator.isLength newOrder.payment, 3, 20
+        return throw new Err "Field validation error,  payment length must be 3-20", 400
 
       if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod
         return throw new Err "Field validation error,  payment text wrong", 400
@@ -215,7 +215,7 @@ module.exports =
         unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
 
-      unless Array.isArray newOrder.dishList
+      unless Array.isArray newOrder.dishList or newOrder.dishList.length is 0
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400
       else
         for dish,dishIndex in newOrder.dishList
