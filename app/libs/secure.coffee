@@ -1,6 +1,7 @@
 module.exports = Secure =
   reqSecure: (req) ->
-    if req.secure or conf.debug
+#    if req.secure or conf.debug
+    if true
       req
     else
       throw new Err "请使用加密连接", 426
