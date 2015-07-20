@@ -162,6 +162,34 @@ var dishFilterTagList3 = [
     }
 ];
 
+
+var dishFilterTagList9 = [
+    {
+        _id: ObjectId("5590d256103f46d9ac31e3f9"),
+        isFilter: true,
+        group: {
+            zh: "推荐促销",
+            en: "Promotion"
+        },
+        name: {
+            zh: "新品",
+            en: "New"
+        }
+    },
+    {
+        _id: ObjectId("5590d256103f46d9ac31e3fa"),
+        isFilter: true,
+        group: {
+            zh: "推荐促销",
+            en: "Promotion"
+        },
+        name: {
+            zh: "热卖",
+            en: "Hot"
+        }
+    }
+];
+
 var dishFilterList = dishFilterTagList1.concat(dishFilterTagList2, dishFilterTagList3);
 
 
