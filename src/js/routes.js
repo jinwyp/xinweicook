@@ -68,7 +68,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('index.dishes.newDish', {
                 url: '^/dishes',
                 templateUrl: 'templates/dishDetail.html',
-                controller: function ($scope, Dish) {
+                controller: function ($scope, Dish, DishDetailDecorator) {
                     var emptyDish = {
                         cover: [{}],
                         kitchenware: [{}],
@@ -76,17 +76,22 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                         infoIngredient: [{}],
                         infoCookingStep: [{}],
                         priceWholesale: [{}],
-                        topping: [],
-                        tagFilter: []
+                        //preferences: [{foodMaterial: [{}]}],
+                        //topping: [],
+                        tagFilter: [],
+                        isFromAdminPanel: true
                     };
 
                     $scope.dish = angular.copy(emptyDish);
 
                     $scope.save = function () {
+                        $scope.checkAll();
                         Dish.post($scope.dish).then(function () {
                             $scope.dish = angular.copy(emptyDish)
                         })
-                    }
+                    };
+
+                    DishDetailDecorator($scope);
                 }
             })
             .state('index.dishDetail', {
@@ -97,7 +102,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
                     Dish.one($stateParams.dishId).get().then(function (dish) {
                         $scope.dish = dish;
-                    })
+                    });
                     //$scope.dish = Dish.one($stateParams.dishId).get().$object;
 
                     $scope.save = function () {
@@ -129,4 +134,25 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
     }
 ]);
+
+angular.module('RDash').factory('DishDetailDecorator', function () {
+    return function (scope) {
+        scope.dummyDish = {
+            tagFilter: ''
+            //topping: ''
+        };
+
+        scope.dummyAdd = function (key) {
+            var value = scope.dummyDish[key];
+            if (value === '') return;
+            scope.dish[key] = scope.dish[key] || [];
+            scope.dish[key].push(value);
+            scope.dummyDish[key] = '';
+        };
+
+        scope.checkAll = function () {
+            Object.keys(scope.dummyDish).forEach(scope.dummyAdd)
+        }
+    }
+})
 

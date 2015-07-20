@@ -14,3 +14,11 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.main hr {
+    border-top-color: #DDD;
+}
+
+textarea {
+    resize: none;
+}
