@@ -211,10 +211,26 @@ exports.createOldDish = (req, res, next) ->
         priceOriginal : oldDish.sale_price
 
 
+      if oldDish.time.length is 6
+        tempDish.time = Number(oldDish.time.substr(0,2))
+      else if oldDish.time.length is 5
+        tempDish.time = Number(oldDish.time.substr(0,1))
+      else
+        tempDish.time = 60
+
       oldDishList.push tempDish
 
+  models.dish.findOneAsync({}).then (resultDishes) ->
+    if resultDishes
+      return res.send("Dishes already created before")
+    else
+      models.dish.createAsync(oldDishList).then (resultOldDishes) ->
+        res.json resultOldDishes
+        models.dish.createAsync(initData.sampleReadyToEat).then (resultSampleReadyToEat) ->
+#          res.json initOldData.dataDishes
+          res.json resultOldDishes.concat(resultSampleReadyToEat);
+
+  .catch next
 
 
-#  res.json initOldData.dataDishes
-  res.json oldDishList
 
