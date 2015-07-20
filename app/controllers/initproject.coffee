@@ -242,7 +242,7 @@ exports.createOldDish = (req, res, next) ->
 #  res.json initOldData.dataDishes
   models.dish.findOneAsync({}).then (resultDishes) ->
     if resultDishes
-      return res.send("Dishes already created before")
+      return res.send("Dishes already created before !")
     else
       models.dish.createAsync(oldDishList).then (resultOldDishes) ->
 #        res.json resultOldDishes
