@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>A33E2BBA-1BCE-47DA-95B5-7D5D6B60502C</UUID>
-        <nextObjectID>471</nextObjectID>
+        <nextObjectID>478</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -317,8 +317,8 @@
         <attribute name="uuid" type="string">FC4342B4-850D-4F72-A784-7410BB7360B2</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Server</attribute>
-        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z206 z149 z346"></relationship>
-        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z199 z191 z217 z186 z200 z233"></relationship>
+        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z346 z206 z149 z477"></relationship>
+        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z217 z186 z199 z200 z233 z191"></relationship>
     </object>
     <object type="LMREQUESTGROUP" id="z134">
         <attribute name="uuid" type="string">D4073964-FBE8-4751-8AF1-93EA000D9288</attribute>
@@ -470,7 +470,7 @@
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">localhost</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z234 z201 z198 z219 z187 z192"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z234 z219 z198 z192 z201 z187"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z150">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -777,7 +777,7 @@
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">host</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z203 z187 z347"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z203 z347 z472 z187"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z187">
         <attribute name="value" type="string">127.0.0.1</attribute>
@@ -808,7 +808,7 @@
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">port</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z205 z192 z341"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z341 z205 z192 z473"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z192">
         <attribute name="value" type="string">3003</attribute>
@@ -848,14 +848,14 @@
         <attribute name="order" type="int64">5</attribute>
         <attribute name="name" type="string">http</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z202 z198 z343"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z202 z475 z198 z343"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLE" id="z200">
         <attribute name="uuid" type="string">DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">userapi</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z204 z201 z345"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z476 z345 z204 z201"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z201">
         <attribute name="value" type="string">api</attribute>
@@ -887,7 +887,7 @@
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">testing server</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z202 z205 z204 z218 z232 z203"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z202 z205 z218 z232 z203 z204"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z207">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
@@ -946,7 +946,7 @@
         <attribute name="order" type="int64">3</attribute>
         <attribute name="name" type="string">adminapi</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z218 z342 z219"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z342 z218 z219 z478"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z218">
         <attribute name="value" type="string">api/admin</attribute>
@@ -1096,7 +1096,7 @@
         <attribute name="order" type="int64">4</attribute>
         <attribute name="name" type="string">adminapi2</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z344 z232 z234"></relationship>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z234 z344 z232 z474"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z234">
         <attribute name="value" type="string">api/administrator</attribute>
@@ -2191,9 +2191,9 @@
     <object type="LMENVIRONMENT" id="z346">
         <attribute name="uuid" type="string">145DC3E5-9238-4387-A1A2-701F00B12423</attribute>
         <attribute name="order" type="int64">2</attribute>
-        <attribute name="name" type="string">xn--btrz41b.com</attribute>
+        <attribute name="name" type="string">xn--btrz41b.com test</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
-        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z345 z344 z342 z343 z347 z341"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z344 z342 z347 z345 z343 z341"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z347">
         <attribute name="value" type="string">xn--btrz41b.com</attribute>
@@ -3407,5 +3407,42 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z468"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z472">
+        <attribute name="value" type="string">xn--btrz41b.com</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z186"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z473">
+        <attribute name="value" type="string">80</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z191"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z474">
+        <attribute name="value" type="string">api/administrator</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z233"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z475">
+        <attribute name="value" type="string">http</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z199"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z476">
+        <attribute name="value" type="string">api</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z200"></relationship>
+    </object>
+    <object type="LMENVIRONMENT" id="z477">
+        <attribute name="uuid" type="string">4A020E9F-08A6-4097-8233-823EA11F3BF7</attribute>
+        <attribute name="order" type="int64">3</attribute>
+        <attribute name="name" type="string">Production</attribute>
+        <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z132"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z475 z474 z473 z478 z476 z472"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z478">
+        <attribute name="value" type="string">api/admin</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z217"></relationship>
     </object>
 </database>

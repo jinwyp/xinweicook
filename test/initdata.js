@@ -190,7 +190,7 @@ var dishFilterTagList9 = [
     }
 ];
 
-var dishFilterList = dishFilterTagList1.concat(dishFilterTagList2, dishFilterTagList3);
+var dishFilterList = dishFilterTagList1.concat(dishFilterTagList2, dishFilterTagList3, dishFilterTagList9);
 
 
 

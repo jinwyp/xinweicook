@@ -32,15 +32,18 @@ exports.createDishTag = (req, res, next) ->
 exports.removeDish = (req, res, next) ->
 
   models.dish.removeAsync({}).then () ->
-    models.order.removeAsync({})
+
     models.cook.removeAsync({})
     models.coupon.removeAsync({})
-    models.device.removeAsync({})
-    models.log.removeAsync({})
-    models.message.removeAsync({})
     models.tag.removeAsync({})
-    models.token.removeAsync({})
-    models.user.removeAsync({})
+
+#    models.order.removeAsync({})
+#    models.log.removeAsync({})
+#    models.message.removeAsync({})
+
+#    models.device.removeAsync({})
+#    models.token.removeAsync({})
+#    models.user.removeAsync({})
     res.send "Remove OK"
   .catch next
 
