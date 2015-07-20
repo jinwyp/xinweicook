@@ -245,7 +245,7 @@ exports.createOldDish = (req, res, next) ->
       return res.send("Dishes already created before")
     else
       models.dish.createAsync(oldDishList).then (resultOldDishes) ->
-        res.json resultOldDishes
+#        res.json resultOldDishes
         models.dish.createAsync(initData.sampleReadyToEat).then (resultSampleReadyToEat) ->
           res.json resultOldDishes.concat(resultSampleReadyToEat);
 
