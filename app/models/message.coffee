@@ -78,13 +78,12 @@ module.exports =
 
     sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
       models.device.findOneAsync(user: userId).then (resultDevice) ->
-
         pushOptions =
           isPushMobile : true
+
         if resultDevice
           models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
-        else
-          models.device.checkNotFound resultDevice
+
 
 
   methods: {}

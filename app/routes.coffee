@@ -79,13 +79,15 @@ expressRoutes = (app) ->
   app.post("/api/administrator/tags", tagController.addNewTag)
 
 
-  app.get("/api/administrator/initcoupon", couponController.initNewCoupon)
+
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/inittag", initController.createDishTag)
   app.get("/api/administrator/initolddish", initController.createOldDish)
   app.get("/api/administrator/initdishtopping", initController.initNewDish)
 
+  app.get("/api/administrator/initcoupon", initController.initNewCoupon)
   app.get("/api/administrator/initremoveall", initController.removeDish)
+
 
 module.exports = expressRoutes

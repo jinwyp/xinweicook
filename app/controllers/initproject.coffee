@@ -16,6 +16,95 @@ exports.createAdmin = (req, res, next) ->
 
 
 
+exports.removeDish = (req, res, next) ->
+
+  models.dish.removeAsync({}).then () ->
+
+    models.cook.removeAsync({})
+    models.coupon.removeAsync({})
+    models.tag.removeAsync({})
+
+    #    models.order.removeAsync({})
+    #    models.log.removeAsync({})
+    #    models.message.removeAsync({})
+
+    #    models.device.removeAsync({})
+    #    models.token.removeAsync({})
+    #    models.user.removeAsync({})
+    res.send "Remove OK"
+  .catch next
+
+
+
+
+
+exports.initNewCoupon = (req, res, next) ->
+
+  couponList = [
+    _id : ObjectId("55926f10d5eb6b6f834dec8d")
+    isUsed : false
+    isExpired : false
+    name :
+      zh : "优惠券111"
+      en : "coupon111"
+    price : 1
+    priceLimit : 10
+    code : models.coupon.gencode()
+  ,
+    _id : ObjectId("55926f4b06d06ab2835cc444")
+    isUsed : false
+    isExpired : false
+    name :
+      zh : "优惠券222"
+      en : "coupon222"
+    price : 2
+    priceLimit : 10
+    code : models.coupon.gencode()
+  ,
+    _id : ObjectId("55926f4d06d06ab2835cc451")
+    isUsed : false
+    isExpired : false
+    name :
+      zh : "优惠券333"
+      en : "coupon333"
+    price : 3
+    priceLimit : 10
+    code : models.coupon.gencode()
+  ,
+    _id : ObjectId("55926f4e06d06ab2835cc453")
+    isUsed : false
+    isExpired : false
+    name :
+      zh : "优惠券444"
+      en : "coupon444"
+    price : 1
+    priceLimit : 100
+    code : models.coupon.gencode()
+  ,
+    _id : ObjectId("55926f4e06d06ab2835cc454")
+    isUsed : false
+    isExpired : false
+    name :
+      zh : "优惠券555"
+      en : "coupon555"
+    price : 2
+    priceLimit : 60
+    code : models.coupon.gencode()
+  ]
+
+
+  models.coupon.createAsync couponList
+  .then (resultCoupon) ->
+    res.json resultCoupon
+  .catch next
+
+
+
+
+
+
+
+
 exports.createDishTag = (req, res, next) ->
 
   models.tag.findOneAsync({}).then (resultTag) ->
@@ -29,23 +118,6 @@ exports.createDishTag = (req, res, next) ->
 
 
 
-exports.removeDish = (req, res, next) ->
-
-  models.dish.removeAsync({}).then () ->
-
-    models.cook.removeAsync({})
-    models.coupon.removeAsync({})
-    models.tag.removeAsync({})
-
-#    models.order.removeAsync({})
-#    models.log.removeAsync({})
-#    models.message.removeAsync({})
-
-#    models.device.removeAsync({})
-#    models.token.removeAsync({})
-#    models.user.removeAsync({})
-    res.send "Remove OK"
-  .catch next
 
 
 
