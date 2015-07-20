@@ -22,24 +22,33 @@ module.exports =
     storageLife: Number # 即食包冷藏保存期
 
     title: zh:String, en:String # 菜名
+    shortTitle1: zh:String, en:String # 用于列表页面
+    shortTitle2: zh:String, en:String # 用于首页推荐
+
     brief: zh:String, en:String # 简介
     cover: [zh:String, en:String] # 封面
     kitchenware: [zh:String, en:String] # 厨具 "toaster","pot","pan","oven","mixer","bowl"
 
     infoUniqueFeature: [ # 特色
       title: zh:String, en:String
-      contentType: String # pic, txt, url, video
+      contentType: String # pic, txt, video, videomp4, videoflv, pdf
       value: zh:String, en:String
+      sortId : type: Number, default: 10 # 排序值
+      linkTo : String
     ]
     infoIngredient: [ # 原料
       title: zh:String, en:String
-      contentType: String # pic, txt, url, video
+      contentType: String # pic, txt, video, videomp4, videoflv, pdf
       value: zh:String, en:String
+      sortId : type: Number, default: 10 # 排序值
+      linkTo : String
     ]
     infoCookingStep: [ # 步骤
       title: zh:String, en:String
-      contentType: String # pic, txt, url, video
+      contentType: String # pic, txt, video, videomp4, videoflv, pdf
       value: zh:String, en:String
+      sortId : type: Number, default: 10 # 排序值
+      linkTo : String
     ]
 
     region: [ # 地区

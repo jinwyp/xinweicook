@@ -79,8 +79,8 @@ exports.addNewOrder = (req, res, next) ->
   dishNumberList = {}
   dishDataList = {}
 
+  promotionCode = {}
   promotionCodePrice = 0
-  promotionCodePriceLimit = 0
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -176,10 +176,7 @@ exports.addNewOrder = (req, res, next) ->
     if req.body.promotionCode
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
-      promotionCodePrice = resultCoupon.price
-      promotionCodePriceLimit = resultCoupon.priceLimit
-      resultCoupon.isUsed = true
-      resultCoupon.saveAsync()
+      promotionCode = resultCoupon
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
@@ -214,7 +211,9 @@ exports.addNewOrder = (req, res, next) ->
           dishReadyToEatList.push dishDataList[subDish.dish]
 
 
-    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCodePrice
+    if newOrder.totalPrice > promotionCode.priceLimit and (newOrder.totalPrice - promotionCode.price) > 0
+      newOrder.totalPrice = newOrder.totalPrice - promotionCode.price
+
     newOrder.dishHistory = dishHistoryList
 
     newOrderReadyToCook.totalPrice = newOrderReadyToCook.dishesPrice
@@ -237,13 +236,18 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
+    # 优惠券已使用
+    if req.body.promotionCode
+      promotionCode.isUsed = true
+      promotionCode.saveAsync()
+
+
     additionalContent =
       userId : req.u._id
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
-    .catch (err) ->
-      logger.warn err
+
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay

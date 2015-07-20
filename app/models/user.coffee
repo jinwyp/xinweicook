@@ -108,6 +108,9 @@ module.exports =
 
     checkNotFound: (u) ->
       u or throw new Err "找不到该用户", 404
+    checkFound: (user) ->
+      if user
+        return throw new Err "User Mobile already exist !", 400
     checkNotSpam: (u) ->
       if u.isSpam
         throw new Err "该用户被举报", 403
@@ -124,7 +127,9 @@ module.exports =
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
         if smscode[1] isnt 1
           throw new Err "验证码保存失败", 400
-        models.user.createAsync(mobile: mobile, pwd: pwd)
+        models.user.findOneAsync(mobile: mobile).then (resultUser) ->
+          models.user.checkFound(resultUser)
+          models.user.createAsync(mobile: mobile, pwd: pwd)
       )
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
