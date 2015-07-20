@@ -1,40 +1,6 @@
 'use strict';
 
-/**
- * Route configuration for the RDash module.
- */
-angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
-    function($stateProvider, $urlRouterProvider, $httpProvider) {
-
-        // For unmatched routes
-        $urlRouterProvider.otherwise(function ($inject, $location) {
-            return $inject.get('$localStorage').access_token ? '/' : '/login';
-        });
-
-        $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
-        $httpProvider.defaults.headers.common['Accept-Language'] = 'application/vnd.cook.v1+json';
-
-        $httpProvider.interceptors.push('commonInterceptor');
-
-
-        // Application routes
-        $stateProvider
-            .state('index', {
-                url: '/',
-                templateUrl: 'templates/dashboard.html'
-            })
-            .state('index.tables', {
-                url: '^/tables',
-                templateUrl: 'templates/tables.html'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'templates/login.html'
-            })
-    }
-]);
-
-angular.module('RDash.config').factory('commonInterceptor', ['$localStorage', '$q', '$state', function($localStorage, $q, $state) {
+angular.module('RDash.config').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q, $location) {
     return {
         'request': function(config) {
             if ($localStorage.access_token) {
@@ -46,11 +12,121 @@ angular.module('RDash.config').factory('commonInterceptor', ['$localStorage', '$
 
         'responseError': function(response) {
             // do something on error
-            if (response.status == 403) {
+            if (response.status == 401) {
                 // todo: redirect
-                $state.go('login');
+                $location.url('/login')
+
             }
             return $q.reject(response);
         }
     };
 }]);
+
+/**
+ * Route configuration for the RDash module.
+ */
+angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpProvider', 'RestangularProvider',
+    function($stateProvider, $urlRouterProvider, $httpProvider, RestangularProvider) {
+
+        RestangularProvider.setBaseUrl('/api/admin');
+
+        RestangularProvider.setRestangularFields({id: '_id'});
+
+        // For unmatched routes
+        $urlRouterProvider.otherwise(function ($inject, $location) {
+            return $inject.get('$localStorage').access_token ? '/dashboard' : '/login';
+        });
+
+        $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
+        $httpProvider.defaults.headers.common['Accept-Language'] = navigator.language == 'zh-CN' ? 'zh-CN' : 'en-US';
+        $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
+
+
+        $httpProvider.interceptors.push('commonInterceptor');
+
+
+        // Application routes
+        $stateProvider
+            .state('index', {
+                url: '/',
+                templateUrl: 'templates/main.html'
+            })
+            .state('index.dashboard', {
+                url: '^/dashboard',
+                templateUrl: 'templates/dashboard.html'
+            })
+            .state('index.tables', {
+                url: '^/tables',
+                templateUrl: 'templates/tables.html'
+            })
+            .state('index.dishes', {
+                templateUrl: 'templates/dishes.html',
+                controller: function ($scope, Dish) {
+                    $scope.dishes = Dish.getList().$object;
+                }
+            })
+            .state('index.dishes.newDish', {
+                url: '^/dishes',
+                templateUrl: 'templates/dishDetail.html',
+                controller: function ($scope, Dish) {
+                    var emptyDish = {
+                        cover: [{}],
+                        kitchenware: [{}],
+                        infoUniqueFeature: [{}],
+                        infoIngredient: [{}],
+                        infoCookingStep: [{}],
+                        priceWholesale: [{}],
+                        topping: [],
+                        tagFilter: []
+                    };
+
+                    $scope.dish = angular.copy(emptyDish);
+
+                    $scope.save = function () {
+                        Dish.post($scope.dish).then(function () {
+                            $scope.dish = angular.copy(emptyDish)
+                        })
+                    }
+                }
+            })
+            .state('index.dishDetail', {
+                url: '^/dishDetail/:dishId',
+                templateUrl: 'templates/dishDetail.html',
+                controller: function ($scope, Dish, $stateParams, $location) {
+                    console.log($stateParams.dishId);
+
+                    Dish.one($stateParams.dishId).get().then(function (dish) {
+                        $scope.dish = dish;
+                    })
+                    //$scope.dish = Dish.one($stateParams.dishId).get().$object;
+
+                    $scope.save = function () {
+                        console.log($scope.dish.sortId, typeof $scope.dish.sortId);
+                        $scope.dish.put().then(function () {
+                            $location.url('/dishes');
+                        })
+                    }
+                }
+            })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: function ($scope, User, $http, $location) {
+                    $scope.login = function () {
+                        User.login($scope.username, $scope.password).then(function () {
+                            $location.url('/dishes')
+                        })
+                    };
+
+                    $scope.initAdmin = function () {
+                        $http.get('/api/administrator/initadminuser')
+                    };
+
+                    $scope.initDish = function () {
+                        $http.get('/api/administrator/initdish3');
+                    }
+                }
+            })
+    }
+]);
+

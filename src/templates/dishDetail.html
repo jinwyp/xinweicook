@@ -1,0 +1,351 @@
+<div class="row">
+    <form class="form-horizontal">
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">名称</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">zh</span>
+                    <input style="color: #333" placeholder="see my color" type="text" class="form-control" ng-model="dish.title.zh">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">en</span>
+                    <input type="text" class="form-control" ng-model="dish.title.en">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="cover_ in dish.cover">
+            <label class="control-label col-lg-2 text-right">封面</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">zh</span>
+                    <input type="text" ng-model="cover_.zh" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">en</span>
+                    <input type="text" ng-model="cover_.en" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-2">
+                <button ng-click="dish.cover.push({})">添加</button>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">难度</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input min="1" max="5" type="number" ng-model="dish.difficulty" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="kitchenware_ in dish.kitchenware">
+            <label class="control-label col-lg-2 text-right">工具</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">zh</span>
+                    <input type="text" ng-model="kitchenware_.zh" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">en</span>
+                    <input type="text" ng-model="kitchenware_.en" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-2">
+                <button ng-click="dish.kitchenware.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">时间</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="text" ng-model="dish.time" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">描述</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">zh</span>
+                    <textarea class="form-control" row="3" ng-model="dish.brief.zh"></textarea>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">en</span>
+                    <textarea class="form-control" row="3" ng-model="dish.brief.en"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="priceWholesale_ in dish.priceWholesale">
+            <label class="control-label col-lg-2 text-right">批发价</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">数量</span>
+                    <input type="text" ng-model="priceWholesale_.quantity" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-addon">价格</span>
+                    <input type="text" ng-model="priceWholesale_.price" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-2">
+                <button ng-click="dish.priceWholesale.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">原价</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="text" ng-model="dish.priceOriginal" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="infoUniqueFeature_ in dish.infoUniqueFeature">
+            <label class="control-label col-lg-2 text-right">特色</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">Title/EN</span>
+                    <input type="text" ng-model="infoUniqueFeature_.title.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Title/ZH</span>
+                    <input type="text" ng-model="infoUniqueFeature_.title.zh" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Content Type</span>
+                    <input type="text" ng-model="infoUniqueFeature_.contentType" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Value/EN</span>
+                    <input type="text" ng-model="infoUniqueFeature_.value.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Value/ZH</span>
+                    <input type="text" ng-model="infoUniqueFeature_.value.zh" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button ng-click="dish.infoUniqueFeature.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="infoIngredient_ in dish.infoIngredient">
+            <label class="control-label col-lg-2 text-right">原料</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="title" ng-model="infoIngredient_.title.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="title" ng-model="infoIngredient_.title.zh" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">type</span>
+                    <input type="text" placeholder="contentType" ng-model="infoIngredient_.contentType" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="value" ng-model="infoIngredient_.value.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="value" ng-model="infoIngredient_.value.zh" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="dish.infoIngredient.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="infoCookingStep_ in dish.infoCookingStep">
+            <label class="control-label col-lg-2 text-right">制作步骤</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="title" ng-model="infoCookingStep_.title.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="title" ng-model="infoCookingStep_.title.zh" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">type</span>
+                    <select class="form-control" ng-model="infoCookingStep_.contentType" ng-options="type for type in ['pic', 'txt', 'url', 'video']"></select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="value" ng-model="infoCookingStep_.value.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="value" ng-model="infoCookingStep_.value.zh" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="dish.infoCookingStep.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">类别</label>
+            <div class="col-lg-5">
+                <select class="form-control" ng-model="dish.cookingType" ng-options="type for type in ['ready to cook', 'ready to eat']"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">主菜或配菜</label>
+            <div class="col-lg-5">
+                <select class="form-control" ng-model="dish.sideDishType" ng-options="type for type in ['main', 'topping', 'preferences', 'drink']"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">单品或套餐</label>
+            <div class="col-lg-5">
+                <select class="form-control" ng-model="dish.setType" ng-options="type for type in ['single', 'set']"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">几人份</label>
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="number" ng-model="dish.servings" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">厨师点评</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">user</span>
+                    <input type="text" placeholder="id" ng-model="cook.user" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="tips" ng-model="infoCookingStep_.title.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="tips" ng-model="infoCookingStep_.title.zh" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">标签</label>
+            <div class="col-lg-8">
+                <div class="input-group" ng-repeat="tagFilter_ in dish.tagFilter">
+                    <input type="text" placeholder="tag" ng-model="tagFilter_" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="dish.tagFilter.push('')">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">浇头</label>
+            <div class="col-lg-8">
+                <div class="input-group" ng-repeat="topping_ in dish.topping">
+                    <input type="text" placeholder="topping" ng-model="topping_" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="dish.tagFilter.push('')">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group" ng-repeat="preferences_ in dish.preferences">
+            <label class="control-label col-lg-2 text-right">配菜</label>
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon">EN</span>
+                    <input type="text" placeholder="name" ng-model="preferences_.name.en" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ZH</span>
+                    <input type="text" placeholder="name" ng-model="preferences_.name.zh" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-offset-2 col-lg-8" ng-repeat="foodMaterial_ in preferences_.foodMaterial">
+                <div class="input-group">
+                    <span class="input-group-addon">dish</span>
+                    <input type="text" placeholder="id" ng-model="foodMaterial_.dish" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">default</span>
+                    <input type="checkbox" ng-model="foodMaterial_.default" class="checkbox form-control">
+                </div>
+            </div>
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="preferences_.foodMaterial.push({})">添加</button>
+            </div>
+        </div>
+        <div class="form-group add-button-wrapper">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button ng-click="dish.infoCookingStep.push({})">添加</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">sortId</label>
+            <div class="col-lg-5">
+                <input type="number" ng-model="dish.sortId">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-5 col-lg-offset-2">
+                <input type="checkbox" ng-model="dish.isPublished">
+                <label>上线</label>
+            </div>
+        </div>
+
+
+
+
+
+        <!--submit-->
+        <div class="form-group">
+            <div class="col-lg-6 col-lg-offset-3">
+                <button ng-click="save()">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
