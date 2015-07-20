@@ -29,6 +29,21 @@ exports.createDishTag = (req, res, next) ->
 
 
 
+exports.removeDish = (req, res, next) ->
+
+  models.dish.removeAsync({}).then () ->
+    models.order.removeAsync({})
+    models.cook.removeAsync({})
+    models.coupon.removeAsync({})
+    models.device.removeAsync({})
+    models.log.removeAsync({})
+    models.message.removeAsync({})
+    models.tag.removeAsync({})
+    models.token.removeAsync({})
+    models.user.removeAsync({})
+    res.send "Remove OK"
+  .catch next
+
 
 
 exports.createOldDish = (req, res, next) ->
@@ -84,7 +99,8 @@ exports.createOldDish = (req, res, next) ->
         title:
           zh:""
           en:""
-        contentType: "pdf"
+        contentType: "txt"
+#        contentType: "pdf"
         value:
           zh:oldDish.recipe_pdf_url
           en:oldDish.recipe_pdf_url
@@ -147,7 +163,8 @@ exports.createOldDish = (req, res, next) ->
           title:
             zh: "菜谱制作方法"
             en: "See the Action"
-          contentType: "videoflv"
+#          contentType: "videoflv"
+          contentType: "vid"
           value:
             zh:oldDish.action_flv.zh
             en:oldDish.action_flv.en
@@ -156,13 +173,14 @@ exports.createOldDish = (req, res, next) ->
           title:
             zh: "菜谱制作方法"
             en: "See the Action"
-          contentType: "videomp4"
+#          contentType: "videomp4"
+          contentType: "vid"
           value:
             zh:oldDish.action_mp4.zh
             en:oldDish.action_mp4.en
 
-        infoCookingStepTemp.push(infoCookingStepVideoOne)
-        infoCookingStepTemp.push(infoCookingStepVideoTwo)
+        infoCookingStepTemp.push(infoCookingStepVideoOne) if oldDish.action_flv.zh
+        infoCookingStepTemp.push(infoCookingStepVideoTwo) if oldDish.action_mp4.zh
 
 
       tempDish =
