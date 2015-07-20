@@ -1,3 +1,5 @@
+prettify = require "prettify-error"
+
 module.exports =
   Err: ->
     Err = (message="错误的请求", status=400) ->
@@ -15,9 +17,10 @@ module.exports =
         status: err.status or 500
         _id: req._id
       if error.status < 500
-        logger.warn "4XX Error: ", error
+        logger.warn "4XX Error: ", prettify error
       else
-        logger.error "5XX Error: ", error
+        logger.error "5XX Error: ", prettify error
+
       res.status(error.status).json
         message: error.message
         _id: error._id
@@ -25,9 +28,9 @@ module.exports =
 
 
 process.on "unhandledRejection", (reason) ->
-  # logger.error "unhandledRejection", reason
-  throw reason
+   logger.error "5XX UnhandledRejection: ", reason
+#  throw reason
 
-process.on "uncaughtException", (e) ->
-  logger.error "uncaughtException", e
+process.on "uncaughtException", (err) ->
+  logger.error "5XX UncaughtException: ", err
   process.exit(1)

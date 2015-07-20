@@ -242,9 +242,8 @@ exports.addNewOrder = (req, res, next) ->
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
-#    .then (resultPush) ->
-#      models.message.checkNotFound resultPush
-#      console.log "-------:", resultPush
+    .catch (err) ->
+      logger.warn err
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
@@ -289,8 +288,8 @@ exports.updateOrder = (req, res, next) ->
   models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
-#  .populate "preferences.foodMaterial.dish"
-#  .populate "topping"
+  .populate({path: 'dishList.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
@@ -423,12 +422,12 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
   if req.body.cookingType is "ready to cook"
     if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticByRangeForReadyToCook(req.body.isInRange3KM)
+      result = models.order.deliveryTimeArithmeticByRangeForReadyToCook(req.body.isInRange4KM)
     else
       result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
   else
     if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticForReadyToEat()
+      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
 
   res.status(200).json(result)
 

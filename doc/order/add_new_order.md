@@ -12,7 +12,7 @@ Group `member`
 | freight          | Number   | 运费                                               |
 | coupon           | String   | 用户账号里面的优惠券 24位ID 5590d256103f46d9ac31e3ee   |
 | promotionCode    | String   | 优惠码    |
-| payment          | String   | 支付方式 alipay direct / weixinpay / paypal           |
+| payment          | String   | 支付方式 alipay direct / weixinpay / paypal  /cod 货到付款          |
 | paymentUsedCash  | Boolean  | 货到付款 使用现金还是刷卡                              |
 | device_info      | String   | 用于微信支付 非必填 终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"                         |
 | spbill_create_ip | String   | 用于微信支付 APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。                        |

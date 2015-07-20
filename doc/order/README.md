@@ -7,7 +7,7 @@
 | status           | String   | 订单状态 not paid未支付 / paid已支付 / making dish制作中 / shipped已发货 / canceled已取消 / finished已完成     |
 | payment          | String   | 支付方式 alipay direct / weixinpay / paypal /cod 货到付款          |
 | isPaymentPaid    | Boolean  | 是否付款 未支付 false / 已支付 true                   |
-| isSplitOrder     | Boolean  | 是否有子订单  无子订单 false / 有拆分的子订单 true    订单会生成三个订单，一个主订单（用于支付）和另外两个子订单（用于以后在用户中心的订单里面查询）。    |
+| isSplitOrder     | Boolean  | 是否有子订单  无子订单 false / 有拆分的子订单 true    订单会生成三个订单，一个主订单（用于支付）和另外两个子订单（用于以后在用户中心的订单里面查询，只显示）。    |
 | isChildOrder     | Boolean  | 是否是子订单  false / true       |
 | childOrderList   | Array    | 主订单包括子订单的ID                                  |
 

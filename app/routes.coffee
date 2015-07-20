@@ -86,5 +86,6 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/inittag", initController.createDishTag)
+  app.get("/api/administrator/initolddish", initController.createOldDish)
 
 module.exports = expressRoutes

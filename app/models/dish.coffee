@@ -7,6 +7,8 @@ module.exports =
   schema:
     publishedAt: type: Date, default: Date.now # 发布时间
     isPublished: type: Boolean, default: false # 是否已发布
+
+    isFromAdminPanel: type: Boolean, default: false # 是否通过后台面板人工输入的
     sortId: Number # 排序值
 
     cookingType: String # ready to cook食材包, ready to eat既食包
@@ -74,6 +76,18 @@ module.exports =
       dish: type: Schema.ObjectId, ref: "dish"
       desc: zh:String, en:String
     ]
+
+
+
+    stock : type: Number, default: 2 # 库存
+
+
+
+
+
+
+
+
 
     statisticHot: type: Number, default: 0 # 热度
     statisticSales: type: Number, default: 0 # 销量

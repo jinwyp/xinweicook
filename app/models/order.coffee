@@ -172,7 +172,7 @@ module.exports =
 
     validationUpdateOrder : (order) ->
       if order.status
-        unless libs.validator.equals order.status, @constantStatuss().canceled
+        unless libs.validator.equals order.status, @constantStatus().canceled
           return throw new Err "Field validation error,  order status must be string canceled", 400
 
       unless libs.validator.isBoolean order.isPaymentPaid
@@ -189,8 +189,8 @@ module.exports =
         return throw new Err "Field validation error,  credit must be number", 400
       unless libs.validator.isInt newOrder.freight, {min: 0}
         return throw new Err "Field validation error,  freight must be number", 400
-      unless libs.validator.isLength newOrder.payment, 4, 30
-        return throw new Err "Field validation error,  payment length must be 4-30", 400
+      unless libs.validator.isLength newOrder.payment, 3, 20
+        return throw new Err "Field validation error,  payment length must be 3-20", 400
 
       if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod
         return throw new Err "Field validation error,  payment text wrong", 400
@@ -218,6 +218,9 @@ module.exports =
       unless Array.isArray newOrder.dishList
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400
       else
+        if newOrder.dishList.length is 0
+          return throw new Err "Field validation error,  dishList must have some dish", 400
+
         for dish,dishIndex in newOrder.dishList
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
@@ -244,13 +247,13 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
-    deliveryTimeArithmeticByRangeForReadyToCook : (isInRange3KM) ->
+    deliveryTimeArithmeticByRangeForReadyToCook : (isInRange4KM) ->
       timeFormat = "YYYY-MM-DD HH:mm:ss A"
       timeFormat2 = "YYYY-MM-DD"
       timeNow = moment()
       resultTime = []
 
-      if isInRange3KM
+      if isInRange4KM
 
         if timeNow.hour() < 17 # 公司3公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           for i in [1..5]
@@ -319,21 +322,33 @@ module.exports =
 
       resultTime
 
-    deliveryTimeArithmeticForReadyToEat : () ->
-      timeNow = moment()
+    deliveryTimeArithmeticForReadyToEat : (isInRange4KM) ->
       resultTime = []
 
-      if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
-        if timeNow.minute()%30 >= 10
-          timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
-        else
-          timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
+      if isInRange4KM is true
+        timeNow = moment()
 
-        for i in [1..5]
-          segmentHour =
-            hour : timeStarter.clone().add(30*(i-1), 'minutes').format("YYYY-MM-DD HH:mm:ss A")
+        if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+          if timeNow.minute()%30 >= 10
+            timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
+          else
+            timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
-          resultTime.push(segmentHour)
+          for i in [1..5]
+            timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+            if timeStarterTemp.hour() < 20 or  timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
+              segmentHour =
+                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
+            else
+              #  过20:00 要从第二天11:00开始
+              timeStarterTemp.add(15, 'hours').subtract(30, 'minutes')
+
+              segmentHour =
+                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
+
+            resultTime.push(segmentHour)
 
       resultTime
 
