@@ -176,6 +176,7 @@ exports.addNewOrder = (req, res, next) ->
     if req.body.promotionCode
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
+      models.coupon.checkUsed(resultCoupon, req.u)
       promotionCode = resultCoupon
 
     models.dish.find99({"_id" : {$in:dishIdList}})
@@ -238,8 +239,8 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultOrder) ->
     # 优惠券已使用
     if req.body.promotionCode
-      promotionCode.isUsed = true
-      promotionCode.saveAsync()
+      promotionCode.used(req.u)
+
 
 
     additionalContent =
