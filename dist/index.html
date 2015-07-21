@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" ng-app="RDash">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RDash AngularJS</title>
+    <!-- STYLES -->
+    <link rel="stylesheet" href="lib/css/main.min.css"/>
+    <!-- SCRIPTS -->
+    <script src="lib/js/main.min.js"></script>
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="js/dashboard.min.js"></script>
+</head>
+<body ng-controller="MasterCtrl">
+<div ui-view id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+</div>
+<!-- End Page Wrapper -->
+</body>
+</html>
