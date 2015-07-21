@@ -1,0 +1,17 @@
+<table class="table table-bordered table-responsive">
+    <thead>
+    <tr>
+        <th>_id</th><th>name/zh</th><th>name/en</th><th>group/zh</th><th>group/en</th><th>isFilter</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="tag in tags">
+        <td>{{tag._id}}</td>
+        <td>{{tag.name.zh}}</td>
+        <td>{{tag.name.en}}</td>
+        <td>{{tag.group.zh}}</td>
+        <td>{{tag.group.en}}</td>
+        <td>{{tag.isFilter}}</td>
+    </tr>
+    </tbody>
+</table>
