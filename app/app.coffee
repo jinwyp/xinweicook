@@ -14,6 +14,7 @@ app.set "view engine", "jade"
 app.use cors() if conf.debug
 
 app.use "/api/public", express.static(path.join(__dirname, "public"))
+app.use "/", express.static(path.join(__dirname, "../public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
 app.use alipayBodyParser if not conf.debug
