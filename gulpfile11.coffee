@@ -1,5 +1,4 @@
 gulp = require "gulp"
-shell = require "gulp-shell"
 
 # borrow from rdash start
 usemin = require("gulp-usemin")
@@ -61,34 +60,7 @@ gulp.task "custom-templates", ->
 
 
 
-gulp.task "generatedoc", shell.task([
-  "cd doc; ../node_modules/.bin/gitbook build"
-], ignoreErrors: false)
 
-
-gulp.task "watchdoc",  ->
-  gulp.watch ["doc/**/*.md"], ["generatedoc"]
-
-
-gulp.task "nodemon", shell.task([
-  "nodemon index.coffee"
-], ignoreErrors: false)
-
-
-
-
-gulp.task "doc", [
-  "generatedoc", "watchdoc"
-]
-
-
-gulp.task "default", [
-  "nodemon"
-]
-
-gulp.task "webdoc", [
-  "nodemon", "doc"
-]
 
 ###
 Gulp tasks
