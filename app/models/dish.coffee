@@ -31,21 +31,21 @@ module.exports =
 
     infoUniqueFeature: [ # 特色
       title: zh:String, en:String
-      contentType: String # pic, txt, video, videomp4, videoflv, pdf
+      contentType: String # pic, txt, video(vid), videomp4, videoflv, pdf
       value: zh:String, en:String
       sortId : type: Number, default: 10 # 排序值
       linkTo : String
     ]
     infoIngredient: [ # 原料
       title: zh:String, en:String
-      contentType: String # pic, txt, video, videomp4, videoflv, pdf
+      contentType: String # pic, txt, video(vid), videomp4, videoflv, pdf
       value: zh:String, en:String
       sortId : type: Number, default: 10 # 排序值
       linkTo : String
     ]
     infoCookingStep: [ # 步骤
       title: zh:String, en:String
-      contentType: String # pic, txt, video, videomp4, videoflv, pdf
+      contentType: String # pic, txt, video(vid), videomp4, videoflv, pdf
       value: zh:String, en:String
       sortId : type: Number, default: 10 # 排序值
       linkTo : String
