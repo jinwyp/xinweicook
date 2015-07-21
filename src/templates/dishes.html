@@ -1,6 +1,4 @@
 
-    <div ui-view>
-    </div>
     <!--
             <form class="form-horizontal">
             <div class="form-group">
@@ -17,31 +15,28 @@
             </form>
     -->
 
-    <hr/>
-
     <div class="row dish-search">
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-lg-3 text-right">关键字</label>
                 <div class="col-lg-5">
-                    <input type="text" class="form-control"/>
+                    <input type="text" ng-model="filterKey" class="form-control"/>
                 </div>
             </div>
 
 
             <!--submit-->
-            <div class="form-group">
+<!--            <div class="form-group">
                 <div class="col-lg-6 col-lg-offset-3">
                     <button ng-click="search()">搜索</button>
                 </div>
-            </div>
+            </div>-->
         </form>
     </div>
 
     <hr/>
 
     <div class="row dish-list">
-        <h3>菜品</h3>
         <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
@@ -49,11 +44,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="dish in dishes">
+                <tr ng-repeat="dish in dishes | filter: filterKey">
                     <td><a href="#/dishDetail/{{dish._id}}">{{dish._id}}</a></td>
                     <td>{{dish.title.zh}}</td>
                     <td>{{dish.isPublished}}</td>
-                    <td>{{dish.createdAt}}</td>
+                    <td>{{dish.createdAt | date: 'yyyy-MM-dd HH:mm'}}</td>
                 </tr>
             </tbody>
         </table>

@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$localStorage', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', MasterCtrl]);
 
-function MasterCtrl($scope, $localStorage) {
+function MasterCtrl($scope, $location, $localStorage) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -32,6 +32,13 @@ function MasterCtrl($scope, $localStorage) {
         $scope.toggle = !$scope.toggle;
         $localStorage.toggle = $scope.toggle;
     };
+
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.path = $location.path();
+    });
+
+    $scope.$on('$stateChangeSuccess',
+        function(event, toState){$scope.title = toState.data && toState.data.title});
 
     window.onresize = function() {
         $scope.$apply();

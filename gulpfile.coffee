@@ -13,12 +13,13 @@ rename = require("gulp-rename")
 minifyHTML = require("gulp-minify-html")
 
 paths =
-  scripts: "src/js/**/*.*"
-  styles: "src/less/**/*.*"
-  images: "src/img/**/*.*"
-  templates: "src/templates/**/*.html"
-  index: "src/index.html"
-  bower_fonts: "src/components/**/*.{ttf,woff,eof,svg}"
+  admincripts: "public/admin/src/js/**/*.*"
+  styles: "public/admin/src/less/**/*.*"
+  images: "public/admin/src/img/**/*.*"
+  templates: "public/admin/src/templates/**/*.html"
+  adminIndex: "public/admin/src/index.html"
+  adminDist: "public/admin/dist/"
+  bower_fonts: "public/components/**/*.{ttf,woff,eof,svg}"
 
 
 ###

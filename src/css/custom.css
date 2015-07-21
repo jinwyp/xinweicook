@@ -19,6 +19,31 @@
     border-top-color: #DDD;
 }
 
+li.sidebar-list > a.active {
+    color: #fff;
+    border-left: 3px solid #95e93f;
+    background: #2d3e63;
+    text-indent: 22px;
+}
+
+li.sidebar-list > a.active .menu-icon {
+    color: #fff;
+    border-left: 3px solid #95e93f;
+    background: #2d3e63;
+    text-indent: 22px;
+}
+
+.open li.sidebar-list > a.active .menu-icon {
+    border-left-color: transparent;
+}
+
+
+
 textarea {
     resize: none;
+}
+
+#content-wrapper .header .page {
+    padding-top: 0;
+    line-height: 60px;
 }

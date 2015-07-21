@@ -32,9 +32,9 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
         RestangularProvider.setRestangularFields({id: '_id'});
 
-        // For unmatched routes
+        // For unmatched routes. params not injected by angular but by ui-router
         $urlRouterProvider.otherwise(function ($inject, $location) {
-            return $inject.get('$localStorage').access_token ? '/dashboard' : '/login';
+            return $inject.get('$localStorage').access_token ? '/dishes' : '/login';
         });
 
         $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
@@ -48,27 +48,30 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
         // Application routes
         $stateProvider
             .state('index', {
-                url: '/',
+                //url: '/',
                 templateUrl: 'templates/main.html'
             })
             .state('index.dashboard', {
-                url: '^/dashboard',
+                url: '/dashboard',
                 templateUrl: 'templates/dashboard.html'
             })
             .state('index.tables', {
-                url: '^/tables',
+                url: '/tables',
                 templateUrl: 'templates/tables.html'
             })
             .state('index.dishes', {
                 templateUrl: 'templates/dishes.html',
-                controller: function ($scope, Dish) {
-                    $scope.dishes = Dish.getList().$object;
+                url: '/dishes',
+                data: {title: '菜品列表'},
+                controller: function ($scope, Dishes) {
+                    $scope.dishes = Dishes.getList().$object;
                 }
             })
-            .state('index.dishes.newDish', {
-                url: '^/dishes',
+            .state('index.newDish', {
+                url: '/newdish',
                 templateUrl: 'templates/dishDetail.html',
-                controller: function ($scope, Dish, DishDetailDecorator) {
+                data: {title: '添加菜品'},
+                controller: function ($scope, Dishes, DishDetailDecorator) {
                     var emptyDish = {
                         cover: [{}],
                         kitchenware: [{}],
@@ -86,7 +89,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
                     $scope.save = function () {
                         $scope.checkAll();
-                        Dish.post($scope.dish).then(function () {
+                        Dishes.post($scope.dish).then(function () {
                             $scope.dish = angular.copy(emptyDish)
                         })
                     };
@@ -95,15 +98,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 }
             })
             .state('index.dishDetail', {
-                url: '^/dishDetail/:dishId',
+                url: '/dishDetail/:dishId',
                 templateUrl: 'templates/dishDetail.html',
-                controller: function ($scope, Dish, $stateParams, $location) {
+                data: {title: '菜品详情'},
+                controller: function ($scope, Dishes, $stateParams, $location) {
                     console.log($stateParams.dishId);
 
-                    Dish.one($stateParams.dishId).get().then(function (dish) {
+                    Dishes.one($stateParams.dishId).get().then(function (dish) {
                         $scope.dish = dish;
                     });
-                    //$scope.dish = Dish.one($stateParams.dishId).get().$object;
+                    //$scope.dish = Dishes.one($stateParams.dishId).get().$object;
 
                     $scope.save = function () {
                         console.log($scope.dish.sortId, typeof $scope.dish.sortId);
@@ -139,6 +143,26 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     $scope.initAdmin = function () {
                         $http.get('/api/administrator/initadminuser')
                     };
+                }
+            })
+            .state('index.tags', {
+                url: '/tags',
+                templateUrl: 'templates/tags.html',
+                data: {title: '标签列表'},
+                controller: function ($scope, Tags) {
+                    Tags.getList().then(function (tags) {
+                        $scope.tags = tags;
+                    })
+                }
+            })
+            .state('index.orders', {
+                url: '/orders',
+                templateUrl: 'templates/orders.html',
+                data: {title: '订单管理'},
+                controller: function ($scope, Orders) {
+                    Orders.getList().then(function (orders) {
+                        $scope.orders = orders;
+                    })
                 }
             })
     }
