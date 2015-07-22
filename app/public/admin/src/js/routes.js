@@ -126,23 +126,6 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                             $location.url('/dishes')
                         })
                     };
-
-                    $scope.remove = function () {
-                        $http.get('/api/administrator/initremoveall');
-                    }
-                    $scope.inittag = function () {
-                        $http.get('/api/administrator/inittag');
-                    }
-                    $scope.initolddish = function () {
-                        $http.get('/api/administrator/initolddish');
-                    }
-                    $scope.initdishtopping = function () {
-                        $http.get('/api/administrator/initdishtopping');
-                    }
-
-                    $scope.initAdmin = function () {
-                        $http.get('/api/administrator/initadminuser')
-                    };
                 }
             })
             .state('index.tags', {

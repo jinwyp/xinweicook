@@ -1,13 +1,28 @@
-<div>
-    <form>
-        <input type="text" placeholder="username" name="username" ng-model="username">
-        <input type="password" name="password" placeholder="password" ng-model="password">
-        <input type="button" value="login" ng-click="login()">
-    </form>
+<div class="login-container">
+    <div class="xinwei-banner text-center">
+        <img src="img/xinweilogo.png" alt="xinwei cook"/>
+    </div>
+    <form class="form-horizontal center-block login-form">
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">手机号</label>
 
-    <button ng-click="remove()">init remove</button>
-    <button ng-click="inittag()">init tags</button>
-    <button ng-click="initolddish()">init old dish</button>
-    <button ng-click="initdishtopping()">init dish with topping</button>
-    <button ng-click="initAdmin()">init admin user</button>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" ng-model="username">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2 text-right">密码</label>
+
+            <div class="col-lg-10">
+                <input type="text" class="form-control" ng-model="password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <input class="form-control btn btn-primary" type="submit" value="登陆" ng-click="login()"/>
+            </div>
+        </div>
+    </form>
 </div>

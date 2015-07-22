@@ -20,23 +20,26 @@
         <hr/>
         <div class="form-group" ng-repeat="cover_ in dish.cover">
             <label class="control-label col-lg-2 text-right">封面</label>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">ZH</span>
                     <input type="text" ng-model="cover_.zh" class="form-control">
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">EN</span>
                     <input type="text" ng-model="cover_.en" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.cover.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.cover.length" class="control-label col-lg-2 text-right">封面</label>
-            <div class="col-lg-offset-2 col-lg-2">
-                <button ng-click="dish.cover.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.cover.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.cover.push({})">添加</button>
             </div>
         </div>
         <hr/>
@@ -54,23 +57,26 @@
         <hr/>
         <div class="form-group" ng-repeat="kitchenware_ in dish.kitchenware">
             <label class="control-label col-lg-2 text-right">工具</label>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">ZH</span>
                     <input type="text" ng-model="kitchenware_.zh" class="form-control">
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">EN</span>
                     <input type="text" ng-model="kitchenware_.en" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.kitchenware.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.kitchenware.length" class="control-label col-lg-2 text-right">工具</label>
-            <div class="col-lg-offset-2 col-lg-2">
-                <button ng-click="dish.kitchenware.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.kitchenware.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.kitchenware.push({})">添加</button>
             </div>
         </div>
         <hr/>
@@ -101,23 +107,26 @@
         <hr/>
         <div class="form-group" ng-repeat="priceWholesale_ in dish.priceWholesale">
             <label class="control-label col-lg-2 text-right">批发价</label>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">数量</span>
                     <input type="number" min="1" ng-model="priceWholesale_.quantity" class="form-control">
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">价格</span>
                     <input type="number" min="0" step="0.01" ng-model="priceWholesale_.price" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.priceWholesale.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.priceWholesale.length" class="control-label col-lg-2 text-right">批发价</label>
-            <div class="col-lg-offset-2 col-lg-2">
-                <button ng-click="dish.priceWholesale.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.priceWholesale.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.priceWholesale.push({})">添加</button>
             </div>
         </div>
         <hr/>
@@ -156,11 +165,14 @@
                     <input type="text" ng-model="infoUniqueFeature_.value.zh" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.infoUniqueFeature.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.infoUniqueFeature.length" class="control-label col-lg-2 text-right">特色</label>
-            <div class="col-lg-10 col-lg-offset-2">
-                <button ng-click="dish.infoUniqueFeature.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoUniqueFeature.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.infoUniqueFeature.push({})">添加</button>
             </div>
         </div>
 
@@ -189,11 +201,14 @@
                     <input type="text" ng-model="infoIngredient_.value.zh" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.infoIngredient.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.infoIngredient.length" class="control-label col-lg-2 text-right">原料</label>
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dish.infoIngredient.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoIngredient.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.infoIngredient.push({})">添加</button>
             </div>
         </div>
 
@@ -222,11 +237,14 @@
                     <textarea row="3" ng-model="infoCookingStep_.value.zh" class="form-control"></textarea>
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.infoCookingStep.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group add-button-wrapper">
             <label ng-if="!dish.infoCookingStep.length" class="control-label col-lg-2 text-right">制作步骤</label>
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dish.infoCookingStep.push({})">添加</button>
+            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoCookingStep.length}">
+                <button class="form-control admin-button admin-button-add" ng-click="dish.infoCookingStep.push({})">添加</button>
             </div>
         </div>
 
@@ -282,23 +300,26 @@
         <hr/>
         <div class="form-group" ng-repeat="tagFilter_ in dish.tagFilter">
             <label class="control-label col-lg-2 text-right">标签</label>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="input-group">
                     <input type="text" placeholder="tag" ng-model="tagFilter_" class="form-control">
                 </div>
             </div>
+            <div class="col-lg-1">
+                <button class="form-control admin-button admin-button-del" ng-click="dish.tagFilter.splice($index, 1)">删除</button>
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label col-lg-2 text-right">标签</label>
-            <div class="col-lg-8">
+            <div class="col-lg-4">
                 <div class="input-group">
                     <input type="text" ng-model="dummyDish.tagFilter" class="form-control">
                 </div>
             </div>
         </div>
         <div class="form-group add-button-wrapper">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dummyAdd('tagFilter')">添加</button>
+            <div class="col-lg-1 col-lg-offset-2">
+                <button class="form-control admin-button admin-button-add" ng-click="dummyAdd('tagFilter')">添加</button>
             </div>
         </div>
         <hr/>
@@ -362,7 +383,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2 text-right">sortId</label>
             <div class="col-lg-5">
-                <input type="number" ng-model="dish.sortId">
+                <input class="form-control" type="number" ng-model="dish.sortId">
             </div>
         </div>
 
@@ -379,8 +400,8 @@
 
         <!--submit-->
         <div class="form-group">
-            <div class="col-lg-6 col-lg-offset-3">
-                <button ng-click="save()">保存</button>
+            <div class="col-lg-2 col-lg-offset-3">
+                <button class="form-control" ng-click="save()">保存</button>
             </div>
         </div>
     </form>
