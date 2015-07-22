@@ -19,11 +19,11 @@ couponController = require "./controllers/coupon.coffee"
 
 expressRoutes = (app) ->
 
-
-  app.get("/admin2", (req, res) ->
+#
+#  app.get("/admin2", (req, res) ->
 #    res.render('index', { title : 'XinWeiCook' })
-    console.log "ok"
-  )
+#    console.log "ok"
+#  )
 
 
 
