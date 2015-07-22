@@ -9,14 +9,14 @@ app = express()
 app.use libs.req._id
 app.enable "trust proxy"
 app.disable "x-powered-by"
-app.set "views", path.join(__dirname, "views")
 
+app.set "views", path.join(__dirname, "views")
 app.set "view engine", "ejs"
 app.engine("ejs", require('ejs').renderFile);
 app.engine("html", require('ejs').renderFile);
 app.engine("jade", require('jade').__express);
 
-app.use cors() if conf.debug
+app.use cors()
 
 app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))

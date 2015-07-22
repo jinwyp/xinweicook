@@ -47,29 +47,40 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
         // Application routes
         $stateProvider
-            .state('index', {
-                //url: '/',
-                templateUrl: 'templates/main.html'
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: function ($scope, User, $http, $location) {
+                    $scope.login = function () {
+                        User.login($scope.username, $scope.password).then(function () {
+                            $location.url('/dishes')
+                        })
+                    };
+                }
             })
-            .state('index.dashboard', {
+            .state('menu', {
+                //url: '/',
+                templateUrl: 'templates/leftmenu.html'
+            })
+            .state('menu.dashboard', {
                 url: '/dashboard',
                 templateUrl: 'templates/dashboard.html'
             })
-            .state('index.tables', {
+            .state('menu.tables', {
                 url: '/tables',
                 templateUrl: 'templates/tables.html'
             })
-            .state('index.dishes', {
-                templateUrl: 'templates/dishes.html',
+            .state('menu.dishes', {
                 url: '/dishes',
+                templateUrl: 'templates/dish/dishList.html',
                 data: {title: '菜品列表'},
                 controller: function ($scope, Dishes) {
                     $scope.dishes = Dishes.getList().$object;
                 }
             })
-            .state('index.newDish', {
+            .state('menu.newDish', {
                 url: '/newdish',
-                templateUrl: 'templates/dishDetail.html',
+                templateUrl: 'templates/dish/dishDetail.html',
                 data: {title: '添加菜品'},
                 controller: function ($scope, Dishes, DishDetailDecorator) {
                     var emptyDish = {
@@ -97,9 +108,9 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     DishDetailDecorator($scope);
                 }
             })
-            .state('index.dishDetail', {
+            .state('menu.dishDetail', {
                 url: '/dishDetail/:dishId',
-                templateUrl: 'templates/dishDetail.html',
+                templateUrl: 'templates/dish/dishDetail.html',
                 data: {title: '菜品详情'},
                 controller: function ($scope, Dishes, $stateParams, $location) {
                     console.log($stateParams.dishId);
@@ -117,20 +128,9 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     }
                 }
             })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'templates/login.html',
-                controller: function ($scope, User, $http, $location) {
-                    $scope.login = function () {
-                        User.login($scope.username, $scope.password).then(function () {
-                            $location.url('/dishes')
-                        })
-                    };
-                }
-            })
-            .state('index.tags', {
+            .state('menu.tags', {
                 url: '/tags',
-                templateUrl: 'templates/tags.html',
+                templateUrl: 'templates/dish/tagList.html',
                 data: {title: '标签列表'},
                 controller: function ($scope, Tags) {
                     Tags.getList().then(function (tags) {
@@ -138,9 +138,9 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     })
                 }
             })
-            .state('index.orders', {
+            .state('menu.orders', {
                 url: '/orders',
-                templateUrl: 'templates/orders.html',
+                templateUrl: 'templates/order/orderList.html',
                 data: {title: '订单管理'},
                 controller: function ($scope, Orders) {
                     Orders.getList().then(function (orders) {
