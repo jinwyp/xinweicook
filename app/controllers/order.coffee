@@ -212,8 +212,10 @@ exports.addNewOrder = (req, res, next) ->
           dishReadyToEatList.push dishDataList[subDish.dish]
 
 
-    if newOrder.totalPrice > promotionCode.priceLimit and (newOrder.totalPrice - promotionCode.price) > 0
-      newOrder.totalPrice = newOrder.totalPrice - promotionCode.price
+    if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+    else
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
     newOrder.dishHistory = dishHistoryList
 
