@@ -5,7 +5,7 @@
 angular.module('RDash')
     .controller('MasterCtrl', ['$scope', '$location', '$localStorage', MasterCtrl]);
 
-function MasterCtrl($scope, $location, $localStorage) {
+function MasterCtrl($scope, $location, $localStorage, $http) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -39,6 +39,23 @@ function MasterCtrl($scope, $location, $localStorage) {
 
     $scope.$on('$stateChangeSuccess',
         function(event, toState){$scope.title = toState.data && toState.data.title});
+
+    $scope.remove = function () {
+        $http.get('/api/administrator/initremoveall');
+    }
+    $scope.inittag = function () {
+        $http.get('/api/administrator/inittag');
+    }
+    $scope.initolddish = function () {
+        $http.get('/api/administrator/initolddish');
+    }
+    $scope.initdishtopping = function () {
+        $http.get('/api/administrator/initdishtopping');
+    }
+
+    $scope.initAdmin = function () {
+        $http.get('/api/administrator/initadminuser')
+    };
 
     window.onresize = function() {
         $scope.$apply();
