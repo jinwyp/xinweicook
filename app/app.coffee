@@ -29,7 +29,7 @@ app.use methodOverride("X-HTTP-Method-Override")
 app.use libs.logger.middleware()
 
 app.use libs.lang.middleware
-app.use libs.cache.lastModified
+#app.use libs.cache.lastModified
 
 app.use models.Router
 #require("./routesmobile")(app)

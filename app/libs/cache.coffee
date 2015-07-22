@@ -4,7 +4,9 @@ module.exports = Cache =
     res.setHeader "Pragma", "no-cache"
     res.setHeader "Expires", 0
   lastModified: (req, res, next) ->
+    console.log "-----", req
     hooker.hook res, "json", (body)->
+      console.log "-----------",body
       if body and body.modifiedAt
         lastModified = body.modifiedAt
       else if _.isArray body
