@@ -16,41 +16,80 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
     $scope.data = {
         searchFilter : '',
-        orderList : [],
-        order : {
-            name:{
-                zh : '',
-                en : ''
-            },
-            group : {
-                zh : '',
-                en : ''
-            },
-            isFilter : false
+        searchOptions : {
+            status : '',
+            orderNumber : '',
+            isSplitOrder : '',
+            isChildOrder : ''
         },
 
-        orderGroup : [
+        orderList : [],
+        order : {},
+
+        orderStatusList : [
             {
-                zh : '菜系',
-                en : 'Dishes system'
+                name : 'ALL',
+                value : ''
             },
             {
-                zh : '食材',
-                en : 'Ingredients'
+                name : '未支付',
+                value : 'not paid'
             },
             {
-                zh : '场景',
-                en : 'Occasion'
+                name : '已支付',
+                value : 'paid'
             },
             {
-                zh : '推荐促销',
-                en : 'Promotion'
+                name : '菜品制作中',
+                value : 'making dish'
+            },
+            {
+                name : '已发货',
+                value : 'shipped'
+            },
+            {
+                name : '已完成',
+                value : 'finished'
+            },
+            {
+                name : '已取消',
+                value : 'canceled'
+            }
+        ],
+
+        isSplitOrderList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '已拆分订单（即主订单）',
+                value : 'true'
+            },
+            {
+                name : '未拆分的订单（即需要处理发货的订单）',
+                value : 'false'
+            }
+        ],
+
+        isChildOrderList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '子订单',
+                value : 'true'
+            },
+            {
+                name : '非子订单（包括不需要拆单的正常订单和需要拆单的主订单）',
+                value : 'false'
             }
         ]
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : false
     };
 
     if ($state.current.data.type === 'list'){
@@ -75,20 +114,25 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     }
 
 
-    $scope.addNewOrder = function (form) {
-        if (form.$invalid) {
-            return;
+
+    $scope.searchOrder = function (form) {
+
+        for(var p in $scope.data.searchOptions) {
+            if ($scope.data.searchOptions.hasOwnProperty(p)) {
+                if ($scope.data.searchOptions[p] ===''){
+                    delete $scope.data.searchOptions[p];
+                }
+            }
         }
 
-        var newOrder = angular.copy($scope.data.order);
-        //console.log (newOrder);
-        Orders.post(newOrder).then(function (resultOrder) {
-            console.log(resultOrder);
-            Notification.success({message: 'Save Success', delay: 8000});
+        Orders.getList($scope.data.searchOptions).then(function (resultOrder) {
+            $scope.data.orderList = resultOrder;
+            Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
+
     };
 
     $scope.updateOrder = function (form) {
@@ -98,7 +142,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
         $scope.data.order.put().then(function (resultOrder) {
             console.log(resultOrder);
-            Notification.success({message: 'Update Success', delay: 8000});
+            Notification.success({message: 'Update Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});

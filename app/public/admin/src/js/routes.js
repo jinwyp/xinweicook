@@ -182,7 +182,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     title: '订单管理',
                     type : 'list'
                 },
-                controller: 'orderController'
+                controller: 'OrderController'
+            })
+            .state('menu.updateOrder', {
+                url: '/orders/:id',
+                templateUrl: 'templates/order/orderDetail.html',
+                data: {
+                    title: '订单管理',
+                    type : 'update'
+                },
+                controller: 'OrderController'
             })
     }
 ]);
@@ -196,6 +205,7 @@ angular.module('RDash').factory('DishDetailDecorator', function () {
 
         scope.dummyAdd = function (key) {
             var value = scope.dummyDish[key];
+            console.log(value);
             if (value === '') return;
             scope.dish[key] = scope.dish[key] || [];
             scope.dish[key].push(value);

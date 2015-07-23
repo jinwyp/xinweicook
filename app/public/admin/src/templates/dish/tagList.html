@@ -11,7 +11,7 @@
         <div class="panel-body">
             <form class="form-horizontal" name="searchForm" novalidate ng-cloak>
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.keyword.$dirty&&searchForm.keyword.$valid, 'has-error':searchForm.keyword.$dirty&&searchForm.keyword.$invalid}">
-                    <label for="inputKeyword" class="col-lg-2 control-label" >关键字</label>
+                    <label for="inputKeyword" class="col-lg-2 control-label" >关键字实时筛选</label>
                     <div class="col-lg-4">
                         <input type="text" class="form-control" id="inputKeyword" placeholder="keyword" name="keyword" ng-model="data.searchFilter" required ng-minlength="2">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$valid"></span>

@@ -3,15 +3,13 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title panel-titlenew">Tag 标签列表
-                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewTag" role="button">新增</a>
-            </h3>
+            <h3 class="panel-title panel-titlenew">Order 订单列表</h3>
         </div>
 
         <div class="panel-body">
             <form class="form-horizontal" name="searchForm" novalidate ng-cloak>
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.keyword.$dirty&&searchForm.keyword.$valid, 'has-error':searchForm.keyword.$dirty&&searchForm.keyword.$invalid}">
-                    <label for="inputKeyword" class="col-lg-2 control-label" >关键字</label>
+                    <label for="inputKeyword" class="col-lg-2 control-label" >关键字实时筛选</label>
                     <div class="col-lg-4">
                         <input type="text" class="form-control" id="inputKeyword" placeholder="keyword" name="keyword" ng-model="data.searchFilter" required ng-minlength="2">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$valid"></span>
@@ -20,13 +18,52 @@
                     <div class="col-lg-6">
                         <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.required">请填入信息！</span>
                         <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.minlength || searchForm.keyword.$dirty&&searchForm.keyword.$error.maxlength">输入的信息长度错误！</span>
-                        <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.asyncValid">验证失败！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$valid, 'has-error':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$invalid}">
+                    <label for="inputOrderStatus" class="col-lg-2 control-label" >订单状态</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="status in data.orderStatusList">
+                            <input type="radio" name="orderStatus" id="inputOrderStatus" ng-value="status.value" ng-model="data.searchOptions.status">{{status.name}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$valid, 'has-error':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$invalid}">
+                    <label for="inputIsSplitOrder" class="col-lg-2 control-label" >是否拆单</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="status in data.isSplitOrderList">
+                            <input type="radio" name="isSplitOrder" id="inputIsSplitOrder" ng-value="status.value" ng-model="data.searchOptions.isSplitOrder">{{status.name}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$valid, 'has-error':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$invalid}">
+                    <label for="inputIsChildOrder" class="col-lg-2 control-label" >是否为子订单</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="status in data.isChildOrderList">
+                            <input type="radio" name="isChildOrder" id="inputIsChildOrder" ng-value="status.value" ng-model="data.searchOptions.isChildOrder">{{status.name}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid, 'has-error':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid}">
+                    <label for="inputOrderNumber" class="col-lg-2 control-label" >订单号</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputOrderNumber" placeholder="订单号" name="orderNumber" ng-model="data.searchOptions.orderNumber" ng-minlength="6">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.minlength || searchForm.keyword.$dirty&&searchForm.keyword.$error.maxlength">输入的信息长度错误！</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrder(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -42,36 +79,40 @@
             <tr>
                 <th>_id</th>
                 <th>订单号</th>
-                <th>拆分订单</th>
-                <th>是否是子订单</th>
-                <th>子订单ID</th>
                 <th>订单状态</th>
-                <th>订单菜品类型</th>
+                <th>拆分订单</th>
+                <th>子订单</th>
+                <th>子订单ID</th>
+
                 <th>支付方式</th>
                 <th>是否付款</th>
-                <th>货到付款方式</th>
+                <th>货到付款现金支付</th>
                 <th>预计配送时间</th>
+                <th>订单菜品类型</th>
                 <th>菜品价格</th>
+                <th>积分</th>
+                <th>优惠码</th>
                 <th>运费</th>
                 <th>总价</th>
-                <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="order in orders">
-                <td>{{order._id}}</td>
+            <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
+                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order._id}}</a></td>
                 <td>{{order.orderNumber}}</td>
+                <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>
                 <td>{{order.childOrderList}}</td>
-                <td>{{order.status}}</td>
-                <td>{{order.cookingType}}</td>
+
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
                 <td>{{order.paymentUsedCash}}</td>
-                <td>{{order.deliveryDateTime}}</td>
+                <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
+                <td>{{order.credit}}</td>
+                <td>{{order.promotionCode}}</td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
             </tr>
