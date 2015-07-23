@@ -2607,7 +2607,7 @@ var oldDishes = [
             "image" : "http://www.xinweicook.com/files/16/da58a470-d39f-11e3-ba30-41aacbde550e.jpg",
             "tips"  : {"en" : "", "zh" : ""}
         },
-        "is_public"          : false,
+        "is_public"          : true,
         "materials"          : [{
             "name"   : "甘薯",
             "number" : 0,
@@ -3148,7 +3148,7 @@ var oldDishes = [
             "image" : "http://www.xinweicook.com/files/20/64caf9a0-b68b-11e3-91e3-1360ce47c53c.jpg",
             "tips"  : {"en" : "", "zh" : ""}
         },
-        "is_public"          : false,
+        "is_public"          : true,
         "materials"          : [{
             "name"   : "青豆",
             "number" : 0,
@@ -4440,7 +4440,7 @@ var oldDishes = [
             "image" : "http://www.xinweicook.com/files/30/dc2ee250-2db8-11e4-8c31-2fcafbcbf260.jpg",
             "tips"  : {"en" : "", "zh" : ""}
         },
-        "is_public"          : false,
+        "is_public"          : true,
         "materials"          : [{
             "name"   : "秋葵",
             "number" : 0,

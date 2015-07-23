@@ -22,12 +22,12 @@ exports.removeDish = (req, res, next) ->
 
     models.cook.removeAsync({})
     models.coupon.removeAsync({})
-    models.tag.removeAsync({})
+#    models.tag.removeAsync({})
 
-    #    models.order.removeAsync({})
-    #    models.log.removeAsync({})
+    models.order.removeAsync({})
+    models.log.removeAsync({})
+
     #    models.message.removeAsync({})
-
     #    models.device.removeAsync({})
     #    models.token.removeAsync({})
     #    models.user.removeAsync({})
