@@ -25,7 +25,6 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
         } else {
             $scope.toggle = false;
         }
-
     });
 
     $scope.toggleSidebar = function() {
@@ -37,21 +36,24 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
         $scope.path = $location.path();
     });
 
-    $scope.$on('$stateChangeSuccess',
-        function(event, toState){$scope.title = toState.data && toState.data.title});
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+        $scope.title = toState.data && toState.data.title
+    });
+
+
 
     $scope.remove = function () {
         $http.get('/api/administrator/initremoveall');
-    }
+    };
     $scope.inittag = function () {
         $http.get('/api/administrator/inittag');
-    }
+    };
     $scope.initolddish = function () {
         $http.get('/api/administrator/initolddish');
-    }
+    };
     $scope.initdishtopping = function () {
         $http.get('/api/administrator/initdishtopping');
-    }
+    };
 
     $scope.initAdmin = function () {
         $http.get('/api/administrator/initadminuser')

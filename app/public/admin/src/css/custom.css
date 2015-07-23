@@ -72,3 +72,12 @@ textarea {
 .login-form {
     width: 450px;
 }
+
+
+.panel-titlenew{
+    font-size:24px
+}
+
+.panel-titlenew a{
+    color:white;
+}

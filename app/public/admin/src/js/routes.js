@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('RDash.config').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q, $location) {
+angular.module('RDash').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q, $location) {
     return {
         'request': function(config) {
             if ($localStorage.access_token) {
@@ -22,6 +22,8 @@ angular.module('RDash.config').factory('commonInterceptor', ['$localStorage', '$
     };
 }]);
 
+
+
 /**
  * Route configuration for the RDash module.
  */
@@ -32,10 +34,6 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
         RestangularProvider.setRestangularFields({id: '_id'});
 
-        // For unmatched routes. params not injected by angular but by ui-router
-        $urlRouterProvider.otherwise(function ($inject, $location) {
-            return $inject.get('$localStorage').access_token ? '/dishes' : '/login';
-        });
 
         $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
         $httpProvider.defaults.headers.common['Accept-Language'] = navigator.language == 'zh-CN' ? 'zh-CN' : 'en-US';
@@ -43,6 +41,26 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
 
         $httpProvider.interceptors.push('commonInterceptor');
+
+
+
+
+        /////////////////////////////
+        // Redirects and Otherwise //
+        /////////////////////////////
+
+        // For unmatched routes. params not injected by angular but by ui-router
+        $urlRouterProvider.otherwise(function ($inject, $location) {
+            return $inject.get('$localStorage').access_token ? '/dishes' : '/login';
+        });
+
+
+
+        //////////////////////////
+        // State Configurations //
+        //////////////////////////
+
+        // Use $stateProvider to configure your states.
 
 
         // Application routes
@@ -128,25 +146,43 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     }
                 }
             })
+
             .state('menu.tags', {
                 url: '/tags',
                 templateUrl: 'templates/dish/tagList.html',
-                data: {title: '标签列表'},
-                controller: function ($scope, Tags) {
-                    Tags.getList().then(function (tags) {
-                        $scope.tags = tags;
-                    })
-                }
+                data: {
+                    title: '标签管理',
+                    type : 'list'
+                },
+                controller: 'TagController'
             })
+            .state('menu.updateTag', {
+                url: '/tags/:id',
+                templateUrl: 'templates/dish/tagDetail.html',
+                data: {
+                    title: '标签管理',
+                    type : 'update'
+                },
+                controller: 'TagController'
+            })
+            .state('menu.addNewTag', {
+                url: '/tagadd',
+                templateUrl: 'templates/dish/tagDetail.html',
+                data: {
+                    title: '标签管理',
+                    type : 'add'
+                },
+                controller: 'TagController'
+            })
+
             .state('menu.orders', {
                 url: '/orders',
                 templateUrl: 'templates/order/orderList.html',
-                data: {title: '订单管理'},
-                controller: function ($scope, Orders) {
-                    Orders.getList().then(function (orders) {
-                        $scope.orders = orders;
-                    })
-                }
+                data: {
+                    title: '订单管理',
+                    type : 'list'
+                },
+                controller: 'orderController'
             })
     }
 ]);
