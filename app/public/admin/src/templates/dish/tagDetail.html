@@ -34,24 +34,24 @@
                     </div>
                 </div>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$valid, 'has-error':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$invalid}">
+                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagGroup.$dirty&&tagForm.tagGroup.$valid, 'has-error':tagForm.tagGroup.$dirty&&tagForm.tagGroup.$invalid}">
                     <label class="col-lg-2 control-label" >标签组</label>
 
                     <div class="col-lg-5">
-                        <select class="form-control" ng-model="data.tag.group" ng-options="group as group.zh for group in data.tagGroup">
+                        <select class="form-control" name="tagGroup" ng-model="data.tag.group" ng-options="group as group.zh for group in data.tagGroup">
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$valid, 'has-error':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$invalid}">
+                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagIsFilter.$dirty&&tagForm.tagIsFilter.$valid, 'has-error':tagForm.tagIsFilter.$dirty&&tagForm.tagIsFilter.$invalid}">
                     <label class="col-lg-2 control-label" >是否用于菜品筛选</label>
 
                     <div class="col-lg-4">
                         <label class="radio-inline">
-                            <input type="radio" name="inputTagIsFilter" id="inlineRadio1" ng-value="true" ng-model="data.tag.isFilter">是
+                            <input type="radio" name="tagIsFilter" id="inlineRadio1" ng-value="true" ng-model="data.tag.isFilter">是
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="inputTagIsFilter" id="inlineRadio2" ng-value="false" ng-model="data.tag.isFilter">否
+                            <input type="radio" name="tagIsFilter" id="inlineRadio2" ng-value="false" ng-model="data.tag.isFilter">否
                         </label>
                     </div>
                 </div>

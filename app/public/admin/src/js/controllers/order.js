@@ -105,14 +105,13 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             $scope.data.order = resutlOrder;
 
             //编辑order时， 处理order group 显示
-            angular.forEach($scope.data.orderGroup, function(order) {
-                if (order.zh === $scope.data.order.group.zh){
-                    $scope.data.order.group = order;
-                }
-            });
+            //angular.forEach($scope.data.orderGroup, function(order) {
+            //    if (order.zh === $scope.data.order.group.zh){
+            //        $scope.data.order.group = order;
+            //    }
+            //});
         });
     }
-
 
 
     $scope.searchOrder = function (form) {
@@ -134,6 +133,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         });
 
     };
+
+
 
     $scope.updateOrder = function (form) {
         if (form.$invalid) {

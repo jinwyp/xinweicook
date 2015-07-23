@@ -583,7 +583,7 @@ exports.initNewDish = (req, res, next) ->
     isPublished : true
     sortId : 100
 
-    cookingType:  "ready to cook"
+    cookingType:  "ready to eat"
 
     sideDishType: "main"
     setType: "single"

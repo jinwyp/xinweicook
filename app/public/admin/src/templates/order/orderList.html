@@ -77,7 +77,6 @@
     <table class="table table-striped table-bordered table-hover table-responsive">
         <thead>
             <tr>
-                <th>_id</th>
                 <th>订单号</th>
                 <th>订单状态</th>
                 <th>拆分订单</th>
@@ -98,8 +97,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order._id}}</a></td>
-                <td>{{order.orderNumber}}</td>
+                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}}</a></td>
                 <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>

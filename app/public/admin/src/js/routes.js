@@ -216,5 +216,5 @@ angular.module('RDash').factory('DishDetailDecorator', function () {
             Object.keys(scope.dummyDish).forEach(scope.dummyAdd)
         }
     }
-})
+});
 
