@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', '$http', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', '$http', 'User', MasterCtrl]);
 
-function MasterCtrl($scope, $location, $localStorage, $http) {
+function MasterCtrl($scope, $location, $localStorage, $http, User) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -32,6 +32,7 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
         $localStorage.toggle = $scope.toggle;
     };
 
+
     $scope.$on('$locationChangeSuccess', function () {
         $scope.path = $location.path();
     });
@@ -44,7 +45,11 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
 
 
 
-
+    $scope.logout = function () {
+        User.logOut().then(function () {
+            $location.url('/login');
+        })
+    };
 
     $scope.inittag = function () {
         $http.get('/api/administrator/inittag');

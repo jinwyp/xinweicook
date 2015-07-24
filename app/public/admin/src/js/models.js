@@ -12,6 +12,15 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
 
                 return data;
             })
+        },
+        logOut: function () {
+            return $http.post('/api/user/logout', {
+                token_type_hint: 'access_token',
+                token: $localStorage.access_token
+            }).then(function (data) {
+                $localStorage.access_token = '';
+                return data;
+            })
         }
     }
 });
