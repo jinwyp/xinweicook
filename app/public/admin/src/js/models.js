@@ -41,3 +41,15 @@ angular.module('RDash.models').factory('Orders', function (Restangular) {
 angular.module('RDash.models').factory('Coupons', function (Restangular) {
     return Restangular.service('coupons');
 });
+
+
+
+
+
+
+
+
+
+angular.module('RDash.models').factory('Logs', function (Restangular) {
+    return Restangular.service('logs');
+});

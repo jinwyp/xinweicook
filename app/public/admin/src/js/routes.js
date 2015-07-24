@@ -203,6 +203,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'UserController'
             })
+
+            .state('menu.logs', {
+                url: '/logs',
+                templateUrl: 'templates/log/logList.html',
+                data: {
+                    title: '日志管理',
+                    type : 'list'
+                },
+                controller: 'LogController'
+            })
     }
 ]);
 

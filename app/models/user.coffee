@@ -58,6 +58,10 @@ module.exports =
     couponList :[type: Schema.ObjectId, ref: "coupon"]
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
+
+    oldUserData :
+      mobile:String
+
   statics:
     fields : ->
       selectFields = "-pwd"
@@ -164,7 +168,7 @@ module.exports =
           .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
           .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
         else
-          throw new Err "找不到该用户", 404
+          throw new Err "找不到该用户", 401
       ).then(@checkNotFound).then(@checkNotSpam)
   methods:
     encryptPwd: (pwd) ->

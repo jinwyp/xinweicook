@@ -15,14 +15,14 @@ module.exports =
           prettyPrint: true
           debugStdout: true
         )
-#        new (winston.transports.MongoDB)(
-#          level: conf.level.db
-#          handleExceptions: true
-#          db: conf.db
-#          collection: "logs"
-#          includeIds: true
-#          handleExceptions: true
-#        )
+        new (winston.transports.MongoDB)(
+          level: conf.level.db
+          handleExceptions: true
+          db: conf.db
+          collection: "logs"
+          includeIds: true
+          handleExceptions: true
+        )
       ]
       exitOnError: false
     )
