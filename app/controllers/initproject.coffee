@@ -15,27 +15,39 @@ exports.createAdmin = (req, res, next) ->
   .catch next
 
 
+exports.removeTag = (req, res, next) ->
+  models.tag.removeAsync({}).then () ->
+    res.send "Remove OK"
+  .catch next
 
 exports.removeDish = (req, res, next) ->
-
   models.dish.removeAsync({}).then () ->
-
     models.cook.removeAsync({})
-    models.coupon.removeAsync({})
-#    models.tag.removeAsync({})
-
-    models.order.removeAsync({})
-    models.log.removeAsync({})
-
-    #    models.message.removeAsync({})
-    #    models.device.removeAsync({})
-    #    models.token.removeAsync({})
-    #    models.user.removeAsync({})
     res.send "Remove OK"
   .catch next
 
 
+exports.removeOrder = (req, res, next) ->
 
+  models.order.removeAsync({}).then () ->
+    models.coupon.removeAsync({})
+    res.send "Remove OK"
+  .catch next
+
+
+exports.removeUser = (req, res, next) ->
+
+  models.user.removeAsync({}).then () ->
+#    models.message.removeAsync({})
+#    models.device.removeAsync({})
+#    models.token.removeAsync({})
+    res.send "Remove OK"
+  .catch next
+
+exports.removeLog = (req, res, next) ->
+  models.log.removeAsync({}).then () ->
+    res.send "Remove OK"
+  .catch next
 
 
 exports.initNewCoupon = (req, res, next) ->

@@ -3,7 +3,7 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', '$http', MasterCtrl]);
 
 function MasterCtrl($scope, $location, $localStorage, $http) {
     /**
@@ -42,9 +42,10 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
 
 
 
-    $scope.remove = function () {
-        $http.get('/api/administrator/initremoveall');
-    };
+
+
+
+
     $scope.inittag = function () {
         $http.get('/api/administrator/inittag');
     };
@@ -58,6 +59,24 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
     $scope.initAdmin = function () {
         $http.get('/api/administrator/initadminuser')
     };
+
+
+    $scope.removetag = function () {
+        $http.get('/api/administrator/initremovetag');
+    };
+    $scope.removedish = function () {
+        $http.get('/api/administrator/initremovedish');
+    };
+    $scope.removeorder = function () {
+        $http.get('/api/administrator/initremoveorder');
+    };
+    $scope.removeuser = function () {
+        $http.get('/api/administrator/initremoveuser');
+    };
+    $scope.removelog = function () {
+        $http.get('/api/administrator/initremovelog');
+    };
+
 
     window.onresize = function() {
         $scope.$apply();

@@ -17,6 +17,14 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
 });
 
 
+
+angular.module('RDash.models').factory('Users', function (Restangular) {
+    return Restangular.service('users');
+});
+
+
+
+
 angular.module('RDash.models').factory('Dishes', function (Restangular) {
     return Restangular.service('dishes');
 });
@@ -30,3 +38,6 @@ angular.module('RDash.models').factory('Orders', function (Restangular) {
 });
 
 
+angular.module('RDash.models').factory('Coupons', function (Restangular) {
+    return Restangular.service('coupons');
+});

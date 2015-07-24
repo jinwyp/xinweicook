@@ -193,6 +193,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'OrderController'
             })
+
+            .state('menu.users', {
+                url: '/users',
+                templateUrl: 'templates/user/userList.html',
+                data: {
+                    title: '用户管理',
+                    type : 'list'
+                },
+                controller: 'UserController'
+            })
     }
 ]);
 
