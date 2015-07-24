@@ -24,6 +24,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
         isAddNewStatus : true
     };
 
+
+
     if ($state.current.data.type === 'list'){
         Users.getList().then(function (users) {
             $scope.data.userList = users;
@@ -44,7 +46,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             });
         });
     }
-
 
     $scope.addNewUser = function (form) {
         if (form.$invalid) {
@@ -76,5 +77,21 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
         });
     };
 
+    $scope.delUser = function (user) {
+
+        var index = $scope.data.userList.indexOf(user);
+
+        $scope.data.userList[index].remove().then(function (resultUser) {
+            Users.getList().then(function (users) {
+                $scope.data.userList = users;
+            });
+
+            Notification.success({message: 'Delete Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
 
 }

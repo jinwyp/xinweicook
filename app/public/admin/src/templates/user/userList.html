@@ -47,6 +47,7 @@
                 <th>性别</th>
                 <th>地址</th>
                 <th>优惠券</th>
+                <th>操作</th>
 
             </tr>
         </thead>
@@ -61,6 +62,7 @@
                 <td>{{user.gender}}</td>
                 <td> <span ng-repeat="(key, value) in user.address">{{key}}:{{value}}</span></td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}}</span></td>
+                <td><button class="btn btn-danger" ng-click="delUser(user)">删除</button></td>
             </tr>
         </tbody>
     </table>

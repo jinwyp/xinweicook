@@ -88,16 +88,29 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 url: '/tables',
                 templateUrl: 'templates/tables.html'
             })
+
+            .state('menu.users', {
+                url: '/users',
+                templateUrl: 'templates/user/userList.html',
+                data: {
+                    title: '用户管理',
+                    type : 'list'
+                },
+                controller: 'UserController'
+            })
+
+
             .state('menu.dishes', {
                 url: '/dishes',
                 templateUrl: 'templates/dish/dishList.html',
-                data: {title: '菜品列表'},
-                controller: function ($scope, Dishes) {
-                    $scope.dishes = Dishes.getList().$object;
-                }
+                data: {
+                    title: '标签管理',
+                    type : 'list'
+                },
+                controller: 'DishController'
             })
-            .state('menu.newDish', {
-                url: '/newdish',
+            .state('menu.addNewDish', {
+                url: '/dishadd',
                 templateUrl: 'templates/dish/dishDetail.html',
                 data: {title: '添加菜品'},
                 controller: function ($scope, Dishes, DishDetailDecorator) {
@@ -126,8 +139,8 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     DishDetailDecorator($scope);
                 }
             })
-            .state('menu.dishDetail', {
-                url: '/dishDetail/:dishId',
+            .state('menu.updateDish', {
+                url: '/dish/:id',
                 templateUrl: 'templates/dish/dishDetail.html',
                 data: {title: '菜品详情'},
                 controller: function ($scope, Dishes, $stateParams, $location) {
@@ -175,6 +188,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'TagController'
             })
 
+
             .state('menu.orders', {
                 url: '/orders',
                 templateUrl: 'templates/order/orderList.html',
@@ -194,15 +208,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'OrderController'
             })
 
-            .state('menu.users', {
-                url: '/users',
-                templateUrl: 'templates/user/userList.html',
-                data: {
-                    title: '用户管理',
-                    type : 'list'
-                },
-                controller: 'UserController'
-            })
+
 
             .state('menu.logs', {
                 url: '/logs',
