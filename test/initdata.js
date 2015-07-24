@@ -11,9 +11,32 @@ var userAdmin = [
         mobile : "13564568301",
         email : "x@x.com",
         group : "admin"
+    },
+    {
+        username : "shaoxiaoqing",
+        pwd : "xwcook789",
+        mobile : "18602327056",
+        email : "dreamer0321@foxmail.com",
+        group : "admin",
+        fullName : "邵晓青"
+    },
+    {
+        username : "chensilu",
+        pwd : "xwcook789",
+        mobile : "18601799423",
+        email : "690363236@qq.com",
+        group : "admin",
+        fullName : "陈思璐"
+    },
+    {
+        username : "mengfei",
+        pwd : "xwcook789",
+        mobile : "18215563108",
+        email : "918372085@qq.com",
+        group : "admin",
+        fullName : "赵梦菲"
     }
 ];
-
 
 
 
@@ -990,7 +1013,7 @@ var realReadyToEat = [
         "isPublished" : true
     },
     {
-        "_id"                   : "55b0a37a181e6a7007c0371a",
+        "_id"                   : ObjectId("55b0a37a181e6a7007c0371a"),
         "cover"                 : [{
             "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg",
             "en"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg"
@@ -1000,6 +1023,25 @@ var realReadyToEat = [
             "en" : "A gourmet specialty of grilled chicken thighs glazed with our homemade teriyaki sauce. Tender and moist chicken, steamed rice and sweet-salty sauce create an entrée packed with Asian flavor."
         },
         "title"                 : {"zh" : "照烧鸡腿", "en" : "Teriyaki Chicken Thigh"},
+        "priceOriginal"     : 30,
+        "isPublished"           : true
+    },
+    {
+        "_id"                   : ObjectId("55b0a37a181e6a7007c0371b"),
+        "cover"                 : [
+            {
+                "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0115.jpg",
+                "en"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0115.jpg"
+            },
+            {
+                "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0119.jpg",
+                "en"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0119.jpg"
+            }],
+        "brief"                 : {
+            "zh" : "爽爽落落一碟港式小炒，红葱已然慢火煸透，嗞嗞作响间，浓缩的甘美渗入馥郁醇厚的豆豉，裹挟着焦香嫩滑的去骨鸡腿肉，锁住丰富肉汁，入口即知妙不可言。",
+            "en" : "This dish is a delicious combination of tender chicken thighs, red peppers, shallots, ginger, garlic and homemade black bean sauce, which, after slow cooking by our own chef, lends to the chicken a subtle fermented flavor and a wonderful nutty taste."
+        },
+        "title"                 : {"zh" : "豆豉鸡球", "en" : "Sautéed Chicken with Black Bean Sauce"},
         "priceOriginal"     : 30,
         "isPublished"           : true
     }

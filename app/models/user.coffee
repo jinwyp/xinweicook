@@ -14,6 +14,8 @@ module.exports =
     username: type:String, trim:true
     gender: Number # 1 male 2 female
 
+    fullName : String
+
     avatarPic: String
 
     address: [
