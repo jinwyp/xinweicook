@@ -955,9 +955,59 @@ var sampleReadyToEat = [
 ];
 
 
+var realReadyToEat = [
+    {
+        "_id"         : ObjectId("558a602a3eba152266ff2c01"),
+        "cover"       : [
+            {
+                "zh" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0086.jpg",
+                "en" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0086.jpg"
+            }
+        ],
+        "brief"       : {
+            "zh" : "经典法餐的奢侈享受让你即刻拥有！慢炖至软绵的牛腩富含天然胶质，轻咬牛肉，浓烈的香气伴以黏口的肉汁，长时间的炖煮已将酒精的苦涩去除，只余浓郁丰富的红酒酱汁，是整道菜的精华所在。",
+            "en" : "This is a slightly trimmed down version of the iconic French dish, Beef Bourguignon. The beef is so meltingly tender that you can eat them with a spoon whereas the silky, intensely flavored red wine sauce is so tasty that you won’t want to waste even a drop of it."
+        },
+        "title"       : {"zh" : "红酒烩牛肉", "en" : "Beef Bourguignon"},
+        "priceOriginal"     : 30,
+        "isPublished" : true
+    },
+    {
+        "_id"         : ObjectId("55b0a302181e6a7007c036e9"),
+        "cover"       : [{
+            "zh" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0017.jpg",
+            "en" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0017.jpg"
+        }],
+        "brief"       : {
+            "en" : "The deep red fermented bean curd sauce combines savory, slightly smoky and fragrant flavors that also bring a hint of sweetness to the pork and lotus root. An aromatic Chinese meat dish that has a great depth of flavor and perfect consistency!",
+            "zh" : "绛红亮泽、浓郁丰盈的南乳汁将大厨精心炆腍的莲藕和腩排轻柔包裹，莲藕粉糯，入味十分，腩排已然酥嫩，轻松脱骨，又保持着应有的质感与滋润度，爽而不腻，香口下饭。"
+        },
+        "title"       : {
+            "zh" : "南乳莲藕炆腩排",
+            "en" : "Braised Pork Spareribs and Lotus Root with Red Beancurd Sauce"
+        },
+        "priceOriginal"     : 30,
+        "isPublished" : true
+    },
+    {
+        "_id"                   : "55b0a37a181e6a7007c0371a",
+        "cover"                 : [{
+            "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg",
+            "en"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg"
+        }],
+        "brief"                 : {
+            "zh" : "将整块有机去骨鸡腿肉烤制得金黄焦香，滑嫩多汁，吸饱了大厨自制的醇浓照烧酱，拌上粒粒晶透白米饭，饱足一餐，元气满满！",
+            "en" : "A gourmet specialty of grilled chicken thighs glazed with our homemade teriyaki sauce. Tender and moist chicken, steamed rice and sweet-salty sauce create an entrée packed with Asian flavor."
+        },
+        "title"                 : {"zh" : "照烧鸡腿", "en" : "Teriyaki Chicken Thigh"},
+        "priceOriginal"     : 30,
+        "isPublished"           : true
+    }
+];
+
 module.exports = {
     userAdmin : userAdmin,
     dishFilter : dishFilterList,
-    sampleReadyToEat : sampleReadyToEat
+    sampleReadyToEat : realReadyToEat
 
 };

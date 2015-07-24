@@ -86,8 +86,8 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
-  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)
-  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initNewDish)
+  app.get("/api/administrator/initolddish",  initController.createOldDish)
+  app.get("/api/administrator/initdishtopping", initController.initNewDish)
 
   app.get("/api/administrator/initcoupon", libs.auth("admin"), initController.initNewCoupon)
   app.get("/api/administrator/initremoveall", libs.auth("admin"), initController.removeDish)

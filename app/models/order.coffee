@@ -31,6 +31,8 @@ module.exports =
       alias: String
       remark: String
 
+      distanceFrom : Number   # 距离新味办公室发货 3公里还是4公里 快递不一样
+
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
     payment: String # 支付方式 alipay direct / weixinpay / paypal
@@ -105,13 +107,14 @@ module.exports =
     ]
     dishHistory: Array
 
-    dishesPrice: Number # 菜品总价
 
-    credit: Number # 积分抵扣
-    freight: Number # 运费
-    totalPrice: Number # 总价
     promotionCode: String # 优惠码
     coupon: String # 优惠券
+    credit: Number # 积分抵扣
+    dishesPrice: Number # 菜品总价
+    freight: Number # 运费
+    totalPrice: Number # 总价
+
 
     userComment: String # 用户备注
     csComment: String # 客服备注

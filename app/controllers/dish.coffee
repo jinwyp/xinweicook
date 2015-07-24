@@ -6,7 +6,7 @@
 
 exports.dishList = (req, res, next) ->
   # 获取所有菜品
-  models.dish.find99({sideDishType : "main"})
+  models.dish.find99({sideDishType : "main", isPublished : true})
   .then (dishes) ->
     res.json dishes
   , next
@@ -16,7 +16,7 @@ exports.dishSingleInfo = (req, res, next) ->
 
   models.dish.validationDishId req.params._id
 
-  models.dish.find1(_id: req.params._id).then (resultDish) ->
+  models.dish.find1({_id: req.params._id, isPublished : true}).then (resultDish) ->
     models.dish.checkNotFound resultDish
 
     res.json resultDish

@@ -49,8 +49,8 @@ textarea {
 
 #content-wrapper .header .page {
 
-    padding-top: 0;
-    line-height: 60px;
+    /*padding-top: 0;*/
+    /*line-height: 60px;*/
 }
 
 
@@ -71,4 +71,13 @@ textarea {
 }
 .login-form {
     width: 450px;
+}
+
+
+.panel-titlenew{
+    font-size:24px
+}
+
+.panel-titlenew a{
+    color:white;
 }

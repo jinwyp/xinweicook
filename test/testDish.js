@@ -18,7 +18,7 @@ sampleDishes = [
       "sideDishType"      : "main",
       "setType"           : "single",
       "title"             : {
-          "zh" : "泰式香煎松阪肉",
+          "zh" : "泰式香煎松阪肉1111",
           "en" : "Thai Style Pan-fried Pork Neck"
       },
       "cover"             : [
@@ -245,7 +245,7 @@ sampleDishes = [
       "sideDishType"      : "main",
       "setType"           : "single",
       "title"             : {
-          "zh" : "杏脯西柠鸡",
+          "zh" : "杏脯西柠鸡1111111",
           "en" : "Almond Flakes Crusted Lemon Chicken with Grapefruit"
       },
       "cover"             : [
@@ -378,7 +378,7 @@ sampleDishes = [
       "sideDishType"      : "main",
       "setType"           : "single",
       "title"             : {
-          "zh" : "法式水果薄饼",
+          "zh" : "法式水果薄饼222",
           "en" : "Fruit Pancake"
       },
       "cover"             : [
@@ -523,7 +523,7 @@ sampleDishes = [
       "sideDishType"      : "main",
       "setType"           : "single",
       "title"             : {
-          "zh" : "香煎银鳕鱼配豆豉汁",
+          "zh" : "香煎银鳕鱼配豆豉汁222",
           "en" : "Pan-seared Cod with Black Bean Sauce"
       },
       "cover"             : [
