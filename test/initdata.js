@@ -981,6 +981,10 @@ var sampleReadyToEat = [
 var realReadyToEat = [
     {
         "_id"         : ObjectId("558a602a3eba152266ff2c01"),
+        "sortId"            : 100,
+        "cookingType"       : "ready to eat",
+        "sideDishType"      : "main",
+        "setType"           : "single",
         "cover"       : [
             {
                 "zh" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0086.jpg",
@@ -997,6 +1001,10 @@ var realReadyToEat = [
     },
     {
         "_id"         : ObjectId("55b0a302181e6a7007c036e9"),
+        "sortId"            : 100,
+        "cookingType"       : "ready to eat",
+        "sideDishType"      : "main",
+        "setType"           : "single",
         "cover"       : [{
             "zh" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0017.jpg",
             "en" : "https://dn-xinweicook.qbox.me/EAT照片_MG_0017.jpg"
@@ -1014,6 +1022,10 @@ var realReadyToEat = [
     },
     {
         "_id"                   : ObjectId("55b0a37a181e6a7007c0371a"),
+        "sortId"            : 100,
+        "cookingType"       : "ready to eat",
+        "sideDishType"      : "main",
+        "setType"           : "single",
         "cover"                 : [{
             "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg",
             "en"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0027.jpg"
@@ -1028,6 +1040,10 @@ var realReadyToEat = [
     },
     {
         "_id"                   : ObjectId("55b0a37a181e6a7007c0371b"),
+        "sortId"            : 100,
+        "cookingType"       : "ready to eat",
+        "sideDishType"      : "main",
+        "setType"           : "single",
         "cover"                 : [
             {
                 "zh"  : "https://dn-xinweicook.qbox.me/EAT照片_MG_0115.jpg",
