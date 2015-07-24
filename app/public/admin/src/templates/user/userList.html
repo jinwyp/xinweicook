@@ -60,7 +60,10 @@
                 <td>{{user.email}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.gender}}</td>
-                <td> <span ng-repeat="(key, value) in user.address">{{key}}:{{value}}</span></td>
+                <td> <span ng-repeat="address in user.address">
+                    <span ng-repeat="(key, value) in address">{{key}}:{{value}}</span>
+                    <br/></span>
+                </td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}}</span></td>
                 <td><button class="btn btn-danger" ng-click="delUser(user)">删除</button></td>
             </tr>
