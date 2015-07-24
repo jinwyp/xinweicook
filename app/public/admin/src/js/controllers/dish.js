@@ -26,7 +26,98 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         },
 
         dishList : [],
-        dish : {},
+        dish : {
+            isPublished : false,
+            isFromAdminPanel: true,
+            sortId : 1000,
+            cookingType : 'ready to cook',
+            sideDishType : 'main',
+            setType : 'single',
+
+            difficulty: 1,
+            time: 30,
+            servings: 2,
+            storageLife: 3, // 即食包冷藏保存期
+
+            title : {
+                zh : '',
+                en : ''
+            },
+            brief : {
+                zh : '',
+                en : ''
+            },
+
+            cover: [{
+                zh : '',
+                en : ''
+            }],
+
+            kitchenware: [{
+                zh : '',
+                en : ''
+            }],
+
+            infoUniqueFeature: [{
+                title: {
+                    zh : '',
+                    en : ''
+                },
+                contentType: 'txt',
+                value: {
+                    zh : '',
+                    en : ''
+                },
+                sortId : 10,
+                linkTo : ''
+            }],
+            infoIngredient: [{
+                title: {
+                    zh : '',
+                    en : ''
+                },
+                contentType: 'txt',
+                value: {
+                    zh : '',
+                    en : ''
+                },
+                sortId : 10,
+                linkTo : ''
+            }],
+            infoCookingStep: [{
+                title: {
+                    zh : '',
+                    en : ''
+                },
+                contentType: 'txt',
+                value: {
+                    zh : '',
+                    en : ''
+                },
+                sortId : 10,
+                linkTo : ''
+            }],
+
+            preferences: [{
+                name : {
+                    zh : '',
+                    en : ''
+                },
+                foodMaterial: [{
+                    dish : '',
+                    default : false
+                }]
+            }],
+
+            topping: [],
+            tagFilter: [],
+
+            priceOriginal: 100,
+            priceWholesale: [{}],
+
+            stock : 10
+
+        },
 
         dishCookingType : [
             {
@@ -62,6 +153,21 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             }
         ],
 
+        setTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '单品',
+                value : 'single'
+            },
+            {
+                name : '套餐',
+                value : 'set'
+            }
+        ],
+
         isPublishedList : [
             {
                 name : 'ALL',
@@ -79,7 +185,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
     $scope.css = {
-        isAddNewStatus : false
+        isAddNewStatus : true
     };
 
     if ($state.current.data.type === 'list'){
@@ -143,6 +249,21 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
     };
 
+    $scope.addNewDish = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        var newDish = angular.copy($scope.data.dish);
+        //console.log (newDish);
+        Dishes.post(newDish).then(function (resultDish) {
+            console.log(resultDish);
+            Notification.success({message: 'Save Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
 
 
     $scope.updateDish = function (form) {
@@ -177,5 +298,6 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         });
 
     };
+
 
 }

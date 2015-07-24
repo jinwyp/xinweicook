@@ -104,7 +104,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 url: '/dishes',
                 templateUrl: 'templates/dish/dishList.html',
                 data: {
-                    title: '标签管理',
+                    title: '菜品管理',
                     type : 'list'
                 },
                 controller: 'DishController'
@@ -112,32 +112,11 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('menu.addNewDish', {
                 url: '/dishadd',
                 templateUrl: 'templates/dish/dishDetail.html',
-                data: {title: '添加菜品'},
-                controller: function ($scope, Dishes, DishDetailDecorator) {
-                    var emptyDish = {
-                        cover: [{}],
-                        kitchenware: [{}],
-                        infoUniqueFeature: [{}],
-                        infoIngredient: [{}],
-                        infoCookingStep: [{}],
-                        priceWholesale: [{}],
-                        //preferences: [{foodMaterial: [{}]}],
-                        //topping: [],
-                        tagFilter: [],
-                        isFromAdminPanel: true
-                    };
-
-                    $scope.dish = angular.copy(emptyDish);
-
-                    $scope.save = function () {
-                        $scope.checkAll();
-                        Dishes.post($scope.dish).then(function () {
-                            $scope.dish = angular.copy(emptyDish)
-                        })
-                    };
-
-                    DishDetailDecorator($scope);
-                }
+                data: {
+                    title: '菜品管理',
+                    type : 'add'
+                },
+                controller: 'DishController'
             })
             .state('menu.updateDish', {
                 url: '/dish/:id',
