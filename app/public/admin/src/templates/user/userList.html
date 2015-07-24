@@ -60,9 +60,15 @@
                 <td>{{user.email}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.gender}}</td>
-                <td> <span ng-repeat="address in user.address">
-                    <span ng-repeat="(key, value) in address">{{key}}:{{value}}, </span>
-                    <br/></span>
+                <td>
+                    <ul class="list-group" ng-repeat="address in user.address">
+                        <li class="list-group-item">客人认证是否有效地址: {{address.isValid}}</li>
+                        <li class="list-group-item">默认地址: {{address.isDefault}}</li>
+                        <li class="list-group-item">联系人: {{address.contactPerson}}</li>
+                        <li class="list-group-item">手机: {{address.mobile}}</li>
+                        <li class="list-group-item">经度: {{address.geoLongitude}} / 纬度: {{address.geoLatitude}}</li>
+                        <li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>
+                    </ul>
                 </td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}}</span></td>
                 <td><button class="btn btn-danger" ng-click="delUser(user)">删除</button></td>
