@@ -11,7 +11,7 @@ module.exports =
         return throw new Err "Device Token not found !", 400
     checkFound : (device) ->
       if device
-        return throw new Err "Device Token already exist !", 400
+        return throw new Err "Device Token already exist !", 200
 
     validationNewDevice : (device) ->
       unless libs.validator.isLength device.deviceToken, 30,70

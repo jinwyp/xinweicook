@@ -189,27 +189,27 @@ exports.addNewOrder = (req, res, next) ->
 
     for dish,dishIndex in resultDishes
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
-      dishHistoryList.push dish
+      dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
 
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
       if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
-        dishReadyToCookList.push dishDataList[dish.dish]
+        dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
-        dishReadyToEatList.push dishDataList[dish.dish]
+        dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
 
       for subDish,subDishIndex in dish.subDish
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
           newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToCookList.push dishDataList[subDish.dish]
+          dishReadyToCookList.push({dish:dishDataList[subDish.dish], number:subDish.number})
         else
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToEatList.push dishDataList[subDish.dish]
+          dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
 
     if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0

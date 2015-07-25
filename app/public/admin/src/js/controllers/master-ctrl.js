@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$location', '$localStorage', '$http', 'User', MasterCtrl]);
 
-function MasterCtrl($scope, $location, $localStorage, $http) {
+function MasterCtrl($scope, $location, $localStorage, $http, User) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -25,7 +25,6 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
         } else {
             $scope.toggle = false;
         }
-
     });
 
     $scope.toggleSidebar = function() {
@@ -33,29 +32,56 @@ function MasterCtrl($scope, $location, $localStorage, $http) {
         $localStorage.toggle = $scope.toggle;
     };
 
+
     $scope.$on('$locationChangeSuccess', function () {
         $scope.path = $location.path();
     });
 
-    $scope.$on('$stateChangeSuccess',
-        function(event, toState){$scope.title = toState.data && toState.data.title});
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+        $scope.title = toState.data && toState.data.title
+    });
 
-    $scope.remove = function () {
-        $http.get('/api/administrator/initremoveall');
-    }
+
+
+
+
+    $scope.logout = function () {
+        User.logOut().then(function () {
+            $location.url('/login');
+        })
+    };
+
     $scope.inittag = function () {
         $http.get('/api/administrator/inittag');
-    }
+    };
     $scope.initolddish = function () {
         $http.get('/api/administrator/initolddish');
-    }
+    };
     $scope.initdishtopping = function () {
         $http.get('/api/administrator/initdishtopping');
-    }
+    };
 
     $scope.initAdmin = function () {
         $http.get('/api/administrator/initadminuser')
     };
+
+
+    $scope.removetag = function () {
+        $http.get('/api/administrator/initremovetag');
+    };
+    $scope.removedish = function () {
+        $http.get('/api/administrator/initremovedish');
+    };
+    $scope.removeorder = function () {
+        $http.get('/api/administrator/initremoveorder');
+    };
+    $scope.removeuser = function () {
+        $http.get('/api/administrator/initremoveuser');
+    };
+    $scope.removelog = function () {
+        $http.get('/api/administrator/initremovelog');
+    };
+
 
     window.onresize = function() {
         $scope.$apply();
