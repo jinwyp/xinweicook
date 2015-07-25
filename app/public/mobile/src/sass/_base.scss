@@ -1,0 +1,49 @@
+@import "compass/utilities/sprites";
+@import "icons/*.png";
+
+// reset
+html {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: rgb(244, 244, 244);
+  color: #4b4b4c;
+}
+
+a {
+  &:link, &:visited, &:focus, &:hover, &:active {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+::-moz-placeholder {
+  color: rgba(0,0,0,0.3);
+}
+:-ms-input-placeholder {
+  color: rgba(0,0,0,0.3);
+}
+::-webkit-input-placeholder {
+  color: rgba(0,0,0,0.3) !important;
+}
+
+
+// variables
+
+$primary-color: rgb(244,77,77);
+
+
+.nav {
+  background-color: white;
+}
+
+.back-icon {
+  @include icons-sprite(NavBarBackIcon);
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  width: 47px;
+  height: 100px;
+  top: 12px;
+}

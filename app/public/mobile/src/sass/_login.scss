@@ -1,0 +1,69 @@
+@import "compass/utilities/sprites";
+@import "icons/*.png";
+@import "base";
+
+/***** login *****/
+.login-nav {
+  text-align: center;
+  margin-bottom: 23px;
+
+  a:nth-child(2) {
+    margin-right: 38px;
+  }
+
+  span {
+    line-height: 45px;
+    border-bottom: solid 1px transparent;
+    padding: 0 15px 14px;
+
+    &:nth-child(2) {
+      margin-right: 38px;
+    }
+
+    &.active {
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
+}
+
+.login-form-group {
+  background-color: white;
+  position: relative;
+}
+
+.login-form, .signup-form {
+  input {
+    border: none;
+    box-shadow: none !important;
+    border-radius: 0;
+  }
+  .form-control {
+    height: 40px;
+  }
+}
+
+.login-button {
+  width: 95%;
+  margin: 20px auto 0;
+  //border:none;
+}
+
+.sms-button {
+  position: absolute;
+  border: 1px $primary-color solid;
+  border-radius: 5px;
+  width: 160px;
+  text-align: center;
+  height: 31px;
+  line-height: 30px;
+  top: 46px;
+  right: 11px;
+}
+
+.login-form-line {
+  margin: 0 5px 0 12px;
+  border-bottom: 1px solid #bcbcbc;
+  border-top: 0;
+  opacity: 0.5;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>xinwei cook sign</title>
+</head>
+<body ng-app="xw" ng-controller="loginCtrl">
+<nav class="login-nav nav">
+    <div class="back-icon"></div>
+    <a href="#/login"><span ng-class="{active: path == '/login'}">登录</span></a>
+    <a href="#/signup"><span ng-class="{active: path == '/signup'}">注册</span></a>
+</nav>
+
+<!-- login form -->
+<div class="login-form" ng-if="path == '/login'">
+    <form class="form-horizontal" name="signInForm">
+        <div class="login-form-group">
+            <input type="tel" class="form-control" placeholder="手机号" name="username"
+                   ng-minlength="11" required maxlength="11"
+                   ng-model="loginData.username"/>
+            <hr class="login-form-line"/>
+            <input type="password" class="form-control" placeholder="密码" name="password"
+                   ng-minlength="6" required
+                   ng-model="loginData.password"/>
+        </div>
+
+        <button class="form-control login-button"
+                ng-class="{invalid: !signInForm.$valid}"
+                ng-disabled="!signInForm.$valid"
+                ng-click="login(loginData.username, loginData.password)">登录</button>
+    </form>
+</div>
+
+<!-- sign up form -->
+<div class="signup-form" ng-if="path == '/signup'">
+    <form class="form-horizontal" name="signUpForm">
+        <div class="login-form-group">
+            <input type="tel" class="form-control" placeholder="手机号" name="mobile"
+                   ng-minlength="11" required maxlength="11"
+                   ng-model="signupData.mobile"/>
+            <hr class="login-form-line"/>
+            <input type="number" class="form-control" placeholder="验证码" name="code"
+                   required
+                   ng-model="signupData.code"/>
+            <div class="sms-button-group">
+                    <span class="sms-button"
+                          ng-if="smsState <= 1"
+                          ng-class="{invalid: smsState === 0}"
+                          ng-click="smsState == 1 && getSmsCode(signUpForm)">获取验证码</span>
+                <span class="sms-button invalid" ng-if="smsState == 2">{{remains}}秒后重新获取</span>
+                <span class="sms-button" ng-class="{invalid: smsState == 3}" ng-if="smsState > 2">重新获取</span>
+            </div>
+            <hr class="login-form-line"/>
+            <input type="password" class="form-control" placeholder="密码" name="pwd"
+                   required ng-minlength="6"
+                   ng-model="signupData.pwd"/>
+        </div>
+
+        <button class="form-control login-button"
+                ng-class="{invalid: !signUpForm.$valid}"
+                ng-disabled="!signUpForm.$valid"
+                ng-click="signup(signupData.mobile, signupData.pwd, signupData.code)">注册</button>
+    </form>
+</div>
+</body>
+
+<script src="/components/angular/angular.js"></script>
+<script src="/components/lodash/lodash.min.js"></script>
+<script src="/components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="/components/restangular/dist/restangular.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/routes.js"></script>
+<script src="/mobile/src/js/controllers/login.js"></script>
+</html>
