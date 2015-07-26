@@ -21,6 +21,15 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.cookingType.$dirty&&searchForm.cookingType.$valid, 'has-error':searchForm.cookingType.$dirty&&searchForm.cookingType.$invalid}">
+                    <label for="inputCookingType" class="col-lg-2 control-label" >订单菜品类型</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="cookingType in data.dishCookingType">
+                            <input type="radio" name="cookingType" id="inputCookingType" ng-value="cookingType.value" ng-model="data.searchOptions.cookingType">{{cookingType.name}}
+                        </label>
+                    </div>
+                </div>
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$valid, 'has-error':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$invalid}">
                     <label for="inputOrderStatus" class="col-lg-2 control-label" >订单状态</label>
                     <div class="col-lg-8">

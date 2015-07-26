@@ -20,7 +20,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             status : '',
             orderNumber : '',
             isSplitOrder : '',
-            isChildOrder : ''
+            isChildOrder : '',
+            cookingType : ''
         },
 
         orderList : [],
@@ -85,6 +86,46 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
                 name : '非子订单（包括不需要拆单的正常订单和需要拆单的主订单）',
                 value : 'false'
             }
+        ],
+
+        dishCookingType : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '食材包',
+                value : 'ready to cook'
+            },
+            {
+                name : '既食包',
+                value : 'ready to eat'
+            }
+        ],
+
+        expressList : [
+            {
+                name : '顺丰',
+                displayName : {
+                    zh : '顺丰快递',
+                    en : 'sf-express'
+                },
+                info :{
+                    zh : '顺丰快递 国内最好的快递，价格稍贵',
+                    en : 'sf-express'
+                }
+            },
+            {
+                name : '黑猫',
+                displayName : {
+                    zh : '黑猫快递',
+                    en : '黑猫快递'
+                },
+                info :{
+                    zh : '黑猫快递',
+                    en : '黑猫快递'
+                }
+            }
         ]
     };
 
@@ -104,12 +145,28 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         Orders.one($stateParams.id).get().then(function (resutlOrder) {
             $scope.data.order = resutlOrder;
 
-            //编辑order时， 处理order group 显示
-            //angular.forEach($scope.data.orderGroup, function(order) {
-            //    if (order.zh === $scope.data.order.group.zh){
-            //        $scope.data.order.group = order;
-            //    }
-            //});
+            //编辑order时， 处理order express 显示
+            if (angular.isUndefined($scope.data.order.express)){
+                $scope.data.order.express = {
+                    name : '',
+                    displayName : {
+                        zh : '',
+                        en : ''
+                    },
+                    info :{
+                        zh : '',
+                        en : ''
+                    },
+                    number : ''
+                }
+            }
+            /*
+            angular.forEach($scope.data.orderGroup, function(order) {
+                if (order.zh === $scope.data.order.group.zh){
+                    $scope.data.order.group = order;
+                }
+            });
+            */
         });
     }
 
@@ -150,5 +207,11 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         });
     };
 
+
+    $scope.clickExpressRadio = function (express) {
+        $scope.data.order.express.name = express.name;
+        $scope.data.order.express.displayName = express.displayName;
+        $scope.data.order.express.info = express.info;
+    };
 
 }

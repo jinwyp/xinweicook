@@ -129,7 +129,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"776138\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"811960\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -1546,12 +1546,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to cook\\",\\"clientFrom\\":\\"ios\\",\\"credit\\":0,\\"freight\\":20,\\"coupon\\":\\"5590d256103f46d9ac31e3ee\\",\\"payment\\":\\"alipay direct\\",\\"paymentUsedCash\\":false,\\"deliveryDateCook\\":\\"2015-06-13\\",\\"deliveryTimeCook\\":\\"12:00\\",\\"deliveryDateEat\\":\\"2015-06-13\\",\\"deliveryTimeEat\\":\\"12:00\\",\\"address\\":{\\"geoLatitude\\":30,\\"geoLongitude\\":30,\\"country\\":\\"\\",\\"province\\":\\"shanghai\\",\\"city\\":\\"shanghai\\",\\"district\\":\\"shanghai\\",\\"street\\":\\"shanghai\\",\\"address\\":\\"xxxxx\\",\\"contactPerson\\":\\"wangyupeng\\",\\"mobile\\":\\"13564568304\\",\\"remark\\":\\"comment\\"},\\"dishList\\":[{\\"dish\\":\\"558a602a3eba152266ff2b8c\\",\\"number\\":1,\\"subDish\\":[{\\"dish\\":\\"5583b7faa2845dec35276b92\\",\\"number\\":1},{\\"dish\\":\\"5583b7faa2845dec35276b95\\",\\"number\\":1},{\\"dish\\":\\"5583b7faa2845dec35276b97\\",\\"number\\":2}]},{\\"dish\\":\\"558a602a3eba152266ff2b9c\\",\\"number\\":1,\\"subDish\\":[{\\"dish\\":\\"5583b7faa2845dec35276b93\\",\\"number\\":1},{\\"dish\\":\\"5583b7faa2845dec35276b95\\",\\"number\\":1},{\\"dish\\":\\"5583b7faa2845dec35276b97\\",\\"number\\":2}]}]}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n  \\"coupon\\": \\"5590d256103f46d9ac31e3ee\\",\\n\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"deliveryDateEat\\": \\"2015-06-13\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n\\n  \\"address\\": {\\n    \\"geoLatitude\\": 30,\\n    \\"geoLongitude\\": 30,\\n    \\"country\\": \\"\\",\\n    \\"province\\": \\"shanghai\\",\\n    \\"city\\": \\"shanghai\\",\\n    \\"district\\": \\"shanghai\\",\\n    \\"street\\": \\"shanghai\\",\\n    \\"address\\": \\"xxxxx\\",\\n    \\"contactPerson\\": \\"wangyupeng\\",\\n    \\"mobile\\": \\"13564568304\\",\\n    \\"remark\\": \\"comment\\"\\n  },\\n\\n  \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n      \\"number\\": 1,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n          \\"number\\": 1\\n        },\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n          \\"number\\": 1\\n        },\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    },\\n    {\\n      \\"dish\\": \\"558a602a3eba152266ff2b9c\\",\\n      \\"number\\": 1,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b93\\",\\n          \\"number\\": 1\\n        },\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n          \\"number\\": 1\\n        },\\n        {\\n          \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">9</attribute>
         <attribute name="name" type="string">user-addNewOrder Split Alipay</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z273 z274 z275 z271 z272 z277 z278"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z272 z275 z271 z273 z278 z274 z277"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z277">
         <attribute name="value" type="string">delete</attribute>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z316 z313 z315 z314 z317 z311"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bp:Crlc5FFjoDOH4U4dpU5ZxqBI/wGvGkOZ</attribute>
+        <attribute name="value" type="string">Bearer 2By:Oq/psVrRgei59qa+PuXmLUxZ+lZIrc1V</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -3550,7 +3550,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z490 z492"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z492">
-        <attribute name="value" type="string">Bearer 2Bj:i3JKuqoYqs2gjkLqRB5hqS9hfjmCuJ67</attribute>
+        <attribute name="value" type="string">Bearer 2Bx:eC+HAcg5hdMwfWEjnr1pIZxsfL9U6DoF</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z491"></relationship>
     </object>

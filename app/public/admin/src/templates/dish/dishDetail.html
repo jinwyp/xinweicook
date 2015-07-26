@@ -75,34 +75,22 @@
 
 
                 <div ng-repeat="cover in data.dish.cover">
-                    <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$valid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$valid, 'has-error':dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$invalid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$invalid}">
+                    <div class="form-group has-feedback" ng-class="{'has-success':dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$valid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$valid, 'has-error':dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$invalid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$invalid}">
                         <label class="col-lg-2 control-label" >菜品封面图</label>
 
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" placeholder="中文" name="dishCoverZh_{{$index}}" ng-model="cover.zh" ng-minlength="2" ng-maxlength="300">
-                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$valid"></span>
-                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$invalid"></span>
+                            <input type="text" class="form-control" placeholder="中文" name="dishCoverZh_$index" ng-model="cover.zh" ng-minlength="2" ng-maxlength="300">
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$valid"></span>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$invalid"></span>
                         </div>
 
                         <div class="col-lg-2">
-                            <span class="form-validation help-block" ng-if="dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$error.required">请填入信息！</span>
-                            <span class="form-validation help-block" ng-if="dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$error.minlength || dishForm.dishCoverZh_$index.$dirty&&dishForm.dishCoverZh_$index.$error.maxlength">字符长度错误！</span>
+                            <span class="form-validation help-block" ng-if="dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$error.required">请填入信息！</span>
+                            <span class="form-validation help-block" ng-if="dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$error.minlength || dishForm['dishCoverZh_'+$index].$dirty&&dishForm['dishCoverZh_'+$index].$error.maxlength">字符长度错误！</span>
                         </div>
                     </div>
 
-                    <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$valid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$valid, 'has-error':dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$invalid||dishForm.tagNameEn.$dirty&&dishForm.tagNameEn.$invalid}">
 
-                        <div class="col-lg-offset-2 col-lg-8">
-                            <input type="text" class="form-control" placeholder="英文 " name="dishCoverEN_{{$index}}" ng-model="cover.en" required ng-minlength="2" ng-maxlength="300">
-                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$valid"></span>
-                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$invalid"></span>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <span class="form-validation help-block" ng-if="dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$error.required">请填入信息！</span>
-                            <span class="form-validation help-block" ng-if="dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$error.minlength || dishForm.dishCoverEN_$index.$dirty&&dishForm.dishCoverEN_$index.$error.maxlength">字符长度错误！</span>
-                        </div>
-                    </div>
                 </div>
 
 
