@@ -34,10 +34,10 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             sideDishType : 'main',
             setType : 'single',
 
-            difficulty: 1,
-            time: 30,
-            servings: 2,
-            storageLife: 3, // 即食包冷藏保存期
+            difficulty: 0,
+            time: 0,
+            servings: 0,
+            storageLife: 0, // 即食包冷藏保存期
 
             title : {
                 zh : '',
@@ -181,6 +181,33 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 name : '未上架',
                 value : 'false'
             }
+        ],
+
+        contentTypeList :[
+            {
+                name : '文本',
+                value : 'txt'
+            },
+            {
+                name : '文字链接',
+                value : 'url'
+            },
+            {
+                name : '图片',
+                value : 'pic'
+            },
+            {
+                name : '视频格式MP4',
+                value : 'videomp4'
+            },
+            {
+                name : '视频格式FLV',
+                value : 'videoflv'
+            },
+            {
+                name : 'PDF',
+                value : 'pdf'
+            }
         ]
     };
 
@@ -248,6 +275,22 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         });
 
     };
+    $scope.delDish = function (dish) {
+
+        var index = $scope.data.dishList.indexOf(dish);
+
+        $scope.data.dishList[index].remove().then(function (resultDish) {
+            Dishes.getList().then(function (resultDishes) {
+                $scope.data.dishList = resultDishes;
+            });
+
+            Notification.success({message: 'Delete Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
 
     $scope.addNewDish = function (form) {
         if (form.$invalid) {
@@ -280,24 +323,32 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         });
     };
 
-
-
-    $scope.delDish = function (dish) {
-
-        var index = $scope.data.dishList.indexOf(dish);
-
-        $scope.data.dishList[index].remove().then(function (resultDish) {
-            Dishes.getList().then(function (resultDishes) {
-                $scope.data.dishList = resultDishes;
-            });
-
-            Notification.success({message: 'Delete Success', delay: 8000});
-
-        }).catch(function(err){
-            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
+    $scope.addNewCover = function (current) {
+        current.push(
+            {
+                zh : '',
+                en : ''
+            }
+        )
+    };
+    $scope.addNewFeature = function (current) {
+        current.push({
+            title : {
+                zh : '',
+                en : ''
+            },
+            contentType: 'txt',
+            value : {
+                zh : '',
+                en : ''
+            },
+            sortId : 100,
+            linkTo : ''
+        })
 
     };
+
+
 
 
 }
