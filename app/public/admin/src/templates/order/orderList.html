@@ -106,7 +106,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}}</a></td>
+                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a></td>
                 <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>
