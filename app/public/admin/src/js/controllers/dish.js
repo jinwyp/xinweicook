@@ -237,7 +237,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     if ($state.current.data.type === 'update'){
         $scope.css.isAddNewStatus = false;
 
-        Dishs.one($stateParams.id).get().then(function (resutlDish) {
+        Dishes.one($stateParams.id).get().then(function (resutlDish) {
             $scope.data.dish = resutlDish;
 
             //编辑dish时， 处理dish group 显示

@@ -3538,7 +3538,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z482"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z490">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">Bearer 2Bj:R7lJ52InimPZEKP6IeTWnm2E57itG5JJ</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z491"></relationship>
     </object>

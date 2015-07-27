@@ -4,7 +4,7 @@
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew">
                 <span ng-show="css.isAddNewStatus">新增 Dish 菜品</span>
-                <span ng-hide="css.isAddNewStatus">修改 Dish 菜品 - {{data.dish.name.zh}} - {{data.dish._id}}</span>
+                <span ng-hide="css.isAddNewStatus">修改 Dish 菜品 - {{data.dish.title.zh}} - {{data.dish._id}}</span>
                 <a class="btn btn-sm btn-info pull-right" ui-sref="menu.dishes" role="button">返回</a>
             </h3>
         </div>
@@ -16,7 +16,7 @@
                     <label for="inputDishTitleEn" class="col-lg-2 control-label" >菜品名称!</label>
 
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="inputDishTitleZh" placeholder="中文名称" name="dishTitleZh" ng-model="data.dish.name.zh" required ng-minlength="2" ng-maxlength="300">
+                        <input type="text" class="form-control" id="inputDishTitleZh" placeholder="中文名称" name="dishTitleZh" ng-model="data.dish.title.zh" required ng-minlength="2" ng-maxlength="300">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid"></span>
                     </div>
@@ -31,7 +31,7 @@
                     <label for="inputDishTitleEn" class="col-lg-2 control-label" ></label>
 
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="inputDishTitleEn" placeholder="英文名称" name="dishTitleEn" ng-model="data.dish.name.en" required ng-minlength="2" ng-maxlength="300">
+                        <input type="text" class="form-control" id="inputDishTitleEn" placeholder="英文名称" name="dishTitleEn" ng-model="data.dish.title.en" required >
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$invalid"></span>
                     </div>
@@ -47,7 +47,7 @@
                     <label for="inputDishBriefEn" class="col-lg-2 control-label" >菜品描述!</label>
 
                     <div class="col-lg-8">
-                        <textarea class="form-control" row="3" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ng-minlength="2" ng-maxlength="300"></textarea>
+                        <textarea class="form-control" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ></textarea>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid"></span>
                     </div>
@@ -62,7 +62,7 @@
                     <label for="inputDishBriefEn" class="col-lg-2 control-label" ></label>
 
                     <div class="col-lg-8">
-                        <textarea class="form-control" row="3" id="inputDishBriefEn" placeholder="英文名称" name="dishBriefEn" ng-model="data.dish.brief.en" required ng-minlength="2" ng-maxlength="300"></textarea>
+                        <textarea class="form-control" id="inputDishBriefEn" placeholder="英文名称" name="dishBriefEn" ng-model="data.dish.brief.en" required ng-minlength="2" ng-maxlength="300"></textarea>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$invalid"></span>
                     </div>
@@ -391,7 +391,7 @@
                     <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序!</label>
 
                     <div class="col-lg-2">
-                        <input type="number" class="form-control" id="inputDishSortId" placeholder="显示顺序" name="dishSortId" ng-model="dish.dish.sortId" required min="100"  max="9999">
+                        <input type="number" class="form-control" id="inputDishSortId" placeholder="显示顺序" name="dishSortId" ng-model="data.dish.sortId" required min="100"  max="9999">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid"></span>
                     </div>

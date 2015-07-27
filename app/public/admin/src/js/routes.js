@@ -121,22 +121,11 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('menu.updateDish', {
                 url: '/dish/:id',
                 templateUrl: 'templates/dish/dishDetail.html',
-                data: {title: '菜品详情'},
-                controller: function ($scope, Dishes, $stateParams, $location) {
-                    console.log($stateParams.dishId);
-
-                    Dishes.one($stateParams.dishId).get().then(function (dish) {
-                        $scope.dish = dish;
-                    });
-                    //$scope.dish = Dishes.one($stateParams.dishId).get().$object;
-
-                    $scope.save = function () {
-                        console.log($scope.dish.sortId, typeof $scope.dish.sortId);
-                        $scope.dish.put().then(function () {
-                            $location.url('/dishes');
-                        })
-                    }
-                }
+                data: {
+                    title: '菜品管理',
+                    type : 'update'
+                },
+                controller: 'DishController'
             })
 
             .state('menu.tags', {
