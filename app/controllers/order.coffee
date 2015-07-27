@@ -285,6 +285,8 @@ exports.addNewOrder = (req, res, next) ->
         attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
+      weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
+      
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
