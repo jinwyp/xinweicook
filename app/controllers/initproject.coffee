@@ -186,8 +186,8 @@ exports.createOldDish = (req, res, next) ->
         title:
           zh:""
           en:""
-        contentType: "txt"
-#        contentType: "pdf"
+#        contentType: "txt"
+        contentType: "pdf"
         value:
           zh:oldDish.recipe_pdf_url
           en:oldDish.recipe_pdf_url
@@ -250,8 +250,8 @@ exports.createOldDish = (req, res, next) ->
           title:
             zh: "菜谱制作方法"
             en: "See the Action"
-#          contentType: "videoflv"
-          contentType: "vid"
+          contentType: "videoflv"
+#          contentType: "vid"
           value:
             zh:oldDish.action_flv.zh
             en:oldDish.action_flv.en
@@ -260,8 +260,8 @@ exports.createOldDish = (req, res, next) ->
           title:
             zh: "菜谱制作方法"
             en: "See the Action"
-#          contentType: "videomp4"
-          contentType: "vid"
+          contentType: "videomp4"
+#          contentType: "vid"
           value:
             zh:oldDish.action_mp4.zh
             en:oldDish.action_mp4.en
