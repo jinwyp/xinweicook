@@ -62,6 +62,13 @@ module.exports =
     oldUserData :
       mobile:String
 
+    weixinId :
+      access_token : String
+      openid : String
+      refresh_token : String
+
+
+
   statics:
     fields : ->
       selectFields = "-pwd"

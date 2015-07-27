@@ -3,8 +3,8 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew">
-                <span ng-show="css.isAddNewStatus">新增 Coupon 标签</span>
-                <span ng-hide="css.isAddNewStatus">修改 Coupon 标签 - {{data.coupon.name.zh}} - {{data.coupon._id}}</span>
+                <span ng-show="css.isAddNewStatus">新增 Coupon 优惠码</span>
+                <span ng-hide="css.isAddNewStatus">修改 Coupon 优惠码 - {{data.coupon.name.zh}} - {{data.coupon._id}}</span>
                 <a class="btn btn-sm btn-info pull-right" ui-sref="menu.coupons" role="button">返回</a>
             </h3>
         </div>
@@ -13,7 +13,7 @@
             <form class="form-horizontal" name="couponForm" role="form" novalidate ng-cloak>
 
                 <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$valid||couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$valid, 'has-error':couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$invalid||couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$invalid}">
-                    <label for="inputCouponNameZh" class="col-lg-2 control-label" >标签名称</label>
+                    <label for="inputCouponNameZh" class="col-lg-2 control-label" >优惠码名称</label>
 
                     <div class="col-lg-3">
                         <input type="text" class="form-control" id="inputCouponNameZh" placeholder="中文" name="couponNameZh" ng-model="data.coupon.name.zh" required ng-minlength="2" ng-maxlength="30">
