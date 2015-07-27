@@ -1,6 +1,6 @@
 angular.module('xw.order').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
     $scope.cart = null;
     $scope.address = {};
     $scope.coupon = {};
@@ -50,8 +50,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     };
 
 
-    $scope.submitOrder = function () {
-
+    $scope.submitOrder = function ($event) {
+        if (Weixin.openid) {
+            $event.preventDefault();
+        }
 
         var order = {
             cookingType: 'ready to eat',
@@ -121,8 +123,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         });
 
         if (ok) Orders.postOrder(order).then(function (res) {
-            if (true) {
-                alert('微信支付未准备好,请稍后重试');
+            if (!Weixin.ready) {
+                alert('微信支付未初始化完毕,请稍后重试');
             } else {
                 wx.chooseWXPlay({
                     timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符

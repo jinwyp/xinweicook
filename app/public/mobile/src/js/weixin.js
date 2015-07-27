@@ -1,7 +1,33 @@
 angular.module('xw.weixin').factory('Weixin',function () {
-    var state = {
-        ready: false
+    var defaultSetting = {
+        // todo :remove debug
+        debug: true,
+        appId: 'wx37a1323e488cef84',
+        jsApiList: ['openLocation', 'getLocation', 'chooseWXPay']
     };
+
+    var state = {
+        ready: false,
+        config: function (setting) {
+            wx.config(setting, defaultSetting);
+        }
+    };
+
+    if (location.search) {
+        var queries = location.search.slice(1).split('&');
+        queries.forEach(function (query, i) {
+            var array = query.split('=');
+            queries[i] = {
+                key: array[0],
+                value: array[1]
+            };
+            if (queries[i].key == 'openid') {
+                state.openid = queries[i].value;
+            }
+
+        })
+
+    }
 
     wx.config({
         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。

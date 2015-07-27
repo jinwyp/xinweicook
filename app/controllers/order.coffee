@@ -471,7 +471,7 @@ exports.getWeixinPayOpenId = (req, res, next) ->
       openid : body.openid
       refresh_token : body.refresh_token
 
-    res.redirect('/mobile/order/'+ order_number_state);
+    res.redirect('/mobile/order?openid=' + weixinUser.openid + '&state=' + order_number_state);
 #    req.u.saveAsync().spread (result, numberAffected) ->
 #      res.send result
 #    .catch next
