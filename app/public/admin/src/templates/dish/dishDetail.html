@@ -23,7 +23,7 @@
 
                     <div class="col-lg-2">
                         <span class="form-validation help-block" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.minlength || dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.maxlength">字符长度错误！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.minlength || dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.maxlength">字符长度错误2-300！</span>
                     </div>
                 </div>
 
@@ -31,14 +31,14 @@
                     <label for="inputDishTitleEn" class="col-lg-2 control-label" ></label>
 
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="inputDishTitleEn" placeholder="英文名称" name="dishTitleEn" ng-model="data.dish.title.en" required >
+                        <input type="text" class="form-control" id="inputDishTitleEn" placeholder="英文名称" name="dishTitleEn" ng-model="data.dish.title.en" required ng-minlength="2" ng-maxlength="300">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
                         <span class="form-validation help-block" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.minlength || dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.maxlength">字符长度错误！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.minlength || dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.maxlength">字符长度错误2-300！</span>
                     </div>
                 </div>
 
@@ -47,14 +47,14 @@
                     <label for="inputDishBriefEn" class="col-lg-2 control-label" >菜品描述!</label>
 
                     <div class="col-lg-8">
-                        <textarea class="form-control" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ></textarea>
+                        <textarea class="form-control" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ng-minlength="2" ng-maxlength="6000"></textarea>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
                         <span class="form-validation help-block" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.minlength || dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.maxlength">字符长度错误！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.minlength || dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.maxlength">字符长度错误2-6000！</span>
                     </div>
                 </div>
 
@@ -62,14 +62,14 @@
                     <label for="inputDishBriefEn" class="col-lg-2 control-label" ></label>
 
                     <div class="col-lg-8">
-                        <textarea class="form-control" id="inputDishBriefEn" placeholder="英文名称" name="dishBriefEn" ng-model="data.dish.brief.en" required ng-minlength="2" ng-maxlength="300"></textarea>
+                        <textarea class="form-control" id="inputDishBriefEn" placeholder="英文名称" name="dishBriefEn" ng-model="data.dish.brief.en" required ng-minlength="2" ng-maxlength="6000"></textarea>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
                         <span class="form-validation help-block" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.minlength || dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.maxlength">字符长度错误！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.minlength || dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.maxlength">字符长度错误2-6000！</span>
                     </div>
                 </div>
 
