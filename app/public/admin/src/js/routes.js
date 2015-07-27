@@ -177,6 +177,24 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
 
 
+            .state('menu.coupons', {
+                url: '/coupons',
+                templateUrl: 'templates/coupon/couponList.html',
+                data: {
+                    title: '优惠码管理',
+                    type : 'list'
+                },
+                controller: 'CouponController'
+            })
+            .state('menu.addNewCoupon', {
+                url: '/couponadd',
+                templateUrl: 'templates/coupon/couponList.html',
+                data: {
+                    title: '优惠码管理',
+                    type : 'add'
+                },
+                controller: 'CouponController'
+            })
 
             .state('menu.logs', {
                 url: '/logs',

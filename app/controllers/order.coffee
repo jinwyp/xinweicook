@@ -9,7 +9,14 @@ configWeiXinPay =
   key: conf.weixinpay.key
   notify_url : conf.url.base + conf.weixinpay.notify_url
 
-weixinpay = WXPay(configWeiXinPay)
+configWeiXinAppPay =
+  appid: conf.weixinAppPay.appid
+  mch_id: conf.weixinAppPay.mch_id
+  secret: conf.weixinAppPay.secret
+  key: conf.weixinAppPay.key
+  notify_url : conf.url.base + conf.weixinAppPay.notify_url
+
+weixinpay = WXPay(configWeiXinAppPay)
 
 
 
