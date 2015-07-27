@@ -27,19 +27,19 @@
                     <p class="form-control-static">
                         {{address.province + ' ' + address.city + ' ' + address.district + ' ' + address.street}}
                     </p>
-                    <input type="text" class="form-control" id="address" placeholder="门牌号信息"/>
+                    <input type="text" ng-model="address.address" class="form-control" id="address" placeholder="门牌号信息"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="contactPerson" class="col-xs-3 control-label">收货人:</label>
                 <div class="col-xs-9">
-                    <input type="text" class="form-control" id="contactPerson" placeholder="收货人姓名"/>
+                    <input type="text" ng-model="address.contactPerson" class="form-control" id="contactPerson" placeholder="收货人姓名"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="mobile" class="col-xs-3 control-label">联系电话:</label>
                 <div class="col-xs-9">
-                    <input type="text" class="form-control" id="mobile" placeholder="联系电话"/>
+                    <input type="text" ng-model="address.mobile" class="form-control" id="mobile" placeholder="联系电话"/>
                 </div>
             </div>
         </div>
@@ -56,18 +56,17 @@
                       ng-click="dish.confirm = !dish.confirm">备</span>
             </div>
             <hr class="form-line" ng-repeat-end/>
-            <div class="row text-left time-btn-group">
-                <div class="col-xs-4">
-                    <span class="active time-btn text-center">马上送出</span>
-                </div>
-                <div class="col-xs-4">
+<!--            <div class="row text-left time-btn-group">
+                <div class="col-xs-12">
+                    <span ng-click="" class="active time-btn text-center">马上送出</span>
                     <span class="time-btn">预约送达</span>
                 </div>
 
-            </div>
+            </div>-->
             <div class="row">
                 <div class="col-xs-12">
-                    预计 {{deliveryTime[0]}} 送达
+                    <select class="form-control" ng-model="deliveryTime.selectTime" ng-options="date.hour for date in deliveryTime"></select>
+                    <!--{{deliveryTime[0].hour}}-->
                 </div>
             </div>
         </div>
@@ -75,17 +74,17 @@
         <div class="form-block">
             <h5>优惠</h5>
             <hr class="form-line"/>
-            <div class="row">
+<!--            <div class="row">
                 <span class="col-xs-6 text-left">使用优惠券</span>
                 <span class="col-xs-6 text-right rmb-char negative">4</span>
             </div>
-            <hr class="form-line"/>
+            <hr class="form-line"/>-->
             <div class="form-group promotion-group">
                 <label for="promotionCode" class="control-label col-xs-3">优惠代码</label>
                 <div class="col-xs-7">
-                    <input ng-model="promotionCode" id="promotionCode" placeholder="优惠代码" type="text" class="form-control"/>
+                    <input ng-model="coupon.code" id="promotionCode" placeholder="优惠代码" type="text" class="form-control"/>
                 </div>
-                <span ng-if="promotionCode" class="flat-button" ng-click="promotionCode = ''">取消</span>
+                <span ng-if="coupon.code" class="flat-button" ng-click="cancelApplyCoupon()">取消</span>
             </div>
         </div>
 
@@ -93,37 +92,32 @@
             <h5>支付方式</h5>
             <hr class="form-line"/>
             <div class="row">
-                <span class="col-xs-1 icon"></span>
-                <span class="col-xs-5">在线支付</span>
-            </div>
-            <hr class="form-line"/>
-            <div class="row">
-                <span class="col-xs-1 icon"></span>
-                <span class="col-xs-5">在线支付</span>
+                <span class="col-xs-1 icon active"></span>
+                <span class="col-xs-5">微信支付</span>
             </div>
         </div>
 
         <div class="form-block price-block">
             <div class="row">
                 <span class="col-xs-6">订单金额</span>
-                <span class="col-xs-2 price pull-right rmb-char">148</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice()}}</span>
             </div>
             <div class="row">
                 <span class="col-xs-6">运费</span>
-                <span class="col-xs-2 price pull-right rmb-char">148</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{deliveryFee}}</span>
             </div>
             <div class="row group-on">
                 <span class="col-xs-6">优惠金额</span>
-                <span class="col-xs-2 price pull-right rmb-char">148</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{couponPrice}}</span>
                 <span class="col-xs-1 pull-right text-right sign">-</span>
             </div>
             <div class="row">
                 <span class="col-xs-6">应付总额</span>
-                <span class="col-xs-2 price pull-right rmb-char">148</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice() + deliveryFee - couponPrice}}</span>
             </div>
         </div>
 
-        <button class="confirm-button form-control">确认</button>
+        <button class="confirm-button form-control" ng-click="submitOrder()">确认</button>
 
     </form>
 </div>
@@ -131,6 +125,7 @@
 
 <script src="/components/angular/angular.js"></script>
 <script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>

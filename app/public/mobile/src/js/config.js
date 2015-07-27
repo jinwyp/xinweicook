@@ -1,4 +1,4 @@
-angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q, $location) {
+angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q) {
     return {
         'request': function(config) {
             if ($localStorage.access_token) {

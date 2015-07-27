@@ -16,7 +16,7 @@
     </nav>
 
     <!-- login form -->
-    <div class="login-form" ng-if="path == '/login'">
+    <div class="login-form" ng-if="path == '/login'" ng-cloak>
         <form class="form-horizontal" name="signInForm">
             <div class="login-form-group">
                 <input type="tel" class="form-control" placeholder="手机号" name="username"
@@ -36,7 +36,7 @@
     </div>
 
     <!-- sign up form -->
-    <div class="signup-form" ng-if="path == '/signup'">
+    <div class="signup-form" ng-if="path == '/signup'" ng-cloak>
         <form class="form-horizontal" name="signUpForm">
             <div class="login-form-group">
                 <input type="tel" class="form-control" placeholder="手机号" name="mobile"
@@ -74,6 +74,7 @@
 <script src="/components/ngstorage/ngStorage.min.js"></script>
 <script src="/components/restangular/dist/restangular.min.js"></script>
 
+<script src="/mobile/src/js/config.js"></script>
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/routes.js"></script>

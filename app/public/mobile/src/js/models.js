@@ -18,7 +18,6 @@ angular.module('xw.models').factory('Orders', function ($http) {
     }
 });
 
-
 angular.module('xw.models').factory('User', function ($http, $localStorage) {
     return {
         login: function (username, password) {
@@ -58,3 +57,11 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         }
     }
 });
+
+angular.module('xw.models').factory('Coupon', function ($http) {
+    return {
+        getCouponInfo: function (code) {
+            return $http.get('/api/coupons/code/' + code);
+        }
+    }
+})
