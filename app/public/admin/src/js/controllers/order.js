@@ -105,13 +105,24 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
         expressList : [
             {
-                name : '顺丰',
+                name : '顺丰外地',
                 displayName : {
                     zh : '顺丰快递',
                     en : 'sf-express'
                 },
                 info :{
-                    zh : '顺丰快递 国内最好的快递，价格稍贵',
+                    zh : '顺丰快递 国内最好的快递',
+                    en : 'sf-express'
+                }
+            },
+            {
+                name : '顺丰当日',
+                displayName : {
+                    zh : '顺丰当日快递',
+                    en : 'sf-express'
+                },
+                info :{
+                    zh : '顺丰当日快递 国内最好的快递',
                     en : 'sf-express'
                 }
             },
@@ -124,6 +135,39 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
                 info :{
                     zh : '黑猫快递',
                     en : '黑猫快递'
+                }
+            },
+            {
+                name : '快速递',
+                displayName : {
+                    zh : '快速递',
+                    en : '快速递'
+                },
+                info :{
+                    zh : '快速递',
+                    en : '快速递'
+                }
+            },
+            {
+                name : '趣活',
+                displayName : {
+                    zh : '趣活快递',
+                    en : '趣活快递'
+                },
+                info :{
+                    zh : '趣活快递',
+                    en : '趣活快递'
+                }
+            },
+            {
+                name : '达达',
+                displayName : {
+                    zh : '达达快递',
+                    en : '达达快递'
+                },
+                info :{
+                    zh : '达达快递',
+                    en : '达达快递'
                 }
             }
         ]
