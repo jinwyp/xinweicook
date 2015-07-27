@@ -17,7 +17,7 @@ configWeiXinAppPay =
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
 
-
+weixinpay = WXPay(configWeiXinPay)
 
 
 
@@ -262,7 +262,7 @@ exports.addNewOrder = (req, res, next) ->
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
 
-      weixinpay = WXPay(configWeiXinPay)
+
 
 #      if req.body.clientFrom is "ios"
 #        weixinpay = WXPay(configWeiXinAppPay)
@@ -275,7 +275,7 @@ exports.addNewOrder = (req, res, next) ->
 #        spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
 #        notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
-        trade_type: "NATIVE" #JSAPI，NATIVE，APP，WAP
+        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
 #      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
@@ -289,17 +289,18 @@ exports.addNewOrder = (req, res, next) ->
         if err
           next new Err err
         console.log "---WeixinPay--response", resultWeixinPay
-        resultOrder.paymentWeixinpay =
-          nonce_str : resultWeixinPay.nonce_str
-          sign : resultWeixinPay.sign
-          trade_type : resultWeixinPay.trade_type
-          prepay_id: resultWeixinPay.prepay_id
-          code_url: resultWeixinPay.code_url
-        resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-#          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-          resultTemp = resultOrder.toJSON()
-          delete resultTemp.dishList
-          res.json resultTemp
+        if resultWeixinPay
+          resultOrder.paymentWeixinpay =
+            nonce_str : resultWeixinPay.nonce_str
+            sign : resultWeixinPay.sign
+            trade_type : resultWeixinPay.trade_type
+            prepay_id: resultWeixinPay.prepay_id
+            code_url: resultWeixinPay.code_url
+          resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
+  #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+            resultTemp = resultOrder.toJSON()
+            delete resultTemp.dishList
+            res.json resultTemp
     else
       resultTemp = resultOrder.toJSON()
       delete resultTemp.dishList
@@ -441,6 +442,39 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
     .catch next
 
+
+
+exports.getWeixinPayOpenId = (req, res, next) ->
+  console.log "========================WeixinPayOpenId :: ", req.query
+
+  code = req.query.code;
+  order_number_state = req.query.state;
+
+  if not code or code.length is 0
+    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+
+  url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret + '&code=' + code + '&grant_type=authorization_code';
+
+  opts =
+    method: 'GET'
+    url: url
+    timeout: 3000
+
+  request opts, (err, resp, body)->
+    if err
+      throw new Err "Weixin Pay access_token error,  access_token is null", 400
+
+    body = JSON.parse(body) # 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
+
+    weixinUser =
+      access_token : body.access_token
+      openid : body.openid
+      refresh_token : body.refresh_token
+
+    res.redirect('/mobile/order/'+ order_number_state);
+#    req.u.saveAsync().spread (result, numberAffected) ->
+#      res.send result
+#    .catch next
 
 
 

@@ -186,15 +186,25 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'CouponController'
             })
+            .state('menu.updateCoupon', {
+                url: '/coupons/:id',
+                templateUrl: 'templates/coupon/couponDetail.html',
+                data: {
+                    title: '优惠码管理',
+                    type : 'update'
+                },
+                controller: 'CouponController'
+            })
             .state('menu.addNewCoupon', {
                 url: '/couponadd',
-                templateUrl: 'templates/coupon/couponList.html',
+                templateUrl: 'templates/coupon/couponDetail.html',
                 data: {
                     title: '优惠码管理',
                     type : 'add'
                 },
                 controller: 'CouponController'
             })
+
 
             .state('menu.logs', {
                 url: '/logs',

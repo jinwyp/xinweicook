@@ -54,13 +54,14 @@
         </thead>
         <tbody>
             <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateTag({ id: coupon._id })">{{coupon._id}}</a></td>
+                <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">{{coupon._id}}</a></td>
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
+                <td>{{coupon.code}}</td>
                 <td>{{coupon.price}}</td>
                 <td>{{coupon.priceLimit}}</td>
 
-                <td>{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss Z'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td>{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td>{{coupon.isExpired}}</td>
                 <td>{{coupon.usedTime}}</td>
                 <td>{{coupon.isUsed}}</td>
