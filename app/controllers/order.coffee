@@ -273,7 +273,7 @@ exports.addNewOrder = (req, res, next) ->
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
-
+        console.log "---WeixinPay--response", resultWeixinPay
         resultOrder.paymentWeixinpay =
           nonce_str : resultWeixinPay.nonce_str
           sign : resultWeixinPay.sign
