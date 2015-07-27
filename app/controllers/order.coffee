@@ -286,22 +286,36 @@ exports.addNewOrder = (req, res, next) ->
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
-      
+
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
         console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
+
+          weixinpaySign =
+            appId : configWeiXinPay.appid
+            timeStamp: Math.floor(Date.now()/1000)
+            nonceStr: resultWeixinPay.nonce_str
+            package: resultWeixinPay.prepay_id
+            signType: "MD5"
+
+          weixinpaySign.paySign = weixinpay.sign(weixinpaySign);
+
           resultOrder.paymentWeixinpay =
+            weixinpayJsapiSign : weixinpaySign
+
             nonce_str : resultWeixinPay.nonce_str
             sign : resultWeixinPay.sign
             trade_type : resultWeixinPay.trade_type
             prepay_id: resultWeixinPay.prepay_id
             code_url: resultWeixinPay.code_url
+
           resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
   #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder.toJSON()
             delete resultTemp.dishList
+
             res.json resultTemp
     else
       resultTemp = resultOrder.toJSON()

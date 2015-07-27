@@ -66,6 +66,15 @@ module.exports =
       buyer_id : type : String
 
     paymentWeixinpay :
+      weixinpayJsapiSign :
+        jsapi_ticket : String
+        appId : String
+        timeStamp: String
+        nonceStr: String
+        package: String
+        signType: String
+        paySign: String
+
       nonce_str : type: String # 微信返回的随机字符串
       sign : type: String
       trade_type : type: String # 调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP，详细说明见参数规定

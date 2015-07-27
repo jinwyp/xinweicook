@@ -47,7 +47,9 @@ var configWeiXinPay = {
     notify_url : "http://pay.weixin.qq.com",
 
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
-    url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?" //通过code换取网页授权access_token
+    url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //通过code换取网页授权access_token
+    url_getDeveloperAccessToken : "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&",
+    url_getDeveloperTicket : "https://api.weixin.qq.com/cgi-bin/ticket/getticket?"
 
 
 };
@@ -239,6 +241,55 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     });
 
 };
+
+
+weiXinPay.prototype.getDeveloperAccessToken = function(code, callback){
+
+    if (!code || code.length === 0){
+        throw new Error ("Weixin Pay OpenId code format wrong,  code is null");
+    }
+
+
+    url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret;
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 3000
+    };
+
+    request(opts, function(err, response, body){
+        if (err){
+            callback(err)
+        }else{
+            // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
+            // {"access_token":"ACCESS_TOKEN","expires_in":7200}
+            var resultBody = JSON.parse(body) ;
+
+            // GET方式请求获得jsapi_ticket
+            var options = {
+                method: 'GET',
+                url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
+                timeout: 3000
+            };
+            request(options, function(err2, response, body2){
+                if (err2){
+                    callback(err2)
+                }else{
+                    console.log ("weixin Ticket", body2)
+                    body2 = JSON.parse(body2) ;
+                    callback(null, body2)
+                }
+            });
+
+
+
+        }
+
+    });
+
+};
+
 
 
 /*
