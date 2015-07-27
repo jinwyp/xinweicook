@@ -157,8 +157,8 @@ exports.createOldDish = (req, res, next) ->
       for infoUniqueFeatureOne in oldDish.did_you_know_items
         infoUniqueFeatureOneTemp =
           title:
-            zh:"New "+infoUniqueFeatureOne.title.zh
-            en:"New "+infoUniqueFeatureOne.title.en
+            zh: infoUniqueFeatureOne.title.zh
+            en: infoUniqueFeatureOne.title.en
           contentType: "txt"
           value:
             zh:infoUniqueFeatureOne.text.zh
