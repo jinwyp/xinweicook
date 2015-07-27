@@ -27,6 +27,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         tagList : [],
         dishList : [],
         currentTagFilter : '',
+        currentPreferenceCategory : '',
         currentPreference : '',
         currentTopping : '',
         dish : {
@@ -214,6 +215,18 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 name : 'PDF',
                 value : 'pdf'
             }
+        ],
+
+        preferenceCategoryList :[
+            {
+                zh : '牛肉',
+                en : 'beef'
+            },
+            {
+                zh : '菌菇',
+                en : 'mushroom'
+            }
+
         ]
     };
 
