@@ -54,7 +54,8 @@
         </thead>
         <tbody>
             <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateTag({ id: coupon._id })">{{coupon._id}}</a></td>
+                <!--<td><a ui-sref="menu.updateTag({ id: coupon._id })">{{coupon._id}}</a></td>-->
+                <td><a >{{coupon._id}}</a></td>
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
                 <td>{{coupon.code}}</td>
