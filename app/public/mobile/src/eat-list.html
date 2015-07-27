@@ -11,7 +11,7 @@
     </style>
     <title>新味 即食包</title>
 </head>
-<body ng-app="xw" ng-controller="eatCtrl">
+<body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
 
 <nav class="eat-nav nav">
     <span class="no-bottom-border" ng-class="{active: path == '/login'}">即食包</span>
@@ -39,7 +39,8 @@
                 <!--<div class="user-actions" style="display:none"></div> todo -->
                 <div class="buy">
                     <span class="price">{{dish.priceOriginal}}</span>
-                    <span class="button" ng-click="addDish(dish)">购买</span>
+                    <span class="button" ng-click="addDish(dish)" ng-if="dish.stock > 0">购买</span>
+                    <span class="button" ng-if="dish.stock === 0">售罄</span>
                 </div>
             </div>
         </li>
@@ -59,6 +60,7 @@
 
 <script src="/components/angular/angular.js"></script>
 <script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>

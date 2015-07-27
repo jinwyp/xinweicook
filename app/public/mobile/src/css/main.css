@@ -251,9 +251,9 @@ label {
 }
 /* line 80, ../sass/_eat.scss */
 .eat-list .img-group.blur img {
-  -webkit-filter: blur(10px);
-  -moz-filter: blur(10px);
-  filter: blur(10px);
+  /*    -webkit-filter: blur(10px);
+      -moz-filter: blur(10px);
+      filter: blur(10px);*/
 }
 /* line 85, ../sass/_eat.scss */
 .eat-list .detail {

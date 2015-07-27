@@ -38,9 +38,9 @@ angular.module('xw.config').config(['$httpProvider',
  */
 angular.module('xw.config').run([function () {
     // feature detect do not work
-    var isSupportFilter = /ipad|iphone|chrome/.test(navigator.userAgent.toLowerCase());
+/*    var isSupportFilter = /ipad|iphone|chrome/.test(navigator.userAgent.toLowerCase());
     if (!isSupportFilter) {
         document.body.classList.add('no-filter');
-    }
+    }*/
 }]);
 

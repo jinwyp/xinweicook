@@ -64,4 +64,4 @@ angular.module('xw.models').factory('Coupon', function ($http) {
             return $http.get('/api/coupons/code/' + code);
         }
     }
-})
+});
