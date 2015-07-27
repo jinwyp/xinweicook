@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <title>xinwei cook sign</title>
+    <title>新味</title>
 </head>
 <body ng-app="xw" ng-controller="loginCtrl">
     <nav class="login-nav nav">
-        <div class="back-icon"></div>
+        <div class="back-icon" ng-click="back()"></div>
         <a href="#/login"><span ng-class="{active: path == '/login'}">登录</span></a>
         <a href="#/signup"><span ng-class="{active: path == '/signup'}">注册</span></a>
     </nav>
@@ -22,7 +22,7 @@
                 <input type="tel" class="form-control" placeholder="手机号" name="username"
                        ng-minlength="11" required maxlength="11"
                        ng-model="loginData.username"/>
-                <hr class="login-form-line"/>
+                <hr class="form-line"/>
                 <input type="password" class="form-control" placeholder="密码" name="password"
                        ng-minlength="6" required
                        ng-model="loginData.password"/>
@@ -42,7 +42,7 @@
                 <input type="tel" class="form-control" placeholder="手机号" name="mobile"
                        ng-minlength="11" required maxlength="11"
                        ng-model="signupData.mobile"/>
-                <hr class="login-form-line"/>
+                <hr class="form-line"/>
                 <input type="number" class="form-control" placeholder="验证码" name="code"
                        required
                        ng-model="signupData.code"/>
@@ -54,7 +54,7 @@
                     <span class="sms-button invalid" ng-if="smsState == 2">{{remains}}秒后重新获取</span>
                     <span class="sms-button" ng-class="{invalid: smsState == 3}" ng-if="smsState > 2">重新获取</span>
                 </div>
-                <hr class="login-form-line"/>
+                <hr class="form-line"/>
                 <input type="password" class="form-control" placeholder="密码" name="pwd"
                        required ng-minlength="6"
                        ng-model="signupData.pwd"/>

@@ -1,7 +1,13 @@
-angular.module('xw', ['xw.config', 'xw.login']);
+angular.module('xw', ['xw.config', 'xw.login', 'xw.eat', 'xw.order', 'xw.me']);
 
-angular.module('xw.config', ['ngStorage', 'ui.router']);
+angular.module('xw.config', ['ngStorage']);
 
-angular.module('xw.models', ['ngStorage', 'restangular']);
+angular.module('xw.models', ['ngStorage']);
 
 angular.module('xw.login', ['xw.models']);
+
+angular.module('xw.eat', ['xw.models']); // tmp
+
+angular.module('xw.order', ['xw.models']); // tmp
+
+angular.module('xw.me', ['xw.models']); // tmp

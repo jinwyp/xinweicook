@@ -11,7 +11,7 @@ function loginCtrl($scope, User, $location, $interval) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
             // todo: redirect
             //document.location = 'detail page'
-            alert('login success');
+            location.href = 'eat-list.html'
         }).catch(function (res) {
             alert('login failed')
         })
@@ -25,11 +25,15 @@ function loginCtrl($scope, User, $location, $interval) {
             $scope.signupData.code
         ).then(function (res) {
                 // todo: redirect
-                alert('signup success');
+                location.href = 'eat-list.html';
             }).catch(function (res) {
                 alert('signup failed');
             })
     };
+
+    $scope.back = function () {
+        history.back();
+    }
 
     var cancel = $scope.$watch('signupData.mobile', function (mobile) {
         if ($scope.smsState === 0 && mobile && mobile.length == 11) {

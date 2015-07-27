@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>新味 结算订单</title>
+</head>
+<body ng-app="xw" ng-controller="orderCtrl">
+
+<nav class="order-nav nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span class="no-bottom-border">结算订单</span>
+</nav>
+
+<div class="contact-form-wrapper" ng-cloak>
+    <form name="contactForm" class="form-horizontal">
+        <div class="form-block">
+            <div class="form-group">
+                <label for="address" class="col-xs-3 control-label">收货地址:</label>
+                <div class="col-xs-9">
+                    <p class="form-control-static">
+                        {{address.province + ' ' + address.city + ' ' + address.district + ' ' + address.street}}
+                    </p>
+                    <input type="text" class="form-control" id="address" placeholder="门牌号信息"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contactPerson" class="col-xs-3 control-label">收货人:</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" id="contactPerson" placeholder="收货人姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mobile" class="col-xs-3 control-label">联系电话:</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" id="mobile" placeholder="联系电话"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-block">
+            <h5>即食包</h5>
+            <hr class="form-line"/>
+            <div class="row order-list" ng-repeat-start="dish in cart">
+                <span class="col-xs-6 text-left">{{dish.title.zh}}</span>
+                <span class="col-xs-1 text-center plus-char">{{dish.count}}</span>
+                <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.count}}</span>
+                <span class="col-xs-2 text-center select"
+                      ng-class="{active: dish.confirm}"
+                      ng-click="dish.confirm = !dish.confirm">备</span>
+            </div>
+            <hr class="form-line" ng-repeat-end/>
+            <div class="row text-left time-btn-group">
+                <div class="col-xs-4">
+                    <span class="active time-btn text-center">马上送出</span>
+                </div>
+                <div class="col-xs-4">
+                    <span class="time-btn">预约送达</span>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    预计 {{deliveryTime[0]}} 送达
+                </div>
+            </div>
+        </div>
+
+        <div class="form-block">
+            <h5>优惠</h5>
+            <hr class="form-line"/>
+            <div class="row">
+                <span class="col-xs-6 text-left">使用优惠券</span>
+                <span class="col-xs-6 text-right rmb-char negative">4</span>
+            </div>
+            <hr class="form-line"/>
+            <div class="form-group promotion-group">
+                <label for="promotionCode" class="control-label col-xs-3">优惠代码</label>
+                <div class="col-xs-7">
+                    <input ng-model="promotionCode" id="promotionCode" placeholder="优惠代码" type="text" class="form-control"/>
+                </div>
+                <span ng-if="promotionCode" class="flat-button" ng-click="promotionCode = ''">取消</span>
+            </div>
+        </div>
+
+        <div class="form-block pay">
+            <h5>支付方式</h5>
+            <hr class="form-line"/>
+            <div class="row">
+                <span class="col-xs-1 icon"></span>
+                <span class="col-xs-5">在线支付</span>
+            </div>
+            <hr class="form-line"/>
+            <div class="row">
+                <span class="col-xs-1 icon"></span>
+                <span class="col-xs-5">在线支付</span>
+            </div>
+        </div>
+
+        <div class="form-block price-block">
+            <div class="row">
+                <span class="col-xs-6">订单金额</span>
+                <span class="col-xs-2 price pull-right rmb-char">148</span>
+            </div>
+            <div class="row">
+                <span class="col-xs-6">运费</span>
+                <span class="col-xs-2 price pull-right rmb-char">148</span>
+            </div>
+            <div class="row group-on">
+                <span class="col-xs-6">优惠金额</span>
+                <span class="col-xs-2 price pull-right rmb-char">148</span>
+                <span class="col-xs-1 pull-right text-right sign">-</span>
+            </div>
+            <div class="row">
+                <span class="col-xs-6">应付总额</span>
+                <span class="col-xs-2 price pull-right rmb-char">148</span>
+            </div>
+        </div>
+
+        <button class="confirm-button form-control">确认</button>
+
+    </form>
+</div>
+</body>
+
+<script src="/components/angular/angular.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/controllers/order.js"></script>
+</html>

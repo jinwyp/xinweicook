@@ -1,9 +1,21 @@
-angular.module('xw.models').factory('Dishes', function (Restangular) {
-    return Restangular.service('dishes');
+angular.module('xw.models').factory('Dishes', function ($http) {
+    return {
+        getList: function () {
+            return $http.get('/api/dishes')
+        }
+    }
 });
 
-angular.module('xw.models').factory('Orders', function (Restangular) {
-    return Restangular.service('orders');
+angular.module('xw.models').factory('Orders', function ($http) {
+    return {
+        postOrder: function (data) {
+            return $http.post('/api/orders', data);
+        },
+        deliveryTime: function (data) {
+            data.cookingType = 'ready to eat';
+            return $http.post('/api/orders/delivery/time', data)
+        }
+    }
 });
 
 
@@ -34,6 +46,15 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 mobile: mobile,
                 type: 'signUp'
             })
+        },
+        logout: function () {
+            return $http.post('/api/user/logout', {
+                token_type_hint: "access_token",
+                token: $localStorage.access_token
+            })
+        },
+        getUserInfo: function () {
+            return $http.get('/api/user');
         }
     }
 });
