@@ -42,9 +42,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
     $scope.orderPrice = function () {
         var price = 0;
         $scope.cart.forEach(function (dish) {
-            if (dish.confirm) {
                 price += dish.priceOriginal * dish.count
-            }
         });
         return price;
     };
@@ -56,6 +54,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
         }
 
         var order = {
+            openid: Weixin.openid,
             cookingType: 'ready to eat',
             clientFrom: 'website',
             freight: '5',
@@ -83,19 +82,13 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
             },
 
             '至少选择一个即食包': function () {
-                var valid = $scope.cart.some(function (dish) {
-                    return dish.confirm
-                });
-                if (valid) {
                     order.dishList = $scope.cart
-                        .filter(function (dish) {return dish.confirm})
                         .map(function (dish) {return {
                             dish: dish._id,
                             number: dish.count,
                             subDish: []
                         }})
-                }
-                return valid;
+                return true;
             },
 
             deliveryTime: function () {
@@ -126,14 +119,18 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
             if (!Weixin.ready) {
                 alert('微信支付未初始化完毕,请稍后重试');
             } else {
-                wx.chooseWXPlay({
-                    timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: '', // 支付签名随机串，不长于 32 位
-                    package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: 'md5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: '', // 支付签名
+                var paymentWeixinpay = res.data.paymentWeixinpay;
+                Weixin.pay({
+                    timestamp: 0,
+                    nonceStr: paymentWeixinpay.nonce_str, // 支付签名随机串，不长于 32 位
+                    package: paymentWeixinpay.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: paymentWeixinpay.sign, // 支付签名
                     success: function (res) {
-                        // 支付成功后的回调函数
+                        alert('支付成功!')
+                    },
+                    fail: function () {
+                        alert('支付失败')
                     }
                 })
             }

@@ -51,9 +51,7 @@
                 <span class="col-xs-6 text-left">{{dish.title.zh}}</span>
                 <span class="col-xs-1 text-center plus-char">{{dish.count}}</span>
                 <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.count}}</span>
-                <span class="col-xs-2 text-center select"
-                      ng-class="{active: dish.confirm}"
-                      ng-click="dish.confirm = !dish.confirm">备</span>
+                <span class="col-xs-2 text-center select">备</span>
             </div>
             <hr class="form-line" ng-repeat-end/>
 <!--            <div class="row text-left time-btn-group">
@@ -131,6 +129,6 @@
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/config.js"></script>
-<!--<script src="/mobile/src/js/weixin.js"></script>-->
+<script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/controllers/order.js"></script>
 </html>
