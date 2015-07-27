@@ -344,19 +344,40 @@
 
 
                 <div class="form-group has-feedback" >
-                    <label class="col-lg-2 control-label" >Tag 标签筛选项</label>
+                    <label class="col-lg-2 control-label" >可选的浇头</label>
 
-                    <div class="col-lg-2">
-                        <select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh + ' ' + tag._id for tag in data.tagList"></select>
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentTopping" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishList | filter:{sideDishType:'topping'}"></select>
                     </div>
-                    <div class=" col-lg-8">
-                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.tagFilter)"> <span class="glyphicon glyphicon-plus"></span>添加Tag</button>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.topping, data.currentTopping)"> <span class="glyphicon glyphicon-plus"></span>添加浇头</button>
                     </div>
                 </div>
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label"></label>
                     <div class="col-lg-10" >
-                        <div class="col-lg-2 control-label" ng-repeat="tagFilter in data.dish.tagFilter">
+                        <div class="col-lg-2 control-label" ng-repeat="topping in data.dish.topping track by $index">
+                            <label class="control-label" >{{topping | dishfilter:data.dishList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.topping.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >Tag 标签筛选项</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh + ' ' + tag._id for tag in data.tagList"></select>
+                    </div>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.tagFilter, data.currentTagFilter)"> <span class="glyphicon glyphicon-plus"></span>添加Tag</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="tagFilter in data.dish.tagFilter track by $index">
                             <label class="control-label" >{{tagFilter | tagfilter:data.tagList}}</label>
                             <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.tagFilter.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
@@ -400,8 +421,8 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
-                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewTag(dishForm)">Save</button>
-                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateTag(dishForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
                     </div>
                 </div>
             </form>
@@ -425,34 +446,9 @@
 
 
 
-<div class="row">
-    <form class="form-horizontal">
 
+<!--
 
-
-
-<!--        <div class="form-group" ng-repeat="topping_ in dish.topping">
-            <label class="control-label col-lg-2 text-right">浇头</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <input type="text" placeholder="topping" ng-model="topping_" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">浇头</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <input type="text" ng-model="dummyDish.topping" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dummyAdd('topping')">添加</button>
-            </div>
-        </div>
-        <hr/>
 
         <div class="form-group" ng-repeat="preferences_ in dish.preferences" >
             <label class="control-label col-lg-2 text-right">配菜</label>
@@ -490,15 +486,3 @@
 
 
 
-
-
-
-
-        <!--submit-->
-        <div class="form-group">
-            <div class="col-lg-2 col-lg-offset-3">
-                <button class="form-control" ng-click="save()">保存</button>
-            </div>
-        </div>
-    </form>
-</div>

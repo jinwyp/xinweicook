@@ -38,3 +38,22 @@ angular.module('RDash').filter('tagfilter', ['$filter', function($filter){
 
     }
 }]);
+
+
+angular.module('RDash').filter('dishfilter', ['$filter', function($filter){
+    return function(data, text){
+        if(typeof text !== 'undefined' && angular.isArray(text)){
+
+            var result = data;
+            angular.forEach(text, function(dish){
+                if (dish._id === data){
+                    result = dish.title.zh;
+                }
+            });
+            return result;
+        }else{
+            return data;
+        }
+
+    }
+}]);

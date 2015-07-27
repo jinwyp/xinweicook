@@ -27,6 +27,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         tagList : [],
         dishList : [],
         currentTagFilter : '',
+        currentTopping : '',
         dish : {
             isPublished : false,
             isFromAdminPanel: true,
@@ -219,15 +220,19 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         isAddNewStatus : true
     };
 
+
+
     if ($state.current.data.type === 'list'){
-        Dishes.getList().then(function (resultDishes) {
-            $scope.data.dishList = resultDishes;
-        });
-    }else{
-        Tags.getList().then(function (tags) {
-            $scope.data.tagList = tags;
-        });
+
     }
+
+    Dishes.getList().then(function (resultDishes) {
+        $scope.data.dishList = resultDishes;
+    });
+    Tags.getList().then(function (tags) {
+        $scope.data.tagList = tags;
+    });
+
 
     if ($state.current.data.type === 'update'){
         $scope.css.isAddNewStatus = false;
@@ -312,7 +317,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             Notification.success({message: 'Save Success', delay: 8000});
 
         }).catch(function(err){
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Create New Dish Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
     };
 
@@ -361,10 +366,13 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             price : ''
         })
     };
-    $scope.addNewTagFilter = function (current) {
-        current.push($scope.data.currentTagFilter._id);
 
+    $scope.addNewTagFilter = function (pushArray, data) {
+        if (data){
+            pushArray.push(data._id);
+        }
     };
+
 
 
 
