@@ -102,16 +102,18 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 linkTo : ''
             }],
 
-            preferences: [{
-                name : {
-                    zh : '',
-                    en : ''
-                },
-                foodMaterial: [{
-                    dish : '',
-                    default : false
-                }]
-            }],
+            preferences: [],
+
+            //preferences: [{
+            //    name : {
+            //        zh : '',
+            //        en : ''
+            //    },
+            //    foodMaterial: [{
+            //        dish : '',
+            //        default : false
+            //    }]
+            //}],
 
             topping: [],
             tagFilter: [],
@@ -319,13 +321,14 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
     };
 
+
     $scope.addNewDish = function (form) {
         if (form.$invalid) {
             return;
         }
 
         var newDish = angular.copy($scope.data.dish);
-        //console.log (newDish);
+        console.log (newDish);
         Dishes.post(newDish).then(function (resultDish) {
             console.log(resultDish);
             Notification.success({message: 'Save Success', delay: 8000});
@@ -387,6 +390,40 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }
     };
 
+    $scope.addNewPreference = function () {
+
+        if (angular.isArray($scope.data.dish.preferences) && $scope.data.currentPreferenceCategory && $scope.data.currentPreference){
+            var isNewCategory = true;
+
+            angular.forEach($scope.data.dish.preferences, function(preference, key) {
+
+                if (!angular.isUndefined(preference.name)){
+                    if(preference.name.zh === $scope.data.currentPreferenceCategory.zh){
+                        isNewCategory = false;
+
+                        preference.foodMaterial.push({
+                            dish : $scope.data.currentPreference._id,
+                            default : false
+                        });
+                    }
+                }
+            });
+
+            if (isNewCategory){
+                var tempFoodMaterial = [];
+                tempFoodMaterial.push({
+                    dish : $scope.data.currentPreference._id,
+                    default : false
+                });
+                $scope.data.dish.preferences.push({
+                    name : $scope.data.currentPreferenceCategory,
+                    foodMaterial : tempFoodMaterial
+                });
+            }
+
+        }
+
+    };
 
 
 

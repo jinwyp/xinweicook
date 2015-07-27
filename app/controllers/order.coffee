@@ -264,8 +264,8 @@ exports.addNewOrder = (req, res, next) ->
 #      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        body:  resultOrder.dishHistory[0].title.zh
-        detail:  resultOrder.dishHistory[0].title.zh
+        body:  resultOrder.dishHistory[0].dish.title.zh
+        detail:  resultOrder.dishHistory[0].dish.title.zh
 
         attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
