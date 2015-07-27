@@ -17,3 +17,24 @@ angular.module('RDash').filter('keywordfilter', ['$filter', function($filter){
 
     }
 }]);
+
+
+
+
+angular.module('RDash').filter('tagfilter', ['$filter', function($filter){
+    return function(data, text){
+        if(typeof text !== 'undefined' && angular.isArray(text)){
+
+            var result = data;
+            angular.forEach(text, function(tag){
+                if (tag._id === data){
+                    result = tag.name.zh;
+                }
+            });
+            return result;
+        }else{
+            return data;
+        }
+
+    }
+}]);

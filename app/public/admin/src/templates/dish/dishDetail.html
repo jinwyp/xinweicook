@@ -13,7 +13,7 @@
             <form class="form-horizontal" name="dishForm" role="form" novalidate ng-cloak>
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid, 'has-error':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid}">
-                    <label for="inputDishTitleEn" class="col-lg-2 control-label" >菜品名称</label>
+                    <label for="inputDishTitleEn" class="col-lg-2 control-label" >菜品名称!</label>
 
                     <div class="col-lg-8">
                         <input type="text" class="form-control" id="inputDishTitleZh" placeholder="中文名称" name="dishTitleZh" ng-model="data.dish.name.zh" required ng-minlength="2" ng-maxlength="300">
@@ -44,7 +44,7 @@
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid, 'has-error':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid}">
-                    <label for="inputDishBriefEn" class="col-lg-2 control-label" >菜品描述</label>
+                    <label for="inputDishBriefEn" class="col-lg-2 control-label" >菜品描述!</label>
 
                     <div class="col-lg-8">
                         <textarea class="form-control" row="3" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ng-minlength="2" ng-maxlength="300"></textarea>
@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishServings.$dirty&&dishForm.dishServings.$valid, 'has-error':dishForm.dishServings.$dirty&&dishForm.dishServings.$invalid}">
-                    <label for="inputDishServings" class="col-lg-2 control-label" >可供几人份</label>
+                    <label for="inputDishServings" class="col-lg-2 control-label" >可供几人份!</label>
 
                     <div class="col-lg-2">
                         <input type="number" class="form-control" id="inputDishServings" placeholder="几人份" name="dishServings" ng-model="data.dish.servings" required min="1" max="50" >
@@ -347,7 +347,7 @@
                     <label class="col-lg-2 control-label" >Tag 标签筛选项</label>
 
                     <div class="col-lg-2">
-                        <select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh for tag in data.tagList"></select>
+                        <select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh + ' ' + tag._id for tag in data.tagList"></select>
                     </div>
                     <div class=" col-lg-8">
                         <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.tagFilter)"> <span class="glyphicon glyphicon-plus"></span>添加Tag</button>
@@ -356,8 +356,8 @@
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label"></label>
                     <div class="col-lg-10" >
-                        <div class="col-lg-3 control-label" ng-repeat="tagFilter in data.dish.tagFilter">
-                            <label class="control-label" >{{tagFilter}}</label>
+                        <div class="col-lg-2 control-label" ng-repeat="tagFilter in data.dish.tagFilter">
+                            <label class="control-label" >{{tagFilter | tagfilter:data.tagList}}</label>
                             <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.tagFilter.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
@@ -367,7 +367,7 @@
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid, 'has-error':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid}">
-                    <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序</label>
+                    <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序!</label>
 
                     <div class="col-lg-2">
                         <input type="number" class="form-control" id="inputDishSortId" placeholder="显示顺序" name="dishSortId" ng-model="dish.dish.sortId" required min="100"  max="9999">
@@ -383,26 +383,19 @@
 
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSetType.$dirty&&dishForm.dishSetType.$valid, 'has-error':dishForm.dishSetType.$dirty&&dishForm.dishSetType.$invalid}">
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$valid, 'has-error':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$invalid}">
                     <label class="col-lg-2 control-label" >是否上架</label>
 
                     <div class="col-lg-8">
                         <label class="radio-inline">
-                            <input type="radio" name="dishSetType" ng-value="'single'" ng-model="data.dish.setType">单品 single
+                            <input type="radio" name="dishIsPublished" ng-value="false" ng-model="data.dish.isPublished">已下架
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="dishSetType"  ng-value="'set'" ng-model="data.dish.setType">套餐 set
+                            <input type="radio" name="dishIsPublished" ng-value="true" ng-model="data.dish.isPublished">已上架
                         </label>
                     </div>
                 </div>
 
-                <div class="form-group has-feedback">
-                    <label for="inputDishSortId" class="col-lg-2 control-label" >是否上架</label>
-                    <div class="col-lg-6 ">
-                        <input type="checkbox" ng-model="data.dish.isPublished">
-                        <label>上线</label>
-                    </div>
-                </div>
 
 
                 <div class="form-group">
