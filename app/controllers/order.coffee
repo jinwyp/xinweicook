@@ -282,8 +282,10 @@ exports.addNewOrder = (req, res, next) ->
           code_url: resultWeixinPay.code_url
         resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+          delete resultOrder.dishList
           res.json resultOrder
     else
+      delete resultOrder.dishList
       res.json resultOrder
   .catch next
 

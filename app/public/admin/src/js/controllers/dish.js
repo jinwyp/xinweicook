@@ -277,6 +277,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                         delete obj[p];
                     }
                 }else if (angular.isObject(obj[p])) {
+                    console.log (obj[p]);
                     deleteProperty(obj[p]);
 
                     var hasPro = false;
@@ -292,7 +293,6 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     }
 
     $scope.searchDish = function (form) {
-        console.log ($scope.data.searchOptions);
         deleteProperty($scope.data.searchOptions);
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
@@ -302,7 +302,6 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
-
     };
     $scope.delDish = function (dish) {
 
@@ -328,6 +327,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }
 
         var newDish = angular.copy($scope.data.dish);
+        deleteProperty(newDish);
         console.log (newDish);
         Dishes.post(newDish).then(function (resultDish) {
             console.log(resultDish);
