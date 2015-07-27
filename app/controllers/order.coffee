@@ -9,7 +9,14 @@ configWeiXinPay =
   key: conf.weixinpay.key
   notify_url : conf.url.base + conf.weixinpay.notify_url
 
-weixinpay = WXPay(configWeiXinPay)
+configWeiXinAppPay =
+  appid: conf.weixinAppPay.appid
+  mch_id: conf.weixinAppPay.mch_id
+  secret: conf.weixinAppPay.secret
+  key: conf.weixinAppPay.key
+  notify_url : conf.url.base + conf.weixinAppPay.notify_url
+
+
 
 
 
@@ -254,6 +261,14 @@ exports.addNewOrder = (req, res, next) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
+
+      weixinpay = WXPay(configWeiXinPay)
+
+#      if req.body.clientFrom is "ios"
+#        weixinpay = WXPay(configWeiXinAppPay)
+
+
+
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice
@@ -264,8 +279,8 @@ exports.addNewOrder = (req, res, next) ->
 #      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        body:  resultOrder.dishHistory[0].title.zh
-        detail:  resultOrder.dishHistory[0].title.zh
+        body:  resultOrder.dishHistory[0].dish.title.zh
+        detail:  resultOrder.dishHistory[0].dish.title.zh
 
         attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
@@ -273,7 +288,7 @@ exports.addNewOrder = (req, res, next) ->
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
-
+        console.log "---WeixinPay--response", resultWeixinPay
         resultOrder.paymentWeixinpay =
           nonce_str : resultWeixinPay.nonce_str
           sign : resultWeixinPay.sign
@@ -281,9 +296,14 @@ exports.addNewOrder = (req, res, next) ->
           prepay_id: resultWeixinPay.prepay_id
           code_url: resultWeixinPay.code_url
         resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+#          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+          resultTemp = resultOrder.toJSON()
+          delete resultTemp.dishList
+          res.json resultTemp
     else
-      res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+      resultTemp = resultOrder.toJSON()
+      delete resultTemp.dishList
+      res.json resultTemp
   .catch next
 
 

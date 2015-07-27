@@ -3,7 +3,9 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title panel-titlenew">Dish 菜品列表</h3>
+            <h3 class="panel-title panel-titlenew">Dish 菜品列表
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewDish" role="button">新增</a>
+            </h3>
         </div>
 
         <div class="panel-body">
@@ -109,7 +111,7 @@
 
                 <td>{{dish.priceOriginal}}</td>
                 <td>
-                    <span ng-repeat="price in dish.priceWholesale">买{{price.quantity}}个为{{price.price}}元<br/></span>
+                    <span ng-repeat="price in dish.priceWholesale" >买{{price.quantity}}个为{{price.price}}元<br/></span>
                 </td>
                 <td>{{dish.stock}}</td>
                 <!--<td>{{dish.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->

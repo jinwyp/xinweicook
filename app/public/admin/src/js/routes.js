@@ -104,7 +104,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 url: '/dishes',
                 templateUrl: 'templates/dish/dishList.html',
                 data: {
-                    title: '标签管理',
+                    title: '菜品管理',
                     type : 'list'
                 },
                 controller: 'DishController'
@@ -112,52 +112,20 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('menu.addNewDish', {
                 url: '/dishadd',
                 templateUrl: 'templates/dish/dishDetail.html',
-                data: {title: '添加菜品'},
-                controller: function ($scope, Dishes, DishDetailDecorator) {
-                    var emptyDish = {
-                        cover: [{}],
-                        kitchenware: [{}],
-                        infoUniqueFeature: [{}],
-                        infoIngredient: [{}],
-                        infoCookingStep: [{}],
-                        priceWholesale: [{}],
-                        //preferences: [{foodMaterial: [{}]}],
-                        //topping: [],
-                        tagFilter: [],
-                        isFromAdminPanel: true
-                    };
-
-                    $scope.dish = angular.copy(emptyDish);
-
-                    $scope.save = function () {
-                        $scope.checkAll();
-                        Dishes.post($scope.dish).then(function () {
-                            $scope.dish = angular.copy(emptyDish)
-                        })
-                    };
-
-                    DishDetailDecorator($scope);
-                }
+                data: {
+                    title: '菜品管理',
+                    type : 'add'
+                },
+                controller: 'DishController'
             })
             .state('menu.updateDish', {
                 url: '/dish/:id',
                 templateUrl: 'templates/dish/dishDetail.html',
-                data: {title: '菜品详情'},
-                controller: function ($scope, Dishes, $stateParams, $location) {
-                    console.log($stateParams.dishId);
-
-                    Dishes.one($stateParams.dishId).get().then(function (dish) {
-                        $scope.dish = dish;
-                    });
-                    //$scope.dish = Dishes.one($stateParams.dishId).get().$object;
-
-                    $scope.save = function () {
-                        console.log($scope.dish.sortId, typeof $scope.dish.sortId);
-                        $scope.dish.put().then(function () {
-                            $location.url('/dishes');
-                        })
-                    }
-                }
+                data: {
+                    title: '菜品管理',
+                    type : 'update'
+                },
+                controller: 'DishController'
             })
 
             .state('menu.tags', {
@@ -209,6 +177,24 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
 
 
+            .state('menu.coupons', {
+                url: '/coupons',
+                templateUrl: 'templates/coupon/couponList.html',
+                data: {
+                    title: '优惠码管理',
+                    type : 'list'
+                },
+                controller: 'CouponController'
+            })
+            .state('menu.addNewCoupon', {
+                url: '/couponadd',
+                templateUrl: 'templates/coupon/couponList.html',
+                data: {
+                    title: '优惠码管理',
+                    type : 'add'
+                },
+                controller: 'CouponController'
+            })
 
             .state('menu.logs', {
                 url: '/logs',

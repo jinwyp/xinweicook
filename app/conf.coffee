@@ -51,6 +51,13 @@ conf =
     key: "Gothicjk1129xinwei789tencentsbsb"
     notify_url : "/api/orders/payment/weixinpay/mobile"
 
+  weixinAppPay :
+      appid: "wxc31508f4ded1402b"
+      mch_id: "1260182401" # WXPartnerID
+      secret: "8ade6dca11118541ffae1ef4e5a19160"
+      key: "Gothicjk1129xinwei789tencentsbsb"
+      notify_url : "/api/orders/payment/weixinpay/mobile"
+
   xingePush :
     accessId : 2200130690
     secretKey : "f2d9db2a6a5b30bbd0a1009de079ca80"

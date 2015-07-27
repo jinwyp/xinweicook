@@ -31,7 +31,7 @@ module.exports =
       alias: String
       remark: String
 
-      distanceFrom : Number   # 距离新味办公室发货 3公里还是4公里 快递不一样
+      distanceFrom : Number   # 距离新味办公室发货 单位米 3公里还是4公里 快递不一样
 
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 
@@ -199,8 +199,8 @@ module.exports =
         return throw new Err "Field validation error,  payment text wrong", 400
 
       if newOrder.payment is @constantPayment().weixinpay
-        unless libs.validator.isIP newOrder.spbill_create_ip
-          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
+#        unless libs.validator.isIP newOrder.spbill_create_ip
+#          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
         unless libs.validator.isLength newOrder.trade_type, 3,7
           return throw new Err "Field validation error,  trade_type length must be 3-7", 400
 

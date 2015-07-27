@@ -1,408 +1,481 @@
-<div class="row">
-    <form class="form-horizontal">
+<div class="col-lg-12">
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">名称</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" class="form-control" ng-model="dish.title.zh">
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" class="form-control" ng-model="dish.title.en">
-                </div>
-            </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Dish 菜品</span>
+                <span ng-hide="css.isAddNewStatus">修改 Dish 菜品 - {{data.dish.title.zh}} - {{data.dish._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.dishes" role="button">返回</a>
+            </h3>
         </div>
 
-        <hr/>
-        <div class="form-group" ng-repeat="cover_ in dish.cover">
-            <label class="control-label col-lg-2 text-right">封面</label>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" ng-model="cover_.zh" class="form-control">
+        <div class="panel-body">
+            <form class="form-horizontal" name="dishForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid, 'has-error':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid}">
+                    <label for="inputDishTitleEn" class="col-lg-2 control-label" >菜品名称!</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputDishTitleZh" placeholder="中文名称" name="dishTitleZh" ng-model="data.dish.title.zh" required ng-minlength="2" ng-maxlength="300">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.minlength || dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$error.maxlength">字符长度错误2-300！</span>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" ng-model="cover_.en" class="form-control">
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$valid, 'has-error':dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$invalid}">
+                    <label for="inputDishTitleEn" class="col-lg-2 control-label" ></label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputDishTitleEn" placeholder="英文名称" name="dishTitleEn" ng-model="data.dish.title.en" required ng-minlength="2" ng-maxlength="300">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.minlength || dishForm.dishTitleEn.$dirty&&dishForm.dishTitleEn.$error.maxlength">字符长度错误2-300！</span>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.cover.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.cover.length" class="control-label col-lg-2 text-right">封面</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.cover.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.cover.push({})">添加</button>
-            </div>
-        </div>
-        <hr/>
 
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">难度</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <input min="1" max="5" type="number" ng-model="dish.difficulty" class="form-control">
-                </div>
-            </div>
-        </div>
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid, 'has-error':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid}">
+                    <label for="inputDishBriefEn" class="col-lg-2 control-label" >菜品描述!</label>
 
-        <hr/>
-        <div class="form-group" ng-repeat="kitchenware_ in dish.kitchenware">
-            <label class="control-label col-lg-2 text-right">工具</label>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" ng-model="kitchenware_.zh" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" ng-model="kitchenware_.en" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.kitchenware.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.kitchenware.length" class="control-label col-lg-2 text-right">工具</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.kitchenware.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.kitchenware.push({})">添加</button>
-            </div>
-        </div>
-        <hr/>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputDishBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.dish.brief.zh" required ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid"></span>
+                    </div>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">时间</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <input type="number" min="0" ng-model="dish.time" class="form-control">
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.minlength || dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">描述</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <textarea class="form-control" row="3" ng-model="dish.brief.zh"></textarea>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <textarea class="form-control" row="3" ng-model="dish.brief.en"></textarea>
-                </div>
-            </div>
-        </div>
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$valid, 'has-error':dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$invalid}">
+                    <label for="inputDishBriefEn" class="col-lg-2 control-label" ></label>
 
-        <hr/>
-        <div class="form-group" ng-repeat="priceWholesale_ in dish.priceWholesale">
-            <label class="control-label col-lg-2 text-right">批发价</label>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">数量</span>
-                    <input type="number" min="1" ng-model="priceWholesale_.quantity" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">价格</span>
-                    <input type="number" min="0" step="0.01" ng-model="priceWholesale_.price" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.priceWholesale.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.priceWholesale.length" class="control-label col-lg-2 text-right">批发价</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.priceWholesale.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.priceWholesale.push({})">添加</button>
-            </div>
-        </div>
-        <hr/>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputDishBriefEn" placeholder="英文名称" name="dishBriefEn" ng-model="data.dish.brief.en" required ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$invalid"></span>
+                    </div>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">原价</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <input type="number" min="0" step="0.01" ng-model="dish.priceOriginal" class="form-control">
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.minlength || dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <hr/>
-        <div class="form-group" ng-repeat="infoUniqueFeature_ in dish.infoUniqueFeature">
-            <label class="control-label col-lg-2 text-right">特色</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">Title/EN</span>
-                    <input type="text" ng-model="infoUniqueFeature_.title.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Title/ZH</span>
-                    <input type="text" ng-model="infoUniqueFeature_.title.zh" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Content Type</span>
-                    <select class="form-control" ng-model="infoUniqueFeature_.contentType" ng-options="type for type in ['pic', 'txt', 'url', 'vid']"></select>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/EN</span>
-                    <input type="text" ng-model="infoUniqueFeature_.value.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/ZH</span>
-                    <input type="text" ng-model="infoUniqueFeature_.value.zh" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.infoUniqueFeature.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.infoUniqueFeature.length" class="control-label col-lg-2 text-right">特色</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoUniqueFeature.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.infoUniqueFeature.push({})">添加</button>
-            </div>
-        </div>
 
-        <hr/>
-        <div class="form-group" ng-repeat="infoIngredient_ in dish.infoIngredient">
-            <label class="control-label col-lg-2 text-right">原料</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">Title/EN</span>
-                    <input type="text" ng-model="infoIngredient_.title.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Title/ZH</span>
-                    <input type="text" ng-model="infoIngredient_.title.zh" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Content Type</span>
-                    <select class="form-control" ng-model="infoIngredient_.contentType" ng-options="type for type in ['pic', 'txt', 'url', 'vid']"></select>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/EN</span>
-                    <input type="text" ng-model="infoIngredient_.value.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/ZH</span>
-                    <input type="text" ng-model="infoIngredient_.value.zh" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.infoIngredient.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.infoIngredient.length" class="control-label col-lg-2 text-right">原料</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoIngredient.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.infoIngredient.push({})">添加</button>
-            </div>
-        </div>
 
-        <hr/>
-        <div class="form-group" ng-repeat="infoCookingStep_ in dish.infoCookingStep">
-            <label class="control-label col-lg-2 text-right">制作步骤</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">Title/EN</span>
-                    <input type="text" ng-model="infoCookingStep_.title.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Title/ZH</span>
-                    <input type="text" ng-model="infoCookingStep_.title.zh" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Content Type</span>
-                    <select class="form-control" ng-model="infoCookingStep_.contentType" ng-options="type for type in ['pic', 'txt', 'url', 'vid']"></select>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/EN</span>
-                    <textarea row="3" ng-model="infoCookingStep_.value.en" class="form-control"></textarea>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Value/ZH</span>
-                    <textarea row="3" ng-model="infoCookingStep_.value.zh" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.infoCookingStep.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <label ng-if="!dish.infoCookingStep.length" class="control-label col-lg-2 text-right">制作步骤</label>
-            <div class="col-lg-1" ng-class="{'col-lg-offset-2': !!dish.infoCookingStep.length}">
-                <button class="form-control admin-button admin-button-add" ng-click="dish.infoCookingStep.push({})">添加</button>
-            </div>
-        </div>
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishCookingType.$dirty&&dishForm.dishCookingType.$valid, 'has-error':dishForm.dishCookingType.$dirty&&dishForm.dishCookingType.$invalid}">
+                    <label class="col-lg-2 control-label" >菜品类别</label>
 
-        <hr/>
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">类别</label>
-            <div class="col-lg-5">
-                <select class="form-control" ng-model="dish.cookingType" ng-options="type for type in ['ready to cook', 'ready to eat']"></select>
-            </div>
-        </div>
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="dishCookingType" ng-value="'ready to cook'" ng-model="data.dish.cookingType">食材包 ready to cook
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dishCookingType"  ng-value="'ready to eat'" ng-model="data.dish.cookingType">既食包 ready to eat
+                        </label>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">主菜或配菜</label>
-            <div class="col-lg-5">
-                <select class="form-control" ng-model="dish.sideDishType" ng-options="type for type in ['main', 'topping', 'preferences', 'drink']"></select>
-            </div>
-        </div>
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSideDishType.$dirty&&dishForm.dishSideDishType.$valid, 'has-error':dishForm.dishSideDishType.$dirty&&dishForm.dishSideDishType.$invalid}">
+                    <label class="col-lg-2 control-label" >主菜或配菜</label>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">单品或套餐</label>
-            <div class="col-lg-5">
-                <select class="form-control" ng-model="dish.setType" ng-options="type for type in ['single', 'set']"></select>
-            </div>
-        </div>
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="dishSideDishType" ng-value="'main'" ng-model="data.dish.sideDishType">主菜 main
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dishSideDishType"  ng-value="'preferences'" ng-model="data.dish.sideDishType">主菜的可选项配菜 preferences
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dishSideDishType"  ng-value="'topping'" ng-model="data.dish.sideDishType">浇头 topping
+                        </label>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">几人份</label>
-            <div class="col-lg-5">
-                <div class="input-group">
-                    <input type="number" ng-model="dish.servings" class="form-control">
-                </div>
-            </div>
-        </div>
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSetType.$dirty&&dishForm.dishSetType.$valid, 'has-error':dishForm.dishSetType.$dirty&&dishForm.dishSetType.$invalid}">
+                    <label class="col-lg-2 control-label" >单品或套餐</label>
 
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">厨师点评</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">user</span>
-                    <input type="text" placeholder="id" ng-model="cook.user" class="form-control">
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="dishSetType" ng-value="'single'" ng-model="data.dish.setType">单品 single
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dishSetType"  ng-value="'set'" ng-model="data.dish.setType">套餐 set
+                        </label>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" placeholder="tips" ng-model="infoCookingStep_.title.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" placeholder="tips" ng-model="infoCookingStep_.title.zh" class="form-control">
-                </div>
-            </div>
-        </div>
-
-        <hr/>
-        <div class="form-group" ng-repeat="tagFilter_ in dish.tagFilter">
-            <label class="control-label col-lg-2 text-right">标签</label>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input type="text" placeholder="tag" ng-model="tagFilter_" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <button class="form-control admin-button admin-button-del" ng-click="dish.tagFilter.splice($index, 1)">删除</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">标签</label>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <input type="text" ng-model="dummyDish.tagFilter" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <div class="col-lg-1 col-lg-offset-2">
-                <button class="form-control admin-button admin-button-add" ng-click="dummyAdd('tagFilter')">添加</button>
-            </div>
-        </div>
-        <hr/>
-
-<!--        <div class="form-group" ng-repeat="topping_ in dish.topping">
-            <label class="control-label col-lg-2 text-right">浇头</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <input type="text" placeholder="topping" ng-model="topping_" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">浇头</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <input type="text" ng-model="dummyDish.topping" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dummyAdd('topping')">添加</button>
-            </div>
-        </div>
-        <hr/>
-
-        <div class="form-group" ng-repeat="preferences_ in dish.preferences" >
-            <label class="control-label col-lg-2 text-right">配菜</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" placeholder="name" ng-model="preferences_.name.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" placeholder="name" ng-model="preferences_.name.zh" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-offset-2 col-lg-8" ng-repeat="foodMaterial_ in preferences_.foodMaterial">
-                <div class="input-group">
-                    <span class="input-group-addon">dish</span>
-                    <input type="text" placeholder="id" ng-model="foodMaterial_.dish" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">default</span>
-                    <input type="checkbox" ng-model="foodMaterial_.default" class="checkbox form-control">
-                </div>
-            </div>
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="preferences_.foodMaterial.push({})">添加相似配菜</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dish.preferences.push({foodMaterial: [{}]})">添加</button>
-            </div>
-        </div>
-        <hr/>-->
-
-        <div class="form-group">
-            <label class="control-label col-lg-2 text-right">sortId</label>
-            <div class="col-lg-5">
-                <input class="form-control" type="number" ng-model="dish.sortId">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-lg-5 col-lg-offset-2">
-                <input type="checkbox" ng-model="dish.isPublished">
-                <label>上线</label>
-            </div>
-        </div>
 
 
 
 
 
-        <!--submit-->
-        <div class="form-group">
-            <div class="col-lg-2 col-lg-offset-3">
-                <button class="form-control" ng-click="save()">保存</button>
-            </div>
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >菜品封面图</label>
+
+                    <div ng-repeat="cover in data.dish.cover">
+                        <div class="col-lg-9" ng-class="{'col-lg-offset-2':!$first}">
+                            <input type="text" class="form-control" placeholder="图{{$index + 1}} 中文" name="dishCoverZh_{{$index}}" ng-model="cover.zh" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="图{{$index + 1}} 英文" name="dishCoverEn_{{$index}}" ng-model="cover.en" ng-minlength="2" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.cover.length>1" ng-click="data.dish.cover.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.cover)"> <span class="glyphicon glyphicon-plus"></span>增加一组图片</button>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$valid, 'has-error':dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$invalid}">
+                    <label for="inputDishDifficulty" class="col-lg-2 control-label" >菜品难度</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishDifficulty" placeholder="难度" name="dishDifficulty" ng-model="data.dish.difficulty"  min="1" max="5" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$error.min || dishForm.dishDifficulty.$dirty&&dishForm.dishDifficulty.$error.max">请输入1-5数字！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishTime.$dirty&&dishForm.dishTime.$valid, 'has-error':dishForm.dishTime.$dirty&&dishForm.dishTime.$invalid}">
+                    <label for="inputDishTime" class="col-lg-2 control-label" >烹饪时间(分钟)</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishTime" placeholder="烹饪时间" name="dishTime" ng-model="data.dish.time"  min="1" max="960" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTime.$dirty&&dishForm.dishTime.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTime.$dirty&&dishForm.dishTime.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishTime.$dirty&&dishForm.dishTime.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishTime.$dirty&&dishForm.dishTime.$error.min || dishForm.dishTime.$dirty&&dishForm.dishTime.$error.max">请输入1-960数字！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishServings.$dirty&&dishForm.dishServings.$valid, 'has-error':dishForm.dishServings.$dirty&&dishForm.dishServings.$invalid}">
+                    <label for="inputDishServings" class="col-lg-2 control-label" >可供几人份!</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishServings" placeholder="几人份" name="dishServings" ng-model="data.dish.servings" required min="1" max="50" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishServings.$dirty&&dishForm.dishServings.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishServings.$dirty&&dishForm.dishServings.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishServings.$dirty&&dishForm.dishServings.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishServings.$dirty&&dishForm.dishServings.$error.min || dishForm.dishServings.$dirty&&dishForm.dishServings.$error.max">请输入1-50数字！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$valid, 'has-error':dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$invalid}">
+                    <label for="inputDishStorageLife" class="col-lg-2 control-label" >储藏保质期</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishStorageLife" placeholder="保质期" name="dishStorageLife" ng-model="data.dish.storageLife"  min="1" max="96" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$error.min || dishForm.dishStorageLife.$dirty&&dishForm.dishStorageLife.$error.max">请输入1-96数字！</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >制作所需工具</label>
+
+                    <div ng-repeat="cover in data.dish.kitchenware">
+                        <div class="col-lg-4" ng-class="{'col-lg-offset-2':!$first}">
+                            <input type="text" class="form-control" placeholder="厨具{{$index + 1}} 中文" name="dishKitchenwareZh_{{$index}}" ng-model="cover.zh" ng-minlength="1" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" placeholder="厨具{{$index + 1}} 英文" name="dishKitchenwareEn_{{$index}}" ng-model="cover.en" ng-minlength="1" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.kitchenware.length>1" ng-click="data.dish.kitchenware.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.kitchenware)"> <span class="glyphicon glyphicon-plus"></span>增加一组厨具</button>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >菜品特色</label>
+
+                    <div ng-repeat="feature in data.dish.infoUniqueFeature">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                            <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
+                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                            </label>
+
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishUniqueFeatureTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishUniqueFeatureTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishUniqueFeatureValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishUniqueFeatureValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishUniqueFeatureLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishUniqueFeatureSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoUniqueFeature.length>1" ng-click="data.dish.infoUniqueFeature.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoUniqueFeature)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >菜品原料</label>
+
+                    <div ng-repeat="feature in data.dish.infoIngredient">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                            <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
+                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                            </label>
+
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishIngredientTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishIngredientTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishIngredientValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishIngredientValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishIngredientLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishIngredientSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoIngredient.length>1" ng-click="data.dish.infoIngredient.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoIngredient)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >菜品制作步骤</label>
+
+                    <div ng-repeat="feature in data.dish.infoCookingStep">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                            <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
+                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                            </label>
+
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishCookingStepTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishCookingStepTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishCookingStepValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishCookingStepValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
+                            <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishCookingStepLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishCookingStepSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoCookingStep.length>1" ng-click="data.dish.infoCookingStep.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoCookingStep)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$valid, 'has-error':dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$invalid}">
+                    <label for="inputDishPriceOriginal" class="col-lg-2 control-label" >原价</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishPriceOriginal" placeholder="保质期" name="dishPriceOriginal" ng-model="data.dish.priceOriginal"  min="5"  max="9999" step="0.1">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$error.min || dishForm.dishPriceOriginal.$dirty&&dishForm.dishPriceOriginal.$error.max">请输入5-9999数字！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >批发价</label>
+
+                    <div ng-repeat="price in data.dish.priceWholesale">
+                        <div class="col-lg-3" ng-class="{'col-lg-offset-2':!$first}">
+                            <input type="number" class="form-control" placeholder="一次购买数量" name="dishPriceWholesale_{{$index}}" ng-model="price.quantity" min="2"  max="999">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="number" class="form-control" placeholder="价格为" name="dishPriceWholesale_{{$index}}" ng-model="price.price" min="10"  max="9999">
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.priceWholesale.length>1" ng-click="data.dish.priceWholesale.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewPriceWholesale(data.dish.priceWholesale)"> <span class="glyphicon glyphicon-plus"></span>增加一组批发价格</button>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >可选的配菜</label>
+
+                    <div class="col-lg-3">
+                        <select class="form-control" ng-model="data.currentPreferenceCategory" ng-options="category as '分类: ' + category.zh + ' ' + category.en for category in data.preferenceCategoryList"></select>
+                    </div>
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentPreference" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishList | filter:{sideDishType:'preferences'}"></select>
+                    </div>
+                    <div class=" col-lg-2">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewPreference()"> <span class="glyphicon glyphicon-plus"></span>添加配菜</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" ng-repeat="preference in data.dish.preferences track by $index">
+                    <label class="col-lg-2 control-label">配菜-{{preference.name.zh}}{{preference.name.en}}</label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="subdish in preference.foodMaterial track by $index">
+                            <label class="control-label" >{{subdish.dish | dishfilter:data.dishList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="preference.foodMaterial.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >可选的浇头</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentTopping" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishList | filter:{sideDishType:'topping'}"></select>
+                    </div>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.topping, data.currentTopping)"> <span class="glyphicon glyphicon-plus"></span>添加浇头</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="topping in data.dish.topping track by $index">
+                            <label class="control-label" >{{topping | dishfilter:data.dishList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.topping.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >Tag 标签筛选项</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh + ' ' + tag._id for tag in data.tagList"></select>
+                    </div>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.tagFilter, data.currentTagFilter)"> <span class="glyphicon glyphicon-plus"></span>添加Tag</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="tagFilter in data.dish.tagFilter track by $index">
+                            <label class="control-label" >{{tagFilter | tagfilter:data.tagList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.tagFilter.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid, 'has-error':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid}">
+                    <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序!</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishSortId" placeholder="显示顺序" name="dishSortId" ng-model="data.dish.sortId" required min="100"  max="9999">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishSortId.$dirty&&dishForm.dishSortId.$error.min || dishForm.dishSortId.$dirty&&dishForm.dishSortId.$error.max">请输入100-9999数字！</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$valid, 'has-error':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$invalid}">
+                    <label class="col-lg-2 control-label" >是否上架</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="dishIsPublished" ng-value="false" ng-model="data.dish.isPublished">已下架
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dishIsPublished" ng-value="true" ng-model="data.dish.isPublished">已上架
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
-    </form>
+    </div>
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

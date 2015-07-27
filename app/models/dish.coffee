@@ -38,7 +38,7 @@ module.exports =
     ]
     infoIngredient: [ # 原料
       title: zh:String, en:String
-      contentType: String # pic, txt, video(vid), videomp4, videoflv, pdf
+      contentType: String # pic, txt, video(vid), videomp4, videoflv, pdf, richtext
       value: zh:String, en:String
       sortId : type: Number, default: 10 # 排序值
       linkTo : String
@@ -89,8 +89,6 @@ module.exports =
 
 
     stock : type: Number, default: 2 # 库存
-
-
 
 
 

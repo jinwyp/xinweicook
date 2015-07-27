@@ -34,6 +34,7 @@ Group `member`
 |   -> contactPerson | String   | 联系人      |
 |   -> mobile        | String   | 手机       |
 |   -> remark        | String   | 备注       |
+|   -> distanceFrom  | Number   | 与新味办公司距离（米）      |
 | dishList           | Array    | 主商品列表数组  |
 |   -> dish          | String | 商品ID     |
 |   -> number        | Number | 商品数量    |
