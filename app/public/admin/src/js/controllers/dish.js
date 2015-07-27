@@ -276,7 +276,17 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                     if(obj[p].length === 0){
                         delete obj[p];
                     }else{
-
+                        angular.forEach(obj[p], function(subobj, index){
+                            if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
+                                obj[p].splice(index, 1)
+                            }
+                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == ''){
+                                obj[p].splice(index, 1)
+                            }
+                            if(!angular.isUndefined(subobj.quantity) && subobj.quantity == ''){
+                                obj[p].splice(index, 1)
+                            }
+                        })
                     }
                 }else if (angular.isObject(obj[p])) {
                     console.log (obj[p]);
