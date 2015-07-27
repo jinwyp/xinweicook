@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', 'Tags', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes) {
+function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes, Tags) {
 
     $scope.data = {
         searchFilter : '',
@@ -24,8 +24,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 zh : ''
             }
         },
-
+        tagList : [],
         dishList : [],
+        currentTagFilter : '',
         dish : {
             isPublished : false,
             isFromAdminPanel: true,
@@ -34,10 +35,10 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             sideDishType : 'main',
             setType : 'single',
 
-            difficulty: 0,
-            time: 0,
-            servings: 0,
-            storageLife: 0, // 即食包冷藏保存期
+            difficulty: '',
+            time: '',
+            servings: '',
+            storageLife: '', // 即食包冷藏保存期
 
             title : {
                 zh : '',
@@ -112,8 +113,11 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             topping: [],
             tagFilter: [],
 
-            priceOriginal: 100,
-            priceWholesale: [{}],
+            priceOriginal: 1000,
+            priceWholesale: [{
+                quantity : '',
+                price : ''
+            }],
 
             stock : 10
 
@@ -218,6 +222,10 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     if ($state.current.data.type === 'list'){
         Dishes.getList().then(function (resultDishes) {
             $scope.data.dishList = resultDishes;
+        });
+    }else{
+        Tags.getList().then(function (tags) {
+            $scope.data.tagList = tags;
         });
     }
 
@@ -345,6 +353,16 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             sortId : 100,
             linkTo : ''
         })
+
+    };
+    $scope.addNewPriceWholesale = function (current) {
+        current.push({
+            quantity : '',
+            price : ''
+        })
+    };
+    $scope.addNewTagFilter = function (current) {
+        current.push($scope.data.currentTagFilter._id);
 
     };
 
