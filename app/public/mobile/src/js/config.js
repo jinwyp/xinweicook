@@ -1,4 +1,4 @@
-angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', '$location', function($localStorage, $q) {
+angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     return {
         'request': function(config) {
             if ($localStorage.access_token) {
@@ -13,7 +13,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
-                location.href = 'login.html'
+                location.href = 'login'
 
             }
             return $q.reject(response);

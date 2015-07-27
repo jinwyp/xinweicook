@@ -7,6 +7,7 @@ exports.tokenSignIn = (req, res, next) ->
     when "password"
       models.token.findTokenByMobilePwd(username, password, deviceToken).then((t) ->
         libs.cache.setHeader res
+        console.log t.access_token
         res.json
           access_token: t.access_token
           refresh_token: t.refresh_token

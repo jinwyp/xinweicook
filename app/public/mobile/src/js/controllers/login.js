@@ -11,7 +11,7 @@ function loginCtrl($scope, User, $location, $interval) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
             // todo: redirect
             //document.location = 'detail page'
-            location.href = 'eat-list.html'
+            location.href = '/mobile'
         }).catch(function (res) {
             alert('login failed')
         })
@@ -25,7 +25,7 @@ function loginCtrl($scope, User, $location, $interval) {
             $scope.signupData.code
         ).then(function (res) {
                 // todo: redirect
-                location.href = 'eat-list.html';
+                location.href = 'eat';
             }).catch(function (res) {
                 alert('signup failed');
             })

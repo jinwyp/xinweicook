@@ -33,7 +33,7 @@ app.use libs.lang.middleware
 # app.use libs.cache.lastModified
 
 app.use models.Router
-#require("./routesmobile")(app)
+require("./routesmobile")(app)
 require("./routesapi")(app)
 require("./test")() if conf.debug
 

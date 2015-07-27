@@ -1,6 +1,6 @@
 angular.module('xw.order').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     $scope.cart = null;
     $scope.address = {};
     $scope.coupon = {};
@@ -118,7 +118,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
         });
 
         if (ok) Orders.postOrder(order).then(function (res) {
-            if (!Weixin.ready) {
+            if (true) {
                 alert('微信支付未准备好,请稍后重试');
             } else {
                 wx.chooseWXPlay({
@@ -143,7 +143,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
         } else {
-            location.href = 'eat-list.html';
+            location.href = 'eat';
         }
 
         // todo : set fake address, to delete it later.

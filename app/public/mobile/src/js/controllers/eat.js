@@ -44,7 +44,7 @@ function eatCtrl($scope, Dishes, $localStorage) {
     };
 
     $scope.makeOrder = function () {
-        location.href = 'order.html';// todo: replace it with route
+        location.href = 'order';// todo: replace it with route
     };
 
 
