@@ -46,7 +46,8 @@ var configWeiXinPay = {
 
     notify_url : "http://pay.weixin.qq.com",
 
-    url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder"
+    url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
+    url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?" //通过code换取网页授权access_token
 
 
 };
@@ -130,7 +131,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
     //console.log("========== WeixinPay createUnifiedOrder:", newOrder);
     var opts = {
         method: 'POST',
-        url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
+        url: configWeiXinPay.url_createUnifiedOrder,
         body: util.buildXML(newOrder),
         timeout: 3000
     };
@@ -209,6 +210,35 @@ weiXinPay.prototype.responseNotify = function(res, isFailed){
     }
 };
 
+
+
+weiXinPay.prototype.getUserOpenId = function(code, callback){
+
+    if (!code || code.length === 0){
+        throw new Error ("Weixin Pay OpenId code format wrong,  code is null");
+    }
+
+
+    url = configWeiXinPay.url_getUserOpenId + 'appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret + '&code=' + code + '&grant_type=authorization_code';
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 3000
+    };
+
+    request(opts, function(err, response, body){
+        if (err){
+            callback(err)
+        }else{
+            // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
+            body = JSON.parse(body) ;
+            callback(null, body)
+        }
+
+    });
+
+};
 
 
 /*

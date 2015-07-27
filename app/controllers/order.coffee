@@ -276,7 +276,7 @@ exports.addNewOrder = (req, res, next) ->
 
 #        notify_url: item.weixin_notify_url || "http://www.xinweicook.com/wxpay/notify",
         trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
-#      openid: item.openid, //trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
         body:  resultOrder.dishHistory[0].dish.title.zh
@@ -285,6 +285,8 @@ exports.addNewOrder = (req, res, next) ->
         attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
+      weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
+      
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
@@ -471,10 +473,38 @@ exports.getWeixinPayOpenId = (req, res, next) ->
       openid : body.openid
       refresh_token : body.refresh_token
 
-    res.redirect('/mobile/order?openid=' + weixinUser.openid + '&state=' + order_number_state);
+
+    res.redirect('/mobile/order/'+ body.openid);
 #    req.u.saveAsync().spread (result, numberAffected) ->
 #      res.send result
 #    .catch next
+
+
+
+exports.getWeixinPayOpenId2 = (req, res, next) ->
+  code = req.query.code;
+  userID = req.query.state;
+
+  if not code or code.length is 0
+    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+
+  weixinpay.getUserOpenId(code, (err, result) ->
+    if err
+      throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+    else
+      models.user.findOneAsync({"_id": userID}).then (resultUser) ->
+        models.user.checkNotFound resultUser
+        resultUser.weixinId.access_token = result.access_token
+        resultUser.weixinId.openid = result.openid
+        resultUser.weixinId.refresh_token = result.refresh_token
+
+        resultUser.saveAsync()
+      .spread (resultUser2, numberAffected) ->
+        res.json(resultUser2)
+      .catch next
+
+  )
+
 
 
 
