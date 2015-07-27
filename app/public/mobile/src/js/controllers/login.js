@@ -1,6 +1,6 @@
 angular.module('xw.login').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, $interval) {
+function loginCtrl($scope, User, $location, $interval, $timeout) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.path = '';
@@ -11,7 +11,9 @@ function loginCtrl($scope, User, $location, $interval) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
             // todo: redirect
             //document.location = 'detail page'
-            location.href = '/mobile'
+            $timeout(function () {
+                location.href = '/mobile';
+            },100);
         }).catch(function (res) {
             alert('login failed')
         })

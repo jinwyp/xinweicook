@@ -49,7 +49,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         return price;
     };
 
+
     $scope.submitOrder = function () {
+
+
         var order = {
             cookingType: 'ready to eat',
             clientFrom: 'website',
