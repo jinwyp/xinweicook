@@ -31,7 +31,7 @@ module.exports =
       alias: String
       remark: String
 
-      distanceFrom : Number   # 距离新味办公室发货 3公里还是4公里 快递不一样
+      distanceFrom : Number   # 距离新味办公室发货 单位公里 3公里还是4公里 快递不一样
 
     clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
 

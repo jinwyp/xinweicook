@@ -27,6 +27,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         tagList : [],
         dishList : [],
         currentTagFilter : '',
+        currentPreference : '',
         currentTopping : '',
         dish : {
             isPublished : false,

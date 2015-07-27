@@ -342,6 +342,28 @@
 
 
 
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >可选的配菜</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentPreference" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishList | filter:{sideDishType:'preferences'}"></select>
+                    </div>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.dish.topping, data.currentTopping)"> <span class="glyphicon glyphicon-plus"></span>添加配菜</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" ng-repeat="preference in data.dish.preferences track by $index">
+                    <label class="col-lg-2 control-label">配菜 - {{preference.name.zh}}</label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="subdish in preference.foodMaterial track by $index">
+                            <label class="control-label" >{{subdish.dish | dishfilter:data.dishList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="preference.foodMaterial.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >可选的浇头</label>
@@ -447,41 +469,9 @@
 
 
 
-<!--
 
 
-        <div class="form-group" ng-repeat="preferences_ in dish.preferences" >
-            <label class="control-label col-lg-2 text-right">配菜</label>
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-addon">EN</span>
-                    <input type="text" placeholder="name" ng-model="preferences_.name.en" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">ZH</span>
-                    <input type="text" placeholder="name" ng-model="preferences_.name.zh" class="form-control">
-                </div>
-            </div>
-            <div class="col-lg-offset-2 col-lg-8" ng-repeat="foodMaterial_ in preferences_.foodMaterial">
-                <div class="input-group">
-                    <span class="input-group-addon">dish</span>
-                    <input type="text" placeholder="id" ng-model="foodMaterial_.dish" class="form-control">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">default</span>
-                    <input type="checkbox" ng-model="foodMaterial_.default" class="checkbox form-control">
-                </div>
-            </div>
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="preferences_.foodMaterial.push({})">添加相似配菜</button>
-            </div>
-        </div>
-        <div class="form-group add-button-wrapper">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button ng-click="dish.preferences.push({foodMaterial: [{}]})">添加</button>
-            </div>
-        </div>
-        <hr/>-->
+
 
 
 

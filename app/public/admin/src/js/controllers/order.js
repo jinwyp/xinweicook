@@ -119,7 +119,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
                 name : '顺丰当日',
                 displayName : {
                     zh : '顺丰当日快递',
-                    en : 'sf-express'
+                    en : 'sf-sh'
                 },
                 info :{
                     zh : '顺丰当日快递 国内最好的快递',
