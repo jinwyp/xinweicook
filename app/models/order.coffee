@@ -199,8 +199,8 @@ module.exports =
         return throw new Err "Field validation error,  payment text wrong", 400
 
       if newOrder.payment is @constantPayment().weixinpay
-        unless libs.validator.isIP newOrder.spbill_create_ip
-          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
+#        unless libs.validator.isIP newOrder.spbill_create_ip
+#          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
         unless libs.validator.isLength newOrder.trade_type, 3,7
           return throw new Err "Field validation error,  trade_type length must be 3-7", 400
 

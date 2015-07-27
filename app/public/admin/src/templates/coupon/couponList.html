@@ -41,21 +41,29 @@
         <thead>
             <tr>
                 <th>_id</th>
-                <th>名称 中文</th>
-                <th>名称 英文</th>
-                <th>所属标签组 中文</th>
-                <th>所属标签组 英文</th>
-                <th>是否用于菜品筛选</th>
+                <th>优惠码名称 中文</th>
+                <th>优惠码名称 英文</th>
+                <th>优惠码 code</th>
+                <th>优惠金额</th>
+                <th>订单金额限制</th>
+                <th>有效期</th>
+                <th>是否过期</th>
+                <th>使用次数</th>
+                <th>是否已用</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="tag in data.tagList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateTag({ id: tag._id })">{{tag._id}}</a></td>
-                <td>{{tag.name.zh}}</td>
-                <td>{{tag.name.en}}</td>
-                <td>{{tag.group.zh}}</td>
-                <td>{{tag.group.en}}</td>
-                <td>{{tag.isFilter}}</td>
+            <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
+                <td><a ui-sref="menu.updateTag({ id: coupon._id })">{{coupon._id}}</a></td>
+                <td>{{coupon.name.zh}}</td>
+                <td>{{coupon.name.en}}</td>
+                <td>{{coupon.price}}</td>
+                <td>{{coupon.priceLimit}}</td>
+
+                <td>{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss Z'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td>{{coupon.isExpired}}</td>
+                <td>{{coupon.usedTime}}</td>
+                <td>{{coupon.isUsed}}</td>
             </tr>
         </tbody>
     </table>

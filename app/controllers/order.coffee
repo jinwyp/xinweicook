@@ -16,7 +16,7 @@ configWeiXinAppPay =
   key: conf.weixinAppPay.key
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
-weixinpay = WXPay(configWeiXinAppPay)
+
 
 
 
@@ -261,6 +261,14 @@ exports.addNewOrder = (req, res, next) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
+
+      weixinpay = WXPay(configWeiXinPay)
+
+#      if req.body.clientFrom is "ios"
+#        weixinpay = WXPay(configWeiXinAppPay)
+
+
+
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice
