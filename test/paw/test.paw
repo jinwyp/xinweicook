@@ -780,7 +780,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z203 z347 z472 z187"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z187">
-        <attribute name="value" type="string">192.168.1.4</attribute>
+        <attribute name="value" type="string">127.0.0.1</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z149"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z186"></relationship>
     </object>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z316 z313 z315 z314 z317 z311"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2By:Oq/psVrRgei59qa+PuXmLUxZ+lZIrc1V</attribute>
+        <attribute name="value" type="string">Bearer 2By:pl0/pT/QOgGqOmc7ZdODjWwk3nuylIoH</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>

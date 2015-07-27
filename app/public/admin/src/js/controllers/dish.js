@@ -275,6 +275,8 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 if (angular.isArray(obj[p]) ){
                     if(obj[p].length === 0){
                         delete obj[p];
+                    }else{
+
                     }
                 }else if (angular.isObject(obj[p])) {
                     console.log (obj[p]);
