@@ -75,9 +75,13 @@ module.exports =
         paySign: String
 
       nativeSign :
-        timeStamp: String
+        appId : String
+        partnerId : String
+        prepayId : String
+        packageValue : String
         nonceStr: String
-        paySign: String
+        timeStamp: String
+        sign : String
 
 
       nonce_str : type: String # 微信返回的随机字符串
