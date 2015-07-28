@@ -1,0 +1,96 @@
+@import "compass/utilities/sprites";
+@import "icons/*.png";
+
+// variables
+$primary-color: rgb(244,77,77);
+$btn-active-color: rgb(255, 149, 149);
+$price-bg-color: rgb(237,226,208);
+$body-bg-color: rgb(244, 244, 244);
+$btn-bg-gray-color: rgb(226, 226, 226);
+
+
+// reset
+html {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: $body-bg-color;
+  color: #4b4b4c;
+}
+
+a {
+  &:link, &:visited, &:focus, &:hover, &:active {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+}
+
+input {
+  border-radius: 0 !important;
+}
+
+::-moz-placeholder {
+  color: rgba(0,0,0,0.3);
+}
+:-ms-input-placeholder {
+  color: rgba(0,0,0,0.3);
+}
+::-webkit-input-placeholder {
+  color: rgba(0,0,0,0.3) !important;
+}
+
+
+// reset bootstrap
+.form-horizontal .control-label {
+  padding-top: 7px;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+label {
+  font-weight: 400;
+}
+
+
+// common components
+.nav {
+  background-color: white;
+  text-align: center;
+  line-height: 45px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.back-icon {
+  background: url(../img/icons/NavBarBackIcon.png) no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  width: 47px;
+  height: 34px;
+  top: 12px;
+}
+
+.form-line {
+  margin: 0 5px 0 12px;
+  border-bottom: 1px solid #bcbcbc;
+  border-top: 0;
+  opacity: 0.5;
+}
+
+.plus-char::before {
+  content: 'X';
+}
+
+.rmb-char::before {
+  content: '¥ '
+}
+.rmb-char.negative::before {
+  content: '- ¥ '
+}

@@ -21,6 +21,8 @@
     "font-awesome": "~4.3.0",
     "ngstorage": "~0.3.7",
     "restangular": "~1.5.1",
+    "zepto": "~1.1.6",
+    "normalize.css": "~3.0.3",
     "angular-ui-notification": "~0.0.11"
   }
 }

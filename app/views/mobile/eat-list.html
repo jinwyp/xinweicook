@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>新味 即食包</title>
+</head>
+<body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
+
+<nav class="eat-nav nav">
+    <span class="no-bottom-border" ng-class="{active: path == '/login'}">即食包</span>
+    <a href="me"><span class="profile-icon icon"></span></a>
+</nav>
+
+<div class="eat-list-wrapper" ng-cloak>
+    <ul class="eat-list">
+        <li ng-repeat="dish in dishes | filter : {cookingType: 'ready to eat'}">
+            <div class="img-group" ng-class="{blur: !!dish.count}">
+                <img ng-repeat="cover_ in dish.cover | limitTo : 2" ng-src="{{cover_.zh}}" alt="ready to eat"/>
+                <div class="count-operation" ng-if="dish.count">
+                    <div class="subtract" ng-click="subtractDish(dish)"><span class="vertical-center">-</span></div>
+                    <div class="count"><span class="vertical-center">{{dish.count}}</span></div>
+                    <div class="add" ng-click="addDish(dish)"><span class="vertical-center">+</span></div>
+                </div>
+            </div>
+            <div class="detail">
+                <div class="caption">
+                    <h3 class="title">{{dish.title.zh}}</h3>
+                    <div class="ingredient-group">
+                        <div class="brief">{{dish.brief.zh}}</div>
+                    </div>
+                </div>
+                <!--<div class="user-actions" style="display:none"></div> todo -->
+                <div class="buy">
+                    <span class="price">{{dish.priceOriginal}}</span>
+                    <span class="button" ng-click="addDish(dish)" ng-if="dish.stock > 0">购买</span>
+                    <span class="button" ng-if="dish.stock === 0">售罄</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="address">
+        <span class="address-icon icon"></span>
+        <!--<div class="address-content">-->
+            <!--<div class="address-title">送至地址:</div>-->
+            <!--<div class="address-detail">这个那个地址啊</div>-->
+        <!--</div>-->
+        <div class="cart" ng-click="cart.length && makeOrder()">
+            <span class="total-count" ng-if="cart.length"></span>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/components/angular/angular.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/controllers/eat.js"></script>
+</html>
