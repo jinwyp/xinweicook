@@ -380,13 +380,19 @@ module.exports =
 
             resultTime.push(segmentHour)
         else
-          timeStarter = timeNow.clone().add(15, 'hours').add((30-timeNow.minute()%30), 'minutes')
+          if timeNow.hour() < 11 and timeNow.hour() >0
+            timeStarter = timeNow.clone().add(11-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
+          else
+            timeStarter = timeNow.clone().add(35-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
+
           for i in [1..5]
             timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
             segmentHour =
               hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
 
             resultTime.push(segmentHour)
+
+
 
       resultTime
 
