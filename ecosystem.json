@@ -15,6 +15,15 @@
         "REDIS": "[{\"host\":\"10.4.3.101\",\"port\":\"6379\"},{\"host\":\"10.4.3.142\",\"port\":\"6379\"}]",
         "DB": "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
       },
+      "env_testing1": {
+        "NODE_ENV": "development",
+        "LEVEL": "debug",
+        "BASE": "http://61.153.100.16",
+        "HOST": "127.0.0.1",
+        "PORT": "3003",
+        "REDIS": "[{\"host\":\"10.4.3.101\",\"port\":\"6379\"},{\"host\":\"10.4.3.142\",\"port\":\"6379\"}]",
+        "DB": "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
+      },
 
       "env_production2" : {
         "NODE_ENV": "production",
