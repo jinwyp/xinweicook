@@ -8,12 +8,15 @@ function eatCtrl($scope, User, $localStorage) {
         })
     };
 
+    $scope.back = function () {
+        history.back();
+    };
+
 
     function init() {
         if (!$localStorage.access_token) {
             location.href = 'login'
         }
-
     }
 
     init();
