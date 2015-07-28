@@ -1,8 +1,11 @@
 angular.module('xw.order').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     $scope.cart = null;
-    $scope.address = {};
+    $scope.address = {
+        province: '上海',
+        city: '上海'
+    };
     $scope.coupon = {};
     $scope.couponPrice = 0;
     $scope.couponLimitPrice = 0;
@@ -49,12 +52,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
 
 
     $scope.submitOrder = function ($event) {
-        if (Weixin.openid) {
-            $event.preventDefault();
-        }
-
         var order = {
-            openid: Weixin.openid,
             cookingType: 'ready to eat',
             clientFrom: 'website',
             freight: '5',
@@ -87,14 +85,19 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
                             dish: dish._id,
                             number: dish.count,
                             subDish: []
-                        }})
+                        }});
                 return true;
             },
 
-            deliveryTime: function () {
-                var time = $scope.deliveryTime.selectTime.hour;
-                order.deliveryDateEat = time.substr(0, 10);
-                order.deliveryTimeEat = time.substr(11, 5);
+            '获取配送时间失败,请稍后重试': function () {
+                try {
+                    var time = $scope.deliveryTime.selectTime.hour;
+                    order.deliveryDateEat = time.substr(0, 10);
+                    order.deliveryTimeEat = time.substr(11, 5);
+                } catch (e){
+                    return false;
+                }
+
                 return true;
             },
 
@@ -115,28 +118,21 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
             return valid;
         });
 
-        if (ok) Orders.postOrder(order).then(function (res) {
-            if (!Weixin.ready) {
-                alert('微信支付未初始化完毕,请稍后重试');
-            } else {
-                var paymentWeixinpay = res.data.paymentWeixinpay;
-                Weixin.pay({
-                    timestamp: 0,
-                    nonceStr: paymentWeixinpay.nonce_str, // 支付签名随机串，不长于 32 位
-                    package: paymentWeixinpay.prepay_id, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: paymentWeixinpay.sign, // 支付签名
-                    success: function (res) {
-                        alert('支付成功!')
-                    },
-                    fail: function () {
-                        alert('支付失败')
-                    }
+        if (ok) {
+            if (!$scope.orderSuccess) {
+                $event.preventDefault();
+                Orders.postOrder(order).then(function (res) {
+                    $scope.orderSuccess = true;
+                    $scope.wxstate = res.data._id.
+                    alert('生成订单成功,点击按钮使用微信支付');
+                    // todo: change btn text
+                }).catch(function (res) {
+                    alert('生成订单失败,请稍后再试');
                 })
-            }
-        }).catch(function (res) {
-            alert('生成订单失败,请稍后再试');
-        })
+            } // 订单已生成, 跳转微信授权.
+        } else {
+            $event.preventDefault();
+        }
     };
 
 
@@ -149,16 +145,17 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Weixin) {
         }
 
         // todo : set fake address, to delete it later.
-        $localStorage.address = {province:'上海', city: '上海', district: '徐汇', street: '中山南二路', isCityShanghai: true, isInRange4KM: true};
 
-        if ($localStorage.address) {
-            Orders.deliveryTime($scope.address = $localStorage.address).then(function (res) {
-                $scope.deliveryTime = res.data;
-                $scope.deliveryTime.selectTime = res.data[0];
-            }).catch(function (res) {
-                console.log('get time error');
-            })
-        }
+        Orders.deliveryTime({
+            cookingType: "ready to eat",
+            isCityShanghai: true,
+            isInRange4KM: true
+        }).then(function (res) {
+            $scope.deliveryTime = res.data;
+            $scope.deliveryTime.selectTime = res.data[0];
+        }).catch(function (res) {
+            console.log('get time error');
+        });
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;

@@ -26,7 +26,7 @@ function eatCtrl($scope, Dishes, $localStorage) {
         dish.count++;
 
         if (dish.count > dish.stock) {
-            dish.count--;
+            dish.count = dish.stock;
             alert('没有更多库存');
             return;
         }

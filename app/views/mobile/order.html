@@ -24,9 +24,11 @@
             <div class="form-group">
                 <label for="address" class="col-xs-3 control-label">收货地址:</label>
                 <div class="col-xs-9">
-                    <p class="form-control-static">
-                        {{address.province + ' ' + address.city + ' ' + address.district + ' ' + address.street}}
+                    <p class="form-control-static" style="text-indent: 12px;">
+                        {{address.city}}
                     </p>
+                    <input type="text" ng-model="address.district" class="form-control" id="district" placeholder="区"/>
+                    <input type="text" ng-model="address.street" class="form-control" id="street" placeholder="街道"/>
                     <input type="text" ng-model="address.address" class="form-control" id="address" placeholder="门牌号信息"/>
                 </div>
             </div>
@@ -116,7 +118,7 @@
         </div>
 
         <a class="confirm-button form-control text-center" ng-click="submitOrder($event)"
-           href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=/api/orders/payment/weixinpay/openid&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect">确认</a>
+           ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=/api/orders/payment/weixinpay/openid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">确认</a>
 
     </form>
 </div>
