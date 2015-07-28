@@ -285,7 +285,7 @@ module.exports =
 
       if isInRange4KM
 
-        if timeNow.hour() < 17 # 公司3公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
+        if timeNow.hour() < 17 # 公司4公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           for i in [1..5]
             segmentDay =
               day : timeNow.clone().add(i-1, 'days').format(timeFormat2)
@@ -310,7 +310,7 @@ module.exports =
             resultTime.push(segmentDay)
       else
 
-        if timeNow.hour() < 17 # 公司3公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
+        if timeNow.hour() < 17 # 公司4公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
           for i in [1..5]
             segmentDay =
               day : timeNow.clone().add(i, 'days').format(timeFormat2)
@@ -379,6 +379,20 @@ module.exports =
 
 
             resultTime.push(segmentHour)
+        else
+          if timeNow.hour() < 11 and timeNow.hour() >0
+            timeStarter = timeNow.clone().add(11-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
+          else
+            timeStarter = timeNow.clone().add(35-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
+
+          for i in [1..5]
+            timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+            segmentHour =
+              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm:ss A")
+
+            resultTime.push(segmentHour)
+
+
 
       resultTime
 
