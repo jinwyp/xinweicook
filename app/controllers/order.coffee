@@ -303,10 +303,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
   models.order.validationWeixinPayUnifiedOrder req.body
 
 
-  models.order.findById(req.body.orderId).then (resultOrder) ->
+  models.order.findByIdAsync(req.body.orderId).then (resultOrder) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
-    if resultOrder.payment is models.order.constantPayment().weixinpay
+    if resultOrder
 
       if resultOrder.clientFrom is "ios"
         weixinpay = WXPay(configWeiXinAppPay)
@@ -366,16 +366,16 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
           resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-            resultTemp = resultOrder2.toJSON()
-            delete resultTemp.dishList
+#            resultTemp = resultOrder2.toJSON()
+#            delete resultTemp.dishList
 
-            res.json resultTemp
+            res.json resultOrder2
 
     else
-      resultTemp = resultOrder.toJSON()
-      delete resultTemp.dishList
+#      resultTemp = resultOrder.toJSON()
+#      delete resultTemp.dishList
 
-      res.json resultTemp
+      res.json resultOrder
 
   .catch next
 
