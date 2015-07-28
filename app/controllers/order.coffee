@@ -523,10 +523,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 exports.getWeixinPayOpenId = (req, res, next) ->
-  console.log "========================WeixinPayOpenId :: ", req
   console.log "========================WeixinPayOpenId :: ", req.query
-  console.log "========================WeixinPayOpenId :: ", req.body
-  console.log "========================WeixinPayOpenId :: ", req.params
 
   code = req.query.code;
   order_number_state = req.query.state;
@@ -541,7 +538,6 @@ exports.getWeixinPayOpenId = (req, res, next) ->
         next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
 
       if !result.errcode
-
         models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
           if resultOrder
             models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
@@ -552,10 +548,9 @@ exports.getWeixinPayOpenId = (req, res, next) ->
 
                 resultUser.saveAsync()
 
-        res.redirect("/mobile/order")
+          res.redirect("/mobile/order")
   #        res.send result
         .catch next
-
     )
 
 
