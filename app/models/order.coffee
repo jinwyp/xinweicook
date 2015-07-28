@@ -216,12 +216,6 @@ module.exports =
       if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod
         return throw new Err "Field validation error,  payment text wrong", 400
 
-      if newOrder.payment is @constantPayment().weixinpay
-#        unless libs.validator.isIP newOrder.spbill_create_ip
-#          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
-        unless libs.validator.isLength newOrder.trade_type, 3,7
-          return throw new Err "Field validation error,  trade_type length must be 3-7", 400
-
       unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
 
@@ -260,6 +254,12 @@ module.exports =
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
+
+    validationWeixinPayUnifiedOrder : (body) ->
+#        unless libs.validator.isIP body.spbill_create_ip
+#          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
+        unless libs.validator.isLength body.trade_type, 3,7
+          return throw new Err "Field validation error,  trade_type length must be 3-7", 400
 
     validationWeixinPayNotify : (order) ->
       unless libs.validator.isLength order.return_code, 4, 7

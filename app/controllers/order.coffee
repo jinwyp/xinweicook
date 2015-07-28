@@ -268,21 +268,23 @@ exports.addNewOrder = (req, res, next) ->
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
   models.order.validationOrderId req.body._id
+  models.order.validationWeixinPayUnifiedOrder req.body
+
 
   models.order.findById(req.body._id).then (resultOrder) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
 
-      if resultOrder.clientFrom is "ios"
-        weixinpay = WXPay(configWeiXinAppPay)
+#      if resultOrder.clientFrom is "ios"
+#        weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice
 #        spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        notify_url: item.weixin_notify_url || "http://api.xinweicook.com/api/orders/payment/weixinpay/notify/",
+        notify_url: "http://api.xinweicook.com/api/orders/payment/weixinpay/notify/"
         trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
         openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
@@ -303,12 +305,6 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         if resultWeixinPay
 
           weixinpayMobileSign =
-            timeStamp: Math.floor(Date.now()/1000)
-            nonceStr: resultWeixinPay.nonce_str
-            package: resultWeixinPay.prepay_id
-            signType: "MD5"
-
-          weixinpayMobileSign =
             timeStamp: Math.floor(Date.now()/1000)+"",
             nonceStr: resultWeixinPay.nonce_str,
             package: "prepay_id="+resultWeixinPay.prepay_id,
@@ -323,15 +319,16 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             nonceStr: resultWeixinPay.nonce_str
             timeStamp: Math.floor(Date.now()/1000)
 
-          if resultOrder.clientFrom is "ios"
-            weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-            resultOrder.paymentWeixinpay.nativeSign = weixinpayNativeSign
-          else
-            weixinpayMobileSign.paySign = weixinpay.sign(weixinpaySign);
-            resultOrder.paymentWeixinpay.mobileSign = weixinpayMobileSign
+
+          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
+
+          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+
+          console.log "--------------", weixinpayMobileSign
 
           resultOrder.paymentWeixinpay =
-
+            nativeSign: weixinpayNativeSign
+            mobileSign: weixinpayMobileSign
             nonce_str : resultWeixinPay.nonce_str
             sign : resultWeixinPay.sign
             trade_type : resultWeixinPay.trade_type
