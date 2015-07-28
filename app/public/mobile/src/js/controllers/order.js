@@ -123,7 +123,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 $event.preventDefault();
                 Orders.postOrder(order).then(function (res) {
                     $scope.orderSuccess = true;
-                    $scope.wxstate = res.data._id.
+                    $scope.wxstate = res.data._id;
                     alert('生成订单成功,点击按钮使用微信支付');
                     // todo: change btn text
                 }).catch(function (res) {
