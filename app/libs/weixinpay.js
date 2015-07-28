@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-
+var sha1 = require('sha1');
 var md5     = require('MD5');
 var request = require('request');
 var xml2js  = require('xml2js');
@@ -186,6 +186,20 @@ weiXinPay.prototype.sign = function(obj){
 };
 
 
+weiXinPay.prototype.signSha1 = function(obj){
+    var querystring = Object.keys(obj)
+        .filter(function (key) {
+            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+        })
+        .sort()
+        .map(function (key) {
+            return key + "=" + obj[key];
+        })
+        .join("&");
+
+    return sha1( querystring );
+};
+
 
 weiXinPay.prototype.parserNotify = function(xml, callback){
 
@@ -221,7 +235,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     }
 
 
-    url = configWeiXinPay.url_getUserOpenId + 'appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret + '&code=' + code + '&grant_type=authorization_code';
+    url = configWeiXinPay.url_getUserOpenId + 'appid=' + this.config.appid + '&secret=' + this.config.secret + '&code=' + code + '&grant_type=authorization_code';
 
     var opts = {
         method: 'GET',
@@ -243,14 +257,10 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
 };
 
 
-weiXinPay.prototype.getDeveloperAccessToken = function(code, callback){
 
-    if (!code || code.length === 0){
-        throw new Error ("Weixin Pay OpenId code format wrong,  code is null");
-    }
+weiXinPay.prototype.getDeveloperAccessToken = function( callback){
 
-
-    url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret;
+    url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + this.config.appid + '&secret=' + this.config.secret;
 
     var opts = {
         method: 'GET',
@@ -265,22 +275,21 @@ weiXinPay.prototype.getDeveloperAccessToken = function(code, callback){
             // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
             // {"access_token":"ACCESS_TOKEN","expires_in":7200}
             var resultBody = JSON.parse(body) ;
-
-            // GET方式请求获得jsapi_ticket
-            var options = {
-                method: 'GET',
-                url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
-                timeout: 3000
-            };
-            request(options, function(err2, response, body2){
-                if (err2){
-                    callback(err2)
-                }else{
-                    console.log ("weixin Ticket", body2)
-                    body2 = JSON.parse(body2) ;
-                    callback(null, body2)
-                }
-            });
+            if (typeof resultBody.access_token !== 'undefined'){
+                // GET方式请求获得jsapi_ticket
+                var options = {
+                    method: 'GET',
+                    url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
+                    timeout: 3000
+                };
+                request(options, function(err2, response, body2){
+                    if (err2){
+                        callback(err2)
+                    }else{
+                        callback(null, JSON.parse(body2))
+                    }
+                });
+            }
 
 
 
