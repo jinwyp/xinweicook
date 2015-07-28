@@ -1,4 +1,4 @@
-angular.module('xw', ['xw.config', 'xw.login', 'xw.eat', 'xw.order', 'xw.weixin', 'xw.wxpay']);
+angular.module('xw', ['xw.config', 'xw.login', 'xw.eat', 'xw.order', 'xw.weixin', 'xw.wxpay', 'xw.me']);
 
 angular.module('xw.config', ['ngStorage']);
 

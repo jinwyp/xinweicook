@@ -141,7 +141,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
         } else {
-            location.href = 'eat';
+            location.href = '/mobile';
         }
 
         // todo : set fake address, to delete it later.
