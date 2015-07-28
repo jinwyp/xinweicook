@@ -29,7 +29,7 @@
    * [获取该用户的所有订单](order/get_orders.md)
    * [获取单一订单](order/get_single_order.md)
    * [生成新订单](order/add_new_order.md)
-   * [生成微信支付统一订单](order/add_new_weixinpay_unified_order)
+   * [生成微信支付统一订单](order/add_new_weixinpay_unified_order.md)
    * [获取订单预计的配送时间](order/get_delivery_time.md)
    * [更新订单与支付状态](order/update_order.md)
    * [支付状态通知支付宝即时到账](order/payment_notify_alipaydirect.md)
