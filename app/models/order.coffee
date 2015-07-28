@@ -66,8 +66,6 @@ module.exports =
       buyer_id : type : String
 
     paymentWeixinpay :
-      accessToken :String
-      ticket :String
 
       JSSdkConfigSign :
         nonceStr: String

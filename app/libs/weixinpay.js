@@ -299,7 +299,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
 
 };
 
-
+weiXinPay.prototype.util = util;
 
 /*
 

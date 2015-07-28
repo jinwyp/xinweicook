@@ -20,6 +20,38 @@ configWeiXinAppPay =
 weixinpay = WXPay(configWeiXinPay)
 
 
+exports.getWeixinDeveloperAccessToken = (req, res, next) ->
+  # 增加生成微信developerAccessToken备用
+  weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+    if resultTicket
+      newInfo =
+        name : "weixinPayJSSdkTicket"
+        key : "weixinPayJSSdkTicket"
+        value : resultTicket.ticket
+
+      models.setting.createAsync(newInfo)
+
+      weixinpayJSSdkConfigSign =
+        nonceStr: weixinpay.util.generateNonceString()
+        timeStamp: Math.floor(Date.now()/1000)+""
+        jsapi_ticket: resultTicket.ticket
+        url: req.body.url
+
+      weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+      newInfo2 =
+        name : "weixinPayJSSdkConfig"
+        key : "weixinPayJSSdkConfig"
+        value : weixinpayJSSdkConfigSign
+
+      models.setting.createAsync(newInfo2)
+      .then (result)->
+        res.json weixinpayJSSdkConfigSign
+      .catch next
+  )
+
+
+
+
 
 
 exports.orderListByUser = (req, res, next) ->
@@ -257,13 +289,6 @@ exports.addNewOrder = (req, res, next) ->
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
-
-    # 增加生成微信developerAccessToken备用
-    weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
-      if resultTicket
-        resultOrder.paymentWeixinpay.ticket = resultTicket.ticket
-        resultOrder.saveAsync();
-    )
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
     res.json resultTemp
@@ -311,12 +336,6 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
-          weixinpayJSSdkConfigSign =
-            nonceStr: resultWeixinPay.nonce_str
-            timeStamp: Math.floor(Date.now()/1000)+""
-            jsapi_ticket: resultOrder.paymentWeixinpay.ticket
-            url: req.body.url
-
           weixinpayMobileSign =
             appId: configWeiXinPay.appid
             timeStamp: Math.floor(Date.now()/1000)+"",
@@ -334,12 +353,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             timeStamp: Math.floor(Date.now()/1000)+""
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
           weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
 
           resultOrder.paymentWeixinpay =
             nativeSign: weixinpayNativeSign
-            JSSdkConfigSign: weixinpayJSSdkConfigSign
             mobileSign: weixinpayMobileSign
             nonce_str : resultWeixinPay.nonce_str
             sign : resultWeixinPay.sign
@@ -506,6 +523,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 exports.getWeixinPayOpenId = (req, res, next) ->
+  console.log "========================WeixinPayOpenId :: ", req
   console.log "========================WeixinPayOpenId :: ", req.query
 
   code = req.query.code;
@@ -514,29 +532,29 @@ exports.getWeixinPayOpenId = (req, res, next) ->
 
   if not code or code.length is 0
     throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+  else
+    weixinpay.getUserOpenId(code, (err, result) ->
 
-  weixinpay.getUserOpenId(code, (err, result) ->
+      if err
+        next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
 
-    if err
-      throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+      if !result.errcode
 
-    if !result.errcode
+        models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+          if resultOrder
+            models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
+              if resultUser
+                resultUser.weixinId.access_token = result.access_token
+                resultUser.weixinId.openid = result.openid
+                resultUser.weixinId.refresh_token = result.refresh_token
 
-      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-        if resultOrder
-          models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
-            if resultUser
-              resultUser.weixinId.access_token = result.access_token
-              resultUser.weixinId.openid = result.openid
-              resultUser.weixinId.refresh_token = result.refresh_token
+                resultUser.saveAsync()
 
-              resultUser.saveAsync()
+        res.redirect("/mobile/order")
+  #        res.send result
+        .catch next
 
-      res.redirect('/mobile/order/'+ result.openid)
-#        res.send result
-      .catch next
-
-  )
+    )
 
 
 
