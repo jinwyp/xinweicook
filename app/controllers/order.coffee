@@ -299,11 +299,11 @@ exports.addNewOrder = (req, res, next) ->
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
-  models.order.validationOrderId req.body._id
+  models.order.validationOrderId req.body.orderId
   models.order.validationWeixinPayUnifiedOrder req.body
 
 
-  models.order.findById(req.body._id).then (resultOrder) ->
+  models.order.findById(req.body.orderId).then (resultOrder) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
@@ -523,7 +523,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 exports.getWeixinPayOpenId = (req, res, next) ->
-  console.log "========================WeixinPayOpenId :: ", req.query
+#  console.log "========================WeixinPayOpenId :: ", req.query
 
   code = req.query.code;
   order_number_state = req.query.state;
@@ -540,8 +540,8 @@ exports.getWeixinPayOpenId = (req, res, next) ->
       if !result.errcode
         models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
           if resultOrder
-            console.log "========================OrderId :: ", resultOrder
-            models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
+#            console.log "========================OrderId :: ", resultOrder
+            models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
               if resultUser
                 console.log "========================UserId :: ", resultUser
                 resultUser.weixinId.access_token = result.access_token
