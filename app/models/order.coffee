@@ -66,14 +66,19 @@ module.exports =
       buyer_id : type : String
 
     paymentWeixinpay :
-      weixinpayJsapiSign :
+      mobileSign :
         jsapi_ticket : String
-        appId : String
         timeStamp: String
         nonceStr: String
         package: String
         signType: String
         paySign: String
+
+      nativeSign :
+        timeStamp: String
+        nonceStr: String
+        paySign: String
+
 
       nonce_str : type: String # 微信返回的随机字符串
       sign : type: String
