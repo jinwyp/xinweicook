@@ -112,7 +112,7 @@
                 <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>
-                <td>{{order.childOrderList}}</td>
+                <td><span ng-repeat="child in order.childOrderList">{{child}}</span></td>
 
                 <td>{{order.address.contactPerson}}</td>
                 <td>{{order.address.address}} / {{data.order.address.city}}  / {{data.order.address.district}} / {{data.order.address.street}}</td>
