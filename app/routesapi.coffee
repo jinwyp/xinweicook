@@ -23,7 +23,8 @@ expressRoutes = (app) ->
 #  )
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-  app.post("/api/orders/payment/weixinpay/mobile", orderController.updateOrderWeixinPayNotify)
+  app.post("/api/orders/payment/weixinpay/notify", orderController.updateOrderWeixinPayNotify)
+
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayOpenId)
   app.get("/api/orders/payment/weixinpay/openid2", orderController.getWeixinPayOpenId2)
 
@@ -67,6 +68,8 @@ expressRoutes = (app) ->
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
 
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
+  app.post("/api/orders/payment/weixinpay/unifiedorder", libs.auth("member"), orderController.generateWeixinPayUnifiedOrder)
+
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)
 
