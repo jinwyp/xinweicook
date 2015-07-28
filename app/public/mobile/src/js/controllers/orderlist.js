@@ -8,5 +8,9 @@ function orderlistCtrl($scope, Orders) {
         })
     }
 
+    $scope.back = function () {
+        history.back();
+    };
+
     init();
 }
