@@ -117,8 +117,9 @@
             </div>
         </div>
 
-        <a class="confirm-button form-control text-center" ng-click="submitOrder($event)"
-           ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=/api/orders/payment/weixinpay/openid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">确认</a>
+        <button class="confirm-button form-control" ng-if="!orderSuccess" ng-click="submitOrder()">确认</button>
+        <a class="confirm-button form-control text-center" ng-if="orderSuccess"
+           ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fadminnew.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">使用微信支付</a>
 
     </form>
 </div>

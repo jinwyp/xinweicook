@@ -20,6 +20,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         updateOrder: function (id, data) {
             return $http.put('/api/orders/' + id, data)
+        },
+        getList: function () {
+            return $http.get('/api/orders');
         }
     }
 });

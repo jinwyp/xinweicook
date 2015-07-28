@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>新味 订单列表</title>
+</head>
+<body ng-app="xw" ng-controller="orderlistCtrl">
+
+<nav class="nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span class="no-bottom-border">订单列表</span>
+</nav>
+
+<div class="order-list-wrapper" ng-cloak>
+    <table class="">
+        <thead>
+        <tr>
+            <th>订单ID</th>
+            <th>状态</th>
+            <th>金额</th>
+            <th>配送时间</th>
+            <th>是否为主菜</th>
+
+            <th>是否上架</th>
+            <th>上架时间</th>
+
+            <th>原价</th>
+            <th>批发价</th>
+            <th>库存</th>
+
+            <!--<th>创建时间</th>-->
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dish in data.dishList | filter: data.searchFilter">
+            <td><a ui-sref="menu.updateDish({ id: dish._id })">{{dish._id}}</a></td>
+            <td>{{dish.title.zh}}</td>
+            <td>{{dish.sortId}}</td>
+            <td>{{dish.cookingType}}</td>
+            <td>{{dish.sideDishType}}</td>
+
+            <td>{{dish.isPublished}}</td>
+            <td>{{dish.publishedAt | date:'yyyy-MM-dd HH:mm'}}</td>
+
+
+            <td>{{dish.priceOriginal}}</td>
+            <td>
+                <span ng-repeat="price in dish.priceWholesale" >买{{price.quantity}}个为{{price.price}}元<br/></span>
+            </td>
+            <td>{{dish.stock}}</td>
+            <!--<td>{{dish.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+            <td><button class="btn btn-danger" ng-click="delDish(dish)">删除</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+<script src="/components/angular/angular.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/controllers/orderlist.js"></script>
+</html>
