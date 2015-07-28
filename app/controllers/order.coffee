@@ -21,6 +21,7 @@ weixinpay = WXPay(configWeiXinPay)
 
 
 
+
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
   models.order.validationGetOrderList req.query
@@ -276,8 +277,8 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
 
-#      if resultOrder.clientFrom is "ios"
-#        weixinpay = WXPay(configWeiXinAppPay)
+      if resultOrder.clientFrom is "ios"
+        weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
@@ -321,10 +322,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-
           weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
-
-          console.log "--------------", weixinpayMobileSign
 
           resultOrder.paymentWeixinpay =
             nativeSign: weixinpayNativeSign
@@ -491,61 +489,36 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
+
 exports.getWeixinPayOpenId = (req, res, next) ->
   console.log "========================WeixinPayOpenId :: ", req.query
 
   code = req.query.code;
   order_number_state = req.query.state;
-
-  if not code or code.length is 0
-    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-
-  url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret + '&code=' + code + '&grant_type=authorization_code';
-
-  opts =
-    method: 'GET'
-    url: url
-    timeout: 3000
-
-  request opts, (err, resp, body)->
-    if err
-      throw new Err "Weixin Pay access_token error,  access_token is null", 400
-
-    body = JSON.parse(body) # 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-
-    weixinUser =
-      access_token : body.access_token
-      openid : body.openid
-      refresh_token : body.refresh_token
-
-
-    res.redirect('/mobile/order/'+ body.openid);
-#    req.u.saveAsync().spread (result, numberAffected) ->
-#      res.send result
-#    .catch next
-
-
-
-exports.getWeixinPayOpenId2 = (req, res, next) ->
-  code = req.query.code;
-  userID = req.query.state;
+  models.order.validationOrderId order_number_state
 
   if not code or code.length is 0
     throw new Err "Weixin Pay OpenId get code error,  code is null", 400
 
   weixinpay.getUserOpenId(code, (err, result) ->
+
     if err
       throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-    else
-      models.user.findOneAsync({"_id": userID}).then (resultUser) ->
-        models.user.checkNotFound resultUser
-        resultUser.weixinId.access_token = result.access_token
-        resultUser.weixinId.openid = result.openid
-        resultUser.weixinId.refresh_token = result.refresh_token
 
-        resultUser.saveAsync()
-      .spread (resultUser2, numberAffected) ->
-        res.json(resultUser2)
+    if !result.errcode
+
+      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+        if resultOrder
+          models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
+            if resultUser
+              resultUser.weixinId.access_token = result.access_token
+              resultUser.weixinId.openid = result.openid
+              resultUser.weixinId.refresh_token = result.refresh_token
+
+              resultUser.saveAsync()
+
+      res.redirect('/mobile/order/'+ result.openid)
+#        res.send result
       .catch next
 
   )
