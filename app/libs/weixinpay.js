@@ -197,6 +197,11 @@ weiXinPay.prototype.signSha1 = function(obj){
         })
         .join("&");
 
+    querystring = 'jsapi_ticket=' + obj.jsapi_ticket
+        + '&noncestr=' + obj.noncestr
+        + '&timestamp=' + obj.timestamp
+        + '&url=' + obj.url;
+
     return sha1( querystring );
 };
 

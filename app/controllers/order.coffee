@@ -32,8 +32,8 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
       models.setting.createAsync(newInfo)
 
       weixinpayJSSdkConfigSign =
-        nonceStr: weixinpay.util.generateNonceString()
-        timeStamp: Math.floor(Date.now()/1000)+""
+        noncestr: weixinpay.util.generateNonceString()
+        timestamp: Math.floor(Date.now()/1000)+""
         jsapi_ticket: resultTicket.ticket
         url: req.body.url
 
