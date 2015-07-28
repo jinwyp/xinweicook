@@ -251,23 +251,31 @@ exports.addNewOrder = (req, res, next) ->
       promotionCode.used(req.u)
 
 
-
     additionalContent =
       userId : req.u._id
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
 
+    resultTemp = resultOrder.toJSON()
+    delete resultTemp.dishList
+    res.json resultTemp
+  .catch next
+
+
+
+
+exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
+
+  models.order.validationOrderId req.body._id
+
+  models.order.findById(req.body._id).then (resultOrder) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
 
-
-
-#      if req.body.clientFrom is "ios"
-#        weixinpay = WXPay(configWeiXinAppPay)
-
-
+      if resultOrder.clientFrom is "ios"
+        weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
@@ -312,15 +320,17 @@ exports.addNewOrder = (req, res, next) ->
             code_url: resultWeixinPay.code_url
 
           resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-  #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+#          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder.toJSON()
             delete resultTemp.dishList
 
             res.json resultTemp
-    else
-      resultTemp = resultOrder.toJSON()
-      delete resultTemp.dishList
-      res.json resultTemp
+
+
+
+    resultOrder.saveAsync()
+  .spread (resultOrder, numberAffected) ->
+    res.json resultOrder
   .catch next
 
 
@@ -360,6 +370,10 @@ exports.updateOrder = (req, res, next) ->
   .spread (resultOrder, numberAffected) ->
     res.json resultOrder
   .catch next
+
+
+
+
 
 
 

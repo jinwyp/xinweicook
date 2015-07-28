@@ -67,6 +67,8 @@ expressRoutes = (app) ->
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
 
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
+  app.post("/api/orders/payment/weixinpay/unifiedorder", libs.auth("member"), orderController.generateWeixinPayUnifiedOrder)
+
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)
 

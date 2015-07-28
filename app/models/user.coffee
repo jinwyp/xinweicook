@@ -68,7 +68,6 @@ module.exports =
       refresh_token : String
 
 
-
   statics:
     fields : ->
       selectFields = "-pwd"
