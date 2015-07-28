@@ -11,7 +11,12 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
 
         Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
             alert('获取jsconfig成功');
-            Weixin.config(res.data);
+            var setting = {
+                nonceStr :res.data.noncestr,
+                timestamp: res.data.timestamp,
+                signature: res.data.signature
+            }
+            Weixin.config(setting);
         });
 
         Orders.getUnifiedOrder({
