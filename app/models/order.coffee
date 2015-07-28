@@ -66,8 +66,18 @@ module.exports =
       buyer_id : type : String
 
     paymentWeixinpay :
+      accessToken :String
+      ticket :String
+
+      JSSdkConfigSign :
+        nonceStr: String
+        timeStamp: String
+        jsapi_ticket: String
+        url: String
+        signature :String
+
       mobileSign :
-        jsapi_ticket : String
+        appId : String
         timeStamp: String
         nonceStr: String
         package: String
@@ -258,8 +268,9 @@ module.exports =
     validationWeixinPayUnifiedOrder : (body) ->
 #        unless libs.validator.isIP body.spbill_create_ip
 #          return throw new Err "Field validation error,  spbill_create_ip must IP valid address", 400
-        unless libs.validator.isLength body.trade_type, 3,7
-          return throw new Err "Field validation error,  trade_type length must be 3-7", 400
+      unless libs.validator.isLength body.trade_type, 3,7
+        return throw new Err "Field validation error,  trade_type length must be 3-7", 400
+
 
     validationWeixinPayNotify : (order) ->
       unless libs.validator.isLength order.return_code, 4, 7

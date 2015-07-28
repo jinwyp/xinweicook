@@ -258,6 +258,12 @@ exports.addNewOrder = (req, res, next) ->
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
 
+    # 增加生成微信developerAccessToken备用
+    weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+      if resultTicket
+        resultOrder.paymentWeixinpay.ticket = resultTicket.ticket
+        resultOrder.saveAsync();
+    )
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
     res.json resultTemp
@@ -305,7 +311,14 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
+          weixinpayJSSdkConfigSign =
+            nonceStr: resultWeixinPay.nonce_str
+            timeStamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultOrder.paymentWeixinpay.ticket
+            url: req.body.url
+
           weixinpayMobileSign =
+            appId: configWeiXinPay.appid
             timeStamp: Math.floor(Date.now()/1000)+"",
             nonceStr: resultWeixinPay.nonce_str,
             package: "prepay_id="+resultWeixinPay.prepay_id,
@@ -318,14 +331,15 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             prepayId : resultWeixinPay.prepay_id
             packageValue : 'Sign=WXPay'
             nonceStr: resultWeixinPay.nonce_str
-            timeStamp: Math.floor(Date.now()/1000)
-
+            timeStamp: Math.floor(Date.now()/1000)+""
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
           weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
 
           resultOrder.paymentWeixinpay =
             nativeSign: weixinpayNativeSign
+            JSSdkConfigSign: weixinpayJSSdkConfigSign
             mobileSign: weixinpayMobileSign
             nonce_str : resultWeixinPay.nonce_str
             sign : resultWeixinPay.sign
