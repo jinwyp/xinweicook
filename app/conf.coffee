@@ -54,8 +54,8 @@ conf =
   weixinAppPay :
       appid: "wxc31508f4ded1402b"
       mch_id: "1260182401" # WXPartnerID
-      secret: "8ade6dca11118541ffae1ef4e5a19160"
-      key: "Gothicjk1129xinwei789tencentsbsb"
+      secret: "8ade6dca11118541ffae1ef4e5a19160"  # APP secret
+      key: "xinweicook201507272147xinweicook"  # WXPartner secret
       notify_url : "/api/orders/payment/weixinpay/mobile"
 
   xingePush :

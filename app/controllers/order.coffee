@@ -302,17 +302,35 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
-          weixinpaySign =
-            appId : configWeiXinPay.appid
+          weixinpayMobileSign =
             timeStamp: Math.floor(Date.now()/1000)
             nonceStr: resultWeixinPay.nonce_str
             package: resultWeixinPay.prepay_id
             signType: "MD5"
 
-          weixinpaySign.paySign = weixinpay.sign(weixinpaySign);
+          weixinpayMobileSign =
+            timeStamp: Math.floor(Date.now()/1000)+"",
+            nonceStr: resultWeixinPay.nonce_str,
+            package: "prepay_id="+resultWeixinPay.prepay_id,
+            signType: "MD5"
+
+          # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
+          weixinpayNativeSign =
+            appId : configWeiXinAppPay.appid
+            partnerId : configWeiXinAppPay.mch_id
+            prepayId : resultWeixinPay.prepay_id
+            packageValue : 'Sign=WXPay'
+            nonceStr: resultWeixinPay.nonce_str
+            timeStamp: Math.floor(Date.now()/1000)
+
+          if resultOrder.clientFrom is "ios"
+            weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
+            resultOrder.paymentWeixinpay.nativeSign = weixinpayNativeSign
+          else
+            weixinpayMobileSign.paySign = weixinpay.sign(weixinpaySign);
+            resultOrder.paymentWeixinpay.mobileSign = weixinpayMobileSign
 
           resultOrder.paymentWeixinpay =
-            weixinpayJsapiSign : weixinpaySign
 
             nonce_str : resultWeixinPay.nonce_str
             sign : resultWeixinPay.sign
@@ -322,16 +340,17 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
           resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-            resultTemp = resultOrder.toJSON()
+            resultTemp = resultOrder2.toJSON()
             delete resultTemp.dishList
 
             res.json resultTemp
 
+    else
+      resultTemp = resultOrder.toJSON()
+      delete resultTemp.dishList
 
+      res.json resultTemp
 
-    resultOrder.saveAsync()
-  .spread (resultOrder, numberAffected) ->
-    res.json resultOrder
   .catch next
 
 
