@@ -377,7 +377,8 @@ exports.updateOrder = (req, res, next) ->
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
-    if req.body.isPaymentPaid is true and resultOrder.status isnt models.order.constantStatus().canceled
+
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 
