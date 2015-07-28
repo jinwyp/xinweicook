@@ -91,14 +91,16 @@
                 <th>拆分订单</th>
                 <th>子订单</th>
                 <th>子订单ID</th>
+                <th>联系人</th>
+                <th>地址</th>
 
                 <th>支付方式</th>
                 <th>是否付款</th>
-                <th>货到付款现金支付</th>
+                <!--<th>货到付款现金支付</th>-->
                 <th>预计配送时间</th>
                 <th>订单菜品类型</th>
                 <th>菜品价格</th>
-                <th>积分</th>
+                <!--<th>积分</th>-->
                 <th>优惠码</th>
                 <th>运费</th>
                 <th>总价</th>
@@ -112,13 +114,16 @@
                 <td>{{order.isChildOrder}}</td>
                 <td>{{order.childOrderList}}</td>
 
+                <td>{{order.address.contactPerson}}</td>
+                <td>{{order.address.address}} / {{data.order.address.city}}  / {{data.order.address.district}} / {{data.order.address.street}}</td>
+
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
-                <td>{{order.paymentUsedCash}}</td>
+                <!--<td>{{order.paymentUsedCash}}</td>-->
                 <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
-                <td>{{order.credit}}</td>
+                <!--<td>{{order.credit}}</td>-->
                 <td>{{order.promotionCode}}</td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
