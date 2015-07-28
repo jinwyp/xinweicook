@@ -21,6 +21,7 @@ angular.module('xw.weixin').factory('Weixin',function () {
             setting.debug = defaultSetting.debug;
             setting.appId = defaultSetting.appId;
             setting.jsApiList = defaultSetting.jsApiList;
+            setting.nonceStr = setting.noncestr;
 
             wx.config(setting);
         },
