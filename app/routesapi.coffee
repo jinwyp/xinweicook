@@ -26,7 +26,6 @@ expressRoutes = (app) ->
   app.post("/api/orders/payment/weixinpay/notify", orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayOpenId)
-  app.get("/api/orders/payment/weixinpay/openid2", orderController.getWeixinPayOpenId2)
 
 #  app.use libs.secure.middleware
 

@@ -489,42 +489,8 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
+
 exports.getWeixinPayOpenId = (req, res, next) ->
-  console.log "========================WeixinPayOpenId :: ", req.query
-
-  code = req.query.code;
-  order_number_state = req.query.state;
-
-  if not code or code.length is 0
-    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-
-  url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + configWeiXinPay.appid + '&secret=' + configWeiXinPay.secret + '&code=' + code + '&grant_type=authorization_code';
-
-  opts =
-    method: 'GET'
-    url: url
-    timeout: 3000
-
-  request opts, (err, resp, body)->
-    if err
-      throw new Err "Weixin Pay access_token error,  access_token is null", 400
-
-    body = JSON.parse(body) # 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-
-    weixinUser =
-      access_token : body.access_token
-      openid : body.openid
-      refresh_token : body.refresh_token
-
-
-    res.redirect('/mobile/order/'+ body.openid);
-#    req.u.saveAsync().spread (result, numberAffected) ->
-#      res.send result
-#    .catch next
-
-
-
-exports.getWeixinPayOpenId2 = (req, res, next) ->
   console.log "========================WeixinPayOpenId :: ", req.query
 
   code = req.query.code;
@@ -535,18 +501,24 @@ exports.getWeixinPayOpenId2 = (req, res, next) ->
     throw new Err "Weixin Pay OpenId get code error,  code is null", 400
 
   weixinpay.getUserOpenId(code, (err, result) ->
+
     if err
       throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-    else
-      models.user.findOneAsync({"_id": userID}).then (resultUser) ->
-        models.user.checkNotFound resultUser
-        resultUser.weixinId.access_token = result.access_token
-        resultUser.weixinId.openid = result.openid
-        resultUser.weixinId.refresh_token = result.refresh_token
 
-        resultUser.saveAsync()
-      .spread (resultUser2, numberAffected) ->
-        res.json(resultUser2)
+    if !result.errcode
+
+      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+        if resultOrder
+          models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
+            if resultUser
+              resultUser.weixinId.access_token = result.access_token
+              resultUser.weixinId.openid = result.openid
+              resultUser.weixinId.refresh_token = result.refresh_token
+
+              resultUser.saveAsync()
+
+      res.redirect('/mobile/order/'+ result.openid)
+#        res.send result
       .catch next
 
   )
