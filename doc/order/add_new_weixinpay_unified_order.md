@@ -20,12 +20,12 @@ Group `member`
 
 ```js
 {
-    "_id" : "5590d256103f46d9ac31e3ee",
+    "orderId" : "5590d256103f46d9ac31e3ee",
 
     "device_info" : "weixinpay",
     "spbill_create_ip" : "192.168.1.1",
     "trade_type" : "NATIVE",
-    "openid" : false
+    "openid" : ""
 
 }
 ```

@@ -3963,7 +3963,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"_id\\":\\"55b706a76a791f4947c132e4\\",\\"spbill_create_ip\\":\\"192.168.1.1\\",\\"trade_type\\":\\"APP\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"url\\": \\"\\/mobile\\/order\\"\\n}"]</attribute>
         <attribute name="order" type="int64">14</attribute>
         <attribute name="name" type="string">user-addNewWeixinJSSDKConfig</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
