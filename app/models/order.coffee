@@ -392,8 +392,6 @@ module.exports =
 
             resultTime.push(segmentHour)
 
-
-
       resultTime
 
   methods: {}
