@@ -21,6 +21,7 @@ weixinpay = WXPay(configWeiXinPay)
 
 
 
+
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
   models.order.validationGetOrderList req.query
@@ -276,8 +277,8 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder.payment is models.order.constantPayment().weixinpay
 
-#      if resultOrder.clientFrom is "ios"
-#        weixinpay = WXPay(configWeiXinAppPay)
+      if resultOrder.clientFrom is "ios"
+        weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
@@ -321,10 +322,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-
           weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
-
-          console.log "--------------", weixinpayMobileSign
 
           resultOrder.paymentWeixinpay =
             nativeSign: weixinpayNativeSign
@@ -527,8 +525,11 @@ exports.getWeixinPayOpenId = (req, res, next) ->
 
 
 exports.getWeixinPayOpenId2 = (req, res, next) ->
+  console.log "========================WeixinPayOpenId :: ", req.query
+
   code = req.query.code;
-  userID = req.query.state;
+  order_number_state = req.query.state;
+  models.order.validationOrderId order_number_state
 
   if not code or code.length is 0
     throw new Err "Weixin Pay OpenId get code error,  code is null", 400
