@@ -10,8 +10,9 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         var orderId = paths[paths.length - 1];
 
         Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
-
-        })
+            alert('获取jsconfig成功');
+            Weixin.config(res.data);
+        });
 
         Orders.getUnifiedOrder({
             orderId: orderId,
