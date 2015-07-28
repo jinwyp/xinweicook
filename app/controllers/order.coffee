@@ -45,7 +45,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
       models.setting.createAsync(newInfo2)
       .then (result)->
-        res.json result.value
+        res.json weixinpayJSSdkConfigSign
       .catch next
   )
 
