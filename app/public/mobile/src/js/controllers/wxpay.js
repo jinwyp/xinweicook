@@ -9,9 +9,18 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
 
+        Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
+            alert('获取jsconfig成功');
+            Weixin.config(res.data);
+        });
 
-        Orders.getOrder(orderId).then(function (res) {
+        Orders.getUnifiedOrder({
+            orderId: orderId,
+            trade_type: 'JSAPI'
+        }).then(function (res) {
+            alert('生成统一订单成功');
             Weixin.ready(function () {
+                alert('weixin.config ready');
                 var wxInfo = res.weixinpayMobileSign;
                 Weixin.pay({
                     timestamp: wxInfo.timeStamp,

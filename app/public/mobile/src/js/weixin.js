@@ -18,7 +18,11 @@ angular.module('xw.weixin').factory('Weixin',function () {
          * @param setting
          */
         config: function (setting) {
-            wx.config(setting, defaultSetting);
+            setting.debug = defaultSetting.debug;
+            setting.appId = defaultSetting.appId;
+            setting.jsApiList = defaultSetting.jsApiList;
+
+            wx.config(setting);
         },
         /**
          * pass the wxpaysetting

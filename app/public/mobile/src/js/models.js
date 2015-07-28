@@ -23,6 +23,12 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         getList: function () {
             return $http.get('/api/orders');
+        },
+        getUnifiedOrder: function (data) {
+            return $http.post('/api/orders/payment/weixinpay/unifiedorder', data);
+        },
+        getJsconfig: function (url) {
+            return $http.post('/api/orders/payment/weixinpay/config', {url: url});
         }
     }
 });
