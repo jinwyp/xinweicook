@@ -525,6 +525,8 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 exports.getWeixinPayOpenId = (req, res, next) ->
   console.log "========================WeixinPayOpenId :: ", req
   console.log "========================WeixinPayOpenId :: ", req.query
+  console.log "========================WeixinPayOpenId :: ", req.body
+  console.log "========================WeixinPayOpenId :: ", req.params
 
   code = req.query.code;
   order_number_state = req.query.state;

@@ -67,12 +67,12 @@ module.exports =
 
     paymentWeixinpay :
 
-      JSSdkConfigSign :
-        nonceStr: String
-        timeStamp: String
-        jsapi_ticket: String
-        url: String
-        signature :String
+#      JSSdkConfigSign :
+#        nonceStr: String
+#        timeStamp: String
+#        jsapi_ticket: String
+#        url: String
+#        signature :String
 
       mobileSign :
         appId : String
