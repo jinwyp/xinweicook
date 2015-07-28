@@ -13,7 +13,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
-                location.href = 'login'
+                location.href = '/mobile/login'
 
             }
             return $q.reject(response);

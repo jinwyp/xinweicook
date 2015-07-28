@@ -7,7 +7,12 @@ angular.module('xw.weixin').factory('Weixin',function () {
     };
 
     var state = {
-        ready: false,
+        readyState: false,
+        ready: function (cb) {
+            if (this.readyState) {
+                cb();
+            } else this.ready.cb = cb;
+        },
         /**
          * set jsapi config
          * @param setting
@@ -25,13 +30,10 @@ angular.module('xw.weixin').factory('Weixin',function () {
         }
     };
 
-    if (/order\/([^/]+)$/.test(location.href)) {
-        state.openid = RegExp.$1;
-    }
 
 
     wx.ready(function(){
-        state.ready = true;
+        state.cb && state.cb();
     });
 
 
