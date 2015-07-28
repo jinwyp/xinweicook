@@ -540,9 +540,10 @@ exports.getWeixinPayOpenId = (req, res, next) ->
       if !result.errcode
         models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
           if resultOrder
-            console.log "========================WeixinPayOpenId :: ", resultOrder
+            console.log "========================OrderId :: ", resultOrder
             models.user.findOneAsync({"_id": resultOrder.user}).then (resultUser) ->
               if resultUser
+                console.log "========================UserId :: ", resultUser
                 resultUser.weixinId.access_token = result.access_token
                 resultUser.weixinId.openid = result.openid
                 resultUser.weixinId.refresh_token = result.refresh_token
