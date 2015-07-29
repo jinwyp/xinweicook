@@ -14,6 +14,10 @@ couponController = require("./controllers/coupon.coffee");
 
 expressRoutes = function(app) {
 
+    app.get("/", function (req, res) {
+        res.redirect('/mobile');
+    });
+
     app.get("/mobile", function (req, res) {
         res.render('mobile/eat-list.html', {title: 'XinWeiCook'})
     });
