@@ -361,12 +361,10 @@ exports.addNewOrder = (req, res, next) ->
       promotionCode.used(req.u)
 
     # 删除用户购物车商品
-#
+
 #    for dish, dishIndex in req.u.shoppingCart
-#      console.log "--------", dishIdList
-#      console.log "--------", dish.dish
-#      if dishIdList.indexOf(dish.dish.toString()) > -1
-#        console.log "--------", dishIdList.indexOf(dish.dish.toString()), dish.dish.toString()
+#      if dishIdList.indexOf(dish.dish) > -1
+#        console.log "--------", dishIdList.indexOf(dish.dish), dish.dish
 #        req.u.shoppingCart.splice(dishIndex, 1)
 
 
