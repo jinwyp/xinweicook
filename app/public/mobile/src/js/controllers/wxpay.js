@@ -26,27 +26,32 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
             alert('生成统一订单成功');
             Weixin.ready(function () {
                 alert('weixin.config ready');
-                var wxInfo = res.weixinpayMobileSign;
-                Weixin.pay({
-                    timestamp: wxInfo.timeStamp,
-                    nonceStr: wxInfo.nonceStr,
-                    signType: wxInfo.signType,
-                    package: wxInfo.package,
-                    paySign: wxInfo.paySign,
-                    success: function () {
-                        $scope.$apply(function () {
-                            $scope.state = 'success';
-                            setTimeout(function () {
-                                location.href = '/mobile'
-                            }, 3000);
-                        });
-                    },
-                    fail: function () {
-                        $scope.$apply(function () {
-                            $scopoe.state = 'fail';
-                        })
-                    }
-                })
+                try {
+                    var wxInfo = res.data.weixinpayMobileSign;
+
+                    Weixin.pay({
+                        timestamp: wxInfo.timeStamp,
+                        nonceStr: wxInfo.nonceStr,
+                        signType: wxInfo.signType,
+                        package: wxInfo.package,
+                        paySign: wxInfo.paySign,
+                        success: function () {
+                            $scope.$apply(function () {
+                                $scope.state = 'success';
+                                setTimeout(function () {
+                                    location.href = '/mobile'
+                                }, 3000);
+                            });
+                        },
+                        fail: function () {
+                            $scope.$apply(function () {
+                                $scopoe.state = 'fail';
+                            })
+                        }
+                    })
+                } catch (e) {
+                    alert('调用weixinpay失败');
+                }
             });
 
         }).catch(function (res) {
