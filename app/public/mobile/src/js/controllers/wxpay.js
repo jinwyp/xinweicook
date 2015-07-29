@@ -32,6 +32,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
 
                     // todo: weixin h5 pay https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
                     function onBridgeReady() {
+                        alert(JSON.stringify(wxInfo));
                         WeixinJSBridge.invoke(
                             'getBrandWCPayRequest', {
                                 "appId": "wx37a1323e488cef84",     //公众号名称，由商户传入
