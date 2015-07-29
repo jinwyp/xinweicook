@@ -169,13 +169,17 @@ module.exports =
       models.token.findTokenAndUserByAccessToken(access_token).then((t)->
         if t.user
           t.user
-          .populate({path: 'dishLikeList', select: models.dish.fields()})
-          .populate({path: 'couponList'})
-          .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-          .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
         else
           throw new Err "找不到该用户", 401
       ).then(@checkNotFound).then(@checkNotSpam)
+    find1 : (options) ->
+      @findOne(options)
+      .select(models.user.fields())
+      .populate({path: 'dishLikeList', select: models.dish.fields()})
+      .populate({path: 'couponList'})
+      .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
+      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+      .execAsync()
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4

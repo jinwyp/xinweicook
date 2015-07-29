@@ -46,6 +46,8 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 
 
+
+
 exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code } = req.body
@@ -66,6 +68,8 @@ exports.userSignUp = (req, res, next) ->
 
 
 
+
+
 exports.resetPassword = (req, res, next) ->
   # 重置密码
   { mobile, pwd, code } = req.body
@@ -81,13 +85,30 @@ exports.resetPassword = (req, res, next) ->
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 统一接口 user 信息只在最后返回时 做populate
 exports.userInfo = (req, res, next) ->
-  # 取用户信息
-  #  obj = req.u.toJSON()
-  res.json req.u
+
+  models.user.find1({_id : req.u._id}).then (resultUser)->
+    res.json resultUser
+  .catch next
 
 
-
+# 获取用户消息通知 iOS
 exports.getUserMessages = (req, res, next) ->
 
   models.message.find({user:req.u._id})
@@ -98,12 +119,8 @@ exports.getUserMessages = (req, res, next) ->
 
 
 
-
-
-
-
+# 修改用户信息 收货地址
 exports.updateUserInfo = (req, res, next) ->
-  # 修改用户信息 收货地址
 
   models.user.validationUserInfo req.body
 
@@ -111,24 +128,24 @@ exports.updateUserInfo = (req, res, next) ->
   req.u.gender = req.body.gender if req.body.gender
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
-  req.u.saveAsync()
-  .spread (resultUser, numberAffected) ->
-    res.json resultUser
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.find1({_id : resultUser._id})
+  .then (user) ->
+    res.json user
   .catch next
 
 
 
 
+# 修改或加入 购物车商品
 exports.updateShoppingCart = (req, res, next) ->
-  # 加入购物车
 
   models.user.validationShoppingCart req.body
 
   req.u.shoppingCart = req.body.shoppingCart
-  req.u.saveAsync()
-  .spread (resultUser, numberAffected) ->
-    resultUser.populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-    .populateAsync({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.find1({_id : resultUser._id})
   .then (user) ->
     res.json user
   .catch next
+
