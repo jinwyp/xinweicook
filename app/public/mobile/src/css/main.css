@@ -103,6 +103,11 @@ label {
   content: "- ¥ ";
 }
 
+/* line 97, ../sass/_base.scss */
+[ng-cloak] {
+  display: none;
+}
+
 /***** login *****/
 /* line 6, ../sass/_login.scss */
 .login-nav {
