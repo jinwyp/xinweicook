@@ -36,7 +36,9 @@ angular.module('xw.weixin').factory('Weixin',function () {
 
 
     wx.ready(function(){
+        alert('wx.ready called');
         state.cb && state.cb();
+        state.readyState = true;
     });
 
 
