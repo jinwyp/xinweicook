@@ -33,21 +33,29 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             next(err)
 
           if resultTicket
-
             weixinpayJSSdkConfigSign =
               noncestr: weixinpay.util.generateNonceString()
               timestamp: Math.floor(Date.now()/1000)+""
               jsapi_ticket: resultTicket.ticket
               url: req.body.url
 
-            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
 
             resultSetting.value = weixinpayJSSdkConfigSign
-            resultSetting.expiredDate =  moment().add(100, 'minutes')
+            resultSetting.expiredDate =  moment().add(60, 'minutes')
             resultSetting.saveAsync()
             res.json weixinpayJSSdkConfigSign
         )
       else
+        weixinpayJSSdkConfigSign =
+          noncestr: resultSetting.value.noncestr
+          timestamp: Math.floor(Date.now()/1000)+""
+          jsapi_ticket: resultSetting.value.jsapi_ticket
+          url: req.body.url
+
+        weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
+        resultSetting.value = weixinpayJSSdkConfigSign
+        resultSetting.saveAsync()
         res.json resultSetting.value
     else
       weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
@@ -68,7 +76,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : weixinpayJSSdkConfigSign
-            expiredDate : moment().add(100, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
 
           models.setting.createAsync(newInfo2)
           res.json weixinpayJSSdkConfigSign
@@ -190,7 +198,6 @@ exports.addNewOrder = (req, res, next) ->
   dishDataList = {}
 
   promotionCode = {}
-  promotionCodePrice = 0
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -349,11 +356,21 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
-    # 优惠券已使用
+    # 优惠券已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+    # 删除用户购物车商品
+#
+#    for dish, dishIndex in req.u.shoppingCart
+#      console.log "--------", dishIdList
+#      console.log "--------", dish.dish
+#      if dishIdList.indexOf(dish.dish.toString()) > -1
+#        console.log "--------", dishIdList.indexOf(dish.dish.toString()), dish.dish.toString()
+#        req.u.shoppingCart.splice(dishIndex, 1)
 
+
+    # 发送iOS 推送
     additionalContent =
       userId : req.u._id
       orderId : resultOrder._id
