@@ -9,6 +9,7 @@ angular.module('xw.weixin').factory('Weixin',function () {
     var state = {
         readyState: false,
         ready: function (cb) {
+            alert('Weixin.ready called');
             if (this.readyState) {
                 cb();
             } else this.ready.cb = cb;
@@ -18,10 +19,17 @@ angular.module('xw.weixin').factory('Weixin',function () {
          * @param setting
          */
         config: function (setting) {
+            var that = this;
             setting.debug = defaultSetting.debug;
             setting.appId = defaultSetting.appId;
             setting.jsApiList = defaultSetting.jsApiList;
             wx.config(setting);
+
+            wx.ready(function(){
+                alert('wx.ready called');
+                that.ready.cb && that.ready.cb();
+                that.readyState = true;
+            });
         },
         /**
          * pass the wxpaysetting
@@ -35,11 +43,7 @@ angular.module('xw.weixin').factory('Weixin',function () {
 
 
 
-    wx.ready(function(){
-        alert('wx.ready called');
-        state.cb && state.cb();
-        state.readyState = true;
-    });
+
 
 
     return state;
