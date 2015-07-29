@@ -51,7 +51,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                                         }, 3000);
                                     });
                                 } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-                                    alert(res);
+                                    alert(JSON.stringify(res));
                                     $scope.$apply(function () {
                                         $scope.state = 'fail';
                                     })
