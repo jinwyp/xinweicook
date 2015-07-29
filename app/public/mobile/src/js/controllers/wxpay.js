@@ -27,7 +27,8 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
             Weixin.ready(function () {
                 alert('weixin.config ready');
                 try {
-                    var wxInfo = res.data.weixinpayMobileSign;
+                    var wxInfo = res.data.paymentWeixinpay.mobileSign;
+                    $scope.order = res.data;
 
                     Weixin.pay({
                         timestamp: wxInfo.timeStamp,
@@ -36,6 +37,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                         package: wxInfo.package,
                         paySign: wxInfo.paySign,
                         success: function () {
+                            alert('pay success');
                             $scope.$apply(function () {
                                 $scope.state = 'success';
                                 setTimeout(function () {
@@ -44,6 +46,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                             });
                         },
                         fail: function () {
+                            alert('pay fail');
                             $scope.$apply(function () {
                                 $scopoe.state = 'fail';
                             })
