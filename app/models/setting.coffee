@@ -9,6 +9,9 @@ module.exports =
         JSON.stringify value
       get: (value) ->
         JSON.parse value
+    expiredDate: type: Date
+    isExpired : type: Boolean, default:false
+
   statics: {}
   methods: {}
   rest: {}
