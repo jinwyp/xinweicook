@@ -17,6 +17,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            skip : 0,
+            limit : 3,
             status : '',
             orderNumber : '',
             isSplitOrder : '',
@@ -26,6 +28,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
         orderList : [],
         orderListCount : 0,
+        orderListCurrentPage : 1,
+        orderListPages : 1,
+        orderListPagesArray : [],
         order : {},
 
         orderStatusList : [
@@ -179,11 +184,21 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     };
 
     if ($state.current.data.type === 'list'){
-        Orders.getList().then(function (orders) {
-            $scope.data.orderList = orders;
-        });
+
         Orders.one('count').get().then(function (orders) {
-            $scope.data.orderListCount = orders;
+            $scope.data.orderListCount = orders.count;
+            $scope.data.orderListPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
+
+            for (var i = 1; i <= $scope.data.orderListPages; i++){
+                $scope.data.orderListPagesArray.push({value:i})
+            }
+
+            Orders.getList().then(function (orders) {
+                $scope.data.orderList = orders;
+            });
+
+            $scope.searchOrder();
+
         });
     }
 
