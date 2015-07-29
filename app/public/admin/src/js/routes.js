@@ -69,10 +69,14 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: function ($scope, User, $http, $location) {
+                    $scope.css = false;
                     $scope.login = function () {
                         User.login($scope.username, $scope.password).then(function () {
                             $location.url('/dishes')
+                        }).catch(function(){
+                            $scope.css = true;
                         })
+
                     };
                 }
             })
