@@ -42,7 +42,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
 
             resultSetting.value = weixinpayJSSdkConfigSign
-            resultSetting.expiredDate =  moment().add(100, 'minutes')
+            resultSetting.expiredDate =  moment().add(60, 'minutes')
             resultSetting.saveAsync()
             res.json weixinpayJSSdkConfigSign
         )
@@ -76,7 +76,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : weixinpayJSSdkConfigSign
-            expiredDate : moment().add(100, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
 
           models.setting.createAsync(newInfo2)
           res.json weixinpayJSSdkConfigSign
