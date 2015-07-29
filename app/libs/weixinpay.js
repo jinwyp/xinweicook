@@ -64,7 +64,7 @@ var configWeiXinPay = {
     secret: "",
     key: "",
 
-    notify_url : "http://pay.weixin.qq.com",
+    notify_url : "",
 
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
     url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //通过code换取网页授权access_token
@@ -127,23 +127,23 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         notify_url: item.weixin_notify_url || this.config.notify_url,
 
         out_trade_no: item.out_trade_no || "sample out_trade_no", //商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-        total_fee: item.total_fee || 1,
+        total_fee: item.total_fee || 10000,
         spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        trade_type: item.trade_type || 'NATIVE', // JSAPI，NATIVE，APP，WAP
+        trade_type: item.trade_type || 'JSAPI', // JSAPI，NATIVE，APP，WAP
         openid: item.openid || "", // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
-        product_id : item.product_id || "sample product_id", // trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+        //product_id : item.product_id || "sample product_id", // trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
         body:  item.body || "sample body 商品描述", //商品描述 商品或支付单简要描述
 
         // 上面为必填 下面为选填
         detail:  item.detail || "sample detail" , //商品详情 商品名称明细列表
-        attach: item.attach || "sample attach" , // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-        goods_tag : item.goods_tag, //商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
-        fee_type : item.fee_type || "CNY" //符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+        attach: item.attach || "sample attach"  // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+        //goods_tag : item.goods_tag, //商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+        //fee_type : item.fee_type || "CNY" //符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
 
     };
-    newOrder.sign = this.sign (newOrder, this.config.key) ;
+    newOrder.sign = this.sign (newOrder) ;
 
     //下面处理buildXML toString() 方法报错
     for(var key in newOrder){
