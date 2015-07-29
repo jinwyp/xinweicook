@@ -7,7 +7,7 @@ Group `member`
 
 | Name             | Type     | Desc                              |
 |:-----------------|:---------|:----------------------------------|
-| isPaymentPaid    | Boolean  | 订单是否支付  true 或 false          |
+| isPaymentPaid    | String  | 订单是否支付  "true" 或 "false""          |
 | status           | String   | 订单取消 canceled         |
 
 
@@ -26,7 +26,7 @@ Group `member`
 
 ```js
 {
-  "isPaymentPaid": false,
+  "isPaymentPaid": "false"",
   "status": "canceled"
 }
 ```
