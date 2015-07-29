@@ -23,7 +23,7 @@ module.exports = (group="guest") ->
       # logger.debug groups
       # logger.debug req.u
       if req.u.group in groups
-        next()
+        next() # TODO BUG
       else
         if req.e
           next req.e
