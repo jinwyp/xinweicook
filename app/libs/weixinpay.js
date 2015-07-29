@@ -19,7 +19,7 @@ var util = {
         var parser = new xml2js.Parser({ trim:true, explicitArray:false, explicitRoot:false });
         parser.parseString(xml, fn);
     },
-    generateNonceString : function(length){
+    generateNonceString2 : function(length){
         var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var maxPos = chars.length;
         var noceStr = "";
@@ -27,8 +27,28 @@ var util = {
             noceStr += chars.charAt(Math.floor(Math.random() * maxPos));
         }
         return noceStr;
-    }
+    },
 
+    generateNonceString : function(len, type) {
+        var chars, l, result, x, _i;
+        len = len ? len : 16;
+        type = type ? type : 'azAZ09';
+        chars = {
+            all: '~!@#$%^&*()_+=-[]\;/.,<>?:{}|0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz',
+            azAZ09: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz',
+            az09: '0123456789abcdefghiklmnopqrstuvwxyz',
+            easy: '3478ABEFHKMNPQRSTWXTacdefghikmnpstwxy',
+            num: '0123456789',
+            en: 'ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
+        };
+        chars = chars[type].split('');
+        result = '';
+        l = chars.length;
+        for (x = _i = 0; 0 <= len ? _i < len : _i > len; x = 0 <= len ? ++_i : --_i) {
+            result += chars[Math.floor(Math.random() * l)];
+        }
+        return result;
+    }
 };
 
 
@@ -170,7 +190,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
 
 
 
-weiXinPay.prototype.sign = function(obj){
+weiXinPay.prototype.sign2 = function(obj){
     var querystring = Object.keys(obj)
         .filter(function (key) {
             return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
@@ -184,6 +204,17 @@ weiXinPay.prototype.sign = function(obj){
     querystring = querystring + "&key=" + this.config.key ;
     return md5( querystring ).toUpperCase();
 };
+
+weiXinPay.prototype.sign = function(obj){
+    var str = Object.keys(obj).filter(function (key) {
+        return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+    }).sort().map(function (key) {
+        return key + "=" + obj[key];
+    }).join("&");
+    str = md5(str+"&key="+this.config.key).toUpperCase();
+    console.log("========== WeixinPay key:",  this.config.key);
+    return str;
+}
 
 
 weiXinPay.prototype.signSha1 = function(obj){
