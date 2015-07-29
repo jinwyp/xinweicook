@@ -33,7 +33,6 @@ function eatCtrl($scope, Dishes, $localStorage) {
 
         var exist = $scope.cart.some(function (el) {
             if (el._id == dish._id) {
-                el.count++;
                 return true;
             }
         });
@@ -44,6 +43,14 @@ function eatCtrl($scope, Dishes, $localStorage) {
     };
 
     $scope.makeOrder = function () {
+        // 购买限制, 2份起送
+        var itemCount = $scope.cart.reduce(function (count, el) {
+            return count + el.count;
+        }, 0);
+        if (itemCount < 2) {
+            alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
+            return;
+        }
         location.href = 'order';// todo: replace it with route
     };
 
@@ -69,6 +76,7 @@ function eatCtrl($scope, Dishes, $localStorage) {
                             el.count = dish.stock;
                         }
                         dish.count = el.count;
+                        cart[i] = dish;
                         return true;
                     }
                 });

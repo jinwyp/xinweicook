@@ -15,12 +15,12 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                 nonceStr :res.data.noncestr,
                 timestamp: res.data.timestamp,
                 signature: res.data.signature
-            }
+            };
             Weixin.config(setting);
         });
 
         Orders.getUnifiedOrder({
-            orderId: orderId,
+            _id: orderId,
             trade_type: 'JSAPI'
         }).then(function (res) {
             alert('生成统一订单成功');
@@ -49,6 +49,9 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                 })
             });
 
+        }).catch(function (res) {
+            alert(res.data);
+            alert('生成订单失败!');
         })
     }
     init();
