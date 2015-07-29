@@ -182,9 +182,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         Orders.getList().then(function (orders) {
             $scope.data.orderList = orders;
         });
-        //Orders.customGET('count').then(function (orders) {
-        //    $scope.data.orderListCount = orders;
-        //});
+        Orders.one('count').get().then(function (orders) {
+            $scope.data.orderListCount = orders;
+        });
     }
 
     if ($state.current.data.type === 'update'){
