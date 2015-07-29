@@ -18,7 +18,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 3,
+            limit : 100,
             status : '',
             orderNumber : '',
             isSplitOrder : '',
@@ -29,7 +29,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         orderList : [],
         orderListCount : 0,
         orderListCurrentPage : 1,
-        orderListPages : 1,
+        orderListTotalPages : 1,
         orderListPagesArray : [],
         order : {},
 
@@ -187,9 +187,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
         Orders.one('count').get().then(function (orders) {
             $scope.data.orderListCount = orders.count;
-            $scope.data.orderListPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
+            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
 
-            for (var i = 1; i <= $scope.data.orderListPages; i++){
+            for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
                 $scope.data.orderListPagesArray.push({value:i})
             }
 
@@ -252,6 +252,12 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
+    };
+
+    $scope.changePagination = function (currentPageNo) {
+        $scope.data.orderListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchOrder();
     };
 
 
