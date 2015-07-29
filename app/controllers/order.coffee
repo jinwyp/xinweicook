@@ -289,6 +289,9 @@ exports.addNewOrder = (req, res, next) ->
       orderId : resultOrder._id
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
+
+
+
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
     res.json resultTemp

@@ -81,8 +81,9 @@ module.exports =
         pushOptions =
           isPushMobile : true
 
-        if resultDevice
+        if resultDevice and resultDevice.deviceToken isnt ""
           models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
+
 
 
 
