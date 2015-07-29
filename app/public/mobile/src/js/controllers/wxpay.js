@@ -25,40 +25,37 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         }).then(function (res) {
             $scope.order = res.data;
             alert('生成统一订单成功');
-            setTimeout(function () {
-                Weixin.ready(function () {
-                    alert('weixin.config ready');
-                    try {
-                        var wxInfo = res.data.paymentWeixinpay.mobileSign;
-                        $scope.order = res.data;
+            Weixin.ready(function () {
+                alert('weixin.config ready');
+                try {
+                    var wxInfo = res.data.paymentWeixinpay.mobileSign;
 
-                        Weixin.pay({
-                            timestamp: wxInfo.timeStamp,
-                            nonceStr: wxInfo.nonceStr,
-                            signType: wxInfo.signType,
-                            package: wxInfo.package,
-                            paySign: wxInfo.paySign,
-                            success: function () {
-                                alert('pay success');
-                                $scope.$apply(function () {
-                                    $scope.state = 'success';
-                                    setTimeout(function () {
-                                        location.href = '/mobile'
-                                    }, 3000);
-                                });
-                            },
-                            fail: function () {
-                                alert('pay fail');
-                                $scope.$apply(function () {
-                                    $scope.state = 'fail';
-                                })
-                            }
-                        })
-                    } catch (e) {
-                        alert('调用weixinpay失败');
-                    }
-                });
-            },500);
+                    Weixin.pay({
+                        timestamp: wxInfo.timeStamp,
+                        nonceStr: wxInfo.nonceStr,
+                        signType: wxInfo.signType,
+                        package: wxInfo.package,
+                        paySign: wxInfo.paySign,
+                        success: function () {
+                            alert('pay success');
+                            $scope.$apply(function () {
+                                $scope.state = 'success';
+                                setTimeout(function () {
+                                    location.href = '/mobile'
+                                }, 3000);
+                            });
+                        },
+                        fail: function () {
+                            alert('pay fail');
+                            $scope.$apply(function () {
+                                $scope.state = 'fail';
+                            })
+                        }
+                    })
+                } catch (e) {
+                    alert('调用weixinpay失败');
+                }
+            });
 
         }).catch(function (res) {
             alert(res.data);

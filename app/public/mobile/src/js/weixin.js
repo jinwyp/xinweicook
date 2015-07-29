@@ -38,7 +38,7 @@ angular.module('xw.weixin').factory('Weixin',function () {
          */
         pay : function (setting) {
             setting.signType = 'MD5';
-            wx.chooseWXPlay(setting);
+            wx.chooseWXPay(setting);
         }
     };
 
