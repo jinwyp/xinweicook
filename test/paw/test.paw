@@ -3881,7 +3881,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"orderId\\":\\"55b706a76a791f4947c132e4\\",\\"spbill_create_ip\\":\\"192.168.1.1\\",\\"trade_type\\":\\"APP\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"_id\\":\\"55b83309ba12c0b3eafa3071\\",\\"spbill_create_ip\\":\\"192.168.1.1\\",\\"trade_type\\":\\"APP\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">13</attribute>
         <attribute name="name" type="string">user-addNewWeixinUnifiedOrder</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>

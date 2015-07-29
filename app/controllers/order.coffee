@@ -299,11 +299,11 @@ exports.addNewOrder = (req, res, next) ->
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
-  models.order.validationOrderId req.body.orderId
+  models.order.validationOrderId req.body._id
   models.order.validationWeixinPayUnifiedOrder req.body
 
 
-  models.order.findByIdAsync(req.body.orderId).then (resultOrder) ->
+  models.order.findByIdAsync(req.body._id).then (resultOrder) ->
 
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder
@@ -366,16 +366,13 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
           resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-#            resultTemp = resultOrder2.toJSON()
-#            delete resultTemp.dishList
+            resultTemp = resultOrder2.toJSON()
+            delete resultTemp.dishList
 
-            res.json resultOrder2
+            res.json resultTemp
 
     else
-#      resultTemp = resultOrder.toJSON()
-#      delete resultTemp.dishList
-
-      res.json resultOrder
+      throw new Err "Field validation error,  orderID not found!", 200
 
   .catch next
 
