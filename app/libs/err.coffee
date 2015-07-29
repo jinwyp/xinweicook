@@ -17,6 +17,7 @@ module.exports =
         status: err.status or 500
         _id: req._id
       if error.status < 500
+        if error.status isnt 401
         logger.warn "4XX Error: ", prettify error
       else
         logger.error "5XX Error: ", prettify error
