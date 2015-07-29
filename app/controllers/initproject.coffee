@@ -46,6 +46,7 @@ exports.removeUser = (req, res, next) ->
 
 exports.removeLog = (req, res, next) ->
   models.log.removeAsync({}).then () ->
+    models.setting.removeAsync({})
     res.send "Remove OK"
   .catch next
 
