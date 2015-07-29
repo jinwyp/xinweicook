@@ -24,12 +24,10 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
   # 增加生成微信developerAccessToken备用
   weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
     if resultTicket
-      newInfo =
-        name : "weixinPayJSSdkTicket"
-        key : "weixinPayJSSdkTicket"
-        value : resultTicket.ticket
-
-      models.setting.createAsync(newInfo)
+#      newInfo =
+#        name : "weixinPayJSSdkTicket"
+#        key : "weixinPayJSSdkTicket"
+#        value : resultTicket.ticket
 
       weixinpayJSSdkConfigSign =
         noncestr: weixinpay.util.generateNonceString()
@@ -38,12 +36,19 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
         url: req.body.url
 
       weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
       newInfo2 =
         name : "weixinPayJSSdkConfig"
         key : "weixinPayJSSdkConfig"
         value : weixinpayJSSdkConfigSign
 
-      models.setting.createAsync(newInfo2)
+      models.setting.findOneAsync({name:"weixinPayJSSdkConfig"})
+      .then (resultSetting) ->
+        if resultSetting
+          resultSetting.value = weixinpayJSSdkConfigSign
+          resultSetting.saveAsync()
+        else
+          models.setting.createAsync(newInfo2)
       .then (result)->
         res.json weixinpayJSSdkConfigSign
       .catch next
