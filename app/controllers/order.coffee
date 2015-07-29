@@ -376,7 +376,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder2.toJSON()
             delete resultTemp.dishList
-
+            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
             res.json resultTemp
 
     else
