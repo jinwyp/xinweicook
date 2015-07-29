@@ -184,7 +184,7 @@ module.exports =
 
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  orderID length must be 24-24", 400
+        return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
 
     validationGetOrderList : (query) ->
       if query.skip
