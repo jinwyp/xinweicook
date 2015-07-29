@@ -165,7 +165,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
-                //console.log("========== WeixinPay createUnifiedOrder body json:", json);
+                console.log("========== WeixinPay createUnifiedOrder body json:", json);
                 if(json && json.return_code === "SUCCESS" && json.result_code === "SUCCESS" && json.prepay_id ){
                     return callback(null, {
                         return_code: json.return_code,
