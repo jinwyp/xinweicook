@@ -33,14 +33,13 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             next(err)
 
           if resultTicket
-
             weixinpayJSSdkConfigSign =
               noncestr: weixinpay.util.generateNonceString()
               timestamp: Math.floor(Date.now()/1000)+""
               jsapi_ticket: resultTicket.ticket
               url: req.body.url
 
-            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
 
             resultSetting.value = weixinpayJSSdkConfigSign
             resultSetting.expiredDate =  moment().add(100, 'minutes')
@@ -48,6 +47,15 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
             res.json weixinpayJSSdkConfigSign
         )
       else
+        weixinpayJSSdkConfigSign =
+          noncestr: resultSetting.value.noncestr
+          timestamp: Math.floor(Date.now()/1000)+""
+          jsapi_ticket: resultSetting.value.jsapi_ticket
+          url: req.body.url
+
+        weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
+        resultSetting.value = weixinpayJSSdkConfigSign
+        resultSetting.saveAsync()
         res.json resultSetting.value
     else
       weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
