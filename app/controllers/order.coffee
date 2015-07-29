@@ -401,7 +401,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
-        total_fee: resultOrder.totalPrice
+        total_fee: resultOrder.totalPrice * 100
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         notify_url: "https://api.xinweicook.com/api/orders/payment/weixinpay/notify"
