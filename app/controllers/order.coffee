@@ -416,7 +416,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
-
+      console.log "------------------openId: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
@@ -426,9 +426,9 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
           weixinpayMobileSign =
             appId: configWeiXinPay.appid
-            timeStamp: parseInt(+new Date() / 1000, 10) + "",
-            nonceStr: resultWeixinPay.nonce_str,
-            package: "prepay_id="+resultWeixinPay.prepay_id,
+            timeStamp: parseInt(+new Date() / 1000, 10) + ""
+            nonceStr: weixinpay.util.generateNonceString()
+            package: "prepay_id="+resultWeixinPay.prepay_id
             signType: "MD5"
 
           # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
@@ -437,8 +437,8 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             partnerId : configWeiXinAppPay.mch_id
             prepayId : resultWeixinPay.prepay_id
             packageValue : 'Sign=WXPay'
-            nonceStr: resultWeixinPay.nonce_str
             timeStamp: parseInt(+new Date() / 1000, 10) + ""
+            nonceStr: weixinpay.util.generateNonceString()
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
           weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
