@@ -349,11 +349,15 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
-    # 优惠券已使用
+    # 优惠券已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+    # 删除用户购物车商品
 
+
+
+    # 发送iOS 推送
     additionalContent =
       userId : req.u._id
       orderId : resultOrder._id
