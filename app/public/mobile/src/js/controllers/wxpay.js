@@ -23,6 +23,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
             _id: orderId,
             trade_type: 'JSAPI'
         }).then(function (res) {
+            $scope.order = res.data;
             alert('生成统一订单成功');
             Weixin.ready(function () {
                 alert('weixin.config ready');
