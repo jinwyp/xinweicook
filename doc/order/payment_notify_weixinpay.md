@@ -1,6 +1,6 @@
 ## Req
 
-POST `/orders/payment/weixinpay/mobile`
+POST `/orders/payment/weixinpay/notify`
 
 
 | Name             | Type     | Desc                              |
