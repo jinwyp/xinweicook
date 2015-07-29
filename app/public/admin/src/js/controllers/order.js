@@ -25,6 +25,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         },
 
         orderList : [],
+        orderListCount : 0,
         order : {},
 
         orderStatusList : [
@@ -180,6 +181,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     if ($state.current.data.type === 'list'){
         Orders.getList().then(function (orders) {
             $scope.data.orderList = orders;
+        });
+        Orders.one('count').get().then(function (orders) {
+            $scope.data.orderListCount = orders;
         });
     }
 
