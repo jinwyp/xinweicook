@@ -3,13 +3,14 @@
 
 
 
-
+# 获取所有菜品
 exports.dishList = (req, res, next) ->
-  # 获取所有菜品
+
   models.dish.find99({sideDishType : "main", isPublished : true})
   .then (dishes) ->
     res.json dishes
   , next
+
 
 
 exports.dishSingleInfo = (req, res, next) ->
@@ -25,6 +26,29 @@ exports.dishSingleInfo = (req, res, next) ->
 
 
 
+
+
+
+
+
+# 新建菜品
+exports.addNewDish = (req, res, next) ->
+
+  models.dish.validationNewDish req.body
+
+  createDish = _.assign createDish, req.body
+
+  models.dish.createAsync createDish
+  .then (resultDishes) ->
+    res.json resultDishes
+  , next
+
+
+
+
+
+
+# 喜欢 赞菜品 或 取消赞菜品
 exports.updateDishStatisticLike = (req, res, next) ->
 
   models.dish.validationDishId req.params._id
@@ -47,27 +71,6 @@ exports.updateDishStatisticLike = (req, res, next) ->
   .then (resultDish3) ->
     res.json resultDish3
   .catch next
-
-
-
-
-
-exports.addNewDish = (req, res, next) ->
-  # 新建菜品
-  models.dish.validationNewDish req.body
-
-  createDish = _.assign createDish, req.body
-
-  models.dish.createAsync createDish
-  .then (resultDishes) ->
-    res.json resultDishes
-  , next
-
-
-
-
-
-
 
 
 
