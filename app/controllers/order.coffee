@@ -427,7 +427,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
           weixinpayMobileSign =
             appId: configWeiXinPay.appid
             timeStamp: Math.floor(Date.now()/1000)+"",
-            nonceStr: resultWeixinPay.nonce_str,
+            nonceStr: weixinpay.util.generateNonceString(),
             package: "prepay_id="+resultWeixinPay.prepay_id,
             signType: "MD5"
 
@@ -437,7 +437,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             partnerId : configWeiXinAppPay.mch_id
             prepayId : resultWeixinPay.prepay_id
             packageValue : 'Sign=WXPay'
-            nonceStr: resultWeixinPay.nonce_str
+            nonceStr: weixinpay.util.generateNonceString()
             timeStamp: Math.floor(Date.now()/1000)+""
 
           weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
