@@ -22,37 +22,102 @@ weixinpay = WXPay(configWeiXinPay)
 
 exports.getWeixinDeveloperAccessToken = (req, res, next) ->
   # 增加生成微信developerAccessToken备用
-  weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
-    if resultTicket
-#      newInfo =
-#        name : "weixinPayJSSdkTicket"
-#        key : "weixinPayJSSdkTicket"
-#        value : resultTicket.ticket
 
-      weixinpayJSSdkConfigSign =
-        noncestr: weixinpay.util.generateNonceString()
-        timestamp: Math.floor(Date.now()/1000)+""
-        jsapi_ticket: resultTicket.ticket
-        url: req.body.url
 
-      weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+  models.setting.findOneAsync({name:"weixinPayJSSdkConfig", isExpired:false})
+  .then (resultSetting) ->
+    if resultSetting
+      if models.setting.checkExpired(resultSetting)
+        weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+          if err
+            next(err)
 
-      newInfo2 =
-        name : "weixinPayJSSdkConfig"
-        key : "weixinPayJSSdkConfig"
-        value : weixinpayJSSdkConfigSign
+          if resultTicket
 
-      models.setting.findOneAsync({name:"weixinPayJSSdkConfig"})
-      .then (resultSetting) ->
-        if resultSetting
-          resultSetting.value = weixinpayJSSdkConfigSign
-          resultSetting.saveAsync()
-        else
+            weixinpayJSSdkConfigSign =
+              noncestr: weixinpay.util.generateNonceString()
+              timestamp: Math.floor(Date.now()/1000)+""
+              jsapi_ticket: resultTicket.ticket
+              url: req.body.url
+
+            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+            resultSetting.value = weixinpayJSSdkConfigSign
+            resultSetting.expiredDate =  moment().add(100, 'minutes')
+            resultSetting.saveAsync()
+            res.json weixinpayJSSdkConfigSign
+        )
+      else
+        res.json resultSetting.value
+    else
+      weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+        if err
+          next(err)
+
+        if resultTicket
+
+          weixinpayJSSdkConfigSign =
+            noncestr: weixinpay.util.generateNonceString()
+            timestamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultTicket.ticket
+            url: req.body.url
+
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+          newInfo2 =
+            name : "weixinPayJSSdkConfig"
+            key : "weixinPayJSSdkConfig"
+            value : weixinpayJSSdkConfigSign
+            expiredDate : moment().add(100, 'minutes')
+
           models.setting.createAsync(newInfo2)
-      .then (result)->
-        res.json weixinpayJSSdkConfigSign
-      .catch next
-  )
+          res.json weixinpayJSSdkConfigSign
+      )
+  .catch next
+
+
+
+
+
+
+
+
+
+
+
+exports.getWeixinPayUserOpenId = (req, res, next) ->
+#  console.log "========================WeixinPayOpenId :: ", req.query
+
+  code = req.query.code;
+  order_number_state = req.query.state;
+  models.order.validationOrderId order_number_state
+
+  if not code or code.length is 0
+    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+  else
+    weixinpay.getUserOpenId(code, (err, result) ->
+
+      if err
+        next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
+
+      if !result.errcode
+        models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+          if resultOrder
+#            console.log "========================OrderId :: ", resultOrder
+            models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+              if resultUser
+                console.log "========================UserId :: ", resultUser
+                resultUser.weixinId.access_token = result.access_token
+                resultUser.weixinId.openid = result.openid
+                resultUser.weixinId.refresh_token = result.refresh_token
+
+                resultUser.saveAsync()
+
+          res.redirect("/mobile/wxpay/" + order_number_state)
+#        res.send result
+        .catch next
+    )
+
 
 
 
@@ -324,7 +389,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         total_fee: resultOrder.totalPrice
 #        spbill_create_ip: item.ip || "192.168.1.1", //终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        notify_url: "http://api.xinweicook.com/api/orders/payment/weixinpay/notify/"
+        notify_url: "https://api.xinweicook.com/api/orders/payment/weixinpay/notify"
         trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
         openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
@@ -527,38 +592,11 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
-exports.getWeixinPayOpenId = (req, res, next) ->
-#  console.log "========================WeixinPayOpenId :: ", req.query
 
-  code = req.query.code;
-  order_number_state = req.query.state;
-  models.order.validationOrderId order_number_state
 
-  if not code or code.length is 0
-    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-  else
-    weixinpay.getUserOpenId(code, (err, result) ->
 
-      if err
-        next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
 
-      if !result.errcode
-        models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-          if resultOrder
-#            console.log "========================OrderId :: ", resultOrder
-            models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
-              if resultUser
-                console.log "========================UserId :: ", resultUser
-                resultUser.weixinId.access_token = result.access_token
-                resultUser.weixinId.openid = result.openid
-                resultUser.weixinId.refresh_token = result.refresh_token
 
-                resultUser.saveAsync()
-
-          res.redirect("/mobile/wxpay/" + order_number_state)
-  #        res.send result
-        .catch next
-    )
 
 
 
