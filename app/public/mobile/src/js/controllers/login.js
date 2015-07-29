@@ -27,7 +27,7 @@ function loginCtrl($scope, User, $location, $interval, $timeout) {
             $scope.signupData.code
         ).then(function (res) {
                 // todo: redirect
-                location.href = 'eat';
+                location.href = '/mobile';
             }).catch(function (res) {
                 alert('signup failed');
             })
