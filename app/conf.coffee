@@ -6,7 +6,7 @@ conf =
   debug: true
   level:
     console: ENV.LEVEL or "info"
-    db: "info"
+    db: "error"
   port: port
   host: host
   db: ENV.DB or "mongodb://127.0.0.1/cook-api"
@@ -83,7 +83,7 @@ production =
   debug: false
   level:
     console: ENV.LEVEL or "warn"
-    db: "warn"
+    db: "error"
   db: ENV.DB or "mongodb://cook-api:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api"
   redis: if ENV.REDIS then JSON.parse ENV.REDIS else [
     { host: "10.4.3.142", port: "6379" }
