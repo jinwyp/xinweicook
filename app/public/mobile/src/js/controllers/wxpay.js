@@ -9,15 +9,15 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
 
-        Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
-            alert('获取jsconfig成功');
-            var setting = {
-                nonceStr :res.data.noncestr,
-                timestamp: res.data.timestamp,
-                signature: res.data.signature
-            };
-            Weixin.config(setting);
-        });
+        //Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
+        //    alert('获取jsconfig成功');
+        //    var setting = {
+        //        nonceStr :res.data.noncestr,
+        //        timestamp: res.data.timestamp,
+        //        signature: res.data.signature
+        //    };
+        //    Weixin.config(setting);
+        //});
 
         Orders.getUnifiedOrder({
             _id: orderId,
@@ -25,7 +25,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         }).then(function (res) {
             $scope.order = res.data;
             alert('生成统一订单成功');
-            Weixin.ready(function () {
+            //Weixin.ready(function () {
                 alert('weixin.config ready');
                 try {
                     var wxInfo = res.data.paymentWeixinpay.mobileSign;
@@ -99,7 +99,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                 } catch (e) {
                     alert('调用weixinpay失败');
                 }
-            });
+            //});
 
         }).catch(function (res) {
             alert(res.data);
