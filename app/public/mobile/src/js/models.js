@@ -1,7 +1,7 @@
 angular.module('xw.models').factory('Dishes', function ($http) {
     return {
         getList: function () {
-            return $http.get('http://api.xinweicook.com/dishes')
+            return $http.get('/api/dishes')
         }
     }
 });
@@ -9,29 +9,29 @@ angular.module('xw.models').factory('Dishes', function ($http) {
 angular.module('xw.models').factory('Orders', function ($http) {
     return {
         postOrder: function (data) {
-            return $http.post('http://api.xinweicook.com/orders', data);
+            return $http.post('/api/orders', data);
         },
         deliveryTime: function (data) {
             data.cookingType = 'ready to eat';
-            return $http.post('http://api.xinweicook.com/orders/delivery/time', data)
+            return $http.post('/api/orders/delivery/time', data)
         },
         getOrder: function (orderId) {
-            return $http.get('http://api.xinweicook.com/orders/' + orderId);
+            return $http.get('/api/orders/' + orderId);
         },
         updateOrder: function (id, data) {
-            return $http.put('http://api.xinweicook.com/orders/' + id, data)
+            return $http.put('/api/orders/' + id, data)
         },
         getList: function () {
-            return $http.get('http://api.xinweicook.com/orders');
+            return $http.get('/api/orders');
         },
         getUnifiedOrder: function (data) {
-            return $http.post('http://api.xinweicook.com/orders/payment/weixinpay/unifiedorder', data);
+            return $http.post('/api/orders/payment/weixinpay/unifiedorder', data);
         },
         getJsconfig: function (url) {
-            return $http.post('http://api.xinweicook.com/orders/payment/weixinpay/config', {url: url});
+            return $http.post('/api/orders/payment/weixinpay/config', {url: url});
         },
         updateOrder: function (id, isPaid) {
-            return $http.put('http://api.xinweicook.com/orders/' + id, isPaid);
+            return $http.put('/api/orders/' + id, isPaid);
         }
     }
 });
@@ -39,7 +39,7 @@ angular.module('xw.models').factory('Orders', function ($http) {
 angular.module('xw.models').factory('User', function ($http, $localStorage) {
     return {
         login: function (username, password) {
-            return $http.post('http://api.xinweicook.com/user/token', {
+            return $http.post('/api/user/token', {
                 username: username,
                 password: password,
                 grant_type: 'password'
@@ -52,26 +52,26 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
             })
         },
         signup: function (mobile, pwd, code) {
-            return $http.post('http://api.xinweicook.com/user/signup', {
+            return $http.post('/api/user/signup', {
                 mobile: mobile,
                 pwd: pwd,
                 code: code
             })
         },
         getSmsCode: function (mobile) {
-            return $http.post('http://api.xinweicook.com/user/sms', {
+            return $http.post('/api/user/sms', {
                 mobile: mobile,
                 type: 'signUp'
             })
         },
         logout: function () {
-            return $http.post('http://api.xinweicook.com/user/logout', {
+            return $http.post('/api/user/logout', {
                 token_type_hint: "access_token",
                 token: $localStorage.access_token
             })
         },
         getUserInfo: function () {
-            return $http.get('http://api.xinweicook.com/user');
+            return $http.get('/api/user');
         }
     }
 });
@@ -79,7 +79,7 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
 angular.module('xw.models').factory('Coupon', function ($http) {
     return {
         getCouponInfo: function (code) {
-            return $http.get('http://api.xinweicook.com/coupons/code/' + code);
+            return $http.get('/api/coupons/code/' + code);
         }
     }
 });
