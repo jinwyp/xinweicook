@@ -360,7 +360,7 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
     # 优惠券已使用后处理
-    if req.body.promotionCode and req.body.promotionCode isnot "testingxi2"
+    if req.body.promotionCode and req.body.promotionCode isnt "testingxi2"
       promotionCode.used(req.u)
 
     # 删除用户购物车商品
