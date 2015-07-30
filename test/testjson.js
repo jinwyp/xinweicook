@@ -148,7 +148,7 @@ order =
 };
 
 
-alipay = {
+var alipay1 = {
     discount            : '0.00',
     payment_type        : '1',
     subject             : 'XinWei_ReadyToCook',
@@ -174,6 +174,33 @@ alipay = {
 };
 
 
+var alipay2 = {
+    discount            : '0.00',
+    payment_type        : '1',
+    subject             : 'XinWei_ReadyToCook',
+    trade_no            : '2015073000001000020058530883',
+    buyer_email         : '18629641521',
+    gmt_create          : '2015-07-30 17:56:57',
+    notify_type         : 'trade_status_sync',
+    quantity            : '1',
+    out_trade_no        : '201507301756061517782',
+    seller_id           : '2088111042213083',
+    notify_time         : '2015-07-30 17:56:58',
+    body                : 'XinWeiCook',
+    trade_status        : 'TRADE_SUCCESS',
+    is_total_fee_adjust : 'N',
+    total_fee           : '0.01',
+    gmt_payment         : '2015-07-30 17:56:58',
+    seller_email        : 'steve.ge@me.com',
+    price               : '0.01',
+    buyer_id            : '2088412033326020',
+    notify_id           : '3ef4dbf66b02100660c8bc9cdb670ef224',
+    use_coupon          : 'N',
+    sign_type           : 'RSA',
+    sign                : 'Bp0ahbYpzjMLLb+oBVz5u8nk606VH374tkA06Z7xXBynEAHjEPc109aKdi4mWDgoj/G8MZWmrX9WFL31Rg6Qu8JyJNd0FkivDuSFs51SYTJIokazwScBHOu35hDNRcuE4PIiL1cVDno7+aHHVa5pH2uS9FNDmAZGaSl/Wk33b/o='
+};
+
+
 
 var deliverTime = [
     {
@@ -185,3 +212,6 @@ var deliverTime = [
         }]
     }
 ];
+
+
+
