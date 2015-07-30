@@ -360,7 +360,7 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
     # 优惠券已使用后处理
-    if req.body.promotionCode
+    if req.body.promotionCode and req.body.promotionCode isnot "testingxin2"
       promotionCode.used(req.u)
 
     # 删除用户购物车商品
@@ -420,7 +420,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
 
-      if resultOrder.promotionCode is "testingxin"
+      if resultOrder.promotionCode is "testingxin2"
         weixinpayOrder.total_fee = 1
 
       console.log "------------------openId: ", weixinpayOrder
