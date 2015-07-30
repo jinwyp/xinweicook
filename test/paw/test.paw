@@ -1114,7 +1114,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"promocode\\",\\"code\\":\\"pingan0001\\",\\"name\\":{\\"zh\\":\\"\\\\u4f18\\\\u60e0\\\\u5238\\\\u5e73\\\\u5b8910\\\\u5143\\"},\\"price\\":\\"10\\",\\"priceLimit\\":\\"40\\",\\"usedTime\\":\\"1\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"promocode\\",\\"code\\":\\"testingxin\\",\\"name\\":{\\"zh\\":\\"\\\\u4f18\\\\u60e0\\\\u5238test100\\\\u5143\\"},\\"price\\":\\"100\\",\\"priceLimit\\":\\"1\\",\\"usedTime\\":\\"0\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">9</attribute>
         <attribute name="name" type="string">coupon-addNewCouponSingle</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
@@ -3538,7 +3538,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z482"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z490">
-        <attribute name="value" type="string">Bearer 2BB:PPKH3d/mCjk3SMY8c4iuFTWISv92xAmC</attribute>
+        <attribute name="value" type="string">Bearer 2BB:3tFzSQFMwae607wOufjdvy7SihO5gYNS</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z491"></relationship>
     </object>
