@@ -510,4 +510,5 @@ label {
 /* line 1, ../sass/_orderlist.scss */
 .order-list-wrapper table {
   word-break: keep-all;
+  width: 1000px;
 }
