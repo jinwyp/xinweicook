@@ -43,7 +43,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                     function (res) {
                         try {
                             if (/\bok\b/.test(res.err_msg)) {
-                                Orders.updateOrder(orderId, "true").then(function (res) {
+                                Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
                                     alert('更新订单状态成功');
                                     alert(JSON.stringify(res));
                                     $scope.debugData.push(res);
@@ -59,7 +59,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                                     $scope.state = 'success';
                                 });
                             } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-                                Orders.updateOrder(orderId, "false").then(function (res) {
+                                Orders.updateOrder(orderId, {isPaymentPaid: 'false'}).then(function (res) {
                                     $scope.debugData.push(res);
                                 }).catch(function (res) {
                                     $scope.debugData.push(res)
