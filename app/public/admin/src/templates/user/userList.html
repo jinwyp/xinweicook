@@ -4,7 +4,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew">Users 用户列表
-                <!--<a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewTag" role="button">新增</a>-->
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewUser" role="button">新增</a>
             </h3>
         </div>
 
@@ -72,8 +72,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="user in data.userList | filter: data.searchFilter">
-                <!--<td><a ui-sref="menu.updateTag({ id: user._id })">{{user._id}}</a></td>-->
-                <td>{{user._id}}</td>
+                <td><a ui-sref="menu.updateUser({ id: user._id })">{{user._id}}</a></td>
                 <td>{{user.group}}</td>
                 <td>{{user.mobile}}</td>
                 <td>{{user.email}}</td>

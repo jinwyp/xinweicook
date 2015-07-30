@@ -101,7 +101,17 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     type : 'list'
                 },
                 controller: 'UserController'
-            }).state('menu.addUser', {
+            })
+            .state('menu.updateUser', {
+                url: '/user/:id',
+                templateUrl: 'templates/user/userDetail.html',
+                data: {
+                    title: '用户管理',
+                    type : 'update'
+                },
+                controller: 'UserController'
+            })
+            .state('menu.addNewUser', {
                 url: '/useradd',
                 templateUrl: 'templates/user/userDetail.html',
                 data: {
@@ -112,21 +122,14 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
 
 
+
+
             .state('menu.dishes', {
                 url: '/dishes',
                 templateUrl: 'templates/dish/dishList.html',
                 data: {
                     title: '菜品管理',
                     type : 'list'
-                },
-                controller: 'DishController'
-            })
-            .state('menu.addNewDish', {
-                url: '/dishadd',
-                templateUrl: 'templates/dish/dishDetail.html',
-                data: {
-                    title: '菜品管理',
-                    type : 'add'
                 },
                 controller: 'DishController'
             })
@@ -139,6 +142,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'DishController'
             })
+            .state('menu.addNewDish', {
+                url: '/dishadd',
+                templateUrl: 'templates/dish/dishDetail.html',
+                data: {
+                    title: '菜品管理',
+                    type : 'add'
+                },
+                controller: 'DishController'
+            })
+
 
             .state('menu.tags', {
                 url: '/tags',
