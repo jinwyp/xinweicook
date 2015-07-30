@@ -70,9 +70,22 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderId.$dirty&&searchForm.orderId.$valid, 'has-error':searchForm.orderId.$dirty&&searchForm.orderId.$invalid}">
+                    <label for="inputOrderId" class="col-lg-2 control-label" >订单_ID</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputOrderId" placeholder="订单号" name="orderId" ng-model="data.searchOptions.orderId" ng-minlength="18">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$error.minlength || searchForm.orderId.$dirty&&searchForm.orderId.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchOrder(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -114,6 +127,8 @@
                 <th>优惠码</th>
                 <th>运费</th>
                 <th>总价</th>
+
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -137,6 +152,14 @@
                 <td>{{order.promotionCode}}</td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
+
+                <td>
+                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===order._id">确认真的删除吗？
+                        <button class="btn btn-danger" ng-click="delOrder(order)">立即删除</button>
+                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
+                    </div>
+                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==order._id" ng-click="data.currentDeleteIndex=order._id">删除</button>
+                </td>
             </tr>
         </tbody>
     </table>
