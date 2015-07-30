@@ -420,8 +420,8 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
 
-      if resultOrder.promotionCode is "testing123"
-        weixinpayOrder.total_fee = 1
+      if resultOrder.promotionCode is "testing123" or req.u.mobile is "15900719671"
+        weixinpayOrder.total_fee = 10
 
       console.log "------------------openId: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
@@ -521,7 +521,8 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 #  console.log "========================OrderAlipayNotify :: ", req.body
   models.order.validationAlipayNotify req.body
 
-  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
+#  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
+  models.order.findOne {orderNumber : req.body.out_trade_no}
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
