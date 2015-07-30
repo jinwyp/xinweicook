@@ -9,7 +9,6 @@ angular.module('xw.weixin').factory('Weixin',function () {
     var state = {
         readyState: false,
         ready: function (cb) {
-            alert('Weixin.ready called');
             if (this.readyState) {
                 cb();
             } else this.ready.cb = cb;
@@ -26,8 +25,6 @@ angular.module('xw.weixin').factory('Weixin',function () {
             wx.config(setting);
 
             wx.ready(function(){
-                alert('wx.ready called');
-                alert(typeof that.ready.cb);
                 that.ready.cb && that.ready.cb();
                 that.readyState = true;
             });

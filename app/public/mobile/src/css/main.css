@@ -113,10 +113,6 @@ label {
 .login-nav {
   margin-bottom: 23px;
 }
-/* line 9, ../sass/_login.scss */
-.login-nav a:nth-child(2) {
-  margin-right: 38px;
-}
 /* line 13, ../sass/_login.scss */
 .login-nav span {
   border-bottom: solid 1px transparent;
