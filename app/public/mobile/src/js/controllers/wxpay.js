@@ -44,15 +44,11 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                         try {
                             if (/\bok\b/.test(res.err_msg)) {
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
-                                    alert('更新订单状态成功');
-                                    alert(JSON.stringify(res));
                                     $scope.debugData.push(res);
                                     setTimeout(function () {
                                         location.href = '/mobile'
                                     }, 2000);
                                 }).catch(function (res) {
-                                    alert('更新订单状态失败');
-                                    alert(JSON.stringfy(res));
                                     $scope.debugData.push(res);
                                 });
                                 $scope.$apply(function () {
@@ -69,7 +65,6 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                                 })
                             }
                         } catch(e) {
-                            alert('调用订单更新函数失败'); //todo
                             $scope.$apply(function () {
                                 $scope.debugData.push(e);
                             });
