@@ -419,6 +419,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
+
+      if resultOrder.promotionCode is "testingxin"
+        weixinpayOrder.total_fee = 1
+
       console.log "------------------openId: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
