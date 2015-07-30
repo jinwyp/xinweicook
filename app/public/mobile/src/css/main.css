@@ -505,3 +505,8 @@ label {
   background: #44b549;
   color: white;
 }
+
+/* line 1, ../sass/_orderlist.scss */
+.order-list-wrapper table {
+  word-break: keep-all;
+}
