@@ -101,6 +101,14 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     type : 'list'
                 },
                 controller: 'UserController'
+            }).state('menu.addUser', {
+                url: '/useradd',
+                templateUrl: 'templates/user/userDetail.html',
+                data: {
+                    title: '用户管理',
+                    type : 'add'
+                },
+                controller: 'UserController'
             })
 
 

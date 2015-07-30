@@ -18,7 +18,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 100,
+            limit : 3,
             status : '',
             orderNumber : '',
             isSplitOrder : '',
@@ -26,11 +26,14 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             cookingType : ''
         },
 
-        orderList : [],
+        currentDeleteIndex : -1,
+
         orderListCount : 0,
         orderListCurrentPage : 1,
         orderListTotalPages : 1,
         orderListPagesArray : [],
+
+        orderList : [],
         order : {},
 
         orderStatusList : [
@@ -183,6 +186,76 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         isAddNewStatus : false
     };
 
+
+    function delProperty (obj){
+        for(var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                if (obj[p] ===''){
+                    delete obj[p];
+                }
+            }
+        }
+    }
+
+
+    $scope.searchOrderCount = function (){
+        delProperty($scope.data.searchOptions);
+
+        Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
+            $scope.data.orderListCount = orders.count;
+            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
+
+            $scope.data.orderListPagesArray= [];
+            for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
+                $scope.data.orderListPagesArray.push({value:i})
+            }
+
+            $scope.searchOrder();
+
+        });
+    };
+
+    $scope.searchOrder = function (form) {
+
+        delProperty($scope.data.searchOptions);
+
+        Orders.getList($scope.data.searchOptions).then(function (resultOrder) {
+            $scope.data.orderList = resultOrder;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
+
+    $scope.changePagination = function (currentPageNo) {
+        $scope.data.orderListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchOrder();
+    };
+
+    $scope.delOrder = function (order) {
+
+        var index = $scope.data.orderList.indexOf(order);
+
+        $scope.data.orderList[index].remove().then(function (resultOrder) {
+            $scope.searchOrderCount();
+
+            Notification.success({message : 'Delete Success', delay : 8000});
+
+        }).catch(function (err) {
+            Notification.error({
+                message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
+                delay   : 5000
+            });
+        });
+
+    };
+
+
+
+
     if ($state.current.data.type === 'list'){
 
         Orders.one('count').get().then(function (orders) {
@@ -224,41 +297,15 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
                 }
             }
             /*
-            angular.forEach($scope.data.orderGroup, function(order) {
-                if (order.zh === $scope.data.order.group.zh){
-                    $scope.data.order.group = order;
-                }
-            });
-            */
+             angular.forEach($scope.data.orderGroup, function(order) {
+             if (order.zh === $scope.data.order.group.zh){
+             $scope.data.order.group = order;
+             }
+             });
+             */
         });
     }
 
-
-    $scope.searchOrder = function (form) {
-
-        for(var p in $scope.data.searchOptions) {
-            if ($scope.data.searchOptions.hasOwnProperty(p)) {
-                if ($scope.data.searchOptions[p] ===''){
-                    delete $scope.data.searchOptions[p];
-                }
-            }
-        }
-
-        Orders.getList($scope.data.searchOptions).then(function (resultOrder) {
-            $scope.data.orderList = resultOrder;
-            Notification.success({message: 'Search Success! ', delay: 8000});
-
-        }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
-
-    };
-
-    $scope.changePagination = function (currentPageNo) {
-        $scope.data.orderListCurrentPage = currentPageNo;
-        $scope.data.searchOptions.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchOptions.limit;
-        $scope.searchOrder();
-    };
 
 
 

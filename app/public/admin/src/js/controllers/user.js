@@ -15,8 +15,36 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
 
     $scope.data = {
         searchFilter : '',
+        searchOptions : {
+            skip : 0,
+            limit : 100,
+            group : ''
+        },
+
+        currentDeleteIndex : -1,
+
+        userListCount : 0,
+        userListCurrentPage : 1,
+        userListTotalPages : 1,
+        userListPagesArray : [],
+
         userList     : [],
-        user         : {}
+        user         : {},
+
+        userGroupList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '普通会员',
+                value : 'member'
+            },
+            {
+                name : '管理员',
+                value : 'admin'
+            }
+        ]
     };
 
     $scope.css = {
@@ -24,10 +52,77 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
     };
 
 
-    if ($state.current.data.type === 'list') {
-        Users.getList().then(function (users) {
-            $scope.data.userList = users;
+    function delProperty (obj){
+        for(var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                if (obj[p] ===''){
+                    delete obj[p];
+                }
+            }
+        }
+    }
+
+
+
+
+    $scope.searchUserCount = function (){
+        delProperty($scope.data.searchOptions);
+
+        Users.one('count').get($scope.data.searchOptions).then(function (users) {
+            $scope.data.userListCount = users.count;
+            $scope.data.userListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
+
+            $scope.data.userListPagesArray= [];
+            for (var i = 1; i <= $scope.data.userListTotalPages; i++){
+                $scope.data.userListPagesArray.push({value:i})
+            }
+
+            $scope.searchUser();
+
         });
+    };
+
+    $scope.searchUser = function (form) {
+
+        delProperty($scope.data.searchOptions);
+        Users.getList($scope.data.searchOptions).then(function (resultUsers) {
+            $scope.data.userList = resultUsers;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
+
+    $scope.changePagination = function (currentPageNo) {
+        $scope.data.userListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.userListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchUser();
+    };
+
+    $scope.delUser = function (user) {
+
+        var index = $scope.data.userList.indexOf(user);
+
+        $scope.data.userList[index].remove().then(function (resultUser) {
+            $scope.searchUserCount();
+
+            Notification.success({message : 'Delete Success', delay : 8000});
+
+        }).catch(function (err) {
+            Notification.error({
+                message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
+                delay   : 5000
+            });
+        });
+
+    };
+
+
+    if ($state.current.data.type === 'list') {
+
+        $scope.searchUserCount();
     }
 
     if ($state.current.data.type === 'update') {
@@ -44,6 +139,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             });
         });
     }
+
+
+
 
     $scope.addNewUser = function (form) {
         if (form.$invalid) {
@@ -81,25 +179,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
         });
     };
 
-    $scope.delUser = function (user) {
 
-        var index = $scope.data.userList.indexOf(user);
-
-        $scope.data.userList[index].remove().then(function (resultUser) {
-            Users.getList().then(function (users) {
-                $scope.data.userList = users;
-            });
-
-            Notification.success({message : 'Delete Success', delay : 8000});
-
-        }).catch(function (err) {
-            Notification.error({
-                message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
-            });
-        });
-
-    };
 
 }
 

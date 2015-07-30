@@ -72,7 +72,7 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchOrder(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -114,6 +114,8 @@
                 <th>优惠码</th>
                 <th>运费</th>
                 <th>总价</th>
+
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -137,6 +139,14 @@
                 <td>{{order.promotionCode}}</td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
+
+                <td>
+                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===order._id">确认真的删除吗？
+                        <button class="btn btn-danger" ng-click="delOrder(order)">立即删除</button>
+                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
+                    </div>
+                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==order._id" ng-click="data.currentDeleteIndex=order._id">删除</button>
+                </td>
             </tr>
         </tbody>
     </table>
