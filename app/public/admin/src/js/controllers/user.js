@@ -17,7 +17,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 100,
+            limit : 200,
             group : ''
         },
 

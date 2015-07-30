@@ -12,27 +12,58 @@
         <div class="panel-body">
             <form class="form-horizontal" name="dishForm" role="form" novalidate ng-cloak>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid, 'has-error':dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid}">
-                    <label for="inputUserTitleEn" class="col-lg-2 control-label" >用户名称!</label>
-
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="inputUserTitleZh" placeholder="中文名称" name="dishTitleZh" ng-model="data.user.title.zh" required ng-minlength="2" ng-maxlength="300">
-                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$valid"></span>
-                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishTitleZh.$dirty&&dishForm.dishTitleZh.$invalid"></span>
-                    </div>
-                </div>
-
-
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid, 'has-error':dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid}">
-                    <label for="inputUserBriefEn" class="col-lg-2 control-label" >用户描述!</label>
+                    <label for="inputUserBriefEn" class="col-lg-2 control-label" >用户名</label>
 
                     <div class="col-lg-8">
                         <textarea class="form-control" id="inputUserBriefZh" placeholder="中文名称" name="dishBriefZh" ng-model="data.user.brief.zh" required ng-minlength="2" ng-maxlength="6000"></textarea>
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishBriefZh.$dirty&&dishForm.dishBriefZh.$invalid"></span>
                     </div>
-                    
                 </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >用户名</label>
+
+                    <div class="col-lg-8">
+                        <span class="help-block" aria-hidden="true">{{data.user.username}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >Email</label>
+
+                    <div class="col-lg-8">
+                        <span class="help-block" aria-hidden="true">{{data.user.email}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >手机</label>
+
+                    <div class="col-lg-8">
+                        <span class="help-block" aria-hidden="true">{{data.user.mobile}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >姓名</label>
+
+                    <div class="col-lg-8">
+                        <span class="help-block" aria-hidden="true">{{data.user.fullName}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >性别</label>
+
+                    <div class="col-lg-8">
+                        <span class="help-block" aria-hidden="true" ng-show="data.user.gender==1">男</span>
+                        <span class="help-block" aria-hidden="true" ng-show="data.user.gender==2">女</span>
+                    </div>
+                </div>
+
+
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$valid, 'has-error':dishForm.dishBriefEn.$dirty&&dishForm.dishBriefEn.$invalid}">
                     <label for="inputUserBriefEn" class="col-lg-2 control-label" ></label>
