@@ -48,6 +48,8 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                                     setTimeout(function () {
                                         location.href = '/mobile'
                                     }, 2000);
+                                }).catch(function (res) {
+                                    $scope.debugData.push(res);
                                 });
                                 $scope.$apply(function () {
                                     $scope.state = 'success';
@@ -55,6 +57,8 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                             } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
                                 Orders.updateOrder(orderId, "false").then(function (res) {
                                     $scope.debugData.push(res);
+                                }).catch(function (res) {
+                                    $scope.debugData.push(res)
                                 });
                                 $scope.$apply(function () {
                                     $scope.state = 'fail';
@@ -81,6 +85,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
             }
 
         }).catch(function (res) {
+            $scope.debugData.push(res);
             alert('生成订单失败!');
         })
     }

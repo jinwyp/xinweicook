@@ -23,7 +23,7 @@
     <div class="text-center" ng-if="state == 'fail'">支付失败, 请稍后重试</div>
 </div>
 
-<div class="debug-log" ng-if="debug">
+<div class="debug-log" ng-if="debug" ng-cloak>
     <ul>
         <li ng-repeat="data in debugData">
             {{data}}
