@@ -470,6 +470,11 @@ label {
   height: 52px;
   margin: -12px auto 0;
 }
+/* line 109, ../sass/_order.scss */
+.confirm-button.valid {
+  background-color: #f44d4d;
+  color: white;
+}
 /* line 113, ../sass/_order.scss */
 .confirm-button.invalid {
   background-color: #eee;
