@@ -22,6 +22,14 @@
     <div class="text-center" ng-if="state == 'success'">支付成功!</div>
     <div class="text-center" ng-if="state == 'fail'">支付失败, 请稍后重试</div>
 </div>
+
+<div class="debug-log" ng-if="debug">
+    <ul>
+        <li ng-repeat="data in debugData">
+            {{data}}
+        </li>
+    </ul>
+</div>
 </body>
 
 <script src="/components/angular/angular.min.js?v=14"></script>

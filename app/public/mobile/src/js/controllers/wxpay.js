@@ -2,6 +2,9 @@ angular.module('xw.wxpay').controller('wxpayCtrl', wxpayCtrl);
 
 function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
 
+
+    $scope.debug = location.search === '?debug';
+    $scope.debugData = [];
     $scope.state = 'processing';
 
 
@@ -38,19 +41,29 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                         "paySign": wxInfo.paySign //微信签名
                     },
                     function (res) {
-                        if (/\bok\b/.test(res.err_msg)) {
+                        try {
+                            if (/\bok\b/.test(res.err_msg)) {
+                                Orders.updateOrder(orderId, "true").then(function (res) {
+                                    $scope.debugData.push(res);
+                                    setTimeout(function () {
+                                        location.href = '/mobile'
+                                    }, 2000);
+                                });
+                                $scope.$apply(function () {
+                                    $scope.state = 'success';
+                                });
+                            } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                                Orders.updateOrder(orderId, "false").then(function (res) {
+                                    $scope.debugData.push(res);
+                                });
+                                $scope.$apply(function () {
+                                    $scope.state = 'fail';
+                                })
+                            }
+                        } catch(e) {
                             $scope.$apply(function () {
-                                $scope.state = 'success';
-                                Orders.updateOrder(orderId, "true");
-                                setTimeout(function () {
-                                    location.href = '/mobile'
-                                }, 3000);
+                                $scope.debugData.push(e);
                             });
-                        } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-                            Orders.updateOrder(orderId, "false");
-                            $scope.$apply(function () {
-                                $scope.state = 'fail';
-                            })
                         }
                     }
                 );
