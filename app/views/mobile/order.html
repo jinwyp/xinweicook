@@ -27,15 +27,15 @@
                     <p class="form-control-static" style="text-indent: 12px;">
                         {{address.city}}
                     </p>
-                    <input type="text" ng-model="address.district" class="form-control" id="district" placeholder="区"/>
-                    <input type="text" ng-model="address.street" class="form-control" id="street" placeholder="街道"/>
-                    <input type="text" ng-model="address.address" class="form-control" id="address" placeholder="门牌号信息"/>
+                    <input type="text" required ng-model="address.district" class="form-control" id="district" placeholder="区"/>
+                    <input type="text" required ng-model="address.street" class="form-control" id="street" placeholder="街道"/>
+                    <input type="text" required ng-model="address.address" class="form-control" id="address" placeholder="门牌号信息"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="contactPerson" class="col-xs-3 control-label">收货人:</label>
                 <div class="col-xs-9">
-                    <input type="text" ng-model="address.contactPerson" class="form-control" id="contactPerson" placeholder="收货人姓名"/>
+                    <input type="text" required ng-model="address.contactPerson" class="form-control" id="contactPerson" placeholder="收货人姓名"/>
                 </div>
             </div>
             <div class="form-group">
@@ -117,10 +117,15 @@
             </div>
         </div>
 
-        <button class="confirm-button form-control" ng-if="!orderSuccess" ng-click="submitOrder()">确认</button>
-        <a class="confirm-button form-control text-center" ng-if="orderSuccess"
-           ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fadminnew.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">使用微信支付</a>
+        <button ng-class="{valid: contactForm.$valid}" class="confirm-button form-control" ng-if="!orderSuccess" ng-click="submitOrder()">确认</button>
+        <!--<a class="confirm-button form-control text-center" ng-if="orderSuccess">使用微信支付</a>-->
 
+        <div class="pay-window" ng-if="orderSuccess">
+            <div class="order-success-tip">订单生成成功</div>
+            <a class="confirm-button form-control" ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fadminnew.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">
+                使用微信支付
+            </a>
+        </div>
     </form>
 </div>
 </body>

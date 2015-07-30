@@ -22,7 +22,7 @@
     <ul class="eat-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: 'ready to eat'}">
             <div class="img-group" ng-class="{blur: !!dish.count}">
-                <img ng-repeat="cover_ in dish.cover | limitTo : 2" ng-src="{{cover_.zh}}" alt="ready to eat"/>
+                <img ng-repeat="cover_ in dish.cover | limitTo : 1" ng-src="{{cover_.zh}}" alt="ready to eat"/>
                 <div class="count-operation" ng-if="dish.count">
                     <div class="subtract" ng-click="subtractDish(dish)"><span class="vertical-center">-</span></div>
                     <div class="count"><span class="vertical-center">{{dish.count}}</span></div>

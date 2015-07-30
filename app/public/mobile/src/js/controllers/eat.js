@@ -16,20 +16,20 @@ function eatCtrl($scope, Dishes, $localStorage) {
     };
 
     $scope.addDish = function (dish) {
-        if (dish.stock == 0) {
-            return;
-        }
+        //if (dish.stock == 0) {
+        //    return;
+        //}
         if (typeof dish.count == 'undefined') {
             dish.count = 0;
         }
 
         dish.count++;
 
-        if (dish.count > dish.stock) {
-            dish.count = dish.stock;
-            alert('没有更多库存');
-            return;
-        }
+        //if (dish.count > dish.stock) {
+        //    dish.count = dish.stock;
+        //    alert('没有更多库存');
+        //    return;
+        //}
 
         var exist = $scope.cart.some(function (el) {
             if (el._id == dish._id) {
@@ -72,9 +72,9 @@ function eatCtrl($scope, Dishes, $localStorage) {
                 el = cart[i];
                 var exist = $scope.dishes.some(function (dish) {
                     if (el._id == dish._id) {
-                        if (dish.stock < el.count) {
-                            el.count = dish.stock;
-                        }
+                        //if (dish.stock < el.count) {
+                        //    el.count = dish.stock;
+                        //}
                         dish.count = el.count;
                         cart[i] = dish;
                         return true;
