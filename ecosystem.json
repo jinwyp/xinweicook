@@ -50,7 +50,7 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm install --production && pm2 startOrGracefulReload ecosystem.json --env development"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
     "dev" : {
       "key": "~/.ssh/id_rsa",
@@ -60,7 +60,7 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm install --production && pm2 startOrGracefulReload ecosystem.json --env development"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
     "devjin" : {
       "key": "/Users/jinwyp/.ssh/id_rsa",
@@ -70,7 +70,7 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm install --production && pm2 startOrGracefulReload ecosystem.json --env development"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env development"
     },
     "productionjin" : {
       "key": "/Users/jinwyp/.ssh/id_rsa",
@@ -80,7 +80,7 @@
       "ref": "origin/develop",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/development",
-      "post-deploy" : "npm install --production && pm2 startOrGracefulReload ecosystem.json --env production2"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production2"
     },
     "production" : {
       "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
@@ -90,7 +90,7 @@
       "ref": "origin/master",
       "repo" : "git@github.com:XinweiCook/API.git",
       "path" : "/var/www/cook-api/production",
-      "post-deploy" : "npm install --production && pm2 startOrGracefulReload ecosystem.json --env production"
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production"
     }
   }
 }
