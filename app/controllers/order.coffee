@@ -407,7 +407,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         total_fee: resultOrder.totalPrice * 100
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        notify_url: "https://api.xinweicook.com/api/orders/payment/weixinpay/notify"
+        notify_url: "https://api.xinweicook.com/orders/payment/weixinpay/notify"
         trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
         openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
