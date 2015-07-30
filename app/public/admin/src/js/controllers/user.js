@@ -120,6 +120,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
     };
 
 
+
+
     if ($state.current.data.type === 'list') {
 
         $scope.searchUserCount();
@@ -132,14 +134,35 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             $scope.data.user = resutlUser;
 
             //编辑user时， 处理user group 显示
-            angular.forEach($scope.data.userGroup, function (user) {
-                if (user.zh === $scope.data.user.group.zh) {
-                    $scope.data.user.group = user;
-                }
-            });
+            //angular.forEach($scope.data.userGroup, function (user) {
+            //    if (user.zh === $scope.data.user.group.zh) {
+            //        $scope.data.user.group = user;
+            //    }
+            //});
         });
     }
 
+
+
+
+
+
+    $scope.updateUser = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        $scope.data.user.put().then(function (resultUser) {
+            console.log(resultUser);
+            Notification.success({message : 'Update Success', delay : 8000});
+        }).catch(function (err) {
+            console.log(err);
+            Notification.error({
+                message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
+                delay   : 5000
+            });
+        });
+    };
 
 
 
@@ -161,24 +184,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             });
         });
     };
-
-    $scope.updateUser = function (form) {
-        if (form.$invalid) {
-            return;
-        }
-
-        $scope.data.user.put().then(function (resultUser) {
-            console.log(resultUser);
-            Notification.success({message : 'Update Success', delay : 8000});
-        }).catch(function (err) {
-            console.log(err);
-            Notification.error({
-                message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
-            });
-        });
-    };
-
 
 
 }
