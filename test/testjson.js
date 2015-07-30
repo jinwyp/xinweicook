@@ -148,29 +148,29 @@ order =
 };
 
 
-alipay = { discount: '0.00',
-    payment_type: '1',
-    subject: '新味',
-    trade_no: '2015070200001000020056308303',
-    buyer_email: '18629641521',
-    gmt_create: '2015-07-02 15:35:23',
-    notify_type: 'trade_status_sync',
-    quantity: '1',
-    out_trade_no: 'XWORDER399Tf121313',
-    seller_id: '2088111042213083',
-    notify_time: '2015-07-02 15:35:24',
-    body: '新味用',
-    trade_status: 'TRADE_SUCCESS',
-    is_total_fee_adjust: 'N',
-    total_fee: '0.01',
-    gmt_payment: '2015-07-02 15:35:24',
-    seller_email: 'steve.ge@me.com',
-    price: '0.01',
-    buyer_id: '2088412033326020',
-    notify_id: '5242e77a99040f2c845e80b98f83b21e24',
-    use_coupon: 'N',
-    sign_type: 'RSA',
-    sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
+alipay = {
+    discount            : '0.00',
+    payment_type        : '1',
+    subject             : 'XinWei_ReadyToCook',
+    trade_no            : '2015073000001000020058528698',
+    buyer_email         : '18629641521',
+    gmt_create          : '2015-07-30 17:31:33',
+    notify_type         : 'trade_status_sync',
+    quantity            : '1',
+    out_trade_no        : '201507301731239646112',
+    seller_id           : '2088111042213083',
+    notify_time         : '2015-07-30 17:31:33',
+    body                : 'XinWeiCook',
+    trade_status        : 'WAIT_BUYER_PAY',
+    is_total_fee_adjust : 'Y',
+    total_fee           : '0.01',
+    seller_email        : 'steve.ge@me.com',
+    price               : '0.01',
+    buyer_id            : '2088412033326020',
+    notify_id           : 'fb25d93cb256758edbf9015e3b6a2a0724',
+    use_coupon          : 'N',
+    sign_type           : 'RSA',
+    sign                : 'HcV9Tl2ii4Kh7872WYbHNpUjOz5Slh03P0cF4nVFzkUFbKKby9PMPdC1qhKIDTP1kK/gAp3kdao1tQ+A0VsmGgW4UGHnbLLKJBYDtsPuChO2BMxjIVCCWMT84fGJJeBI2QewzE6vWrMRuTct6ewkObOTEQUA2OC6FrUuFECOv90='
 };
 
 

@@ -129,12 +129,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"811960\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"699023\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z119 z148 z136 z105 z106 z113 z142"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z113 z119 z148 z142 z136 z106 z105"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string"></attribute>
@@ -1114,7 +1114,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"promocode\\",\\"code\\":\\"pingan0001\\",\\"name\\":{\\"zh\\":\\"\\\\u4f18\\\\u60e0\\\\u5238\\\\u5e73\\\\u5b8910\\\\u5143\\"},\\"price\\":\\"10\\",\\"priceLimit\\":\\"40\\",\\"usedTime\\":\\"1\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"promocode\\",\\"code\\":\\"testingxin\\",\\"name\\":{\\"zh\\":\\"\\\\u4f18\\\\u60e0\\\\u5238test100\\\\u5143\\"},\\"price\\":\\"100\\",\\"priceLimit\\":\\"1\\",\\"usedTime\\":\\"0\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">9</attribute>
         <attribute name="name" type="string">coupon-addNewCouponSingle</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z315 z313 z314 z317 z316 z312 z311"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2By:agj2zVuMywt6OHouqUMCQLdBkoThMJW2</attribute>
+        <attribute name="value" type="string">Bearer 2BD:Lyx0BsTBLOmC6ElBwAXIOstAiIcjlDFO</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2150,7 +2150,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"out_trade_no\\":\\"201507021144282581219\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"out_trade_no\\":\\"201507301516418632044\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">21</attribute>
         <attribute name="name" type="string">user-alipayNotifyFromAlipayServer</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -2379,14 +2379,14 @@
     </object>
     <object type="LMREQUEST" id="z369">
         <attribute name="uuid" type="string">BCC1DDC1-D2B8-45F5-9186-3FA261697C77</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/orders\\/payment\\/weixinpay\\/mobile"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/orders\\/payment\\/weixinpay\\/notify"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"out_trade_no\\":\\"201507061423089461744\\",\\"return_code\\":\\"SUCCESS\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"out_trade_no\\":\\"201507301516418632044\\",\\"return_code\\":\\"SUCCESS\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">22</attribute>
         <attribute name="name" type="string">user-weixinpayNotifyFromServer</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -3538,7 +3538,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z482"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z490">
-        <attribute name="value" type="string">Bearer 2BB:PPKH3d/mCjk3SMY8c4iuFTWISv92xAmC</attribute>
+        <attribute name="value" type="string">Bearer 2BB:3tFzSQFMwae607wOufjdvy7SihO5gYNS</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z434"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z491"></relationship>
     </object>
