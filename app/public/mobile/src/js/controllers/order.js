@@ -103,7 +103,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
             '订单金额未满足优惠代码使用条件': function () {
                 if (!$scope.couponPrice) return true;
-                if ($scope.orderPrice() >= couponLimitPrice) {
+                if ($scope.orderPrice() >= $scope.couponLimitPrice) {
                     order.promotionCode = $scope.coupon.code;
                     return true;
                 } else return false;
