@@ -14,7 +14,6 @@ Group `member`
 | promotionCode    | String   | 优惠码  10位字符串  |
 | payment          | String   | 支付方式 alipay direct / weixinpay / paypal  /cod 货到付款          |
 | paymentUsedCash  | Boolean  | 货到付款 使用现金还是刷卡                              |
-
 | deliveryDateCook | String   | 用于 "ready to cook" 食材包 预计到达日期 年月日  注意用双位数表达日期 2015-06-13      |
 | deliveryTimeCook | String   | 用于 "ready to cook" 食材包 预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
 | deliveryDateEat  | String   | 用于 "ready to eat" 预计到达日期 年月日  注意用双位数表达日期 2015-06-13         |
