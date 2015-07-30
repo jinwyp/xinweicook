@@ -21,7 +21,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             limit : 500,
             status : '',
             orderNumber : '',
-            orderId : '',
+            _id : '',
             isSplitOrder : '',
             isChildOrder : '',
             cookingType : ''
