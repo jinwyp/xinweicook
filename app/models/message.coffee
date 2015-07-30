@@ -80,8 +80,8 @@ module.exports =
       models.device.findOneAsync(user: userId).then (resultDevice) ->
         pushOptions =
           isPushMobile : true
-
-        if resultDevice and resultDevice.deviceToken isnt ""
+        console.log "message: -----"  , resultDevice
+        if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
           models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
 
 

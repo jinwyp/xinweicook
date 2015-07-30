@@ -226,8 +226,8 @@ exports.addNewOrder = (req, res, next) ->
     paymentUsedCash : req.body.paymentUsedCash
     coupon : req.body.coupon if req.body.coupon
     promotionCode : req.body.promotionCode if req.body.promotionCode
-    credit : req.body.credit
-    freight : req.body.freight
+    credit : Number(req.body.credit)
+    freight : Number(req.body.freight)
     dishesPrice : 0
     totalPrice : 0
 
@@ -304,6 +304,7 @@ exports.addNewOrder = (req, res, next) ->
     invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
     models.order.checkInvalidDishIdListh invalidDishIdList
 
+
     for dish,dishIndex in resultDishes
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
@@ -339,8 +340,10 @@ exports.addNewOrder = (req, res, next) ->
     newOrderReadyToCook.totalPrice = newOrderReadyToCook.dishesPrice
     newOrderReadyToCook.dishHistory = dishReadyToCookList
 
-    newOrderReadyToEat.totalPrice = newOrderReadyToCook.dishesPrice
+    newOrderReadyToEat.totalPrice = newOrderReadyToEat.dishesPrice
     newOrderReadyToEat.dishHistory = dishReadyToEatList
+
+
 
     if dishReadyToCookList.length > 0 and dishReadyToEatList.length > 0
       newOrder.isSplitOrder = true
