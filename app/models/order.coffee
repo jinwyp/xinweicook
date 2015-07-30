@@ -53,7 +53,7 @@ module.exports =
       price : type: Number
       total_fee : type: Number
       quantity : type: Number
-      body : type: Number
+      body : type: String
       is_total_fee_adjust : type: String
       use_coupon : type: String
       gmt_create : type: String

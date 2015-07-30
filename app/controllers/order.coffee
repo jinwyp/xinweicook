@@ -534,8 +534,9 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
       notify_time : req.body.notify_time
       notify_type : req.body.notify_type
       notify_id : req.body.notify_id
-#      sign_type: 'RSA',
-#      sign: 'MRATG5iMgTJFBw3ksMfKgidJxx2sPtOK42con1bwdQroPaOeBkv6XYZkhYivR0O3uda0vzcme6olG6tdkJhLDm+2SUf1w4DCWNfKjqL/zrUr46lDrbF5KlrcdIKRD3a41FN5gWwctVaOwe7nT+6aw0vqhpwG1uDpe9xGl5brgcY='
+      sign_type: req.body.sign_type,
+      sign: req.body.sign_type,
+
       out_trade_no : req.body.out_trade_no
       subject : req.body.subject
       payment_type : req.body.payment_type
