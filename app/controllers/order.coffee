@@ -569,6 +569,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 exports.updateOrderWeixinPayNotify = (req, res, next) ->
   console.log "========================OrderWeixinPayNotify :: ", req.body
+  console.log "========================OrderWeixinPayNotify :: ", req.query
 
   weixinpay.parserNotify req.body, (err, resWeixinPay)->
     if err
