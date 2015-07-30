@@ -18,9 +18,10 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 3,
+            limit : 500,
             status : '',
             orderNumber : '',
+            orderId : '',
             isSplitOrder : '',
             isChildOrder : '',
             cookingType : ''
