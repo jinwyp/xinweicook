@@ -474,13 +474,12 @@ label {
   height: 52px;
   margin: -12px auto 0;
 }
-/* line 109, ../sass/_order.scss */
-.confirm-button.valid {
-  background-color: #f44d4d;
-  color: white;
+/* line 113, ../sass/_order.scss */
+.confirm-button.invalid {
+  background-color: #eee;
 }
 
-/* line 115, ../sass/_order.scss */
+/* line 118, ../sass/_order.scss */
 .pay-window {
   position: fixed;
   top: 36%;
@@ -494,13 +493,13 @@ label {
   box-shadow: 2px 2px 5px gray;
   border: 1px darkgrey solid;
 }
-/* line 127, ../sass/_order.scss */
+/* line 130, ../sass/_order.scss */
 .pay-window .order-success-tip {
   text-align: center;
   font-size: 16px;
   margin-bottom: 48px;
 }
-/* line 132, ../sass/_order.scss */
+/* line 135, ../sass/_order.scss */
 .pay-window .confirm-button {
   text-align: center;
   background: #44b549;

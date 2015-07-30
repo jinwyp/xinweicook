@@ -117,7 +117,7 @@
             </div>
         </div>
 
-        <button ng-class="{valid: contactForm.$valid}" class="confirm-button form-control" ng-if="!orderSuccess" ng-click="submitOrder()">确认</button>
+        <button ng-class="{valid: contactForm.$valid, invalid: !contactForm.$valid}" class="confirm-button form-control" ng-if="!orderSuccess" ng-click="submitOrder()">确认</button>
         <!--<a class="confirm-button form-control text-center" ng-if="orderSuccess">使用微信支付</a>-->
 
         <div class="pay-window" ng-if="orderSuccess">
