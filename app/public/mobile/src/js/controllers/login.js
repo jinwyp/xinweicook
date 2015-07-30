@@ -70,8 +70,6 @@ function loginCtrl($scope, User, $location, $interval, $timeout) {
         User.getSmsCode($scope.signupData.mobile).then(function (res) {
             //dev
             if (res.data.code) {
-                alert(res.data.code);
-                console.log(res.data.code);
                 // todo: should alert some thing?
             }
         }).catch(function (res) {
