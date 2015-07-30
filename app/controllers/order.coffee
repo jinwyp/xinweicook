@@ -420,7 +420,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
       weixinpayOrder.openid = req.u.weixinId.openid if req.u.weixinId.openid
 
-      if resultOrder.promotionCode is "testing123" or req.u.mobile is "15900719671"
+      if resultOrder.promotionCode is "testing123" or req.u.mobile is "15900719671" or req.u.mobile is "18629641521"
         weixinpayOrder.total_fee = 10
 
       console.log "------------------openId: ", weixinpayOrder
