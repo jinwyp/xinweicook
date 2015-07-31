@@ -444,6 +444,23 @@
 
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishStock.$dirty&&dishForm.dishStock.$valid, 'has-error':dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid}">
+                    <label for="inputDishStock" class="col-lg-2 control-label" >菜品库存!</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputDishStock" placeholder="显示顺序" name="dishStock" ng-model="data.dish.stock" required min="2"  max="9999">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.min || dishForm.dishStock.$dirty&&dishForm.dishStock.$error.max">请输入2-9999数字！</span>
+                    </div>
+                </div>
+
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>

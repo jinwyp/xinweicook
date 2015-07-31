@@ -124,7 +124,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 price : ''
             }],
 
-            stock : 10
+            stock : 20
 
         },
 

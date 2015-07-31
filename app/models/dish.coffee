@@ -88,7 +88,7 @@ module.exports =
 
 
 
-    stock : type: Number, default: 2 # 库存
+    stock : type: Number, default: 20 # 库存
 
 
 
