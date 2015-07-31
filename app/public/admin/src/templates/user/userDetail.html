@@ -55,444 +55,131 @@
                     <label for="inputUserMobile" class="col-lg-2 control-label" >手机</label>
 
                     <div class="col-lg-8" ng-if="css.isAddNewStatus">
-                        <input type="text" class="form-control" id="inputUserMobile" placeholder="手机" name="mobile" ng-model="data.user.mobile" required ng-minlength="6" ng-maxlength="20" >
+                        <input type="text" class="form-control" id="inputUserMobile" placeholder="手机" name="mobile" ng-model="data.user.mobile" required ng-minlength="11" ng-maxlength="18" >
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.mobile.$dirty&&userForm.mobile.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.mobile.$dirty&&userForm.mobile.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2" ng-if="css.isAddNewStatus">
                         <span class="form-validation help-block" ng-if="userForm.mobile.$dirty&&userForm.mobile.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="userForm.mobile.$dirty&&userForm.mobile.$error.minlength || userForm.mobile.$dirty&&userForm.mobile.$error.maxlength">字符长度错误6-20！</span>
+                        <span class="form-validation help-block" ng-if="userForm.mobile.$dirty&&userForm.mobile.$error.minlength || userForm.mobile.$dirty&&userForm.mobile.$error.maxlength">字符长度错误11-18！</span>
                     </div>
 
                     <div class="col-lg-8" ng-if="!css.isAddNewStatus">
-                        <span class="help-block" aria-hidden="true">{{data.user.email}}</span>
-                    </div>
-                </div>
-
-
-
-                <div class="form-group has-feedback">
-                    <label class="col-lg-2 control-label" >手机</label>
-
-                    <div class="col-lg-8">
                         <span class="help-block" aria-hidden="true">{{data.user.mobile}}</span>
                     </div>
                 </div>
 
-                <div class="form-group has-feedback">
-                    <label class="col-lg-2 control-label" >姓名</label>
 
-                    <div class="col-lg-8">
-                        <span class="help-block" aria-hidden="true">{{data.user.fullName}}</span>
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.fullname.$dirty&&userForm.fullname.$valid, 'has-error':userForm.fullname.$dirty&&userForm.fullname.$invalid}">
+                    <label for="inputUserFullname" class="col-lg-2 control-label" >姓名</label>
+
+                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                        <input type="text" class="form-control" id="inputUserFullname" placeholder="姓名" name="fullname" ng-model="data.user.fullName" required ng-minlength="2" ng-maxlength="20" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.fullname.$dirty&&userForm.fullname.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.fullname.$dirty&&userForm.fullname.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                        <span class="form-validation help-block" ng-if="userForm.fullname.$dirty&&userForm.fullname.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.fullname.$dirty&&userForm.fullname.$error.minlength || userForm.fullname.$dirty&&userForm.fullname.$error.maxlength">字符长度错误2-20！</span>
+                    </div>
+
+                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
+                        <span class="help-block" aria-hidden="true">{{data.user.fullname}}</span>
                     </div>
                 </div>
 
-                <div class="form-group has-feedback">
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userCookingType.$dirty&&userForm.userCookingType.$valid, 'has-error':userForm.userCookingType.$dirty&&userForm.userCookingType.$invalid}">
                     <label class="col-lg-2 control-label" >性别</label>
 
-                    <div class="col-lg-8">
-                        <span class="help-block" aria-hidden="true" ng-show="data.user.gender==1">男</span>
-                        <span class="help-block" aria-hidden="true" ng-show="data.user.gender==2">女</span>
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="userGender" ng-value="1" ng-model="data.user.gender">男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGender" ng-value="2" ng-model="data.user.gender">女
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userCookingType.$dirty&&userForm.userCookingType.$valid, 'has-error':userForm.userCookingType.$dirty&&userForm.userCookingType.$invalid}">
+                    <label class="col-lg-2 control-label" >用户组</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'member'" ng-model="data.user.group">普通会员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'admin'" ng-model="data.user.group">管理员
+                        </label>
                     </div>
                 </div>
 
 
 
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userBriefEn.$dirty&&userForm.userBriefEn.$valid, 'has-error':userForm.userBriefEn.$dirty&&userForm.userBriefEn.$invalid}">-->
-                    <!--<label for="inputUserBriefEn" class="col-lg-2 control-label" ></label>-->
 
-                    <!--<div class="col-lg-8">-->
-                        <!--<textarea class="form-control" id="inputUserBriefEn" placeholder="英文名称" name="userBriefEn" ng-model="data.user.brief.en" required ng-minlength="2" ng-maxlength="6000"></textarea>-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userBriefEn.$dirty&&userForm.userBriefEn.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userBriefEn.$dirty&&userForm.userBriefEn.$invalid"></span>-->
-                    <!--</div>-->
+                <div ng-repeat="address in data.user.address">
+                    <label class="col-lg-2 control-label" >收货地址 信息数据{{$index + 1}}</label>
 
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userBriefEn.$dirty&&userForm.userBriefEn.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userBriefEn.$dirty&&userForm.userBriefEn.$error.minlength || userForm.userBriefEn.$dirty&&userForm.userBriefEn.$error.maxlength">字符长度错误2-6000！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
+                    <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$valid, 'has-error':userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$invalid}">
+                        <label for="inputAddressContactPerson_{{$index}}" class="col-lg-2 control-label" >联系人</label>
 
+                        <div class="col-lg-4" >
+                            <input type="text" class="form-control" id="inputAddressContactPerson_{{$index}}" name="addressContactPerson_{{$index}}" ng-model="address.contactPerson" required ng-minlength="2" ng-maxlength="20" >
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$valid"></span>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$invalid"></span>
+                        </div>
 
+                        <div class="col-lg-2" >
+                            <span class="form-validation help-block" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.required">请填入信息！</span>
+                            <span class="form-validation help-block" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.minlength || userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.maxlength">字符长度错误2-20！</span>
+                        </div>
 
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userCookingType.$dirty&&userForm.userCookingType.$valid, 'has-error':userForm.userCookingType.$dirty&&userForm.userCookingType.$invalid}">-->
-                    <!--<label class="col-lg-2 control-label" >用户类别</label>-->
+                    </div>
 
-                    <!--<div class="col-lg-4">-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userCookingType" ng-value="'ready to cook'" ng-model="data.user.cookingType">食材包 ready to cook-->
-                        <!--</label>-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userCookingType"  ng-value="'ready to eat'" ng-model="data.user.cookingType">既食包 ready to eat-->
-                        <!--</label>-->
-                    <!--</div>-->
-                <!--</div>-->
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$valid, 'has-error':userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$invalid}">-->
+                        <!--<label for="inputAddressMobile_{{$index}}" class="col-lg-2 control-label" >联系人手机</label>-->
 
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userSideUserType.$dirty&&userForm.userSideUserType.$valid, 'has-error':userForm.userSideUserType.$dirty&&userForm.userSideUserType.$invalid}">-->
-                    <!--<label class="col-lg-2 control-label" >主菜或配菜</label>-->
-
-                    <!--<div class="col-lg-8">-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userSideUserType" ng-value="'main'" ng-model="data.user.sideUserType">主菜 main-->
-                        <!--</label>-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userSideUserType"  ng-value="'preferences'" ng-model="data.user.sideUserType">主菜的可选项配菜 preferences-->
-                        <!--</label>-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userSideUserType"  ng-value="'topping'" ng-model="data.user.sideUserType">浇头 topping-->
-                        <!--</label>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userSetType.$dirty&&userForm.userSetType.$valid, 'has-error':userForm.userSetType.$dirty&&userForm.userSetType.$invalid}">-->
-                    <!--<label class="col-lg-2 control-label" >单品或套餐</label>-->
-
-                    <!--<div class="col-lg-8">-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userSetType" ng-value="'single'" ng-model="data.user.setType">单品 single-->
-                        <!--</label>-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userSetType"  ng-value="'set'" ng-model="data.user.setType">套餐 set-->
-                        <!--</label>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >用户封面图</label>-->
-
-                    <!--<div ng-repeat="cover in data.user.cover">-->
-                        <!--<div class="col-lg-9" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<input type="text" class="form-control" placeholder="图{{$index + 1}} 中文" name="userCoverZh_{{$index}}" ng-model="cover.zh" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="图{{$index + 1}} 英文" name="userCoverEn_{{$index}}" ng-model="cover.en" ng-minlength="2" ng-maxlength="300">-->
+                        <!--<div class="col-lg-4" >-->
+                            <!--<input type="text" class="form-control" id="inputAddressMobile_{{$index}}" name="addressMobile_{{$index}}" ng-model="address.mobile" required ng-minlength="11" ng-maxlength="20" >-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$invalid"></span>-->
                         <!--</div>-->
-                        <!--<div class="col-lg-1">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.cover.length>1" ng-click="data.user.cover.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
+
+                        <!--<div class="col-lg-2" >-->
+                            <!--<span class="form-validation help-block" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.minlength || userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.maxlength">字符长度错误11-20！</span>-->
                         <!--</div>-->
+
                     <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewCover(data.user.cover)"> <span class="glyphicon glyphicon-plus"></span>增加一组图片</button>-->
-                    <!--</div>-->
-                <!--</div>-->
+                </div>
 
 
 
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userDifficulty.$dirty&&userForm.userDifficulty.$valid, 'has-error':userForm.userDifficulty.$dirty&&userForm.userDifficulty.$invalid}">-->
-                    <!--<label for="inputUserDifficulty" class="col-lg-2 control-label" >用户难度</label>-->
 
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserDifficulty" placeholder="难度" name="userDifficulty" ng-model="data.user.difficulty"  min="1" max="5" >-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userDifficulty.$dirty&&userForm.userDifficulty.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userDifficulty.$dirty&&userForm.userDifficulty.$invalid"></span>-->
-                    <!--</div>-->
 
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userDifficulty.$dirty&&userForm.userDifficulty.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userDifficulty.$dirty&&userForm.userDifficulty.$error.min || userForm.userDifficulty.$dirty&&userForm.userDifficulty.$error.max">请输入1-5数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
 
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userTime.$dirty&&userForm.userTime.$valid, 'has-error':userForm.userTime.$dirty&&userForm.userTime.$invalid}">-->
-                    <!--<label for="inputUserTime" class="col-lg-2 control-label" >烹饪时间(分钟)</label>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserTime" placeholder="烹饪时间" name="userTime" ng-model="data.user.time"  min="1" max="960" >-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userTime.$dirty&&userForm.userTime.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userTime.$dirty&&userForm.userTime.$invalid"></span>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userTime.$dirty&&userForm.userTime.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userTime.$dirty&&userForm.userTime.$error.min || userForm.userTime.$dirty&&userForm.userTime.$error.max">请输入1-960数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userServings.$dirty&&userForm.userServings.$valid, 'has-error':userForm.userServings.$dirty&&userForm.userServings.$invalid}">-->
-                    <!--<label for="inputUserServings" class="col-lg-2 control-label" >可供几人份!</label>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserServings" placeholder="几人份" name="userServings" ng-model="data.user.servings" required min="1" max="50" >-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userServings.$dirty&&userForm.userServings.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userServings.$dirty&&userForm.userServings.$invalid"></span>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userServings.$dirty&&userForm.userServings.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userServings.$dirty&&userForm.userServings.$error.min || userForm.userServings.$dirty&&userForm.userServings.$error.max">请输入1-50数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userStorageLife.$dirty&&userForm.userStorageLife.$valid, 'has-error':userForm.userStorageLife.$dirty&&userForm.userStorageLife.$invalid}">-->
-                    <!--<label for="inputUserStorageLife" class="col-lg-2 control-label" >储藏保质期</label>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserStorageLife" placeholder="保质期" name="userStorageLife" ng-model="data.user.storageLife"  min="1" max="96" >-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userStorageLife.$dirty&&userForm.userStorageLife.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userStorageLife.$dirty&&userForm.userStorageLife.$invalid"></span>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userStorageLife.$dirty&&userForm.userStorageLife.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userStorageLife.$dirty&&userForm.userStorageLife.$error.min || userForm.userStorageLife.$dirty&&userForm.userStorageLife.$error.max">请输入1-96数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >制作所需工具</label>-->
-
-                    <!--<div ng-repeat="cover in data.user.kitchenware">-->
-                        <!--<div class="col-lg-4" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<input type="text" class="form-control" placeholder="厨具{{$index + 1}} 中文" name="userKitchenwareZh_{{$index}}" ng-model="cover.zh" ng-minlength="1" ng-maxlength="300">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-4">-->
-                            <!--<input type="text" class="form-control" placeholder="厨具{{$index + 1}} 英文" name="userKitchenwareEn_{{$index}}" ng-model="cover.en" ng-minlength="1" ng-maxlength="300">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.kitchenware.length>1" ng-click="data.user.kitchenware.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewCover(data.user.kitchenware)"> <span class="glyphicon glyphicon-plus"></span>增加一组厨具</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >用户特色</label>-->
-
-                    <!--<div ng-repeat="feature in data.user.infoUniqueFeature">-->
-                        <!--<div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<label class="radio-inline" ng-repeat="contentType in data.contentTypeList">-->
-                                <!--<input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}-->
-                            <!--</label>-->
-
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="userUniqueFeatureTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="userUniqueFeatureTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="userUniqueFeatureValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="userUniqueFeatureValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="userUniqueFeatureLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2">-->
-                            <!--<input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="userUniqueFeatureSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.infoUniqueFeature.length>1" ng-click="data.user.infoUniqueFeature.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewCover(data.user.infoUniqueFeature)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >用户原料</label>-->
-
-                    <!--<div ng-repeat="feature in data.user.infoIngredient">-->
-                        <!--<div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<label class="radio-inline" ng-repeat="contentType in data.contentTypeList">-->
-                                <!--<input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}-->
-                            <!--</label>-->
-
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="userIngredientTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="userIngredientTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="userIngredientValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="userIngredientValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="userIngredientLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2">-->
-                            <!--<input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="userIngredientSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.infoIngredient.length>1" ng-click="data.user.infoIngredient.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewCover(data.user.infoIngredient)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >用户制作步骤</label>-->
-
-                    <!--<div ng-repeat="feature in data.user.infoCookingStep">-->
-                        <!--<div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<label class="radio-inline" ng-repeat="contentType in data.contentTypeList">-->
-                                <!--<input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}-->
-                            <!--</label>-->
-
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="userCookingStepTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="userCookingStepTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="userCookingStepValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="userCookingStepValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">-->
-                            <!--<input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="userCookingStepLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2">-->
-                            <!--<input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="userCookingStepSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.infoCookingStep.length>1" ng-click="data.user.infoCookingStep.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewCover(data.user.infoCookingStep)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-
-
-
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$valid, 'has-error':userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$invalid}">-->
-                    <!--<label for="inputUserPriceOriginal" class="col-lg-2 control-label" >原价</label>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserPriceOriginal" placeholder="保质期" name="userPriceOriginal" ng-model="data.user.priceOriginal"  min="5"  max="9999" step="0.1">-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$invalid"></span>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$error.min || userForm.userPriceOriginal.$dirty&&userForm.userPriceOriginal.$error.max">请输入5-9999数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >批发价</label>-->
-
-                    <!--<div ng-repeat="price in data.user.priceWholesale">-->
-                        <!--<div class="col-lg-3" ng-class="{'col-lg-offset-2':!$first}">-->
-                            <!--<input type="number" class="form-control" placeholder="一次购买数量" name="userPriceWholesale_{{$index}}" ng-model="price.quantity" min="2"  max="999">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-3">-->
-                            <!--<input type="number" class="form-control" placeholder="价格为" name="userPriceWholesale_{{$index}}" ng-model="price.price" min="10"  max="9999">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-4">-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-show="data.user.priceWholesale.length>1" ng-click="data.user.priceWholesale.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-offset-2 col-lg-10">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewPriceWholesale(data.user.priceWholesale)"> <span class="glyphicon glyphicon-plus"></span>增加一组批发价格</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >可选的配菜</label>-->
-
-                    <!--<div class="col-lg-3">-->
-                        <!--<select class="form-control" ng-model="data.currentPreferenceCategory" ng-options="category as '分类: ' + category.zh + ' ' + category.en for category in data.preferenceCategoryList"></select>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-4">-->
-                        <!--<select class="form-control" ng-model="data.currentPreference" ng-options="user as user.title.zh + ' ' + user._id for user in data.userList | filter:{sideUserType:'preferences'}"></select>-->
-                    <!--</div>-->
-                    <!--<div class=" col-lg-2">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewPreference()"> <span class="glyphicon glyphicon-plus"></span>添加配菜</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group has-feedback" ng-repeat="preference in data.user.preferences track by $index">-->
-                    <!--<label class="col-lg-2 control-label">配菜-{{preference.name.zh}}{{preference.name.en}}</label>-->
-                    <!--<div class="col-lg-10" >-->
-                        <!--<div class="col-lg-2 control-label" ng-repeat="subuser in preference.foodMaterial track by $index">-->
-                            <!--<label class="control-label" >{{subuser.user | userfilter:data.userList}}</label>-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-click="preference.foodMaterial.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >可选的浇头</label>-->
-
-                    <!--<div class="col-lg-4">-->
-                        <!--<select class="form-control" ng-model="data.currentTopping" ng-options="user as user.title.zh + ' ' + user._id for user in data.userList | filter:{sideUserType:'topping'}"></select>-->
-                    <!--</div>-->
-                    <!--<div class=" col-lg-4">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.user.topping, data.currentTopping)"> <span class="glyphicon glyphicon-plus"></span>添加浇头</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label"></label>-->
-                    <!--<div class="col-lg-10" >-->
-                        <!--<div class="col-lg-2 control-label" ng-repeat="topping in data.user.topping track by $index">-->
-                            <!--<label class="control-label" >{{topping | userfilter:data.userList}}</label>-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-click="data.user.topping.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label" >Tag 标签筛选项</label>-->
-
-                    <!--<div class="col-lg-4">-->
-                        <!--<select class="form-control" ng-model="data.currentTagFilter" ng-options="tag as tag.name.zh + ' ' + tag._id for tag in data.tagList"></select>-->
-                    <!--</div>-->
-                    <!--<div class=" col-lg-4">-->
-                        <!--<button type="button" class="btn info btn-sm" ng-click="addNewTagFilter(data.user.tagFilter, data.currentTagFilter)"> <span class="glyphicon glyphicon-plus"></span>添加Tag</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group has-feedback" >-->
-                    <!--<label class="col-lg-2 control-label"></label>-->
-                    <!--<div class="col-lg-10" >-->
-                        <!--<div class="col-lg-2 control-label" ng-repeat="tagFilter in data.user.tagFilter track by $index">-->
-                            <!--<label class="control-label" >{{tagFilter | tagfilter:data.tagList}}</label>-->
-                            <!--<button type="button" class="btn btn-danger btn-sm" ng-click="data.user.tagFilter.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userSortId.$dirty&&userForm.userSortId.$valid, 'has-error':userForm.userSortId.$dirty&&userForm.userSortId.$invalid}">-->
-                    <!--<label for="inputUserSortId" class="col-lg-2 control-label" >用户显示顺序!</label>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<input type="number" class="form-control" id="inputUserSortId" placeholder="显示顺序" name="userSortId" ng-model="data.user.sortId" required min="100"  max="9999">-->
-                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userSortId.$dirty&&userForm.userSortId.$valid"></span>-->
-                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userSortId.$dirty&&userForm.userSortId.$invalid"></span>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-2">-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userSortId.$dirty&&userForm.userSortId.$error.required">请填入信息！</span>-->
-                        <!--<span class="form-validation help-block" ng-if="userForm.userSortId.$dirty&&userForm.userSortId.$error.min || userForm.userSortId.$dirty&&userForm.userSortId.$error.max">请输入100-9999数字！</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-                <!--<div class="form-group has-feedback" ng-class="{'has-success':userForm.userIsPublished.$dirty&&userForm.userIsPublished.$valid, 'has-error':userForm.userIsPublished.$dirty&&userForm.userIsPublished.$invalid}">-->
-                    <!--<label class="col-lg-2 control-label" >是否上架</label>-->
-
-                    <!--<div class="col-lg-8">-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userIsPublished" ng-value="false" ng-model="data.user.isPublished">已下架-->
-                        <!--</label>-->
-                        <!--<label class="radio-inline">-->
-                            <!--<input type="radio" name="userIsPublished" ng-value="true" ng-model="data.user.isPublished">已上架-->
-                        <!--</label>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-
-
-                <!--<div class="form-group">-->
-                    <!--<div class="col-lg-offset-2 col-lg-1">-->
-                        <!--<button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="addNewUser(userForm)">Save</button>-->
-                        <!--<button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="updateUser(userForm)">Save</button>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="addNewUser(userForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="updateUser(userForm)">Save</button>
+                    </div>
+                </div>
             </form>
 
+
+
+            <ul class="list-group" ng-repeat="address in data.user.address">
+                <li class="list-group-item">客人认证是否有效地址: {{address.isValid}}</li>
+                <li class="list-group-item">默认地址: {{address.isDefault}}</li>
+                <li class="list-group-item">联系人: {{address.contactPerson}}</li>
+                <li class="list-group-item">手机: {{address.mobile}}</li>
+                <li class="list-group-item">经度: {{address.geoLongitude}} / 纬度: {{address.geoLatitude}}</li>
+                <li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>
+            </ul>
         </div>
     </div>
 

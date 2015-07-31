@@ -35,7 +35,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             mobile : '',
             pwd : '',
             fullName : '',
-            gender : ''
+            gender : '',
+            group : 'member'
         },
 
         userGroupList: [
