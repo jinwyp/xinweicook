@@ -137,13 +137,13 @@
 
                 <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$valid||orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$valid, 'has-error':orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$invalid||orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$invalid}">
                     <div class="col-lg-offset-2 col-lg-4">
-                        <input type="text" class="form-control" placeholder="快递名称 中文" name="orderExpressDisplayNameZh" ng-model="data.order.express.displayName.zh" required ng-minlength="2" ng-maxlength="50">
+                        <input type="text" class="form-control" placeholder="快递名称 中文" name="orderExpressDisplayNameZh" ng-model="data.order.express.displayName.zh"  ng-minlength="2" ng-maxlength="50">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$invalid"></span>
                     </div>
 
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" placeholder="快递名称 英文" name="orderExpressDisplayNameEn" ng-model="data.order.express.displayName.en" required ng-minlength="2" ng-maxlength="50">
+                        <input type="text" class="form-control" placeholder="快递名称 英文" name="orderExpressDisplayNameEn" ng-model="data.order.express.displayName.en"  ng-minlength="2" ng-maxlength="50">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$invalid"></span>
                     </div>
@@ -160,7 +160,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$valid, 'has-error':orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$invalid}">
 
                     <div class="col-lg-offset-2 col-lg-8">
-                        <input type="text" class="form-control" placeholder="快递单号" name="orderExpressNo" ng-model="data.order.express.number" required ng-minlength="6" ng-maxlength="50">
+                        <input type="text" class="form-control" placeholder="快递单号" name="orderExpressNo" ng-model="data.order.express.number"  ng-minlength="6" ng-maxlength="50">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$invalid"></span>
                     </div>

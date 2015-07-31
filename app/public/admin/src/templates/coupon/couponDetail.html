@@ -36,24 +36,68 @@
                     </div>
                 </div>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponGroup.$dirty&&couponForm.couponGroup.$valid, 'has-error':couponForm.couponGroup.$dirty&&couponForm.couponGroup.$invalid}">
-                    <label class="col-lg-2 control-label" >标签组</label>
 
-                    <div class="col-lg-5">
-                        <select class="form-control" name="couponGroup" ng-model="data.coupon.group" ng-options="group as group.zh for group in data.couponGroup">
-                        </select>
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                    <label for="inputCouponPrice" class="col-lg-2 control-label" >优惠金额</label>
+
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" id="inputCouponPrice" placeholder="优惠金额 元" name="couponPrice" ng-model="data.coupon.price" required min="9" max="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid"></span>
                     </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.min || couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.max">字符错误9-200！</span>
+                    </div>
+
                 </div>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponIsFilter.$dirty&&couponForm.couponIsFilter.$valid, 'has-error':couponForm.couponIsFilter.$dirty&&couponForm.couponIsFilter.$invalid}">
-                    <label class="col-lg-2 control-label" >是否用于菜品筛选</label>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponCode.$dirty&&couponForm.couponCode.$valid, 'has-error':couponForm.couponCode.$dirty&&couponForm.couponCode.$invalid}">
+                    <label for="inputCouponCode" class="col-lg-2 control-label" >优惠代码字符</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputCouponCode" placeholder="优惠码字符" name="couponCode" ng-model="data.coupon.code" required ng-minlength="10" ng-maxlength="10">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.minlength || couponForm.couponCode.$dirty&&couponForm.couponCode.$error.maxlength">字符错误10-10！</span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$valid, 'has-error':couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$invalid}">
+                    <label for="inputCouponPriceLimit" class="col-lg-2 control-label" >订单金额限制</label>
+
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" id="inputCouponPriceLimit" placeholder="金额限制 元" name="couponPriceLimit" ng-model="data.coupon.priceLimit" min="10" max="1000">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.min || couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.max">字符错误10-1000！</span>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$valid, 'has-error':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$invalid}">
+                    <label class="col-lg-2 control-label" >使用次数</label>
 
                     <div class="col-lg-4">
                         <label class="radio-inline">
-                            <input type="radio" name="couponIsFilter" id="inlineRadio1" ng-value="true" ng-model="data.coupon.isFilter">是
+                            <input type="radio" name="couponUsedTime" id="inlineRadio1" ng-value="1" ng-model="data.coupon.usedTime">只能使用一次
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="couponIsFilter" id="inlineRadio2" ng-value="false" ng-model="data.coupon.isFilter">否
+                            <input type="radio" name="couponUsedTime" id="inlineRadio2" ng-value="0" ng-model="data.coupon.usedTime">无限次,但每个用户只能用一次
                         </label>
                     </div>
                 </div>

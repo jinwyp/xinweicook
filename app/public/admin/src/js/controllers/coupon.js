@@ -16,37 +16,27 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
     $scope.data = {
         searchFilter : '',
+
+        currentDeleteIndex : -1,
+
+
         couponList : [],
         coupon : {
             name:{
                 zh : '',
                 en : ''
             },
-            group : {
+
+            description:{
                 zh : '',
                 en : ''
             },
-            isFilter : false
-        },
+            price : 10,
+            code : '',
+            priceLimit : 10,
+            usedTime : 0
 
-        couponGroup : [
-            {
-                zh : '菜系',
-                en : 'Dishes system'
-            },
-            {
-                zh : '食材',
-                en : 'Ingredients'
-            },
-            {
-                zh : '场景',
-                en : 'Occasion'
-            },
-            {
-                zh : '推荐促销',
-                en : 'Promotion'
-            }
-        ]
+        }
     };
 
     $scope.css = {
@@ -68,6 +58,26 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         });
     }
+
+    $scope.delCoupon = function (order) {
+
+        var index = $scope.data.couponList.indexOf(order);
+
+        $scope.data.couponList[index].remove().then(function (resultCoupon) {
+            Coupons.getList().then(function (coupons) {
+                $scope.data.couponList = coupons;
+            });
+
+            Notification.success({message : 'Delete Success', delay : 8000});
+
+        }).catch(function (err) {
+            Notification.error({
+                message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
+                delay   : 5000
+            });
+        });
+
+    };
 
 
     $scope.addNewCoupon = function (form) {
