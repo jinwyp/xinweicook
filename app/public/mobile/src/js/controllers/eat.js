@@ -61,13 +61,45 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
 
 
     function init() {
+
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
         } else {
             $localStorage.cart = $scope.cart = [];
         }
 
-        Weixin.getJsConfig()
+        Weixin.getJsconfig().then(function (res) {
+            Weixin.config({
+                nonceStr :res.data.noncestr,
+                timestamp: res.data.timestamp,
+                signature: res.data.signature
+            });
+
+            // 1.通过微信jssdk获取坐标,然后通过百度地图获取与坐标相关的详细信息.
+            Weixin.ready(function () {
+                Weixin.getLocation(function (res) {
+                    Debug.alert(res);
+                    $localStorage.isInRange4KM = Weixin.isInRange(res);
+                    Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
+                        try {
+                            var result = res.data.result;
+                            $scope.address = result.formatted_address;
+
+                            $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
+                            $localStorage.address.geoLatitude = result.location.lat;
+                            $localStorage.address.geoLongitude = result.location.lng;
+
+                        } catch(e) {
+                            Debug.alert(e);
+                        }
+                    }).catch(function (res) {
+                        Debug.alert(res);
+                    })
+                }, function (res) {
+                    Debug.alert(res);
+                })
+            })
+        });
 
         Dishes.getList().then(function (res) {
             $scope.dishes = res.data;

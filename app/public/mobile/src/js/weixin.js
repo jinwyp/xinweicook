@@ -84,7 +84,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
          * @param lng
          * @return promise will resolved with $http res.
          */
-        getLoationName: function (lat, lng) {
+        getLocationName: function (lat, lng) {
             var mapUrl = 'http://api.map.baidu.com/geocoder/v2/?output=json&pois=1&coordtype=gcj02ll&callback=JSON_CALLBACK'
             return $http.jsonp(mapUrl, {
                 params: {
@@ -98,8 +98,10 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
          * @param url
          * @returns {HttpPromise}
          */
-        getJsconfig: function (url) {
-            return $http.post('/api/orders/payment/weixinpay/config', {url: url});
+        getJsconfig: function () {
+            return $http.post('/api/orders/payment/weixinpay/config', {
+                url: location.href.substr(0, location.href.length - location.hash.length)
+            });
         }
     }
 });

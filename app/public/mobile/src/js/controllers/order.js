@@ -51,7 +51,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     };
 
 
-    $scope.submitOrder = function ($event) {
+    $scope.submitOrder = function () {
         var order = {
             cookingType: 'ready to eat',
             clientFrom: 'wechat',
@@ -66,7 +66,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
         var check = {
             '联系信息无效': function () {
-                var keys = [/*'geoLatitude', 'geoLongitude', */'province', 'city', 'district', 'street', 'address', 'contactPerson', 'mobile'];
+                var keys = ['geoLatitude', 'geoLongitude', 'province', 'city', 'district', 'street', 'address', 'contactPerson', 'mobile'];
                 var valid = keys.every(function (key) {
                     return !!$scope.address[key];
                 });
@@ -122,7 +122,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             Orders.postOrder(order).then(function (res) {
                 $scope.orderSuccess = true;
                 $scope.wxstate = res.data._id;
-                //alert('生成订单成功,点击按钮使用微信支付');
                 // todo: change btn text
             }).catch(function (res) {
                 alert('生成订单失败,请稍后再试');
@@ -133,18 +132,25 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
 
     function init() {
+        var isCityShanghai = false;
+
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
         } else {
             location.href = '/mobile';
         }
 
+        if ($localStorage.address) {
+            $scope.address = $localStorage.address;
+            isCityShanghai = $scope.address.city.indexOf('上海') != -1;
+        }
+
         // todo : set fake address, to delete it later.
 
         Orders.deliveryTime({
             cookingType: "ready to eat",
-            isCityShanghai: true,
-            isInRange4KM: true
+            isCityShanghai: isCityShanghai,
+            isInRange4KM: $localStorage.isInRange4KM || false
         }).then(function (res) {
             $scope.deliveryTime = res.data;
             $scope.deliveryTime.selectTime = res.data[0];

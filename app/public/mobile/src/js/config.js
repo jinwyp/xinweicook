@@ -45,3 +45,11 @@ angular.module('xw.config').run([function () {
     }*/
 }]);
 
+angular.pick = function (obj) {
+    var keys = Array.prototype.slice.call(arguments, 1);
+    return keys.reduce(function (o, k) {
+        o[k] = obj[k];
+        return o;
+    }, {});
+};
+
