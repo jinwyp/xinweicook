@@ -20,7 +20,7 @@ exports.createAdmin2 = (req, res, next) ->
     if resultUser
       return res.send("Admin 13564568302 already created before")
     else
-      return models.user.createAsync(initData.userAdmin).then (resultUsers) ->
+      return models.user.createAsync(initData.userAdmin2).then (resultUsers) ->
         res.json resultUsers
 
   .catch next

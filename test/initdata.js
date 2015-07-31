@@ -39,7 +39,7 @@ var userAdmin = [
 ];
 
 
-var userAdmin = [
+var userAdmin2 = [
     {
         username : "x@x2.com",
         pwd : "guessmypw~",
@@ -1092,6 +1092,7 @@ var realReadyToEat = [
 
 module.exports = {
     userAdmin : userAdmin,
+    userAdmin2 : userAdmin2,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 
