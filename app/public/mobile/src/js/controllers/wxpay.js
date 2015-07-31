@@ -1,10 +1,8 @@
 angular.module('xw.wxpay').controller('wxpayCtrl', wxpayCtrl);
 
-function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
+function wxpayCtrl($scope, Orders, Debug) {
 
 
-    $scope.debug = location.search === '?debug';
-    $scope.debugData = [];
     $scope.state = 'processing';
 
 
@@ -12,16 +10,7 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
 
-        //Orders.getJsconfig(location.href.substr(0, location.href.length - location.hash.length)).then(function (res) {
-        //    alert('获取jsconfig成功');
-        //    var setting = {
-        //        nonceStr :res.data.noncestr,
-        //        timestamp: res.data.timestamp,
-        //        signature: res.data.signature
-        //    };
-        //    Weixin.config(setting);
-        //});
-
+        Debug.alert('订单ID' + orderId);
         Orders.getUnifiedOrder({
             _id: orderId,
             trade_type: 'JSAPI'
@@ -44,30 +33,33 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
                         try {
                             if (/\bok\b/.test(res.err_msg)) {
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
-                                    $scope.debugData.push(res);
+                                    Debug.alert('更新订单状态成功');
                                     setTimeout(function () {
                                         location.href = '/mobile'
                                     }, 2000);
                                 }).catch(function (res) {
-                                    $scope.debugData.push(res);
+                                    Debug.alert('订单状态更新失败');
+                                    Debug.alert(res);
                                 });
                                 $scope.$apply(function () {
                                     $scope.state = 'success';
                                 });
                             } else {    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                                Debug.alert('支付失败');
+                                Debug.alert(res);
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'false'}).then(function (res) {
-                                    $scope.debugData.push(res);
+                                    Debug.alert('订单状态更新成功');
                                 }).catch(function (res) {
-                                    $scope.debugData.push(res)
+                                    Debug.alert('订单状态更新失败');
+                                    Debug.alert(res);
                                 });
                                 $scope.$apply(function () {
                                     $scope.state = 'fail';
                                 })
                             }
                         } catch(e) {
-                            $scope.$apply(function () {
-                                $scope.debugData.push(e);
-                            });
+                            Debug.alert('更新订单时抛出异常');
+                            Debug.alert(e);
                         }
                     }
                 );
@@ -85,8 +77,8 @@ function wxpayCtrl($scope, $localStorage, Orders, Weixin) {
             }
 
         }).catch(function (res) {
-            $scope.debugData.push(res);
-            alert('生成订单失败!');
+            Debug.alert(res);
+            alert('生成订单失败,请稍后重试!');
         })
     }
     init();
