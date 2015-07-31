@@ -292,7 +292,6 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                         })
                     }
                 }else if (angular.isObject(obj[p])) {
-                    console.log (obj[p]);
                     deleteProperty(obj[p]);
 
                     var hasPro = false;

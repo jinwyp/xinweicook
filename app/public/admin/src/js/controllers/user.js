@@ -29,7 +29,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
         userListPagesArray : [],
 
         userList     : [],
-        user         : {},
+        user         : {
+            username : '',
+            email : '',
+            mobile : '',
+            pwd : '',
+            fullName : '',
+            gender : ''
+        },
 
         userGroupList: [
             {
