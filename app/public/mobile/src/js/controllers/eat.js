@@ -89,6 +89,11 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
                             $localStorage.address.geoLatitude = result.location.lat;
                             $localStorage.address.geoLongitude = result.location.lng;
 
+                            // todo : remove
+                            if (Debug.isDebug && $scope.cart && $scope.cart.length == 1) {
+                                $localStorage.isInRange4KM = true;
+                            }
+
                         } catch(e) {
                             Debug.alert(e);
                         }
