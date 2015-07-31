@@ -1,4 +1,4 @@
-angular.module('xw', ['xw.config', 'xw.login', 'xw.eat', 'xw.order', 'xw.weixin', 'xw.wxpay', 'xw.me', 'xw.orderlist']);
+angular.module('xw', ['xw.config', 'xw.login', 'xw.eat', 'xw.order', 'xw.weixin', 'xw.wxpay', 'xw.me', 'xw.orderlist', 'xw.services']);
 
 angular.module('xw.config', ['ngStorage']);
 
@@ -17,3 +17,5 @@ angular.module('xw.wxpay', ['xw.weixin']); // tmp
 angular.module('xw.me', ['xw.models']); // tmp
 
 angular.module('xw.weixin', []); // tmp
+
+angular.module('xw.services', []);

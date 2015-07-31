@@ -3,6 +3,7 @@ angular.module('xw.eat').controller('eatCtrl', eatCtrl);
 function eatCtrl($scope, Dishes, $localStorage) {
     $scope.cart = null;
     $scope.address = '';
+    $scope.tipShowed = false;
 
     $scope.subtractDish = function (dish) {
         dish.count--;
@@ -50,6 +51,10 @@ function eatCtrl($scope, Dishes, $localStorage) {
         if (itemCount < 2) {
             alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
             return;
+        }
+        if (!$scope.tipShowed) {
+            alert('覆盖商圈:上海市静安寺、徐家汇、新天地、徐汇滨江、原法租界各商圈及周边地区');
+            $scope.tipShowed = true;
         }
         location.href = 'order';// todo: replace it with route
     };

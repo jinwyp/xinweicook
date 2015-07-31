@@ -82,6 +82,16 @@
       "path" : "/var/www/cook-api/development",
       "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production2"
     },
+    "productionyue" : {
+      "key": "/Users/ykc/.ssh/id_rsa",
+      "user" : "root",
+      "host" : ["123.58.137.201"],
+      "port": "2222",
+      "ref": "origin/develop",
+      "repo" : "git@github.com:XinweiCook/API.git",
+      "path" : "/var/www/cook-api/development",
+      "post-deploy" : "npm update --production && pm2 startOrGracefulReload ecosystem.json --env production2"
+    },
     "production" : {
       "key": "/Users/xream/Sync/configs/keys/main/id_rsa",
       "user" : "root",
