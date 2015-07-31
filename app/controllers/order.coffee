@@ -301,11 +301,13 @@ exports.addNewOrder = (req, res, next) ->
     tempResultDishIdList = _.map(resultDishes, (dish) ->
       dish._id.toString()
     )
+    # 判断是否有不存在的菜品ID
     invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
     models.order.checkInvalidDishIdListh invalidDishIdList
 
 
     for dish,dishIndex in resultDishes
+      models.dish.checkOutOfStock(dish)
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
@@ -360,7 +362,7 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
     # 优惠券已使用后处理
-    if req.body.promotionCode and req.body.promotionCode isnt "testing123"
+    if req.body.promotionCode
       promotionCode.used(req.u)
 
     # 删除用户购物车商品
@@ -369,6 +371,11 @@ exports.addNewOrder = (req, res, next) ->
 #      if dishIdList.indexOf(dish.dish) > -1
 #        console.log "--------", dishIdList.indexOf(dish.dish), dish.dish
 #        req.u.shoppingCart.splice(dishIndex, 1)
+
+    # 扣除商品库存
+    for dishkey, dishValue of dishDataList
+      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
+      dishValue.reduceStock(dishNumberList[dishkey], req.u)
 
 
     # 发送iOS 推送
@@ -421,7 +428,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if req.u.weixinId.openid and resultOrder.clientFrom is "wechat"
         weixinpayOrder.openid = req.u.weixinId.openid
 
-      if resultOrder.promotionCode is "testing123" or req.u.mobile is "15900719671" or req.u.mobile is "18629641521"
+      if resultOrder.promotionCode or req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1
 
       console.log "------------------openId: ", weixinpayOrder

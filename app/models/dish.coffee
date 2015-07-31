@@ -118,6 +118,10 @@ module.exports =
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
 
+    checkOutOfStock : (dish) ->
+      if dish.stock <=0
+        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400
+
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
         return throw new Err "Field validation error,  dishID length must be 24-24", 400
@@ -143,6 +147,16 @@ module.exports =
             finalPrice = wholesale.price
             break
         finalPrice
+
+    reduceStock : (stockNumber, user) ->
+      @stock = @stock - stockNumber
+      newInventoryChange =
+        user : user._id
+        dish : @_id
+        isPlus : false
+        quantity : -stockNumber
+      models.inventory.createAsync(newInventoryChange)
+      @saveAsync()
   }
   rest: {}
   plugin: (schema) ->

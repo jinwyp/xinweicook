@@ -14,6 +14,16 @@ exports.createAdmin = (req, res, next) ->
 
   .catch next
 
+exports.createAdmin2 = (req, res, next) ->
+
+  models.user.findOneAsync({group : "admin", mobile:"13564568302"}).then (resultUser) ->
+    if resultUser
+      return res.send("Admin 13564568302 already created before")
+    else
+      return models.user.createAsync(initData.userAdmin).then (resultUsers) ->
+        res.json resultUsers
+
+  .catch next
 
 exports.removeTag = (req, res, next) ->
   models.tag.removeAsync({}).then () ->
