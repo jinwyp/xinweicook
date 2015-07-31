@@ -3,7 +3,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew">
-                <span ng-show="css.isAddNewStatus">新增 Dish 菜品</span>
+                <span ng-show="css.isAddNewStatus">新增 Dish 菜品 (菜品创建后请编辑该库存)</span>
                 <span ng-hide="css.isAddNewStatus">修改 Dish 菜品 - {{data.dish.title.zh}} - {{data.dish._id}}</span>
                 <a class="btn btn-sm btn-info pull-right" ui-sref="menu.dishes" role="button">返回</a>
             </h3>
@@ -444,21 +444,35 @@
 
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishStock.$dirty&&dishForm.dishStock.$valid, 'has-error':dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid}">
-                    <label for="inputDishStock" class="col-lg-2 control-label" >菜品库存!</label>
+                <!--<div class="form-group has-feedback" ng-if="css.isAddNewStatus" ng-class="{'has-success':dishForm.dishStock.$dirty&&dishForm.dishStock.$valid, 'has-error':dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid}">-->
+                    <!--<label for="inputDishStock" class="col-lg-2 control-label" >菜品当前库存!</label>-->
+
+                    <!--<div class="col-lg-2">-->
+                        <!--<input type="number" class="form-control" id="inputDishStock" placeholder="当前库存" name="dishStock" ng-model="data.dish.stock" required min="1"  max="9999">-->
+                        <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$valid"></span>-->
+                        <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid"></span>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-lg-2">-->
+                        <!--<span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.required">请填入信息！</span>-->
+                        <!--<span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.min || dishForm.dishStock.$dirty&&dishForm.dishStock.$error.max">请输入1-9999数字！</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus" ng-class="{'has-success':dishForm.dishAddInventory.$dirty&&dishForm.dishAddInventory.$valid, 'has-error':dishForm.dishAddInventory.$dirty&&dishForm.dishAddInventory.$invalid}">
+                    <label for="inputDishAddInventory" class="col-lg-2 control-label" >(当前库存 {{data.dish.stock}}) 增加库存</label>
 
                     <div class="col-lg-2">
-                        <input type="number" class="form-control" id="inputDishStock" placeholder="显示顺序" name="dishStock" ng-model="data.dish.stock" required min="2"  max="9999">
-                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$valid"></span>
-                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$invalid"></span>
+                        <input type="number" class="form-control" id="inputDishAddInventory" placeholder="增加库存" name="dishAddInventory" ng-model="data.dish.addInventory"  min="1"  max="9999">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishAddInventory.$dirty&&dishForm.dishAddInventory.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishAddInventory.$dirty&&dishForm.dishAddInventory.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="dishForm.dishStock.$dirty&&dishForm.dishStock.$error.min || dishForm.dishStock.$dirty&&dishForm.dishStock.$error.max">请输入2-9999数字！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishAddStock.$dirty&&dishForm.dishAddStock.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishAddStock.$dirty&&dishForm.dishAddStock.$error.min || dishForm.dishAddStock.$dirty&&dishForm.dishAddStock.$error.max">请输入1-9999数字！</span>
                     </div>
                 </div>
-
 
 
                 <div class="form-group">

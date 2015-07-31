@@ -124,9 +124,12 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 price : ''
             }],
 
-            stock : 20
+            stock : 20,
+
+            addInventory : 20
 
         },
+
 
         dishCookingType : [
             {
@@ -253,8 +256,8 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     if ($state.current.data.type === 'update'){
         $scope.css.isAddNewStatus = false;
 
-        Dishes.one($stateParams.id).get().then(function (resutlDish) {
-            $scope.data.dish = resutlDish;
+        Dishes.one($stateParams.id).get().then(function (resultDish) {
+            $scope.data.dish = resultDish;
 
             //编辑dish时， 处理dish group 显示
             //angular.forEach($scope.data.dishGroup, function(dish) {
@@ -342,6 +345,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         deleteProperty(newDish);
         console.log (newDish);
         Dishes.post(newDish).then(function (resultDish) {
+
             console.log(resultDish);
             Notification.success({message: 'Save Success', delay: 8000});
 
@@ -357,6 +361,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }
 
         $scope.data.dish.put().then(function (resultDish) {
+            Dishes.one($stateParams.id).get().then(function (resultDish) {
+                $scope.data.dish = resultDish;
+            });
             console.log(resultDish);
             Notification.success({message: 'Update Success! ', delay: 8000});
         }).catch(function(err){

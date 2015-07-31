@@ -88,7 +88,7 @@ module.exports =
 
 
 
-    stock : type: Number, default: 20 # 库存
+    stock : type: Number, default: 0 # 库存
 
 
 
@@ -149,15 +149,33 @@ module.exports =
         finalPrice
 
     reduceStock : (stockNumber, user) ->
-      @stock = @stock - stockNumber
+      @stock = @stock - Number(stockNumber)
       newInventoryChange =
         user : user._id
         dish : @_id
         isPlus : false
-        quantity : -stockNumber
+        quantity : -Number(stockNumber)
+      models.inventory.createAsync(newInventoryChange)
+      @saveAsync()
+
+    addStock : (stockNumber, user) ->
+      @stock = @stock + Number(stockNumber)
+      newInventoryChange =
+        user : user._id
+        dish : @_id
+        isPlus : true
+        quantity : Number(stockNumber)
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
   }
-  rest: {}
+  rest:
+    postProcess : (req, res, next) ->
+      if req.method is "PUT" and req.body.addInventory > 0
+        models.dish.findOneAsync({_id:req.params.id})
+        .then (resultDish) ->
+          if resultDish
+            resultDish.addStock(req.body.addInventory, req.u)
+
+
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "dish", field: "autoIncrementId", startAt: 10000
