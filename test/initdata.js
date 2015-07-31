@@ -39,6 +39,33 @@ var userAdmin = [
 ];
 
 
+var userAdmin2 = [
+    {
+        username : "x@x2.com",
+        pwd : "guessmypw~",
+        mobile : "13564568302",
+        email : "x@x2.com",
+        group : "admin"
+    },
+    {
+        username : "steveadmin",
+        pwd : "xwcook789",
+        mobile : "18621378963",
+        email : "x@x3.com",
+        group : "admin",
+        fullName : "steve"
+    },
+    {
+        username : "yujia_huo",
+        pwd : "xwcook789",
+        mobile : "18321600053",
+        email : "yujia_huo@xinweicook.com",
+        group : "admin",
+        fullName : "霍雨佳"
+    }
+];
+
+
 
 
 var dishFilterTagList1 = [
@@ -1065,6 +1092,7 @@ var realReadyToEat = [
 
 module.exports = {
     userAdmin : userAdmin,
+    userAdmin2 : userAdmin2,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 
