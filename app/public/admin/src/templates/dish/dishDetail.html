@@ -478,7 +478,7 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>
-                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus"  ng-click="updateDish(dishForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
                     </div>
                 </div>
 
