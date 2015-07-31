@@ -25,10 +25,10 @@
                 <label for="address" class="col-xs-3 control-label">收货地址:</label>
                 <div class="col-xs-9">
                     <p class="form-control-static" style="text-indent: 12px;">
-                        {{address.city}}
+                        {{address.city + address.district + address.street}}
                     </p>
-                    <input type="text" required ng-model="address.district" class="form-control" id="district" placeholder="区"/>
-                    <input type="text" required ng-model="address.street" class="form-control" id="street" placeholder="街道"/>
+                    <!--<input type="text" required ng-model="address.district" class="form-control" id="district" placeholder="区"/>-->
+                    <!--<input type="text" required ng-model="address.street" class="form-control" id="street" placeholder="街道"/>-->
                     <input type="text" required ng-model="address.address" class="form-control" id="address" placeholder="门牌号信息"/>
                 </div>
             </div>

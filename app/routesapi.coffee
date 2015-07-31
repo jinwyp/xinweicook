@@ -68,7 +68,7 @@ expressRoutes = (app) ->
 
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.post("/api/orders/payment/weixinpay/unifiedorder", libs.auth("member"), orderController.generateWeixinPayUnifiedOrder)
-  app.post("/api/orders/payment/weixinpay/config", libs.auth("member"), orderController.getWeixinDeveloperAccessToken)
+  app.post("/api/orders/payment/weixinpay/config", orderController.getWeixinDeveloperAccessToken) ##去掉libs.auth("member"), 获取jssdk config对匿名用户也应当可以使用, 否则无法对匿名用户在列表页进行定位.
 
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)

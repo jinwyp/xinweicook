@@ -90,7 +90,7 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
                             $localStorage.address.geoLongitude = result.location.lng;
 
                             // todo : remove
-                            if ($scope.cart && $scope.cart.length && $scope.cart[0].count == 3) {
+                            if ($scope.cart && $scope.cart.length && $scope.cart[0].count == 30) {
                                 $localStorage.isInRange4KM = true;
                             }
 
