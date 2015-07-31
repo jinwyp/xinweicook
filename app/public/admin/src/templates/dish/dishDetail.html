@@ -239,7 +239,7 @@
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishUniqueFeatureLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
                         </div>
                         <div class="col-lg-2">
-                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishUniqueFeatureSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishUniqueFeatureSort_{{$index}}" ng-model="feature.sortId" min="1" max="1000">
                             <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoUniqueFeature.length>1" ng-click="data.dish.infoUniqueFeature.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
@@ -265,7 +265,7 @@
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishIngredientLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
                         </div>
                         <div class="col-lg-2">
-                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishIngredientSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishIngredientSort_{{$index}}" ng-model="feature.sortId" min="1" max="1000">
                             <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoIngredient.length>1" ng-click="data.dish.infoIngredient.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishCookingStepLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
                         </div>
                         <div class="col-lg-2">
-                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishCookingStepSort_{{$index}}" ng-model="feature.sortId" min="10" max="1000">
+                            <input type="number" class="form-control" placeholder="排序顺序{{$index + 1}} " name="dishCookingStepSort_{{$index}}" ng-model="feature.sortId" min="1" max="1000">
                             <button type="button" class="btn btn-danger btn-sm" ng-show="data.dish.infoCookingStep.length>1" ng-click="data.dish.infoCookingStep.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
@@ -478,9 +478,10 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>
-                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus"  ng-click="updateDish(dishForm)">Save</button>
                     </div>
                 </div>
+
             </form>
 
         </div>
