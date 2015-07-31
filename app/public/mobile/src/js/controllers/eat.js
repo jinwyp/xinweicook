@@ -1,6 +1,6 @@
 angular.module('xw.eat').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage) {
+function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
     $scope.cart = null;
     $scope.address = '';
     $scope.tipShowed = false;
@@ -66,6 +66,8 @@ function eatCtrl($scope, Dishes, $localStorage) {
         } else {
             $localStorage.cart = $scope.cart = [];
         }
+
+        Weixin.getJsConfig()
 
         Dishes.getList().then(function (res) {
             $scope.dishes = res.data;

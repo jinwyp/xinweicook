@@ -47,10 +47,10 @@
     </ul>
     <div class="address">
         <span class="address-icon icon"></span>
-        <!--<div class="address-content">-->
-            <!--<div class="address-title">送至地址:</div>-->
-            <!--<div class="address-detail">这个那个地址啊</div>-->
-        <!--</div>-->
+        <div class="address-content">
+            <div class="address-title">临时地址:</div>
+            <div class="address-detail">{{address.city + address.district + address.street + address.address}}</div>
+        </div>
         <div class="cart" ng-click="makeOrder()">
             <span class="total-count" ng-if="cart.length"></span>
         </div>
