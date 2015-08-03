@@ -1,4 +1,4 @@
-angular.module('xw.wxpay').controller('wxpayCtrl', wxpayCtrl);
+angular.module('xw.controllers').controller('wxpayCtrl', wxpayCtrl);
 
 function wxpayCtrl($scope, Orders, Debug) {
 

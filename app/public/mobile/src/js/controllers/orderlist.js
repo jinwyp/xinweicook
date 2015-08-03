@@ -1,4 +1,4 @@
-angular.module('xw.orderlist').controller('orderlistCtrl', orderlistCtrl);
+angular.module('xw.controllers').controller('orderlistCtrl', orderlistCtrl);
 
 function orderlistCtrl($scope, Orders) {
 

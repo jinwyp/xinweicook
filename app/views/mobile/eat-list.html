@@ -45,15 +45,28 @@
             </div>
         </li>
     </ul>
-    <div class="address">
-        <span class="address-icon icon"></span>
-        <div class="address-content">
-            <div class="address-title">临时地址:</div>
-            <div class="address-detail" ng-if="address">{{address}}</div>
-            <div class="address-detail" ng-if="!address">定位中...</div>
-        </div>
-        <div class="cart" ng-click="makeOrder()">
-            <span class="total-count" ng-if="cart.length"></span>
+    <div class="address-wrapper">
+        <div class="address-cover"></div>
+        <div class="address-group">
+            <div class="address">
+                <span class="address-icon icon"></span>
+                <div class="address-content">
+                    <div class="address-title">临时地址:</div>
+                    <div class="address-detail" ng-if="address">{{address}}</div>
+                    <div class="address-detail" ng-if="!address">定位中...</div>
+                </div>
+                <div class="cart" ng-click="makeOrder()">
+                    <span class="total-count" ng-if="cart.length"></span>
+                </div>
+            </div>
+            <ul class="address-list">
+                <li>我是第一个地址</li>
+                <li>我是第二个地址</li>
+            </ul>
+            <div class="address-button-wrapper">
+                <span>新建地址</span>
+                <span>管理地址</span>
+            </div>
         </div>
     </div>
 </div>

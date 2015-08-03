@@ -1,4 +1,4 @@
-angular.module('xw.order').controller('orderCtrl', orderCtrl);
+angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
 function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     $scope.cart = null;

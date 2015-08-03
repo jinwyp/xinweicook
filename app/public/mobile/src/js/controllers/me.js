@@ -1,4 +1,4 @@
-angular.module('xw.me').controller('meCtrl', eatCtrl);
+angular.module('xw.controllers').controller('meCtrl', eatCtrl);
 
 function eatCtrl($scope, User, $localStorage) {
 

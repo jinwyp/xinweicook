@@ -1,4 +1,4 @@
-angular.module('xw.eat').controller('eatCtrl', eatCtrl);
+angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
 function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
     $scope.cart = null;

@@ -299,7 +299,16 @@ label {
   display: inline-block;
 }
 
-/* line 124, ../sass/_eat.scss */
+/* line 123, ../sass/_eat.scss */
+.address-cover {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background-color: rgba(206, 208, 165, 0.7);
+}
+
+/* line 131, ../sass/_eat.scss */
 .address {
   position: fixed;
   width: 100%;
@@ -308,7 +317,7 @@ label {
   background-color: rgba(223, 223, 223, 0.9);
   height: 53px;
 }
-/* line 131, ../sass/_eat.scss */
+/* line 138, ../sass/_eat.scss */
 .address .address-icon {
   position: absolute;
   height: 40px;
@@ -318,15 +327,15 @@ label {
   background: url(../img/icons/LocationPinIcon.png) no-repeat;
   background-size: 48%;
 }
-/* line 141, ../sass/_eat.scss */
+/* line 148, ../sass/_eat.scss */
 .address .address-content .address-title {
   font-size: 10px;
 }
-/* line 144, ../sass/_eat.scss */
+/* line 151, ../sass/_eat.scss */
 .address .address-content .address-detail {
   font-size: 13px;
 }
-/* line 148, ../sass/_eat.scss */
+/* line 155, ../sass/_eat.scss */
 .address .cart {
   background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
   background-size: 48%;
@@ -336,7 +345,7 @@ label {
   width: 48px;
   height: 40px;
 }
-/* line 156, ../sass/_eat.scss */
+/* line 163, ../sass/_eat.scss */
 .address .cart .total-count {
   position: absolute;
   left: 17px;
@@ -345,6 +354,47 @@ label {
   top: -4px;
   background: red;
   border-radius: 50%;
+}
+
+/* line 175, ../sass/_eat.scss */
+.address-group {
+  background-color: rgba(241, 241, 241, 0.78);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+/* line 180, ../sass/_eat.scss */
+.address-group .address {
+  position: relative;
+}
+/* line 183, ../sass/_eat.scss */
+.address-group .address-list {
+  font-size: 13px;
+  padding: 0 7px;
+  margin-bottom: 0;
+}
+/* line 187, ../sass/_eat.scss */
+.address-group .address-list li {
+  border-left: #f44d4d 4px solid;
+  background-color: white;
+  margin-top: 6px;
+  padding: 17px 16px;
+}
+/* line 194, ../sass/_eat.scss */
+.address-group .address-button-wrapper {
+  text-align: center;
+  padding: 20px 26px;
+}
+/* line 197, ../sass/_eat.scss */
+.address-group .address-button-wrapper span {
+  border-radius: 3px;
+  background-color: #8C8C8C;
+  color: white;
+  padding: 10px 33px;
+}
+/* line 198, ../sass/_eat.scss */
+.address-group .address-button-wrapper span:first-child {
+  margin-right: 42px;
 }
 
 /* line 3, ../sass/_order.scss */
