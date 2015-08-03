@@ -398,6 +398,19 @@ module.exports =
       resultTime
 
   methods: {}
-  rest: {}
+  rest:
+    postProcess : (req, res, next) ->
+      if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
+        models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
+          if resultOrder and resultOrder.status is models.order.constantStatus().shipped
+            # 发送短信通知, 订单已发货
+            additionalContent =
+              userId : resultOrder.user
+              orderId : resultOrder._id
+              smsText : models.sms.constantTemplateOrderShipped(resultOrder.orderNumber)
+            pushOptions =
+              isPushSMS : true
+            models.message.sendMessageToUser(resultOrder.user, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
+
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "order", field: "autoIncrementId", startAt: 10000

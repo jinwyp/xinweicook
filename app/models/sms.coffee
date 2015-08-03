@@ -10,47 +10,51 @@ module.exports =
     expiredAt: Date
   statics:
 
-    SMSType : () ->
-      type = ["signUp", "resetPassword", "verifyMobile"]
+    constantSMSType : () ->
+      type = ["signUp", "resetPassword", "verifyMobile", "orderShipped"]
+
+    constantTemplateVerifyCode: (code, lang) ->
+      if lang is "en-US"
+        "【新味食材包】Your verification code is #{code}."
+      else
+        "【新味食材包】您的验证码为 #{code}。"
+
+    constantTemplateOrderShipped: (orderNo, lang) ->
+      if lang is "en-US"
+        "【新味食材包】Your order #{orderNo} is shipping now."
+      else
+        "【新味食材包】您的订单 #{orderNo} 已经开始发货，美味即将到家。"
 
     validationSMSType : (type) ->
-      unless libs.validator.isIn(type, @SMSType())
+      unless libs.validator.isIn(type, @constantSMSType())
         return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400
 
     # 发送短信
-    sendSmsVia3rd: (form) ->
+    sendSmsVia3rd: (mobile, text) ->
       opts =
         method: "POST"
         timeout: 5000
         url: conf.yunpian.url
-        form: form
+        form:
+          apikey: conf.yunpian.apikey
+          mobile: mobile
+          text: text
+
       request(opts)
       .bind({})
-      .spread((resp, body) ->
+      .spread (resp, body) ->
 #        logger.debug "-----sendSMSYunpian", resp.statusCode
-#        logger.debug "sms", body
 #        @statusCode = resp.statusCode
+#        libs.parse.json(body).should.have.property("code", 0)
+        console.log "------------------ Send SMS Yunpian ------------------", body
         result = JSON.parse(body)
         if result.code isnt 0
-          throw(result)
+          throw new Err "短信发送失败 " + result.msg, 400
+        else
+          result
 
-#        libs.parse.json(body).should.have.property("code", 0)
-      ).catch (err)->
-        logger.error "SendSMS", err
-        throw new Err "短信发送失败 " + err.msg + " " + err.detail, 500
 
-    # 发送验证码
-    sendCode: (mobile, code) ->
-      form =
-        apikey: conf.yunpian.apikey
-        mobile: mobile
-        text: conf.yunpian.template1 code
 
-      if conf.debug
-#        Promise.resolve(code)
-        @sendSmsVia3rd(form).return(code)
-      else
-        @sendSmsVia3rd(form).return(code)
 
     # 创建并记录验证码
     logCode: (type, mobile) ->

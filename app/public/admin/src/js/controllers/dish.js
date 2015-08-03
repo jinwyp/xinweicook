@@ -142,7 +142,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 value : 'ready to cook'
             },
             {
-                name : '既食包',
+                name : '即食包',
                 value : 'ready to eat'
             }
         ],

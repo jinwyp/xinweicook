@@ -36,11 +36,7 @@ conf =
   yunpian:
     apikey: "4aba5d380c442c3729c1bbc5035527dd"  # https://www.yunpian.com/api/sms.html
     url: "http://yunpian.com/v1/sms/send.json"
-    template1: (code, lang) ->
-      if lang is "en-US"
-        "【新味食材包】Your verification code is #{code}."
-      else
-        "【新味食材包】您的验证码为 #{code}。"
+
   alipay :
     key : "iilt312jb1ijgct5ocpxiehw0yyodic0"
 

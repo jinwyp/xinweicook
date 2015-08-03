@@ -77,14 +77,16 @@ module.exports =
           )
 
     sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
-      models.device.findOneAsync(user: userId).then (resultDevice) ->
-        pushOptions =
-          isPushMobile : true
-        if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
-          models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
 
+      if pushOptions.isPushMobile
+        models.device.findOneAsync(user: userId).then (resultDevice) ->
+          if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
+            models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
 
-
+      if pushOptions.isPushSMS and additionalContent.smsText
+        models.user.findOneAsync(_id: userId).then (resultUser) ->
+          if resultUser and resultUser.mobile
+            models.sms.sendSmsVia3rd(resultUser.mobile, additionalContent.smsText)
 
   methods: {}
   rest: {}

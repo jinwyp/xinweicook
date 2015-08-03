@@ -149,11 +149,11 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.minlength || orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.maxlength">字符长度错误！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.required">请填入信息！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.minlength || orderForm.orderExpressDisplayNameZh.$dirty&&orderForm.orderExpressDisplayNameZh.$error.maxlength">字符长度错误！</span>
 
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.minlength || orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.maxlength">字符长度错误！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.required">请填入信息！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.minlength || orderForm.orderExpressDisplayNameEn.$dirty&&orderForm.orderExpressDisplayNameEn.$error.maxlength">字符长度错误！</span>
                     </div>
                 </div>
 
@@ -166,8 +166,8 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.minlength || orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.maxlength">字符长度错误！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.minlength || orderForm.orderExpressNo.$dirty&&orderForm.orderExpressNo.$error.maxlength">字符长度错误！</span>
                     </div>
                 </div>
 
@@ -198,8 +198,8 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.minlength || orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.maxlength">字符长度错误！</span>
+                        <span class=" help-block" ng-if="orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.minlength || orderForm.orderCSComment.$dirty&&orderForm.orderCSComment.$error.maxlength">字符长度错误！</span>
                     </div>
                 </div>
 
@@ -210,9 +210,13 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderStatus.$dirty&&orderForm.orderStatus.$valid, 'has-error':orderForm.orderStatus.$dirty&&orderForm.orderStatus.$invalid}">
                     <label class="col-lg-2 control-label" >订单状态:</label>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-2">
                         <select class="form-control" name="orderStatus" ng-model="data.order.status" ng-options="status.value as status.name for status in data.orderStatusList">
                         </select>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <span class="help-block ">保存为 已发货 会短信通知用户, 多次保存会多次发送短信</span>
                     </div>
                 </div>
 

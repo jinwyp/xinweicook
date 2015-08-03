@@ -114,7 +114,7 @@
                 <th>拆分订单</th>
                 <th>子订单</th>
                 <th>子订单ID</th>
-                <th>联系人</th>
+                <th>联系人 / 手机</th>
                 <th>地址</th>
 
                 <th>支付方式</th>
@@ -139,7 +139,7 @@
                 <td>{{order.isChildOrder}}</td>
                 <td><span ng-repeat="child in order.childOrderList">{{child}} <br/></span></td>
 
-                <td>{{order.address.contactPerson}}</td>
+                <td>{{order.address.contactPerson}} {{order.address.mobile}}</td>
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}}</td>
 
                 <td>{{order.payment}}</td>

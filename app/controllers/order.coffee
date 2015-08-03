@@ -173,7 +173,14 @@ exports.orderSingleInfo = (req, res, next) ->
 
 exports.pushMobileMessage = (req, res, next) ->
 
-  models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd)
+  additionalContent =
+    userId : req.u._id
+    orderId : "testOrderID"
+
+  pushOptions =
+    isPushMobile : true
+
+  models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
   .then (resultPush) ->
     models.message.checkNotFound resultPush
     res.json resultPush
@@ -383,7 +390,10 @@ exports.addNewOrder = (req, res, next) ->
       userId : req.u._id
       orderId : resultOrder._id
 
-    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent)
+    pushOptions =
+      isPushMobile : true
+
+    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
 
 
 

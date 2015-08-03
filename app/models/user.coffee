@@ -119,7 +119,7 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     checkNotFound: (u) ->
-      u or throw new Err "找不到该用户", 404
+      u or throw new Err "找不到该用户", 401
     checkFound: (user) ->
       if user
         return throw new Err "User Mobile already exist !", 400
