@@ -37,7 +37,7 @@ module.exports =
         text : ""
 
       if additionalContent?
-        newMessage.userId = additionalContent.userId if additionalContent.userId
+        newMessage.user = additionalContent.userId if additionalContent.userId
         newMessage.orderId = additionalContent.orderId if additionalContent.orderId
 
       if contentType is @constantContentType().orderAdd
@@ -64,7 +64,7 @@ module.exports =
           page : 1
           contentType : newMessage.contentType
 #          orderId : newMessage.orderId
-#          userId : newMessage.userId
+#          userId : newMessage.user
 
         iOSMessage.loopTimes = 1 # 重复推送的次数
         iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
