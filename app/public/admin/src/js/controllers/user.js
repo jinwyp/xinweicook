@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Users', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Users) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users) {
 
     $scope.data = {
         searchFilter : '',
@@ -21,12 +21,13 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
             group : ''
         },
 
-        currentDeleteIndex : -1,
-
         userListCount : 0,
         userListCurrentPage : 1,
         userListTotalPages : 1,
         userListPagesArray : [],
+
+        currentDeleteIndex : -1,
+
 
         userList     : [],
         user         : {
@@ -60,21 +61,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
     };
 
 
-    function delProperty (obj){
-        for(var p in obj) {
-            if (obj.hasOwnProperty(p)) {
-                if (obj[p] ===''){
-                    delete obj[p];
-                }
-            }
-        }
-    }
-
-
-
 
     $scope.searchUserCount = function (){
-        delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions);
 
         Users.one('count').get($scope.data.searchOptions).then(function (users) {
             $scope.data.userListCount = users.count;
@@ -82,7 +71,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
 
             $scope.data.userListPagesArray= [];
             for (var i = 1; i <= $scope.data.userListTotalPages; i++){
-                $scope.data.userListPagesArray.push({value:i})
+                $scope.data.userListPagesArray.push( {value : i} )
             }
 
             $scope.searchUser();
@@ -91,8 +80,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
     };
 
     $scope.searchUser = function (form) {
+        Util.delProperty($scope.data.searchOptions);
 
-        delProperty($scope.data.searchOptions);
         Users.getList($scope.data.searchOptions).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
             Notification.success({message: 'Search Success! ', delay: 8000});
@@ -156,9 +145,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Us
 
 
     $scope.updateUser = function (form) {
-        if (form.$invalid) {
-            return;
-        }
 
         $scope.data.user.put().then(function (resultUser) {
             console.log(resultUser);

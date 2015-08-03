@@ -27,10 +27,29 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
 
 
 
+
+angular.module('RDash.models').factory('Util', function ($http) {
+    return {
+        delProperty: function (obj){
+            for(var p in obj) {
+                if (obj.hasOwnProperty(p)) {
+                    if (obj[p] === '' || obj[p] === null ){
+                        delete obj[p];
+                    }
+                }
+            }
+            return obj
+        }
+
+    }
+});
+
+
+
+
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });
-
 
 
 

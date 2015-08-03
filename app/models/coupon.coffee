@@ -105,4 +105,14 @@ module.exports =
           @.usedUserList.push(user._id)
       @.saveAsync()
 
-  rest: {}
+  rest:
+    middleware : (req, res, next) ->
+      if req.method is "POST"
+        models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
+          if result
+            next(new Err("优惠码已经存在 - 后台管理"), 400)
+          else
+            next()
+        )
+      else
+        next()
