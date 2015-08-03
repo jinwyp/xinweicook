@@ -33,6 +33,12 @@ expressRoutes = function(app) {
     app.get("/mobile/orderlist", function (req, res) {
         res.render('mobile/order-list.html', {title: 'XinWeiCook'})
     });
+    app.get("/mobile/addresslist", function (req, res) {
+        res.render('mobile/address-list.html', {title: 'XinweiCook'})
+    });
+    app.get("/mobile/addressedit", function (req, res) {
+        res.render('mobile/address-edit.html', {title: 'XinweiCook'})
+    });
     app.get("/mobile/wxpay/:id", function (req, res) {
         res.render('mobile/wxpay.html', {title: 'XinWeiCook'})
     });
