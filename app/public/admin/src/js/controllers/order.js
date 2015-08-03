@@ -17,6 +17,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
             skip : 0,
             limit : 500,
             status : '',

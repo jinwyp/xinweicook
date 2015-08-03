@@ -17,6 +17,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-sortId',
             cookingType : '',
             sideDishType : '',
             isPublished : '',
@@ -241,32 +242,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
 
 
-    if ($state.current.data.type === 'list'){
-
-    }
-
-    Dishes.getList().then(function (resultDishes) {
-        $scope.data.dishList = resultDishes;
-    });
-    Tags.getList().then(function (tags) {
-        $scope.data.tagList = tags;
-    });
 
 
-    if ($state.current.data.type === 'update'){
-        $scope.css.isAddNewStatus = false;
 
-        Dishes.one($stateParams.id).get().then(function (resultDish) {
-            $scope.data.dish = resultDish;
-
-            //编辑dish时， 处理dish group 显示
-            //angular.forEach($scope.data.dishGroup, function(dish) {
-            //    if (dish.zh === $scope.data.dish.group.zh){
-            //        $scope.data.dish.group = dish;
-            //    }
-            //});
-        });
-    }
 
     function deleteProperty (obj){
 
@@ -333,6 +311,34 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         });
 
     };
+
+
+    $scope.searchDish();
+    Tags.getList().then(function (tags) {
+        $scope.data.tagList = tags;
+    });
+
+
+    if ($state.current.data.type === 'list'){
+
+    }
+
+
+    if ($state.current.data.type === 'update'){
+        $scope.css.isAddNewStatus = false;
+
+        Dishes.one($stateParams.id).get().then(function (resultDish) {
+            $scope.data.dish = resultDish;
+
+            //编辑dish时， 处理dish group 显示
+            //angular.forEach($scope.data.dishGroup, function(dish) {
+            //    if (dish.zh === $scope.data.dish.group.zh){
+            //        $scope.data.dish.group = dish;
+            //    }
+            //});
+        });
+    }
+
 
 
     $scope.addNewDish = function (form) {

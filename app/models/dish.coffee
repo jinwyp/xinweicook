@@ -134,7 +134,7 @@ module.exports =
       @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
     find99 : (options) ->
-      @find(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+      @find(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).sort("-sortId").sort("-createdAt").execAsync()
 
   methods: {
     getPrice : (number) ->
