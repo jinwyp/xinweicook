@@ -71,4 +71,11 @@ libs.requireOthers __filename, (basename, pathname) ->
   # schema.set "toJSON", { getters: true }
   model = mongoose.model basename, schema
   exports[basename] = model
+
+  if rest.middleware
+    tempMiddleware = rest.middleware
+    rest.middleware = []
+    rest.middleware.push(libs.auth("admin"))
+    rest.middleware.push(tempMiddleware)
+
   erm.serve Router, model, rest if rest

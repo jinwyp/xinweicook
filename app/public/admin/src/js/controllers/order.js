@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Orders', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Orders', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, Notification, Orders) {
+function orderController($scope, $timeout, $state, $stateParams, Notification, Util, Orders) {
 
     $scope.data = {
         searchFilter : '',
@@ -27,12 +27,14 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
             cookingType : ''
         },
 
-        currentDeleteIndex : -1,
-
         orderListCount : 0,
         orderListCurrentPage : 1,
         orderListTotalPages : 1,
         orderListPagesArray : [],
+
+        currentDeleteIndex : -1,
+
+
 
         orderList : [],
         order : {},
@@ -188,19 +190,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     };
 
 
-    function delProperty (obj){
-        for(var p in obj) {
-            if (obj.hasOwnProperty(p)) {
-                if (obj[p] ===''){
-                    delete obj[p];
-                }
-            }
-        }
-    }
-
 
     $scope.searchOrderCount = function (){
-        delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions);
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
             $scope.data.orderListCount = orders.count;
@@ -208,7 +200,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
 
             $scope.data.orderListPagesArray= [];
             for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
-                $scope.data.orderListPagesArray.push({value:i})
+                $scope.data.orderListPagesArray.push( {value : i} )
             }
 
             $scope.searchOrder();
@@ -217,8 +209,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, O
     };
 
     $scope.searchOrder = function (form) {
-
-        delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions);
 
         Orders.getList($scope.data.searchOptions).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;

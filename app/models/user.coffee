@@ -183,6 +183,16 @@ module.exports =
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4
-  rest: {}
+  rest:
+    middleware : (req, res, next) ->
+      if req.method is "POST"
+        models.user.findOne({$or:[{username:req.body.username},{mobile:req.body.mobile}, {email:req.body.email} ]}, (err, result)->
+          if result
+            next(new Err("用户已存在 - 后台管理"), 400)
+          else
+            next()
+        )
+      else
+        next()
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "user", field: "autoIncrementId", startAt: 10000

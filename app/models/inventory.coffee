@@ -9,8 +9,4 @@ module.exports =
 
   statics: {}
   methods: {}
-  rest:
-    prereq : (req) ->
-      if req.method is 'PUT'
-        return true
-
+  rest:{}
