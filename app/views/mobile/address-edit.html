@@ -21,13 +21,13 @@
         <div class="login-form-group">
             <div class="form-inline">
                 <div ng-if="!css.showFakeInput">
-                    <select name="province" id="province" class="form-control"
+                    <select required name="province" id="province" class="form-control"
                             ng-options="province.Name for province in Address" ng-model="address.province"></select>
 
-                    <select name="city" id="city" class="form-control"
+                    <select required name="city" id="city" class="form-control"
                             ng-options="city.Name for city in address.province.City" ng-model="address.city"></select>
 
-                    <select name="district" id="district" class="form-control"
+                    <select required name="district" id="district" class="form-control"
                             ng-options="district.Name for district in address.city.Region" ng-model="address.district"></select>
                 </div>
 
@@ -39,20 +39,24 @@
             </div>
             <hr class="form-line"/>
             <input type="text" class="form-control" placeholder="写字楼、小区、学校、街道" name="username"
-                   required ng-model="loginData.username"/>
+                   required ng-model="address.street" debounce="500" ng-change="search()"/>
+            <ul class="search-addresses" ng-if="searchAddresses">
+                <li ng-repeat="addr in searchAddresses">{{addr.name}}</li>
+            </ul>
+
             <hr class="form-line"/>
-            <input type="text" class="form-control" placeholder="楼层、门牌号" name="username"
-                   required ng-model="loginData.username"/>
+            <input type="text" class="form-control" placeholder="楼层、门牌号" name="address"
+                   required ng-model="address.address"/>
             <hr class="form-line"/>
-            <input type="text" class="form-control" placeholder="收货人姓名" name="username"
-                   required ng-model="loginData.username"/>
+            <input type="text" class="form-control" placeholder="收货人姓名" name="contactPerson"
+                   required ng-model="address.contactPerson"/>
             <hr class="form-line"/>
-            <input type="tel" class="form-control" placeholder="手机号码" name="password"
+            <input type="tel" class="form-control" placeholder="手机号码" name="mobile"
                    ng-minlength="11" maxlength="11" required
-                   ng-model="loginData.password"/>
+                   ng-model="address.mobile"/>
 
             <div class="action-group clearfix">
-                <span><i class="glyphicon glyphicon-trash"></i><span>删除</span></span>
+                <span ng-if=""><i class="glyphicon glyphicon-trash"></i><span>删除</span></span>
                 <span class="locate-icon pull-right">定位当前地点</span>
             </div>
         </div>
