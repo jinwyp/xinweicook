@@ -69,10 +69,11 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         if (user) {
             user.address.some(function (addr, i) {
                 var equal = formKeys.every(function (key) {
-                    return addr[key] == (objectKeys.indexOf(key) != -1 ?
-                            $scope.address[key].Name :
-                            $scope.address[key]
-                        )
+                    return addr[key].indexOf(
+                        objectKeys.indexOf(key) != -1 ?
+                        $scope.address[key].Name :
+                        $scope.address[key]
+                    ) != -1;
                 });
                 if (equal) {
                     user.address.splice(i, 1);
