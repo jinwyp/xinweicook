@@ -23,7 +23,7 @@ module.exports = (group="guest") ->
       # logger.debug groups
       # logger.debug req.u
       if req.u.group in groups
-        console.log "------------------------ Bug User: ", req.u._id
+        console.log "------------------------ Bug User: ", req.u._id, req.u.mobile
         next() # TODO BUG
       else
         if req.e
