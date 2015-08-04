@@ -158,365 +158,57 @@
 
 ```js
 {
-  "_id": "558a602a3eba152266ff2b8c",
-  "modifiedAt": "2015-06-29T06:10:56.198Z",
-  "createdAt": "2015-06-29T06:10:56.198Z",
-  "sortId": 100,
+  "_id": "55b1ed7843ffd0964028df9c",
+  "modifiedAt": "2015-08-03T10:31:30.819Z",
+  "createdAt": "2015-07-24T07:47:05.274Z",
+  "autoIncrementId": 10529,
+  "sortId": 1001,
   "cookingType": "ready to cook",
   "sideDishType": "main",
   "setType": "single",
   "difficulty": 2,
-  "time": 15,
+  "time": 10,
   "servings": 1,
   "priceOriginal": 48,
   "__v": 0,
   "statisticViews": 0,
+  "statisticLikeUserList": [],
   "statisticLike": 0,
-  "statisticLikeUserList": [
-      {
-        "_id": "559a1d9dfd69a2071deac899",
-        "modifiedAt": "2015-07-06T09:34:45.909Z",
-        "createdAt": "2015-07-06T06:18:05.916Z",
-        "id": 0,
-        "mobile": "18600000000",
-        "__v": 16,
-        "dishLikeList": [
-          "558a602a3eba152266ff2b8c",
-          "558a602a3eba152266ff2b8c"
-        ],
-        "couponList": [
-          "55926f4b06d06ab2835cc444"
-        ],
-        "shoppingCart": [],
-        "isPromoOn": true,
-        "isSpam": false,
-        "credit": 0,
-        "address": [
-          {
-            "geoLatitude": 20,
-            "geoLongitude": 20,
-            "country": "china",
-            "province": "shanghai",
-            "city": "shanghai",
-            "district": "shanghai",
-            "street": "枫林路",
-            "address": "510号",
-            "contactPerson": "xinwei",
-            "mobile": "13564568304",
-            "alias": "",
-            "remark": "",
-            "_id": "559a4a60cc04631053d9ccc4",
-            "isDefault": false,
-            "isValid": false,
-            "isTemporary": false
-          }
-        ],
-        "group": "member"
-      }
-    ],
-
   "statisticSales": 0,
   "statisticHot": 0,
+  "stock": 0,
   "recommendSet": [],
-  "topping": [
-    {
-      "_id": "5583b7faa2845dec35276b97",
-      "modifiedAt": "2015-06-29T06:10:56.161Z",
-      "createdAt": "2015-06-29T06:10:56.161Z",
-      "sortId": 501,
-      "cookingType": "ready to cook",
-      "sideDishType": "topping",
-      "priceOriginal": 20,
-      "__v": 0,
-      "statisticViews": 0,
-      "statisticLike": 0,
-      "statisticSales": 0,
-      "statisticHot": 0,
-      "recommendSet": [],
-      "topping": [],
-      "preferences": [],
-      "priceWholesale": [],
-      "tagFilter": [],
-      "region": [],
-      "infoCookingStep": [],
-      "infoIngredient": [],
-      "infoUniqueFeature": [],
-      "kitchenware": [],
-      "cover": [],
-      "title": {
-        "zh": "澳牛",
-        "en": "aoniu"
-      },
-      "isPublished": true,
-      "publishedAt": "2015-06-29T06:10:56.154Z"
-    },
-    {
-      "_id": "5583b7faa2845dec35276b98",
-      "modifiedAt": "2015-06-29T06:10:56.161Z",
-      "createdAt": "2015-06-29T06:10:56.161Z",
-      "sortId": 502,
-      "cookingType": "ready to cook",
-      "sideDishType": "topping",
-      "priceOriginal": 25,
-      "__v": 0,
-      "statisticViews": 0,
-      "statisticLike": 0,
-      "statisticSales": 0,
-      "statisticHot": 0,
-      "recommendSet": [],
-      "topping": [],
-      "preferences": [],
-      "priceWholesale": [],
-      "tagFilter": [],
-      "region": [],
-      "infoCookingStep": [],
-      "infoIngredient": [],
-      "infoUniqueFeature": [],
-      "kitchenware": [],
-      "cover": [],
-      "title": {
-        "zh": "和牛",
-        "en": "heniu"
-      },
-      "isPublished": true,
-      "publishedAt": "2015-06-29T06:10:56.157Z"
-    }
-  ],
-  "preferences": [
-    {
-      "_id": "5590e17018048fd1b05425f8",
-      "foodMaterial": [
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b92",
-            "modifiedAt": "2015-06-29T06:10:56.159Z",
-            "createdAt": "2015-06-29T06:10:56.159Z",
-            "sortId": 100,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 20,
-            "__v": 0,
-            "statisticViews": 0,
-            "statisticLike": 0,
-            "statisticSales": 0,
-            "statisticHot": 0,
-            "recommendSet": [],
-            "topping": [],
-            "preferences": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "澳牛",
-              "en": "aoniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-06-29T06:10:56.142Z"
-          },
-          "_id": "5590e17018048fd1b05425fa",
-          "default": true
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b93",
-            "modifiedAt": "2015-06-29T06:10:56.160Z",
-            "createdAt": "2015-06-29T06:10:56.160Z",
-            "sortId": 101,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 25,
-            "__v": 0,
-            "statisticViews": 0,
-            "statisticLike": 0,
-            "statisticSales": 0,
-            "statisticHot": 0,
-            "recommendSet": [],
-            "topping": [],
-            "preferences": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "和牛",
-              "en": "heniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-06-29T06:10:56.147Z"
-          },
-          "_id": "5590e17018048fd1b05425f9",
-          "default": false
-        }
-      ],
-      "name": {
-        "zh": "牛肉",
-        "en": "beef"
-      }
-    },
-    {
-      "_id": "5590e17018048fd1b05425f4",
-      "foodMaterial": [
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b94",
-            "modifiedAt": "2015-06-29T06:10:56.160Z",
-            "createdAt": "2015-06-29T06:10:56.160Z",
-            "sortId": 201,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 10,
-            "__v": 0,
-            "statisticViews": 0,
-            "statisticLike": 0,
-            "statisticSales": 0,
-            "statisticHot": 0,
-            "recommendSet": [],
-            "topping": [],
-            "preferences": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "茶树菇",
-              "en": "chashugu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-06-29T06:10:56.149Z"
-          },
-          "_id": "5590e17018048fd1b05425f7",
-          "default": true
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b95",
-            "modifiedAt": "2015-06-29T06:10:56.160Z",
-            "createdAt": "2015-06-29T06:10:56.160Z",
-            "sortId": 202,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 15,
-            "__v": 0,
-            "statisticViews": 0,
-            "statisticLike": 0,
-            "statisticSales": 0,
-            "statisticHot": 0,
-            "recommendSet": [],
-            "topping": [],
-            "preferences": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "香菇",
-              "en": "xiaogu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-06-29T06:10:56.149Z"
-          },
-          "_id": "5590e17018048fd1b05425f6",
-          "default": false
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b96",
-            "modifiedAt": "2015-06-29T06:10:56.161Z",
-            "createdAt": "2015-06-29T06:10:56.161Z",
-            "sortId": 203,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 20,
-            "__v": 0,
-            "statisticViews": 0,
-            "statisticLike": 0,
-            "statisticSales": 0,
-            "statisticHot": 0,
-            "recommendSet": [],
-            "topping": [],
-            "preferences": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "平菇",
-              "en": "pinggu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-06-29T06:10:56.151Z"
-          },
-          "_id": "5590e17018048fd1b05425f5",
-          "default": false
-        }
-      ],
-      "name": {
-        "zh": "菌菇",
-        "en": "mushroom"
-      }
-    }
-  ],
-  "priceWholesale": [
-    {
-      "quantity": 4,
-      "price": 42,
-      "_id": "5590e17018048fd1b05425fb"
-    }
-  ],
-  "cook": {
-    "user": {
-      "_id": "5583c96c7313f6c849c3aeb1",
-      "modifiedAt": "2015-06-29T06:10:56.139Z",
-      "createdAt": "2015-06-29T06:10:56.139Z",
-      "avatar": "",
-      "__v": 0,
-      "description": {
-        "zh": "王厨牛啊",
-        "en": "Best Cook in China"
-      },
-      "name": {
-        "zh": "王厨",
-        "en": "Cook Wang"
-      }
-    },
-    "tips": {
-      "zh": "一般般",
-      "en": "not bad"
-    }
-  },
+  "topping": [],
+  "preferences": [],
+  "priceWholesale": [],
   "tagFilter": [
-    "5590d256103f46d9ac31e3ee",
-    "5590d256103f46d9ac31e3f2"
+    "5590d256103f46d9ac31e3eb",
+    "5590d256103f46d9ac31e3f1",
+    "5590d256103f46d9ac31e3f3",
+    "5590d256103f46d9ac31e3f4"
   ],
   "region": [],
   "infoCookingStep": [
     {
-      "contentType": "txt",
-      "_id": "5590e17018048fd1b05425fd",
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3d7",
+      "sortId": 1,
       "value": {
-        "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
-        "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6042.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6042.jpg"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3d6",
+      "sortId": 1,
+      "value": {
+        "zh": "火龙果剥皮，一半切片，一半切丁。小芒果切丁。",
+        "en": "Peel the pitaya, slice half of the fruit flesh, and dice the other half. Dice the mango flesh."
       },
       "title": {
         "zh": "准备工作",
@@ -524,67 +216,241 @@
       }
     },
     {
-      "contentType": "txt",
-      "_id": "5590e17018048fd1b05425fc",
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3d5",
+      "sortId": 2,
       "value": {
-        "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
-        "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6070.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6070.jpg"
       },
       "title": {
-        "zh": "干煸茶树菇",
-        "en": "Dry-fry the poplar mushroom"
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3d4",
+      "sortId": 2,
+      "value": {
+        "zh": "不粘锅中火加热，抹少许黄油，倒入1/6薄饼浆，形成直径约10cm的圆饼，调小火煎至朝上的一面布满气泡，翻面煎1分钟，至底部呈棕黄色，取出。重复上述过程数次，直至薄饼浆用完。",
+        "en": "Heat the pan over medium heat, add 1/3 of the butter, pour in 1/6 of the batter, forming a circle with diameter of 10 cm. Switch to low heat, pan-fry till the up side is full of bubbles. Flip side and fry for 1 minute till the bottom side turns brown, take out and set aside. Repeat the process for the remaining batter."
+      },
+      "title": {
+        "zh": "制作薄饼",
+        "en": "Make the pancake"
+      }
+    },
+    {
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3d3",
+      "sortId": 3,
+      "value": {
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6091.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6091.jpg"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3d2",
+      "sortId": 3,
+      "value": {
+        "zh": "中火烧热平底锅，倒入水果酱，煮至冒泡，加入芒果丁，搅拌均匀。",
+        "en": "Heat the pan over medium heat, add the jam, boil till bubbling. Add in diced mango, stir well."
+      },
+      "title": {
+        "zh": "加热水果酱",
+        "en": "Make the sauce"
+      }
+    },
+    {
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3d1",
+      "sortId": 4,
+      "value": {
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6131.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6131.jpg"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3d0",
+      "sortId": 4,
+      "value": {
+        "zh": "盘中放上一块薄饼，铺一层火龙果片；再盖上一块薄饼，铺一层火龙果片，盖上一块薄饼。顶上铺一层火龙果粒，浇上水果酱，摆上蓝莓，筛一层糖粉，最后在中央摆上薄荷叶，根据个人口味蘸取糖油，即可享用。",
+        "en": "Lay one piece of pancake on the plate, spread with sliced pitaya. Repeat the process. Lay diced pitaya on the top of the pancake tower, dress with fruit jam. Lay blueberries on the top, sift in the powdered sugar, lay the mint leaf in the center, dip with syrup to your taste and serve!"
+      },
+      "title": {
+        "zh": "装盘",
+        "en": "Plate your dish"
       }
     }
   ],
   "infoIngredient": [
     {
       "contentType": "txt",
-      "_id": "5590e17018048fd1b05425ff",
+      "_id": "55b1ed7843ffd0964028e3e1",
+      "sortId": 100,
       "value": {
-        "zh": "1/2个",
-        "en": "1/2"
+        "zh": "1/2杯 薄饼浆",
+        "en": "1/2 Cup House-made Batter"
       },
       "title": {
-        "zh": "彩椒",
-        "en": "Bell Pepper"
+        "zh": "",
+        "en": ""
       }
     },
     {
       "contentType": "txt",
-      "_id": "5590e17018048fd1b05425fe",
+      "_id": "55b1ed7843ffd0964028e3e0",
+      "sortId": 100,
       "value": {
-        "zh": "1/4个",
-        "en": "1/4"
+        "zh": "2汤匙 糖粉",
+        "en": "2 Teaspoon Powdered Sugar"
       },
       "title": {
-        "zh": "洋葱",
-        "en": "Onion"
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3df",
+      "sortId": 100,
+      "value": {
+        "zh": "1包 水果酱",
+        "en": "1 Pack House-made Jam"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3de",
+      "sortId": 100,
+      "value": {
+        "zh": "2汤匙 糖油",
+        "en": "2 Teaspoon Syrup"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3dd",
+      "sortId": 100,
+      "value": {
+        "zh": "1/2个 火龙果",
+        "en": "1/2 Pitaya "
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3dc",
+      "sortId": 100,
+      "value": {
+        "zh": "1个 小芒果",
+        "en": "1 Mango"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3db",
+      "sortId": 100,
+      "value": {
+        "zh": "2汤匙 蓝莓",
+        "en": "2 Teaspoon Blueberry"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3da",
+      "sortId": 100,
+      "value": {
+        "zh": "1汤匙 黄油",
+        "en": "1 Teaspoon Butter"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "txt",
+      "_id": "55b1ed7843ffd0964028e3d9",
+      "sortId": 100,
+      "value": {
+        "zh": "1片 薄荷叶",
+        "en": "1 Mint Leaf"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
+      }
+    },
+    {
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3d8",
+      "sortId": 100,
+      "value": {
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼食材图.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼食材图.jpg"
+      },
+      "title": {
+        "zh": "",
+        "en": ""
       }
     }
   ],
   "infoUniqueFeature": [
     {
-      "contentType": "txt",
-      "_id": "5590e17018048fd1b0542601",
+      "contentType": "pic",
+      "_id": "55b1ed7843ffd0964028e3e3",
+      "sortId": 100,
       "value": {
-        "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-        "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
+        "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼diduknow.jpg",
+        "en": "https://dn-xinweicook.qbox.me/法式水果薄饼diduknow.jpg"
       },
       "title": {
-        "zh": "你知道吗？",
-        "en": "Did you know?"
+        "zh": "",
+        "en": ""
       }
     },
     {
       "contentType": "txt",
-      "_id": "5590e17018048fd1b0542600",
+      "_id": "55b1ed7843ffd0964028e3e2",
+      "sortId": 100,
       "value": {
-        "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-        "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
+        "zh": "薄饼据说是在史前社会就存在的最古老的一种谷类食物，在公元前5世纪的诗歌中就可以找到用橄榄油煎的Pancake蘸蜂蜜和炼乳被当作早餐的记载。薄饼通常是一个圆形面饼在平底锅上烘烤而成，可根据自己的口味添加果酱、水果、糖浆、巧克力碎片等多种配料。",
+        "en": "A pancake is a flat cake, often thin, and round, prepared from a starch-based batter and cooked on a hot surface such as a griddle or frying pan.They may be served at any time with a variety of toppings or fillings including jam, fruit, syrup, chocolate chips, or meat. Archaeological evidence suggests that pancakes are probably the earliest and most widespread cereal food eaten in prehistoric societies."
       },
       "title": {
-        "zh": "特点",
-        "en": "Unique Feature"
+        "zh": "薄饼",
+        "en": "Pancake"
       }
     }
   ],
@@ -592,20 +458,42 @@
     {
       "zh": "pan",
       "en": "pan",
-      "_id": "5590e17018048fd1b0542602"
+      "_id": "55b1ed7843ffd0964028e3e4"
     }
   ],
-  "cover": [],
+  "cover": [
+    {
+      "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6134.jpg",
+      "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6134.jpg",
+      "_id": "55b1ed7843ffd0964028e3e6"
+    },
+    {
+      "zh": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6148.jpg",
+      "en": "https://dn-xinweicook.qbox.me/法式水果薄饼s-_MG_6148.jpg",
+      "_id": "55b1ed7843ffd0964028e3e5"
+    }
+  ],
   "brief": {
-    "zh": "优质澳洲M7和牛，摒弃任何额外调料及预处理，真材实料的本味质感，搭配满满一大捧新鲜山野的茶树菇，热力激荡下，茶树菇吸饱了牛肉的精华，更显肉感十足，咬上一口，丰沛的汁水瞬间爆破开来，口口生香，自在于心。",
-    "en": "The high quality of Australian M7 Wagyu beef requires no marination in advance, fried with fresh poplar mushrooms to sear the flavor and aroma in a perfect way.  Stir-frying makes the cooking easy and quick. Finishing with the chef’s special sauce flavored with cumin gives an extra kick to the whole dish."
+    "zh": "对于Pancake的爱不可取代，以至于你会找到城市里只卖各种口味薄饼的餐厅。在家自己动手，你可以更随心所欲，松软的薄饼和火龙果交替落成一座小山，在山顶码上水果，浇点果酱，再撒点糖粉，享受这个游戏般的过程吧，更何况你的游戏成果还很好吃！",
+    "en": "Pancake is a worldwide love for breakfast and you can find pancake house almost everywhere. But homemade pancake is more you since you could add whatever you are fond of. Enjoy placing fruit and jam on top of your pancake as if it's a delicious game."
+  },
+  "shortTitle2": {
+    "zh": "对于Pancake的爱不可取代，以至于你会找到城市里只卖各种口味薄饼的餐厅。在家自己动手，你可以更随心…",
+    "en": "Pancake is a worldwide love for breakfast and you can find pancake house almost everywhere. But …"
+  },
+  "shortTitle1": {
+    "zh": "松软薄饼搭配可口水果",
+    "en": "Soft pancake topped with delicious fruits"
   },
   "title": {
-    "zh": "干煸茶树菇孜然雪花牛柳",
-    "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
+    "zh": "法式水果松饼  ",
+    "en": "Fruit Pancake"
   },
+  "isFromAdminPanel": false,
   "isPublished": true,
-  "publishedAt": "2015-06-29T06:10:56.178Z"
+  "publishedAt": "2015-07-24T07:47:04.950Z",
+  "outOfStock": false,
+  "id": "55b1ed7843ffd0964028df9c"
 }
 
 ```
