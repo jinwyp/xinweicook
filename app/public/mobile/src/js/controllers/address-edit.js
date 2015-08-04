@@ -1,27 +1,78 @@
-angular.module('xw.controllers').controller('addressEditCtrl', function ($scope, Debug, Address, User, $localStorage, Map) {
+angular.module('xw.controllers').controller('addressEditCtrl', function ($scope, ScopeDecorator, Debug, Address, User, $localStorage, Map) {
+    ScopeDecorator.common($scope);
+
     var user, oldAddress;
 
     $scope.Address = Address;
     $scope.address = null;
-    $scope.isEdit = false; // false表示新建地址
     $scope.css = {
+        isEdit: false, // false表示新建地址
         showFakeInput: true
     };
 
     $scope.search = function () {
         if ($scope.address.street) {
-            Map.suggestion($scope.address.street, $scope.address.city || '全国').then(function (res) {
-                $scope.searchAddresses = res.data.filter
+            Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
+                $scope.searchAddresses = res.data.result.filter(function (address) {
+                    return !!address.city
+                })
             })
         }
+    };
+
+    var formKeys = ['province', 'city', 'district', 'street', 'address', 'contactPerson', 'mobile'];
+    var objectKeys = ['province', 'city', 'district'];
+    $scope.formValid = function () {
+        if (!$scope.address) return false;
+        return formKeys.every(function (key) {
+            return !!$scope.address[key];
+        })
+    };
+
+
+    function bindAddr2Scope(addr) {
+        Address.some(function (province) {
+            var exist = province.City.some(function (city) {
+                if (addr.city.indexOf(city.Name) != -1) {
+                    $scope.address.city = city;
+                    return true;
+                }
+            });
+            if (exist) {
+                $scope.address.province = province;
+                return true;
+            }
+        });
+
+        $scope.address.city.Region.some(function (district) {
+            if (addr.district.indexOf(district.Name) != -1) {
+                $scope.address.district = district;
+                return true;
+            }
+        });
     }
+
+    $scope.setStreet = function (addr) {
+        $scope.address.street = addr.street;
+        $scope.address.geoLatitude = addr.location.lat;
+        $scope.address.geoLongitude = addr.location.lng;
+
+        bindAddr2Scope(addr);
+
+        $scope.address.street = addr.name;
+
+        $scope.searchAddresses = null;
+    };
 
 
     $scope.deleteAddress = function () {
         if (user) {
             user.address.some(function (addr, i) {
-                var equal = Object.keys(addr).every(function (key) {
-                    return addr[key] == $scope.address[key];
+                var equal = formKeys.every(function (key) {
+                    return addr[key] == (objectKeys.indexOf(key) != -1 ?
+                            $scope.address[key].Name :
+                            $scope.address[key]
+                        )
                 });
                 if (equal) {
                     user.address.splice(i, 1);
@@ -37,42 +88,53 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         }
     };
 
-    $scope.updateAddress = function (form) {
-        if (form.$valid) {
+    $scope.updateAddress = function () {
+        if ($scope.formValid()) {
+
+            var address = angular.copy($scope.address);
+            address.province = address.province.Name;
+            address.city = address.city.Name;
+            address.district = address.district.Name;
 
             if (user) {
-                if ($scope.isEdit) {
+                if ($scope.css.isEdit) {
                     var found = user.address.some(function (addr, i) {
                         var equal = Object.keys(addr).every(function (key) {
                             return addr[key] == oldAddress[key];
                         });
                         if (equal) {
-                            user.address[i] = $scope.address;
+                            user.address[i] = address;
                             return true;
                         }
                     });
                     Debug.assert(found, 'should find the local address in the remote address list');
 
                 } else {
-                    user.address.push($scope.address);
+                    user.address.push(address);
                 }
 
                 User.updateUser(user).then(function () {
-                    history.back();
+                    $localStorage.selectedAddress = address;
+                    setTimeout(function () {
+                        alert('地址更新成功');
+                        history.back();
+                    }, 120);
                 }).catch(Debug.promiseErrFn('更新地址失败'))
 
             } else {
                 $scope.updateAddress.called = true;
             }
         }
-    }
+    };
 
     function init() {
         if ($localStorage.editAddress) {
             $scope.address = $localStorage.editAddress;
             oldAddress = angular.copy($scope.address);
-            $scope.isEdit = true;
+            $scope.css.isEdit = true;
             delete $localStorage.editAddress;
+            bindAddr2Scope(oldAddress);
+            $scope.address.street = oldAddress.street;
         } else {
             $scope.address = {}
         }

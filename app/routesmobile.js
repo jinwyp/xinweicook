@@ -44,10 +44,13 @@ expressRoutes = function(app) {
     app.get("/mobile/wxpay/:id", function (req, res) {
         res.render('mobile/wxpay.html', {title: 'XinWeiCook'})
     });
+    app.get('/mobile/app', function (req, res) {
+        res.render('mobile/app.html');
+    })
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求
-    app.get("/mobile/placesuggestion", function (req, res) {
+    app.get("/mobile/placesuggestion", function (req, res, next) {
         var query = req.query.query;
         var region = req.query.region;
         var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';

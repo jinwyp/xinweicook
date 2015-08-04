@@ -44,6 +44,36 @@
   background-color: white;
 }
 
+.suggestion-addresses-wrapper {
+  background-color: rgba(29, 29, 29, 0.69);
+  color: white;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  max-height: 400px;
+  min-height: 300px;
+  padding: 5px;
+  z-index: 10;
+  border-radius: 3px;
+  h5 {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  .search-addresses {
+    li {
+      background: url(../img/icons/HouseIcon.png) 8px 50% no-repeat;
+      background-size: auto 37%;
+      padding: 10px 10px 10px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      .general-address {
+        font-size: 12px;
+        padding-top: 3px;
+        font-weight: 100;
+      }
+    }
+  }
+}
+
 .action-group {
   height: 100px;
   padding: 80px 20px 0;

@@ -1,7 +1,7 @@
 @charset "UTF-8";
-/* line 96, icons/*.png */
+/* line 104, icons/*.png */
 .icons-sprite {
-  background-image: url('../img/icons-s39f58e358e.png');
+  background-image: url('../img/icons-s77f6fdacaf.png');
   background-repeat: no-repeat;
 }
 
@@ -375,25 +375,29 @@ label {
 }
 /* line 187, ../sass/_eat.scss */
 .address-group .address-list li {
-  border-left: #f44d4d 4px solid;
   background-color: white;
   margin-top: 6px;
-  padding: 17px 16px;
+  padding: 17px 20px;
 }
-/* line 194, ../sass/_eat.scss */
+/* line 191, ../sass/_eat.scss */
+.address-group .address-list li.active {
+  border-left: #f44d4d 4px solid;
+  padding-left: 16px;
+}
+/* line 197, ../sass/_eat.scss */
 .address-group .address-button-wrapper {
   text-align: center;
   padding: 20px 26px;
 }
-/* line 197, ../sass/_eat.scss */
+/* line 200, ../sass/_eat.scss */
 .address-group .address-button-wrapper span {
   border-radius: 3px;
   background-color: #8C8C8C;
   color: white;
   padding: 10px 33px;
 }
-/* line 198, ../sass/_eat.scss */
-.address-group .address-button-wrapper span:first-child {
+/* line 206, ../sass/_eat.scss */
+.address-group .address-button-wrapper > span {
   margin-right: 42px;
 }
 
@@ -592,8 +596,9 @@ label {
 /* line 23, ../sass/_addresslist.scss */
 .address-list li .detail {
   padding-bottom: 8px;
+  overflow-x: hidden;
 }
-/* line 26, ../sass/_addresslist.scss */
+/* line 27, ../sass/_addresslist.scss */
 .address-list li .edit {
   background-color: #dddddd;
   color: #848280;
@@ -605,7 +610,7 @@ label {
   line-height: 63px;
 }
 
-/* line 39, ../sass/_addresslist.scss */
+/* line 40, ../sass/_addresslist.scss */
 .icon-add {
   position: absolute;
   top: 0;
@@ -615,7 +620,7 @@ label {
   right: 0;
   font-size: 34px;
 }
-/* line 47, ../sass/_addresslist.scss */
+/* line 48, ../sass/_addresslist.scss */
 .icon-add::before {
   content: "+";
 }
@@ -675,16 +680,48 @@ label {
 }
 
 /* line 47, ../sass/_addressedit.scss */
+.suggestion-addresses-wrapper {
+  background-color: rgba(29, 29, 29, 0.69);
+  color: white;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  max-height: 400px;
+  min-height: 300px;
+  padding: 5px;
+  z-index: 10;
+  border-radius: 3px;
+}
+/* line 58, ../sass/_addressedit.scss */
+.suggestion-addresses-wrapper h5 {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+/* line 63, ../sass/_addressedit.scss */
+.suggestion-addresses-wrapper .search-addresses li {
+  background: url(../img/icons/HouseIcon.png) 8px 50% no-repeat;
+  background-size: auto 37%;
+  padding: 10px 10px 10px 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* line 68, ../sass/_addressedit.scss */
+.suggestion-addresses-wrapper .search-addresses li .general-address {
+  font-size: 12px;
+  padding-top: 3px;
+  font-weight: 100;
+}
+
+/* line 77, ../sass/_addressedit.scss */
 .action-group {
   height: 100px;
   padding: 80px 20px 0;
   color: #f44d4d;
 }
-/* line 52, ../sass/_addressedit.scss */
+/* line 82, ../sass/_addressedit.scss */
 .action-group .glyphicon-trash {
   padding-right: 2px;
 }
-/* line 55, ../sass/_addressedit.scss */
+/* line 85, ../sass/_addressedit.scss */
 .action-group .locate-icon {
   background: url(../img/icons/LocationIconEnabled.png) 50% no-repeat;
   background-size: 17%;

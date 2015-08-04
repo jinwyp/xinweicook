@@ -143,6 +143,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if ($localStorage.address) {
             $scope.address = $localStorage.address;
             isCityShanghai = $scope.address.city.indexOf('上海') != -1;
+            delete $localStorage.address;
         }
 
         // todo : set fake address, to delete it later.
@@ -157,11 +158,13 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         }).catch(function (res) {
             console.log('get time error');
         });
+
+        delete $localStorage.isInRange4KM;
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
-            $scope.address.mobile = $scope.user.mobile;
-            $scope.address.contactPerson = $scope.user.username;
+            //$scope.address.mobile = $scope.user.mobile;
+            //$scope.address.contactPerson = $scope.user.username;
         })
     }
 
