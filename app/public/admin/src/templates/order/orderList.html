@@ -113,7 +113,7 @@
                 <th>订单状态</th>
                 <th>拆分订单</th>
                 <th>子订单</th>
-                <th>子订单ID</th>
+                <th>订单来源</th>
                 <th>联系人 / 手机</th>
                 <th>地址</th>
 
@@ -137,7 +137,7 @@
                 <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>
-                <td><span ng-repeat="child in order.childOrderList">{{child}} <br/></span></td>
+                <td>{{order.clientFrom}}</td>
 
                 <td>{{order.address.contactPerson}} {{order.address.mobile}}</td>
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}}</td>

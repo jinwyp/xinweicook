@@ -167,6 +167,13 @@ module.exports =
         weixinpay : "weixinpay"
         paypal : "paypal"
         cod : "cod"
+    constantClientFrom : () ->
+      clientFromType =
+        website : "website"
+        mobileweb : "mobileweb"
+        ios : "ios"
+        android : "android"
+        wechat : "cod"
     constantDeliverTimeSegment : () ->
       segment =
         time12:
