@@ -1114,12 +1114,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"promocode\\",\\"code\\":\\"testingxi2\\",\\"name\\":{\\"zh\\":\\"\\\\u4f18\\\\u60e0\\\\u5238test100\\\\u5143\\"},\\"price\\":\\"60\\",\\"priceLimit\\":\\"1\\",\\"usedTime\\":\\"0\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"couponType\\": \\"promocode\\",\\n  \\"code\\": \\"\\",\\n  \\"name\\": {\\n    \\"zh\\": \\"优惠券test100元\\"\\n  },\\n  \\"price\\": \\"60\\",\\n  \\"priceLimit\\": \\"1\\",\\n  \\"usedTime\\": \\"0\\"\\n}"]</attribute>
         <attribute name="order" type="int64">10</attribute>
         <attribute name="name" type="string">coupon-addNewCouponSingle</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z238 z237 z236"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z236 z238 z237"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z236">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>

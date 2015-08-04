@@ -127,7 +127,8 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
             stock : 20,
 
-            addInventory : 20
+            addInventory : 20,
+            reduceInventory : 1
 
         },
 

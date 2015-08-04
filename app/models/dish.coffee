@@ -170,11 +170,18 @@ module.exports =
   }
   rest:
     postProcess : (req, res, next) ->
-      if req.method is "PUT" and req.body.addInventory > 0
-        models.dish.findOneAsync({_id:req.params.id})
-        .then (resultDish) ->
-          if resultDish
-            resultDish.addStock(req.body.addInventory, req.u)
+      if req.method is "PUT"
+        if req.body.addInventory > 0
+          models.dish.findOneAsync({_id:req.params.id})
+          .then (resultDish) ->
+            if resultDish
+              resultDish.addStock(req.body.addInventory, req.u)
+
+        if req.body.reduceInventory > 0
+          models.dish.findOneAsync({_id:req.params.id})
+          .then (resultDish) ->
+            if resultDish
+              resultDish.reduceStock(req.body.reduceInventory, req.u)
 
 
   plugin: (schema) ->

@@ -98,14 +98,16 @@ module.exports =
           zh : "优惠券"
           en : "coupon"
         price : 1
+      createCoupon = _.assign createCoupon, newCoupon
 
       if newCoupon.couponType is "promocode"
-        if newCoupon.code
+
+        if newCoupon.code and newCoupon.code isnt ""
+
           createCoupon.code = newCoupon.code
         else
           createCoupon.code = models.coupon.gencode()
 
-      createCoupon = _.assign createCoupon, newCoupon
       @createAsync createCoupon
 
 
