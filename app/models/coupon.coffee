@@ -1,4 +1,8 @@
 # 优惠券 优惠码
+
+# 优惠券为绑定用户, 用户不能转移
+# 优惠码 目前分为几类 1 只能使用一次的优惠码, 2 能使用多次,但每个人只能使用一次. 3 优惠码可以使用多次, 同一个人也可以使用多次,但优惠码有次数限制
+
 module.exports =
   schema:
     name: zh:String, en:String # 名字
@@ -6,13 +10,16 @@ module.exports =
     price: Number
     code: String
     priceLimit: type: Number, default: 10 # 订单金额高于限制才可以使用优惠券
+    usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
+    usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
     startDate: type: Date, default: moment()
     endDate: type: Date, default: moment().add(90, 'days')
     isExpired : type: Boolean, default:false
     isUsed : type: Boolean, default:false
-    usedTime : type: Number, default: 1  # 可以使用次数 0 为无限次  1 为一次 当为0时 isUsed就没用了
-    usedUserList : [type: Schema.Types.ObjectId, ref: 'User']
+    isUsedCount : type: Number, default: 0 # 已使用过的次数
+
+    usedUserList : [type: Schema.Types.ObjectId, ref: 'User']  # 记录哪些用户使用过
 
     user : type: Schema.Types.ObjectId, ref: 'User'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
 
@@ -36,7 +43,15 @@ module.exports =
 
     checkUsed : (coupon, user) ->
       if coupon.usedTime isnt 1
-        if coupon.usedUserList.indexOf(user._id) > -1
+        if coupon.usedCountLimitOfOneUser is 1
+          # 可以使用多次,但一个用户只能使用一次
+          if coupon.usedUserList.indexOf(user._id) > -1
+            throw new Err "Coupon is use by this user!", 400
+
+        if coupon.usedTime > 1 and coupon.isUsedCount >= coupon.usedTime
+          throw new Err "Coupon run out used count !", 400
+      else
+        if coupon.isUsed
           throw new Err "Coupon is use by this user!", 400
 
     validationCouponId : (_id) ->
@@ -98,12 +113,18 @@ module.exports =
 
   methods:
     used : (user) ->
-      if @.usedTime is 1
-        @.isUsed = true
+      if @usedTime is 1
+        @isUsed = true
       else
-        if @.usedUserList.indexOf(user._id) is -1
-          @.usedUserList.push(user._id)
-      @.saveAsync()
+        # 可以多次使用
+        if @usedCountLimitOfOneUser is 1
+          if @usedUserList.indexOf(user._id) is -1
+            @usedUserList.push(user._id)
+            @isUsedCount = @isUsedCount + 1
+        else
+          @isUsedCount = @isUsedCount + 1
+
+      @saveAsync()
 
   rest:
     middleware : (req, res, next) ->

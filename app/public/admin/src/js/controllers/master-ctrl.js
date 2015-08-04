@@ -81,6 +81,9 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.removelog = function () {
         $http.get('/api/administrator/initremovelog');
     };
+    $scope.removesetting = function () {
+        $http.get('/api/administrator/initremovesetting');
+    };
 
 
     window.onresize = function() {

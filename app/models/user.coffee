@@ -141,7 +141,8 @@ module.exports =
           throw new Err "验证码保存失败", 400
         models.user.findOneAsync(mobile: mobile).then (resultUser) ->
           models.user.checkFound(resultUser)
-          models.user.createAsync(mobile: mobile, pwd: pwd)
+          unless resultUser
+            models.user.createAsync(mobile: mobile, pwd: pwd)
       )
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
