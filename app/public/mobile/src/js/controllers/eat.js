@@ -1,9 +1,12 @@
-angular.module('xw.eat').controller('eatCtrl', eatCtrl);
+angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
+function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
     $scope.cart = null;
     $scope.address = '';
     $scope.tipShowed = false;
+    $scope.css = {
+        showAllAddress: false
+    };
 
     $scope.subtractDish = function (dish) {
         dish.count--;
@@ -52,11 +55,24 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
             alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
             return;
         }
-        if (!$scope.tipShowed) {
-            alert('覆盖商圈:上海市静安寺、徐家汇、新天地、徐汇滨江、原法租界各商圈及周边地区');
-            $scope.tipShowed = true;
+        if (!$localStorage.isInRange4KM) {
+            alert('抱歉, 当前地址不在我们配送范围之内.')
+            return;
         }
+        //if (!$scope.tipShowed) {
+        //    alert('覆盖商圈:上海市静安寺、徐家汇、新天地、徐汇滨江、原法租界各商圈及周边地区');
+        //    $scope.tipShowed = true;
+        //}
         location.href = 'order';// todo: replace with route
+    };
+
+    $scope.chooseAddress = function (addr) {
+        $scope.address = addr;
+        $localStorage.address = addr;
+        $localStorage.isInRange4KM = Weixin.isInRange({
+            latitude: addr.geoLatitude,
+            longitude: addr.geoLongitude
+        })
     };
 
 
@@ -68,7 +84,14 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
             $localStorage.cart = $scope.cart = [];
         }
 
-        Weixin.getJsconfig().then(function (res) {
+        if ($localStorage.selectedAddress) {
+            $scope.chooseAddress($localStorage.selectedAddress);
+            delete $localStorage.selectedAddress;
+        }
+
+        $scope.address || Weixin.getJsconfig().then(function (res) {
+            if ($scope.address) return;
+
             Weixin.config({
                 nonceStr :res.data.noncestr,
                 timestamp: res.data.timestamp,
@@ -77,22 +100,23 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
 
             // 1.通过微信jssdk获取坐标,然后通过百度地图获取与坐标相关的详细信息.
             Weixin.ready(function () {
+                if ($scope.address) return;
+
                 Weixin.getLocation(function (res) {
+                    if ($scope.address) return;
+
                     Debug.alert(res);
                     $localStorage.isInRange4KM = Weixin.isInRange(res);
                     Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
                         try {
+                            if ($scope.address) return;
+
                             var result = res.data.result;
                             $scope.address = result.formatted_address;
 
                             $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
                             $localStorage.address.geoLatitude = result.location.lat;
                             $localStorage.address.geoLongitude = result.location.lng;
-
-                            // todo : remove
-                            if ($scope.cart && $scope.cart.length && $scope.cart[0].count == 30) {
-                                $localStorage.isInRange4KM = true;
-                            }
 
                         } catch(e) {
                             Debug.alert(e);
@@ -129,6 +153,10 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug) {
                 } else i++;
             }
         });
+
+        User.getUserInfo().then(function (res) {
+            $scope.allAddresses = res.data.address;
+        })
     }
 
     init();

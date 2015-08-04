@@ -6,9 +6,6 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <style>
-        [ng-cloak] {display:none;}
-    </style>
     <title>新味 便当</title>
 </head>
 <body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
@@ -45,18 +42,36 @@
             </div>
         </li>
     </ul>
-    <div class="address">
-        <span class="address-icon icon"></span>
-        <div class="address-content">
-            <div class="address-title">临时地址:</div>
-            <div class="address-detail" ng-if="address">{{address}}</div>
-            <div class="address-detail" ng-if="!address">定位中...</div>
+</div>
+
+<div class="address-wrapper" ng-cloak>
+    <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
+    <div class="address-group">
+        <div class="eat-address">
+            <span class="address-icon icon"></span>
+            <div class="address-content" ng-click="css.showAllAddress=true">
+                <div class="address-title">送至地址:</div>
+                <div class="address-detail" ng-if="address">
+                    {{address.city ? address.city + address.district + address.street + address.address : address}}
+                </div>
+                <div class="address-detail" ng-if="!address">定位中...</div>
+            </div>
+            <div class="cart" ng-click="makeOrder()">
+                <span class="total-count" ng-if="cart.length"></span>
+            </div>
         </div>
-        <div class="cart" ng-click="makeOrder()">
-            <span class="total-count" ng-if="cart.length"></span>
+        <ul class="address-list" ng-if="css.showAllAddress">
+            <li ng-click="chooseAddress(addr)" ng-repeat="addr in allAddresses | limitTo: 3" ng-class="{active: address == addr}">
+                {{addr.city + addr.district + addr.street + addr.address}}
+            </li>
+        </ul>
+        <div class="address-button-wrapper" ng-if="css.showAllAddress">
+            <span style="display:none;">新建地址</span>
+            <a href="addresslist"><span>管理地址</span></a>
         </div>
     </div>
 </div>
+
 </body>
 
 <script src="/components/angular/angular.min.js?v=10"></script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>地址管理</title>
+</head>
+<body ng-app="xw" ng-controller="addressListCtrl">
+
+<nav class="address-list-nav nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span class="no-bottom-border">管理收货地址</span>
+    <a class="icon-add icon" href="addressedit"></a>
+</nav>
+
+<div class="main address-main" ng-cloak>
+    <ul class="address-list" ng-repeat="address in addresses">
+        <li class="row">
+            <div class="select-button"
+                 ng-click="chooseAddress(address)" ng-class="{active: selectedAddress == address}"></div>
+            <div class="detail" ng-click="chooseAddress(address)">
+                <h5 class="name">{{address.contactPerson}}</h5>
+                <div class="address">{{address.city + address.district + address.street + address.address}}</div>
+            </div>
+            <a href="javascript:;" class="text-center edit" ng-click="editAddress(address)">编辑</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/controllers/address-list.js"></script>
+</html>

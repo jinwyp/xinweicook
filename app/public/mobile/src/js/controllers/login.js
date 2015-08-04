@@ -1,4 +1,4 @@
-angular.module('xw.login').controller('loginCtrl', loginCtrl);
+angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
 function loginCtrl($scope, User, $location, $interval, $timeout) {
     $scope.loginData = {};

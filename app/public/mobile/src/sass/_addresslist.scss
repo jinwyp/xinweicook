@@ -1,0 +1,51 @@
+.address-list {
+  margin: 0 24px;
+
+  li {
+    position: relative;
+    margin-bottom: 7px;
+    background-color: white;
+    padding-left: 37px;
+
+    .select-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: url(../img/icons/ForkIcon.png) 50% no-repeat;
+      background-size: 65%;
+      width: 36px;
+      height: 100%;
+      &.active {
+        background: url(../img/icons/ForkIconHighlighted.png) 50% no-repeat;
+        background-size: 65%;
+      }
+    }
+    .detail {
+      padding-bottom: 8px;
+      overflow-x:hidden;
+    }
+    .edit {
+      background-color: #dddddd;
+      color: #848280;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 63px;
+      line-height: 63px;
+    }
+  }
+}
+
+.icon-add {
+  position: absolute;
+  top: 0;
+  width: 45px;
+  line-height: 38px;
+  height: 45px;
+  right: 0;
+  font-size: 34px;
+  &::before {
+    content: '+'
+  }
+}
