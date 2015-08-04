@@ -109,7 +109,7 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+      selectFields = "-stock -topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
     constantCookingType : () ->
       type =
