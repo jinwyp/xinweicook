@@ -46,9 +46,11 @@
                 <th>优惠码 code</th>
                 <th>优惠金额</th>
                 <th>订单金额限制</th>
+                <th>使用次数限制</th>
                 <th>有效期</th>
                 <th>是否过期</th>
-                <th>使用次数</th>
+
+                <th>已使用次数</th>
                 <th>是否已用</th>
                 <th>操作</th>
             </tr>
@@ -61,10 +63,12 @@
                 <td>{{coupon.code}}</td>
                 <td>{{coupon.price}}</td>
                 <td>{{coupon.priceLimit}}</td>
+                <td>{{coupon.usedTime}}</td>
 
                 <td>{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td>{{coupon.isExpired}}</td>
-                <td>{{coupon.usedTime}}</td>
+
+                <td>{{coupon.isUsedCount}}</td>
                 <td>{{coupon.isUsed}}</td>
                 <td>
                     <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===coupon._id">确认真的删除吗？
