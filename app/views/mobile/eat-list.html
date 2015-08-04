@@ -39,8 +39,8 @@
                 <!--<div class="user-actions" style="display:none"></div> todo -->
                 <div class="buy">
                     <span class="price">{{dish.priceOriginal}}</span>
-                    <span class="button" ng-click="addDish(dish)" ng-if="dish.stock > 0">购买</span>
-                    <span class="button" ng-if="dish.stock === 0">售罄</span>
+                    <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
+                    <span class="button" ng-if="dish.outOfStock">售罄</span>
                 </div>
             </div>
         </li>
