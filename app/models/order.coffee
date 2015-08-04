@@ -368,41 +368,40 @@ module.exports =
       if isInRange4KM is true
         timeNow = moment()
 
-        if timeNow.hour() >= 11 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+        todayStarter = moment(timeNow.clone().format("YYYY-MM-DD 11"));
+        tomorrowStarter = todayStarter.clone().add(1, 'days');
+
+        if timeNow.hour() < 10 and timeNow.hour() >=0
+          timeStarter = todayStarter.clone()
+
+        if timeNow.hour() >= 20 and timeNow.hour() < 24
+          timeStarter = tomorrowStarter.clone()
+
+        if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
           if timeNow.minute()%30 >= 10
             timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
           else
             timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
-          for i in [1..5]
-            timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
-            if timeStarterTemp.hour() < 20 or  timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
-              segmentHour =
-                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
 
-            else
-              #  过20:00 要从第二天11:00开始
-              timeStarterTemp.add(15, 'hours').subtract(30, 'minutes')
+        for i in [1..12]
+          timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
-              segmentHour =
-                hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
-
-
-            resultTime.push(segmentHour)
-        else
-          if timeNow.hour() < 11 and timeNow.hour() >0
-            timeStarter = timeNow.clone().add(11-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
-          else
-            timeStarter = timeNow.clone().add(35-timeNow.hour(), 'hours').subtract(timeNow.minute(), 'minutes')
-
-          for i in [1..5]
-            timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+          # 处理如果计算出来的时间超过20点  将不在push进去
+          if timeStarterTemp.hour() < 20 or timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
             segmentHour =
               hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
-
             resultTime.push(segmentHour)
 
+        # 处理第二天的时间点
+        for i in [1..18]
+          timeStarterTemp2 = tomorrowStarter.clone().add(30*(i-1), 'minutes')
+          segmentHour =
+            hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
       resultTime
+
 
   methods: {}
   rest:

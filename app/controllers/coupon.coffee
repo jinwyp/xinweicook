@@ -31,10 +31,6 @@ exports.couponSingleInfoByCode = (req, res, next) ->
 
 
 
-
-
-
-
 exports.addNewCoupon = (req, res, next) ->
 
   models.coupon.validationNewCoupon req.body
