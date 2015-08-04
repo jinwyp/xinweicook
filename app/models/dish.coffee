@@ -105,6 +105,8 @@ module.exports =
     statisticViews: type: Number, default: 0 # 浏览量
 
 
+
+
   statics:
     fields : ->
       selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
@@ -183,6 +185,15 @@ module.exports =
             if resultDish
               resultDish.reduceStock(req.body.reduceInventory, req.u)
 
+  virtual: (schema) ->
+    schema.virtual("outOfStock").get( ->
+      if @stock > 0
+        false
+      else
+        true
+    )
+
+    schema.set('toJSON', { virtuals: true })
 
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "dish", field: "autoIncrementId", startAt: 10000

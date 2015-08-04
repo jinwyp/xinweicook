@@ -6,8 +6,7 @@
 # 获取所有菜品
 exports.dishList = (req, res, next) ->
 
-  models.dish.find99({sideDishType : "main", isPublished : true})
-  .then (dishes) ->
+  models.dish.find99({sideDishType : "main", isPublished : true}).then (dishes) ->
     res.json dishes
   , next
 
@@ -19,7 +18,6 @@ exports.dishSingleInfo = (req, res, next) ->
 
   models.dish.find1({_id: req.params._id, isPublished : true}).then (resultDish) ->
     models.dish.checkNotFound resultDish
-
     res.json resultDish
   .catch next
 

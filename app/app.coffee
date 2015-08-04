@@ -38,6 +38,7 @@ require("./routesapi")(app)
 require("./test")() if conf.debug
 
 app.use (req, res, next) ->
+  logger.warn("------404 URL: ", req.url)
   next new Err l("Page Not Found"), 404
 
 app.use libs.err.middleware()

@@ -61,9 +61,10 @@ erm.defaults
 
 
 libs.requireOthers __filename, (basename, pathname) ->
-  { schema, statics, methods, rest, plugin } = require pathname
+  { schema, statics, methods, rest, virtual, plugin } = require pathname
   schema = new Schema schema
   plugin schema if plugin
+  virtual schema if virtual
   schema.plugin createdModifiedPlugin, {mongoose: mongoose}
   schema.statics = _.assign schema.statics, statics
   schema.methods = _.assign schema.methods, methods
