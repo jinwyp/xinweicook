@@ -24,8 +24,17 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.cookingType.$dirty&&searchForm.cookingType.$valid, 'has-error':searchForm.cookingType.$dirty&&searchForm.cookingType.$invalid}">
                     <label for="inputCookingType" class="col-lg-2 control-label" >订单菜品类型</label>
                     <div class="col-lg-8">
-                        <label class="radio-inline" ng-repeat="cookingType in data.dishCookingType">
+                        <label class="radio-inline" ng-repeat="cookingType in data.dishCookingTypeList">
                             <input type="radio" name="cookingType" id="inputCookingType" ng-value="cookingType.value" ng-model="data.searchOptions.cookingType">{{cookingType.name}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$valid, 'has-error':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$invalid}">
+                    <label for="inputClientFromType" class="col-lg-2 control-label" >订单来源类型</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="clientFromType in data.clientFromTypeList">
+                            <input type="radio" name="clientFromType" id="inputClientFromType" ng-value="clientFromType.value" ng-model="data.searchOptions.clientFrom">{{clientFromType.name}}
                         </label>
                     </div>
                 </div>

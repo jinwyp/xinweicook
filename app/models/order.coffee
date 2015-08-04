@@ -173,7 +173,7 @@ module.exports =
         mobileweb : "mobileweb"
         ios : "ios"
         android : "android"
-        wechat : "cod"
+        wechat : "wechat"
     constantDeliverTimeSegment : () ->
       segment =
         time12:

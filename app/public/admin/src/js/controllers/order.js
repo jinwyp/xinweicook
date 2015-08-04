@@ -25,7 +25,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             _id : '',
             isSplitOrder : '',
             isChildOrder : '',
-            cookingType : ''
+            cookingType : '',
+            clientFrom : ''
         },
 
         orderListCount : 0,
@@ -101,7 +102,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             }
         ],
 
-        dishCookingType : [
+        dishCookingTypeList : [
             {
                 name : 'ALL',
                 value : ''
@@ -113,6 +114,33 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             {
                 name : '既食包',
                 value : 'ready to eat'
+            }
+        ],
+
+        clientFromTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : 'PC版网站',
+                value : 'website'
+            },
+            {
+                name : '移动版网站',
+                value : 'mobileweb'
+            },
+            {
+                name : '微信公众平台',
+                value : 'wechat'
+            },
+            {
+                name : 'iOS 原生APP',
+                value : 'ios'
+            },
+            {
+                name : '安卓 原生APP',
+                value : 'android'
             }
         ],
 
