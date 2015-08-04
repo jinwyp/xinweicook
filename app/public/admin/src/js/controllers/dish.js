@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', 'Tags', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', 'Inventories', 'Tags', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes, Tags) {
+function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes, Inventories, Tags) {
 
     $scope.data = {
         searchFilter : '',
@@ -25,8 +25,10 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
                 zh : ''
             }
         },
+
         tagList : [],
         dishList : [],
+        inventoryList : [],
         currentTagFilter : '',
         currentPreferenceCategory : '',
         currentPreference : '',
@@ -451,6 +453,18 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
 
+    $scope.showInventory = function () {
+
+        Inventories.getList({dish:$stateParams.id}).then(function (result) {
+            $scope.data.inventoryList = result;
+            Notification.success({message: 'Delete Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+
+    };
 
 
 }

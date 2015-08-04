@@ -500,8 +500,21 @@
             </form>
 
         </div>
+
     </div>
 
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <button class="btn btn-info" ng-click="showInventory()">查看库存记录</button>
+        </div>
+
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="item in data.inventoryList">{{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 库存变化 {{item.quantity}}</li>
+        </ul>
+
+    </div>
 
 </div>
 

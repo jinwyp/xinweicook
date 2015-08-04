@@ -56,7 +56,7 @@ angular.module('RDash.models').factory('Users', function (Restangular) {
 angular.module('RDash.models').factory('Dishes', function (Restangular) {
     return Restangular.service('dishes');
 });
-angular.module('RDash.models').factory('inventories', function (Restangular) {
+angular.module('RDash.models').factory('Inventories', function (Restangular) {
     return Restangular.service('inventories');
 });
 
