@@ -384,7 +384,7 @@ module.exports =
             timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
 
-        for i in [1..12]
+        for i in [1..20]
           timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
           # 处理如果计算出来的时间超过20点  将不在push进去
