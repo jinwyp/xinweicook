@@ -438,7 +438,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if req.u.weixinId.openid and resultOrder.clientFrom is "wechat"
         weixinpayOrder.openid = req.u.weixinId.openid
 
-      if resultOrder.promotionCode or req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+      if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1
 
       console.log "------------------openId: ", weixinpayOrder
