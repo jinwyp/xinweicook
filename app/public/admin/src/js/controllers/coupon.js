@@ -34,7 +34,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             price : 10,
             code : '',
             priceLimit : 10,
-            usedTime : 0
+            usedTime : 0,
+            usedCountLimitOfOneUser : 1
 
         }
     };

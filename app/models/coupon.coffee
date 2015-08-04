@@ -16,7 +16,7 @@ module.exports =
     startDate: type: Date, default: moment()
     endDate: type: Date, default: moment().add(90, 'days')
     isExpired : type: Boolean, default:false
-    isUsed : type: Boolean, default:false
+    isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
 
     usedUserList : [type: Schema.Types.ObjectId, ref: 'User']  # 记录哪些用户使用过

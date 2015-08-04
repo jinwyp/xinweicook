@@ -28,11 +28,11 @@
                     </div>
 
                     <div class="col-lg-4">
-                        <span class="form-validation help-block" ng-if="couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.minlength || couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.maxlength">字符长度错误！</span>
+                        <span class="help-block" ng-if="couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.minlength || couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.maxlength">字符长度错误！</span>
 
-                        <span class="form-validation help-block" ng-if="couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$error.minlength || couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.maxlength">字符长度错误！</span>
+                        <span class="help-block" ng-if="couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponNameEn.$dirty&&couponForm.couponNameEn.$error.minlength || couponForm.couponNameZh.$dirty&&couponForm.couponNameZh.$error.maxlength">字符长度错误！</span>
                     </div>
                 </div>
 
@@ -47,8 +47,8 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.min || couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.max">字符错误9-200！</span>
+                        <span class="help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.min || couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.max">字符错误9-200！</span>
                     </div>
 
                 </div>
@@ -64,8 +64,8 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.minlength || couponForm.couponCode.$dirty&&couponForm.couponCode.$error.maxlength">字符错误10-10！</span>
+                        <span class="help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponCode.$dirty&&couponForm.couponCode.$error.minlength || couponForm.couponCode.$dirty&&couponForm.couponCode.$error.maxlength">字符错误10-10！</span>
                     </div>
 
                 </div>
@@ -81,23 +81,52 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <span class="form-validation help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.min || couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.max">字符错误10-1000！</span>
+                        <span class="help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.min || couponForm.couponPriceLimit.$dirty&&couponForm.couponPriceLimit.$error.max">字符错误10-1000！</span>
                     </div>
 
                 </div>
 
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$valid, 'has-error':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$invalid}">
-                    <label class="col-lg-2 control-label" >使用次数</label>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-2 control-label" >总使用次数是否限制</label>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label class="radio-inline">
-                            <input type="radio" name="couponUsedTime" id="inlineRadio1" ng-value="1" ng-model="data.coupon.usedTime">只能使用一次
+                            <input type="radio" ng-value="1" ng-model="data.coupon.usedTime">只能使用一次
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="couponUsedTime" id="inlineRadio2" ng-value="0" ng-model="data.coupon.usedTime">无限次,但每个用户只能用一次
+                            <input type="radio"  ng-value="0" ng-model="data.coupon.usedTime">无限次,但每个用户只能用一次
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$valid, 'has-error':couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$invalid}">
+                    <label for="inputCouponUsedTime" class="col-lg-2 control-label" >总使用次数限制数量</label>
+
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" id="inputCouponUsedTime" placeholder="总使用次数限制" name="couponUsedTime" ng-model="data.coupon.usedTime" required min="0" max="500">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="help-block" ng-if="couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$error.min || couponForm.couponUsedTime.$dirty&&couponForm.couponUsedTime.$error.max">字符错误0-500！</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponUsedCountLimit.$dirty&&couponForm.couponUsedCountLimit.$valid, 'has-error':couponForm.couponUsedCountLimit.$dirty&&couponForm.couponUsedCountLimit.$invalid}">
+                    <label class="col-lg-2 control-label" >每人使用次数限制</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="couponUsedCountLimit"  ng-value="1" ng-model="data.coupon.usedCountLimitOfOneUser">只能使用一次
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="couponUsedCountLimit"  ng-value="0" ng-model="data.coupon.usedCountLimitOfOneUser">每个用户可用多次 (该功能请谨慎使用, 这种优惠码尽量少发放, 请与总使用次数限制一起使用)
                         </label>
                     </div>
                 </div>
