@@ -1,4 +1,4 @@
-angular.module('xw.login').controller('loginCtrl', loginCtrl);
+angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
 function loginCtrl($scope, User, $location, $interval, $timeout) {
     $scope.loginData = {};
@@ -27,6 +27,7 @@ function loginCtrl($scope, User, $location, $interval, $timeout) {
             $scope.signupData.code
         ).then(function (res) {
                 // todo: redirect
+                alert('注册成功!');
                 $timeout(function () {
                     location.href = '/mobile';
                 }, 100)

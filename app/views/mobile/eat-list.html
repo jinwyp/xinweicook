@@ -6,10 +6,7 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <style>
-        [ng-cloak] {display:none;}
-    </style>
-    <title>新味 便当</title>
+    <title>新味 便当.</title>
 </head>
 <body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
 
@@ -39,35 +36,53 @@
                 <!--<div class="user-actions" style="display:none"></div> todo -->
                 <div class="buy">
                     <span class="price">{{dish.priceOriginal}}</span>
-                    <span class="button" ng-click="addDish(dish)" ng-if="dish.stock > 0">购买</span>
-                    <span class="button" ng-if="dish.stock === 0">售罄</span>
+                    <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
+                    <span class="button" ng-if="dish.outOfStock">售罄</span>
                 </div>
             </div>
         </li>
     </ul>
-    <div class="address">
-        <span class="address-icon icon"></span>
-        <div class="address-content">
-            <div class="address-title">临时地址:</div>
-            <div class="address-detail" ng-if="address">{{address}}</div>
-            <div class="address-detail" ng-if="!address">定位中...</div>
+</div>
+
+<div class="address-wrapper" ng-cloak>
+    <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
+    <div class="address-group">
+        <div class="eat-address">
+            <span class="address-icon icon"></span>
+            <div class="address-content" ng-click="css.showAllAddress=true">
+                <div class="address-title">送至地址:</div>
+                <div class="address-detail" ng-if="address">
+                    {{address.city ? address.city + address.district + address.street + address.address : address}}
+                </div>
+                <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
+                <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
+            </div>
+            <div class="cart" ng-click="makeOrder()">
+                <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
+            </div>
         </div>
-        <div class="cart" ng-click="makeOrder()">
-            <span class="total-count" ng-if="cart.length"></span>
+        <ul class="address-list" ng-if="css.showAllAddress">
+            <li ng-click="chooseAddress(addr)" ng-repeat="addr in allAddresses | limitTo: 3" ng-class="{active: address == addr}">
+                {{addr.city + addr.district + addr.street + addr.address}}
+            </li>
+        </ul>
+        <div class="address-button-wrapper" ng-if="css.showAllAddress">
+            <span style="display:none;">新建地址</span>
+            <a href="addresslist"><span>管理地址</span></a>
         </div>
     </div>
 </div>
 </body>
 
-<script src="/components/angular/angular.min.js?v=10"></script>
-<script src="/components/ngstorage/ngStorage.min.js?v=10"></script>
-<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js?v=10"></script>
+<script src="/components/angular/angular.min.js?v=11"></script>
+<script src="/components/ngstorage/ngStorage.min.js?v=11"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
-<script src="/mobile/src/js/modules.js?v=10"></script>
+<script src="/mobile/src/js/modules.js?v=11"></script>
 
-<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/service/debug.js?v=11"></script>
 <script src="/mobile/src/js/weixin.js"></script>
-<script src="/mobile/src/js/models.js?v=10"></script>
-<script src="/mobile/src/js/config.js?v=10"></script>
-<script src="/mobile/src/js/controllers/eat.js?v=10"></script>
+<script src="/mobile/src/js/models.js?v=11"></script>
+<script src="/mobile/src/js/config.js?v=11"></script>
+<script src="/mobile/src/js/controllers/eat.js?v=11"></script>
 </html>

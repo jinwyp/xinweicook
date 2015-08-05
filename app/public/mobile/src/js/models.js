@@ -66,6 +66,9 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
         getUserInfo: function () {
             return $http.get('/api/user');
+        },
+        updateUser: function (data) {
+            return $http.put('/api/user', data)
         }
     }
 });

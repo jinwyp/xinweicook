@@ -13,8 +13,11 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
-                location.href = '/mobile/login'
-
+                if (location.pathname != '/mobile/') {
+                    setTimeout(function () {
+                        location.href = '/mobile/login';
+                    }, 120);
+                }
             }
             return $q.reject(response);
         }

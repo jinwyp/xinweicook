@@ -1,4 +1,4 @@
-angular.module('xw.me').controller('meCtrl', eatCtrl);
+angular.module('xw.controllers').controller('meCtrl', eatCtrl);
 
 function eatCtrl($scope, User, $localStorage) {
 
@@ -17,6 +17,9 @@ function eatCtrl($scope, User, $localStorage) {
         if (!$localStorage.access_token) {
             location.href = 'login'
         }
+        User.getUserInfo().then(function (res) {
+            // todo: do nothing for now. But it will redirect to login if unauthorized.
+        })
     }
 
     init();
