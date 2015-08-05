@@ -57,7 +57,7 @@
                 <div class="address-detail" ng-if="!address">定位中...</div>
             </div>
             <div class="cart" ng-click="makeOrder()">
-                <span class="total-count" ng-if="cart.length"></span>
+                <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
             </div>
         </div>
         <ul class="address-list" ng-if="css.showAllAddress">
@@ -71,7 +71,6 @@
         </div>
     </div>
 </div>
-®
 </body>
 
 <script src="/components/angular/angular.min.js?v=11"></script>

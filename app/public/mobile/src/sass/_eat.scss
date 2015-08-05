@@ -161,10 +161,14 @@ $address-height: 40px;
     width: 48px;
     height: 40px;
     .total-count {
+      font-size: 10px;
+      text-align: center;
+      color: white;
       position: absolute;
       left: 17px;
-      width: 10px;
-      height: 10px;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
       top: -4px;
       background: red;
       border-radius: 50%;
