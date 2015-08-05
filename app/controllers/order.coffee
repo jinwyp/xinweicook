@@ -368,23 +368,52 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
-    # 优惠券已使用后处理
-    if req.body.promotionCode
-      promotionCode.used(req.u)
-
-    # 删除用户购物车商品
-#    console.log "----------------Cart : ", req.u.shoppingCart
-#    console.log "----------------Cart : ", req.u.shoppingCart.length
-#    for dishCart, dishCartIndex in req.u.shoppingCart
-#      console.log "----------------", dishCartIndex , dishCart
-#      if dishIdList.indexOf(String(dishCart.dish)) > -1
-#        req.u.shoppingCart.splice(dishCartIndex, 1)
-#    req.u.saveAsync()
 
     # 扣除商品库存
     for dishkey, dishValue of dishDataList
 #      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
       dishValue.reduceStock(dishNumberList[dishkey], req.u)
+
+
+    # 优惠券已使用后处理
+    if req.body.promotionCode
+      promotionCode.used(req.u)
+
+
+    # 删除用户购物车商品
+    cartLength = req.u.shoppingCart.length-1
+    for i in [cartLength..0]
+      if dishIdList.indexOf(req.u.shoppingCart[i].dish.toString()) > -1
+        req.u.shoppingCart.splice(i, 1)
+
+
+    # 新增用户的收货地址到用户地址信息里面
+    newAddress = {}
+    newAddress.geoLatitude = req.body.address.geoLatitude if req.body.address.geoLatitude
+    newAddress.geoLongitude = req.body.address.geoLongitude if req.body.address.geoLongitude
+
+    newAddress.country = req.body.address.country if req.body.address.country
+    newAddress.province = req.body.address.province if req.body.address.province
+    newAddress.city = req.body.address.city if req.body.address.city
+    newAddress.district = req.body.address.district if req.body.address.district
+    newAddress.street = req.body.address.street if req.body.address.street
+    newAddress.address = req.body.address.address if req.body.address.address
+
+    newAddress.isDefault = true
+    newAddress.contactPerson = req.body.address.contactPerson if req.body.address.contactPerson
+    newAddress.mobile = req.body.address.mobile if req.body.address.mobile
+
+    isAddNewFlag = true
+    for address, addressIndex in req.u.address
+      if (address.contactPerson is newAddress.contactPerson and address.address is newAddress.address) or (address.mobile is newAddress.mobile and address.address is newAddress.address)
+        isAddNewFlag = false
+
+    if isAddNewFlag
+      req.u.address.push(newAddress)
+
+
+
+
 
 
     # 发送iOS 推送
