@@ -373,15 +373,17 @@ exports.addNewOrder = (req, res, next) ->
       promotionCode.used(req.u)
 
     # 删除用户购物车商品
-
-#    for dish, dishIndex in req.u.shoppingCart
-#      if dishIdList.indexOf(dish.dish) > -1
-#        console.log "--------", dishIdList.indexOf(dish.dish), dish.dish
-#        req.u.shoppingCart.splice(dishIndex, 1)
+#    console.log "----------------Cart : ", req.u.shoppingCart
+#    console.log "----------------Cart : ", req.u.shoppingCart.length
+#    for dishCart, dishCartIndex in req.u.shoppingCart
+#      console.log "----------------", dishCartIndex , dishCart
+#      if dishIdList.indexOf(String(dishCart.dish)) > -1
+#        req.u.shoppingCart.splice(dishCartIndex, 1)
+#    req.u.saveAsync()
 
     # 扣除商品库存
     for dishkey, dishValue of dishDataList
-      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
+#      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
       dishValue.reduceStock(dishNumberList[dishkey], req.u)
 
 

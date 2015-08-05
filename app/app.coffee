@@ -2,6 +2,8 @@ require "./env"
 alipayBodyParser = require "./libs/alipay.js"
 bodyParser = require "body-parser"
 cors = require "cors"
+favicon = require "serve-favicon";
+
 methodOverride = require "method-override"
 
 app = express()
@@ -18,6 +20,7 @@ app.engine("jade", require('jade').__express);
 
 app.use cors()
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
