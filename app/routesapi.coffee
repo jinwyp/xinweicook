@@ -23,7 +23,7 @@ expressRoutes = (app) ->
 #  )
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-  app.post("/api/mobile/wxpay/notify", orderController.updateOrderWeixinPayNotify)
+  app.post("/mobile/wxpay/notify", orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
 
