@@ -34,9 +34,11 @@
     width: auto;
   }
   select {
-    min-width: 6em;
+    min-width: 7em;
     box-shadow: none;
     border: none;
+    text-indent: 0.3em;
+    width: 30%;
   }
 }
 
