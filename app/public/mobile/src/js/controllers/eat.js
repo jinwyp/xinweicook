@@ -5,7 +5,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
     $scope.address = '';
     $scope.tipShowed = false;
     $scope.css = {
-        showAllAddress: false
+        showAllAddress: false,
+        showLocationFailed: false
     };
 
     $scope.subtractDish = function (dish) {
@@ -20,20 +21,11 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
     };
 
     $scope.addDish = function (dish) {
-        //if (dish.stock == 0) {
-        //    return;
-        //}
         if (typeof dish.count == 'undefined') {
             dish.count = 0;
         }
 
         dish.count++;
-
-        //if (dish.count > dish.stock) {
-        //    dish.count = dish.stock;
-        //    alert('没有更多库存');
-        //    return;
-        //}
 
         var exist = $scope.cart.some(function (el) {
             if (el._id == dish._id) {
@@ -59,10 +51,6 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
             alert('抱歉, 当前地址不在我们配送范围之内.')
             return;
         }
-        //if (!$scope.tipShowed) {
-        //    alert('覆盖商圈:上海市静安寺、徐家汇、新天地、徐汇滨江、原法租界各商圈及周边地区');
-        //    $scope.tipShowed = true;
-        //}
         location.href = 'order';// todo: replace with route
     };
 
@@ -108,27 +96,30 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
                     Debug.alert(res);
                     $localStorage.isInRange4KM = Weixin.isInRange(res);
                     Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
-                        try {
-                            if ($scope.address) return;
+                        if ($scope.address) return;
 
-                            var result = res.data.result;
-                            $scope.address = result.formatted_address;
+                        var result = res.data.result;
+                        $scope.address = result.formatted_address;
 
-                            $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
-                            $localStorage.address.geoLatitude = result.location.lat;
-                            $localStorage.address.geoLongitude = result.location.lng;
-
-                        } catch(e) {
-                            Debug.alert(e);
-                        }
+                        $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
+                        $localStorage.address.geoLatitude = result.location.lat;
+                        $localStorage.address.geoLongitude = result.location.lng;
                     }).catch(function (res) {
+                        Debug.alert('根据坐标获取用户位置失败');
                         Debug.alert(res);
+                        $scope.css.showLocationFailed = true;
                     })
                 }, function (res) {
+                    Debug.alert('获取用户位置失败');
                     Debug.alert(res);
+                    $scope.css.showLocationFailed = true;
                 })
             })
-        });
+        }).catch(function (res) {
+            Debug.alert('获取jsconfig失败');
+            Debug.alert(res);
+            $scope.css.showLocationFailed = true;
+        })
 
         Dishes.getList().then(function (res) {
             $scope.dishes = res.data;
@@ -140,9 +131,6 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User) {
                 el = cart[i];
                 var exist = $scope.dishes.some(function (dish) {
                     if (el._id == dish._id) {
-                        //if (dish.stock < el.count) {
-                        //    el.count = dish.stock;
-                        //}
                         dish.count = el.count;
                         cart[i] = dish;
                         return true;

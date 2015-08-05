@@ -54,7 +54,8 @@
                 <div class="address-detail" ng-if="address">
                     {{address.city ? address.city + address.district + address.street + address.address : address}}
                 </div>
-                <div class="address-detail" ng-if="!address">定位中...</div>
+                <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
+                <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
             </div>
             <div class="cart" ng-click="makeOrder()">
                 <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
