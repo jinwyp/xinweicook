@@ -339,7 +339,6 @@ exports.addNewOrder = (req, res, next) ->
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
     if req.body.promotionCode
-      console.log "--------", promotionCode.price
       if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
         newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
