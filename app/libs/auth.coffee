@@ -2,9 +2,9 @@ module.exports = (group="guest") ->
   (req, res, next) ->
     models.user.findUserByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then((u)->
       req.u = u
-    ).catch((e)->
+    ).catch((err)->
       req.u = group: "guest"
-      req.e = e
+      req.e = err
     ).then ->
       hooker.hook res, "end", ()->
         if req.u._id

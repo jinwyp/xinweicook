@@ -15,7 +15,7 @@ module.exports =
 
     address: # 收货地址
       geoLatitude: Number # 纬度
-      geoLongitude: Number # 纬度
+      geoLongitude: Number # 经度
 
       country : String
       province: String

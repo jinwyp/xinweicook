@@ -20,7 +20,7 @@ module.exports =
 
     address: [
       geoLatitude: Number # 纬度
-      geoLongitude: Number # 纬度
+      geoLongitude: Number # 经度
 
       country : String
       province: String

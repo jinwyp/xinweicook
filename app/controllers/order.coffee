@@ -338,11 +338,19 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
+    if req.body.promotionCode
+      console.log "--------", promotionCode.price
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-    if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+        if newOrder.totalPrice <= 0
+          newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+
 
     newOrder.dishHistory = dishHistoryList
 
@@ -368,21 +376,53 @@ exports.addNewOrder = (req, res, next) ->
       models.order.createAsync newOrder
 
   .then (resultOrder) ->
+
+    # 扣除商品库存
+    for dishkey, dishValue of dishDataList
+#      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
+      dishValue.reduceStock(dishNumberList[dishkey], req.u)
+
+
     # 优惠券已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+
     # 删除用户购物车商品
+    if req.u.shoppingCart.length > 0
+      cartLength = req.u.shoppingCart.length-1
+      for i in [cartLength..0]
+        if req.u.shoppingCart[i].dish and dishIdList.indexOf(req.u.shoppingCart[i].dish.toString()) > -1
+          req.u.shoppingCart.splice(i, 1)
 
-#    for dish, dishIndex in req.u.shoppingCart
-#      if dishIdList.indexOf(dish.dish) > -1
-#        console.log "--------", dishIdList.indexOf(dish.dish), dish.dish
-#        req.u.shoppingCart.splice(dishIndex, 1)
 
-    # 扣除商品库存
-    for dishkey, dishValue of dishDataList
-      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
-      dishValue.reduceStock(dishNumberList[dishkey], req.u)
+    # 新增用户的收货地址到用户地址信息里面
+    newAddress = {}
+    newAddress.geoLatitude = req.body.address.geoLatitude if req.body.address.geoLatitude
+    newAddress.geoLongitude = req.body.address.geoLongitude if req.body.address.geoLongitude
+
+    newAddress.country = req.body.address.country if req.body.address.country
+    newAddress.province = req.body.address.province if req.body.address.province
+    newAddress.city = req.body.address.city if req.body.address.city
+    newAddress.district = req.body.address.district if req.body.address.district
+    newAddress.street = req.body.address.street if req.body.address.street
+    newAddress.address = req.body.address.address if req.body.address.address
+
+    newAddress.isDefault = true
+    newAddress.contactPerson = req.body.address.contactPerson if req.body.address.contactPerson
+    newAddress.mobile = req.body.address.mobile if req.body.address.mobile
+
+    isAddNewFlag = true
+    for address, addressIndex in req.u.address
+      if (address.contactPerson is newAddress.contactPerson and address.address is newAddress.address) or (address.mobile is newAddress.mobile and address.address is newAddress.address)
+        isAddNewFlag = false
+
+    if isAddNewFlag
+      req.u.address.push(newAddress)
+
+
+
+
 
 
     # 发送iOS 推送

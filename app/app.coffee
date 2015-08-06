@@ -2,6 +2,8 @@ require "./env"
 alipayBodyParser = require "./libs/alipay.js"
 bodyParser = require "body-parser"
 cors = require "cors"
+favicon = require "serve-favicon";
+
 methodOverride = require "method-override"
 
 app = express()
@@ -18,6 +20,7 @@ app.engine("jade", require('jade').__express);
 
 app.use cors()
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
@@ -33,12 +36,14 @@ app.use libs.lang.middleware
 # app.use libs.cache.lastModified
 
 app.use models.Router
+
+
 require("./routesmobile")(app)
 require("./routesapi")(app)
+
 require("./test")() if conf.debug
 
 app.use (req, res, next) ->
-  logger.warn("------404 URL: ", req.url)
   next new Err l("Page Not Found"), 404
 
 app.use libs.err.middleware()

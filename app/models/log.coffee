@@ -5,6 +5,7 @@ module.exports =
     timestamp: Date
     level: String
     meta: {}
+    hostname: String
   statics: {}
   methods: {}
   rest: {}

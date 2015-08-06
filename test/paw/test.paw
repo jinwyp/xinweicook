@@ -129,12 +129,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"370250\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"404160\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z106 z142 z148 z113 z105 z119 z136"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z148 z113 z136 z119 z142 z106 z105"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string"></attribute>
@@ -591,7 +591,7 @@
         <attribute name="name" type="string">user-Info</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z156 z154 z155 z161 z157 z159 z158"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z161 z156 z158 z157 z154 z159 z155"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z161">
         <attribute name="value" type="string"></attribute>
@@ -1472,12 +1472,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n    \\"shoppingCart\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"shoppingCart\\": [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\": [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b9c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\": [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]}"]</attribute>
         <attribute name="order" type="int64">8</attribute>
         <attribute name="name" type="string">user-updateShoppingCart</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z266 z264 z270 z267 z263 z268 z265"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z268 z265 z264 z266 z267 z263 z270"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z270">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z315 z313 z314 z317 z316 z312 z311"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2BQ:mAoTBW0FWfD2xLW9U9IENr0UD70NNv1Z</attribute>
+        <attribute name="value" type="string">Bearer 2BR:KwF4hxp5O1y8jxkRL/jXf/g9hv71jbzO</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2439,7 +2439,7 @@
         <attribute name="name" type="string">user-addNewOrder Alipay</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z381 z383 z380 z378 z379 z376 z382"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z383 z381 z376 z378 z380 z379 z382"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z378">
         <attribute name="value" type="string">application/json</attribute>
@@ -3092,12 +3092,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-07-15\\",\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"address\\": {\\n    \\"mobile\\": \\"18621800000\\",\\n    \\"contactPerson\\": \\"Lex\\",\\n    \\"geoLongitude\\": 121.4905260411753,\\n    \\"province\\": null,\\n    \\"street\\": null,\\n    \\"isDefault\\": true,\\n    \\"address\\": \\"上海市宝山区牡丹江路1599号北翼商业街2层\\",\\n    \\"alias\\": \\"\\",\\n    \\"city\\": \\"上海市\\",\\n    \\"geoLatitude\\": 31.40744502149409,\\n    \\"district\\": null,\\n    \\"isTemporary\\": false,\\n    \\"isValid\\": false,\\n    \\"country\\": \\"china\\",\\n    \\"remark\\": \\"shop A\\"\\n  },\\n  \\"paymentUsedCash\\": false,\\n  \\"dishList\\": [\\n    {\\n      \\"number\\": 1,\\n      \\"subDish\\": [],\\n      \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n      \\"remark\\": null\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n\\t\\"promotionCode\\" : \\"cool001001\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-07-15\\",\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"address\\": {\\n    \\"mobile\\": \\"18621800000\\",\\n    \\"contactPerson\\": \\"Lex\\",\\n    \\"geoLongitude\\": 121.4905260411753,\\n    \\"province\\": null,\\n    \\"street\\": null,\\n    \\"isDefault\\": true,\\n    \\"address\\": \\"上海市宝山区牡丹江路1599号北翼商业街2层\\",\\n    \\"alias\\": \\"\\",\\n    \\"city\\": \\"上海市\\",\\n    \\"geoLatitude\\": 31.40744502149409,\\n    \\"district\\": null,\\n    \\"isTemporary\\": false,\\n    \\"isValid\\": false,\\n    \\"country\\": \\"china\\",\\n    \\"remark\\": \\"shop A\\"\\n  },\\n  \\"paymentUsedCash\\": false,\\n  \\"dishList\\": [\\n    {\\n      \\"number\\": 1,\\n      \\"subDish\\": [],\\n      \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n      \\"remark\\": null\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">11</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay Test</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z437 z440 z441 z438 z443 z439 z436"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z439 z443 z441 z440 z438 z437 z436"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z443">
         <attribute name="order" type="int64">7</attribute>

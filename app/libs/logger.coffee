@@ -12,7 +12,7 @@ module.exports =
           silent: false
           handleExceptions: true
           colorize: false
-          prettyPrint: true
+          prettyPrint: false
           debugStdout: true
         )
         new (winston.transports.MongoDB)(
@@ -20,6 +20,7 @@ module.exports =
           handleExceptions: true
           db: conf.db
           collection: "logs"
+          storeHost : true
           includeIds: true
           handleExceptions: true
         )
@@ -41,8 +42,8 @@ module.exports =
   middleware: ->
     expressWinston.requestWhitelist.push "body"
     expressWinston.requestWhitelist.push "params"
-    expressWinston.requestWhitelist.push "_id"
+#    expressWinston.requestWhitelist.push "_id"
 
     requestLogger = new winston.transports.Console({ json: true, colorize: true, prettyPrint:true, humanReadableUnhandledException:true, debugStdout:true})
 
-    expressWinston.logger({transports: [requestLogger], level: conf.level.db, statusLevels: false, meta: true, expressFormat: false, colorStatus: true})
+    expressWinston.logger({transports: [requestLogger], level: conf.level.db, statusLevels: false, meta: true, expressFormat: true, colorStatus: true})

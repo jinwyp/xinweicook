@@ -202,15 +202,3 @@ var alipay2 = {
 
 
 
-var deliverTime = [
-    {
-        day : 11,
-        segment : [{
-            name : "12",
-            text : "10:00 - 12:00",
-            status : false
-        }]
-    }
-];
-
-
