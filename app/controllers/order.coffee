@@ -338,11 +338,19 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
+    if req.body.promotionCode
+      console.log "--------", promotionCode.price
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-    if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+        if newOrder.totalPrice <= 0
+          newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+
 
     newOrder.dishHistory = dishHistoryList
 
