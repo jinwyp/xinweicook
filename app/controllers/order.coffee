@@ -381,12 +381,12 @@ exports.addNewOrder = (req, res, next) ->
 
 
     # 删除用户购物车商品
-#    cartLength = req.u.shoppingCart.length-1
-#    for i in [cartLength..0]
-#      if req.u.shoppingCart[i].dish
-#        if dishIdList.indexOf(req.u.shoppingCart[i].dish.toString()) > -1
-#          req.u.shoppingCart.splice(i, 1)
-
+    if req.u.shoppingCart.length > 0
+      cartLength = req.u.shoppingCart.length-1
+      for i in [cartLength..0]
+        if req.u.shoppingCart[i].dish and dishIdList.indexOf(req.u.shoppingCart[i].dish.toString()) > -1
+          req.u.shoppingCart.splice(i, 1)
+  
 
     # 新增用户的收货地址到用户地址信息里面
     newAddress = {}
