@@ -58,7 +58,7 @@
                 <th>_id</th>
                 <th>level</th>
                 <th>host</th>
-                <th>meta</th>
+                <th >meta</th>
                 <th>message</th>
                 <th>timestamp</th>
             </tr>
@@ -69,7 +69,15 @@
                 <td>{{log._id}}</td>
                 <td>{{log.level}}</td>
                 <td>{{log.hostname}}</td>
-                <td> <span ng-repeat="( key, value ) in log.meta">{{key}} : {{value}} <br/><br/></span></td>
+                <td>
+                    <div style="width: 30%;">
+                        url : {{log.meta.url}} <br/><br/> method : {{log.meta.method}} <br/><br/>
+                        <span ng-repeat="( key, value ) in log.meta.header">header : {{key}} : {{value}} <br/><br/></span>
+                        <span ng-repeat="( key, value ) in log.meta.body">body : {{key}} : {{value}} <br/><br/></span>
+                        <span ng-repeat="( key, value ) in log.meta.query">query : {{key}} : {{value}} <br/><br/></span>
+                        <span ng-repeat="( key, value ) in log.meta.params">params : {{key}} : {{value}} <br/><br/></span>
+                    </div>
+                </td>
                 <td>{{log.message}}</td>
                 <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>

@@ -386,7 +386,7 @@ exports.addNewOrder = (req, res, next) ->
       for i in [cartLength..0]
         if req.u.shoppingCart[i].dish and dishIdList.indexOf(req.u.shoppingCart[i].dish.toString()) > -1
           req.u.shoppingCart.splice(i, 1)
-  
+
 
     # 新增用户的收货地址到用户地址信息里面
     newAddress = {}
