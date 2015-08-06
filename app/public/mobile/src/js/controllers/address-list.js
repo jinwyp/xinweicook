@@ -16,6 +16,9 @@ angular.module('xw.controllers').controller('addressListCtrl', function ($scope,
         User.getUserInfo().then(function (res) {
             var user = res.data;
             $scope.addresses = user.address;
+            if ($localStorage.selectedAddress) {
+                $scope.selectedAddress = $localStorage.selectedAddress;
+            }
         })
     }
 

@@ -46,7 +46,7 @@ expressRoutes = function(app) {
     });
     app.get('/mobile/app', function (req, res) {
         res.render('mobile/app.html');
-    })
+    });
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求
@@ -72,7 +72,37 @@ expressRoutes = function(app) {
                 }
             }
         })
-    })
+    });
+
+    app.get('/mobile/distance', function (req, res, next) {
+            // 使用gcj02坐标.
+            var lat = req.query.lat;
+            var lng = req.query.lng;
+            var xwLat = 31.189426;
+            var xwLng = 121.460625;
+            var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
+
+            var params = 'origins=' + encodeURIComponent(xwLat + ',' + xwLng) +
+                '&destinations=' + encodeURIComponent(lat + ',' + lng) +
+                '&ak=' + ak +
+                '&output=json&mode=walking&coord_type=gcj02&tactics=12';
+            var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
+
+            console.log('url:', url);
+
+            request(url, function(err, response, body) {
+                if (err) {
+                    next(err)
+                } else {
+                    try {
+                        res.json(JSON.parse(body));
+                    } catch (e) {
+                        next(e);
+                    }
+                }
+            })
+        }
+    )
 
 };
 

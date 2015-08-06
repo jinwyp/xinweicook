@@ -20,7 +20,7 @@
     <ul class="address-list" ng-repeat="address in addresses">
         <li class="row">
             <div class="select-button"
-                 ng-click="chooseAddress(address)" ng-class="{active: selectedAddress == address}"></div>
+                 ng-click="chooseAddress(address)" ng-class="{active: selectedAddress.street + selectedAddress.contactPerson + selectedAddress.mobile == address.street + address.contactPerson + address.mobile}"></div>
             <div class="detail" ng-click="chooseAddress(address)">
                 <h5 class="name">{{address.contactPerson}}</h5>
                 <div class="address">{{address.city + address.district + address.street + address.address}}</div>
