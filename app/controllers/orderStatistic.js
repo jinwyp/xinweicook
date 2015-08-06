@@ -33,14 +33,23 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     ];
 
-
+    var matchList = {};
     if (typeof req.query.createdAt !== 'undefined') {
-        pipeline.push(
-            { "$match":{
-                "createdAt": { $gte: new Date(req.query.createdAt)  }
-            }}
-        )
+        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
+
+    if (typeof req.query.cookingType !== 'undefined') {
+        matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined') {
+        matchList.clientFrom = req.query.clientFrom
+    }
+
+    pipeline.push(
+        { "$match":matchList}
+    );
+
 
     // Grouping pipeline
     pipeline.push (
@@ -63,6 +72,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
         { "$limit": 100 }
     );
 
+    //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
         res.status(200).json(resultOrder)
     }).catch(next)
