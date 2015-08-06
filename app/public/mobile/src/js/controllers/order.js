@@ -71,7 +71,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                     return !!$scope.address[key];
                 });
                 if (valid) {
-                    order.address = {};
+                    order.address = {distanceFrom: +$localStorage.distance};
                     keys.forEach(function (key) {
                         order.address[key] = $scope.address[key];
                     });

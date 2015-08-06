@@ -14,7 +14,7 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         if ($scope.address.street) {
             Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
                 $scope.searchAddresses = res.data.result.filter(function (address) {
-                    return !!address.city
+                    return (!!address.city && !!address.location )
                 })
             })
         }
@@ -54,8 +54,11 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
 
     $scope.setStreet = function (addr) {
         $scope.address.street = addr.street;
+        addr.location = Map.bd09ToGcj02(addr.location);
         $scope.address.geoLatitude = addr.location.lat;
         $scope.address.geoLongitude = addr.location.lng;
+
+        //todo: 当改变上级地址时,如省,区,之类的, 应当改变该地址
 
         bindAddr2Scope(addr);
 
