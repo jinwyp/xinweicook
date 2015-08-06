@@ -133,6 +133,7 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map) {
                     Debug.alert('获取用户位置失败');
                     Debug.alert(res);
                     $scope.css.showLocationFailed = true;
+                    $scope.$apply();
                 })
             })
         }).catch(function (res) {
