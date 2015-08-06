@@ -444,6 +444,25 @@ exports.addNewOrder = (req, res, next) ->
 
 
 
+
+exports.deliveryTimeArithmetic = (req, res, next) ->
+
+  if req.body.cookingType is "ready to cook"
+    if req.body.isCityShanghai is true
+      result = models.order.deliveryTimeArithmeticByRangeForReadyToCook(req.body.isInRange4KM)
+    else
+      result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
+  else
+    if req.body.isCityShanghai is true
+      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
+
+  res.status(200).json(result)
+
+
+
+
+
+
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
   models.order.validationOrderId req.body._id
@@ -679,23 +698,6 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
-
-
-
-
-
-exports.deliveryTimeArithmetic = (req, res, next) ->
-
-  if req.body.cookingType is "ready to cook"
-    if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticByRangeForReadyToCook(req.body.isInRange4KM)
-    else
-      result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
-  else
-    if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
-
-  res.status(200).json(result)
 
 
 

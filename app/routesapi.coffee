@@ -11,6 +11,7 @@ couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 couponController = require "./controllers/coupon.coffee"
+orderStatController = require "./controllers/orderStatistic.js"
 
 
 
@@ -79,6 +80,8 @@ expressRoutes = (app) ->
 
 
 
+
+
   app.post("/api/administrator/coupons", couponController.addNewCoupon)
   app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
 
@@ -103,6 +106,11 @@ expressRoutes = (app) ->
   app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
+
+
+
+  app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
+
 
 
 module.exports = expressRoutes

@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Orders', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, Notification, Util, Orders) {
+function orderController($scope, $timeout, $state, $stateParams, Notification, Util, Orders, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -20,6 +20,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             sort : '-createdAt',
             skip : 0,
             limit : 500,
+            createdAt :'',
             status : '',
             orderNumber : '',
             _id : '',
@@ -28,7 +29,9 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             cookingType : '',
             clientFrom : ''
         },
-
+        datePickerIsOpen : false,
+        searchDateFrom : '',
+        searchDateTo : '',
         orderListCount : 0,
         orderListCurrentPage : 1,
         orderListTotalPages : 1,
@@ -38,6 +41,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
 
 
 
+        orderStatisticByAddressList : [],
         orderList : [],
         order : {},
 
@@ -215,12 +219,24 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
     };
 
     $scope.css = {
-        isAddNewStatus : false
+        isAddNewStatus : false,
+        showTable : 'orders'
+    };
+
+    $scope.datePickerOpen = function($event) {
+        $scope.data.datePickerIsOpen = true;
     };
 
 
-
     $scope.searchOrderCount = function (){
+        $scope.css.showTable = 'orders';
+
+        if ($scope.data.searchDateFrom !==''){
+            //console.log (new Date($scope.data.searchDateFrom));
+            $scope.data.searchOptions.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+        }
+
+
         Util.delProperty($scope.data.searchOptions);
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
@@ -278,22 +294,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
 
 
     if ($state.current.data.type === 'list'){
-
-        Orders.one('count').get().then(function (orders) {
-            $scope.data.orderListCount = orders.count;
-            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
-
-            for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
-                $scope.data.orderListPagesArray.push({value:i})
-            }
-
-            Orders.getList().then(function (orders) {
-                $scope.data.orderList = orders;
-            });
-
-            $scope.searchOrder();
-
-        });
+        $scope.searchOrderCount()
     }
 
     if ($state.current.data.type === 'update'){
@@ -350,6 +351,34 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         $scope.data.order.express.displayName = express.displayName;
         $scope.data.order.express.info = express.info;
     };
+
+
+
+
+    $scope.searchOrderStatistic = function () {
+        $scope.css.showTable = 'statistic';
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
+            console.log(resultOrder);
+            $scope.data.orderStatisticByAddressList = resultOrder.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
+
+
+
 
 }
 

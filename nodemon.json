@@ -2,7 +2,7 @@
   "watch": [
     "app"
   ],
-  "ext": "coffee",
+  "ext": "coffee js",
   "ignore": [
     ".git",
     "node_modules/**/node_modules",
