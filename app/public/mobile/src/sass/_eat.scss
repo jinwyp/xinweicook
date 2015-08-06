@@ -33,6 +33,7 @@ $buy-height: 30px;
   li {
     background-color: white;
     margin-bottom: 17px;
+    box-shadow: gray 0 1px 4px;
     &:last-child {
       margin-bottom: 60px;
     }
@@ -97,6 +98,7 @@ $buy-height: 30px;
       right: 0;
       top: 0;
       font-size: 0;
+      box-shadow: gray 0 1px 2px;
       .price {
         background-color: $price-bg-color;
         font-size: 18px;
@@ -133,7 +135,8 @@ $address-height: 40px;
   width: 100%;
   bottom: 0;
   padding: 9px 0 9px $address-height;
-  background-color: rgba(223, 223, 223, 0.9);
+  background-color: rgba(223, 223, 223, 0.8);
+  box-shadow: #9C9999 0 0 1px;
   height: 53px;
   .address-icon {
     position: absolute;
