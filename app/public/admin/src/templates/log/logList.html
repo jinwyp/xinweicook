@@ -57,6 +57,7 @@
             <tr>
                 <th>_id</th>
                 <th>level</th>
+                <th>host</th>
                 <th>meta</th>
                 <th>message</th>
                 <th>timestamp</th>
@@ -67,7 +68,8 @@
                 <!--<td><a ui-sref="menu.updateTag({ id: log._id })">{{log._id}}</a></td>-->
                 <td>{{log._id}}</td>
                 <td>{{log.level}}</td>
-                <td>{{log.meta}}</td>
+                <td>{{log.hostname}}</td>
+                <td> <span ng-repeat="( key, value ) in log.meta">{{key}} : {{value}} <br/><br/></span></td>
                 <td>{{log.message}}</td>
                 <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>
