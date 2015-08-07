@@ -352,6 +352,17 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     $scope.searchOrderStatistic = function () {
         $scope.css.showTable = 'statistic';
 

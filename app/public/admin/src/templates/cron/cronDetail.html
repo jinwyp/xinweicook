@@ -1,0 +1,73 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Cron Job 定时任务</span>
+                <span ng-hide="css.isAddNewStatus">修改 Cron Job 定时任务 - {{data.cron.name}} - {{data.cron._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.cronjobs" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="tagForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$valid||tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$valid, 'has-error':tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$invalid||tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$invalid}">
+                    <label for="inputTagNameZh" class="col-lg-2 control-label" >标签名称</label>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="inputTagNameZh" placeholder="中文" name="tagNameZh" ng-model="data.cron.name.zh" required ng-minlength="2" ng-maxlength="30">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="inputTagNameEn" placeholder="英文" name="tagNameEn" ng-model="data.cron.name.en" required ng-minlength="2" ng-maxlength="30">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <span class="form-validation help-block" ng-if="tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$error.minlength || tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$error.maxlength">字符长度错误！</span>
+
+                        <span class="form-validation help-block" ng-if="tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="tagForm.tagNameEn.$dirty&&tagForm.tagNameEn.$error.minlength || tagForm.tagNameZh.$dirty&&tagForm.tagNameZh.$error.maxlength">字符长度错误！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagGroup.$dirty&&tagForm.tagGroup.$valid, 'has-error':tagForm.tagGroup.$dirty&&tagForm.tagGroup.$invalid}">
+                    <label class="col-lg-2 control-label" >标签组</label>
+
+                    <div class="col-lg-5">
+                        <select class="form-control" name="tagGroup" ng-model="data.cron.group" ng-options="group as group.zh for group in data.cronGroup">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':tagForm.tagIsFilter.$dirty&&tagForm.tagIsFilter.$valid, 'has-error':tagForm.tagIsFilter.$dirty&&tagForm.tagIsFilter.$invalid}">
+                    <label class="col-lg-2 control-label" >是否用于菜品筛选</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="tagIsFilter" id="inlineRadio1" ng-value="true" ng-model="data.cron.isFilter">是
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="tagIsFilter" id="inlineRadio2" ng-value="false" ng-model="data.cron.isFilter">否
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="tagForm.$invalid" ng-click="addNewTag(tagForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="tagForm.$invalid" ng-click="updateTag(tagForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>

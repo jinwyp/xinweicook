@@ -10,6 +10,7 @@ exports.runCronJob = (req, res, next) ->
       console.log job.name
       runningJob = new CronJob(
         cronTime : "01 * * * * 0-6"
+#        cronTime : "01 01 06 * * 0-6"
         onTick : ()->
           console.log "cron"
         onComplete : () ->

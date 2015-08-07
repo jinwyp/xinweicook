@@ -101,25 +101,4 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
     }
 
 
-    $scope.searchLog = function (form) {
-
-        for(var p in $scope.data.searchOptions) {
-            if ($scope.data.searchOptions.hasOwnProperty(p)) {
-                if ($scope.data.searchOptions[p] ===''){
-                    delete $scope.data.searchOptions[p];
-                }
-            }
-        }
-
-        Logs.getList($scope.data.searchOptions).then(function (result) {
-            $scope.data.logList = result;
-            Notification.success({message: 'Search Success! ', delay: 8000});
-
-        }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
-
-    };
-
-
 }

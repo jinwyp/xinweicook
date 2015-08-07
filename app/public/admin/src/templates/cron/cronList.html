@@ -4,7 +4,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew">Cron Jobs 定时任务列表
-                <!--<a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewTag" role="button">新增</a>-->
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewCron" role="button">新增</a>
             </h3>
         </div>
 
@@ -24,24 +24,18 @@
                     </div>
                 </div>
 
-                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.logLevel.$dirty&&searchForm.logLevel.$valid, 'has-error':searchForm.logLevel.$dirty&&searchForm.logLevel.$invalid}">
-                    <label  class="col-lg-2 control-label" >日志类型</label>
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.cronIsActivated.$dirty&&searchForm.cronIsActivated.$valid, 'has-error':searchForm.cronIsActivated.$dirty&&searchForm.cronIsActivated.$invalid}">
+                    <label  class="col-lg-2 control-label" >是否启用</label>
                     <div class="col-lg-8">
-                        <label class="radio-inline">
-                            <input type="radio" name="logLevel"  ng-value="''" ng-model="data.searchOptions.level">All
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="logLevel" ng-value="'error'" ng-model="data.searchOptions.level">error
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="logLevel" ng-value="'warn'" ng-model="data.searchOptions.level">warn
+                        <label class="radio-inline" ng-repeat="status in data.isActivatedStatusList">
+                            <input type="radio" name="cronIsActivated" id="inputCronIsActivated" ng-value="status.value" ng-model="data.searchOptions.isActivated">{{status.name}}
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchLog(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchCronCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -51,35 +45,46 @@
 
 
 
+    <nav>
+        <ul class="pagination">
+            <li>
+                <span aria-hidden="true"> 共{{data.cronListCount}}条记录 </span>
+            </li>
+
+            <li>
+                <a aria-label="Previous" ng-hide="data.cronListCurrentPage==1"  ng-click="changePagination(data.cronListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li ng-repeat="page in data.cronListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
+            <li>
+                <a aria-label="Next" ng-hide="data.cronListCurrentPage==data.cronListTotalPages"  ng-click="changePagination(data.cronListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>
+            </li>
+        </ul>
+    </nav>
+
+
+
 
     <table class="table table-striped table-bordered table-hover table-responsive">
         <thead>
             <tr>
                 <th>_id</th>
-                <th>level</th>
-                <th>host</th>
-                <th >meta</th>
-                <th>message</th>
-                <th>timestamp</th>
+                <th>任务名称</th>
+                <th>是否启用</th>
+                <th>日志列表</th>
+                <th>菜品列表</th>
+                <th>创建时间</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="log in data.logList | filter: data.searchFilter">
-                <!--<td><a ui-sref="menu.updateTag({ id: log._id })">{{log._id}}</a></td>-->
-                <td>{{log._id}}</td>
-                <td>{{log.level}}</td>
-                <td>{{log.hostname}}</td>
+            <tr ng-repeat="cron in data.cronList | filter: data.searchFilter">
+                <td><a ui-sref="menu.updateCron({ id: cron._id })">{{cron._id}}</a></td>
+                <td>{{cron.name}}</td>
+                <td>{{cron.isActivated}}</td>
                 <td>
-                    <div style="width: 30%;">
-                        url : {{log.meta.url}} <br/><br/> method : {{log.meta.method}} <br/><br/>
-                        <span ng-repeat="( key, value ) in log.meta.header">header : {{key}} : {{value}} <br/><br/></span>
-                        <span ng-repeat="( key, value ) in log.meta.body">body : {{key}} : {{value}} <br/><br/></span>
-                        <span ng-repeat="( key, value ) in log.meta.query">query : {{key}} : {{value}} <br/><br/></span>
-                        <span ng-repeat="( key, value ) in log.meta.params">params : {{key}} : {{value}} <br/><br/></span>
-                    </div>
+                    <span ng-repeat="log in cron.logList"> 任务执行是否成功:{{log.isExecuted}} / {{log.executedDate| date:'yyyy-MM-dd HH:mm:ss'}}  / 日志:{{log.message}} <br/> </span>
                 </td>
-                <td>{{log.message}}</td>
-                <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td> <span ng-repeat="dish in cron.dishList"> 菜品ID:<a ui-sref="menu.updateDish({ id: dish.dishId })">{{dish.dishId}}</a> / 添加库存数量:{{dish.quantity}} <br/> </span> </td>
+                <td>{{cron.createdAt| date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>
         </tbody>
     </table>

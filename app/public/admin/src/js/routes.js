@@ -248,7 +248,25 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                     title: '定时任务管理',
                     type : 'list'
                 },
-                controller: 'LogController'
+                controller: 'CronController'
+            })
+            .state('menu.updateCron', {
+                url: '/cron/:id',
+                templateUrl: 'templates/cron/cronDetail.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'update'
+                },
+                controller: 'CronController'
+            })
+            .state('menu.addNewCron', {
+                url: '/cronadd',
+                templateUrl: 'templates/cron/cronDetail.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'add'
+                },
+                controller: 'CronController'
             })
     }
 ]);
