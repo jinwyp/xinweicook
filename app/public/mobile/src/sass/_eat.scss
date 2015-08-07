@@ -33,7 +33,7 @@ $buy-height: 30px;
   li {
     background-color: white;
     margin-bottom: 17px;
-    box-shadow: gray 0 1px 4px;
+    box-shadow: #DEDEDE 0 1px 1px;
     &:last-child {
       margin-bottom: 60px;
     }
@@ -98,7 +98,7 @@ $buy-height: 30px;
       right: 0;
       top: 0;
       font-size: 0;
-      box-shadow: gray 0 1px 2px;
+      box-shadow: #C3C0C0 0 1px 1px;
       .price {
         background-color: $price-bg-color;
         font-size: 18px;

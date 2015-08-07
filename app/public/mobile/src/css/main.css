@@ -199,7 +199,7 @@ label {
 .eat-list li {
   background-color: white;
   margin-bottom: 17px;
-  box-shadow: gray 0 1px 4px;
+  box-shadow: #DEDEDE 0 1px 1px;
 }
 /* line 37, ../sass/_eat.scss */
 .eat-list li:last-child {
@@ -277,7 +277,7 @@ label {
   right: 0;
   top: 0;
   font-size: 0;
-  box-shadow: gray 0 1px 2px;
+  box-shadow: #C3C0C0 0 1px 1px;
 }
 /* line 102, ../sass/_eat.scss */
 .eat-list .detail .buy .price {

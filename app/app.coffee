@@ -3,6 +3,7 @@ alipayBodyParser = require "./libs/alipay.js"
 bodyParser = require "body-parser"
 cors = require "cors"
 favicon = require "serve-favicon";
+compression = require "compression"
 
 methodOverride = require "method-override"
 
@@ -19,6 +20,11 @@ app.engine("html", require('ejs').renderFile);
 app.engine("jade", require('jade').__express);
 
 app.use cors()
+
+app.use compression(filter: (req, res) ->
+  # nginx 中没有对js做gzip压缩
+  res.getHeader("Content-Type") is "application/javascript"
+)
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use express.static(path.join(__dirname, "public"))
