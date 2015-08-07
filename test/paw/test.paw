@@ -1734,7 +1734,7 @@
         <attribute name="name" type="string">user-updateOrder</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z297 z291 z292 z295 z294 z296 z298"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z297 z294 z296 z295 z298 z291 z292"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z294">
         <attribute name="order" type="int64">7</attribute>
