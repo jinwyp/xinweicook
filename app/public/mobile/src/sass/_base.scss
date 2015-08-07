@@ -8,6 +8,7 @@ $price-bg-color: rgb(237,226,208);
 $body-bg-color: rgb(244, 244, 244);
 $btn-bg-gray-color: rgb(226, 226, 226);
 $form-line-color: #bcbcbc;
+$invalid-text-color: #A7A7A7;
 
 
 // reset
@@ -44,6 +45,12 @@ input {
 }
 ::-webkit-input-placeholder {
   color: rgba(0,0,0,0.3) !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 

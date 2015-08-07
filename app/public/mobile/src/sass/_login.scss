@@ -46,7 +46,17 @@
   //border:none;
 }
 
+.forget-pwd-container {
+  text-align: right;
+  margin: 7px 7px -10px;
+  font-size: 13px;
+  color: #71736F;
+}
+
 .sms-button {
+  &.invalid {
+    color: #A7A7A7;
+  }
   position: absolute;
   border: 1px $primary-color solid;
   border-radius: 5px;

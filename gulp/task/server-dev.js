@@ -15,4 +15,10 @@ gulp.task("devjin",
     ], {ignoreErrors: false})
 );
 
+gulp.task("devykc",
+    shell.task([
+        "nodemon index.coffee"
+    ], {ignoreErrors: false})
+);
+
 

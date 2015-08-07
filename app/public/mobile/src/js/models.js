@@ -50,12 +50,18 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 mobile: mobile,
                 pwd: pwd,
                 code: code
+            }).then(function (res) {
+                if (res.data && res.data.access_token) {
+                    $localStorage.access_token = res.data.access_token;
+                }
+
+                return res;
             })
         },
-        getSmsCode: function (mobile) {
+        getSmsCode: function (mobile, type) {
             return $http.post('/api/user/sms', {
                 mobile: mobile,
-                type: 'signUp'
+                type: type
             })
         },
         logout: function () {
@@ -69,6 +75,13 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
         updateUser: function (data) {
             return $http.put('/api/user', data)
+        },
+        resetPwd: function (mobile, pwd, code) {
+            return $http.post('/api/user/resetpassword', {
+                mobile: mobile,
+                pwd: pwd,
+                code: code
+            });
         }
     }
 });
