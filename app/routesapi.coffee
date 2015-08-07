@@ -94,15 +94,15 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
 
-  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
-  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)
-  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initNewDish)
+#  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
+#  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)
+#  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initNewDish)
 
 
-  app.get("/api/administrator/initremovetag", libs.auth("admin"), initController.removeTag)
-  app.get("/api/administrator/initremovedish", libs.auth("admin"), initController.removeDish)
-  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
-  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
+#  app.get("/api/administrator/initremovetag", libs.auth("admin"), initController.removeTag)
+#  app.get("/api/administrator/initremovedish", libs.auth("admin"), initController.removeDish)
+#  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
+#  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
 
