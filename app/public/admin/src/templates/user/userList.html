@@ -63,6 +63,7 @@
                 <th>手机</th>
                 <th>邮箱</th>
                 <th>用户名</th>
+                <th>姓名</th>
                 <th>性别</th>
                 <th>地址</th>
                 <th>优惠券</th>
@@ -77,7 +78,8 @@
                 <td>{{user.mobile}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.username}}</td>
-                <td>{{user.gender}}</td>
+                <td>{{user.fullName}}</td>
+                <td> <span ng-show="user.gender===1">男</span> <span ng-show="user.gender===2">女</span> </td>
                 <td>
                     <ul class="list-group" ng-repeat="address in user.address">
                         <li class="list-group-item">客人认证是否有效地址: {{address.isValid}}</li>
@@ -88,7 +90,7 @@
                         <li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>
                     </ul>
                 </td>
-                <td> <span ng-repeat="coupon in user.couponList">{{coupon}}</span></td>
+                <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
                 <td>
                     <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？
                         <button class="btn btn-danger" ng-click="delUser(user)">立即删除</button>
