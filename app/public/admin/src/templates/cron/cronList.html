@@ -73,6 +73,7 @@
                 <th>日志列表</th>
                 <th>菜品列表</th>
                 <th>创建时间</th>
+
             </tr>
         </thead>
         <tbody>
@@ -85,6 +86,14 @@
                 </td>
                 <td> <span ng-repeat="dish in cron.dishList"> 菜品ID:<a ui-sref="menu.updateDish({ id: dish.dishId })">{{dish.dishId}}</a> / 添加库存数量:{{dish.quantity}} <br/> </span> </td>
                 <td>{{cron.createdAt| date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+
+                <td>
+                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===cron._id">确认真的删除吗？
+                        <button class="btn btn-danger" ng-click="delCron(cron)">立即删除</button>
+                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
+                    </div>
+                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==cron._id" ng-click="data.currentDeleteIndex=cron._id">删除</button>
+                </td>
             </tr>
         </tbody>
     </table>

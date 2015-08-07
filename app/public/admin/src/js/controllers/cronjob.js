@@ -29,7 +29,17 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
         currentDeleteIndex : -1,
 
         cronList : [],
-        cron : {},
+        cron : {
+            name : '',
+            isActivated : true,
+            value : {},
+            dishList : [
+                {
+                    dishId : '',
+                    quantity : 10
+                }
+            ]
+        },
 
 
         isActivatedStatusList : [
@@ -45,7 +55,7 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
                 name : '未启用',
                 value : 'false'
             }
-        ],
+        ]
     };
 
     $scope.css = {
@@ -93,7 +103,23 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
 
+    $scope.delCron = function (cron) {
 
+        var index = $scope.data.cronList.indexOf(cron);
+
+        $scope.data.cronList[index].remove().then(function (resultOrder) {
+            $scope.searchCronCount();
+
+            Notification.success({message : 'Delete Success', delay : 8000});
+
+        }).catch(function (err) {
+            Notification.error({
+                message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
+                delay   : 5000
+            });
+        });
+
+    };
 
 
 
@@ -117,6 +143,47 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
     }
 
 
+
+
+    $scope.addNewCron = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        var newCron = angular.copy($scope.data.cron);
+        //console.log (newCron);
+        Crons.post(newCron).then(function (resultCron) {
+            console.log(resultCron);
+            Notification.success({message: 'Save Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+    $scope.updateCron = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        $scope.data.cron.put().then(function (resultCron) {
+            console.log(resultCron);
+            Notification.success({message: 'Update Success', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
+
+
+    $scope.addNewDishId = function (current) {
+        current.push({
+            quantity : '',
+            dishId : ''
+        })
+    };
 
 
 }
