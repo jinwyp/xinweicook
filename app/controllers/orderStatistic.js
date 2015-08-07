@@ -34,16 +34,20 @@ exports.orderStatisticByAddress = function(req, res, next) {
     ];
 
     var matchList = {};
-    if (typeof req.query.createdAt !== 'undefined') {
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
 
-    if (typeof req.query.cookingType !== 'undefined') {
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
     }
 
-    if (typeof req.query.clientFrom !== 'undefined') {
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
         matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     pipeline.push(
