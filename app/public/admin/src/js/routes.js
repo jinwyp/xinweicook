@@ -240,8 +240,19 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'LogController'
             })
+
+            .state('menu.cronjobs', {
+                url: '/cronjobs',
+                templateUrl: 'templates/cron/cronList.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'list'
+                },
+                controller: 'LogController'
+            })
     }
 ]);
+
 
 angular.module('RDash').factory('DishDetailDecorator', function () {
     return function (scope) {

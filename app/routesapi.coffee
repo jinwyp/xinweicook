@@ -14,8 +14,11 @@ couponController = require "./controllers/coupon.coffee"
 orderStatController = require "./controllers/orderStatistic.js"
 
 
+cronJobController = require "./controllers/cronjob.coffee"
 
 
+
+cronJobController.runCronJob()
 
 
 expressRoutes = (app) ->

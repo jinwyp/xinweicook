@@ -17,7 +17,6 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
     $scope.data = {
         searchFilter : '',
         searchOptions : {
-            sort : '-createdAt',
             skip : 0,
             limit : 500,
             createdAt :'',
@@ -29,9 +28,12 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             cookingType : '',
             clientFrom : ''
         },
+
         datePickerIsOpen : false,
+        searchSort : '-createdAt',
         searchDateFrom : '',
         searchDateTo : '',
+
         orderListCount : 0,
         orderListCurrentPage : 1,
         orderListTotalPages : 1,
@@ -253,10 +255,12 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         });
     };
 
+
     $scope.searchOrder = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        Orders.getList($scope.data.searchOptions).then(function (resultOrder) {
+        var options = angular.extend({}, $scope.data.searchOptions, {"sort" :$scope.data.searchSort});
+        Orders.getList(options).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -318,13 +322,6 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
                     number : ''
                 }
             }
-            /*
-             angular.forEach($scope.data.orderGroup, function(order) {
-             if (order.zh === $scope.data.order.group.zh){
-             $scope.data.order.group = order;
-             }
-             });
-             */
         });
     }
 
