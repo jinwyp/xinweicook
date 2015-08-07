@@ -13,6 +13,28 @@ var userAdmin = [
         group : "admin"
     },
     {
+        username : "x@x2.com",
+        pwd : "guessmypw~",
+        mobile : "13564568302",
+        email : "x@x2.com",
+        group : "admin"
+    },
+    {
+        username : "steveadmin",
+        pwd : "xwcook789",
+        mobile : "18621378963",
+        email : "x@x3.com",
+        group : "admin",
+        fullName : "steve"
+    },
+    {
+        username : "x@x4.com",
+        pwd : "guessmypw~",
+        mobile : "13564568304",
+        email : "x@x4.com",
+        group : "admin"
+    },
+    {
         username : "shaoxiaoqing",
         pwd : "xwcook789",
         mobile : "18602327056",
@@ -35,33 +57,6 @@ var userAdmin = [
         email : "918372085@qq.com",
         group : "admin",
         fullName : "赵梦菲"
-    }
-];
-
-
-var userAdmin2 = [
-    {
-        username : "x@x2.com",
-        pwd : "guessmypw~",
-        mobile : "13564568302",
-        email : "x@x2.com",
-        group : "admin"
-    },
-    {
-        username : "steveadmin",
-        pwd : "xwcook789",
-        mobile : "18621378963",
-        email : "x@x3.com",
-        group : "admin",
-        fullName : "steve"
-    },
-    {
-        username : "yujia_huo",
-        pwd : "xwcook789",
-        mobile : "18321600053",
-        email : "yujia_huo@xinweicook.com",
-        group : "admin",
-        fullName : "霍雨佳"
     }
 ];
 
@@ -1092,7 +1087,6 @@ var realReadyToEat = [
 
 module.exports = {
     userAdmin : userAdmin,
-    userAdmin2 : userAdmin2,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 

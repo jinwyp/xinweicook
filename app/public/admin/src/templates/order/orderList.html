@@ -198,9 +198,11 @@
         <tr>
             <th>订单地址</th>
             <th>该地址下单数量</th>
-            <th>该地址菜品总金额</th>
-            <th>该地址运费总金额</th>
-            <th>该地址总金额</th>
+            <th>该地址客单价</th>
+            <th>菜品总金额</th>
+            <th>运费总金额</th>
+            <th>总金额</th>
+            <th>订单详细列表</th>
 
         </tr>
         </thead>
@@ -209,9 +211,11 @@
             <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
             <td>{{order._id}}</td>
             <td>{{order.orderQuantity}}</td>
+            <td>{{order.orderAveragePrice | number : 2}}</td>
             <td>{{order.orderTotalDishesPrice}}</td>
             <td>{{order.orderTotalFreightPrice}}</td>
             <td>{{order.orderTotalPrice}} </td>
+            <td> <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span></td>
 
         </tr>
         </tbody>

@@ -56,9 +56,11 @@ exports.orderStatisticByAddress = function(req, res, next) {
         { "$group": {
             "_id": '$address.address',
             "orderQuantity": { "$sum": 1 },
+            "orderList": { "$push": { "_id": "$_id", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" } },
             "orderTotalDishesPrice": { "$sum": "$dishesPrice" },
             "orderTotalFreightPrice": { "$sum": "$freight" },
-            "orderTotalPrice": { "$sum": "$totalPrice" }
+            "orderTotalPrice": { "$sum": "$totalPrice" },
+            "orderAveragePrice": { "$avg": "$totalPrice" }
         }}
     );
 
