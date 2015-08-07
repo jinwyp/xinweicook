@@ -67,7 +67,7 @@
                 <th>性别</th>
                 <th>地址</th>
                 <th>优惠券</th>
-                <th>操作</th>
+                <!--<th>操作</th>-->
 
             </tr>
         </thead>
@@ -91,13 +91,13 @@
                     </ul>
                 </td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
-                <td>
-                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？
-                        <button class="btn btn-danger" ng-click="delUser(user)">立即删除</button>
-                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
-                    </div>
-                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==user._id" ng-click="data.currentDeleteIndex=user._id">删除</button>
-                </td>
+                <!--<td>-->
+                    <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？-->
+                        <!--<button class="btn btn-danger" ng-click="delUser(user)">立即删除</button>-->
+                        <!--<button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>-->
+                    <!--</div>-->
+                    <!--<button class="btn btn-danger" ng-show="data.currentDeleteIndex!==user._id" ng-click="data.currentDeleteIndex=user._id">删除</button>-->
+                <!--</td>-->
             </tr>
         </tbody>
     </table>

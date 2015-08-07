@@ -201,4 +201,40 @@ var alipay2 = {
 };
 
 
-
+var deleteUser = [{
+    "mobile"        : "18066211511",
+    "contactPerson" : "应青君",
+    "geoLongitude"  : 121.4760293344681,
+    "province"      : "上海",
+    "_id"           : "55c4193ea377863c0d0452e7",
+    "street"        : "企业天地",
+    "isDefault"     : true,
+    "address"       : "5号楼26层环球律师事务所",
+    "alias"         : "",
+    "city"          : "上海",
+    "geoLatitude"   : 31.22078860630644,
+    "district"      : "卢湾",
+    "isTemporary"   : false,
+    "isValid"       : true,
+    "country"       : "china",
+    "remark"        : "",
+    "fromDistance"  : 2907.423174102069
+}, {
+    "mobile"        : "18066211511",
+    "contactPerson" : "应青君",
+    "geoLongitude"  : 121.4438208919478,
+    "province"      : "上海",
+    "_id"           : null,
+    "street"        : "罗城路570弄31号",
+    "isDefault"     : false,
+    "address"       : "32号602室",
+    "alias"         : "",
+    "city"          : "上海市",
+    "geoLatitude"   : 31.15740814376764,
+    "district"      : "徐汇区",
+    "isTemporary"   : false,
+    "isValid"       : true,
+    "country"       : "china",
+    "remark"        : "",
+    "fromDistance"  : 4790.200924468978
+}]

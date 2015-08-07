@@ -129,6 +129,7 @@ exports.updateUserInfo = (req, res, next) ->
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
   req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.checkNotFound(resultUser)
     models.user.find1({_id : resultUser._id})
   .then (user) ->
     res.json user
