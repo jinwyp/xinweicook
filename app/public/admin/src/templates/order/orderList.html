@@ -66,6 +66,20 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$valid, 'has-error':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$invalid}">
+                    <label class="col-lg-2 control-label" >日期范围起始</label>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.searchDateFrom" is-open="data.datePickerIsOpen" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid, 'has-error':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid}">
                     <label for="inputOrderNumber" class="col-lg-2 control-label" >订单号</label>
                     <div class="col-lg-4">
@@ -94,8 +108,10 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatistic(searchForm)">统计同一收货地址销量</button>
                     </div>
+
                 </div>
             </form>
 
@@ -115,10 +131,10 @@
     </nav>
 
 
-    <table class="table table-striped table-bordered table-hover table-responsive">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'orders'">
         <thead>
             <tr>
-                <th>订单号</th>
+                <th>订单号 / 创建时间</th>
                 <th>订单状态</th>
                 <th>拆分订单</th>
                 <th>子订单</th>
@@ -142,7 +158,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a></td>
+                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
                 <td>{{order.status}}</td>
                 <td>{{order.isSplitOrder}}</td>
                 <td>{{order.isChildOrder}}</td>
@@ -154,7 +170,7 @@
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
                 <!--<td>{{order.paymentUsedCash}}</td>-->
-                <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
@@ -170,6 +186,34 @@
                     <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==order._id" ng-click="data.currentDeleteIndex=order._id">删除</button>
                 </td>
             </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statistic'">
+        <thead>
+        <tr>
+            <th>订单地址</th>
+            <th>该地址下单数量</th>
+            <th>该地址菜品总金额</th>
+            <th>该地址运费总金额</th>
+            <th>该地址总金额</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in data.orderStatisticByAddressList ">
+            <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+            <td>{{order._id}}</td>
+            <td>{{order.orderQuantity}}</td>
+            <td>{{order.orderTotalDishesPrice}}</td>
+            <td>{{order.orderTotalFreightPrice}}</td>
+            <td>{{order.orderTotalPrice}} </td>
+
+        </tr>
         </tbody>
     </table>
 

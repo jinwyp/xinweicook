@@ -75,12 +75,19 @@ angular.module('RDash.models').factory('Coupons', function (Restangular) {
 
 
 
-
-
-
-
-
-
 angular.module('RDash.models').factory('Logs', function (Restangular) {
     return Restangular.service('logs');
+});
+
+
+
+
+angular.module('RDash.models').factory('Statistic', function ($http) {
+    return {
+        getOrderStatisticByAddress: function (params) {
+            return $http.get('/api/admin/statistic/order/address', {
+                params: params
+            })
+        }
+    };
 });
