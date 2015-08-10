@@ -376,10 +376,6 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
 
-    # 扣除商品库存
-    for dishkey, dishValue of dishDataList
-#      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
-      dishValue.reduceStock(dishNumberList[dishkey], req.u)
 
 
     # 优惠券已使用后处理
@@ -563,7 +559,7 @@ exports.updateOrder = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled and resultOrder.status isnt models.order.constantStatus().paid
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 
@@ -572,6 +568,15 @@ exports.updateOrder = (req, res, next) ->
           childOrder.isPaymentPaid = true
           childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
+
+      # 扣除商品库存
+      for dish, dishIndex in resultOrder.dishHistory
+        console.log "dishNumberList[dish._id]" , dish.dish._id, dish.number
+        models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
+          if resultDish
+            resultDish.reduceStock(dish.number, req.u)
+
+
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
         resultOrder.status = models.order.constantStatus().canceled
