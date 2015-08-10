@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', 'Inventories', 'Tags', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes, Inventories, Tags) {
+function dishController($scope, $timeout, $state, $stateParams, Notification, Util, Dishes, Inventories, Tags, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -29,10 +29,13 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         tagList : [],
         dishList : [],
         inventoryList : [],
+        dishStatisticByStock : [],
+
         currentTagFilter : '',
         currentPreferenceCategory : '',
         currentPreference : '',
         currentTopping : '',
+
         dish : {
             isPublished : false,
             isFromAdminPanel: true,
@@ -240,7 +243,8 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : 'dishes'
     };
 
 
@@ -287,7 +291,10 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }
     }
 
+
     $scope.searchDish = function (form) {
+        $scope.css.showTable = 'dishes';
+
         deleteProperty($scope.data.searchOptions);
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
@@ -297,6 +304,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
+
     };
     $scope.delDish = function (dish) {
 
@@ -316,7 +324,29 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
 
+    $scope.searchDishStatistic = function () {
+        $scope.css.showTable = 'statistic';
+
+        //if ($scope.data.searchDateFrom !==''){
+        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        //}
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
+            console.log(result);
+            $scope.data.dishStatisticByStock = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
     $scope.searchDish();
+
     Tags.getList().then(function (tags) {
         $scope.data.tagList = tags;
     });
@@ -465,6 +495,14 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
 
     };
+
+
+
+
+
+
+
+
 
 
 }

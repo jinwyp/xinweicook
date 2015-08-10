@@ -89,3 +89,110 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+exports.dishStatisticByStock = function(req, res, next) {
+
+    var pipeline = [];
+
+
+
+    var matchList = {};
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
+        matchList.sideDishType = req.query.sideDishType
+    }
+
+    if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
+        matchList.isPublished = req.query.isPublished
+    }
+
+
+    //pipeline.push(
+    //    { "$match":matchList}
+    //);
+
+    console.log (matchList);
+
+
+    // Grouping pipeline
+    pipeline.push (
+        { "$match":{
+            "isPlus" : false
+        }},
+
+        { "$group": {
+            "_id": '$dish',
+            "dishSaleQuantity": { "$sum": "$quantity" },
+            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "quantity": "$quantity", "user": "$user"  } }
+        }}
+    );
+
+    // Sorting pipeline
+    pipeline.push (
+        { "$sort": { "dishSaleQuantity": 1 } }
+    );
+
+    // Optionally limit results
+    pipeline.push (
+        { "$limit": 1000 }
+    );
+
+
+
+    var dishList =[];
+    var dishHashList ={};
+
+    models.dish.find(matchList).lean().then(function(resultDish){
+        if (resultDish && resultDish.length > 0) {
+            //dishIdList = resultDish.map(function(dish){
+            //    return dish._id.toString()
+            //});
+
+            //console.log (pipeline);
+            models.inventory.aggregateAsync( pipeline).then(function(resultDishInventroy){
+
+                resultDishInventroy.forEach(function(dishInventory){
+                    dishHashList[dishInventory._id.toString()] = dishInventory
+                });
+
+
+                resultDish.forEach(function(dishOne){
+                    if (dishHashList[dishOne._id.toString()]){
+                        dishOne.sales = dishHashList[dishOne._id.toString()].dishSaleQuantity;
+                        dishOne.inventory = dishHashList[dishOne._id.toString()]
+                    }else {
+                        dishOne.sales = 0;
+                        dishOne.inventory = false
+                    }
+
+                });
+
+
+                res.status(200).json(resultDish)
+            }).catch(next)
+
+        }else{
+            res.status(200).json([])
+        }
+
+    }).catch(next);
+
+
+
+
+
+};
+
+
