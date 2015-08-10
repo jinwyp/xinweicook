@@ -146,6 +146,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             delete $localStorage.address;
         }
 
+        if (!$scope.address.district) {
+            location.href = '/mobile/';
+        }
+
         // todo : set fake address, to delete it later.
 
         Orders.deliveryTime({
