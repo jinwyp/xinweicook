@@ -1,0 +1,91 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Cron Job 定时任务</span>
+                <span ng-hide="css.isAddNewStatus">修改 Cron Job 定时任务 - {{data.cron.name}} - {{data.cron._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.cronjobs" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="cronForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.cronName.$dirty&&cronForm.cronName.$valid, 'has-error':cronForm.cronName.$dirty&&cronForm.cronName.$invalid}">
+                    <label for="inputCronName" class="col-lg-2 control-label" >定时任务名称</label>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="inputCronName" placeholder="中文" name="cronName" ng-model="data.cron.name" required ng-minlength="2" ng-maxlength="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cronForm.cronName.$dirty&&cronForm.cronName.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cronForm.cronName.$dirty&&cronForm.cronName.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <span class="form-validation help-block" ng-if="cronForm.cronName.$dirty&&cronForm.cronName.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cronForm.cronName.$dirty&&cronForm.cronName.$error.minlength || cronForm.cronName.$dirty&&cronForm.cronName.$error.maxlength">字符长度错误 2-200！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.cronType.$dirty&&cronForm.cronType.$valid, 'has-error':cronForm.cronType.$dirty&&cronForm.cronType.$invalid}">
+                    <label class="col-lg-2 control-label" >任务类型</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="cronType" ng-value="'addInventory'" ng-model="data.cron.type" required>增加库存
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="cronType" ng-value="'inventoryNotify'" ng-model="data.cron.type" required>库存提醒短信
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.cronIsActivated.$dirty&&cronForm.cronIsActivated.$valid, 'has-error':cronForm.cronIsActivated.$dirty&&cronForm.cronIsActivated.$invalid}">
+                    <label class="col-lg-2 control-label" >是否启用</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="cronIsActivated"  ng-value="true" ng-model="data.cron.isActivated" >是
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="cronIsActivated"  ng-value="false" ng-model="data.cron.isActivated">否
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >添加库存的菜品ID列表</label>
+
+                    <div ng-repeat="dish in data.cron.dishList">
+                        <div class="col-lg-3" ng-class="{'col-lg-offset-2':!$first}">
+                            <input type="text" class="form-control" placeholder="菜品ID" name="dishId_{{$index}}" ng-model="dish.dishId"  ng-minlength="22" ng-maxlength="24">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="number" class="form-control" placeholder="自动添加库存数量" name="dishId_{{$index}}" ng-model="dish.quantity" min="2"  max="9999">
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="button" class="btn btn-danger btn-sm" ng-show="data.cron.dishList.length>1" ng-click="data.cron.dishList.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewDishId(data.cron.dishList)"> <span class="glyphicon glyphicon-plus"></span>增加菜品ID</button>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="cronForm.$invalid" ng-click="addNewCron(cronForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="cronForm.$invalid" ng-click="updateCron(cronForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>

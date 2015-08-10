@@ -240,8 +240,37 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'LogController'
             })
+
+            .state('menu.cronjobs', {
+                url: '/cronjobs',
+                templateUrl: 'templates/cron/cronList.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'list'
+                },
+                controller: 'CronController'
+            })
+            .state('menu.updateCron', {
+                url: '/cron/:id',
+                templateUrl: 'templates/cron/cronDetail.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'update'
+                },
+                controller: 'CronController'
+            })
+            .state('menu.addNewCron', {
+                url: '/cronadd',
+                templateUrl: 'templates/cron/cronDetail.html',
+                data: {
+                    title: '定时任务管理',
+                    type : 'add'
+                },
+                controller: 'CronController'
+            })
     }
 ]);
+
 
 angular.module('RDash').factory('DishDetailDecorator', function () {
     return function (scope) {

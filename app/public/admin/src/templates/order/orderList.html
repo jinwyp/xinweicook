@@ -121,6 +121,10 @@
     <nav>
         <ul class="pagination">
             <li>
+                <span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>
+            </li>
+
+            <li>
                 <a aria-label="Previous" ng-hide="data.orderListCurrentPage==1"  ng-click="changePagination(data.orderListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
             </li>
             <li ng-repeat="page in data.orderListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
@@ -165,7 +169,7 @@
                 <td>{{order.clientFrom}}</td>
 
                 <td>{{order.address.contactPerson}} {{order.address.mobile}}</td>
-                <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}}</td>
+                <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>

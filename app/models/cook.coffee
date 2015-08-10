@@ -1,4 +1,5 @@
-# 评论
+# 厨师
+
 module.exports =
   schema:
     name: zh:String, en:String # 名字

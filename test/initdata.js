@@ -6,10 +6,10 @@
 
 var userAdmin = [
     {
-        username : "x@x.com",
-        pwd : "guessmypw~",
-        mobile : "13564568301",
-        email : "x@x.com",
+        username : "jinwang@xinweicook.com",
+        pwd : "jinwang2011",
+        mobile : "13564568304",
+        email : "jinwang@xinweicook.com",
         group : "admin"
     },
     {

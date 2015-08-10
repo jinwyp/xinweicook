@@ -41,13 +41,31 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchLog(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchLogCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
 
         </div>
     </div>
+
+
+
+    <nav>
+        <ul class="pagination">
+            <li>
+                <span aria-hidden="true"> 共{{data.logListCount}}条记录 </span>
+            </li>
+
+            <li>
+                <a aria-label="Previous" ng-hide="data.logListCurrentPage==1"  ng-click="changePagination(data.logListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li ng-repeat="page in data.logListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
+            <li>
+                <a aria-label="Next" ng-hide="data.logListCurrentPage==data.logListTotalPages"  ng-click="changePagination(data.logListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>
+            </li>
+        </ul>
+    </nav>
 
 
 

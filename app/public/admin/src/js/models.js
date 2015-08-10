@@ -80,6 +80,11 @@ angular.module('RDash.models').factory('Logs', function (Restangular) {
 });
 
 
+angular.module('RDash.models').factory('Crons', function (Restangular) {
+    return Restangular.service('cronjobs');
+});
+
+
 
 
 angular.module('RDash.models').factory('Statistic', function ($http) {

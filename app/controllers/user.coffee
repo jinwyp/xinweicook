@@ -78,7 +78,7 @@ exports.resetPassword = (req, res, next) ->
   models.user.validationPassword(pwd)
 
   models.user.resetPwd(mobile, pwd, code).then ->
-    res.sendStatus 200
+    res.json code: ''
   .catch next
 
 

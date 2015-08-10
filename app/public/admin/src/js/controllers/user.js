@@ -148,6 +148,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         if (form.$invalid) {
             return;
         }
+        if ($scope.data.user.pwd.length > 20 || $scope.data.user.pwd === ''){
+            delete $scope.data.user.pwd;
+        }
+
 
         $scope.data.user.put().then(function (resultUser) {
             Notification.success({message : 'Update Success', delay : 8000});
