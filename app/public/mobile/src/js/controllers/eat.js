@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map) {
+function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeout) {
     $scope.cart = null;
     $scope.address = '';
     $scope.tipShowed = false;
@@ -55,7 +55,9 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map) {
             alert('正在计算配送距离,请稍后重试');
             return
         }
-        location.href = 'order';// todo: replace with route
+        $timeout(function () {
+            location.href = 'order';// todo: replace with route
+        }, 200); // let $localStorage sync. but
     };
 
     $scope.chooseAddress = function (addr) {

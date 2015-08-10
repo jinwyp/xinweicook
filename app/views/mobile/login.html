@@ -10,8 +10,9 @@
 </head>
 <body ng-app="xw" ng-controller="loginCtrl">
 <nav class="login-nav nav">
-    <a href="#/login"><span ng-class="{active: path == '/login'}">登录</span></a>
-    <a href="#/signup"><span ng-class="{active: path == '/signup'}">注册</span></a>
+    <a href="#/login"><span ng-if="path !== '/resetpwd'" ng-class="{active: path == '/login'}">登录</span></a>
+    <a href="#/signup"><span ng-if="path !== '/resetpwd'" ng-class="{active: path == '/signup'}">注册</span></a>
+    <a href="#/resetpwd" ng-cloak><span ng-if="path == '/resetpwd'" style="border-color: transparent" class="no-bottom-border" ng-class="{active: path == '/resetpwd'}">重置密码</span></a>
 </nav>
 
 <!-- login form -->
@@ -27,10 +28,14 @@
                    ng-model="loginData.password"/>
         </div>
 
+        <div class="forget-pwd-container">
+            <a class="forget-pwd" href="#/resetpwd">忘记密码了?</a>
+        </div>
+
         <button class="form-control login-button"
                 ng-class="{invalid: !signInForm.$valid}"
                 ng-disabled="!signInForm.$valid"
-                ng-click="login(loginData.username, loginData.password)">登录</button>
+                ng-click="login()">登录</button>
     </form>
 </div>
 
@@ -45,14 +50,7 @@
             <input type="number" class="form-control" placeholder="验证码" name="code"
                    required
                    ng-model="signupData.code"/>
-            <div class="sms-button-group">
-                    <span class="sms-button"
-                          ng-if="smsState <= 1"
-                          ng-class="{invalid: smsState === 0}"
-                          ng-click="smsState == 1 && getSmsCode(signUpForm)">获取验证码</span>
-                <span class="sms-button invalid" ng-if="smsState == 2">{{remains}}秒后重新获取</span>
-                <span class="sms-button" ng-class="{invalid: smsState == 3}" ng-if="smsState > 2">重新获取</span>
-            </div>
+            <sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.$valid}}" ></sms-button>
             <hr class="form-line"/>
             <input type="password" class="form-control" placeholder="密码" name="pwd"
                    required ng-minlength="6"
@@ -62,16 +60,43 @@
         <button class="form-control login-button"
                 ng-class="{invalid: !signUpForm.$valid}"
                 ng-disabled="!signUpForm.$valid"
-                ng-click="signup(signupData.mobile, signupData.pwd, signupData.code)">注册</button>
+                ng-click="signup()">注册</button>
     </form>
 </div>
+
+<div class="signup-form" ng-if="path == '/resetpwd'" ng-cloak>
+    <form class="form-horizontal" name="resetPwdForm">
+        <div class="login-form-group">
+            <input type="tel" class="form-control" placeholder="手机号" name="mobile"
+                   ng-minlength="11" required maxlength="11"
+                   ng-model="resetPwdData.mobile"/>
+            <hr class="form-line"/>
+            <input type="number" class="form-control" placeholder="验证码" name="code"
+                   required
+                   ng-model="resetPwdData.code"/>
+            <sms-button type="resetPassword" mobile="{{resetPwdData.mobile}}" valid="{{resetPwdForm.$valid}}" ></sms-button>
+            <hr class="form-line"/>
+            <input type="password" class="form-control" placeholder="密码" name="pwd"
+                   required ng-minlength="6"
+                   ng-model="resetPwdData.pwd"/>
+        </div>
+
+        <button class="form-control login-button"
+                ng-class="{invalid: !resetPwdForm.$valid}"
+                ng-disabled="!resetPwdForm.$valid"
+                ng-click="resetPwd()">重置密码</button>
+    </form>
+</div>
+
 </body>
 
 <script src="/components/angular/angular.min.js?v=8"></script>
 <script src="/components/ngstorage/ngStorage.min.js?v=8"></script>
 
 <script src="/mobile/src/js/modules.js?v=8"></script>
-
+<script src="/mobile/src/js/directives/sms-button.js"></script>
+<script src="/mobile/src/js/templates.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
 <script src="/mobile/src/js/config.js?v=8"></script>
 <script src="/mobile/src/js/models.js?v=8"></script>
 <script src="/mobile/src/js/controllers/login.js?v=8"></script>

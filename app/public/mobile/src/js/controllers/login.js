@@ -1,11 +1,11 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, $interval, $timeout) {
+function loginCtrl($scope, User, $location, $timeout) {
     $scope.loginData = {};
     $scope.signupData = {};
+    $scope.resetPwdData = {};
     $scope.path = '';
-    $scope.smsState = 0; //{0: init-not-ready, 1: init-ready, 2: receiving, 3: refetch-not-ready, 4: refetch-ready}
-    $scope.remains = 60;
+    //$scope.remains = 60;
     
     $scope.login = function (form) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
@@ -26,58 +26,31 @@ function loginCtrl($scope, User, $location, $interval, $timeout) {
             $scope.signupData.pwd,
             $scope.signupData.code
         ).then(function (res) {
-                // todo: redirect
-                alert('注册成功!');
-                $timeout(function () {
-                    location.href = '/mobile';
-                }, 100)
-            }).catch(function (res) {
-                alert('signup failed');
-            })
+            // todo: redirect
+            alert('注册成功!');
+            $timeout(function () {
+                location.href = '/mobile';
+            }, 100)
+        }).catch(function (res) {
+            alert('注册失败,请稍后重试');
+        })
+    };
+
+    $scope.resetPwd = function () {
+        User.resetPwd(
+            $scope.resetPwdData.mobile,
+            $scope.resetPwdData.pwd,
+            $scope.resetPwdData.code
+        ).then(function (res) {
+            alert('密码重置成功,请重新登录!');
+            $location.path('/login');
+        }).catch(function (res) {
+            alert('重置密码失败, 请稍后重置');
+        })
     };
 
     $scope.back = function () {
         history.back();
-    }
-
-    var cancel = $scope.$watch('signupData.mobile', function (mobile) {
-        if ($scope.smsState === 0 && mobile && mobile.length == 11) {
-            $scope.smsState = 1;
-        } else if ($scope.smsState === 1 && (!mobile || mobile.length != 11)) {
-            $scope.smsState = 0;
-        }
-    });
-
-    $scope.getSmsCode = function (form) {
-        $scope.smsState = 2;
-        if (cancel) {
-            cancel();
-            cancel = null;
-        }
-
-        var timer = $interval(function () {
-            if (!--$scope.remains) {
-                $interval.cancel(timer);
-                $scope.remains = 60;
-
-                if (form.$valid) {
-                    $scope.smsState = 4;
-                } else {
-                    $scope.smsState = 3;
-                }
-            }
-        }, 1000);
-
-        User.getSmsCode($scope.signupData.mobile).then(function (res) {
-            //dev
-            if (res.data.code) {
-                // todo: should alert some thing?
-            }
-        }).catch(function (res) {
-            // todo: should alert some thing?
-            alert('fetch sms code failed');
-            console.log(res);
-        })
     };
 
     $scope.$on('$locationChangeStart', function () {
