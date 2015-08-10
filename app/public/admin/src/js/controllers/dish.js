@@ -244,7 +244,8 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.css = {
         isAddNewStatus : true,
-        showTable : 'dishes'
+        showTable : 'dishes',
+        searchDishStatisticSortBy : 'yesterdaySales'
     };
 
 
@@ -324,8 +325,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
-    $scope.searchDishStatistic = function () {
+    $scope.searchDishStatistic = function (form, sortBy) {
         $scope.css.showTable = 'statistic';
+        $scope.css.searchDishStatisticSortBy = sortBy;
 
         //if ($scope.data.searchDateFrom !==''){
         //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
@@ -371,6 +373,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
             //});
         });
     }
+
+
+
 
 
 
