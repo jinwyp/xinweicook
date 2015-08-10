@@ -151,7 +151,7 @@ exports.dishStatisticByStock = function(req, res, next) {
 
     timeNow = moment();
     today = moment(timeNow.clone().format("YYYY-MM-DD 00:00:00"));
-    yesterday = today.clone().subtract(4, 'days');
+    yesterday = today.clone().subtract(1, 'days');
 
     pipelineYesterday.push (
         { "$match":{
