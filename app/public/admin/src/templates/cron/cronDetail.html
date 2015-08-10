@@ -28,15 +28,28 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.tagIsFilter.$dirty&&cronForm.tagIsFilter.$valid, 'has-error':cronForm.tagIsFilter.$dirty&&cronForm.tagIsFilter.$invalid}">
+                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.cronType.$dirty&&cronForm.cronType.$valid, 'has-error':cronForm.cronType.$dirty&&cronForm.cronType.$invalid}">
+                    <label class="col-lg-2 control-label" >任务类型</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="cronType" ng-value="'addInventory'" ng-model="data.cron.type" required>增加库存
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="cronType" ng-value="'inventoryNotify'" ng-model="data.cron.type" required>库存提醒短信
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cronForm.cronIsActivated.$dirty&&cronForm.cronIsActivated.$valid, 'has-error':cronForm.cronIsActivated.$dirty&&cronForm.cronIsActivated.$invalid}">
                     <label class="col-lg-2 control-label" >是否启用</label>
 
                     <div class="col-lg-4">
                         <label class="radio-inline">
-                            <input type="radio" name="tagIsFilter" id="inlineRadio1" ng-value="true" ng-model="data.cron.isActivated">是
+                            <input type="radio" name="cronIsActivated"  ng-value="true" ng-model="data.cron.isActivated" >是
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="tagIsFilter" id="inlineRadio2" ng-value="false" ng-model="data.cron.isActivated">否
+                            <input type="radio" name="cronIsActivated"  ng-value="false" ng-model="data.cron.isActivated">否
                         </label>
                     </div>
                 </div>

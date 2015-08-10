@@ -31,6 +31,7 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
         cronList : [],
         cron : {
             name : '',
+            type : '',
             isActivated : true,
             value : {},
             dishList : [
@@ -67,7 +68,7 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.searchCronCount = function (){
 
         Util.delProperty($scope.data.searchOptions);
-        console.log ($scope.data.searchOptions)
+        console.log ($scope.data.searchOptions);
         Crons.one('count').get($scope.data.searchOptions).then(function (crons) {
             $scope.data.cronListCount = crons.count;
             $scope.data.cronListTotalPages = Math.ceil(crons.count / $scope.data.searchOptions.limit);
