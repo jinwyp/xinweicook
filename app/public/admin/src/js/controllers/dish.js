@@ -337,7 +337,6 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
-            console.log(result);
             $scope.data.dishStatisticByStock = result.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
