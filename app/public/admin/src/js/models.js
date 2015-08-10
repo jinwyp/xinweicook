@@ -93,6 +93,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             return $http.get('/api/admin/statistic/order/address', {
                 params: params
             })
+        },
+
+        getDishStatisticByStock: function (params) {
+            return $http.get('/api/admin/statistic/dish/stock', {
+                params: params
+            })
         }
     };
 });
