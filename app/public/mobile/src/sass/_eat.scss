@@ -7,6 +7,7 @@ $buy-height: 30px;
 .img-group {
   img {
     width: 100%;
+    height: 63.27vw; // 95% view port width * 2/3 (actual image's height/width ratio)
   }
 }
 
