@@ -68,7 +68,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                 var distance = res.data.result.elements[0].distance.value;
                 return {
                     distance: distance,
-                    isInRange: (distance || 999999) <= 5500 // 百度有时候返回的是null, 此时就当作1000公里
+                    isInRange: (distance === null ? 999999 : distance) <= 5500 // 百度有时候返回的是null, 此时就当作1000公里
                 }
             }).catch(function (res) {
                 Debug.alert('获取步行距离失败');
