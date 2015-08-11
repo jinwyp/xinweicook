@@ -17,8 +17,8 @@
 </nav>
 
 <div class="main address-main" ng-cloak>
-    <ul class="address-list" ng-repeat="address in addresses">
-        <li class="row">
+    <ul class="address-list">
+        <li class="row" ng-repeat="address in addresses">
             <div class="select-button"
                  ng-click="chooseAddress(address)" ng-class="{active: selectedAddress.street + selectedAddress.contactPerson + selectedAddress.mobile == address.street + address.contactPerson + address.mobile}"></div>
             <div class="detail" ng-click="chooseAddress(address)">
@@ -26,6 +26,9 @@
                 <div class="address">{{address.city + address.district + address.street + address.address}}</div>
             </div>
             <a href="javascript:;" class="text-center edit" ng-click="editAddress(address)">编辑</a>
+            <div ng-if="!address.geoLatitude" class="warn-invalid-address text-center">
+                该地址无效, 请重新编辑
+            </div>
         </li>
     </ul>
 </div>
