@@ -429,6 +429,9 @@ exports.addNewOrder = (req, res, next) ->
       isPushMobile : true
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
+    .catch( (err) ->
+      logger.error("5XX Error: ", err)
+    )
 
 
 
@@ -546,6 +549,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
 
+
 exports.updateOrder = (req, res, next) ->
   # 修改订单
   models.order.validationOrderId req.params._id
@@ -578,9 +582,10 @@ exports.updateOrder = (req, res, next) ->
       # 给客服发送新订单短信
       text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)
       models.sms.sendSmsVia3rd("13564568304", text)     # 王宇鹏电话
-      models.sms.sendSmsVia3rd("18140031310", text)     # 索晶电话
-      models.sms.sendSmsVia3rd("18516272908", text)     # 何华电话
-      models.sms.sendSmsVia3rd("18215563108", text)     # 赵梦菲电话
+      if not conf.debug
+        models.sms.sendSmsVia3rd("18140031310", text)     # 索晶电话
+        models.sms.sendSmsVia3rd("18516272908", text)     # 何华电话
+        models.sms.sendSmsVia3rd("18215563108", text)     # 赵梦菲电话
 
 
     else
