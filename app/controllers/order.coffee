@@ -429,9 +429,6 @@ exports.addNewOrder = (req, res, next) ->
       isPushMobile : true
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
-    .catch( (err) ->
-      logger.error("5XX Error: ", err)
-    )
 
 
 
@@ -577,7 +574,7 @@ exports.updateOrder = (req, res, next) ->
       for dish, dishIndex in resultOrder.dishHistory
         models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
           if resultDish
-            resultDish.reduceStock(dish.number, req.u)
+            resultDish.reduceStock(dish.number, req.u, resultOrder._id.toString())
 
       # 给客服发送新订单短信
       text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)

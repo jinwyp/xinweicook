@@ -150,13 +150,16 @@ module.exports =
             break
         finalPrice
 
-    reduceStock : (stockNumber, user) ->
+    reduceStock : (stockNumber, user, orderId) ->
       @stock = @stock - Number(stockNumber)
       newInventoryChange =
         user : user._id
         dish : @_id
         isPlus : false
         quantity : -Number(stockNumber)
+
+      newInventoryChange.order = orderId if orderId
+
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
 
