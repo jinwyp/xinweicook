@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="xw" ng-controller="cookCtrl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <title>赞过的菜</title>
+    <title ng-bind="title"></title>
 </head>
-<body ng-app="xw" ng-controller="favCtrl">
+<body>
 
 <nav class="fav-nav nav">
     <div class="back-icon" ng-click="back()"></div>

@@ -23,6 +23,18 @@ $dish-img-height: 75px;
     position: relative;
     padding: 12px;
     margin-bottom: 15px;
+    li {
+      border-bottom: 1px solid rgba(188, 188, 188, 0.2);
+      border-top: 0;
+      padding: 10px 0;
+      &:first-child {
+        padding-top: 0;
+      };
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+    }
     .dish-img {
       position: absolute;
       left: 12px;

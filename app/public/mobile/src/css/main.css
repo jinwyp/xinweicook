@@ -196,16 +196,17 @@ label {
 /* line 9, ../sass/_eat.scss */
 .img-group img {
   width: 100%;
+  min-height: 230px;
   height: 63.27vw;
 }
 
-/* line 15, ../sass/_eat.scss */
+/* line 16, ../sass/_eat.scss */
 .eat-nav {
   margin-bottom: 10px;
   font-size: 18px;
   color: #C1BEBE;
 }
-/* line 19, ../sass/_eat.scss */
+/* line 20, ../sass/_eat.scss */
 .eat-nav .profile-icon {
   background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
   height: 46px;
@@ -214,47 +215,47 @@ label {
   background-size: contain;
   right: 0;
 }
-/* line 27, ../sass/_eat.scss */
+/* line 28, ../sass/_eat.scss */
 .eat-nav span {
   border-bottom: solid 1px transparent;
   padding: 0 15px 11px;
 }
-/* line 31, ../sass/_eat.scss */
+/* line 32, ../sass/_eat.scss */
 .eat-nav span:nth-child(2) {
   margin-right: 38px;
 }
-/* line 35, ../sass/_eat.scss */
+/* line 36, ../sass/_eat.scss */
 .eat-nav span.active {
   color: #f44d4d;
   border-color: #f44d4d;
 }
 
-/* line 41, ../sass/_eat.scss */
+/* line 42, ../sass/_eat.scss */
 .no-filter .count-operation {
   background-color: rgba(54, 55, 55, 0.78);
 }
 
-/* line 44, ../sass/_eat.scss */
+/* line 45, ../sass/_eat.scss */
 .food-list {
   width: 95%;
   margin: 0 auto;
 }
-/* line 48, ../sass/_eat.scss */
+/* line 49, ../sass/_eat.scss */
 .food-list li {
   background-color: white;
   margin-bottom: 17px;
   box-shadow: #DEDEDE 0 1px 1px;
 }
-/* line 52, ../sass/_eat.scss */
+/* line 53, ../sass/_eat.scss */
 .food-list li:last-child {
   margin-bottom: 60px;
 }
-/* line 56, ../sass/_eat.scss */
+/* line 57, ../sass/_eat.scss */
 .food-list .img-group {
   position: relative;
   overflow: hidden;
 }
-/* line 59, ../sass/_eat.scss */
+/* line 60, ../sass/_eat.scss */
 .food-list .img-group .count-operation {
   font-size: 0;
   font-weight: 100;
@@ -264,7 +265,7 @@ label {
   width: 100%;
   color: white;
 }
-/* line 67, ../sass/_eat.scss */
+/* line 68, ../sass/_eat.scss */
 .food-list .img-group .count-operation > div {
   height: 100%;
   display: inline-block;
@@ -272,7 +273,7 @@ label {
   font-size: 50px;
   position: relative;
 }
-/* line 73, ../sass/_eat.scss */
+/* line 74, ../sass/_eat.scss */
 .food-list .img-group .count-operation > div .vertical-center {
   font-weight: 100;
   left: 0;
@@ -284,35 +285,35 @@ label {
   top: 0;
   bottom: 0;
 }
-/* line 85, ../sass/_eat.scss */
+/* line 86, ../sass/_eat.scss */
 .food-list .img-group .count-operation .subtract {
   width: 20%;
 }
-/* line 88, ../sass/_eat.scss */
+/* line 89, ../sass/_eat.scss */
 .food-list .img-group .count-operation .count {
   width: 60%;
 }
-/* line 91, ../sass/_eat.scss */
+/* line 92, ../sass/_eat.scss */
 .food-list .img-group .count-operation .add {
   width: 20%;
 }
-/* line 96, ../sass/_eat.scss */
+/* line 97, ../sass/_eat.scss */
 .food-list .img-group.blur img {
   /*    -webkit-filter: blur(10px);
       -moz-filter: blur(10px);
       filter: blur(10px);*/
 }
-/* line 101, ../sass/_eat.scss */
+/* line 102, ../sass/_eat.scss */
 .food-list .detail {
   padding: 0 10px 10px;
   position: relative;
 }
-/* line 104, ../sass/_eat.scss */
+/* line 105, ../sass/_eat.scss */
 .food-list .detail .title {
   margin: 12px 0 16px;
   font-size: 18px;
 }
-/* line 109, ../sass/_eat.scss */
+/* line 110, ../sass/_eat.scss */
 .food-list .detail .user-actions .like-icon {
   margin-top: 7px;
   width: 30px;
@@ -321,11 +322,11 @@ label {
   background: url(../img/icons/LikeIcon.png) 50% no-repeat;
   background-size: contain;
 }
-/* line 116, ../sass/_eat.scss */
+/* line 117, ../sass/_eat.scss */
 .food-list .detail .user-actions .like-icon.like {
   background-image: url(../img/icons/LikeIconHighlighted.png);
 }
-/* line 121, ../sass/_eat.scss */
+/* line 122, ../sass/_eat.scss */
 .food-list .detail .buy {
   line-height: 30px;
   height: 30px;
@@ -336,26 +337,26 @@ label {
   font-size: 0;
   box-shadow: #C3C0C0 0 1px 1px;
 }
-/* line 130, ../sass/_eat.scss */
+/* line 131, ../sass/_eat.scss */
 .food-list .detail .buy .price {
   background-color: #ede2d0;
   font-size: 18px;
 }
-/* line 133, ../sass/_eat.scss */
+/* line 134, ../sass/_eat.scss */
 .food-list .detail .buy .price::before {
   content: "¥ ";
 }
-/* line 137, ../sass/_eat.scss */
+/* line 138, ../sass/_eat.scss */
 .food-list .detail .buy .button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 141, ../sass/_eat.scss */
+/* line 142, ../sass/_eat.scss */
 .food-list .detail .buy .button.out-of-stock {
   background-color: #75A3B7;
 }
-/* line 145, ../sass/_eat.scss */
+/* line 146, ../sass/_eat.scss */
 .food-list .detail .buy span {
   height: 30px;
   text-align: center;
@@ -363,7 +364,7 @@ label {
   display: inline-block;
 }
 
-/* line 156, ../sass/_eat.scss */
+/* line 157, ../sass/_eat.scss */
 .address-cover {
   position: fixed;
   height: 100%;
@@ -372,7 +373,7 @@ label {
   background-color: rgba(206, 208, 165, 0.7);
 }
 
-/* line 164, ../sass/_eat.scss */
+/* line 165, ../sass/_eat.scss */
 .eat-address {
   position: fixed;
   width: 100%;
@@ -382,7 +383,7 @@ label {
   box-shadow: #9C9999 0 0 1px;
   height: 53px;
 }
-/* line 172, ../sass/_eat.scss */
+/* line 173, ../sass/_eat.scss */
 .eat-address .address-icon {
   position: absolute;
   height: 40px;
@@ -392,15 +393,15 @@ label {
   background: url(../img/icons/LocationPinIcon.png) no-repeat;
   background-size: 48%;
 }
-/* line 182, ../sass/_eat.scss */
+/* line 183, ../sass/_eat.scss */
 .eat-address .address-content .address-title {
   font-size: 10px;
 }
-/* line 185, ../sass/_eat.scss */
+/* line 186, ../sass/_eat.scss */
 .eat-address .address-content .address-detail {
   font-size: 13px;
 }
-/* line 189, ../sass/_eat.scss */
+/* line 190, ../sass/_eat.scss */
 .eat-address .cart {
   background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
   background-size: 48%;
@@ -410,7 +411,7 @@ label {
   width: 48px;
   height: 40px;
 }
-/* line 197, ../sass/_eat.scss */
+/* line 198, ../sass/_eat.scss */
 .eat-address .cart .total-count {
   font-size: 10px;
   text-align: center;
@@ -425,47 +426,47 @@ label {
   border-radius: 50%;
 }
 
-/* line 213, ../sass/_eat.scss */
+/* line 214, ../sass/_eat.scss */
 .address-group {
   background-color: rgba(241, 241, 241, 0.78);
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-/* line 218, ../sass/_eat.scss */
+/* line 219, ../sass/_eat.scss */
 .address-group .eat-address {
   position: relative;
 }
-/* line 221, ../sass/_eat.scss */
+/* line 222, ../sass/_eat.scss */
 .address-group .address-list {
   font-size: 13px;
   padding: 0 7px;
   margin-bottom: 0;
 }
-/* line 225, ../sass/_eat.scss */
+/* line 226, ../sass/_eat.scss */
 .address-group .address-list li {
   background-color: white;
   margin-top: 6px;
   padding: 17px 20px;
 }
-/* line 229, ../sass/_eat.scss */
+/* line 230, ../sass/_eat.scss */
 .address-group .address-list li.active {
   border-left: #f44d4d 4px solid;
   padding-left: 16px;
 }
-/* line 235, ../sass/_eat.scss */
+/* line 236, ../sass/_eat.scss */
 .address-group .address-button-wrapper {
   text-align: center;
   padding: 20px 26px;
 }
-/* line 238, ../sass/_eat.scss */
+/* line 239, ../sass/_eat.scss */
 .address-group .address-button-wrapper span {
   border-radius: 3px;
   background-color: #8C8C8C;
   color: white;
   padding: 10px 33px;
 }
-/* line 244, ../sass/_eat.scss */
+/* line 245, ../sass/_eat.scss */
 .address-group .address-button-wrapper > span {
   margin-right: 42px;
 }
@@ -826,6 +827,21 @@ label {
   margin-bottom: 15px;
 }
 /* line 26, ../sass/_favlist.scss */
+.fav-block .fav-list li {
+  border-bottom: 1px solid rgba(188, 188, 188, 0.2);
+  border-top: 0;
+  padding: 10px 0;
+}
+/* line 30, ../sass/_favlist.scss */
+.fav-block .fav-list li:first-child {
+  padding-top: 0;
+}
+/* line 33, ../sass/_favlist.scss */
+.fav-block .fav-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+/* line 38, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-img {
   position: absolute;
   left: 12px;
@@ -833,33 +849,33 @@ label {
   height: 75px;
   background: 50% / cover no-repeat;
 }
-/* line 33, ../sass/_favlist.scss */
+/* line 45, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail {
   height: 75px;
   margin-left: 95px;
 }
-/* line 36, ../sass/_favlist.scss */
+/* line 48, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail > * {
   margin-bottom: 7px;
 }
-/* line 39, ../sass/_favlist.scss */
+/* line 51, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail h5 {
   font-weight: 100;
   font-size: 16px;
 }
-/* line 43, ../sass/_favlist.scss */
+/* line 55, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail span {
   display: block;
 }
-/* line 46, ../sass/_favlist.scss */
+/* line 58, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail .stock {
   font-size: 14px;
 }
-/* line 48, ../sass/_favlist.scss */
+/* line 60, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail .stock.out-of-stock {
   color: #f44d4d;
 }
-/* line 52, ../sass/_favlist.scss */
+/* line 64, ../sass/_favlist.scss */
 .fav-block .fav-list .dish-detail .rmb-char {
   color: #f44d4d;
   font-weight: 200;

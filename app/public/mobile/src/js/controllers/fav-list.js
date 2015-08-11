@@ -2,16 +2,24 @@ angular.module('xw.controllers').controller('favCtrl', function ($scope, User, S
 
     ScopeDecorator.common($scope);
 
+    function outOfStock (dish) {
+        return dish.outOfStock || !dish.isPublished;
+    }
+
     function init() {
         User.getUserInfo().then(function (res) {
             var dishList = res.data.dishLikeList;
-            $scope.cookList = dishList.filter(function (dish) {
-                return dish.cookingType == 'ready to cook';
-            });
+            $scope.cookList = [];
+            $scope.eatList = [];
 
-            $scope.eatList = dishList.filter(function (dish) {
-                return dish.cookingType == 'ready to eat';
-            })
+            dishList.forEach(function (dish) {
+                dish.outOfStock = outOfStock(dish);
+                if (dish.cookingType == 'ready to cook') {
+                    $scope.cookList.push(dish);
+                } else {
+                    $scope.eatList.push(dish);
+                }
+            });
         })
     }
 

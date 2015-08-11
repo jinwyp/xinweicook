@@ -18,9 +18,9 @@
 
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} | limitTo : 7">
+        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
             <div class="img-group" ng-class="{blur: !!dish.count}">
-                <img ng-repeat="cover_ in dish.cover | limitTo : 1" ng-src="{{cover_.zh}}" alt="ready to eat"/>
+                <img img-lazy-load="dish.cover[0].zh" alt="ready to eat"/>
                 <div class="count-operation" ng-if="dish.count">
                     <div class="subtract" ng-click="subtractDish(dish)"><span class="vertical-center">-</span></div>
                     <div class="count"><span class="vertical-center">{{dish.count}}</span></div>
@@ -40,7 +40,7 @@
                 <div class="buy">
                     <span class="price">{{dish.priceOriginal}}</span>
                     <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
-                    <span class="button" ng-if="dish.outOfStock">售罄</span>
+                    <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
                 </div>
             </div>
         </li>
@@ -86,6 +86,7 @@
 <script src="/mobile/src/js/service/debug.js?v=11"></script>
 <script src="/mobile/src/js/service/map.js?v=11"></script>
 <script src="/mobile/src/js/service/scope-decorator.js?v=11"></script>
+<script src="/mobile/src/js/directives/img-lazy-load.js"></script>
 <script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/models.js?v=11"></script>
 <script src="/mobile/src/js/config.js?v=11"></script>

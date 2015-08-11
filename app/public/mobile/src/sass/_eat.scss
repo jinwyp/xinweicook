@@ -8,6 +8,7 @@ $out-of-stock-bg-color: #75A3B7;
 .img-group {
   img {
     width: 100%;
+    min-height: 230px; // for browsers not supporting vw.
     height: 63.27vw; // 95% view port width * 2/3 (actual image's height/width ratio)
   }
 }
