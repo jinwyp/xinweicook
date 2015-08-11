@@ -125,7 +125,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
                 setTimeout(function () {
                     document.querySelector('.confirm-button.form-control').click();
-                },3000);
+                }, 200);
                 // todo: change btn text
             }).catch(function (res) {
                 alert('生成订单失败,请稍后再试');
