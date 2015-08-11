@@ -16,6 +16,13 @@ angular.module('xw.controllers').controller('addressListCtrl', function ($scope,
         User.getUserInfo().then(function (res) {
             var user = res.data;
             $scope.addresses = user.address;
+
+            //验证地址是否有效,并给予无效地址一个0的经纬度
+            user.address.forEach(function (address) {
+                address.geoLatitude = address.geoLatitude || 0;
+                address.geoLongitude = address.geoLongitude || 0;
+            });
+
             if ($localStorage.selectedAddress) {
                 $scope.selectedAddress = $localStorage.selectedAddress;
             }
