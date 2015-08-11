@@ -7,13 +7,14 @@ $buy-height: 30px;
 .img-group {
   img {
     width: 100%;
+    height: 63.27vw; // 95% view port width * 2/3 (actual image's height/width ratio)
   }
 }
 
 .eat-nav {
   margin-bottom: 10px;
-  color: $primary-color;
   font-size: 18px;
+  color: #C1BEBE;
   .profile-icon {
     background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
     height: 46px;
@@ -22,11 +23,24 @@ $buy-height: 30px;
     background-size: contain;
     right: 0;
   }
+  span {
+    border-bottom: solid 1px transparent;
+    padding: 0 15px 11px;
+
+    &:nth-child(2) {
+      margin-right: 38px;
+    }
+
+    &.active {
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
 }
 .no-filter .count-operation {
   background-color: rgba(54, 55, 55, 0.78);
 }
-.eat-list {
+.food-list {
   width: 95%;
   margin: 0 auto;
 
@@ -89,6 +103,19 @@ $buy-height: 30px;
     .title {
       margin: 12px 0 16px;
       font-size: 18px;
+    }
+    .user-actions {
+      .like-icon {
+        margin-top: 7px;
+        width: 30px;
+        display: block;
+        height: 20px;
+        background: url(../img/icons/LikeIcon.png) 50% no-repeat;
+        background-size: contain;
+        &.like {
+          background-image: url(../img/icons/LikeIconHighlighted.png);
+        }
+      }
     }
     .buy {
       line-height: $buy-height;

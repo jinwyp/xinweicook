@@ -74,6 +74,20 @@ label {
   margin-bottom: 10px;
   position: relative;
   box-shadow: #DEDEDE 0 1px 5px;
+
+  span {
+    border-bottom: solid 1px transparent;
+    padding: 0 15px 11px; // 各个nav 需要对此进行调整
+
+    //&:nth-child(2) {
+    //  margin-right: 38px;
+    //}
+
+    &.active {
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
 }
 
 .back-icon {
@@ -103,4 +117,6 @@ label {
 .rmb-char.negative::before {
   content: '- ¥ '
 }
+
+// angular
 [ng-cloak] {display:none;}

@@ -6,9 +6,6 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <style>
-        [ng-cloak] {display:none;}
-    </style>
     <title>个人中心</title>
 </head>
 <body ng-app="xw" ng-controller="meCtrl">
@@ -20,6 +17,7 @@
 
 <div ng-cloak>
     <a href="/mobile/orderlist" class="login-button form-control text-center">我的订单</a>
+    <a href="/mobile/favlist" class="login-button form-control text-center">赞过的菜</a>
     <button class="form-control login-button" ng-click="logout()">退出登录</button>
 </div>
 </body>
