@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Refresh Access Token 刷新令牌 | 新味 API 文档</title>
+        <title>用户账户余额充值 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../authorization/revoke_access_token.html" />
+    <link rel="next" href="../coupon/index.html" />
     
     
-    <link rel="prev" href="../authorization/obtain_access_token.html" />
+    <link rel="prev" href="../user/get_account.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="3.2" data-basepath=".." data-revision="Tue Aug 11 2015 18:19:04 GMT+0800 (CST)">
+    <div class="book" data-level="4.11" data-basepath=".." data-revision="Tue Aug 11 2015 18:19:04 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -229,7 +229,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.2" data-path="authorization/refresh_access_token.html">
+        <li class="chapter " data-level="3.2" data-path="authorization/refresh_access_token.html">
             
                 
                     <a href="../authorization/refresh_access_token.html">
@@ -430,7 +430,7 @@
             
         </li>
     
-        <li class="chapter " data-level="4.11" data-path="user/charge_account.html">
+        <li class="chapter active" data-level="4.11" data-path="user/charge_account.html">
             
                 
                     <a href="../user/charge_account.html">
@@ -925,7 +925,8 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>POST <code>/user/token</code></p>
+<p>POST <code>/user/account</code></p>
+<h3 id="body">Body</h3>
 <table>
 <thead>
 <tr>
@@ -936,53 +937,30 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">grant_type</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left"><code>refresh_token</code></td>
+<td style="text-align:left">addAmount</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x5145;&#x503C;&#x91D1;&#x989D;</td>
 </tr>
 <tr>
-<td style="text-align:left">refresh_token</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">refresh token</td>
+<td style="text-align:left">remark</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x5907;&#x6CE8;</td>
 </tr>
 </tbody>
 </table>
 <pre><code class="lang-js">{
-  <span class="hljs-string">&quot;grant_type&quot;</span>: <span class="hljs-string">&quot;refresh_token&quot;</span>,
-  <span class="hljs-string">&quot;refresh_token&quot;</span>: <span class="hljs-string">&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;</span>
+  <span class="hljs-string">&quot;addAmount&quot;</span>: <span class="hljs-number">10</span>,
+  <span class="hljs-string">&quot;remark&quot;</span>: <span class="hljs-string">&quot;remark&quot;</span>
 }
 </code></pre>
 <h2 id="res">Res</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">access_token</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">token</td>
-</tr>
-<tr>
-<td style="text-align:left">token_type</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left"><code>Bearer</code></td>
-</tr>
-<tr>
-<td style="text-align:left">expires_in</td>
-<td style="text-align:left">number</td>
-<td style="text-align:left">&#x8FC7;&#x671F;&#x65F6;&#x95F4;, &#x5355;&#x4F4D;: &#x79D2;</td>
-</tr>
-</tbody>
-</table>
+<h3 id="body">Body</h3>
 <pre><code class="lang-js">{
-  <span class="hljs-string">&quot;access_token&quot;</span>: <span class="hljs-string">&quot;1/fFBGRNJru1FQd44AzqT3Zg&quot;</span>,
-  <span class="hljs-string">&quot;expires_in&quot;</span>: <span class="hljs-number">3600</span>,
-  <span class="hljs-string">&quot;token_type&quot;</span>: <span class="hljs-string">&quot;Bearer&quot;</span>
+  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-08-11T09:49:08.782Z&quot;</span>,
+  <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-08-11T09:22:25.617Z&quot;</span>,
+  <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;55c2d55edae7610b0557e93e&quot;</span>,
+  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">12</span>
 }
 </code></pre>
 
@@ -995,10 +973,10 @@
         </div>
 
         
-        <a href="../authorization/obtain_access_token.html" class="navigation navigation-prev " aria-label="Previous page: Obtain Access Token 获取令牌 登陆"><i class="fa fa-angle-left"></i></a>
+        <a href="../user/get_account.html" class="navigation navigation-prev " aria-label="Previous page: 获取用户账户余额"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../authorization/revoke_access_token.html" class="navigation navigation-next " aria-label="Next page: Revoke Access Token 撤销令牌 登出"><i class="fa fa-angle-right"></i></a>
+        <a href="../coupon/index.html" class="navigation navigation-next " aria-label="Next page: 优惠码与优惠券"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
