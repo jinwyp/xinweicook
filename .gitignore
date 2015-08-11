@@ -120,3 +120,6 @@ sftp-config.json
 ### WebStorm ###
 
 .idea/
+
+### directories for previewing design jpg
+app/public/jpg/
