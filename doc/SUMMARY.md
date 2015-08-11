@@ -23,6 +23,8 @@
    * [获取用户通知消息](user/get_messages.md)
    * [更新用户信息和收货地址](user/update_userinfo.md)
    * [更新购物车](user/update_shoppingcart.md)
+   * [获取用户账户余额](user/update_shoppingcart.md)
+   * [用户账户余额充值](user/update_shoppingcart.md)
 * [优惠码与优惠券](coupon/README.md)
    * [获取单一优惠码信息](coupon/get_single_coupon.md)
 * [Order 订单](order/README.md)
