@@ -31,12 +31,13 @@ exports.runCronJob = (req, res, next) ->
 
             onComplete : () ->
               logger.warn "---------- CronJobFinished: ", job.name
-            start : true
+            start : false
             timeZone : "Asia/Shanghai"
 
           newCronJob.cronTime = "01 * * * * 0-6" if conf.debug
 
           runningJob = new CronJob(newCronJob)
+          runningJob.start() if process.env.NODE_ENV is "production"
   .catch next
 
 
