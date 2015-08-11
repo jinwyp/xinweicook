@@ -121,7 +121,7 @@ module.exports =
         return throw new Err "Dish ID or dish not found !", 400
 
     checkOutOfStock : (dish) ->
-      if dish.stock <=0
+      if dish.stock <=-2
         return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400
 
     validationDishId : (_id) ->
@@ -152,6 +152,17 @@ module.exports =
 
     reduceStock : (stockNumber, user, orderId) ->
       @stock = @stock - Number(stockNumber)
+
+      if @stock < -1
+        # 给客服发送新订单短信
+        text = models.sms.constantTemplateCustomerOutOfStockNotify(@title.zh)
+        models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败:", err))     # 王宇鹏电话
+        if not conf.debug
+          models.sms.sendSmsVia3rd("18621378962", text).catch( (err) -> logger.error("短信发送失败:", err))     # Steve 葛伊能电话
+          models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送失败:", err))     # 索晶电话
+          models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送失败:", err))     # 何华电话
+          models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送失败:", err))     # 赵梦菲电话
+
       newInventoryChange =
         user : user._id
         dish : @_id
