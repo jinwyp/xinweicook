@@ -1,0 +1,22 @@
+@import "base";
+
+.fav-nav {
+  margin-bottom: 0;
+  font-size: 16px;
+}
+
+.fav-block {
+  h4, h5 {
+    margin: 0;
+  }
+  h4 {
+    background-color: #E4E3E3;
+    font-size: 14px;
+    line-height: 2;
+    font-weight: 100;
+    text-indent: 0.8em;
+  }
+  .fav-list {
+    background-color: white;
+  }
+}

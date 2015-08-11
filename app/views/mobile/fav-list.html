@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>赞过的菜</title>
+</head>
+<body ng-app="xw" ng-controller="favCtrl">
+
+<nav class="fav-nav nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span>赞过的菜</span>
+</nav>
+
+<div ng-cloak>
+    <div class="fav-block">
+        <h4>食材包</h4>
+        <ul class="fav-list cook-fav-list">
+            <li>
+                <span class="dish-img"></span>
+                <div class="dish-detail">
+                    <h5>大虾墨鱼面</h5>
+                    <span>有货</span>
+                    <span class="rmb-char">42</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="fav-block">
+        <h4>便当</h4>
+        <ul class="fav-list cook-fav-list">
+            <li>
+                <span class="dish-img"></span>
+                <div class="dish-detail">
+                    <h5>大虾墨鱼面</h5>
+                    <span>有货</span>
+                    <span class="rmb-char">42</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/controllers/fav-list.js"></script>
+</html>
