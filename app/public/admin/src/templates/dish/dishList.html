@@ -79,7 +79,8 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchDish(searchForm)">搜索菜品</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchDishStatistic(searchForm)">统计菜品销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchDishStatistic(searchForm, 'totalSales')">统计菜品总销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchDishStatistic(searchForm, 'yesterdaySales')">统计菜品日销量</button>
                     </div>
                 </div>
             </form>
@@ -145,25 +146,31 @@
             <th>排序</th>
             <th>分类</th>
             <th>是否为主菜</th>
-            <th>是否上架</th>
+            <!--<th>是否上架</th>-->
 
             <th>总销量</th>
+            <th>昨日销量</th>
+            <th>日销量</th>
+            <th>周销量</th>
             <!--<th>销量记录</th>-->
 
             <!--<th>创建时间</th>-->
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in data.dishStatisticByStock | filter: data.searchFilter | orderBy:'sales' ">
+        <tr ng-repeat="dish in data.dishStatisticByStock | filter: data.searchFilter | orderBy:css.searchDishStatisticSortBy ">
             <td><a ui-sref="menu.updateDish({ id: dish._id })">{{dish._id}}</a></td>
             <td>{{dish.title.zh}}</td>
             <td>{{dish.sortId}}</td>
             <td>{{dish.cookingType}}</td>
             <td>{{dish.sideDishType}}</td>
-            <td>{{dish.isPublished}}</td>
+            <!--<td>{{dish.isPublished}}</td>-->
 
             <!--<td>{{dish.sales}}</td>-->
-            <td>{{dish.inventory.dishSaleQuantity}}</td>
+            <td>{{dish.totalInventory.dishSaleQuantity}}</td>
+            <td>{{dish.yesterdayInventory.dishSaleQuantity}}</td>
+            <td> <span ng-repeat="daily in dish.dailySales">{{daily.year}}-{{daily.month}}-{{daily.day}} 销量:{{daily.dishSaleQuantity}} <br/></span></td>
+            <td> <span ng-repeat="week in dish.weekSales">第{{week.week}}星期 销量:{{week.dishSaleQuantity}} <br/></span></td>
             <!--<td>-->
                 <!--<span ng-repeat="inventory in dish.inventory.dishList" >销量:{{inventory.quantity}} / 用户ID: {{inventory.user}}<br/></span>-->
             <!--</td>-->

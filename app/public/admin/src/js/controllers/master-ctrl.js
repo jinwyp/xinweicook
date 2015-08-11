@@ -72,6 +72,9 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.removedish = function () {
         $http.get('/api/administrator/initremovedish');
     };
+    $scope.removeinventory = function () {
+        $http.get('/api/administrator/initremoveinventory');
+    };
     $scope.removeorder = function () {
         $http.get('/api/administrator/initremoveorder');
     };

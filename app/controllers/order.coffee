@@ -376,10 +376,6 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
 
-    # 扣除商品库存
-    for dishkey, dishValue of dishDataList
-#      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
-      dishValue.reduceStock(dishNumberList[dishkey], req.u)
 
 
     # 优惠券已使用后处理
@@ -433,6 +429,9 @@ exports.addNewOrder = (req, res, next) ->
       isPushMobile : true
 
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
+    .catch( (err) ->
+      logger.error("5XX Error: ", err)
+    )
 
 
 
@@ -550,6 +549,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
 
+
 exports.updateOrder = (req, res, next) ->
   # 修改订单
   models.order.validationOrderId req.params._id
@@ -563,7 +563,7 @@ exports.updateOrder = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled and resultOrder.status isnt models.order.constantStatus().paid
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 
@@ -572,6 +572,22 @@ exports.updateOrder = (req, res, next) ->
           childOrder.isPaymentPaid = true
           childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
+
+      # 扣除商品库存
+      for dish, dishIndex in resultOrder.dishHistory
+        models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
+          if resultDish
+            resultDish.reduceStock(dish.number, req.u)
+
+      # 给客服发送新订单短信
+      text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)
+      models.sms.sendSmsVia3rd("13564568304", text)     # 王宇鹏电话
+      if not conf.debug
+        models.sms.sendSmsVia3rd("18140031310", text)     # 索晶电话
+        models.sms.sendSmsVia3rd("18516272908", text)     # 何华电话
+        models.sms.sendSmsVia3rd("18215563108", text)     # 赵梦菲电话
+
+
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
         resultOrder.status = models.order.constantStatus().canceled
