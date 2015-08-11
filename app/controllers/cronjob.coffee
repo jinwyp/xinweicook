@@ -21,7 +21,6 @@ exports.runCronJob = (req, res, next) ->
                   if resultDish
                     logger.warn "---------- Dish Add Inventory: ", resultDish._id, resultDish.title.zh, dish.quantity
                     resultDish.addStock(dish.quantity, {_id:"55c2d55edae7610b0557e93e"}).then (resultDish) ->
-                      console.log resultDish[0].title.zh
                       job.logList.push({isExecuted : true, message : resultDish[0].title.zh + " / Added quantity:" + dish.quantity + " / Now stock:" + resultDish[0].stock})
                       job.saveAsync()
 
