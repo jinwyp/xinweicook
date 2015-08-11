@@ -266,6 +266,23 @@ module.exports =
           else
               throw new Err "Field validation error,  subDish must be Array", 400
 
+      unless libs.validator.isFloat newOrder.address.geoLatitude
+        return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
+      unless libs.validator.isFloat newOrder.address.geoLongitude
+        return throw new Err "Field validation error,  geoLongitude must be isFloat", 400
+      unless libs.validator.isLength newOrder.address.province, 2, 200
+        return throw new Err "Field validation error,  province must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.city, 2, 200
+        return throw new Err "Field validation error,  city must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.district, 2, 200
+        return throw new Err "Field validation error,  district must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.address, 2, 1000
+        return throw new Err "Field validation error,  detail address must be 2-1000", 400
+      unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
+        return throw new Err "Field validation error,  contactPerson must be 2-99", 400
+      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
+        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400

@@ -18,7 +18,7 @@ cronJobController = require "./controllers/cronjob.coffee"
 
 
 
-#cronJobController.runCronJob()
+cronJobController.runCronJob()
 
 
 expressRoutes = (app) ->

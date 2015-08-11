@@ -70,10 +70,11 @@
                 <th>_id</th>
                 <th>任务名称</th>
                 <th>是否启用</th>
-                <th>日志列表</th>
+                <th>任务类型</th>
                 <th>菜品列表</th>
+                <th>日志列表</th>
                 <th>创建时间</th>
-
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -81,10 +82,16 @@
                 <td><a ui-sref="menu.updateCron({ id: cron._id })">{{cron._id}}</a></td>
                 <td>{{cron.name}}</td>
                 <td>{{cron.isActivated}}</td>
+                <td>{{cron.type}}</td>
+
                 <td>
-                    <span ng-repeat="log in cron.logList"> 任务执行是否成功:{{log.isExecuted}} / {{log.executedDate| date:'yyyy-MM-dd HH:mm:ss'}}  / 日志:{{log.message}} <br/> </span>
+                    <span ng-repeat="dish in cron.dishList"> 菜品ID:<a ui-sref="menu.updateDish({ id: dish.dishId })">{{dish.dishId}}</a> / 添加库存数量:{{dish.quantity}} <br/> </span>
                 </td>
-                <td> <span ng-repeat="dish in cron.dishList"> 菜品ID:<a ui-sref="menu.updateDish({ id: dish.dishId })">{{dish.dishId}}</a> / 添加库存数量:{{dish.quantity}} <br/> </span> </td>
+
+                <td>
+                    <span ng-repeat="log in cron.logList"> 任务执行是否成功:{{log.isExecuted}} | {{log.executedDate | date:'yyyy-MM-dd HH:mm:ss'}}  | 日志:{{log.message}} <br/> </span>
+                </td>
+
                 <td>{{cron.createdAt| date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
 
                 <td>

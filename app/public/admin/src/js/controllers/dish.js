@@ -489,7 +489,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.showInventory = function () {
 
-        Inventories.getList({dish:$stateParams.id}).then(function (result) {
+        Inventories.getList({dish : $stateParams.id, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
             Notification.success({message: 'Delete Success', delay: 8000});
 
