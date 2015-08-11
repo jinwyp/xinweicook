@@ -101,7 +101,7 @@
                 <th>是否为主菜</th>
 
                 <th>是否上架</th>
-                <th>上架时间</th>
+                <!--<th>上架时间</th>-->
 
                 <th>原价</th>
                 <th>批发价</th>
@@ -120,7 +120,7 @@
                 <td>{{dish.sideDishType}}</td>
 
                 <td>{{dish.isPublished}}</td>
-                <td>{{dish.publishedAt | date:'yyyy-MM-dd HH:mm'}}</td>
+                <!--<td>{{dish.publishedAt | date:'yyyy-MM-dd HH:mm'}}</td>-->
 
 
                 <td>{{dish.priceOriginal}}</td>
@@ -146,7 +146,7 @@
             <th>排序</th>
             <th>分类</th>
             <th>是否为主菜</th>
-            <!--<th>是否上架</th>-->
+            <th>是否上架</th>
 
             <th>总销量</th>
             <th>昨日销量</th>
@@ -164,13 +164,13 @@
             <td>{{dish.sortId}}</td>
             <td>{{dish.cookingType}}</td>
             <td>{{dish.sideDishType}}</td>
-            <!--<td>{{dish.isPublished}}</td>-->
+            <td>{{dish.isPublished}}</td>
 
             <!--<td>{{dish.sales}}</td>-->
             <td>{{dish.totalInventory.dishSaleQuantity}}</td>
             <td>{{dish.yesterdayInventory.dishSaleQuantity}}</td>
             <td> <span ng-repeat="daily in dish.dailySales">{{daily.year}}-{{daily.month}}-{{daily.day}} 销量:{{daily.dishSaleQuantity}} <br/></span></td>
-            <td> <span ng-repeat="week in dish.weekSales">第{{week.week}}星期 销量:{{week.dishSaleQuantity}} <br/></span></td>
+            <td> <span ng-repeat="week in dish.weekSales">第{{week.week}}周 销量:{{week.dishSaleQuantity}} <br/></span></td>
             <!--<td>-->
                 <!--<span ng-repeat="inventory in dish.inventory.dishList" >销量:{{inventory.quantity}} / 用户ID: {{inventory.user}}<br/></span>-->
             <!--</td>-->
