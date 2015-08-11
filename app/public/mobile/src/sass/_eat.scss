@@ -3,6 +3,7 @@
 @import "base";
 
 $buy-height: 30px;
+$out-of-stock-bg-color: #75A3B7;
 
 .img-group {
   img {
@@ -137,6 +138,9 @@ $buy-height: 30px;
         background-color: $primary-color;
         color: white;
         font-size: 16px;
+        &.out-of-stock {
+          background-color: $out-of-stock-bg-color;
+        }
       }
       span {
         height: $buy-height;
