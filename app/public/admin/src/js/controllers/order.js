@@ -381,7 +381,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
-            console.log(resultOrder);
             $scope.data.orderStatisticByAddressList = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){

@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, Notification, Util, Dishes, Inventories, Tags, Statistic) {
+function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -294,11 +294,17 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
     $scope.searchDish = function (form) {
+        if ($localStorage.dishSearchOptions){
+            $scope.data.searchOptions = $localStorage.dishSearchOptions
+        }
+
         $scope.css.showTable = 'dishes';
 
         deleteProperty($scope.data.searchOptions);
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
+            $localStorage.dishSearchOptions = $scope.data.searchOptions;
+
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
