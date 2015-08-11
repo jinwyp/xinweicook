@@ -108,6 +108,36 @@ exports.userInfo = (req, res, next) ->
   .catch next
 
 
+
+exports.userInfoAccount = (req, res, next) ->
+
+  models.useraccount.findOne({user : req.u._id}).then (resultAccount)->
+    if resultAccount
+      resultAccount
+    else
+      models.useraccount.createAsync({user:req.u._id.toString()})
+  .then (resultAccount)->
+    res.json resultAccount
+
+  .catch next
+
+
+exports.chargeAccount = (req, res, next) ->
+
+  models.useraccount.validationChargeAccount(req.body)
+
+  models.useraccount.findOne({user : req.u._id.toString()}).then (resultAccount)->
+    console.log resultAccount
+    models.useraccount.checkNotFound(resultAccount)
+    resultAccount.addMoney(req.body.addAmount)
+
+  .then (resultAccount)->
+    res.json resultAccount[0]
+
+  .catch next
+
+
+
 # 获取用户消息通知 iOS
 exports.getUserMessages = (req, res, next) ->
 
