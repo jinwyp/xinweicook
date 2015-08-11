@@ -511,7 +511,7 @@
 
         <!-- List group -->
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="item in data.inventoryList">{{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 库存变化 {{item.quantity}} / 操作用户:{{item.user}}</li>
+            <li class="list-group-item" ng-repeat="item in data.inventoryList">{{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 库存变化 {{item.quantity}} / 操作用户:{{item.user}} / 订单ID:{{item.order}}</li>
         </ul>
 
     </div>
