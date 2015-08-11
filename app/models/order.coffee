@@ -409,7 +409,7 @@ module.exports =
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
           if resultOrder and resultOrder.status is models.order.constantStatus().shipped
-            # 发送短信通知, 订单已发货
+            # 给用户发送短信通知, 订单已发货
             additionalContent =
               userId : resultOrder.user
               orderId : resultOrder._id
