@@ -416,7 +416,8 @@ exports.addNewOrder = (req, res, next) ->
       req.u.address.push(newAddress)
 
 
-
+    req.u.saveAsync().catch (err)->
+      logger.error "---- User Save error", err
 
 
 

@@ -14,7 +14,7 @@ exports.runCronJob = (req, res, next) ->
         if job.type is models.cronjob.constantCronJobType().addInventory and job.dishList.length > 0
 
           newCronJob =
-            cronTime : "01 01 07 * * 0-6"
+            cronTime : "01 30 07 * * 0-6"
             onTick : ()->
               for dish, dishIndex in job.dishList
                 models.dish.findOneAsync({_id:dish.dishId}).then (resultDish) ->
@@ -31,12 +31,13 @@ exports.runCronJob = (req, res, next) ->
 
             onComplete : () ->
               logger.warn "---------- CronJobFinished: ", job.name
-            start : true
+            start : false
             timeZone : "Asia/Shanghai"
 
           newCronJob.cronTime = "01 * * * * 0-6" if conf.debug
 
           runningJob = new CronJob(newCronJob)
+          runningJob.start() if process.env.NODE_ENV is "production"
   .catch next
 
 

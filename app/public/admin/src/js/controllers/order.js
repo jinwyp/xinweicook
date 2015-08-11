@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, Notification, Util, Orders, Statistic) {
+function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Orders, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -231,6 +231,11 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
 
 
     $scope.searchOrderCount = function (){
+
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions = $localStorage.orderSearchOptions
+        }
+
         $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom !==''){
@@ -242,6 +247,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         Util.delProperty($scope.data.searchOptions);
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
+            $localStorage.orderSearchOptions = $scope.data.searchOptions;
+
             $scope.data.orderListCount = orders.count;
             $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
 
@@ -374,7 +381,6 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
-            console.log(resultOrder);
             $scope.data.orderStatisticByAddressList = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){

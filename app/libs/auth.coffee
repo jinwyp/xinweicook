@@ -1,16 +1,17 @@
 module.exports = (group="guest") ->
   (req, res, next) ->
     models.user.findUserByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then((u)->
+      console.log "------------------------ Bug User: ", u._id, u.mobile
       req.u = u
     ).catch((err)->
       req.u = group: "guest"
       req.e = err
     ).then ->
-      hooker.hook res, "end", ()->
-        if req.u._id
-          req.u.lastLogin = moment()
-          req.u.saveAsync().catch (e)->
-            logger.error "user", e
+#      hooker.hook res, "end", ()->
+#        if req.u._id
+#          req.u.lastLogin = moment()
+#          req.u.saveAsync().catch (e)->
+#            logger.error "user", e
       switch group
         when "admin"
           groups = ["admin"]
@@ -23,7 +24,6 @@ module.exports = (group="guest") ->
       # logger.debug groups
       # logger.debug req.u
       if req.u.group in groups
-        console.log "------------------------ Bug User: ", req.u._id, req.u.mobile
         next() # TODO BUG
       else
         if req.e
