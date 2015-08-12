@@ -673,44 +673,39 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 exports.updateOrderWeixinPayNotify = (req, res, next) ->
   console.log "========================OrderWeixinPayNotify :: ", req.body
-  console.log "========================OrderWeixinPayNotify :: ", req.query
 
-  weixinpay.parserNotify req.body, (err, resWeixinPay)->
-    if err
-      next new Err err
+  models.order.validationWeixinPayNotify req.body
 
-    models.order.validationWeixinPayNotify resWeixinPay
+  models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
+  .execAsync()
+  .then (resultOrder) ->
+    models.order.checkNotFound(resultOrder)
 
-    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
-    .execAsync()
-    .then (resultOrder) ->
-      models.order.checkNotFound(resultOrder)
+    resultOrder.isPaymentPaid = true
+    resultOrder.status = models.order.constantStatus().paid
 
-      resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.constantStatus().paid
+    resultOrder.paymentWeixinpay =
+      openid : resWeixinPay.openid
+      bank_type : resWeixinPay.bank_type
+      total_fee : resWeixinPay.total_fee
+      fee_type : resWeixinPay.fee_type
+      cash_fee : resWeixinPay.cash_fee
+      cash_fee_type : resWeixinPay.cash_fee_type
+      coupon_fee : resWeixinPay.coupon_fee
+      transaction_id : resWeixinPay.transaction_id
+      time_end : resWeixinPay.time_end
 
-      resultOrder.paymentWeixinpay =
-        openid : resWeixinPay.openid
-        bank_type : resWeixinPay.bank_type
-        total_fee : resWeixinPay.total_fee
-        fee_type : resWeixinPay.fee_type
-        cash_fee : resWeixinPay.cash_fee
-        cash_fee_type : resWeixinPay.cash_fee_type
-        coupon_fee : resWeixinPay.coupon_fee
-        transaction_id : resWeixinPay.transaction_id
-        time_end : resWeixinPay.time_end
+    if resultOrder.childOrderList.length > 0
+      for childOrder in resultOrder.childOrderList
+        childOrder.isPaymentPaid = true
+        childOrder.status = models.order.constantStatus().paid
+        childOrder.saveAsync()
 
-      if resultOrder.childOrderList.length > 0
-        for childOrder in resultOrder.childOrderList
-          childOrder.isPaymentPaid = true
-          childOrder.status = models.order.constantStatus().paid
-          childOrder.saveAsync()
+    resultOrder.saveAsync()
+  .spread (resultOrder2, numberAffected) ->
+    weixinpay.responseNotify res, false
 
-      resultOrder.saveAsync()
-    .spread (resultOrder2, numberAffected) ->
-      weixinpay.responseNotify res, false
-
-    .catch next
+  .catch next
 
 
 

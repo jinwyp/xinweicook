@@ -191,12 +191,6 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
 
 
 
-weiXinPay.prototype.parserNotify = function(xml, callback){
-
-    util.parseXML(xml, callback);
-
-};
-
 
 weiXinPay.prototype.responseNotify = function(res, isFailed){
 
@@ -340,7 +334,9 @@ weiXinPay.prototype.signSha1 = function(obj){
 };
 
 
-weiXinPay.prototype.util = util;
+
+
+
 
 
 
@@ -351,22 +347,11 @@ exports.parserNotifyMiddleware = function (req, res, next) {
     // parse
 
 
-    if (req.url == '/mobile/wxpay/notify' && req.get('content-type') === 'text/xml')
+    if (req.url == '/mobile/wxpay/notify' && req.get('content-type') === 'text/xml'){
         console.log("--------------------WeixinPay Body Parser------------------------", req.headers['content-type']); // 打印 text/xml
 
-        req.headers['content-type'] = 'application/x-www-form-urlencoded';
+        //req.headers['content-type'] = 'application/x-www-form-urlencoded';
 
-
-        util.pipe(req, function(err, data){
-            var xml = data.toString('utf8');
-            util.parseXML(xml, function(err, msg){
-                req.wxmessage = msg;
-                fn.apply(_this, [msg, req, res, next]);
-            });
-        });
-
-
-    function anyBodyParser(req, res, next) {
         var data = '';
         req.setEncoding('utf8');
         req.on('data', function(chunk) {
@@ -374,12 +359,27 @@ exports.parserNotifyMiddleware = function (req, res, next) {
         });
         req.on('end', function() {
             req.rawBody = data;
-            next();
+
+            xml2js.parseString(data, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
+                console.log ('--------------- weixin notify err: ', err);
+                console.log ('--------------- weixin notify body: ', json);
+                if (err){
+                    next (err)
+                }else{
+                    req.body = json;
+                    next();
+                }
+            })
+
         });
     }
-
-    next();
 };
+
+
+
+
+weiXinPay.prototype.util = util;
+
 
 /*
 
