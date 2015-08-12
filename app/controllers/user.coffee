@@ -127,9 +127,8 @@ exports.chargeAccount = (req, res, next) ->
   models.useraccount.validationChargeAccount(req.body)
 
   models.useraccount.findOne({user : req.u._id.toString()}).then (resultAccount)->
-    console.log resultAccount
     models.useraccount.checkNotFound(resultAccount)
-    resultAccount.addMoney(req.body.addAmount)
+    resultAccount.addMoney(req.body.addAmount, req.body.remark)
 
   .then (resultAccount)->
     res.json resultAccount[0]
