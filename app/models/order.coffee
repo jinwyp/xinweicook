@@ -122,6 +122,7 @@ module.exports =
     deliveryDateTime: Date   # 送达时间
     deliveryDate : String  #一周时间
     deliveryTime : String  #10-12  #12-17 #17-20
+    deliveryType : String  # 当天送还是第二天送 'today' 'tomorrow'
 
     dishList:[
       dish: type: Schema.ObjectId, ref: "dish"
