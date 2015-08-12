@@ -325,7 +325,7 @@ weiXinPay.prototype.signSha1 = function(obj){
 
 
 
-weiXinPay.prototype.responseNotify = function(res, isFailed){
+weiXinPay.prototype.responseNotify = function(res, isSuccess){
 
     resSuccessObj= {
         return_code : "SUCCESS",
@@ -336,10 +336,10 @@ weiXinPay.prototype.responseNotify = function(res, isFailed){
         return_msg : ""
     };
 
-    if (isFailed){
-        res.send ( util.buildXML( resFailObj ) )
+    if (isSuccess){
+        res.send ( util.buildXML( resSuccessObj ) );
     }else{
-        res.send ( util.buildXML( resSuccessObj ) )
+        res.send ( util.buildXML( resFailObj ) )
     }
 };
 

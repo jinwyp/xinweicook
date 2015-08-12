@@ -676,7 +676,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
   models.order.validationWeixinPayNotify req.body
 
-  models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
+  models.order.findOne {orderNumber : req.body.out_trade_no}
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
@@ -685,15 +685,18 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
     resultOrder.status = models.order.constantStatus().paid
 
     resultOrder.paymentWeixinpay =
-      openid : resWeixinPay.openid
-      bank_type : resWeixinPay.bank_type
-      total_fee : resWeixinPay.total_fee
-      fee_type : resWeixinPay.fee_type
-      cash_fee : resWeixinPay.cash_fee
-      cash_fee_type : resWeixinPay.cash_fee_type
-      coupon_fee : resWeixinPay.coupon_fee
-      transaction_id : resWeixinPay.transaction_id
-      time_end : resWeixinPay.time_end
+      out_trade_no : req.body.out_trade_no
+      openid : req.body.openid
+      bank_type : req.body.bank_type
+      total_fee : req.body.total_fee
+      fee_type : req.body.fee_type
+      cash_fee : req.body.cash_fee
+      cash_fee_type : req.body.cash_fee_type if req.body.cash_fee_type
+      coupon_fee : req.body.coupon_fee if req.body.coupon_fee
+      coupon_count : req.body.coupon_count if req.body.coupon_count
+      transaction_id : req.body.transaction_id
+      time_end : req.body.time_end
+
 
     if resultOrder.childOrderList.length > 0
       for childOrder in resultOrder.childOrderList
@@ -703,12 +706,9 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
     resultOrder.saveAsync()
   .spread (resultOrder2, numberAffected) ->
-    weixinpay.responseNotify res, false
+    weixinpay.responseNotify res, true
 
   .catch next
-
-
-
 
 
 
