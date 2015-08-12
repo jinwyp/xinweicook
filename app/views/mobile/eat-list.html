@@ -29,16 +29,16 @@
             </div>
             <div class="detail">
                 <div class="caption">
-                    <h3 class="title">{{dish.title.zh}}</h3>
+                    <h3 class="title">{{::dish.title.zh}}</h3>
                     <div class="ingredient-group" ng-if="path == '/eat'">
-                        <div class="brief">{{dish.brief.zh}}</div>
+                        <div class="brief">{{::dish.brief.zh}}</div>
                     </div>
                 </div>
                 <div class="user-actions">
                     <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
                 </div>
                 <div class="buy">
-                    <span class="price">{{dish.priceOriginal}}</span>
+                    <span class="price">{{::dish.priceOriginal}}</span>
                     <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
                     <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
                 </div>
