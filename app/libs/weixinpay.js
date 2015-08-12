@@ -124,7 +124,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         mch_id: this.config.mch_id, //微信支付分配的商户号
         //device_info : "WEB", //终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
         nonce_str: util.generateNonceString(),
-        notify_url: item.weixin_notify_url || this.config.notify_url,
+        notify_url: item.notify_url || this.config.notify_url,
 
         out_trade_no: item.out_trade_no || "sample out_trade_no", //商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
         total_fee: item.total_fee || 10000,
