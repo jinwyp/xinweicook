@@ -145,6 +145,13 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
 
         User.getUserInfo().then(function (res) {
             user = res.data; // 仅仅为了更新.
+
+            // 为增加坐标之前可能存在的无坐标地址设置一个默认坐标
+            user.address.forEach(function (address) {
+                address.geoLatitude = address.geoLatitude || 0;
+                address.geoLongitude = address.geoLongitude || 0;
+            });
+
             if ($scope.deleteAddress.called) {
                 $scope.deleteAddress();
             }
