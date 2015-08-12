@@ -5,6 +5,9 @@ angular.module('xw.models').factory('Dishes', function ($http) {
         },
         like: function (id) {
             return $http.put('/api/dishes/' + id + '/like');
+        },
+        getOne: function (id) {
+            return $http.get('/api/dishes/' + id);
         }
     }
 });

@@ -48,7 +48,7 @@ expressRoutes = function(app) {
         res.render('mobile/fav-list.html');
     });
     app.get('/mobile/cook/:id', function (req, res) {
-        res.render('mobile/fav-list.html');
+        res.render('mobile/cook.html');
     });
     app.get('/mobile/app', function (req, res) {
         res.render('mobile/app.html');

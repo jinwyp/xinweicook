@@ -20,7 +20,9 @@
     <ul class="eat-list food-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
             <div class="img-group" ng-class="{blur: !!dish.count}">
-                <img img-lazy-load="dish.cover[0].zh" alt="ready to eat"/>
+                <a ng-href="{{dish.cookingType == 'ready to eat' ? 'javascript:;' : '/mobile/cook/' + dish.id}}">
+                    <img img-lazy-load="dish.cover[0].zh" alt="ready to eat"/>
+                </a>
                 <div class="count-operation" ng-if="dish.count">
                     <div class="subtract" ng-click="subtractDish(dish)"><span class="vertical-center">-</span></div>
                     <div class="count"><span class="vertical-center">{{dish.count}}</span></div>

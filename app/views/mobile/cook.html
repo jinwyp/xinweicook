@@ -16,11 +16,41 @@
 </nav>
 
 
-<div ng-cloak>
+<div class="main" ng-cloak>
+    <div class="dish-brief">
+        <img ng-src="{{dish.cover[0].zh}}"/>
+        <div class="detail">
+            <h5>{{dish.title.zh}}</h5>
+            <p class="brief">{{dish.brief.zh}}</p>
+            <p class="price rmb-char">{{dish.priceOriginal}}</p>
+        </div>
+    </div>
 
+    <div class="features-container">
+        <h5>你知道吗</h5>
+        <ul class="features">
+            <li class="feature" ng-repeat="feature in dish.infoUniqueFeature">
+                <p ng-if="feature.contentType == 'txt'">{{feature.value.zh}}</p>
+                <img ng-src="{{feature.value.zh}}" ng-if="feature.contentType == 'pic'"/>
+            </li>
+        </ul>
+    </div>
 </div>
 
-<footer>
+<footer class="cook-footer row">
+    <div class="col-xs-2">
+        <div class="cart">
+            <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
+        </div>
+    </div>
+
+    <div class="col-xs-3 text-center">
+        <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
+    </div>
+
+    <div class="col-xs-5 pull-right">
+        <div class="button add-to-cart">加入购物车</div>
+    </div>
 
 </footer>
 
@@ -33,5 +63,6 @@
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/config.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
-<script src="/mobile/src/js/controllers/fav-list.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/controllers/cook.js"></script>
 </html>

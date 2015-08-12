@@ -880,3 +880,43 @@ label {
   color: #f44d4d;
   font-weight: 200;
 }
+
+/* line 3, ../sass/_cook.scss */
+.dish-brief {
+  background-color: white;
+}
+/* line 6, ../sass/_cook.scss */
+.dish-brief img {
+  width: 100%;
+}
+/* line 9, ../sass/_cook.scss */
+.dish-brief .detail {
+  padding: 10px;
+}
+/* line 11, ../sass/_cook.scss */
+.dish-brief .detail h5 {
+  font-size: 16px;
+  font-weight: 100;
+  margin-top: 5px;
+}
+/* line 16, ../sass/_cook.scss */
+.dish-brief .detail .brief {
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+/* line 20, ../sass/_cook.scss */
+.dish-brief .detail .price {
+  font-size: 18px;
+  font-weight: 200;
+  margin-bottom: 0;
+}
+
+/* line 29, ../sass/_cook.scss */
+.feature img {
+  width: 100%;
+}
+
+/* line 34, ../sass/_cook.scss */
+.cook-footer {
+  margin: 0;
+}
