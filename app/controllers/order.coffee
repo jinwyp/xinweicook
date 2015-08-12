@@ -21,6 +21,8 @@ configWeiXinAppPay =
 weixinpay = WXPay(configWeiXinPay)
 
 
+
+
 exports.getWeixinDeveloperAccessToken = (req, res, next) ->
   # 增加生成微信developerAccessToken备用
 
@@ -92,8 +94,6 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
 
 
-
-
 exports.getWeixinPayUserOpenId = (req, res, next) ->
 #  console.log "========================WeixinPayOpenId :: ", req.query
 
@@ -115,7 +115,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 #            console.log "========================OrderId :: ", resultOrder
             models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
               if resultUser
-                console.log "========================UserId :: ", resultUser
+#                console.log "========================UserId :: ", resultUser
                 resultUser.weixinId.access_token = result.access_token
                 resultUser.weixinId.openid = result.openid
                 resultUser.weixinId.refresh_token = result.refresh_token
