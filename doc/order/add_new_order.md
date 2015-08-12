@@ -34,6 +34,7 @@ Group `member`
 | dishList           | Array    | 主商品列表数组  |
 |   -> dish          | String | 商品ID     |
 |   -> number        | Number | 商品数量    |
+|   -> remark        | String | 商品备注    |
 |   -> subDish       | Array  | 子商品 例如 牛肉属性preferences 和 浇头topping  |
 |   -> => dish       | String | 商品ID     |
 |   -> => number     | Number | 商品数量    |
