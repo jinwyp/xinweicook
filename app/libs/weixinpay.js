@@ -192,23 +192,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
 
 
 
-weiXinPay.prototype.responseNotify = function(res, isFailed){
 
-    resSuccessObj= {
-        return_code : "SUCCESS",
-        return_msg : "OK"
-    };
-    resFailObj= {
-        return_code : "FAIL",
-        return_msg : ""
-    };
-
-    if (isFailed){
-        res.send ( util.buildXML( resFailObj ) )
-    }else{
-        res.send ( util.buildXML( resSuccessObj ) )
-    }
-};
 
 
 
@@ -341,11 +325,27 @@ weiXinPay.prototype.signSha1 = function(obj){
 
 
 
+weiXinPay.prototype.responseNotify = function(res, isFailed){
+
+    resSuccessObj= {
+        return_code : "SUCCESS",
+        return_msg : "OK"
+    };
+    resFailObj= {
+        return_code : "FAIL",
+        return_msg : ""
+    };
+
+    if (isFailed){
+        res.send ( util.buildXML( resFailObj ) )
+    }else{
+        res.send ( util.buildXML( resSuccessObj ) )
+    }
+};
+
 
 
 createApplication.parserNotifyMiddleware = function (req, res, next) {
-    // parse
-
 
     if (req.get('content-type') === 'text/xml'){
         console.log("--------------------WeixinPay Body Parser------------------------", req.headers['content-type']); // 打印 text/xml
