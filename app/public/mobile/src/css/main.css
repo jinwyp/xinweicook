@@ -29,55 +29,57 @@ ul, li {
 }
 
 /* line 36, ../sass/_base.scss */
-input {
+input, textarea, select, option {
   border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* line 40, ../sass/_base.scss */
+/* line 42, ../sass/_base.scss */
 ::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 43, ../sass/_base.scss */
+/* line 45, ../sass/_base.scss */
 :-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 46, ../sass/_base.scss */
+/* line 48, ../sass/_base.scss */
 ::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
 }
 
-/* line 50, ../sass/_base.scss */
+/* line 52, ../sass/_base.scss */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 58, ../sass/_base.scss */
+/* line 60, ../sass/_base.scss */
 .form-horizontal .control-label {
   padding-top: 7px;
   margin-bottom: 0;
   text-align: left;
 }
 
-/* line 64, ../sass/_base.scss */
+/* line 66, ../sass/_base.scss */
 label {
   font-weight: 400;
 }
 
-/* line 70, ../sass/_base.scss */
+/* line 72, ../sass/_base.scss */
 .nav {
   background-color: white;
   text-align: center;
   line-height: 45px;
   margin-bottom: 10px;
   position: relative;
-  box-shadow: #DEDEDE 0 1px 5px;
+  box-shadow: #DEDEDE 0 0 1px;
 }
 
-/* line 79, ../sass/_base.scss */
+/* line 81, ../sass/_base.scss */
 .back-icon {
   background: url(../img/icons/NavBarBackIcon.png) no-repeat;
   background-size: contain;
@@ -88,7 +90,7 @@ label {
   top: 12px;
 }
 
-/* line 89, ../sass/_base.scss */
+/* line 91, ../sass/_base.scss */
 .form-line {
   margin: 0 5px 0 12px;
   border-bottom: 1px solid #bcbcbc;
@@ -96,22 +98,22 @@ label {
   opacity: 0.5;
 }
 
-/* line 96, ../sass/_base.scss */
+/* line 98, ../sass/_base.scss */
 .plus-char::before {
   content: 'X';
 }
 
-/* line 100, ../sass/_base.scss */
+/* line 102, ../sass/_base.scss */
 .rmb-char::before {
   content: "¥ ";
 }
 
-/* line 103, ../sass/_base.scss */
+/* line 105, ../sass/_base.scss */
 .rmb-char.negative::before {
   content: "- ¥ ";
 }
 
-/* line 106, ../sass/_base.scss */
+/* line 108, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
@@ -452,7 +454,7 @@ label {
   margin: 0;
 }
 /* line 17, ../sass/_order.scss */
-.form-block input {
+.form-block input, .form-block textarea, .form-block select {
   background-color: #f4f4f4;
 }
 /* line 21, ../sass/_order.scss */
@@ -460,6 +462,10 @@ label {
   line-height: 2.5;
 }
 /* line 25, ../sass/_order.scss */
+.form-block .remark {
+  margin-bottom: 10px;
+}
+/* line 29, ../sass/_order.scss */
 .form-block .order-list .select {
   border-radius: 50%;
   background-color: #e2e2e2;
@@ -472,15 +478,15 @@ label {
   top: 6px;
   color: white;
 }
-/* line 36, ../sass/_order.scss */
+/* line 40, ../sass/_order.scss */
 .form-block .order-list .select.active {
   background-color: #ff9595;
 }
-/* line 40, ../sass/_order.scss */
+/* line 44, ../sass/_order.scss */
 .form-block .time-btn-group {
   margin-top: 7px;
 }
-/* line 43, ../sass/_order.scss */
+/* line 47, ../sass/_order.scss */
 .form-block .time-btn {
   width: 252px;
   margin-right: 10px;
@@ -489,23 +495,28 @@ label {
   background-color: #e2e2e2;
   line-height: 1.2;
 }
-/* line 50, ../sass/_order.scss */
+/* line 54, ../sass/_order.scss */
 .form-block .time-btn.active {
   color: white;
   background-color: #f44d4d;
 }
-/* line 55, ../sass/_order.scss */
+/* line 59, ../sass/_order.scss */
 .form-block .promotion-group {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-/* line 62, ../sass/_order.scss */
+/* line 65, ../sass/_order.scss */
+.dish-list .form-line:last-of-type {
+  border-color: transparent;
+}
+
+/* line 70, ../sass/_order.scss */
 .pay .row {
   position: relative;
   padding-left: 43px;
 }
-/* line 66, ../sass/_order.scss */
+/* line 74, ../sass/_order.scss */
 .pay .icon {
   height: 23px;
   left: 19px;
@@ -514,13 +525,13 @@ label {
   background: url(../img/icons/ForkIcon.png) no-repeat;
   background-size: contain;
 }
-/* line 73, ../sass/_order.scss */
+/* line 81, ../sass/_order.scss */
 .pay .icon.active {
   background: url(../img/icons/ForkIconHighlighted.png) no-repeat;
   background-size: contain;
 }
 
-/* line 80, ../sass/_order.scss */
+/* line 88, ../sass/_order.scss */
 .flat-button {
   border: 1px #f44d4d solid;
   border-radius: 4px;
@@ -530,25 +541,25 @@ label {
   line-height: 30px;
 }
 
-/* line 89, ../sass/_order.scss */
+/* line 97, ../sass/_order.scss */
 .price-block {
   background: transparent;
   margin-top: -10px;
 }
-/* line 92, ../sass/_order.scss */
+/* line 100, ../sass/_order.scss */
 .price-block .group-on {
   color: #f44d4d;
 }
-/* line 95, ../sass/_order.scss */
+/* line 103, ../sass/_order.scss */
 .price-block .price {
   width: 5.5em;
 }
-/* line 98, ../sass/_order.scss */
+/* line 106, ../sass/_order.scss */
 .price-block .sign {
   padding-right: 0;
 }
 
-/* line 103, ../sass/_order.scss */
+/* line 111, ../sass/_order.scss */
 .confirm-button {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -556,17 +567,17 @@ label {
   height: 52px;
   margin: -12px auto 0;
 }
-/* line 109, ../sass/_order.scss */
+/* line 117, ../sass/_order.scss */
 .confirm-button.valid {
   background-color: #f44d4d;
   color: white;
 }
-/* line 113, ../sass/_order.scss */
+/* line 121, ../sass/_order.scss */
 .confirm-button.invalid {
   background-color: #eee;
 }
 
-/* line 118, ../sass/_order.scss */
+/* line 126, ../sass/_order.scss */
 .pay-window {
   position: fixed;
   top: 36%;
@@ -580,13 +591,13 @@ label {
   box-shadow: 2px 2px 5px gray;
   border: 1px darkgrey solid;
 }
-/* line 130, ../sass/_order.scss */
+/* line 138, ../sass/_order.scss */
 .pay-window .order-success-tip {
   text-align: center;
   font-size: 16px;
   margin-bottom: 48px;
 }
-/* line 135, ../sass/_order.scss */
+/* line 143, ../sass/_order.scss */
 .pay-window .confirm-button {
   text-align: center;
   background: #44b549;

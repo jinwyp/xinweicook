@@ -30,6 +30,7 @@
             <th>收货人</th>
             <th>电话</th>
             <th>收获地址</th>
+            <th>备注</th>
         </tr>
         </thead>
         <tbody>
@@ -42,9 +43,8 @@
 
             <td>{{order.address.contactPerson}}</td>
             <td>{{order.address.mobile }}</td>
-
-
             <td>{{order.address.city + order.address.district + order.address.street + order.address.address}}</td>
+            <td>{{order.userComment}}</td>
         </tr>
         </tbody>
     </table>

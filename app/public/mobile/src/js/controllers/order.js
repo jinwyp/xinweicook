@@ -61,7 +61,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             trade_type: 'JSAPI',
             credit: 0,
             spbill_create_ip: '8.8.8.8',
-            paymentUsedCash: false
+            paymentUsedCash: false,
+            userComment: $scope.userComment || ''
         };
 
         var check = {
