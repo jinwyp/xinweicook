@@ -37,6 +37,13 @@ module.exports =
         message: error.message
         _id: error._id
         stack: error.stack if conf.debug
+        validationStatus: error.validationStatus
+
+  errCode:
+    user :
+      wrongMobile : 1110
+    order :
+      wrongMobile : 2110
 
 
 process.on "unhandledRejection", (reason) ->

@@ -126,6 +126,7 @@ module.exports =
     dishList:[
       dish: type: Schema.ObjectId, ref: "dish"
       number: Number
+      remark: String
       subDish : [
         dish : type: Schema.ObjectId, ref: "dish"
         number: Number
