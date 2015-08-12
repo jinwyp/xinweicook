@@ -2,6 +2,7 @@
 WXPay = require "../libs/weixinpay"
 
 
+
 configWeiXinPay =
   appid: conf.weixinpay.appid
   mch_id: conf.weixinpay.mch_id
@@ -243,10 +244,14 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateEat)
+
+
 
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -270,6 +275,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -293,6 +299,8 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->

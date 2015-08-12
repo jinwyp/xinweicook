@@ -305,22 +305,19 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
-#    deliveryTypeCheckToday : () ->
-#      timeNow = moment()
-#      resultTime = []
-#
-#      for i in [1..5]
-#        segmentDay =
-#          day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
-#
-#        if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
-#          segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD")
-#        else
-#          segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD")
-#
-#        resultTime.push(segmentDay)
-#
-#      resultTime
+    deliveryDateTypeChecker : (date) ->
+      deliveryDate =  moment(date)
+      timeToday = moment().startOf('day')
+      timeTomorrow = timeToday.add(1, 'days')
+
+#      console.log deliveryDate.format("YYYY-MM-DD HH:mm:ss A")
+
+      if timeTomorrow.isSame(deliveryDate, "day")
+        result = "tomorrow"
+      else
+        result = "today"
+
+      result
 
     deliveryTimeArithmeticByRangeForReadyToCook : (isInRange4KM) ->
       timeFormat = "YYYY-MM-DD HH:mm:ss A"
