@@ -238,6 +238,7 @@ exports.addNewOrder = (req, res, next) ->
     freight : Number(req.body.freight)
     dishesPrice : 0
     totalPrice : 0
+    userComment : req.body.userComment if req.body.userComment
 
 
   if req.body.cookingType is models.dish.constantCookingType().cook
@@ -276,6 +277,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    userComment : req.body.userComment if req.body.userComment
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -300,6 +302,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    userComment : req.body.userComment if req.body.userComment
 
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
@@ -483,6 +486,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
+        attach: resultOrder._id.toString()
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice * 100
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
@@ -504,12 +508,11 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1
 
-      console.log "------------------openId: ", weixinpayOrder
+      console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
 
-        console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
           weixinpayMobileSign =
@@ -544,7 +547,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder2.toJSON()
             delete resultTemp.dishList
-            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+#            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
             res.json resultTemp
 
     else
