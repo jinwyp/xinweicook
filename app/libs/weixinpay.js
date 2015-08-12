@@ -343,17 +343,18 @@ weiXinPay.prototype.signSha1 = function(obj){
 
 
 
-exports.parserNotifyMiddleware = function (req, res, next) {
+createApplication.parserNotifyMiddleware = function (req, res, next) {
     // parse
 
 
-    if (req.url == '/mobile/wxpay/notify' && req.get('content-type') === 'text/xml'){
+    if (req.get('content-type') === 'text/xml'){
         console.log("--------------------WeixinPay Body Parser------------------------", req.headers['content-type']); // 打印 text/xml
 
         //req.headers['content-type'] = 'application/x-www-form-urlencoded';
 
         var data = '';
         req.setEncoding('utf8');
+
         req.on('data', function(chunk) {
             data += chunk;
         });
@@ -361,8 +362,8 @@ exports.parserNotifyMiddleware = function (req, res, next) {
             req.rawBody = data;
 
             xml2js.parseString(data, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
-                console.log ('--------------- weixin notify err: ', err);
-                console.log ('--------------- weixin notify body: ', json);
+                //console.log ('--------------- weixin notify err: ', err);
+                //console.log ('--------------- weixin notify body: ', json);
                 if (err){
                     next (err)
                 }else{

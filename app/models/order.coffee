@@ -299,8 +299,8 @@ module.exports =
 
 
     validationWeixinPayNotify : (order) ->
-      unless libs.validator.isLength order.return_code, 4, 7
-        return throw new Err "Field validation error,  return_code must be 4-7", 400
+      unless libs.validator.isLength order.return_code, 6, 7
+        return throw new Err "Field validation error,  return_code must be 4-7 and must be SUCCESS", 400
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
