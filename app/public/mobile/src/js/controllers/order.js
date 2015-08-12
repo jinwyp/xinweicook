@@ -122,6 +122,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             Orders.postOrder(order).then(function (res) {
                 $scope.orderSuccess = true;
                 $scope.wxstate = res.data._id;
+
+                setTimeout(function () {
+                    document.querySelector('.confirm-button.form-control').click();
+                }, 200);
                 // todo: change btn text
             }).catch(function (res) {
                 alert('生成订单失败,请稍后再试');
