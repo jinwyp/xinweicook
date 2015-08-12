@@ -48,6 +48,16 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$valid, 'has-error':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$invalid}">
+                    <label for="inputDeliveryDateType" class="col-lg-2 control-label" >配送时间类型</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="deliveryDateType in data.deliveryDateTypeList">
+                            <input type="radio" name="deliveryDateType" id="inputDeliveryDateType" ng-value="deliveryDateType.value" ng-model="data.searchOptions.deliveryDateType">{{deliveryDateType.name}}
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$valid, 'has-error':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$invalid}">
                     <label for="inputIsSplitOrder" class="col-lg-2 control-label" >是否拆单</label>
                     <div class="col-lg-8">
