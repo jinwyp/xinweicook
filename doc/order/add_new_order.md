@@ -12,6 +12,7 @@ Group `member`
 | freight          | Number   | 运费                                               |
 | coupon           | String   | 用户账号里面的优惠券 24位ID 5590d256103f46d9ac31e3ee   |
 | promotionCode    | String   | 优惠码  10位字符串  |
+| usedAccountBalance| Boolean   | 是否使用余额支付 true / false  |
 | payment          | String   | 支付方式 alipay direct / weixinpay / paypal  /cod 货到付款          |
 | paymentUsedCash  | Boolean  | 货到付款 使用现金还是刷卡                              |
 | deliveryDateCook | String   | 用于 "ready to cook" 食材包 预计到达日期 年月日  注意用双位数表达日期 2015-06-13      |
@@ -57,6 +58,7 @@ Group `member`
     "freight" : 20,
     "coupon" : "5590d256103f46d9ac31e3ee",
     "promotionCode" : "xxxxxxx",
+    "usedAccountBalance" : false,
 
     "payment" : "weixinpay",
     "paymentUsedCash" : false,
