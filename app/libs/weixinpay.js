@@ -202,7 +202,6 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
         throw new Error ("Weixin Pay OpenId code format wrong,  code is null");
     }
 
-
     url = configWeiXinPay.url_getUserOpenId + 'appid=' + this.config.appid + '&secret=' + this.config.secret + '&code=' + code + '&grant_type=authorization_code';
 
     var opts = {
@@ -241,7 +240,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
     var opts = {
         method: 'GET',
         url: url,
-        timeout: 3000
+        timeout: 5000
     };
 
     request(opts, function(err, response, body){
@@ -256,7 +255,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
                 var options = {
                     method: 'GET',
                     url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
-                    timeout: 3000
+                    timeout: 5000
                 };
                 request(options, function(err2, response, body2){
                     if (err2){
