@@ -67,6 +67,7 @@ expressRoutes = (app) ->
   app.post("/api/user/shoppingcart", libs.auth("member"), userController.updateShoppingCart)
 
   app.get("/api/user/account", libs.auth("member"), userController.userInfoAccount)
+  app.get("/api/user/account/details", libs.auth("member"), userController.userAccountDetail)
   app.post("/api/user/account", libs.auth("member"), userController.chargeAccount)
 
   app.get("/api/coupons/:_id", libs.auth("member"), couponController.couponSingleInfo)
