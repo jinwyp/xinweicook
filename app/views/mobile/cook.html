@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="features-container">
+    <div class="features-container" ng-if="dish.infoUniqueFeature.length">
         <h5>你知道吗</h5>
         <ul class="features">
             <li class="feature" ng-repeat="feature in dish.infoUniqueFeature">
@@ -34,6 +34,10 @@
                 <img ng-src="{{feature.value.zh}}" ng-if="feature.contentType == 'pic'"/>
             </li>
         </ul>
+    </div>
+
+    <div class="ingredient-container" ng-if="dish.infoIngredient.length">
+
     </div>
 </div>
 
