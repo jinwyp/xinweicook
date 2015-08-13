@@ -2,6 +2,7 @@
 WXPay = require "../libs/weixinpay"
 
 
+
 configWeiXinPay =
   appid: conf.weixinpay.appid
   mch_id: conf.weixinpay.mch_id
@@ -18,6 +19,8 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
+
+
 
 
 exports.getWeixinDeveloperAccessToken = (req, res, next) ->
@@ -91,8 +94,6 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
 
 
-
-
 exports.getWeixinPayUserOpenId = (req, res, next) ->
 #  console.log "========================WeixinPayOpenId :: ", req.query
 
@@ -114,7 +115,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 #            console.log "========================OrderId :: ", resultOrder
             models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
               if resultUser
-                console.log "========================UserId :: ", resultUser
+#                console.log "========================UserId :: ", resultUser
                 resultUser.weixinId.access_token = result.access_token
                 resultUser.weixinId.openid = result.openid
                 resultUser.weixinId.refresh_token = result.refresh_token
@@ -237,16 +238,21 @@ exports.addNewOrder = (req, res, next) ->
     freight : Number(req.body.freight)
     dishesPrice : 0
     totalPrice : 0
+    userComment : req.body.userComment if req.body.userComment
 
 
   if req.body.cookingType is models.dish.constantCookingType().cook
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateEat)
+
+
 
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -270,6 +276,8 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    userComment : req.body.userComment if req.body.userComment
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -293,6 +301,9 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    userComment : req.body.userComment if req.body.userComment
+
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
@@ -475,6 +486,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
+        attach: resultOrder._id.toString()
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice * 100
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
@@ -496,12 +508,11 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1
 
-      console.log "------------------openId: ", weixinpayOrder
+      console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
 
-        console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
           weixinpayMobileSign =
@@ -536,7 +547,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder2.toJSON()
             delete resultTemp.dishList
-            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+#            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
             res.json resultTemp
 
     else
@@ -665,47 +676,42 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 exports.updateOrderWeixinPayNotify = (req, res, next) ->
   console.log "========================OrderWeixinPayNotify :: ", req.body
-  console.log "========================OrderWeixinPayNotify :: ", req.query
 
-  weixinpay.parserNotify req.body, (err, resWeixinPay)->
-    if err
-      next new Err err
+  models.order.validationWeixinPayNotify req.body
 
-    models.order.validationWeixinPayNotify resWeixinPay
+  models.order.findOne {orderNumber : req.body.out_trade_no}
+  .execAsync()
+  .then (resultOrder) ->
+    models.order.checkNotFound(resultOrder)
 
-    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
-    .execAsync()
-    .then (resultOrder) ->
-      models.order.checkNotFound(resultOrder)
+    resultOrder.isPaymentPaid = true
+    resultOrder.status = models.order.constantStatus().paid
 
-      resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.constantStatus().paid
-
-      resultOrder.paymentWeixinpay =
-        openid : resWeixinPay.openid
-        bank_type : resWeixinPay.bank_type
-        total_fee : resWeixinPay.total_fee
-        fee_type : resWeixinPay.fee_type
-        cash_fee : resWeixinPay.cash_fee
-        cash_fee_type : resWeixinPay.cash_fee_type
-        coupon_fee : resWeixinPay.coupon_fee
-        transaction_id : resWeixinPay.transaction_id
-        time_end : resWeixinPay.time_end
-
-      if resultOrder.childOrderList.length > 0
-        for childOrder in resultOrder.childOrderList
-          childOrder.isPaymentPaid = true
-          childOrder.status = models.order.constantStatus().paid
-          childOrder.saveAsync()
-
-      resultOrder.saveAsync()
-    .spread (resultOrder2, numberAffected) ->
-      weixinpay.responseNotify res, false
-
-    .catch next
+    resultOrder.paymentWeixinpay =
+      out_trade_no : req.body.out_trade_no
+      openid : req.body.openid
+      bank_type : req.body.bank_type
+      total_fee : req.body.total_fee
+      fee_type : req.body.fee_type
+      cash_fee : req.body.cash_fee
+      cash_fee_type : req.body.cash_fee_type if req.body.cash_fee_type
+      coupon_fee : req.body.coupon_fee if req.body.coupon_fee
+      coupon_count : req.body.coupon_count if req.body.coupon_count
+      transaction_id : req.body.transaction_id
+      time_end : req.body.time_end
 
 
+    if resultOrder.childOrderList.length > 0
+      for childOrder in resultOrder.childOrderList
+        childOrder.isPaymentPaid = true
+        childOrder.status = models.order.constantStatus().paid
+        childOrder.saveAsync()
 
+    resultOrder.saveAsync()
+  .spread (resultOrder2, numberAffected) ->
+    weixinpay.responseNotify res, true
+
+  .catch next
 
 
 

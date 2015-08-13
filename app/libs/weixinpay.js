@@ -190,77 +190,9 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
 
 
 
-weiXinPay.prototype.sign2 = function(obj){
-    var querystring = Object.keys(obj)
-        .filter(function (key) {
-            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
-        })
-        .sort()
-        .map(function (key) {
-            return key + "=" + obj[key];
-        })
-        .join("&");
-
-    querystring = querystring + "&key=" + this.config.key ;
-    return md5( querystring ).toUpperCase();
-};
-
-weiXinPay.prototype.sign = function(obj){
-    var str = Object.keys(obj).filter(function (key) {
-        return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
-    }).sort().map(function (key) {
-        return key + "=" + obj[key];
-    }).join("&");
-    str = md5(str+"&key="+this.config.key).toUpperCase();
-    console.log("========== WeixinPay key:",  this.config.key);
-    return str;
-}
 
 
-weiXinPay.prototype.signSha1 = function(obj){
-    var querystring = Object.keys(obj)
-        .filter(function (key) {
-            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
-        })
-        .sort()
-        .map(function (key) {
-            return key + "=" + obj[key];
-        })
-        .join("&");
 
-    querystring = 'jsapi_ticket=' + obj.jsapi_ticket
-        + '&noncestr=' + obj.noncestr
-        + '&timestamp=' + obj.timestamp
-        + '&url=' + obj.url;
-
-    return sha1( querystring );
-};
-
-
-weiXinPay.prototype.parserNotify = function(xml, callback){
-
-    util.parseXML(xml, callback);
-
-};
-
-
-weiXinPay.prototype.responseNotify = function(res, isFailed){
-
-    resSuccessObj= {
-        return_code : "SUCCESS",
-        return_msg : "OK"
-    };
-    resFailObj= {
-        return_code : "FAIL",
-        return_msg : ""
-    };
-
-    if (isFailed){
-        res.send ( util.buildXML( resFailObj ) )
-    }else{
-        res.send ( util.buildXML( resSuccessObj ) )
-    }
-};
 
 
 
@@ -335,7 +267,120 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
 
 };
 
+
+
+
+
+weiXinPay.prototype.sign2 = function(obj){
+    var querystring = Object.keys(obj)
+        .filter(function (key) {
+            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+        })
+        .sort()
+        .map(function (key) {
+            return key + "=" + obj[key];
+        })
+        .join("&");
+
+    querystring = querystring + "&key=" + this.config.key ;
+    return md5( querystring ).toUpperCase();
+};
+
+weiXinPay.prototype.sign = function(obj){
+    var str = Object.keys(obj).filter(function (key) {
+        return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+    }).sort().map(function (key) {
+        return key + "=" + obj[key];
+    }).join("&");
+    str = md5(str+"&key="+this.config.key).toUpperCase();
+    console.log("========== WeixinPay key:",  this.config.key);
+    return str;
+}
+
+
+weiXinPay.prototype.signSha1 = function(obj){
+    var querystring = Object.keys(obj)
+        .filter(function (key) {
+            return obj[key] !== undefined && obj[key] !== '' && key !== 'sign';
+        })
+        .sort()
+        .map(function (key) {
+            return key + "=" + obj[key];
+        })
+        .join("&");
+
+    querystring = 'jsapi_ticket=' + obj.jsapi_ticket
+        + '&noncestr=' + obj.noncestr
+        + '&timestamp=' + obj.timestamp
+        + '&url=' + obj.url;
+
+    return sha1( querystring );
+};
+
+
+
+
+
+
+
+
+
+weiXinPay.prototype.responseNotify = function(res, isSuccess){
+
+    resSuccessObj= {
+        return_code : "SUCCESS",
+        return_msg : "OK"
+    };
+    resFailObj= {
+        return_code : "FAIL",
+        return_msg : ""
+    };
+
+    if (isSuccess){
+        res.send ( util.buildXML( resSuccessObj ) );
+    }else{
+        res.send ( util.buildXML( resFailObj ) )
+    }
+};
+
+
+
+createApplication.parserNotifyMiddleware = function (req, res, next) {
+
+    if (req.get('content-type') === 'text/xml'){
+        console.log("--------------------WeixinPay Body Parser------------------------", req.headers['content-type']); // 打印 text/xml
+
+        //req.headers['content-type'] = 'application/x-www-form-urlencoded';
+
+        var data = '';
+        req.setEncoding('utf8');
+
+        req.on('data', function(chunk) {
+            data += chunk;
+        });
+        req.on('end', function() {
+            req.rawBody = data;
+
+            xml2js.parseString(data, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
+                //console.log ('--------------- weixin notify err: ', err);
+                //console.log ('--------------- weixin notify body: ', json);
+                if (err){
+                    next (err)
+                }else{
+                    req.body = json;
+                    next();
+                }
+            })
+
+        });
+    }
+};
+
+
+
+
 weiXinPay.prototype.util = util;
+
 
 /*
 

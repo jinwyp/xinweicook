@@ -99,6 +99,7 @@ module.exports =
       code_url: type: String # trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
 
       device_info : type: String  # 下面是通知返回字段
+      out_trade_no : type: String
       openid : type: String
       bank_type : type: String
       total_fee : type: Number #总金额
@@ -122,6 +123,7 @@ module.exports =
     deliveryDateTime: Date   # 送达时间
     deliveryDate : String  #一周时间
     deliveryTime : String  #10-12  #12-17 #17-20
+    deliveryDateType : String  # 当天送还是第二天送 'today' 'tomorrow'
 
     dishList:[
       dish: type: Schema.ObjectId, ref: "dish"
@@ -298,12 +300,27 @@ module.exports =
 
 
     validationWeixinPayNotify : (order) ->
-      unless libs.validator.isLength order.return_code, 4, 7
-        return throw new Err "Field validation error,  return_code must be 4-7", 400
+      unless libs.validator.isLength order.return_code, 6, 7
+        return throw new Err "Field validation error,  return_code must be 4-7 and must be SUCCESS", 400
+      unless libs.validator.isLength order.result_code, 6, 7
+        return throw new Err "Field validation error,  result_code must be 4-7 and must be SUCCESS", 400
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
+    deliveryDateTypeChecker : (date) ->
+      deliveryDate =  moment(date)
+      timeToday = moment().startOf('day')
+      timeTomorrow = timeToday.add(1, 'days')
+
+#      console.log deliveryDate.format("YYYY-MM-DD HH:mm:ss A")
+
+      if timeTomorrow.isSame(deliveryDate, "day")
+        result = "tomorrow"
+      else
+        result = "today"
+
+      result
 
     deliveryTimeArithmeticByRangeForReadyToCook : (isInRange4KM) ->
       timeFormat = "YYYY-MM-DD HH:mm:ss A"

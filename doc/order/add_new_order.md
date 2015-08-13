@@ -18,6 +18,7 @@ Group `member`
 | deliveryTimeCook | String   | 用于 "ready to cook" 食材包 预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
 | deliveryDateEat  | String   | 用于 "ready to eat" 预计到达日期 年月日  注意用双位数表达日期 2015-06-13         |
 | deliveryTimeEat  | String   | "ready to eat"  预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
+| userComment      | String   | 订单备注        |
 | address          | Object   | 地址       |
 |   -> geoLatitude   | Number   | 纬度       |
 |   -> geoLongitude  | Number   | 经度       |
@@ -29,7 +30,7 @@ Group `member`
 |   -> address       | String   | 详细地址    |
 |   -> contactPerson | String   | 联系人      |
 |   -> mobile        | String   | 手机       |
-|   -> remark        | String   | 备注       |
+|   -> remark        | String   | 地址备注   |
 |   -> distanceFrom  | Number   | 与新味办公司距离（米）      |
 | dishList           | Array    | 主商品列表数组  |
 |   -> dish          | String | 商品ID     |

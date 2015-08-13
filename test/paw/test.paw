@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>A33E2BBA-1BCE-47DA-95B5-7D5D6B60502C</UUID>
-        <nextObjectID>573</nextObjectID>
+        <nextObjectID>576</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -2325,29 +2325,21 @@
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z356"></relationship>
     </object>
-    <object type="LMKEYVALUE" id="z368">
-        <attribute name="order" type="int64">7</attribute>
-        <attribute name="enabled" type="bool">1</attribute>
-        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z369"></relationship>
-    </object>
     <object type="LMREQUEST" id="z369">
+        <attribute name="body" type="string">["\u3c00xml\u3e00\\n  \u3c00appid\u3e00\u3c00![CDATA[wx2421b1c4370ec43b]]\u3e00\u3c00\\/appid\u3e00\\n  \u3c00attach\u3e00\u3c00![CDATA[支付测试]]\u3e00\u3c00\\/attach\u3e00\\n  \u3c00bank_type\u3e00\u3c00![CDATA[CFT]]\u3e00\u3c00\\/bank_type\u3e00\\n  \u3c00fee_type\u3e00\u3c00![CDATA[CNY]]\u3e00\u3c00\\/fee_type\u3e00\\n  \u3c00is_subscribe\u3e00\u3c00![CDATA[Y]]\u3e00\u3c00\\/is_subscribe\u3e00\\n  \u3c00mch_id\u3e00\u3c00![CDATA[10000100]]\u3e00\u3c00\\/mch_id\u3e00\\n  \u3c00nonce_str\u3e00\u3c00![CDATA[5d2b6c2a8db53831f7eda20af46e531c]]\u3e00\u3c00\\/nonce_str\u3e00\\n  \u3c00openid\u3e00\u3c00![CDATA[oUpF8uMEb4qRXf22hE3X68TekukE]]\u3e00\u3c00\\/openid\u3e00\\n  \u3c00out_trade_no\u3e00\u3c00![CDATA[1409811653]]\u3e00\u3c00\\/out_trade_no\u3e00\\n  \u3c00result_code\u3e00\u3c00![CDATA[SUCCESS]]\u3e00\u3c00\\/result_code\u3e00\\n  \u3c00return_code\u3e00\u3c00![CDATA[SUCCESS]]\u3e00\u3c00\\/return_code\u3e00\\n  \u3c00sign\u3e00\u3c00![CDATA[B552ED6B279343CB493C5DD0D78AB241]]\u3e00\u3c00\\/sign\u3e00\\n  \u3c00sub_mch_id\u3e00\u3c00![CDATA[10000100]]\u3e00\u3c00\\/sub_mch_id\u3e00\\n  \u3c00time_end\u3e00\u3c00![CDATA[20140903131540]]\u3e00\u3c00\\/time_end\u3e00\\n  \u3c00total_fee\u3e001\u3c00\\/total_fee\u3e00\\n  \u3c00trade_type\u3e00\u3c00![CDATA[JSAPI]]\u3e00\u3c00\\/trade_type\u3e00\\n  \u3c00transaction_id\u3e00\u3c00![CDATA[1004400740201409030005092168]]\u3e00\u3c00\\/transaction_id\u3e00\\n\u3c00\\/xml\u3e00"]</attribute>
         <attribute name="uuid" type="string">BCC1DDC1-D2B8-45F5-9186-3FA261697C77</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/orders\\/payment\\/weixinpay\\/notify"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/mobile\\/wxpay\\/notify"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"out_trade_no\\":\\"201507301516418632044\\",\\"return_code\\":\\"SUCCESS\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">24</attribute>
         <attribute name="name" type="string">user-weixinpayNotifyFromServer</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z368"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z575 z576"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z370">
         <attribute name="value" type="string"></attribute>
@@ -4240,5 +4232,25 @@
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z566 z568 z567 z569 z570 z571 z572"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z575">
+        <attribute name="value" type="string">text/xml</attribute>
+        <attribute name="order" type="int64">9</attribute>
+        <attribute name="name" type="string">Content-Type</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z369"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z576">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">10</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z369"></relationship>
     </object>
 </database>

@@ -26,7 +26,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             isSplitOrder : '',
             isChildOrder : '',
             cookingType : '',
-            clientFrom : ''
+            clientFrom : '',
+            deliveryDateType : ''
         },
 
         datePickerIsOpen : false,
@@ -147,6 +148,21 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             {
                 name : '安卓 原生APP',
                 value : 'android'
+            }
+        ],
+
+        deliveryDateTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '当天配送',
+                value : 'today'
+            },
+            {
+                name : '第二天配送',
+                value : 'tomorrow'
             }
         ],
 

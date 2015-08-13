@@ -1,3 +1,5 @@
+weixinPay = require "./libs/weixinpay.js"
+
 
 initController = require "./controllers/initproject.coffee"
 userController = require "./controllers/user.coffee"
@@ -27,7 +29,7 @@ expressRoutes = (app) ->
 #  )
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-  app.post("/mobile/wxpay/notify", orderController.updateOrderWeixinPayNotify)
+  app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
 

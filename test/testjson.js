@@ -201,40 +201,22 @@ var alipay2 = {
 };
 
 
-var deleteUser = [{
-    "mobile"        : "18066211511",
-    "contactPerson" : "应青君",
-    "geoLongitude"  : 121.4760293344681,
-    "province"      : "上海",
-    "_id"           : "55c4193ea377863c0d0452e7",
-    "street"        : "企业天地",
-    "isDefault"     : true,
-    "address"       : "5号楼26层环球律师事务所",
-    "alias"         : "",
-    "city"          : "上海",
-    "geoLatitude"   : 31.22078860630644,
-    "district"      : "卢湾",
-    "isTemporary"   : false,
-    "isValid"       : true,
-    "country"       : "china",
-    "remark"        : "",
-    "fromDistance"  : 2907.423174102069
-}, {
-    "mobile"        : "18066211511",
-    "contactPerson" : "应青君",
-    "geoLongitude"  : 121.4438208919478,
-    "province"      : "上海",
-    "_id"           : null,
-    "street"        : "罗城路570弄31号",
-    "isDefault"     : false,
-    "address"       : "32号602室",
-    "alias"         : "",
-    "city"          : "上海市",
-    "geoLatitude"   : 31.15740814376764,
-    "district"      : "徐汇区",
-    "isTemporary"   : false,
-    "isValid"       : true,
-    "country"       : "china",
-    "remark"        : "",
-    "fromDistance"  : 4790.200924468978
-}]
+var weixinpay = {
+    appid          : 'wxc31508f4ded1402b',
+    attach         : '55cb142f1ce9a11b3b29a3e1',
+    bank_type      : 'CFT',
+    cash_fee       : '1',
+    fee_type       : 'CNY',
+    is_subscribe   : 'N',
+    mch_id         : '1260182401',
+    nonce_str      : 'VyrZo041MlpySrO3',
+    openid         : 'o-SvZwvBW32tW3WE6ltyeEgfN-hM',
+    out_trade_no   : '201508121738550015511',
+    result_code    : 'SUCCESS',
+    return_code    : 'SUCCESS',
+    sign           : '357591EB80607E8F3FEE007CFCA6112F',
+    time_end       : '20150812174031',
+    total_fee      : '1',
+    trade_type     : 'APP',
+    transaction_id : '1008770927201508120606427576'
+}
