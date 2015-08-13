@@ -125,13 +125,14 @@ exports.userInfoAccount = (req, res, next) ->
 # 用户账户余额明细
 exports.userAccountDetail = (req, res, next) ->
 
-  if not req.query.skip
-    req.query.skip = 0
+  models.accountdetail.validationGetAccountDetailList req.query
 
-  if not req.query.limit
-    req.query.limit = 200
-
-  models.accountdetail.find({user : req.u._id.toString()}).skip(req.query.skip).limit(req.query.skip).execAsync().then (resultAccountDetail)->
+  models.accountdetail.find({user : req.u._id.toString()})
+  .sort "-createdAt"
+  .skip(req.query.skip)
+  .limit(req.query.skip)
+  .execAsync()
+  .then (resultAccountDetail)->
 
     res.json resultAccountDetail
 

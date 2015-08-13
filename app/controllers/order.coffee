@@ -139,8 +139,8 @@ exports.orderListByUser = (req, res, next) ->
 
   models.order.find user: req.u._id
   .sort "-createdAt"
-  .limit (req.query.limit)
   .skip (req.query.skip)
+  .limit (req.query.limit)
   .populate({path: 'dishList.dish', select: models.dish.fields()})
   .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .execAsync()
