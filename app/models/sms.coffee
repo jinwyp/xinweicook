@@ -64,6 +64,9 @@ module.exports =
           throw new Err "短信发送失败 " + result.msg, 400
         else
           result
+      .catch( (err)->
+        logger.error("短信发送失败:", err)
+      )
 
 
 

@@ -281,7 +281,7 @@
         <attribute name="name" type="string">user-getSMSForSignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z129 z104 z152 z121 z153 z110 z130"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z110 z153 z129 z152 z130 z104 z121"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z128">
         <attribute name="value" type="string">application/json</attribute>
