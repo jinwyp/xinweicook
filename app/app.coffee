@@ -1,6 +1,7 @@
 require "./env"
 alipayBodyParser = require "./libs/alipay.js"
 bodyParser = require "body-parser"
+
 cors = require "cors"
 favicon = require "serve-favicon";
 compression = require "compression"
