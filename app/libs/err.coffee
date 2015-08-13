@@ -9,6 +9,12 @@ module.exports =
       @status = status
       @validationStatus = validationStatus
     Err::__proto__ = Error.prototype
+    Err.code =
+      user :
+        wrongMobile : 1110
+        wrongPassword: 1111
+      order :
+        wrongMobile : 2110
     Err
 
   middleware: ->
@@ -39,11 +45,6 @@ module.exports =
         stack: error.stack if conf.debug
         validationStatus: error.validationStatus
 
-  errCode:
-    user :
-      wrongMobile : 1110
-    order :
-      wrongMobile : 2110
 
 
 process.on "unhandledRejection", (reason) ->
