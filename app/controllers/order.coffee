@@ -226,7 +226,7 @@ exports.addNewOrder = (req, res, next) ->
     cookingType : req.body.cookingType
     address : req.body.address
     dishList : req.body.dishList
-    userComment : req.body.userComment
+    userComment : req.body.userComment if req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -234,11 +234,11 @@ exports.addNewOrder = (req, res, next) ->
     paymentUsedCash : req.body.paymentUsedCash
     coupon : req.body.coupon if req.body.coupon
     promotionCode : req.body.promotionCode if req.body.promotionCode
+    usedAccountBalance : req.body.usedAccountBalance if req.body.usedAccountBalance
     credit : Number(req.body.credit)
     freight : Number(req.body.freight)
     dishesPrice : 0
     totalPrice : 0
-    userComment : req.body.userComment if req.body.userComment
 
 
   if req.body.cookingType is models.dish.constantCookingType().cook
@@ -261,14 +261,12 @@ exports.addNewOrder = (req, res, next) ->
     isChildOrder : true
     address : req.body.address
     dishList : []
-    userComment : req.body.userComment
+    userComment : req.body.userComment if req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -277,7 +275,6 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
-    userComment : req.body.userComment if req.body.userComment
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -286,14 +283,12 @@ exports.addNewOrder = (req, res, next) ->
     isChildOrder : true
     address : req.body.address
     dishList : []
-    userComment : req.body.userComment
+    userComment : req.body.userComment if req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -302,12 +297,11 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
-    userComment : req.body.userComment if req.body.userComment
 
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
-    # 处理优惠券
+    # 处理优惠券是否有效
     if req.body.promotionCode
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
@@ -316,19 +310,34 @@ exports.addNewOrder = (req, res, next) ->
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
+
     tempResultDishIdList = _.map(resultDishes, (dish) ->
       dish._id.toString()
     )
     # 判断是否有不存在的菜品ID
-    invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
-    models.order.checkInvalidDishIdListh invalidDishIdList
+    models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
 
-
+    # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
+      # 判断菜品库存
       models.dish.checkOutOfStock(dish)
+
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
+
+
+    if req.body.promotionCode
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+
+      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+        if newOrder.totalPrice <= 0
+          newOrder.totalPrice = 0.1
+    else
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
 
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
@@ -349,16 +358,7 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
-    if req.body.promotionCode
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
-        if newOrder.totalPrice <= 0
-          newOrder.totalPrice = 0.1
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
 
 

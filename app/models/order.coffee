@@ -138,7 +138,13 @@ module.exports =
 
 
     promotionCode: String # 优惠码
-    coupon: String # 优惠券
+    promotionDiscount: Number # 优惠码金额
+
+    coupon: String # 优惠券ID
+    couponDiscount: Number # 优惠券金额
+
+    accountUsedDiscount: Number # 使用的余额
+
     credit: Number # 积分抵扣
     dishesPrice: Number # 菜品总价
     freight: Number # 运费
@@ -152,9 +158,10 @@ module.exports =
     checkNotFound : (order) ->
       if not order
         throw new Err "Order ID or OrderNumber not found !", 400
-    checkInvalidDishIdListh : (dishIdList) ->
-      if dishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + dishIdList.toString(), 400
+    checkInvalidDishIdListh : (sourceDishIdList, dataBaseDishIdList) ->
+      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
+      if invalidDishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
 
     constantStatus : () ->
       status =
