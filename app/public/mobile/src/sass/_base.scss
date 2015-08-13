@@ -2,13 +2,18 @@
 @import "icons/*.png";
 
 // variables
+//  color
 $primary-color: rgb(244,77,77);
 $btn-active-color: rgb(255, 149, 149);
 $price-bg-color: rgb(237,226,208);
-$body-bg-color: rgb(244, 244, 244);
+$body-color: #4b4b4c;
+$body-bg-color: rgb(241, 241, 241);
 $btn-bg-gray-color: rgb(226, 226, 226);
 $form-line-color: #bcbcbc;
 $invalid-text-color: #A7A7A7;
+
+//  length
+$margin-to-cart-length: 60px;
 
 
 // reset
@@ -18,7 +23,7 @@ html {
 
 body {
   background-color: $body-bg-color;
-  color: #4b4b4c;
+  color: $body-color;
 }
 
 a {
@@ -100,6 +105,17 @@ label {
   top: 12px;
 }
 
+.like-icon {
+  width: 30px;
+  display: block;
+  height: 20px;
+  background: url(../img/icons/LikeIcon.png) 50% no-repeat;
+  background-size: contain;
+  &.like {
+    background-image: url(../img/icons/LikeIconHighlighted.png);
+  }
+}
+
 .form-line {
   margin: 0 5px 0 12px;
   border-bottom: 1px solid $form-line-color;
@@ -117,6 +133,43 @@ label {
 .rmb-char.negative::before {
   content: '- ¥ '
 }
+
+$cart-bar-height: 53px;
+
+// cart-bar has a default relative position could be overwrite;
+@mixin cart-bar($right: auto, $left: auto) {
+  background-color: rgba(232, 232, 232, 0.7); //rgba(223, 223, 223, 0.8);
+  box-shadow: #9C9999 0 0 1px;
+  position: relative;
+  height: $cart-bar-height;
+  width: 100%;
+  .cart {
+    background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
+    background-size: 48%;
+    position: absolute;
+    top: 16px;
+    right: $right;
+    left: $left;
+    width: 48px;
+    height: 40px;
+    .total-count {
+      font-size: 10px;
+      text-align: center;
+      color: white;
+      position: absolute;
+      left: 17px;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
+      top: -4px;
+      background: red;
+      border-radius: 50%;
+    }
+  }
+}
+
+// like-icon
+
 
 // angular
 [ng-cloak] {display:none;}

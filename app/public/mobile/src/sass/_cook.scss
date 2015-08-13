@@ -1,5 +1,7 @@
 @import "base";
 
+$cook-font-lighter-color: #646464;
+
 .dish-brief {
   background-color: white;
 
@@ -25,12 +27,69 @@
   }
 }
 
-.feature {
+.info {
   img {
     width: 100%;
+  }
+  padding: 0 10px;
+  margin: 0 8px $margin-to-cart-length;
+  background-color: white;
+}
+
+.info-block {
+  color: $cook-font-lighter-color;
+  p, span {
+    font-size: 12px;
+  }
+  h6 {
+    color: $cook-font-lighter-color;
+    font-size: 13px;
+  }
+  h5 {
+    color: $body-color;
+    margin-top: 20px;
+    text-align: center;
+    line-height: 36px;
+    border-top: 1px solid rgba(195, 195, 195, 0.33);
+    border-bottom: 1px solid rgba(195, 195, 195, 0.33);
+    &::before, &::after {
+      content: ' - '
+    }
+  }
+  &.feature-block h5 {
+    border-top: 0;
+    margin-top: 10px;
+  }
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .txt-info {
+    overflow: hidden; // bfc
+  }
+  .feature:not(last-child) {
+    margin-bottom: 10px;
   }
 }
 
 .cook-footer {
+  padding-right: 0;
+  @include cart-bar(auto, 17px);
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.94);
+  bottom: 0;
   margin: 0;
+
+  .add-to-cart-container {
+    width: 104px;
+    height: $cart-bar-height;
+    line-height: $cart-bar-height;
+    text-align: center;
+    background-color: $primary-color;
+    color: white;
+  }
+  .like-icon {
+    margin-top: 17px;
+    margin-left: 10px;
+  }
 }
