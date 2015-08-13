@@ -227,13 +227,14 @@ module.exports =
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30
         return throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength newOrder.userComment, 0, 300
-        return throw new Err "Field validation error,  userComment must be string", 400
       unless libs.validator.isLength newOrder.clientFrom, 2, 100
         return throw new Err "Field validation error,  clientFrom must be string", 400
+      unless libs.validator.isLength newOrder.userComment, 0, 600
+        return throw new Err "Field validation error,  userComment must be string 0-600", 400
+
       unless libs.validator.isInt newOrder.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 4}
+      unless libs.validator.isInt newOrder.freight, {min: 5}
         return throw new Err "Field validation error,  freight must be number > 4", 400
       unless libs.validator.isLength newOrder.payment, 3, 20
         return throw new Err "Field validation error,  payment length must be 3-20", 400
@@ -243,6 +244,7 @@ module.exports =
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+
 
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10

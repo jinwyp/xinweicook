@@ -163,7 +163,8 @@
                 <th>订单菜品类型</th>
                 <th>菜品价格</th>
                 <!--<th>积分</th>-->
-                <th>优惠码</th>
+                <th>优惠码/优惠码折扣</th>
+                <th>优惠券/优惠券折扣</th>
                 <th>运费</th>
                 <th>总价</th>
 
@@ -188,7 +189,8 @@
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
-                <td>{{order.promotionCode}}</td>
+                <td>{{order.promotionCode}} / {{order.promotionDiscount}} </td>
+                <td>{{order.coupon}} / {{order.couponDiscount}} </td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
 

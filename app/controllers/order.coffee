@@ -197,8 +197,8 @@ exports.pushMobileMessage = (req, res, next) ->
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
   models.order.validationNewOrder req.body
-  models.coupon.validationCouponId req.body.coupon if req.body.coupon
-  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode
+  models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
+  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
 
   dishIdList = []
@@ -206,6 +206,7 @@ exports.addNewOrder = (req, res, next) ->
   dishDataList = {}
 
   promotionCode = {}
+  coupon = {}
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -300,13 +301,22 @@ exports.addNewOrder = (req, res, next) ->
 
 
   models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+  .then (resultPromotionCode) ->
+    # 处理优惠码是否有效
+    if req.body.promotionCode
+      models.coupon.checkNotFound resultPromotionCode
+      models.coupon.checkExpired resultPromotionCode
+      models.coupon.checkUsed(resultPromotionCode, req.u)
+      promotionCode = resultPromotionCode
+
+    models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
     # 处理优惠券是否有效
-    if req.body.promotionCode
+    if req.body.coupon
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
       models.coupon.checkUsed(resultCoupon, req.u)
-      promotionCode = resultCoupon
+      coupon = resultCoupon
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
@@ -327,13 +337,20 @@ exports.addNewOrder = (req, res, next) ->
       dishDataList[dish._id] = dish
 
 
-    if req.body.promotionCode
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
+    if req.body.promotionCode or req.body.coupon
+      newOrder.promotionDiscount = promotionCode.price if req.body.promotionCode
+      newOrder.couponDiscount = coupon.price if req.body.coupon
+
+      if newOrder.dishesPrice >= promotionCode.priceLimit and req.body.promotionCode
         newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
-        if newOrder.totalPrice <= 0
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price
+
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon and req.body.promotionCode
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price - promotionCode.price
+
+      if newOrder.totalPrice <= 0
           newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
@@ -402,11 +419,13 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultOrder) ->
 
 
-
-    # 优惠券已使用后处理
+    # 优惠码已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+    # 优惠券已使用后处理
+    if req.body.coupon
+      coupon.used(req.u)
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0

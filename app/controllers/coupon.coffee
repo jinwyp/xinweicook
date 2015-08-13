@@ -15,6 +15,10 @@ exports.couponSingleInfo = (req, res, next) ->
 
   models.coupon.find1 ({_id: req.params._id, isExpired : false, isUsed : false})
   .then (resultCoupon) ->
+    models.coupon.checkNotFound resultCoupon
+    models.coupon.checkExpired resultCoupon
+    models.coupon.checkUsed(resultCoupon, req.u)
+
     res.json resultCoupon
   , next
 
@@ -24,6 +28,10 @@ exports.couponSingleInfoByCode = (req, res, next) ->
 
   models.coupon.find1 ({code: req.params.code, isExpired : false, isUsed : false})
   .then (resultCoupon) ->
+    models.coupon.checkNotFound resultCoupon
+    models.coupon.checkExpired resultCoupon
+    models.coupon.checkUsed(resultCoupon, req.u)
+
     res.json resultCoupon
   , next
 
