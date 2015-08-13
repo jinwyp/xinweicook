@@ -357,7 +357,9 @@ createApplication.parserNotifyMiddleware = function (req, res, next) {
     if (req.get('content-type') === 'text/xml'){
         console.log("--------------------WeixinPay Body Parser------------------------", req.headers['content-type']); // 打印 text/xml
 
-        //req.headers['content-type'] = 'application/x-www-form-urlencoded';
+        if ('GET' == req.method || 'HEAD' == req.method) {
+            return next();
+        }
 
         var data = '';
         req.setEncoding('utf8');
