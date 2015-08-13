@@ -207,6 +207,8 @@ exports.addNewOrder = (req, res, next) ->
 
   promotionCode = {}
   coupon = {}
+  userAccount = {}
+  isUsedAccountBalance = false
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -300,7 +302,17 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
 
-  models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+  models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
+    # 处理账户余额
+    if req.body.usedAccountBalance and resultAccount
+      userAccount = resultAccount
+      isUsedAccountBalance = true
+    else
+      isUsedAccountBalance = false
+
+    console.log userAccount, isUsedAccountBalance
+
+    models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
@@ -354,6 +366,18 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+    # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
+    if newOrder.totalPrice isnt 0.1
+      if isUsedAccountBalance
+        # 使用余额支付 检查余额是否够
+        if  userAccount.balance >= newOrder.totalPrice
+          newOrder.accountUsedDiscount = newOrder.totalPrice
+          newOrder.totalPrice = 0
+        else
+          newOrder.accountUsedDiscount = userAccount.balance
+          newOrder.totalPrice = newOrder.totalPrice - userAccount.balance
+
 
 
     # 处理子订单菜品数量和总价
@@ -426,6 +450,10 @@ exports.addNewOrder = (req, res, next) ->
     # 优惠券已使用后处理
     if req.body.coupon
       coupon.used(req.u)
+
+    # 余额已使用后处理
+    if isUsedAccountBalance
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, "消费", req.body.remark, resultOrder._id.toString())
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0

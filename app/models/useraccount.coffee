@@ -48,7 +48,7 @@ module.exports =
         return throw new Err "User account not found !", 400
 
   methods:
-    addMoney : (amount, remark, name) ->
+    addMoney : (amount, name, remark) ->
       @balance = @balance + Number(amount)
 
       newAccountDetail =
@@ -63,14 +63,16 @@ module.exports =
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()
 
-    reduceMoney : (amount, remark, orderId) ->
+    reduceMoney : (amount, name, remark, orderId) ->
       @balance = @balance - Number(amount)
 
       newAccountDetail =
         user : @user
         isPlus : false
         amount : -Number(amount)
+        name : "消费"
 
+      newAccountDetail.name = name if name
       newAccountDetail.remark = remark if remark
       newAccountDetail.order = orderId if orderId
 
