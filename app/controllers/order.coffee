@@ -226,7 +226,7 @@ exports.addNewOrder = (req, res, next) ->
     cookingType : req.body.cookingType
     address : req.body.address
     dishList : req.body.dishList
-    userComment : req.body.userComment if req.body.userComment
+    userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -261,7 +261,7 @@ exports.addNewOrder = (req, res, next) ->
     isChildOrder : true
     address : req.body.address
     dishList : []
-    userComment : req.body.userComment if req.body.userComment
+    userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -283,7 +283,7 @@ exports.addNewOrder = (req, res, next) ->
     isChildOrder : true
     address : req.body.address
     dishList : []
-    userComment : req.body.userComment if req.body.userComment
+    userComment : req.body.userComment
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -341,14 +341,28 @@ exports.addNewOrder = (req, res, next) ->
 
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
+      # 处理订单备注里面的商品备注
+      if dish.remark
+        if not newOrder.userComment
+          newOrder.userComment = ""
+        newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+
       if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
+
+        if not newOrderReadyToCook.userComment
+          newOrderReadyToCook.userComment = ""
+        newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
+
+        if not newOrderReadyToEat.userComment
+          newOrderReadyToEat.userComment = ""
+        newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
       for subDish,subDishIndex in dish.subDish
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
