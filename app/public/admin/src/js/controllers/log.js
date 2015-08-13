@@ -23,7 +23,7 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
         },
 
         searchSort : {
-            sort : '-createdAt'
+            sort : '-timestamp'
         },
 
         logListCount : 0,
