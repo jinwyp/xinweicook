@@ -139,7 +139,7 @@ module.exports =
         if bcrypt.compareSync pwd.toString(), u.pwd
           u
         else
-          throw new Err "密码错误", 401
+          throw new Err("密码错误", 401, Err.code.user.wrongPassword)
 
     signUp: (mobile, pwd, code) ->
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->

@@ -6,7 +6,8 @@ function loginCtrl($scope, User, $location, $timeout) {
     $scope.resetPwdData = {};
     $scope.path = '';
     //$scope.remains = 60;
-    
+
+    var pwdErrTimes = 0;
     $scope.login = function (form) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
             // todo: redirect
@@ -15,7 +16,16 @@ function loginCtrl($scope, User, $location, $timeout) {
                 location.href = '/mobile';
             },100);
         }).catch(function (res) {
-            alert('login failed')
+            // todo:
+            if (res.data && res.data.validationStatus == 1111) {
+                if (++pwdErrTimes >= 2) {
+                    alert('密码错误, 请重试. \n提示: 新味PC网站(xinweicook.com)的帐号与新味便当暂不兼容, 如果您是PC版老用户, 烦请重新注册!')
+                } else {
+                    alert('密码错误, 请重试');
+                }
+            } else {
+                alert('登录失败, 请稍后再试');
+            }
         })
     };
     

@@ -1,4 +1,6 @@
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
+    var noRedirectPath = ['/mobile/', '/mobile/login'];
+
     return {
         'request': function(config) {
             if ($localStorage.access_token) {
@@ -13,7 +15,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
-                if (location.pathname != '/mobile/') {
+                if (noRedirectPath.indexOf(location.pathname) == -1) {
                     setTimeout(function () {
                         location.href = '/mobile/login';
                     }, 120);
