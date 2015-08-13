@@ -18,7 +18,9 @@ Group `member`
 
 | Name     | Type   | Desc   |
 |:-------  |:-------|:-------|
-| amount   | Number | 金额    |
+| name     | String | 明细名称    |
+| remark   | String | 备注        |
+| amount   | Number | 金额        |
 | isPlus   | Boolean | 是否为正, true 为充值 false 为花费   |
 
 
