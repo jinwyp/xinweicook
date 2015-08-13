@@ -24,6 +24,7 @@
    * [更新用户信息和收货地址](user/update_userinfo.md)
    * [更新购物车](user/update_shoppingcart.md)
    * [获取用户账户余额](user/get_account.md)
+   * [获取用户账户余额明细](user/get_account_details.md)
    * [用户账户余额充值](user/charge_account.md)
 * [优惠码与优惠券](coupon/README.md)
    * [获取单一优惠码信息](coupon/get_single_coupon.md)
