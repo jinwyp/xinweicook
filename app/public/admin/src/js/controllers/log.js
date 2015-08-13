@@ -21,6 +21,11 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
             limit : 500,
             level : ''
         },
+
+        searchSort : {
+            sort : '-createdAt'
+        },
+
         logListCount : 0,
         logListCurrentPage : 1,
         logListTotalPages : 1,
@@ -59,7 +64,9 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
     $scope.searchLog = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        Logs.getList($scope.data.searchOptions).then(function (resultLog) {
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+
+        Logs.getList(options).then(function (resultLog) {
             $scope.data.logList = resultLog;
             Notification.success({message: 'Search Success! ', delay: 8000});
 

@@ -30,8 +30,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             deliveryDateType : ''
         },
 
+        searchSort : {
+            sort : '-createdAt'
+        },
+
         datePickerIsOpen : false,
-        searchSort : '-createdAt',
+
+
         searchDateFrom : '',
         searchDateTo : '',
 
@@ -282,7 +287,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.searchOrder = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        var options = angular.extend({}, $scope.data.searchOptions, {"sort" :$scope.data.searchSort});
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
         Orders.getList(options).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 8000});
