@@ -486,7 +486,6 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
-        #attach: resultOrder._id.toString()
         out_trade_no: resultOrder.orderNumber
         total_fee: resultOrder.totalPrice * 100
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
@@ -572,7 +571,7 @@ exports.updateOrder = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled and resultOrder.status isnt models.order.constantStatus().paid
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 

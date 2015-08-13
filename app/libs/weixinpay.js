@@ -155,7 +155,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         method: 'POST',
         url: configWeiXinPay.url_createUnifiedOrder,
         body: util.buildXML(newOrder),
-        timeout: 3000
+        timeout: 5000
     };
 
     request(opts, function(err, response, body){
@@ -202,13 +202,12 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
         throw new Error ("Weixin Pay OpenId code format wrong,  code is null");
     }
 
-
     url = configWeiXinPay.url_getUserOpenId + 'appid=' + this.config.appid + '&secret=' + this.config.secret + '&code=' + code + '&grant_type=authorization_code';
 
     var opts = {
         method: 'GET',
         url: url,
-        timeout: 3000
+        timeout: 5000
     };
 
     request(opts, function(err, response, body){
@@ -216,8 +215,16 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-            body = JSON.parse(body) ;
-            callback(null, body)
+            console.log ('------------------ WeixinPay user openID: ', body);
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+                callback(null, result)
+            } catch (err) {
+                // handle error
+                callback(err)
+            }
+
         }
 
     });
@@ -233,7 +240,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
     var opts = {
         method: 'GET',
         url: url,
-        timeout: 3000
+        timeout: 5000
     };
 
     request(opts, function(err, response, body){
@@ -248,7 +255,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
                 var options = {
                     method: 'GET',
                     url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
-                    timeout: 3000
+                    timeout: 5000
                 };
                 request(options, function(err2, response, body2){
                     if (err2){
