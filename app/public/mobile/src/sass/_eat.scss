@@ -55,6 +55,7 @@ $out-of-stock-bg-color: #75A3B7;
     }
   }
   .img-group {
+    background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
     position: relative;
     overflow: hidden;
     .count-operation {
