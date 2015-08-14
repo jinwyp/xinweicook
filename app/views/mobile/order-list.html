@@ -9,13 +9,13 @@
     <style>
         [ng-cloak] {display:none;}
     </style>
-    <title>新味 订单列表</title>
+    <title>我的订单</title>
 </head>
 <body ng-app="xw" ng-controller="orderlistCtrl">
 
 <nav class="nav">
     <div class="back-icon" ng-click="back()"></div>
-    <span class="no-bottom-border">订单列表</span>
+    <span class="no-bottom-border">我的订单</span>
 </nav>
 
 <div class="order-list-wrapper" ng-cloak style="overflow:auto; padding: 10px;">
@@ -24,6 +24,7 @@
         <tr>
             <th>订单号</th>
             <th>状态</th>
+            <th>操作</th>
             <th>金额</th>
             <th>配送时间</th>
             <th>菜品名称</th>
@@ -37,6 +38,10 @@
         <tr ng-repeat="order in orders">
             <td>{{order.orderNumber}}</td>
             <td>{{order.status}}</td>
+            <td><a class="repay" ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{order._id}}#wechat_redirect"
+                   ng-if="order.status == 'not paid'">支付</a>
+            </td>
+
             <td>{{order.totalPrice}}</td>
             <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm'}}</td>
             <td style="width: 10em;">{{order.dishHistory[0].dish.title.zh}}</td>
