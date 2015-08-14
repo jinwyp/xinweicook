@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, Notification, Util, Orders, Statistic) {
+function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Orders, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -26,11 +26,17 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             isSplitOrder : '',
             isChildOrder : '',
             cookingType : '',
-            clientFrom : ''
+            clientFrom : '',
+            deliveryDateType : ''
+        },
+
+        searchSort : {
+            sort : '-createdAt'
         },
 
         datePickerIsOpen : false,
-        searchSort : '-createdAt',
+
+
         searchDateFrom : '',
         searchDateTo : '',
 
@@ -150,6 +156,21 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
             }
         ],
 
+        deliveryDateTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '当天配送',
+                value : 'today'
+            },
+            {
+                name : '第二天配送',
+                value : 'tomorrow'
+            }
+        ],
+
         expressList : [
             {
                 name : '顺丰外地',
@@ -231,6 +252,11 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
 
 
     $scope.searchOrderCount = function (){
+
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions = $localStorage.orderSearchOptions
+        }
+
         $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom !==''){
@@ -242,6 +268,8 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         Util.delProperty($scope.data.searchOptions);
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
+            $localStorage.orderSearchOptions = $scope.data.searchOptions;
+
             $scope.data.orderListCount = orders.count;
             $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
 
@@ -259,7 +287,7 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
     $scope.searchOrder = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        var options = angular.extend({}, $scope.data.searchOptions, {"sort" :$scope.data.searchSort});
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
         Orders.getList(options).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 8000});
@@ -374,7 +402,6 @@ function orderController($scope, $timeout, $state, $stateParams, Notification, U
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
-            console.log(resultOrder);
             $scope.data.orderStatisticByAddressList = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){

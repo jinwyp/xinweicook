@@ -8,7 +8,11 @@ module.exports =
     getAccessTokenFromReqHeaders: (req)->
       req.get("authorization")?.split("Bearer ")[1]
     tokenFound: (t) ->
-      t or throw new Err "找不到该 token", 401
+      if not t
+        throw new Err "找不到该 token", 401
+      else
+        t
+
     accessTokenNotExpired: (t) ->
       if t.isAccessTokenExpired()
         throw new Err "Access Token 已过期", 401
@@ -37,9 +41,13 @@ module.exports =
           else
             t
       )
-    findTokenAndUserByAccessToken: (access_token) ->
+    findTokenByAccessToken: (access_token) ->
       @findOne(access_token: access_token).populate("user", models.user.fields()).execAsync()
-      .then(@tokenFound).then(@accessTokenNotExpired)
+      .then( (resultToken) ->
+        models.token.tokenFound(resultToken)
+        models.token.accessTokenNotExpired(resultToken)
+        models.user.findOneAsync({_id:resultToken.user._id.toString()})
+      )
     refreshAccessToken: (refresh_token) ->
       @findOne(refresh_token:refresh_token).populate("user").execAsync().then(@tokenFound)
       .then (t)->

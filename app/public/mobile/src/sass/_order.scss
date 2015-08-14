@@ -14,12 +14,16 @@
     margin: 0;
   }
 
-  input {
+  input,textarea, select {
     background-color: $body-bg-color;
   }
 
   .row {
     line-height: 2.5;
+  }
+
+  .remark {
+    margin-bottom: 10px;
   }
 
   .order-list .select {
@@ -56,6 +60,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
+}
+
+.dish-list .form-line:last-of-type {
+  border-color: transparent;
 }
 
 .pay {

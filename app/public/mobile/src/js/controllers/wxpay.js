@@ -78,7 +78,10 @@ function wxpayCtrl($scope, Orders, Debug) {
 
         }).catch(function (res) {
             Debug.alert(res);
-            alert('生成订单失败,请稍后重试!');
+            alert('亲,生成订单出了点意外,请在 我的订单 中重新支付!');
+            setTimeout(function () {
+                location.href = '/mobile/orderlist';
+            }, 100);
         })
     }
     init();

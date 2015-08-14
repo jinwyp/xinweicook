@@ -38,8 +38,10 @@ ul, li {
   padding: 0;
 }
 
-input {
+input, textarea, select, option {
   border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 ::-moz-placeholder {
@@ -78,7 +80,7 @@ label {
   line-height: 45px;
   margin-bottom: 10px;
   position: relative;
-  box-shadow: #DEDEDE 0 1px 5px;
+  box-shadow: #DEDEDE 0 0 1px; // 0 1 5
 
   span {
     border-bottom: solid 1px transparent;

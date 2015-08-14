@@ -99,6 +99,7 @@ module.exports =
       code_url: type: String # trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
 
       device_info : type: String  # 下面是通知返回字段
+      out_trade_no : type: String
       openid : type: String
       bank_type : type: String
       total_fee : type: Number #总金额
@@ -122,10 +123,12 @@ module.exports =
     deliveryDateTime: Date   # 送达时间
     deliveryDate : String  #一周时间
     deliveryTime : String  #10-12  #12-17 #17-20
+    deliveryDateType : String  # 当天送还是第二天送 'today' 'tomorrow'
 
     dishList:[
       dish: type: Schema.ObjectId, ref: "dish"
       number: Number
+      remark: String
       subDish : [
         dish : type: Schema.ObjectId, ref: "dish"
         number: Number
@@ -135,7 +138,13 @@ module.exports =
 
 
     promotionCode: String # 优惠码
-    coupon: String # 优惠券
+    promotionDiscount: Number # 优惠码金额
+
+    coupon: String # 优惠券ID
+    couponDiscount: Number # 优惠券金额
+
+    accountUsedDiscount: Number # 使用的余额
+
     credit: Number # 积分抵扣
     dishesPrice: Number # 菜品总价
     freight: Number # 运费
@@ -149,9 +158,10 @@ module.exports =
     checkNotFound : (order) ->
       if not order
         throw new Err "Order ID or OrderNumber not found !", 400
-    checkInvalidDishIdListh : (dishIdList) ->
-      if dishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + dishIdList.toString(), 400
+    checkInvalidDishIdListh : (sourceDishIdList, dataBaseDishIdList) ->
+      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
+      if invalidDishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
 
     constantStatus : () ->
       status =
@@ -217,13 +227,14 @@ module.exports =
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30
         return throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength newOrder.userComment, 0, 300
-        return throw new Err "Field validation error,  userComment must be string", 400
       unless libs.validator.isLength newOrder.clientFrom, 2, 100
         return throw new Err "Field validation error,  clientFrom must be string", 400
+      unless libs.validator.isLength newOrder.userComment, 0, 600
+        return throw new Err "Field validation error,  userComment must be string 0-600", 400
+
       unless libs.validator.isInt newOrder.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 4}
+      unless libs.validator.isInt newOrder.freight, {min: 5}
         return throw new Err "Field validation error,  freight must be number > 4", 400
       unless libs.validator.isLength newOrder.payment, 3, 20
         return throw new Err "Field validation error,  payment length must be 3-20", 400
@@ -233,6 +244,7 @@ module.exports =
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+
 
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
@@ -266,6 +278,23 @@ module.exports =
           else
               throw new Err "Field validation error,  subDish must be Array", 400
 
+      unless libs.validator.isFloat newOrder.address.geoLatitude
+        return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
+      unless libs.validator.isFloat newOrder.address.geoLongitude
+        return throw new Err "Field validation error,  geoLongitude must be isFloat", 400
+      unless libs.validator.isLength newOrder.address.province, 2, 200
+        return throw new Err "Field validation error,  province must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.city, 2, 200
+        return throw new Err "Field validation error,  city must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.district, 2, 200
+        return throw new Err "Field validation error,  district must be 2-200", 400
+      unless libs.validator.isLength newOrder.address.address, 2, 1000
+        return throw new Err "Field validation error,  detail address must be 2-1000", 400
+      unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
+        return throw new Err "Field validation error,  contactPerson must be 2-99", 400
+#      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
+#        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
@@ -280,12 +309,27 @@ module.exports =
 
 
     validationWeixinPayNotify : (order) ->
-      unless libs.validator.isLength order.return_code, 4, 7
-        return throw new Err "Field validation error,  return_code must be 4-7", 400
+      unless libs.validator.isLength order.return_code, 6, 7
+        return throw new Err "Field validation error,  return_code must be 4-7 and must be SUCCESS", 400
+      unless libs.validator.isLength order.result_code, 6, 7
+        return throw new Err "Field validation error,  result_code must be 4-7 and must be SUCCESS", 400
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
+    deliveryDateTypeChecker : (date) ->
+      deliveryDate =  moment(date)
+      timeToday = moment().startOf('day')
+      timeTomorrow = timeToday.add(1, 'days')
+
+#      console.log deliveryDate.format("YYYY-MM-DD HH:mm:ss A")
+
+      if timeTomorrow.isSame(deliveryDate, "day")
+        result = "tomorrow"
+      else
+        result = "today"
+
+      result
 
     deliveryTimeArithmeticByRangeForReadyToCook : (isInRange4KM) ->
       timeFormat = "YYYY-MM-DD HH:mm:ss A"
@@ -368,14 +412,16 @@ module.exports =
       if isInRange4KM is true
         timeNow = moment()
 
-        todayStarter = moment(timeNow.clone().format("YYYY-MM-DD 11"));
-        tomorrowStarter = todayStarter.clone().add(1, 'days');
+        today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11"));
+        today20PM = moment(timeNow.clone().format("YYYY-MM-DD 20:01"));
+
+        tomorrow11AM = today11AM.clone().add(1, 'days');
 
         if timeNow.hour() < 10 and timeNow.hour() >=0
-          timeStarter = todayStarter.clone()
+          timeStarter = today11AM.clone()
 
         if timeNow.hour() >= 20 and timeNow.hour() < 24
-          timeStarter = tomorrowStarter.clone()
+          timeStarter = tomorrow11AM.clone()
 
         if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
           if timeNow.minute()%30 >= 10
@@ -388,14 +434,14 @@ module.exports =
           timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
           # 处理如果计算出来的时间超过20点  将不在push进去
-          if timeStarterTemp.hour() < 20 or timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
+          if timeStarterTemp.isBefore(today20PM)
             segmentHour =
               hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
             resultTime.push(segmentHour)
 
         # 处理第二天的时间点
         for i in [1..18]
-          timeStarterTemp2 = tomorrowStarter.clone().add(30*(i-1), 'minutes')
+          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
             hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
           resultTime.push(segmentHour)
@@ -409,7 +455,7 @@ module.exports =
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
           if resultOrder and resultOrder.status is models.order.constantStatus().shipped
-            # 发送短信通知, 订单已发货
+            # 给用户发送短信通知, 订单已发货
             additionalContent =
               userId : resultOrder.user
               orderId : resultOrder._id

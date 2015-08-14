@@ -9,15 +9,22 @@ module.exports =
       @status = status
       @validationStatus = validationStatus
     Err::__proto__ = Error.prototype
+    Err.code =
+      user :
+        wrongMobile : 1110
+        wrongPassword: 1111
+      order :
+        wrongMobile : 2110
     Err
 
   middleware: ->
     (err, req, res, next) ->
+
       error =
         message: err.message or "服务器内部错误"
-        stack: err.stack
+        stack: err.stack or err.message
         status: err.status or 500
-        validationStatus: err.validationStatus
+        validationStatus: err.validationStatus or 1000
         _id: req._id
         req:
           url : req.url
@@ -37,6 +44,8 @@ module.exports =
         message: error.message
         _id: error._id
         stack: error.stack if conf.debug
+        validationStatus: error.validationStatus
+
 
 
 process.on "unhandledRejection", (reason) ->

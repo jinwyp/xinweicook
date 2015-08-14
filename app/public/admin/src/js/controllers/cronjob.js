@@ -65,10 +65,45 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
 
+    function deleteProperty (obj){
+
+        for(var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                if (obj[p] ===''){
+                    delete obj[p];
+                }
+                if (angular.isArray(obj[p]) ){
+                    if(obj[p].length === 0){
+                        delete obj[p];
+                    }else{
+                        angular.forEach(obj[p], function(subobj, index){
+                            if(!angular.isUndefined(subobj.dishId) && subobj.dishId == ''){
+                                obj[p].splice(index, 1)
+                            }
+
+                        })
+                    }
+                }else if (angular.isObject(obj[p])) {
+                    deleteProperty(obj[p]);
+
+                    var hasPro = false;
+                    for(var pchild in obj[p]) {
+                        hasPro = true;
+                    }
+                    if (!hasPro){
+                        delete obj[p];
+                    }
+                }
+            }
+        }
+    }
+
+
+
     $scope.searchCronCount = function (){
 
         Util.delProperty($scope.data.searchOptions);
-        console.log ($scope.data.searchOptions);
+        //console.log ($scope.data.searchOptions);
         Crons.one('count').get($scope.data.searchOptions).then(function (crons) {
             $scope.data.cronListCount = crons.count;
             $scope.data.cronListTotalPages = Math.ceil(crons.count / $scope.data.searchOptions.limit);
@@ -152,6 +187,7 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
         }
 
         var newCron = angular.copy($scope.data.cron);
+        deleteProperty(newCron);
         //console.log (newCron);
         Crons.post(newCron).then(function (resultCron) {
             console.log(resultCron);

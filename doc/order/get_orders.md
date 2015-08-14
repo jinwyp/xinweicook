@@ -5,13 +5,13 @@ GET `/orders`
 Group `member`
 
 
-GET query 参数
+### GET Query params 参数
 
 
 | Name             | Type     | Desc                              |
 |:-----------------|:---------|:----------------------------------|
 | skip             | Number   | 跳过多少个订单                      |
-| limit            | Number   | 获取订单数量限制                    |
+| limit            | Number   | 每页订单数量限制                    |
 
 
 

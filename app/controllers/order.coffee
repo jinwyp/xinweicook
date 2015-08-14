@@ -2,6 +2,7 @@
 WXPay = require "../libs/weixinpay"
 
 
+
 configWeiXinPay =
   appid: conf.weixinpay.appid
   mch_id: conf.weixinpay.mch_id
@@ -18,6 +19,8 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
+
+
 
 
 exports.getWeixinDeveloperAccessToken = (req, res, next) ->
@@ -91,8 +94,6 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
 
 
-
-
 exports.getWeixinPayUserOpenId = (req, res, next) ->
 #  console.log "========================WeixinPayOpenId :: ", req.query
 
@@ -114,7 +115,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 #            console.log "========================OrderId :: ", resultOrder
             models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
               if resultUser
-                console.log "========================UserId :: ", resultUser
+#                console.log "========================UserId :: ", resultUser
                 resultUser.weixinId.access_token = result.access_token
                 resultUser.weixinId.openid = result.openid
                 resultUser.weixinId.refresh_token = result.refresh_token
@@ -138,8 +139,8 @@ exports.orderListByUser = (req, res, next) ->
 
   models.order.find user: req.u._id
   .sort "-createdAt"
-  .limit (req.query.limit)
   .skip (req.query.skip)
+  .limit (req.query.limit)
   .populate({path: 'dishList.dish', select: models.dish.fields()})
   .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .execAsync()
@@ -196,8 +197,8 @@ exports.pushMobileMessage = (req, res, next) ->
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
   models.order.validationNewOrder req.body
-  models.coupon.validationCouponId req.body.coupon if req.body.coupon
-  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode
+  models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
+  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
 
   dishIdList = []
@@ -205,6 +206,9 @@ exports.addNewOrder = (req, res, next) ->
   dishDataList = {}
 
   promotionCode = {}
+  coupon = {}
+  userAccount = {}
+  isUsedAccountBalance = false
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -233,6 +237,7 @@ exports.addNewOrder = (req, res, next) ->
     paymentUsedCash : req.body.paymentUsedCash
     coupon : req.body.coupon if req.body.coupon
     promotionCode : req.body.promotionCode if req.body.promotionCode
+    usedAccountBalance : req.body.usedAccountBalance if req.body.usedAccountBalance
     credit : Number(req.body.credit)
     freight : Number(req.body.freight)
     dishesPrice : 0
@@ -243,10 +248,14 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
+    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateEat)
+
+
 
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -261,8 +270,6 @@ exports.addNewOrder = (req, res, next) ->
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -270,6 +277,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -284,8 +292,6 @@ exports.addNewOrder = (req, res, next) ->
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -293,42 +299,111 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
+    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
-  models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
-  .then (resultCoupon) ->
-    # 处理优惠券
+
+  models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
+    # 处理账户余额
+    if req.body.usedAccountBalance and resultAccount
+      userAccount = resultAccount
+      isUsedAccountBalance = true
+    else
+      isUsedAccountBalance = false
+
+    console.log userAccount, isUsedAccountBalance
+
+    models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+  .then (resultPromotionCode) ->
+    # 处理优惠码是否有效
     if req.body.promotionCode
+      models.coupon.checkNotFound resultPromotionCode
+      models.coupon.checkExpired resultPromotionCode
+      models.coupon.checkUsed(resultPromotionCode, req.u)
+      promotionCode = resultPromotionCode
+
+    models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
+  .then (resultCoupon) ->
+    # 处理优惠券是否有效
+    if req.body.coupon
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
       models.coupon.checkUsed(resultCoupon, req.u)
-      promotionCode = resultCoupon
+      coupon = resultCoupon
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
+
     tempResultDishIdList = _.map(resultDishes, (dish) ->
       dish._id.toString()
     )
     # 判断是否有不存在的菜品ID
-    invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
-    models.order.checkInvalidDishIdListh invalidDishIdList
+    models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
 
-
+    # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
+      # 判断菜品库存
       models.dish.checkOutOfStock(dish)
+
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
 
+
+    if req.body.promotionCode or req.body.coupon
+      newOrder.promotionDiscount = promotionCode.price if req.body.promotionCode
+      newOrder.couponDiscount = coupon.price if req.body.coupon
+
+      if newOrder.dishesPrice >= promotionCode.priceLimit and req.body.promotionCode
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price
+
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon and req.body.promotionCode
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price - promotionCode.price
+
+      if newOrder.totalPrice <= 0
+          newOrder.totalPrice = 0.1
+    else
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+    # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
+    if newOrder.totalPrice isnt 0.1
+      if isUsedAccountBalance
+        # 使用余额支付 检查余额是否够
+        if  userAccount.balance >= newOrder.totalPrice
+          newOrder.accountUsedDiscount = newOrder.totalPrice
+          newOrder.totalPrice = 0
+        else
+          newOrder.accountUsedDiscount = userAccount.balance
+          newOrder.totalPrice = newOrder.totalPrice - userAccount.balance
+
+
+
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
+      # 处理订单备注里面的商品备注
+      if dish.remark
+        if not newOrder.userComment
+          newOrder.userComment = ""
+        newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+
       if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
+
+        if not newOrderReadyToCook.userComment
+          newOrderReadyToCook.userComment = ""
+        newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
+
+        if not newOrderReadyToEat.userComment
+          newOrderReadyToEat.userComment = ""
+        newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
       for subDish,subDishIndex in dish.subDish
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
@@ -338,16 +413,7 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
-    if req.body.promotionCode
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
-        if newOrder.totalPrice <= 0
-          newOrder.totalPrice = 0.1
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
 
 
@@ -376,16 +442,18 @@ exports.addNewOrder = (req, res, next) ->
 
   .then (resultOrder) ->
 
-    # 扣除商品库存
-    for dishkey, dishValue of dishDataList
-#      console.log "dishNumberList[dish._id]" , dishkey, dishNumberList[dishkey]
-      dishValue.reduceStock(dishNumberList[dishkey], req.u)
 
-
-    # 优惠券已使用后处理
+    # 优惠码已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+    # 优惠券已使用后处理
+    if req.body.coupon
+      coupon.used(req.u)
+
+    # 余额已使用后处理
+    if isUsedAccountBalance
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, "消费", req.body.remark, resultOrder._id.toString())
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0
@@ -420,7 +488,8 @@ exports.addNewOrder = (req, res, next) ->
       req.u.address.push(newAddress)
 
 
-
+    req.u.saveAsync().catch (err)->
+      logger.error "---- User Save error", err
 
 
 
@@ -499,12 +568,11 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1
 
-      console.log "------------------openId: ", weixinpayOrder
+      console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next new Err err
 
-        console.log "---WeixinPay--response", resultWeixinPay
         if resultWeixinPay
 
           weixinpayMobileSign =
@@ -539,13 +607,14 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
             resultTemp = resultOrder2.toJSON()
             delete resultTemp.dishList
-            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+#            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
             res.json resultTemp
 
     else
       throw new Err "Field validation error,  orderID not found!", 200
 
   .catch next
+
 
 
 
@@ -572,6 +641,22 @@ exports.updateOrder = (req, res, next) ->
           childOrder.isPaymentPaid = true
           childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
+
+      # 扣除商品库存
+      for dish, dishIndex in resultOrder.dishHistory
+        models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
+          if resultDish
+            resultDish.reduceStock(dish.number, req.u, "userOrder", resultOrder._id.toString())
+
+      # 给客服发送新订单短信
+      text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)
+#      models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败:", err))     # 王宇鹏电话
+      if not conf.debug
+        models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 索晶电话
+        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
+        models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
+
+
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
         resultOrder.status = models.order.constantStatus().canceled
@@ -651,47 +736,42 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
 exports.updateOrderWeixinPayNotify = (req, res, next) ->
   console.log "========================OrderWeixinPayNotify :: ", req.body
-  console.log "========================OrderWeixinPayNotify :: ", req.query
 
-  weixinpay.parserNotify req.body, (err, resWeixinPay)->
-    if err
-      next new Err err
+  models.order.validationWeixinPayNotify req.body
 
-    models.order.validationWeixinPayNotify resWeixinPay
+  models.order.findOne {orderNumber : req.body.out_trade_no}
+  .execAsync()
+  .then (resultOrder) ->
+    models.order.checkNotFound(resultOrder)
 
-    models.order.findOne {orderNumber : resWeixinPay.out_trade_no, status : models.order.constantStatus().notpaid}
-    .execAsync()
-    .then (resultOrder) ->
-      models.order.checkNotFound(resultOrder)
+    resultOrder.isPaymentPaid = true
+    resultOrder.status = models.order.constantStatus().paid
 
-      resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.constantStatus().paid
-
-      resultOrder.paymentWeixinpay =
-        openid : resWeixinPay.openid
-        bank_type : resWeixinPay.bank_type
-        total_fee : resWeixinPay.total_fee
-        fee_type : resWeixinPay.fee_type
-        cash_fee : resWeixinPay.cash_fee
-        cash_fee_type : resWeixinPay.cash_fee_type
-        coupon_fee : resWeixinPay.coupon_fee
-        transaction_id : resWeixinPay.transaction_id
-        time_end : resWeixinPay.time_end
-
-      if resultOrder.childOrderList.length > 0
-        for childOrder in resultOrder.childOrderList
-          childOrder.isPaymentPaid = true
-          childOrder.status = models.order.constantStatus().paid
-          childOrder.saveAsync()
-
-      resultOrder.saveAsync()
-    .spread (resultOrder2, numberAffected) ->
-      weixinpay.responseNotify res, false
-
-    .catch next
+    resultOrder.paymentWeixinpay =
+      out_trade_no : req.body.out_trade_no
+      openid : req.body.openid
+      bank_type : req.body.bank_type
+      total_fee : req.body.total_fee
+      fee_type : req.body.fee_type
+      cash_fee : req.body.cash_fee
+      cash_fee_type : req.body.cash_fee_type if req.body.cash_fee_type
+      coupon_fee : req.body.coupon_fee if req.body.coupon_fee
+      coupon_count : req.body.coupon_count if req.body.coupon_count
+      transaction_id : req.body.transaction_id
+      time_end : req.body.time_end
 
 
+    if resultOrder.childOrderList.length > 0
+      for childOrder in resultOrder.childOrderList
+        childOrder.isPaymentPaid = true
+        childOrder.status = models.order.constantStatus().paid
+        childOrder.saveAsync()
 
+    resultOrder.saveAsync()
+  .spread (resultOrder2, numberAffected) ->
+    weixinpay.responseNotify res, true
+
+  .catch next
 
 
 

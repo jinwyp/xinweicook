@@ -8,17 +8,22 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails) {
 
     $scope.data = {
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 200,
-            group : ''
+            limit : 500,
+            group : '',
+            mobile : ''
+        },
+
+        searchSort : {
+            sort : '-createdAt'
         },
 
         userListCount : 0,
@@ -39,6 +44,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             gender : '',
             group : 'member'
         },
+        userAccount : {},
+        userAccountDetails : {},
 
         userGroupList: [
             {
@@ -82,7 +89,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.searchUser = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        Users.getList($scope.data.searchOptions).then(function (resultUsers) {
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+
+        Users.getList(options).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -129,6 +138,17 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Users.one($stateParams.id).get().then(function (resutlUser) {
             $scope.data.user = resutlUser;
+
+            //编辑user时， 处理user group 显示
+            //angular.forEach($scope.data.userGroup, function (user) {
+            //    if (user.zh === $scope.data.user.group.zh) {
+            //        $scope.data.user.group = user;
+            //    }
+            //});
+        });
+
+        UserAccounts.one("55cd6dca6374be9914827fb6").get().then(function (resutlUserAccount) {
+            $scope.data.userAccount = resutlUserAccount;
 
             //编辑user时， 处理user group 显示
             //angular.forEach($scope.data.userGroup, function (user) {

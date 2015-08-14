@@ -114,12 +114,12 @@
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >总价格:</label>
 
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         <span class="help-block" >{{data.order.totalPrice}}</span>
                     </div>
 
-                    <div class="col-lg-8">
-                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionCode}}</span>
+                    <div class="col-lg-9">
+                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} ({{data.order.coupon}})</span>
                     </div>
                 </div>
 

@@ -25,6 +25,18 @@ module.exports =
       else
         "【新味食材包】您的订单 #{orderNo} 已经开始发货，美味即将到家。"
 
+    constantTemplateCustomerNewOrderNotify: (orderNumber, lang) ->
+      if lang is "en-US"
+        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}."
+      else
+        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}。"
+
+    constantTemplateCustomerOutOfStockNotify: (dishTitle, lang) ->
+      if lang is "en-US"
+        "【新味Cook】客服后台通知 库存不足 #{dishTitle}"
+      else
+        "【新味Cook】客服后台通知 库存不足 #{dishTitle}"
+
     validationSMSType : (type) ->
       unless libs.validator.isIn(type, @constantSMSType())
         return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400
@@ -52,6 +64,9 @@ module.exports =
           throw new Err "短信发送失败 " + result.msg, 400
         else
           result
+      .catch( (err)->
+        logger.error("短信发送失败:", err)
+      )
 
 
 

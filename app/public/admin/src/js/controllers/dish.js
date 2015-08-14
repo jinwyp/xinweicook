@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Dishes', 'Inventories', 'Tags', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, Notification, Dishes, Inventories, Tags) {
+function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -29,10 +29,13 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         tagList : [],
         dishList : [],
         inventoryList : [],
+        dishStatisticByStock : [],
+
         currentTagFilter : '',
         currentPreferenceCategory : '',
         currentPreference : '',
         currentTopping : '',
+
         dish : {
             isPublished : false,
             isFromAdminPanel: true,
@@ -228,6 +231,18 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
         preferenceCategoryList :[
             {
+                zh : '主食',
+                en : 'Starch'
+            },
+            {
+                zh : '配汤',
+                en : 'Soup'
+            },
+            {
+                zh : '酱汁',
+                en : 'Sauce'
+            },
+            {
                 zh : '牛肉',
                 en : 'beef'
             },
@@ -240,7 +255,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : 'dishes',
+        searchDishStatisticSortBy : 'yesterdaySales'
     };
 
 
@@ -287,16 +304,26 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
         }
     }
 
+
     $scope.searchDish = function (form) {
+        if ($localStorage.dishSearchOptions){
+            $scope.data.searchOptions = $localStorage.dishSearchOptions
+        }
+
+        $scope.css.showTable = 'dishes';
+
         deleteProperty($scope.data.searchOptions);
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
+            $localStorage.dishSearchOptions = $scope.data.searchOptions;
+
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
+
     };
     $scope.delDish = function (dish) {
 
@@ -316,7 +343,29 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
     };
 
 
+    $scope.searchDishStatistic = function (form, sortBy) {
+        $scope.css.showTable = 'statistic';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        //if ($scope.data.searchDateFrom !==''){
+        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        //}
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
+            $scope.data.dishStatisticByStock = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
     $scope.searchDish();
+
     Tags.getList().then(function (tags) {
         $scope.data.tagList = tags;
     });
@@ -341,6 +390,9 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
             //});
         });
     }
+
+
+
 
 
 
@@ -455,7 +507,7 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
     $scope.showInventory = function () {
 
-        Inventories.getList({dish:$stateParams.id}).then(function (result) {
+        Inventories.getList({dish : $stateParams.id, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
             Notification.success({message: 'Delete Success', delay: 8000});
 
@@ -465,6 +517,14 @@ function dishController($scope, $timeout, $state, $stateParams, Notification, Di
 
 
     };
+
+
+
+
+
+
+
+
 
 
 }

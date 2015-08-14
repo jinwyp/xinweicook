@@ -101,12 +101,18 @@ module.exports =
             return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
           unless libs.validator.isFloat address.geoLongitude
             return throw new Err "Field validation error,  geoLongitude must be isFloat", 400
-          unless libs.validator.isLength address.province, 2, 99
-            return throw new Err "Field validation error,  province must be 2-99", 400
-          unless libs.validator.isLength address.city, 2, 99
-            return throw new Err "Field validation error,  city must be 2-99", 400
-          unless libs.validator.isLength address.district, 2, 99
-            return throw new Err "Field validation error,  district must be 2-99", 400
+          unless libs.validator.isLength address.province, 2, 200
+            return throw new Err "Field validation error,  province must be 2-200", 400
+          unless libs.validator.isLength address.city, 2, 200
+            return throw new Err "Field validation error,  city must be 2-200", 400
+          unless libs.validator.isLength address.district, 2, 200
+            return throw new Err "Field validation error,  district must be 2-200", 400
+          unless libs.validator.isLength address.address, 2, 1000
+            return throw new Err "Field validation error,  detail address must be 2-1000", 400
+          unless libs.validator.isLength address.contactPerson, 2, 99
+            return throw new Err "Field validation error,  contactPerson must be 2-99", 400
+#          unless libs.validator.isMobilePhone(address.mobile, 'zh-CN')
+#            return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
 
     validationShoppingCart : (updateUser) ->
       unless Array.isArray updateUser.shoppingCart
@@ -119,7 +125,10 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     checkNotFound: (u) ->
-      u or throw new Err "找不到该用户", 401
+      if not u
+        throw new Err "找不到该用户", 401
+      else
+        u
     checkFound: (user) ->
       if user
         return throw new Err "User Mobile already exist !", 400
@@ -133,7 +142,7 @@ module.exports =
         if bcrypt.compareSync pwd.toString(), u.pwd
           u
         else
-          throw new Err "密码错误", 401
+          throw new Err("密码错误", 401, Err.code.user.wrongPassword)
 
     signUp: (mobile, pwd, code) ->
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
@@ -167,12 +176,11 @@ module.exports =
       else
         @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
     findUserByAccessToken: (access_token) ->
-      models.token.findTokenAndUserByAccessToken(access_token).then((t)->
-        if t.user
-          t.user
-        else
-          throw new Err "找不到该用户", 401
-      ).then(@checkNotFound).then(@checkNotSpam)
+      models.token.findTokenByAccessToken(access_token).then( (user)->
+        models.user.checkNotFound(user)
+        models.user.checkNotSpam(user)
+        user
+      )
     find1 : (options) ->
       @findOne(options)
       .select(models.user.fields())

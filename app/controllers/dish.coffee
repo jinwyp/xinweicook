@@ -62,7 +62,9 @@ exports.updateDishStatisticLike = (req, res, next) ->
       req.u.dishLikeList.push(resultDish._id)
       resultDish.statisticLike = resultDish.statisticLike + 1
 
-    req.u.saveAsync()
+    req.u.saveAsync().catch (err)->
+      logger.error "---- User Like error", err
+
     resultDish.saveAsync()
   .spread (resultDish2, numberAffected) ->
     resultDish2.populateAsync("statisticLikeUserList", models.user.fieldsLess())

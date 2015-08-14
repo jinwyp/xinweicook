@@ -121,7 +121,7 @@ module.exports =
         return throw new Err "Dish ID or dish not found !", 400
 
     checkOutOfStock : (dish) ->
-      if dish.stock <=0
+      if dish.stock <=-2
         return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400
 
     validationDishId : (_id) ->
@@ -150,44 +150,65 @@ module.exports =
             break
         finalPrice
 
-    reduceStock : (stockNumber, user) ->
+    reduceStock : (stockNumber, user, remark, orderId ) ->
       @stock = @stock - Number(stockNumber)
+
+      if @stock < 0
+        # 给客服发送短信
+        text = models.sms.constantTemplateCustomerOutOfStockNotify(@title.zh)
+        models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 王宇鹏电话
+        if not conf.debug
+          models.sms.sendSmsVia3rd("18621378962", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # Steve 葛伊能电话
+          models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 索晶电话
+          models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 何华电话
+          models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 赵梦菲电话
+
       newInventoryChange =
         user : user._id
         dish : @_id
         isPlus : false
         quantity : -Number(stockNumber)
+        remark : "userOrder"
+
+      newInventoryChange.remark = remark if remark
+      newInventoryChange.order = orderId if orderId
+
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
 
-    addStock : (stockNumber, user) ->
+    addStock : (stockNumber, user, remark) ->
       @stock = @stock + Number(stockNumber)
       newInventoryChange =
         user : user._id
         dish : @_id
         isPlus : true
         quantity : Number(stockNumber)
+        remark : "adminOperation"
+
+      newInventoryChange.remark = remark if remark
+
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
   }
   rest:
     postProcess : (req, res, next) ->
       if req.method is "PUT"
+        # 修改库存
         if req.body.addInventory > 0
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.addStock(req.body.addInventory, req.u)
+              resultDish.addStock(req.body.addInventory, req.u, "adminOperation")
 
         if req.body.reduceInventory > 0
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.reduceStock(req.body.reduceInventory, req.u)
+              resultDish.reduceStock(req.body.reduceInventory, req.u, "adminOperation" )
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->
-      if @stock > 0
+      if @stock > -2
         false
       else
         true

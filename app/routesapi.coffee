@@ -1,3 +1,5 @@
+weixinPay = require "./libs/weixinpay.js"
+
 
 initController = require "./controllers/initproject.coffee"
 userController = require "./controllers/user.coffee"
@@ -18,7 +20,7 @@ cronJobController = require "./controllers/cronjob.coffee"
 
 
 
-#cronJobController.runCronJob()
+cronJobController.runCronJob()
 
 
 expressRoutes = (app) ->
@@ -27,7 +29,7 @@ expressRoutes = (app) ->
 #  )
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
-  app.post("/mobile/wxpay/notify", orderController.updateOrderWeixinPayNotify)
+  app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
 
@@ -59,10 +61,14 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
+
   app.get("/api/user/messages", libs.auth("member"), userController.getUserMessages)
   app.put("/api/user", libs.auth("member"), userController.updateUserInfo)
   app.post("/api/user/shoppingcart", libs.auth("member"), userController.updateShoppingCart)
 
+  app.get("/api/user/account", libs.auth("member"), userController.userInfoAccount)
+  app.get("/api/user/account/details", libs.auth("member"), userController.userAccountDetail)
+  app.post("/api/user/account", libs.auth("member"), userController.chargeAccount)
 
   app.get("/api/coupons/:_id", libs.auth("member"), couponController.couponSingleInfo)
   app.get("/api/coupons/code/:code", libs.auth("member"), couponController.couponSingleInfoByCode)
@@ -106,12 +112,14 @@ expressRoutes = (app) ->
 #  app.get("/api/administrator/initremovedish", libs.auth("admin"), initController.removeDish)
 #  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
 #  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
+  app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
 
 
 
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
+  app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
 
 
 

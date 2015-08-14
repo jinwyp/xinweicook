@@ -60,7 +60,7 @@ module.exports =
 
     validationCouponCode : (code) ->
       unless libs.validator.isLength code, 10, 10
-        return throw new Err "Field validation error,  coupon code length must be 10-10", 400
+        return throw new Err "Field validation error,  promotion code length must be 10-10", 400
 
     validationNewCoupon : (coupon) ->
       unless libs.validator.isLength coupon.name.zh, 4, 100
@@ -118,7 +118,7 @@ module.exports =
       if @usedTime is 1
         @isUsed = true
       else
-        # 可以多次使用
+        # 是否每人可以多次使用
         if @usedCountLimitOfOneUser is 1
           if @usedUserList.indexOf(user._id) is -1
             @usedUserList.push(user._id)

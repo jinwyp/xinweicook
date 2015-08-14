@@ -30,11 +30,13 @@ module.exports =
       if not message
         return throw new Err "Push Message not found !", 400
 
-    sendMessage : ( deviceToken, contentType, additionalContent, options ) ->
+    sendMessageXinge : ( deviceToken, contentType, additionalContent ) ->
 
       newMessage =
         contentType : ""
         text : ""
+
+      newMessage.isPushMobile = true
 
       if additionalContent?
         newMessage.user = additionalContent.userId if additionalContent.userId
@@ -44,44 +46,43 @@ module.exports =
         newMessage.text = @constantContentType().orderAddText
         newMessage.contentType = @constantContentType().orderAdd
 
-      if options.isPushMobile is true
-        newMessage.isPushMobile = options.isPushMobile
 
-        @createAsync(newMessage)
+      @createAsync(newMessage)
 
-        xingePush = new Xinge.XingeApp(conf.xingePush.accessId, conf.xingePush.secretKey)
+      xingePush = new Xinge.XingeApp(conf.xingePush.accessId, conf.xingePush.secretKey)
 
-        openMessageAction = new Xinge.ClickAction()
-        openMessageAction.actionType = Xinge.ACTION_TYPE_ACTIVITY
+      openMessageAction = new Xinge.ClickAction()
+      openMessageAction.actionType = Xinge.ACTION_TYPE_ACTIVITY
 
-        iOSMessage = new Xinge.IOSMessage()
-        iOSMessage.acceptTime.push(new Xinge.TimeInterval(0, 0, 23, 0)) # 数组元素为TimeInterval实例，表示允许推送的时间段，选填
-        iOSMessage.alert = newMessage.text # https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
-        iOSMessage.badge = 1
-        iOSMessage.sound = "default"
+      iOSMessage = new Xinge.IOSMessage()
+      iOSMessage.acceptTime.push(new Xinge.TimeInterval(0, 0, 23, 0)) # 数组元素为TimeInterval实例，表示允许推送的时间段，选填
+      iOSMessage.alert = newMessage.text # https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
+      iOSMessage.badge = 1
+      iOSMessage.sound = "default"
 
-        iOSMessage.customContent =
-          page : 1
-          contentType : newMessage.contentType
+      iOSMessage.customContent =
+        page : 1
+        contentType : newMessage.contentType
 #          orderId : newMessage.orderId
 #          userId : newMessage.user
 
-        iOSMessage.loopTimes = 1 # 重复推送的次数
-        iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
+      iOSMessage.loopTimes = 1 # 重复推送的次数
+      iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
 
-        return new Promise (onFulfilled, onRejected) ->
-          xingePush.pushToSingleDevice(deviceToken, iOSMessage, Xinge.IOS_ENV_DEV, (err, resultPush) ->
-            if err
-              onRejected err
-            onFulfilled JSON.parse resultPush
-          )
+      return new Promise (onFulfilled, onRejected) ->
+        xingePush.pushToSingleDevice(deviceToken, iOSMessage, Xinge.IOS_ENV_DEV, (err, resultPush) ->
+          if err
+            onRejected err
+
+          onFulfilled JSON.parse resultPush
+        )
 
     sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
 
       if pushOptions.isPushMobile
         models.device.findOneAsync(user: userId).then (resultDevice) ->
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
-            models.message.sendMessage(resultDevice.deviceToken, contentType, additionalContent, pushOptions)
+            models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent).catch( (err) -> logger.error("信鸽推送发送失败:", err))
 
       if pushOptions.isPushSMS and additionalContent.smsText
         models.user.findOneAsync(_id: userId).then (resultUser) ->
