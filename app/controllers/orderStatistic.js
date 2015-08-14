@@ -16,6 +16,8 @@ exports.orderExportList = function(req, res, next) {
     var first_cell= first_worksheet['A1'];
     console.log (first_cell);
 
+    XLSX.writeFile(workbook, 'test/out.xlsx');
+
     res.status(200).json([])
 };
 
