@@ -453,7 +453,7 @@ exports.addNewOrder = (req, res, next) ->
 
     # 余额已使用后处理
     if isUsedAccountBalance
-      userAccount.reduceMoney(resultOrder.accountUsedDiscount, "消费", req.body.remark, resultOrder._id.toString())
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0

@@ -55,7 +55,9 @@ module.exports =
         user : @user
         isPlus : true
         amount : Number(amount)
-        name : "充值"
+        name :
+          zh : "在线充值"
+          en : "Online Recharge"
 
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
@@ -70,7 +72,9 @@ module.exports =
         user : @user
         isPlus : false
         amount : -Number(amount)
-        name : "消费"
+          name :
+            zh : "在线消费"
+            en : "Online Pay"
 
       newAccountDetail.name = name if name
       newAccountDetail.remark = remark if remark
@@ -79,4 +83,17 @@ module.exports =
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()
 
-  rest:{}
+  rest:
+    middleware : (req, res, next) ->
+
+      if req.method is "GET"
+        if req.params.id
+          models.useraccount.findOne( {user:req.params.id}, (err, result)->
+            if result
+              req.params.id = result._id.toString()
+              next()
+            else
+              next()
+          )
+      else
+        next()

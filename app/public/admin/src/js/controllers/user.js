@@ -19,7 +19,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             skip : 0,
             limit : 500,
             group : '',
+            _id : '',
             mobile : ''
+
         },
 
         searchSort : {
@@ -136,8 +138,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     if ($state.current.data.type === 'update') {
         $scope.css.isAddNewStatus = false;
 
-        Users.one($stateParams.id).get().then(function (resutlUser) {
-            $scope.data.user = resutlUser;
+        Users.one($stateParams.id).get().then(function (resultUser) {
+            $scope.data.user = resultUser;
 
             //编辑user时， 处理user group 显示
             //angular.forEach($scope.data.userGroup, function (user) {
@@ -147,8 +149,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             //});
         });
 
-        UserAccounts.one("55cd6dca6374be9914827fb6").get().then(function (resutlUserAccount) {
-            $scope.data.userAccount = resutlUserAccount;
+
+        UserAccounts.one($stateParams.id).get().then(function (resultUser) {
+            $scope.data.userAccount = resultUser;
 
             //编辑user时， 处理user group 显示
             //angular.forEach($scope.data.userGroup, function (user) {
@@ -158,8 +161,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             //});
         });
     }
-
-
 
 
 
