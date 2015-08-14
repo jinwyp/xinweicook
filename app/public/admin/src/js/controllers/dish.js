@@ -27,6 +27,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         },
 
         tagList : [],
+        dishAllList : [],
         dishList : [],
         inventoryList : [],
         dishStatisticByStock : [],
@@ -370,6 +371,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.data.tagList = tags;
     });
 
+    Dishes.getList().then(function (resultDish) {
+        $scope.data.dishAllList = resultDish;
+    });
 
     if ($state.current.data.type === 'list'){
 
@@ -504,6 +508,14 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     };
 
+    $scope.removeEmptyPreference = function (preference, index) {
+        preference.foodMaterial.splice(preference, 1);
+        if (preference.foodMaterial.length === 0){
+            var categoryIndex = $scope.data.dish.preferences.indexOf(preference);
+            $scope.data.dish.preferences.splice(categoryIndex, 1);
+        }
+
+    };
 
     $scope.showInventory = function () {
 
