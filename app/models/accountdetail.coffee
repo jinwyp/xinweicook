@@ -23,7 +23,8 @@ module.exports =
       else
         query.limit = 200
 
-  methods: {
+  methods: {}
+  rest:
+    idProperty : "user"
 
-  }
-  rest:{}
+

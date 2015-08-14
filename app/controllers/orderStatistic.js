@@ -128,7 +128,8 @@ exports.dishStatisticByStock = function(req, res, next) {
     // Grouping pipeline
     pipeline.push (
         { "$match":{
-            "isPlus" : false
+            "isPlus" : false,
+            "remark": { $ne: "adminOperation" }
         }},
 
         { "$group": {
@@ -156,7 +157,8 @@ exports.dishStatisticByStock = function(req, res, next) {
     pipelineYesterday.push (
         { "$match":{
             "isPlus" : false,
-            "createdAt": { "$gte": yesterday.toDate(), "$lt": today.toDate() }
+            "createdAt": { "$gte": yesterday.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
         }},
 
         { "$group": {

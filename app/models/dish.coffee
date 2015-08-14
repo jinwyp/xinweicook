@@ -150,7 +150,7 @@ module.exports =
             break
         finalPrice
 
-    reduceStock : (stockNumber, user, orderId) ->
+    reduceStock : (stockNumber, user, remark, orderId ) ->
       @stock = @stock - Number(stockNumber)
 
       if @stock < -1
@@ -168,19 +168,25 @@ module.exports =
         dish : @_id
         isPlus : false
         quantity : -Number(stockNumber)
+        remark : "userOrder"
 
+      newInventoryChange.remark = remark if remark
       newInventoryChange.order = orderId if orderId
 
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
 
-    addStock : (stockNumber, user) ->
+    addStock : (stockNumber, user, remark) ->
       @stock = @stock + Number(stockNumber)
       newInventoryChange =
         user : user._id
         dish : @_id
         isPlus : true
         quantity : Number(stockNumber)
+        remark : "adminOperation"
+
+      newInventoryChange.remark = remark if remark
+
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
   }
@@ -192,13 +198,13 @@ module.exports =
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.addStock(req.body.addInventory, req.u)
+              resultDish.addStock(req.body.addInventory, req.u, "adminOperation")
 
         if req.body.reduceInventory > 0
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.reduceStock(req.body.reduceInventory, req.u)
+              resultDish.reduceStock(req.body.reduceInventory, req.u, "adminOperation" )
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->

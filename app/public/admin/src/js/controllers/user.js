@@ -147,7 +147,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             //});
         });
 
-        UserAccounts.getList({user:$stateParams.id}).get().then(function (resutlUserAccount) {
+        UserAccounts.one("55cd6dca6374be9914827fb6").get().then(function (resutlUserAccount) {
             $scope.data.userAccount = resutlUserAccount;
 
             //编辑user时， 处理user group 显示
