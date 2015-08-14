@@ -650,11 +650,11 @@ exports.updateOrder = (req, res, next) ->
 
       # 给客服发送新订单短信
       text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)
-      models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败:", err))     # 王宇鹏电话
+#      models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败:", err))     # 王宇鹏电话
       if not conf.debug
-        models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送失败:", err))     # 索晶电话
-        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送失败:", err))     # 何华电话
-        models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送失败:", err))     # 赵梦菲电话
+        models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 索晶电话
+        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
+        models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
 
 
     else

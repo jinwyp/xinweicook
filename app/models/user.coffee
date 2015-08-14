@@ -125,7 +125,10 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     checkNotFound: (u) ->
-      u or throw new Err "找不到该用户", 401
+      if not u
+        throw new Err "找不到该用户", 401
+      else
+        u
     checkFound: (user) ->
       if user
         return throw new Err "User Mobile already exist !", 400
@@ -173,12 +176,11 @@ module.exports =
       else
         @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
     findUserByAccessToken: (access_token) ->
-      models.token.findTokenAndUserByAccessToken(access_token).then((t)->
-        if t.user
-          t.user
-        else
-          throw new Err "找不到该用户", 401
-      ).then(@checkNotFound).then(@checkNotSpam)
+      models.token.findTokenByAccessToken(access_token).then( (user)->
+        models.user.checkNotFound(user)
+        models.user.checkNotSpam(user)
+        user
+      )
     find1 : (options) ->
       @findOne(options)
       .select(models.user.fields())

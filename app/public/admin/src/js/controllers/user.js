@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails) {
 
     $scope.data = {
         searchFilter : '',
@@ -44,6 +44,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             gender : '',
             group : 'member'
         },
+        userAccount : {},
+        userAccountDetails : {},
 
         userGroupList: [
             {
@@ -136,6 +138,17 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Users.one($stateParams.id).get().then(function (resutlUser) {
             $scope.data.user = resutlUser;
+
+            //编辑user时， 处理user group 显示
+            //angular.forEach($scope.data.userGroup, function (user) {
+            //    if (user.zh === $scope.data.user.group.zh) {
+            //        $scope.data.user.group = user;
+            //    }
+            //});
+        });
+
+        UserAccounts.getList({user:$stateParams.id}).get().then(function (resutlUserAccount) {
+            $scope.data.userAccount = resutlUserAccount;
 
             //编辑user时， 处理user group 显示
             //angular.forEach($scope.data.userGroup, function (user) {

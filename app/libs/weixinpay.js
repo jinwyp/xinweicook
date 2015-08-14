@@ -155,7 +155,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         method: 'POST',
         url: configWeiXinPay.url_createUnifiedOrder,
         body: util.buildXML(newOrder),
-        timeout: 5000
+        timeout: 10000
     };
 
     request(opts, function(err, response, body){
