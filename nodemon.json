@@ -6,7 +6,7 @@
   "ignore": [
     ".git",
     "node_modules/**/node_modules",
-    "lib/public"
+    "app/public"
   ],
   "nodeArgs": [
     "--nodejs",

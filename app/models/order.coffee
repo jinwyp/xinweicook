@@ -138,7 +138,13 @@ module.exports =
 
 
     promotionCode: String # 优惠码
-    coupon: String # 优惠券
+    promotionDiscount: Number # 优惠码金额
+
+    coupon: String # 优惠券ID
+    couponDiscount: Number # 优惠券金额
+
+    accountUsedDiscount: Number # 使用的余额
+
     credit: Number # 积分抵扣
     dishesPrice: Number # 菜品总价
     freight: Number # 运费
@@ -152,9 +158,10 @@ module.exports =
     checkNotFound : (order) ->
       if not order
         throw new Err "Order ID or OrderNumber not found !", 400
-    checkInvalidDishIdListh : (dishIdList) ->
-      if dishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + dishIdList.toString(), 400
+    checkInvalidDishIdListh : (sourceDishIdList, dataBaseDishIdList) ->
+      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
+      if invalidDishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
 
     constantStatus : () ->
       status =
@@ -220,13 +227,14 @@ module.exports =
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30
         return throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength newOrder.userComment, 0, 300
-        return throw new Err "Field validation error,  userComment must be string", 400
       unless libs.validator.isLength newOrder.clientFrom, 2, 100
         return throw new Err "Field validation error,  clientFrom must be string", 400
+      unless libs.validator.isLength newOrder.userComment, 0, 600
+        return throw new Err "Field validation error,  userComment must be string 0-600", 400
+
       unless libs.validator.isInt newOrder.credit, {min: 0}
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 4}
+      unless libs.validator.isInt newOrder.freight, {min: 5}
         return throw new Err "Field validation error,  freight must be number > 4", 400
       unless libs.validator.isLength newOrder.payment, 3, 20
         return throw new Err "Field validation error,  payment length must be 3-20", 400
@@ -236,6 +244,7 @@ module.exports =
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
         return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+
 
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
@@ -403,14 +412,16 @@ module.exports =
       if isInRange4KM is true
         timeNow = moment()
 
-        todayStarter = moment(timeNow.clone().format("YYYY-MM-DD 11"));
-        tomorrowStarter = todayStarter.clone().add(1, 'days');
+        today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11"));
+        today20PM = moment(timeNow.clone().format("YYYY-MM-DD 20:01"));
+
+        tomorrow11AM = today11AM.clone().add(1, 'days');
 
         if timeNow.hour() < 10 and timeNow.hour() >=0
-          timeStarter = todayStarter.clone()
+          timeStarter = today11AM.clone()
 
         if timeNow.hour() >= 20 and timeNow.hour() < 24
-          timeStarter = tomorrowStarter.clone()
+          timeStarter = tomorrow11AM.clone()
 
         if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
           if timeNow.minute()%30 >= 10
@@ -423,14 +434,14 @@ module.exports =
           timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
           # 处理如果计算出来的时间超过20点  将不在push进去
-          if timeStarterTemp.hour() < 20 or timeStarterTemp.hour() is 20 and timeStarterTemp.minute() is 0
+          if timeStarterTemp.isBefore(today20PM)
             segmentHour =
               hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
             resultTime.push(segmentHour)
 
         # 处理第二天的时间点
         for i in [1..18]
-          timeStarterTemp2 = tomorrowStarter.clone().add(30*(i-1), 'minutes')
+          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
             hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
           resultTime.push(segmentHour)

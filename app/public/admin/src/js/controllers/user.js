@@ -17,8 +17,13 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 200,
-            group : ''
+            limit : 500,
+            group : '',
+            mobile : ''
+        },
+
+        searchSort : {
+            sort : '-createdAt'
         },
 
         userListCount : 0,
@@ -82,7 +87,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.searchUser = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
-        Users.getList($scope.data.searchOptions).then(function (resultUsers) {
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+
+        Users.getList(options).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
             Notification.success({message: 'Search Success! ', delay: 8000});
 

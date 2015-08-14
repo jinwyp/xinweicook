@@ -108,10 +108,10 @@ exports.userInfo = (req, res, next) ->
   .catch next
 
 
-
+# 用户账户余额
 exports.userInfoAccount = (req, res, next) ->
 
-  models.useraccount.findOne({user : req.u._id}).then (resultAccount)->
+  models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
     if resultAccount
       resultAccount
     else
@@ -122,13 +122,31 @@ exports.userInfoAccount = (req, res, next) ->
   .catch next
 
 
+# 用户账户余额明细
+exports.userAccountDetail = (req, res, next) ->
+
+  models.accountdetail.validationGetAccountDetailList req.query
+
+  models.accountdetail.find({user : req.u._id.toString()})
+  .sort "-createdAt"
+  .skip(req.query.skip)
+  .limit(req.query.skip)
+  .execAsync()
+  .then (resultAccountDetail)->
+
+    res.json resultAccountDetail
+
+  .catch next
+
+
+# 用户账户余额充值
 exports.chargeAccount = (req, res, next) ->
 
   models.useraccount.validationChargeAccount(req.body)
 
-  models.useraccount.findOne({user : req.u._id.toString()}).then (resultAccount)->
+  models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
-    resultAccount.addMoney(req.body.addAmount, req.body.remark)
+    resultAccount.addMoney(req.body.addAmount, "充值", req.body.remark)
 
   .then (resultAccount)->
     res.json resultAccount[0]

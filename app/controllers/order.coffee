@@ -139,8 +139,8 @@ exports.orderListByUser = (req, res, next) ->
 
   models.order.find user: req.u._id
   .sort "-createdAt"
-  .limit (req.query.limit)
   .skip (req.query.skip)
+  .limit (req.query.limit)
   .populate({path: 'dishList.dish', select: models.dish.fields()})
   .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
   .execAsync()
@@ -197,8 +197,8 @@ exports.pushMobileMessage = (req, res, next) ->
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
   models.order.validationNewOrder req.body
-  models.coupon.validationCouponId req.body.coupon if req.body.coupon
-  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode
+  models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
+  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
 
   dishIdList = []
@@ -206,6 +206,9 @@ exports.addNewOrder = (req, res, next) ->
   dishDataList = {}
 
   promotionCode = {}
+  coupon = {}
+  userAccount = {}
+  isUsedAccountBalance = false
 
   dishHistoryList = []
   dishReadyToCookList = []
@@ -234,11 +237,11 @@ exports.addNewOrder = (req, res, next) ->
     paymentUsedCash : req.body.paymentUsedCash
     coupon : req.body.coupon if req.body.coupon
     promotionCode : req.body.promotionCode if req.body.promotionCode
+    usedAccountBalance : req.body.usedAccountBalance if req.body.usedAccountBalance
     credit : Number(req.body.credit)
     freight : Number(req.body.freight)
     dishesPrice : 0
     totalPrice : 0
-    userComment : req.body.userComment if req.body.userComment
 
 
   if req.body.cookingType is models.dish.constantCookingType().cook
@@ -267,8 +270,6 @@ exports.addNewOrder = (req, res, next) ->
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -277,7 +278,6 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
-    userComment : req.body.userComment if req.body.userComment
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -292,8 +292,6 @@ exports.addNewOrder = (req, res, next) ->
     payment : req.body.payment
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
-#    coupon : req.body.coupon
-#    promotionCode : req.body.promotionCode
 #    credit : req.body.credit
 #    freight : req.body.freight
     dishesPrice : 0
@@ -302,44 +300,110 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
-    userComment : req.body.userComment if req.body.userComment
 
 
-  models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
-  .then (resultCoupon) ->
-    # 处理优惠券
+  models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
+    # 处理账户余额
+    if req.body.usedAccountBalance and resultAccount
+      userAccount = resultAccount
+      isUsedAccountBalance = true
+    else
+      isUsedAccountBalance = false
+
+    console.log userAccount, isUsedAccountBalance
+
+    models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+  .then (resultPromotionCode) ->
+    # 处理优惠码是否有效
     if req.body.promotionCode
+      models.coupon.checkNotFound resultPromotionCode
+      models.coupon.checkExpired resultPromotionCode
+      models.coupon.checkUsed(resultPromotionCode, req.u)
+      promotionCode = resultPromotionCode
+
+    models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
+  .then (resultCoupon) ->
+    # 处理优惠券是否有效
+    if req.body.coupon
       models.coupon.checkNotFound resultCoupon
       models.coupon.checkExpired resultCoupon
       models.coupon.checkUsed(resultCoupon, req.u)
-      promotionCode = resultCoupon
+      coupon = resultCoupon
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
+
     tempResultDishIdList = _.map(resultDishes, (dish) ->
       dish._id.toString()
     )
     # 判断是否有不存在的菜品ID
-    invalidDishIdList = _.difference(dishIdList, tempResultDishIdList)
-    models.order.checkInvalidDishIdListh invalidDishIdList
+    models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
 
-
+    # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
+      # 判断菜品库存
       models.dish.checkOutOfStock(dish)
+
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
 
+
+    if req.body.promotionCode or req.body.coupon
+      newOrder.promotionDiscount = promotionCode.price if req.body.promotionCode
+      newOrder.couponDiscount = coupon.price if req.body.coupon
+
+      if newOrder.dishesPrice >= promotionCode.priceLimit and req.body.promotionCode
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price
+
+      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon and req.body.promotionCode
+        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price - promotionCode.price
+
+      if newOrder.totalPrice <= 0
+          newOrder.totalPrice = 0.1
+    else
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+    # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
+    if newOrder.totalPrice isnt 0.1
+      if isUsedAccountBalance
+        # 使用余额支付 检查余额是否够
+        if  userAccount.balance >= newOrder.totalPrice
+          newOrder.accountUsedDiscount = newOrder.totalPrice
+          newOrder.totalPrice = 0
+        else
+          newOrder.accountUsedDiscount = userAccount.balance
+          newOrder.totalPrice = newOrder.totalPrice - userAccount.balance
+
+
+
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
+      # 处理订单备注里面的商品备注
+      if dish.remark
+        if not newOrder.userComment
+          newOrder.userComment = ""
+        newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+
       if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
+
+        if not newOrderReadyToCook.userComment
+          newOrderReadyToCook.userComment = ""
+        newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
+
+        if not newOrderReadyToEat.userComment
+          newOrderReadyToEat.userComment = ""
+        newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
       for subDish,subDishIndex in dish.subDish
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
@@ -349,16 +413,7 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
           dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
-    if req.body.promotionCode
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) > 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
 
-      if newOrder.dishesPrice > promotionCode.priceLimit and (newOrder.dishesPrice - promotionCode.price) <= 0
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
-        if newOrder.totalPrice <= 0
-          newOrder.totalPrice = 0.1
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
 
 
@@ -388,11 +443,17 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultOrder) ->
 
 
-
-    # 优惠券已使用后处理
+    # 优惠码已使用后处理
     if req.body.promotionCode
       promotionCode.used(req.u)
 
+    # 优惠券已使用后处理
+    if req.body.coupon
+      coupon.used(req.u)
+
+    # 余额已使用后处理
+    if isUsedAccountBalance
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, "消费", req.body.remark, resultOrder._id.toString())
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0

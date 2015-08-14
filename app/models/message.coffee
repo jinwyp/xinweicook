@@ -81,7 +81,6 @@ module.exports =
 
       if pushOptions.isPushMobile
         models.device.findOneAsync(user: userId).then (resultDevice) ->
-          console.log "----------", resultDevice
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
             models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent).catch( (err) -> logger.error("信鸽推送发送失败:", err))
 
