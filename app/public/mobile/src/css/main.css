@@ -1,7 +1,7 @@
 @charset "UTF-8";
-/* line 120, icons/*.png */
+/* line 128, icons/*.png */
 .icons-sprite {
-  background-image: url('../img/icons-s10bd091480.png');
+  background-image: url('../img/icons-s72c9113c0e.png');
   background-repeat: no-repeat;
 }
 
@@ -1020,4 +1020,28 @@ label {
 .cook-footer .like-icon {
   margin-top: 17px;
   margin-left: 10px;
+}
+
+/* line 3, ../sass/_cart.scss */
+.cart-bar2 {
+  margin: 0;
+  height: 53px;
+  line-height: 53px;
+  box-shadow: #9C9999 0 0 1px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #EDE2D0;
+}
+/* line 13, ../sass/_cart.scss */
+.cart-bar2 .select-all {
+  background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
+  padding-left: 52px;
+}
+/* line 18, ../sass/_cart.scss */
+.cart-bar2 .buy-button {
+  background-color: #f44d4d;
+  color: white;
+  font-size: 16px;
+  width: 102px;
 }

@@ -14,7 +14,7 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         if ($scope.address.street) {
             Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
                 $scope.searchAddresses = res.data.result.filter(function (address) {
-                    return (!!address.city && !!location.district && !!address.location )
+                    return (!!address.city && !!address.district && !!address.location )
                 })
             })
         }
