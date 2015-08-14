@@ -50,7 +50,12 @@ angular.module('RDash.models').factory('Util', function ($http) {
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });
-
+angular.module('RDash.models').factory('UserAccounts', function (Restangular) {
+    return Restangular.service('useraccounts');
+});
+angular.module('RDash.models').factory('UserAccountDetails', function (Restangular) {
+    return Restangular.service('accountdetails');
+});
 
 
 angular.module('RDash.models').factory('Dishes', function (Restangular) {
