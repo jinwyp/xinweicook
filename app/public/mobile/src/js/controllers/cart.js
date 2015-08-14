@@ -21,6 +21,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                     })
 
                 }
+
+                return newDish;
             })
         })
     }
