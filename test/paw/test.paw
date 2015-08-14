@@ -4226,12 +4226,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"addAmount\\":500}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"addAmount\\":0}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">7</attribute>
         <attribute name="name" type="string">user-ChargeAccount</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z566 z568 z567 z569 z570 z571 z572"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z571 z567 z566 z570 z569 z572 z568"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z575">
         <attribute name="value" type="string">text/xml</attribute>

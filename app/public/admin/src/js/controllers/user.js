@@ -47,7 +47,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             group : 'member'
         },
         userAccount : {},
-        userAccountDetails : {},
+        userAccountDetails : [],
 
         userGroupList: [
             {
@@ -150,16 +150,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         });
 
 
-        UserAccounts.one($stateParams.id).get().then(function (resultUser) {
-            $scope.data.userAccount = resultUser;
-
-            //编辑user时， 处理user group 显示
-            //angular.forEach($scope.data.userGroup, function (user) {
-            //    if (user.zh === $scope.data.user.group.zh) {
-            //        $scope.data.user.group = user;
-            //    }
-            //});
+        UserAccounts.one($stateParams.id).get().then(function (resultUserAccount) {
+            $scope.data.userAccount = resultUserAccount;
         });
+
     }
 
 
@@ -207,6 +201,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         });
     };
 
+
+
+    $scope.showUserAccountDetails = function () {
+
+        UserAccountDetails.getList({user : $stateParams.id, sort : '-createdAt'}).then(function (resultUserAccountDetails) {
+            $scope.data.userAccountDetails = resultUserAccountDetails;
+            Notification.success({message: 'Search Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
 
 }
 

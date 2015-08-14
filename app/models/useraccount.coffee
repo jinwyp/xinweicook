@@ -9,8 +9,8 @@ module.exports =
   statics:
 
     validationChargeAccount : (account) ->
-      unless libs.validator.isInt account.addAmount, {min: 1, max: 900000}
-        return throw new Err "Field validation error,  addAmount must be 1-900000", 400
+      unless libs.validator.isInt account.addAmount, {min: 5, max: 900000}
+        return throw new Err "Field validation error,  addAmount must be 5-900000", 400
 
     validationReduceAccount : (account) ->
       unless libs.validator.isInt account.reduceAmount, {min: 1, max: 900000}
@@ -95,5 +95,7 @@ module.exports =
             else
               next()
           )
+        else
+          next()
       else
         next()

@@ -521,10 +521,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Inventories.getList({dish : $stateParams.id, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
-            Notification.success({message: 'Delete Success', delay: 8000});
+            Notification.success({message: 'Search Success', delay: 8000});
 
         }).catch(function(err){
-            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
 
