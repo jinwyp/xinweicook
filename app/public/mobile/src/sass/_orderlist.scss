@@ -1,4 +1,17 @@
+@import "base";
+
 .order-list-wrapper table {
   word-break: keep-all;
   width: 1000px;
+}
+
+.repay {
+  display: block;
+  min-width: 50px;
+  text-align: center;
+  height: 25px;
+  border-radius: 2px;
+  line-height: 25px;
+  border: 1px solid gray;
+  background-color: white;
 }

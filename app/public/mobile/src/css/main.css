@@ -604,10 +604,22 @@ label {
   color: white;
 }
 
-/* line 1, ../sass/_orderlist.scss */
+/* line 3, ../sass/_orderlist.scss */
 .order-list-wrapper table {
   word-break: keep-all;
   width: 1000px;
+}
+
+/* line 8, ../sass/_orderlist.scss */
+.repay {
+  display: block;
+  min-width: 50px;
+  text-align: center;
+  height: 25px;
+  border-radius: 2px;
+  line-height: 25px;
+  border: 1px solid gray;
+  background-color: white;
 }
 
 /* line 1, ../sass/_addresslist.scss */
