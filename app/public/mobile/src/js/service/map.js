@@ -66,9 +66,11 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         distance: function (lat, lng) {
             return this.walkingDistance(lat, lng).then(function (res) {
                 var distance = res.data.result.elements[0].distance.value;
+                var topDistance = 6000;
                 return {
                     distance: distance,
-                    isInRange: (distance === null ? 999999 : distance) <= 5500 // 百度有时候返回的是null, 此时就当作1000公里
+                    // 百度有时候返回的是null, 此时就当作1000公里
+                    isInRange: (distance === null ? 999999 : distance) <= topDistance
                 }
             }).catch(function (res) {
                 Debug.alert('获取步行距离失败');
