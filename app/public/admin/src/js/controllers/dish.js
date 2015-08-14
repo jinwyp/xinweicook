@@ -231,6 +231,18 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         preferenceCategoryList :[
             {
+                zh : '主食',
+                en : 'Starch'
+            },
+            {
+                zh : '配汤',
+                en : 'Soup'
+            },
+            {
+                zh : '酱汁',
+                en : 'Sauce'
+            },
+            {
                 zh : '牛肉',
                 en : 'beef'
             },

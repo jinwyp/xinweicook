@@ -153,7 +153,7 @@ module.exports =
     reduceStock : (stockNumber, user, remark, orderId ) ->
       @stock = @stock - Number(stockNumber)
 
-      if @stock < -1
+      if @stock < 0
         # 给客服发送短信
         text = models.sms.constantTemplateCustomerOutOfStockNotify(@title.zh)
         models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 王宇鹏电话
