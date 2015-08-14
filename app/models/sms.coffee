@@ -33,9 +33,9 @@ module.exports =
 
     constantTemplateCustomerOutOfStockNotify: (dishTitle, lang) ->
       if lang is "en-US"
-        "【新味Cook】客服后台通知 库存不足 #{dishTitle} 库存不足 请补货."
+        "【新味Cook】客服后台通知 库存不足 #{dishTitle}"
       else
-        "【新味Cook】客服后台通知 库存不足 #{dishTitle} 库存不足 请补货."
+        "【新味Cook】客服后台通知 库存不足 #{dishTitle}"
 
     validationSMSType : (type) ->
       unless libs.validator.isIn(type, @constantSMSType())
