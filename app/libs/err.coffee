@@ -19,11 +19,12 @@ module.exports =
 
   middleware: ->
     (err, req, res, next) ->
+
       error =
         message: err.message or "服务器内部错误"
-        stack: err.stack
+        stack: err.stack or err.message
         status: err.status or 500
-        validationStatus: err.validationStatus
+        validationStatus: err.validationStatus or 1000
         _id: req._id
         req:
           url : req.url
