@@ -359,7 +359,7 @@
                     <label class="col-lg-2 control-label">配菜-{{preference.name.zh}}{{preference.name.en}}</label>
                     <div class="col-lg-10" >
                         <div class="col-lg-2 control-label" ng-repeat="subdish in preference.foodMaterial track by $index">
-                            <label class="control-label" >{{subdish.dish | dishfilter:data.dishList}}</label>
+                            <label class="control-label" >{{subdish.dish | dishfilter:data.dishAllList}}</label>
                             <button type="button" class="btn btn-danger btn-sm" ng-click="removeEmptyPreference(preference, $index)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
@@ -382,7 +382,7 @@
                     <label class="col-lg-2 control-label"></label>
                     <div class="col-lg-10" >
                         <div class="col-lg-2 control-label" ng-repeat="topping in data.dish.topping track by $index">
-                            <label class="control-label" >{{topping | dishfilter:data.dishList}}</label>
+                            <label class="control-label" >{{topping | dishfilter:data.dishAllList}}</label>
                             <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.topping.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                     </div>
