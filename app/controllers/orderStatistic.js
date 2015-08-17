@@ -56,14 +56,15 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                 var tempArray = "";
 
                 dishList.forEach(function(dish){
-                    console.log("-----", dish.dish );
-                    console.log(dish.dish._id, dish.dish.title );
+                    console.log('------',dish.dish );
+                    if (dish.dish.title){
+                        console.log('+++++',dish.dish.title );
+                        tempArray = tempArray + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
-                    tempArray = tempArray + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
-
-                    dish.subDish.forEach(function(subDish){
-                        tempArray = tempArray + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
-                    });
+                        dish.subDish.forEach(function(subDish){
+                            tempArray = tempArray + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                        });
+                    }
 
                 });
 
