@@ -146,7 +146,7 @@ exports.chargeAccount = (req, res, next) ->
 
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
-    resultAccount.addMoney(req.body.addAmount, "充值", req.body.remark)
+    resultAccount.addMoney(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark)
 
   .then (resultAccount)->
     res.json resultAccount[0]

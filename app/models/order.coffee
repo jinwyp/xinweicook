@@ -350,7 +350,8 @@ module.exports =
             segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
 
             resultTime.push(segmentDay)
-          resultTime[0].segment[0].status = false
+#          resultTime[0].segment[0].status = false
+          resultTime[0].segment.splice(0, 1)
         else
           for i in [1..5]
             segmentDay =

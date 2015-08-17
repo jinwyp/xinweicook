@@ -18,7 +18,8 @@ Group `member`
 
 | Name     | Type   | Desc   |
 |:-------  |:-------|:-------|
-| name     | String | 明细名称    |
+| name.zh  | String | 明细中文名称    |
+| name.en  | String | 明细英文名称    |
 | remark   | String | 备注        |
 | amount   | Number | 金额        |
 | isPlus   | Boolean | 是否为正, true 为充值 false 为花费   |
@@ -28,23 +29,18 @@ Group `member`
 ```js
 [
   {
-    "_id": "55c9cb8daabba3897909ad58",
-    "modifiedAt": "2015-08-11T10:16:45.527Z",
-    "createdAt": "2015-08-11T10:16:45.527Z",
-    "user": "55c2d55edae7610b0557e93e",
-    "amount": 10,
-    "__v": 0,
-    "isPlus": true
-  },
-  {
-    "_id": "55c9c514ae9a0b2f7260eee0",
-    "modifiedAt": "2015-08-11T09:49:08.781Z",
-    "createdAt": "2015-08-11T09:49:08.781Z",
-    "user": "55c2d55edae7610b0557e93e",
-    "amount": 2,
-    "__v": 0,
-    "isPlus": true
-  }
+      "_id": "55cdb651b574327d408b8232",
+      "modifiedAt": "2015-08-14T09:35:13.636Z",
+      "createdAt": "2015-08-14T09:35:13.636Z",
+      "user": "55cd6dca6374be9914827fb6",
+      "amount": 500,
+      "__v": 0,
+      "name": {
+        "zh": "在线充值",
+        "en": "Online Recharge"
+      },
+      "isPlus": true
+    }
 ]
 
 ```

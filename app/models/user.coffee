@@ -203,5 +203,6 @@ module.exports =
         )
       else
         next()
+
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "user", field: "autoIncrementId", startAt: 10000

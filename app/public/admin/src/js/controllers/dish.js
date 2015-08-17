@@ -27,6 +27,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         },
 
         tagList : [],
+        dishAllList : [],
         dishList : [],
         inventoryList : [],
         dishStatisticByStock : [],
@@ -370,6 +371,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.data.tagList = tags;
     });
 
+    Dishes.getList().then(function (resultDish) {
+        $scope.data.dishAllList = resultDish;
+    });
 
     if ($state.current.data.type === 'list'){
 
@@ -504,15 +508,23 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     };
 
+    $scope.removeEmptyPreference = function (preference, index) {
+        preference.foodMaterial.splice(preference, 1);
+        if (preference.foodMaterial.length === 0){
+            var categoryIndex = $scope.data.dish.preferences.indexOf(preference);
+            $scope.data.dish.preferences.splice(categoryIndex, 1);
+        }
+
+    };
 
     $scope.showInventory = function () {
 
         Inventories.getList({dish : $stateParams.id, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
-            Notification.success({message: 'Delete Success', delay: 8000});
+            Notification.success({message: 'Search Success', delay: 8000});
 
         }).catch(function(err){
-            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
 
