@@ -350,6 +350,29 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                     number : ''
                 }
             }
+
+
+            //编辑order时， 处理order dishList 菜品详情 显示
+            if (angular.isArray($scope.data.order.dishList) && angular.isArray($scope.data.order.dishHistory) ){
+                $scope.data.order.dishListHash = {};
+
+                angular.forEach($scope.data.order.dishHistory, function(dish, dishIndex){
+                    $scope.data.order.dishListHash[dish.dish._id] = dish
+                });
+                angular.forEach($scope.data.order.dishList, function(dish, dishIndex){
+                    dish.detail = $scope.data.order.dishListHash[dish.dish]
+
+                    if (angular.isArray(dish.subDish) ){
+                        angular.forEach(dish.subDish, function(subDish, subDishIndex) {
+                            subDish.detail = $scope.data.order.dishListHash[subDish.dish]
+                        })
+                    }
+
+                })
+
+                console.log ($scope.data.order.dishList)
+            }
+
         });
     }
 
