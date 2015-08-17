@@ -147,6 +147,140 @@ $out-of-stock-bg-color: #75A3B7;
 }
 
 $address-icon-height: 40px;
+
+.selection-cover {
+  background-color: rgba(88, 88, 88, 0.48);
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+
+/** 多属性选择面板 **/
+$ms-border-color: #DEDEDE; // ms: multiple-selection
+$ms-border: 1px solid $ms-border-color;
+$sc-left-padding: 15px; //sc: selections-container
+$sc-h5-font-size: 15px;
+.selections-container {
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  z-index: 10;
+  box-shadow: #9C9999 0 0 1px;
+
+  h4, h5 {
+    font-weight: 100;
+  }
+
+  h4 {
+    position: relative;
+    margin: 0;
+    height: 64px;
+    line-height: 64px;
+    font-weight: 100;
+  }
+
+  .close-button {
+    background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
+    width: 1.1em;
+    height: 100%;
+    position: absolute;
+    right: 15px;
+    opacity: 0.5;
+    top: 0;
+  }
+
+  .properties {
+    margin-bottom: 0;
+    > li {
+      border-top: $ms-border;
+      padding-left: $sc-left-padding;
+      padding-bottom: 14px;
+      //&:last-child {
+      //  border-bottom: $ms-border;
+      //}
+      h5 {
+        font-size: $sc-h5-font-size;
+        padding: 8px 0;
+      }
+    }
+  }
+
+  .selections {
+    font-size: 16px;
+    li {
+      color: $primary-color;
+      display: inline-block;
+      padding: 0 1.5em;
+      border: 1px solid $primary-color;
+      height: 2.1em;
+      line-height: 1.9em;
+      border-radius: 6px;
+      &:not(:last-child) {
+        margin-right: 0.7em;
+      }
+      &.selected {
+        color: white;
+        background-color: $primary-color;
+      }
+    }
+  }
+
+  .counter-wrapper {
+    border-top: $ms-border;
+    padding: 13px 0 15px $sc-left-padding;
+    position: relative;
+    i {
+      line-height: 34px;
+      font-style: normal;
+      font-size: $sc-h5-font-size;
+    }
+    .counter {
+      display: inline-block;
+      position: absolute;
+      right: $sc-left-padding;
+      border: $ms-border;
+      border-radius: 5px;
+      line-height: 34px;
+      height: 36px;
+      font-size: 0;
+      color: $primary-color;
+      span {
+        display: inline-block;
+        width: 40px;
+        font-size: 18px;
+      }
+      span:not(:last-child) {
+        border-right: $ms-border;
+      }
+      .number {
+        width: 60px;
+      }
+    }
+  }
+
+  .add-to-cart-button {
+    position: relative;
+    height: $bottom-bar-height;
+    line-height: $bottom-bar-height;
+    font-size: 17px;
+    width: 100%;
+    background-color: $primary-color;
+    color: white;
+    .rmb-char {
+      position: absolute;
+      left: $sc-left-padding;
+    }
+    &.invalid {
+      background-color: #C7C7C7;
+    }
+  }
+}
+
+
+$address-height: 40px;
 .address-cover {
   position: fixed;
   height: 100%;

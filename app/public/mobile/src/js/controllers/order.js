@@ -2,6 +2,7 @@ angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
 function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     $scope.cart = null;
+    $scope.subDishCart = null;
     $scope.address = {
         province: '上海',
         city: '上海'
@@ -43,11 +44,18 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     });
 
     $scope.orderPrice = function () {
-        var price = 0;
-        $scope.cart.forEach(function (dish) {
-                price += dish.priceOriginal * dish.count
-        });
-        return price;
+        //var price = 0;
+        //$scope.cart.forEach(function (dish) {
+        //        price += dish.priceOriginal * dish.count
+        //});
+        //return price;
+        return $scope.cart.reduce(function price(total, cur) {
+            total += cur.priceOriginal * cur.number;
+            if (cur.subDish) {
+                total += cur.subDish.reduce(price, 0)
+            }
+            return total;
+        }, 0)
     };
 
 
@@ -84,8 +92,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                     order.dishList = $scope.cart
                         .map(function (dish) {return {
                             dish: dish._id,
-                            number: dish.count,
-                            subDish: []
+                            number: dish.number,
+                            subDish: dish.subDish || [] //todo: 多出来的属性不影响吗?
                         }});
                 return true;
             },
@@ -141,6 +149,20 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
+            $scope.subDishCart = [];
+            $scope.cart.forEach(function (dish) {
+                if (dish.subDish) {
+                    dish.subDish.forEach(function (el) {
+                        $scope.subDishCart.push({
+                            title: {zh: dish.title.zh + '(' + el.title.zh + ')'},
+                            number: el.number,
+                            priceOriginal: dish.priceOriginal + el.priceOriginal
+                        })
+                    })
+                } else {
+                    $scope.subDishCart.push(dish)
+                }
+            })
         } else {
             location.href = '/mobile';
         }

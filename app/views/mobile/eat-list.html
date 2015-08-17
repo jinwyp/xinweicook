@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <title>新味 便当.</title>
+    <title>新味 便当</title>
 </head>
 <body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
 
@@ -23,11 +23,6 @@
                 <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
                     <img img-lazy-load="dish.cover[0].zh"/>
                 </a>
-                <div class="count-operation" ng-if="dish.count">
-                    <div class="subtract" ng-click="subtractDish(dish)"><span class="vertical-center">-</span></div>
-                    <div class="count"><span class="vertical-center">{{dish.count}}</span></div>
-                    <div class="add" ng-click="addDish(dish)"><span class="vertical-center">+</span></div>
-                </div>
             </div>
             <div class="detail">
                 <div class="caption">
@@ -47,6 +42,40 @@
             </div>
         </li>
     </ul>
+</div>
+
+<div class="selection-cover" ng-if="curDish" ng-click="hide()"></div>
+<div class="selections-container" ng-if="curDish">
+    <div class="block">
+        <h4 class="text-center">{{curDish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
+        <ul class="properties">
+            <li ng-repeat="property in curDish.preferences">
+                <h5>{{property.name.zh}}</h5>
+                <!-- todo: 应该把curSelection 改成 curSelection[property.name.zh], .. -->
+                <ul class="selections" ng-init="curDish.curSelection = property.foodMaterial[0].dish">
+                    <li ng-click="curDish.curSelection = selection.dish"
+                        ng-class="{selected: curDish.curSelection == selection.dish}"
+                        ng-repeat="selection in property.foodMaterial">
+                        {{selection.dish.title.zh}}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="counter-wrapper">
+            <i>份数</i>
+            <div class="counter text-center">
+                <span ng-click="curDish.count>0 && (curDish.count=curDish.count-1)" class="minus">-</span>
+                <span class="number">{{curDish.count}}</span>
+                <span ng-click="curDish.count=curDish.count+1" class="add">+</span>
+            </div>
+        </div>
+        <div class="add-to-cart-button text-center"
+             ng-class="{invalid: curDish.count == 0}"
+             ng-click="curDish.count>0 && addToCart(curDish)">
+            <span class="rmb-char">{{totalPrice()}}</span>
+            加入购物袋
+        </div>
+    </div>
 </div>
 
 <div class="address-wrapper" ng-cloak>

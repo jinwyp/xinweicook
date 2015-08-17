@@ -46,10 +46,10 @@
         <div class="form-block dish-list">
             <h5>即食包</h5>
             <hr class="form-line"/>
-            <div class="row order-list" ng-repeat-start="dish in cart">
+            <div class="row order-list" ng-repeat-start="dish in subDishCart">
                 <span class="col-xs-6 text-left">{{dish.title.zh}}</span>
-                <span class="col-xs-1 text-center plus-char">{{dish.count}}</span>
-                <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.count}}</span>
+                <span class="col-xs-1 text-center plus-char">{{dish.number}}</span>
+                <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.number}}</span>
                 <!--<span class="col-xs-2 text-center select">备</span>-->
             </div>
             <hr class="form-line" ng-repeat-end/>

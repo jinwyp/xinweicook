@@ -1,4 +1,5 @@
 @charset "UTF-8";
+<<<<<<< HEAD
 /* line 128, icons/*.png */
 .icons-sprite {
   background-image: url('../img/icons-s72c9113c0e.png');
@@ -6,70 +7,123 @@
 }
 
 /* line 20, ../sass/_base.scss */
+=======
+/* line 112, icons/*.png */
+.icons-sprite {
+  background-image: url('../img/icons-s7c884f0b6a.png');
+  background-repeat: no-repeat;
+}
+
+/* line 16, ../sass/_base.scss */
+>>>>>>> multiple-selections
 html {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+<<<<<<< HEAD
 /* line 24, ../sass/_base.scss */
+=======
+/* line 20, ../sass/_base.scss */
+>>>>>>> multiple-selections
 body {
   background-color: #f1f1f1;
   color: #4b4b4c;
 }
 
+<<<<<<< HEAD
 /* line 30, ../sass/_base.scss */
+=======
+/* line 26, ../sass/_base.scss */
+>>>>>>> multiple-selections
 a:link, a:visited, a:focus, a:hover, a:active {
   text-decoration: none;
   color: inherit;
 }
 
+<<<<<<< HEAD
 /* line 36, ../sass/_base.scss */
+=======
+/* line 32, ../sass/_base.scss */
+>>>>>>> multiple-selections
 ul, li {
   list-style: none;
   padding: 0;
 }
 
+<<<<<<< HEAD
 /* line 41, ../sass/_base.scss */
+=======
+/* line 37, ../sass/_base.scss */
+>>>>>>> multiple-selections
 input, textarea, select, option {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
 }
 
+<<<<<<< HEAD
 /* line 47, ../sass/_base.scss */
+=======
+/* line 43, ../sass/_base.scss */
+>>>>>>> multiple-selections
 ::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
+<<<<<<< HEAD
 /* line 50, ../sass/_base.scss */
+=======
+/* line 46, ../sass/_base.scss */
+>>>>>>> multiple-selections
 :-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
+<<<<<<< HEAD
 /* line 53, ../sass/_base.scss */
+=======
+/* line 49, ../sass/_base.scss */
+>>>>>>> multiple-selections
 ::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
 }
 
+<<<<<<< HEAD
 /* line 57, ../sass/_base.scss */
+=======
+/* line 53, ../sass/_base.scss */
+>>>>>>> multiple-selections
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
+<<<<<<< HEAD
 /* line 65, ../sass/_base.scss */
+=======
+/* line 61, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .form-horizontal .control-label {
   padding-top: 7px;
   margin-bottom: 0;
   text-align: left;
 }
 
+<<<<<<< HEAD
 /* line 71, ../sass/_base.scss */
+=======
+/* line 67, ../sass/_base.scss */
+>>>>>>> multiple-selections
 label {
   font-weight: 400;
 }
 
+<<<<<<< HEAD
 /* line 77, ../sass/_base.scss */
+=======
+/* line 73, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .nav {
   background-color: white;
   text-align: center;
@@ -89,7 +143,11 @@ label {
   border-color: #f44d4d;
 }
 
+<<<<<<< HEAD
 /* line 100, ../sass/_base.scss */
+=======
+/* line 82, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .back-icon {
   background: url(../img/icons/NavBarBackIcon.png) no-repeat;
   background-size: contain;
@@ -100,6 +158,7 @@ label {
   top: 12px;
 }
 
+<<<<<<< HEAD
 /* line 110, ../sass/_base.scss */
 .like-icon {
   width: 30px;
@@ -114,6 +173,9 @@ label {
 }
 
 /* line 121, ../sass/_base.scss */
+=======
+/* line 92, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .form-line {
   margin: 0 5px 0 12px;
   border-bottom: 1px solid #bcbcbc;
@@ -121,22 +183,38 @@ label {
   opacity: 0.5;
 }
 
+<<<<<<< HEAD
 /* line 128, ../sass/_base.scss */
+=======
+/* line 99, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .plus-char::before {
   content: 'X';
 }
 
+<<<<<<< HEAD
 /* line 132, ../sass/_base.scss */
+=======
+/* line 103, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .rmb-char::before {
   content: "¥ ";
 }
 
+<<<<<<< HEAD
 /* line 135, ../sass/_base.scss */
+=======
+/* line 106, ../sass/_base.scss */
+>>>>>>> multiple-selections
 .rmb-char.negative::before {
   content: "- ¥ ";
 }
 
+<<<<<<< HEAD
 /* line 177, ../sass/_base.scss */
+=======
+/* line 109, ../sass/_base.scss */
+>>>>>>> multiple-selections
 [ng-cloak] {
   display: none;
 }
@@ -371,7 +449,148 @@ label {
   display: inline-block;
 }
 
+<<<<<<< HEAD
 /* line 150, ../sass/_eat.scss */
+=======
+/* line 130, ../sass/_eat.scss */
+.selection-cover {
+  background-color: rgba(88, 88, 88, 0.48);
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+/** 多属性选择面板 **/
+/* line 144, ../sass/_eat.scss */
+.selections-container {
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  z-index: 10;
+  box-shadow: #9C9999 0 0 1px;
+}
+/* line 152, ../sass/_eat.scss */
+.selections-container h4, .selections-container h5 {
+  font-weight: 100;
+}
+/* line 156, ../sass/_eat.scss */
+.selections-container h4 {
+  position: relative;
+  margin: 0;
+  height: 64px;
+  line-height: 64px;
+  font-weight: 100;
+}
+/* line 164, ../sass/_eat.scss */
+.selections-container .close-button {
+  background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
+  width: 1.1em;
+  height: 100%;
+  position: absolute;
+  right: 15px;
+  opacity: 0.5;
+  top: 0;
+}
+/* line 174, ../sass/_eat.scss */
+.selections-container .properties {
+  margin-bottom: 0;
+}
+/* line 176, ../sass/_eat.scss */
+.selections-container .properties > li {
+  border-top: 1px solid #DEDEDE;
+  padding-left: 15px;
+  padding-bottom: 14px;
+}
+/* line 183, ../sass/_eat.scss */
+.selections-container .properties > li h5 {
+  font-size: 15px;
+  padding: 8px 0;
+}
+/* line 190, ../sass/_eat.scss */
+.selections-container .selections {
+  font-size: 16px;
+}
+/* line 192, ../sass/_eat.scss */
+.selections-container .selections li {
+  color: #f44d4d;
+  display: inline-block;
+  padding: 0 1.5em;
+  border: 1px solid #f44d4d;
+  height: 2.1em;
+  line-height: 1.9em;
+  border-radius: 6px;
+}
+/* line 200, ../sass/_eat.scss */
+.selections-container .selections li:not(:last-child) {
+  margin-right: 0.7em;
+}
+/* line 203, ../sass/_eat.scss */
+.selections-container .selections li.selected {
+  color: white;
+  background-color: #f44d4d;
+}
+/* line 210, ../sass/_eat.scss */
+.selections-container .counter-wrapper {
+  border-top: 1px solid #DEDEDE;
+  padding: 13px 0 15px 15px;
+  position: relative;
+}
+/* line 214, ../sass/_eat.scss */
+.selections-container .counter-wrapper i {
+  line-height: 34px;
+  font-style: normal;
+  font-size: 15px;
+}
+/* line 219, ../sass/_eat.scss */
+.selections-container .counter-wrapper .counter {
+  display: inline-block;
+  position: absolute;
+  right: 15px;
+  border: 1px solid #DEDEDE;
+  border-radius: 5px;
+  line-height: 34px;
+  height: 36px;
+  font-size: 0;
+  color: #f44d4d;
+}
+/* line 229, ../sass/_eat.scss */
+.selections-container .counter-wrapper .counter span {
+  display: inline-block;
+  width: 40px;
+  font-size: 18px;
+}
+/* line 234, ../sass/_eat.scss */
+.selections-container .counter-wrapper .counter span:not(:last-child) {
+  border-right: 1px solid #DEDEDE;
+}
+/* line 237, ../sass/_eat.scss */
+.selections-container .counter-wrapper .counter .number {
+  width: 60px;
+}
+/* line 243, ../sass/_eat.scss */
+.selections-container .add-to-cart-button {
+  position: relative;
+  height: 53px;
+  line-height: 53px;
+  font-size: 17px;
+  width: 100%;
+  background-color: #f44d4d;
+  color: white;
+}
+/* line 251, ../sass/_eat.scss */
+.selections-container .add-to-cart-button .rmb-char {
+  position: absolute;
+  left: 15px;
+}
+/* line 255, ../sass/_eat.scss */
+.selections-container .add-to-cart-button.invalid {
+  background-color: #C7C7C7;
+}
+
+/* line 263, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-cover {
   position: fixed;
   height: 100%;
@@ -380,7 +599,11 @@ label {
   background-color: rgba(206, 208, 165, 0.7);
 }
 
+<<<<<<< HEAD
 /* line 158, ../sass/_eat.scss */
+=======
+/* line 271, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .eat-address {
   background-color: rgba(232, 232, 232, 0.7);
   box-shadow: #9C9999 0 0 1px;
@@ -390,7 +613,29 @@ label {
   position: relative;
   padding: 9px 0 9px 40px;
 }
+<<<<<<< HEAD
 /* line 148, ../sass/_base.scss */
+=======
+/* line 279, ../sass/_eat.scss */
+.eat-address .address-icon {
+  position: absolute;
+  height: 40px;
+  width: 35px;
+  left: 12px;
+  bottom: -2px;
+  background: url(../img/icons/LocationPinIcon.png) no-repeat;
+  background-size: 48%;
+}
+/* line 289, ../sass/_eat.scss */
+.eat-address .address-content .address-title {
+  font-size: 10px;
+}
+/* line 292, ../sass/_eat.scss */
+.eat-address .address-content .address-detail {
+  font-size: 13px;
+}
+/* line 296, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .eat-address .cart {
   background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
   background-size: 48%;
@@ -401,7 +646,11 @@ label {
   width: 48px;
   height: 40px;
 }
+<<<<<<< HEAD
 /* line 157, ../sass/_base.scss */
+=======
+/* line 304, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .eat-address .cart .total-count {
   font-size: 10px;
   text-align: center;
@@ -434,43 +683,75 @@ label {
   font-size: 13px;
 }
 
+<<<<<<< HEAD
 /* line 182, ../sass/_eat.scss */
+=======
+/* line 320, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group {
   background-color: rgba(241, 241, 241, 0.78);
   position: fixed;
   bottom: 0;
   width: 100%;
 }
+<<<<<<< HEAD
 /* line 187, ../sass/_eat.scss */
+=======
+/* line 325, ../sass/_eat.scss */
+.address-group .eat-address {
+  position: relative;
+}
+/* line 328, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-list {
   font-size: 13px;
   padding: 0 7px;
   margin-bottom: 0;
 }
+<<<<<<< HEAD
 /* line 191, ../sass/_eat.scss */
+=======
+/* line 332, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-list li {
   background-color: white;
   margin-top: 6px;
   padding: 17px 20px;
 }
+<<<<<<< HEAD
 /* line 195, ../sass/_eat.scss */
+=======
+/* line 336, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-list li.active {
   border-left: #f44d4d 4px solid;
   padding-left: 16px;
 }
+<<<<<<< HEAD
 /* line 201, ../sass/_eat.scss */
+=======
+/* line 342, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-button-wrapper {
   text-align: center;
   padding: 20px 26px;
 }
+<<<<<<< HEAD
 /* line 204, ../sass/_eat.scss */
+=======
+/* line 345, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-button-wrapper span {
   border-radius: 3px;
   background-color: #8C8C8C;
   color: white;
   padding: 10px 33px;
 }
+<<<<<<< HEAD
 /* line 210, ../sass/_eat.scss */
+=======
+/* line 351, ../sass/_eat.scss */
+>>>>>>> multiple-selections
 .address-group .address-button-wrapper > span {
   margin-right: 42px;
 }

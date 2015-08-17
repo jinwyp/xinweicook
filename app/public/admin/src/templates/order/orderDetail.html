@@ -7,6 +7,7 @@
             </h3>
         </div>
 
+<!--
 
         <div class="panel-body">
 
@@ -24,7 +25,8 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="dish in data.order.dishHistory ">
-                    <td>{{dish.dish._id}}</td>
+                    <td><a ui-sref="menu.updateDish({ id: dish.dish._id })">{{dish.dish._id}}</a></td>
+
                     <td>{{dish.dish.title.zh}}</td>
                     <td>{{dish.dish.cookingType}}</td>
                     <td>{{dish.dish.sideDishType}}</td>
@@ -37,10 +39,67 @@
             </table>
 
         </div>
+-->
+
+
+        <div class="panel-body">
+
+            <table class="table table-striped table-bordered table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th>菜ID</th>
+                    <th>菜名</th>
+                    <th>类型</th>
+                    <th>主菜配菜</th>
+                    <th>价格</th>
+                    <th>数量</th>
+                    <th>菜品总价</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="dish in data.order.dishList ">
+                <tr >
+                    <td><a ui-sref="menu.updateDish({ id: dish.dish })">{{dish.dish}}</a></td>
+                    <td>{{dish.detail.dish.title.zh}}</td>
+                    <td>{{dish.detail.dish.cookingType}}</td>
+                    <td>{{dish.detail.dish.sideDishType}}</td>
+
+                    <td>{{dish.detail.dish.priceOriginal}}</td>
+                    <td>{{dish.number}}</td>
+                    <td>{{dish.detail.dish.priceOriginal * dish.number}}</td>
+                </tr>
+
+                <tr ng-repeat="subDish in dish.subDish">
+                    <td> --->>> <a ui-sref="menu.updateDish({ id: subDish.dish })">{{subDish.dish}}</a></td>
+                    <td> --->>> {{subDish.detail.dish.title.zh}}</td>
+                    <td>{{subDish.detail.dish.cookingType}}</td>
+                    <td>{{subDish.detail.dish.sideDishType}}</td>
+
+                    <td>{{subDish.detail.dish.priceOriginal}}</td>
+                    <td>{{subDish.number}}</td>
+                    <td>{{subDish.detail.dish.priceOriginal * subDish.number}}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
 
 
         <div class="panel-body">
             <form class="form-horizontal" name="orderForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >总价格:</label>
+
+                    <div class="col-lg-1">
+                        <span class="help-block" >{{data.order.totalPrice}}</span>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} ({{data.order.coupon}})</span>
+                    </div>
+                </div>
+
 
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >订单号:</label>
@@ -111,17 +170,7 @@
                 </div>
 
 
-                <div class="form-group has-feedback" >
-                    <label class="col-lg-2 control-label" >总价格:</label>
 
-                    <div class="col-lg-1">
-                        <span class="help-block" >{{data.order.totalPrice}}</span>
-                    </div>
-
-                    <div class="col-lg-9">
-                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} ({{data.order.coupon}})</span>
-                    </div>
-                </div>
 
 
                 <div class="form-group has-feedback" >

@@ -2,6 +2,26 @@
  * Created by jinwyp on 8/6/15.
  */
 
+XLSX = require('xlsx');
+
+
+
+exports.orderExportList = function(req, res, next) {
+
+    var workbook = XLSX.readFile('test/eatlist.xlsx');
+    /* DO SOMETHING WITH workbook HERE */
+
+    var first_sheet_name = workbook.SheetNames[0];
+    var first_worksheet = workbook.Sheets[first_sheet_name];
+    var first_cell= first_worksheet['A1'];
+    console.log (first_cell);
+
+    XLSX.writeFile(workbook, 'test/out.xlsx');
+
+    res.status(200).json([])
+};
+
+
 
 
 
