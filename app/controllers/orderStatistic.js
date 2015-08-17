@@ -2,7 +2,8 @@
  * Created by jinwyp on 8/6/15.
  */
 
-XLSX = require('xlsx');
+var path = require('path');
+var XLSX = require('xlsx');
 
 
 function datenum(v, date1904) {
@@ -70,7 +71,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(cell.v == null) continue;
             var cell_ref = XLSX.utils.encode_cell({c:column,r:row+1});
 
-            console.log("-------:", cell_ref, cell);
+            //console.log("-------:", cell_ref, cell);
 
             if(typeof cell.v === 'number') cell.t = 'n';
             else if(typeof cell.v === 'boolean') cell.t = 'b';
@@ -159,7 +160,9 @@ exports.orderExportList = function(req, res, next) {
         workbook.Sheets[first_sheet_name] = newSheet;
 
         XLSX.writeFile(workbook, 'app/public/admin/src/excel/output1.xlsx');
-        res.json (resultOrders)
+
+            //console.log (path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+        res.download(path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
 
     }).catch(next);
 
