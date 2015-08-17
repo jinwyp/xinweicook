@@ -282,12 +282,14 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                             if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
                                 obj[p].splice(index, 1)
                             }
+
                             if(!angular.isUndefined(subobj.title) && subobj.title.zh == ''){
                                 obj[p].splice(index, 1)
                             }
-                            if(!angular.isUndefined(subobj.quantity) && subobj.quantity == ''){
+                            if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
                                 obj[p].splice(index, 1)
                             }
+
                         })
                     }
                 }else if (angular.isObject(obj[p])) {
@@ -386,12 +388,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
 
-            //编辑dish时， 处理dish group 显示
-            //angular.forEach($scope.data.dishGroup, function(dish) {
-            //    if (dish.zh === $scope.data.dish.group.zh){
-            //        $scope.data.dish.group = dish;
-            //    }
-            //});
         });
     }
 
@@ -423,7 +419,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if (form.$invalid) {
             return;
         }
-
+        deleteProperty($scope.data.dish);
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;

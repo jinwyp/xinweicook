@@ -99,33 +99,47 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
   code = req.query.code;
   order_number_state = req.query.state;
-  models.order.validationOrderId order_number_state
+
+  if not req.query.code?
+    logger.error req.query
+
+#  models.order.validationOrderId order_number_state
+
+  unless libs.validator.isLength order_number_state, 24, 24
+#    return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(order_number_state) )
 
   if not code or code.length is 0
-    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-  else
-    weixinpay.getUserOpenId(code, (err, result) ->
+#    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
-      if err
-        next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
 
-      if !result.errcode
-        models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-          if resultOrder
-#            console.log "========================OrderId :: ", resultOrder
-            models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
-              if resultUser
-#                console.log "========================UserId :: ", resultUser
-                resultUser.weixinId.access_token = result.access_token
-                resultUser.weixinId.openid = result.openid
-                resultUser.weixinId.refresh_token = result.refresh_token
+  weixinpay.getUserOpenId(code, (err, result) ->
 
-                resultUser.saveAsync()
+    if err
+#      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
 
-          res.redirect("/mobile/wxpay/" + order_number_state)
-#        res.send result
-        .catch next
-    )
+    if !result.errcode
+      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+        if resultOrder
+          models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+            if resultUser
+              resultUser.weixinId.access_token = result.access_token
+              resultUser.weixinId.openid = result.openid
+              resultUser.weixinId.refresh_token = result.refresh_token
+
+              resultUser.saveAsync()
+          return res.redirect("/mobile/wxpay/" + order_number_state)
+        else
+          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
+
+      .catch (err)->
+        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
+
+    else
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(result)) )
+  )
 
 
 
@@ -571,7 +585,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
-          next new Err err
+          next (new Err err)
 
         if resultWeixinPay
 
