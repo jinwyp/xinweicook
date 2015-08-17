@@ -360,7 +360,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                     $scope.data.order.dishListHash[dish.dish._id] = dish
                 });
                 angular.forEach($scope.data.order.dishList, function(dish, dishIndex){
-                    dish.detail = $scope.data.order.dishListHash[dish.dish]
+                    dish.detail = $scope.data.order.dishListHash[dish.dish];
 
                     if (angular.isArray(dish.subDish) ){
                         angular.forEach(dish.subDish, function(subDish, subDishIndex) {
@@ -368,9 +368,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                         })
                     }
 
-                })
-
-                console.log ($scope.data.order.dishList)
+                });
             }
 
         });
