@@ -56,7 +56,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                 var tempArray = "";
 
                 dishList.forEach(function(dish){
-                    logger.error(dish);
+                    console.log(dish.dish.title);
                     tempArray = tempArray + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                     dish.subDish.forEach(function(subDish){
