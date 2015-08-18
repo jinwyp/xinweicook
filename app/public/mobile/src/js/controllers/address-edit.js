@@ -7,7 +7,8 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
     $scope.address = null;
     $scope.css = {
         isEdit: false, // false表示新建地址
-        showFakeInput: true
+        showFakeInput: true,
+        showAddressTip: false
     };
 
     $scope.search = function () {
@@ -15,7 +16,11 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
             Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
                 $scope.searchAddresses = res.data.result.filter(function (address) {
                     return (!!address.city && !!address.location )
-                })
+                });
+
+                if (!$scope.searchAddresses.length) {
+                     $scope.css.showAddressTip = true;
+                }
             })
         }
     };

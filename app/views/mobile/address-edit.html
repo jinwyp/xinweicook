@@ -48,6 +48,9 @@
                         <div class="general-address">{{addr.city + addr.district}}</div>
                     </li>
                 </ul>
+                <div class="address-not-found" ng-if="css.showAddressTip && address.street">
+                    很抱歉, 没有找到与当前街道匹配的地址. 请适当删减街道关键字以进行重新匹配.
+                </div>
             </div>
 
 

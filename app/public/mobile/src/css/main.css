@@ -917,18 +917,22 @@ label {
   padding-top: 3px;
   font-weight: 100;
 }
+/* line 77, ../sass/_addressedit.scss */
+.suggestion-addresses-wrapper .address-not-found {
+  padding: 27px;
+}
 
-/* line 79, ../sass/_addressedit.scss */
+/* line 82, ../sass/_addressedit.scss */
 .action-group {
   height: 100px;
   padding: 80px 20px 0;
   color: #f44d4d;
 }
-/* line 84, ../sass/_addressedit.scss */
+/* line 87, ../sass/_addressedit.scss */
 .action-group .glyphicon-trash {
   padding-right: 2px;
 }
-/* line 87, ../sass/_addressedit.scss */
+/* line 90, ../sass/_addressedit.scss */
 .action-group .locate-icon {
   background: url(../img/icons/LocationIconEnabled.png) 50% no-repeat;
   background-size: 17%;
