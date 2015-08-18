@@ -104,6 +104,7 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 clearTimeout(timer);
                 timer = setTimeout(this.postCart.bind(this, cart), timeSpan + 100)
             }
+            cartDate = now;
         }
     }
 });

@@ -16,48 +16,29 @@
 </nav>
 
 <div ng-cloak>
-    <div class="fav-block cart-block" ng-if="cookList.length">
-        <h4>食材包</h4>
-        <ul class="fav-list cart-list">
-            <li ng-repeat="dish in cookList">
-                <div class="select"></div>
-                <div class="dish-wrapper">
-                    <a ng-href="{{dish.outOfStock ? '' : '/mobile/cook/' + dish._id}}">
-                        <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
-                    </a>
-                    <div class="dish-detail">
-                        <h5>{{dish.title.zh}}</h5>
-                        <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
-                        <span class="rmb-char">{{dish.priceOriginal}}</span>
-                    </div>
-                    <div class="counter">
-                        <span>-</span>
-                        <span class="number">{{dish.number}}</span><!-- todo: dish.number是否合适 -->
-                        <span>+</span>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
 
-    <div class="fav-block cart-block" ng-if="eatList.length">
-        <h4>便当</h4>
+    <div ng-repeat="(listName, list) in dishList" class="fav-block cart-block" ng-if="list.length">
+        <h4>{{listName == 'cookList' ? '即食包' : '便当'}}</h4>
         <ul class="fav-list cart-list">
-            <li ng-repeat="dish in eatList">
+            <li ng-repeat="item in list">
                 <div class="select"></div>
                 <div class="dish-wrapper">
-                    <a ng-href="{{dish.outOfStock ? '' : '/mobile/#/eat'}}">
-                        <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
+                    <a ng-href="{{item.subDish.outOfStock ? '' : '/mobile/cook/' + item.dish._id}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url(' + item.dish.cover[0].zh + ')'}"></span>
                     </a>
                     <div class="dish-detail">
-                        <h5>{{dish.title.zh}}</h5>
-                        <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
-                        <span class="rmb-char">{{dish.priceOriginal}}</span>
+                        <h5>{{item.dish.title.zh}}<span ng-if="item.subDish">({{item.subDish.title.zh}})</span></h5>
+                        <span class="stock" ng-class="{'out-of-stock': item.subDish.outOfStock}">
+                            {{item.subDish.outOfStock ? '无货' : '有货'}}
+                        </span>
+                        <span class="rmb-char">
+                            {{item.subDish ? item.dish.priceOriginal : (item.dish.priceOriginal + item.subDish.priceOriginal)}}
+                        </span>
                     </div>
                     <div class="counter">
-                        <span>-</span>
-                        <span class="number">{{dish.number}}</span><!-- todo: dish.number是否合适 -->
-                        <span>+</span>
+                        <span ng-click="decrease(item)">-</span>
+                        <span class="number">{{item.subDish ? item.subDish.number : item.dish.number}}</span><!-- todo: dish.number是否合适 -->
+                        <span ng-click="increase(item)">+</span>
                     </div>
                 </div>
             </li>
