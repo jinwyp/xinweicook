@@ -26,7 +26,7 @@ module.exports =
 
   statics :
     fields : ->
-      selectFields = "-isExpired -isUsed"
+      selectFields = "-isExpired"
     checkNotFound : (coupon) ->
       if not coupon
         throw new Err "Coupon not Found or used or expired!", 400
@@ -77,9 +77,6 @@ module.exports =
 
     find1 : (options) ->
       @findOne(options).select(@fields()).execAsync()
-      .then (coupon) ->
-        models.coupon.checkNotFound coupon
-        coupon
 
     gencode : () ->
       randomString = (length = 8)->
