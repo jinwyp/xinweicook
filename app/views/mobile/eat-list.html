@@ -19,25 +19,27 @@
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
-            <div class="img-group" ng-class="{blur: !!dish.count}">
-                <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
-                    <img img-lazy-load="dish.cover[0].zh"/>
-                </a>
-            </div>
-            <div class="detail">
-                <div class="caption">
-                    <h3 class="title">{{::dish.title.zh}}</h3>
-                    <div class="ingredient-group" ng-if="path == '/eat'">
-                        <div class="brief">{{::dish.brief.zh}}</div>
+            <div class="dish-detail">
+                <div class="img-group" ng-class="{blur: !!dish.count}">
+                    <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
+                        <img img-lazy-load="dish.cover[0].zh"/>
+                    </a>
+                </div>
+                <div class="detail">
+                    <div class="caption">
+                        <h3 class="title">{{::dish.title.zh}}</h3>
+                        <div class="ingredient-group" ng-if="path == '/eat'">
+                            <div class="brief">{{::dish.brief.zh}}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="user-actions">
-                    <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
-                </div>
-                <div class="buy">
-                    <span class="price">{{::dish.priceOriginal}}</span>
-                    <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
-                    <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                    <div class="user-actions">
+                        <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
+                    </div>
+                    <div class="buy">
+                        <span class="price">{{::dish.priceOriginal}}</span>
+                        <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
+                        <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                    </div>
                 </div>
             </div>
         </li>

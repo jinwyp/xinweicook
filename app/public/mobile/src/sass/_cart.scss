@@ -1,6 +1,47 @@
 @import "base";
 
+$select-btn-width: 100px;
+.fav-list.cart-list {
+  li {
+    position: relative;
+  }
+  .select {
+    background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
+    width: 24px;
+    height: 100%;
+    position: absolute;
+  }
+  .dish-img {
+    left: 38px;
+  }
+  .dish-detail {
+    width: 120px;
+    margin-left: 132px;
+  }
+  .counter {
+    position: absolute;
+    height: 32px;
+    line-height: 31px;
+    text-align: center;
+    right: -6px;
+    top: 44px;
+    span {
+      display: inline-block;
+      width: 40px;
+      height: 32px;
+      font-size: 18px;
+    }
+    .number {
+      width: 60px;
+      height: 32px;
+      background-color: gray;
+    }
+  }
+}
+
+
 .cart-bar2 {
+  font-size: 13px;
   margin: 0;
   height: $cart-bar-height;
   line-height: $cart-bar-height;
@@ -12,13 +53,12 @@
 
   .select-all {
     background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
-    padding-left: 52px;
+    padding-left: 49px;
   }
 
   .buy-button {
     background-color: $primary-color;
     color: white;
     font-size: 16px;
-    width: 102px;
   }
 }

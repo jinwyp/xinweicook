@@ -18,32 +18,36 @@
 <div ng-cloak>
     <div class="fav-block" ng-if="cookList.length">
         <h4>食材包</h4>
-        <ul class="fav-list cook-fav-list">
+        <ul class="fav-list">
             <li ng-repeat="dish in cookList">
-                <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/cook/' + dish._id}}">
-                    <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
-                    <div class="dish-detail">
-                        <h5>{{dish.title.zh}}</h5>
-                        <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
-                        <span class="rmb-char">{{dish.priceOriginal}}</span>
-                    </div>
-                </a>
+                <div class="dish-wrapper">
+                    <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/cook/' + dish._id}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
+                        <div class="dish-detail">
+                            <h5>{{dish.title.zh}}</h5>
+                            <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
+                            <span class="rmb-char">{{dish.priceOriginal}}</span>
+                        </div>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>
 
     <div class="fav-block" ng-if="eatList.length">
         <h4>便当</h4>
-        <ul class="fav-list cook-fav-list">
+        <ul class="fav-list">
             <li ng-repeat="dish in eatList">
-                <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/#/eat'}}">
-                    <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
-                    <div class="dish-detail">
-                        <h5>{{dish.title.zh}}</h5>
-                        <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
-                        <span class="rmb-char">{{dish.priceOriginal}}</span>
-                    </div>
-                </a>
+                <div class="dish-wrapper">
+                    <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/#/eat'}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url(' + dish.cover[0].zh + ')'}"></span>
+                        <div class="dish-detail">
+                            <h5>{{dish.title.zh}}</h5>
+                            <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
+                            <span class="rmb-char">{{dish.priceOriginal}}</span>
+                        </div>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>

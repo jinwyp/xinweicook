@@ -13,7 +13,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             $scope.cookList = [];
             $scope.eatList = [];
 
-            cart.forEach(function (dish) {
+            cart.forEach(function (el) {
+                var dish = el.dish;
                 dish.outOfStock = outOfStock(dish);
                 if (dish.cookingType == 'ready to cook') {
                     $scope.cookList.push(dish);
@@ -22,16 +23,17 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 }
             });
 
-            postCart.shoppingCart = cart.map(function (dish) {
+            postCart.shoppingCart = cart.map(function (el) {
+                var dish = el.dish;
                 var newDish = {
                     dish: dish._id,
-                    number: dish.number
+                    number: el.number
                 };
-                if (dish.subDish && dish.subDish.length) {
-                    newDish.subDish = dish.subDish.map(function (el) {
+                if (el.subDish && el.subDish.length) {
+                    newDish.subDish = el.subDish.map(function (item) {
                         return {
-                            dish: el._id,
-                            number: el.number
+                            dish: item.dish._id,
+                            number: item.number
                         }
                     })
 
