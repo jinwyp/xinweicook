@@ -423,7 +423,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if (form.$invalid) {
             return;
         }
-        deleteProperty($scope.data.dish);
+        //deleteProperty($scope.data.dish);
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;

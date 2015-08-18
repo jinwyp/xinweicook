@@ -60,6 +60,7 @@ module.exports =
 
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
+    isUsedInvitationSendCode: type: Boolean, default: false
 
     invitationFromCode : String
     invitationFromUser : type: Schema.ObjectId, ref: "user"
@@ -93,6 +94,9 @@ module.exports =
     validationPassword : (password) ->
       unless libs.validator.isLength password, 6, 20
         return throw new Err "Field validation error,  password mus be 6-20", 400
+    validationInvitationSendCode : (code) ->
+      unless libs.validator.isLength code, 8, 8
+        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender

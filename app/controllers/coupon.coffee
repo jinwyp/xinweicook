@@ -72,6 +72,40 @@ exports.getCouponForUserShare = (req, res, next) ->
 
 
 
+# 用户使用朋友的推荐码获得优惠券
+exports.getCouponForUserInvitationSendCode = (req, res, next) ->
+
+  models.user.validationInvitationSendCode(req.params.invitationCode)
+
+  if not req.u.isUsedInvitationSendCode
+
+    newCoupon =
+      name :
+        zh : "好友邀请优惠券"
+        en : "Friend Invitation Coupon"
+      price : 10
+      couponType : "coupon"
+      usedTime : 1
+      user : req.u._id.toString()
+
+    models.coupon.addNew(newCoupon)
+    .then (resultCouponList)->
+      req.u.couponList.push(resultCouponList._id.toString())
+
+      req.u.isUsedInvitationSendCode = true
+      req.u.saveAsync()
+
+    .then (user)->
+
+      res.json user[0]
+
+    .catch next
+  else
+    res.json req.u
+
+
+
+
 
 
 exports.addNewCoupon = (req, res, next) ->
