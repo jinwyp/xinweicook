@@ -55,7 +55,6 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 currentCell.forEach(function(dish){
                     if (dish.dish){
-                        console.log('------',dish.dish._id,  dish.dish.title.zh);
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                         dish.subDish.forEach(function(subDish){
@@ -63,6 +62,8 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                         });
                     }else{
                         console.log('------+++++++',dish.dish);
+                        console.log('------+++++++',dish);
+                        console.log('------+++++++',currentCell);
                     }
 
                 });
