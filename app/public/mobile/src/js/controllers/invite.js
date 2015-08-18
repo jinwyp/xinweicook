@@ -53,7 +53,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                         Debug.alert('分享至朋友失败');
                         Debug.alert(res);
                     }
-                };
+                });
             })
         }).catch(function (res) {
             Debug.alert('获取jsconfig失败');
