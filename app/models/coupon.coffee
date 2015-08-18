@@ -7,6 +7,7 @@ module.exports =
   schema:
     name: zh:String, en:String # 名字
     description: zh:String, en:String
+    couponType : String   # 目前有两种类型 优惠码 promocode 和 优惠券 coupon
     price: Number
     code: String
     priceLimit: type: Number, default: 10 # 订单金额高于限制才可以使用优惠券
@@ -63,8 +64,9 @@ module.exports =
         return throw new Err "Field validation error,  promotion code length must be 10-10", 400
 
     validationNewCoupon : (coupon) ->
-      unless libs.validator.isLength coupon.name.zh, 4, 100
-        return throw new Err "Field validation error,  coupon zh name length must be 4-100", 400
+      console.log "-----", coupon.name
+      unless libs.validator.isLength coupon.name.zh, 3, 100
+        return throw new Err "Field validation error,  coupon zh name length must be 3-100", 400
       unless libs.validator.isInt coupon.price, {min: 1, max: 200}
         return throw new Err "Field validation error,  coupon price must be number 1-200", 400
       unless libs.validator.isLength coupon.couponType, 4, 20
@@ -72,8 +74,7 @@ module.exports =
       unless libs.validator.isInt coupon.usedTime, {min: 0, max: 9000}
         return throw new Err "Field validation error,  coupon usedTime must be 0-9000", 400
       if coupon.couponType is "promocode"
-        if coupon.code
-          @validationCouponCode coupon.code
+        @validationCouponCode coupon.code
 
     find1 : (options) ->
       @findOne(options).select(@fields()).execAsync()
@@ -94,18 +95,18 @@ module.exports =
         name :
           zh : "优惠券"
           en : "coupon"
-        price : 1
-      createCoupon = _.assign createCoupon, newCoupon
+        price : 2
+
+      createCoupon = _.assign(createCoupon, newCoupon)
 
       if newCoupon.couponType is "promocode"
 
         if newCoupon.code and newCoupon.code isnt ""
-
           createCoupon.code = newCoupon.code
         else
           createCoupon.code = models.coupon.gencode()
 
-      @createAsync createCoupon
+      @createAsync(createCoupon)
 
 
 

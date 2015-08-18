@@ -56,6 +56,24 @@ exports.userSignUp = (req, res, next) ->
 
   models.user.signUp(mobile, pwd, code)
   .then (resultUser)->
+
+    # 新用户新增优惠券
+    newCoupon =
+      name :
+        zh : "新注册用户优惠券"
+        en : "NewUserCoupon"
+      price : 5
+      couponType : "coupon"
+      usedTime : 1
+      user : resultUser._id.toString()
+
+    Promise.all([models.coupon.addNew(newCoupon), models.coupon.addNew(newCoupon)]).then (resultCouponList)->
+      for coupon, couponIndex in resultCouponList
+        resultUser.couponList.push(coupon._id.toString())
+
+      resultUser.saveAsync()
+
+
     models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res

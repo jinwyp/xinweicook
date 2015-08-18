@@ -31,6 +31,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
                 zh : '',
                 en : ''
             },
+            couponType : 'promocode',
             price : 10,
             code : '',
             priceLimit : 10,

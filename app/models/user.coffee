@@ -59,6 +59,7 @@ module.exports =
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
     invitationSendCode : type: String
+    isSharedInvitationSendCode: type: Boolean, default: false
 
     invitationFromCode : String
     invitationFromUser : type: Schema.ObjectId, ref: "user"
