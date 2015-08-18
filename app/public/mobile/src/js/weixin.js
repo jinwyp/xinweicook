@@ -60,7 +60,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
          * @param settings
          */
         shareTimeline: function (settings) {
-            wx.onShareTimeline(settings);
+            wx.onMenuShareTimeline(settings);
         },
 
         shareAppMessage: function (settings) {
