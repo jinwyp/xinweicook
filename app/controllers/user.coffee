@@ -104,7 +104,34 @@ exports.resetPassword = (req, res, next) ->
 exports.userInfo = (req, res, next) ->
 
   models.user.find1({_id : req.u._id}).then (resultUser)->
-    res.json resultUser
+
+    # 生成用户自己往外发的邀请码
+    if not resultUser.invitationSendCode
+      tempcode = []
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+
+      promiseList = [
+        models.user.findOneAsync({invitationSendCode : tempcode[0]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[1]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[2]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[3]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[4]})
+      ]
+      Promise.all(promiseList).then (resultUserList)->
+
+        for user, userIndex in resultUserList
+          if not user
+            resultUser.invitationSendCode = tempcode[userIndex]
+
+        resultUser.saveAsync()
+        res.json resultUser
+    else
+      res.json resultUser
+
   .catch next
 
 
