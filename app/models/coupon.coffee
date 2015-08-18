@@ -64,7 +64,6 @@ module.exports =
         return throw new Err "Field validation error,  promotion code length must be 10-10", 400
 
     validationNewCoupon : (coupon) ->
-      console.log "-----", coupon.name
       unless libs.validator.isLength coupon.name.zh, 3, 100
         return throw new Err "Field validation error,  coupon zh name length must be 3-100", 400
       unless libs.validator.isInt coupon.price, {min: 1, max: 200}

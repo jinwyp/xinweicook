@@ -78,7 +78,7 @@ module.exports =
     fields : ->
       selectFields = "-pwd"
     fieldsLess : ->
-      selectFields = "-pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
+      selectFields = "-autoIncrementId -pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
 
     constantUserRole : () ->
       type =

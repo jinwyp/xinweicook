@@ -61,6 +61,7 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
+  app.get("/api/user/coupon/friends", libs.auth("member"), couponController.getCouponForUserShare)
 
   app.get("/api/user/messages", libs.auth("member"), userController.getUserMessages)
   app.put("/api/user", libs.auth("member"), userController.updateUserInfo)

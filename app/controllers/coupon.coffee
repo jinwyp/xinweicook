@@ -37,6 +37,43 @@ exports.couponSingleInfoByCode = (req, res, next) ->
 
 
 
+
+
+
+# 用户分享朋友圈获得优惠券
+exports.getCouponForUserShare = (req, res, next) ->
+
+  if not req.u.isSharedInvitationSendCode
+
+    newCoupon =
+      name :
+        zh : "分享朋友圈优惠券"
+        en : "Share To Friends Coupon"
+      price : 5
+      couponType : "coupon"
+      usedTime : 1
+      user : req.u._id.toString()
+
+    Promise.all([models.coupon.addNew(newCoupon), models.coupon.addNew(newCoupon)])
+    .then (resultCouponList)->
+      for coupon, couponIndex in resultCouponList
+        req.u.couponList.push(coupon._id.toString())
+
+      req.u.isSharedInvitationSendCode = true
+      req.u.saveAsync()
+
+    .then (user)->
+
+      res.json user[0]
+
+    .catch next
+  else
+    res.json req.u
+
+
+
+
+
 exports.addNewCoupon = (req, res, next) ->
 
   models.coupon.validationNewCoupon req.body
@@ -45,8 +82,6 @@ exports.addNewCoupon = (req, res, next) ->
   .then (resultCoupon) ->
     res.json resultCoupon
   .catch next
-
-
 
 
 
