@@ -16,22 +16,6 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
         ak: 'xnKgWtGYXf4gkLgreox7xpjI'
     };
 
-    function distance(latA, lngA, latB, lngB) {
-        var earthR = 6371000;
-        var x = Math.cos(latA * Math.PI / 180) * Math.cos(latB * Math.PI / 180) * Math.cos((lngA - lngB) * Math.PI / 180);
-        var y = Math.sin(latA * Math.PI / 180) * Math.sin(latB * Math.PI / 180);
-        var s = x + y;
-        if (s > 1) {
-            s = 1;
-        }
-        if (s < -1) {
-            s = -1;
-        }
-        var alpha = Math.acos(s);
-        var distance = alpha * earthR;
-        return distance;
-    }
-
     return {
 
         readyState: false,
@@ -76,7 +60,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
          * @param settings
          */
         shareTimeline: function (settings) {
-            wx.ShareTimeline(settings);
+            wx.onShareTimeline(settings);
         },
 
         shareAppMessage: function (settings) {
