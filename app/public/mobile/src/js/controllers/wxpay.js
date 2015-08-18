@@ -10,6 +10,12 @@ function wxpayCtrl($scope, Orders, Debug) {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
 
+        if (!/\w{24}/.test(orderId)) {
+            alert('支付失败, 请稍后重试');
+            $scope.state = 'fail';
+            return;
+        }
+
         Debug.alert('订单ID' + orderId);
         Orders.getUnifiedOrder({
             _id: orderId,
