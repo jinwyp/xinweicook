@@ -19,7 +19,7 @@
     <ul class="eat-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: 'ready to eat'}">
             <div class="img-group" ng-class="{blur: !!dish.count}">
-                <img ng-repeat="cover_ in dish.cover | limitTo : 1" ng-src="{{cover_.zh}}" alt="ready to eat"/>
+                <img ng-repeat="cover_ in dish.cover | limitTo : 1" ng-src="{{cover_.zh | adapt}}" alt="ready to eat"/>
             </div>
             <div class="detail">
                 <div class="caption">
@@ -112,6 +112,7 @@
 <script src="/mobile/src/js/service/debug.js?v=11"></script>
 <script src="/mobile/src/js/service/map.js?v=11"></script>
 <script src="/mobile/src/js/weixin.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/models.js?v=11"></script>
 <script src="/mobile/src/js/config.js?v=11"></script>
 <script src="/mobile/src/js/controllers/eat.js?v=11"></script>
