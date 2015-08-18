@@ -67,14 +67,15 @@ module.exports =
 
     reduceMoney : (amount, name, remark, orderId) ->
       @balance = @balance - Number(amount)
+      console.log(amount, Number(amount) )
 
       newAccountDetail =
         user : @user
         isPlus : false
         amount : -Number(amount)
-          name :
-            zh : "在线消费"
-            en : "Online Pay"
+        name :
+          zh : "在线消费"
+          en : "Online Pay"
 
       newAccountDetail.name = name if name
       newAccountDetail.remark = remark if remark

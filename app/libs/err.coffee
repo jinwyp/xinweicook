@@ -34,11 +34,15 @@ module.exports =
           query: req.query
           params: req.params
 
+      tempError = prettify(error)
+      if not tempError
+        tempError = error
+
       if error.status < 500
         if error.status isnt 401 and error.status isnt 200
-          logger.warn("4XX Error: ", prettify(error), error.req)
+          logger.warn("4XX Error: ", tempError, error.req)
       else
-        logger.error("5XX Error: ", prettify(error), error.req)
+        logger.error("5XX Error: ", tempError, error.req)
 
       res.status(error.status).json
         message: error.message
