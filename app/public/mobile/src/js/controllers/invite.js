@@ -17,46 +17,42 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
 
             Weixin.ready(function () {
                 Debug.alert('ready');
-                $scope.share2Friends = function () {
-                    Weixin.shareTimeline({
-                        title: '微信分享至朋友圈测试',
-                        link: testLink,
-                        imgUrl: testImgUrl,
-                        desc: testDesc,
-                        success: function (res) {
-                            Debug.alert('分享至朋友圈成功');
-                            Debug.alert(res);
-                        },
-                        cancel: function (res) {
-                            Debug.alert('取消分享至朋友圈');
-                            Debug.alert(res);
-                        },
-                        fail: function (res) {
-                            Debug.alert('分享至朋友圈失败');
-                            Debug.alert(res);
-                        }
-                    })
-                };
+                Weixin.shareTimeline({
+                    title: '微信分享至朋友圈测试',
+                    link: testLink,
+                    imgUrl: testImgUrl,
+                    desc: testDesc,
+                    success: function (res) {
+                        Debug.alert('分享至朋友圈成功');
+                        Debug.alert(res);
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享至朋友圈');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友圈失败');
+                        Debug.alert(res);
+                    }
+                });
 
-                $scope.share2Friend = function () {
-                    Weixin.shareAppMessage({
-                        title: '微信分享至朋友测试',
-                        link: testLink,
-                        imgUrl: testImgUrl,
-                        desc: testDesc,
-                        success: function (res) {
-                            Debug.alert('分享至朋友成功');
-                            Debug.alert(res);
-                        },
-                        cancel: function (res) {
-                            Debug.alert('取消分享至朋友');
-                            Debug.alert(res);
-                        },
-                        fail: function (res) {
-                            Debug.alert('分享至朋友失败');
-                            Debug.alert(res);
-                        }
-                    })
+                Weixin.shareAppMessage({
+                    title: '微信分享至朋友测试',
+                    link: testLink,
+                    imgUrl: testImgUrl,
+                    desc: testDesc,
+                    success: function (res) {
+                        Debug.alert('分享至朋友成功');
+                        Debug.alert(res);
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享至朋友');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友失败');
+                        Debug.alert(res);
+                    }
                 };
             })
         }).catch(function (res) {
