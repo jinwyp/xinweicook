@@ -102,7 +102,7 @@ expressRoutes = (app) ->
 
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
-  app.get("/api/administrator/export", orderStatController.orderExportList)
+  app.get("/api/administrator/export/orders", orderStatController.orderExportList)
 
 #  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)

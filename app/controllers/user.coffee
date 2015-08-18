@@ -108,6 +108,57 @@ exports.userInfo = (req, res, next) ->
   .catch next
 
 
+
+
+# 获取用户消息通知 iOS
+exports.getUserMessages = (req, res, next) ->
+
+  models.message.find({user:req.u._id})
+  .execAsync()
+  .then (resultMessages) ->
+    res.json resultMessages
+  .catch next
+
+
+
+# 修改用户信息 修改收货地址
+exports.updateUserInfo = (req, res, next) ->
+
+  models.user.validationUserInfo req.body
+
+  req.u.address = req.body.address
+  req.u.gender = req.body.gender if req.body.gender
+  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
+
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    console.log resultUser, numberAffected
+    models.user.checkNotFound(resultUser)
+    models.user.find1({_id : resultUser._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+# 修改或加入 购物车商品
+exports.updateShoppingCart = (req, res, next) ->
+
+  models.user.validationShoppingCart req.body
+
+  req.u.shoppingCart = req.body.shoppingCart
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.find1({_id : resultUser._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+
+
+
 # 用户账户余额
 exports.userInfoAccount = (req, res, next) ->
 
@@ -152,48 +203,3 @@ exports.chargeAccount = (req, res, next) ->
     res.json resultAccount[0]
 
   .catch next
-
-
-
-# 获取用户消息通知 iOS
-exports.getUserMessages = (req, res, next) ->
-
-  models.message.find({user:req.u._id})
-  .execAsync()
-  .then (resultMessages) ->
-    res.json resultMessages
-  .catch next
-
-
-
-# 修改用户信息 收货地址
-exports.updateUserInfo = (req, res, next) ->
-
-  models.user.validationUserInfo req.body
-
-  req.u.address = req.body.address
-  req.u.gender = req.body.gender if req.body.gender
-  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
-
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.checkNotFound(resultUser)
-    models.user.find1({_id : resultUser._id})
-  .then (user) ->
-    res.json user
-  .catch next
-
-
-
-
-# 修改或加入 购物车商品
-exports.updateShoppingCart = (req, res, next) ->
-
-  models.user.validationShoppingCart req.body
-
-  req.u.shoppingCart = req.body.shoppingCart
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.find1({_id : resultUser._id})
-  .then (user) ->
-    res.json user
-  .catch next
-
