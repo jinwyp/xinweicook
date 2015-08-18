@@ -9,19 +9,21 @@
     <style>
         [ng-cloak] {display:none;}
     </style>
-    <title>个人中心</title>
+    <title>邀请好友</title>
 </head>
-<body ng-app="xw" ng-controller="meCtrl">
+<body ng-app="xw" ng-controller="inviteCtrl">
 
 <nav class="order-nav nav">
     <div class="back-icon" ng-click="back()"></div>
-    <span class="no-bottom-border">个人中心</span>
+    <span class="no-bottom-border">邀请好友</span>
 </nav>
 
 <div ng-cloak>
-    <a ng-if="isDebug" href="/mobile/invite" class="login-button form-control text-center">邀请好友</a>
-    <a href="/mobile/orderlist" class="login-button form-control text-center">我的订单</a>
-    <button class="form-control login-button" ng-click="logout()">退出登录</button>
+    <a ng-click="showShareGroup = true" class="login-button form-control text-center">邀请好友</a>
+    <div class="shareGroup" ng-if="showShareGroup">
+        <button class="login-button" ng-click="share2Friends()">分享至朋友圈</button>
+        <button class="login-button" ng-click="share2Friend()">分享给朋友</button>
+    </div>
 </div>
 </body>
 
@@ -32,5 +34,6 @@
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/service/debug.js"></script>
 <script src="/mobile/src/js/config.js"></script>
-<script src="/mobile/src/js/controllers/me.js"></script>
+<script src="/mobile/src/js/weixin.js"></script>
+<script src="/mobile/src/js/controllers/invite.js"></script>
 </html>
