@@ -1,11 +1,18 @@
 angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator) {
     ScopeDecorator.common($scope);
 
+
+    $scope.increase = function (dish) {
+        dish.number++;
+    }
+
+
+
     function outOfStock (dish) {
         return dish.outOfStock || !dish.isPublished;
     }
 
-    var postCart = {};
+    var postCart = null;
 
     function init() {
         User.getUserInfo().then(function (res) {
@@ -15,6 +22,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
             cart.forEach(function (el) {
                 var dish = el.dish;
+                dish.number = el.number;
                 dish.outOfStock = outOfStock(dish);
                 if (dish.cookingType == 'ready to cook') {
                     $scope.cookList.push(dish);
@@ -23,7 +31,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 }
             });
 
-            postCart.shoppingCart = cart.map(function (el) {
+            // postCart的序号和
+            postCart = cart.map(function (el) {
                 var dish = el.dish;
                 var newDish = {
                     dish: dish._id,
