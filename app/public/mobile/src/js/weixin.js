@@ -4,7 +4,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
         //weixin js config
         wx: {
             appId: 'wx37a1323e488cef84',
-            jsApiList: ['getLocation']
+            jsApiList: ['getLocation', 'onMenuShareTimeline', 'onMenuShareAppMessage']
         },
 
         // xinwei location, gcj02
@@ -71,16 +71,21 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
             wx.getLocation(setting);
         },
 
-        isInRange: function (target, range, source) {
-            range = range || 5000;
-            source = source || defaults.location;
-            var d = distance(target.latitude, target.longitude, source.latitude, source.longitude);
-            Debug.alert('离公司距离：' + d); // todo: remove
-            return d <= range;
+        /**
+         * 同微信分享朋友圈接口http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E8.8E.B7.E5.8F.96.E2.80.9C.E5.88.86.E4.BA.AB.E5.88.B0.E6.9C.8B.E5.8F.8B.E5.9C.88.E2.80.9D.E6.8C.89.E9.92.AE.E7.82.B9.E5.87.BB.E7.8A.B6.E6.80.81.E5.8F.8A.E8.87.AA.E5.AE.9A.E4.B9.89.E5.88.86.E4.BA.AB.E5.86.85.E5.AE.B9.E6.8E.A5.E5.8F.A3
+         * @param settings
+         */
+        shareTimeline: function (settings) {
+            wx.ShareTimeline(settings);
+        },
+
+        shareAppMessage: function (settings) {
+            wx.onMenuShareAppMessage(settings);
         },
 
         /**
-         * @param lat
+         * get location with baidu api
+         * @param lat - gcj02
          * @param lng
          * @return promise will resolved with $http res.
          */
