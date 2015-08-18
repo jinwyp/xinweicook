@@ -116,6 +116,13 @@ module.exports =
         cook : "ready to cook"
         eat : "ready to eat"
 
+    constantSideDishType : () ->
+      type =
+        main : "main"
+        preferences : "preferences"
+        topping : "topping"
+        drink : "drink"
+
     checkNotFound : (dish) ->
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
