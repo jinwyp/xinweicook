@@ -170,6 +170,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             {
                 name : '浇头',
                 value : 'topping'
+            },
+            {
+                name : '饮料',
+                value : 'drink'
             }
         ],
 

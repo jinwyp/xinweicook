@@ -48,27 +48,36 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
 
             var cell = {v: arrayData[row][propertyList[column]] };
+            var tempCellString = "";
+            var currentCell = arrayData[row][propertyList[column]];
 
+            if ( Array.isArray(currentCell) && propertyList[column] ==='dishList' ){
 
-
-            if (Array.isArray(arrayData[row][propertyList[column]]) ){
-                var dishList = arrayData[row][propertyList[column]];
-                var tempArray = "";
-
-                dishList.forEach(function(dish){
-                    console.log('------',dish.dish );
-                    if (dish.dish.title){
-                        console.log('+++++',dish.dish.title );
-                        tempArray = tempArray + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
+                currentCell.forEach(function(dish){
+                    if (dish.dish){
+                        tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                         dish.subDish.forEach(function(subDish){
-                            tempArray = tempArray + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                            tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
                         });
+                    }else{
+                        console.log('------+++++++',dish.dish);
+                        console.log('------+++++++',dish);
+                        console.log('------+++++++',currentCell);
                     }
 
                 });
 
-                cell.v = tempArray
+                cell.v = tempCellString
+            }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='address'){
+                //cell.v = JSON.stringify(arrayData[row][propertyList[column])
+
+                for(var pro in currentCell ){
+                    if (currentCell.hasOwnProperty(pro)) {
+                        tempCellString = tempCellString + '(' + pro + ' : '+ currentCell[pro] + ' ), ';
+                    }
+                }
+                cell.v = tempCellString
             }
 
 
@@ -98,7 +107,7 @@ exports.orderExportList = function(req, res, next) {
 
     models.order.validationGetOrderList(req.query);
 
-    var workbook = XLSX.readFile('app/public/admin/src/excel/empty.xlsx');
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
 
     var first_sheet_name = workbook.SheetNames[0];
@@ -113,6 +122,7 @@ exports.orderExportList = function(req, res, next) {
     models.order.find({}).sort("-createdAt").skip (req.query.skip).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+    .lean()
     .execAsync()
     .then(function(resultOrders){
 
@@ -157,15 +167,14 @@ exports.orderExportList = function(req, res, next) {
             'dishList'
 
 
-
         ];
 
         var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
         workbook.Sheets[first_sheet_name] = newSheet;
 
-        XLSX.writeFile(workbook, 'app/public/admin/src/excel/output1.xlsx');
+        XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
 
-            //console.log (path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+        //console.log (path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
         res.download(path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
 
     }).catch(next);

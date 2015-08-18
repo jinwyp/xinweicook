@@ -5,8 +5,10 @@
 
 # 获取所有菜品
 exports.dishList = (req, res, next) ->
+  if not req.query.sideDishType
+    req.query.sideDishType = "main"
 
-  models.dish.find99({sideDishType : "main", isPublished : true}).then (dishes) ->
+  models.dish.find99({sideDishType : req.query.sideDishType, isPublished : true}).then (dishes) ->
     res.json dishes
   , next
 
