@@ -78,8 +78,8 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
   models.user.validationInvitationSendCode(req.params.invitationCode)
 
   if not req.u.isUsedInvitationSendCode
-
-    models.user.findOneAsync({invitationSendCode:req.params.invitationCode})
+    # 用户不能自己邀请自己
+    models.user.findOneAsync({invitationSendCode:req.params.invitationCode, _id:{$ne:req.u._id.toString()}} )
     .then (resultUser)->
       models.user.checkNotFound(resultUser)
 
