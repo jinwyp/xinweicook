@@ -1,6 +1,6 @@
 ## Req
 
-GET `/dishes?sideDishType=main`
+GET `/api/dishes?sideDishType=main`
 
 ### GET Query params 参数
 

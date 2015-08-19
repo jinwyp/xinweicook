@@ -1,6 +1,6 @@
 ## Req
 
-PUT `/dishes/:_id/like`
+PUT `/api/dishes/:_id/like`
 
 例如 /dishes/558a602a3eba152266ff2b8c/like
 

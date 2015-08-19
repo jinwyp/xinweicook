@@ -1,6 +1,6 @@
 ## Req
 
-POST `/user/shoppingcart`
+POST `/api/user/shoppingcart`
 
 Group `member`
 

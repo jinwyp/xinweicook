@@ -27,7 +27,10 @@
   "createdAt": "2015-07-09T07:53:26.966Z",
   "autoIncrementId": 10002,
   "mobile": "13564568304",
-  "__v": 4,
+  "invitationSendCode": "AWDZNVZK",
+  "isUsedInvitationSendCode": false,
+  "isSharedInvitationSendCode": true,
+
   "dishLikeList": [
     {
       "_id": "558a602a3eba152266ff2b8c",
@@ -292,7 +295,96 @@
       "publishedAt": "2015-07-09T10:16:21.571Z"
     }
   ],
-  "couponList": [],
+  "couponList": [
+     {
+       "_id": "55d452425a9bbacc2ad5ac26",
+       "modifiedAt": "2015-08-19T09:54:10.152Z",
+       "createdAt": "2015-08-19T09:54:10.152Z",
+       "price": 5,
+       "couponType": "coupon",
+       "user": "55d452425a9bbacc2ad5ac25",
+       "__v": 0,
+       "usedUserList": [],
+       "isUsedCount": 0,
+       "isUsed": false,
+       "isExpired": false,
+       "endDate": "2015-11-17T09:41:09.000Z",
+       "startDate": "2015-08-19T09:41:09.000Z",
+       "usedCountLimitOfOneUser": 1,
+       "usedTime": 1,
+       "priceLimit": 10,
+       "name": {
+         "zh": "新注册用户优惠券",
+         "en": "NewUserCoupon"
+       }
+     },
+     {
+       "_id": "55d452425a9bbacc2ad5ac27",
+       "modifiedAt": "2015-08-19T09:54:10.153Z",
+       "createdAt": "2015-08-19T09:54:10.153Z",
+       "price": 5,
+       "couponType": "coupon",
+       "user": "55d452425a9bbacc2ad5ac25",
+       "__v": 0,
+       "usedUserList": [],
+       "isUsedCount": 0,
+       "isUsed": false,
+       "isExpired": false,
+       "endDate": "2015-11-17T09:41:09.000Z",
+       "startDate": "2015-08-19T09:41:09.000Z",
+       "usedCountLimitOfOneUser": 1,
+       "usedTime": 1,
+       "priceLimit": 10,
+       "name": {
+         "zh": "新注册用户优惠券",
+         "en": "NewUserCoupon"
+       }
+     },
+     {
+       "_id": "55d452645a9bbacc2ad5ac2b",
+       "modifiedAt": "2015-08-19T09:54:44.485Z",
+       "createdAt": "2015-08-19T09:54:44.485Z",
+       "price": 5,
+       "couponType": "coupon",
+       "user": "55d452425a9bbacc2ad5ac25",
+       "__v": 0,
+       "usedUserList": [],
+       "isUsedCount": 0,
+       "isUsed": false,
+       "isExpired": false,
+       "endDate": "2015-11-17T09:41:09.000Z",
+       "startDate": "2015-08-19T09:41:09.000Z",
+       "usedCountLimitOfOneUser": 1,
+       "usedTime": 1,
+       "priceLimit": 10,
+       "name": {
+         "zh": "分享朋友圈优惠券",
+         "en": "Share To Friends Coupon"
+       }
+     },
+     {
+       "_id": "55d452645a9bbacc2ad5ac2c",
+       "modifiedAt": "2015-08-19T09:54:44.491Z",
+       "createdAt": "2015-08-19T09:54:44.491Z",
+       "price": 5,
+       "couponType": "coupon",
+       "user": "55d452425a9bbacc2ad5ac25",
+       "__v": 0,
+       "usedUserList": [],
+       "isUsedCount": 0,
+       "isUsed": false,
+       "isExpired": false,
+       "endDate": "2015-11-17T09:41:09.000Z",
+       "startDate": "2015-08-19T09:41:09.000Z",
+       "usedCountLimitOfOneUser": 1,
+       "usedTime": 1,
+       "priceLimit": 10,
+       "name": {
+         "zh": "分享朋友圈优惠券",
+         "en": "Share To Friends Coupon"
+       }
+     }
+   ],
   "shoppingCart": [
     {
       "dish": {

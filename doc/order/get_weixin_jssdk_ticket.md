@@ -1,6 +1,6 @@
 ## Req
 
-POST `/orders/payment/weixinpay/config`
+POST `/api/orders/payment/weixinpay/config`
 
 Group `member`
 

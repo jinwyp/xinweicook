@@ -1,6 +1,6 @@
 ## Req
 
-POST `/orders/payment/alipay/mobile`
+POST `/api/orders/payment/alipay/mobile`
 
 
 | Name             | Type     | Desc                              |
