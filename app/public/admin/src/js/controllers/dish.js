@@ -279,6 +279,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                     delete obj[p];
                 }
                 if (angular.isArray(obj[p]) ){
+
                     if(obj[p].length === 0){
                         delete obj[p];
                     }else{
@@ -287,7 +288,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                                 obj[p].splice(index, 1)
                             }
 
-                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == ''){
+                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == '' && !angular.isUndefined(subobj.value) && subobj.value.zh == ''){
                                 obj[p].splice(index, 1)
                             }
                             if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
@@ -391,8 +392,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
-            console.log ($scope.data.dish.infoUniqueFeature)
-
         });
     }
 
@@ -424,13 +423,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if (form.$invalid) {
             return;
         }
-        //deleteProperty($scope.data.dish);
-        console.log ($scope.data.dish.infoUniqueFeature)
+        deleteProperty($scope.data.dish);
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;
             });
-            console.log(resultDish);
             Notification.success({message: 'Update Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);
