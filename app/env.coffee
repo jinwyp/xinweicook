@@ -27,5 +27,5 @@ GLOBAL.conf   = require "./conf"
 GLOBAL.libs   = require "./libs"
 GLOBAL.Err    = libs.err.Err()
 GLOBAL.logger = libs.logger.logger()
-GLOBAL.redis  = libs.redis()
+#GLOBAL.redis  = libs.redis()
 GLOBAL.models = require "./models"

@@ -9,7 +9,6 @@
     "app/public"
   ],
   "nodeArgs": [
-    "--nodejs",
     "--debug"
   ],
   "env": {
