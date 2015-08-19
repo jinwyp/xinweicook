@@ -230,9 +230,9 @@
                     <label class="col-lg-2 control-label" >菜品特色</label>
 
                     <div ng-repeat="feature in data.dish.infoUniqueFeature">
-                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first, 'has-success':dishForm['dishUniqueFeatureContentType_' + $index].$valid&&dishForm['dishUniqueFeatureTitleZh_' + $index].$valid&&dishForm['dishUniqueFeatureValueZh_' + $index].$valid, 'has-error':dishForm['dishUniqueFeatureContentType_' + $index].$invalid||dishForm['dishUniqueFeatureTitleZh_' + $index].$invalid||dishForm['dishUniqueFeatureValueZh_' + $index].$invalid}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="dishUniqueFeatureContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishUniqueFeatureContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType" required>{{contentType.name}}
                             </label>
 
                             <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishUniqueFeatureTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
@@ -256,9 +256,9 @@
                     <label class="col-lg-2 control-label" >菜品原料</label>
 
                     <div ng-repeat="feature in data.dish.infoIngredient">
-                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first, 'has-success':dishForm['dishIngredientContentType_' + $index].$valid&&dishForm['dishIngredientTitleZh_' + $index].$valid&&dishForm['dishIngredientValueZh_' + $index].$valid, 'has-error':dishForm['dishIngredientContentType_' + $index].$invalid||dishForm['dishIngredientTitleZh_' + $index].$invalid||dishForm['dishIngredientValueZh_' + $index].$invalid}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="dishIngredientContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishIngredientContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType" required>{{contentType.name}}
                             </label>
 
                             <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishIngredientTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
@@ -282,9 +282,9 @@
                     <label class="col-lg-2 control-label" >菜品制作步骤</label>
 
                     <div ng-repeat="feature in data.dish.infoCookingStep">
-                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
+                        <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first, 'has-success':dishForm['dishCookingStepContentType_' + $index].$valid&&dishForm['dishCookingStepTitleZh_' + $index].$valid&&dishForm['dishCookingStepValueZh_' + $index].$valid, 'has-error':dishForm['dishCookingStepContentType_' + $index].$invalid||dishForm['dishCookingStepTitleZh_' + $index].$invalid||dishForm['dishCookingStepValueZh_' + $index].$invalid}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="dishCookingStepContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishCookingStepContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType" required>{{contentType.name}}
                             </label>
 
                             <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishCookingStepTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
@@ -499,10 +499,13 @@
                         <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
                     </div>
 
-                    <div class="col-lg-6">
-                        {{dishForm.$error}}
-                    </div>
                 </div>
+
+                <!--<div class="form-group">-->
+                    <!--<div class="col-lg-12">-->
+                        <!--<span ng-repeat="(errkey, value) in dishForm.$error"> ||--{{errkey}} : {{value}} <br/></span>-->
+                    <!--</div>-->
+                <!--</div>-->
 
             </form>
 
