@@ -79,16 +79,23 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
 
   if not req.u.isUsedInvitationSendCode
 
-    newCoupon =
-      name :
-        zh : "好友邀请优惠券"
-        en : "Friend Invitation Coupon"
-      price : 10
-      couponType : "coupon"
-      usedTime : 1
-      user : req.u._id.toString()
+    models.user.findOneAsync({invitationSendCode:req.params.invitationCode})
+    .then (resultUser)->
+      models.user.checkNotFound(resultUser)
 
-    models.coupon.addNew(newCoupon)
+      req.u.invitationFromCode = resultUser.invitationSendCode
+      req.u.invitationFromUser = resultUser._id.toString()
+
+      newCoupon =
+        name :
+          zh : "好友邀请优惠券"
+          en : "Friend Invitation Coupon"
+        price : 10
+        couponType : "coupon"
+        usedTime : 1
+        user : req.u._id.toString()
+
+      models.coupon.addNew(newCoupon)
     .then (resultCouponList)->
       req.u.couponList.push(resultCouponList._id.toString())
 
