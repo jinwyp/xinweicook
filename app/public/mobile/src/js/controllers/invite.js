@@ -6,6 +6,14 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     var testImgUrl = 'http://m.xinweicook.com/mobile/src/img/icons/ToolbarCartIcon.png';
     var testDesc = '微信分享测试之分享描述-desc';
 
+    $scope.showOptionMenu = function () {
+        Weixin.showOptionMenu();
+    };
+
+    $scope.hideOptionMenu = function () {
+        Weixin.hideOptionMenu();
+    }
+
     function init() {
         Weixin.getJsconfig().then(function (res) {
 
@@ -54,6 +62,8 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                         Debug.alert(res);
                     }
                 });
+
+
             })
         }).catch(function (res) {
             Debug.alert('获取jsconfig失败');

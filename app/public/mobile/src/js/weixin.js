@@ -4,7 +4,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
         //weixin js config
         wx: {
             appId: 'wx37a1323e488cef84',
-            jsApiList: ['getLocation', 'onMenuShareTimeline', 'onMenuShareAppMessage']
+            jsApiList: ['getLocation', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'showOptionMenu', 'showOptionMenu']
         },
 
         // xinwei location, gcj02
@@ -65,6 +65,14 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
 
         shareAppMessage: function (settings) {
             wx.onMenuShareAppMessage(settings);
+        },
+
+        showOptionMenu: function () {
+            wx.showOptionMenu();
+        },
+
+        hideOptionMenu: function () {
+            wx.hideOptionMenu();
         },
 
         /**
