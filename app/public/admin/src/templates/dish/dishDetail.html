@@ -232,11 +232,11 @@
                     <div ng-repeat="feature in data.dish.infoUniqueFeature">
                         <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishUniqueFeatureContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
                             </label>
 
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishUniqueFeatureTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishUniqueFeatureTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishUniqueFeatureTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishUniqueFeatureTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="1" ng-maxlength="300">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishUniqueFeatureValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishUniqueFeatureValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishUniqueFeatureLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
@@ -247,7 +247,7 @@
                         </div>
                     </div>
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoUniqueFeature)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                        <button type="button" class="btn info btn-sm" ng-click="addNewFeature(data.dish.infoUniqueFeature)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
                     </div>
                 </div>
 
@@ -258,11 +258,11 @@
                     <div ng-repeat="feature in data.dish.infoIngredient">
                         <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishIngredientContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
                             </label>
 
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishIngredientTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishIngredientTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishIngredientTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishIngredientTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="1" ng-maxlength="300">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishIngredientValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishIngredientValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishIngredientLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
@@ -273,7 +273,7 @@
                         </div>
                     </div>
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoIngredient)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                        <button type="button" class="btn info btn-sm" ng-click="addNewFeature(data.dish.infoIngredient)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
                     </div>
                 </div>
 
@@ -284,11 +284,11 @@
                     <div ng-repeat="feature in data.dish.infoCookingStep">
                         <div class="col-lg-8" ng-class="{'col-lg-offset-2':!$first}">
                             <label class="radio-inline" ng-repeat="contentType in data.contentTypeList">
-                                <input type="radio" name="contentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
+                                <input type="radio" name="dishCookingStepContentType_{{$parent.$index}}"  ng-value="contentType.value" ng-model="feature.contentType">{{contentType.name}}
                             </label>
 
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishCookingStepTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="2" ng-maxlength="300">
-                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishCookingStepTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="2" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 中文" name="dishCookingStepTitleZh_{{$index}}" ng-model="feature.title.zh" ng-minlength="1" ng-maxlength="300">
+                            <input type="text" class="form-control" placeholder="标题{{$index + 1}} 英文" name="dishCookingStepTitleEn_{{$index}}" ng-model="feature.title.en" ng-minlength="1" ng-maxlength="300">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 中文" name="dishCookingStepValueZh_{{$index}}" ng-model="feature.value.zh" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="内容, 链接地址或图片地址{{$index + 1}} 英文" name="dishCookingStepValueEn_{{$index}}" ng-model="feature.value.en" ng-minlength="2" ng-maxlength="9000">
                             <input type="text" class="form-control" placeholder="图片的链接地址{{$index + 1}} " name="dishCookingStepLink_{{$index}}" ng-show="feature.contentType ==='pic'" ng-model="feature.linkTo" ng-minlength="2" ng-maxlength="300">
@@ -299,7 +299,7 @@
                         </div>
                     </div>
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="button" class="btn info btn-sm" ng-click="addNewCover(data.dish.infoCookingStep)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
+                        <button type="button" class="btn info btn-sm" ng-click="addNewFeature(data.dish.infoCookingStep)"> <span class="glyphicon glyphicon-plus"></span>增加一组内容</button>
                     </div>
                 </div>
 
@@ -497,6 +497,10 @@
                     <div class="col-lg-offset-2 col-lg-1">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="addNewDish(dishForm)">Save</button>
                         <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="dishForm.$invalid" ng-click="updateDish(dishForm)">Save</button>
+                    </div>
+
+                    <div class="col-lg-6">
+                        {{dishForm.$error}}
                     </div>
                 </div>
 

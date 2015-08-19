@@ -1,6 +1,6 @@
 ## Req
 
-GET `/orders?skip=0&limit=200`
+GET `/api/orders?skip=0&limit=200`
 
 Group `member`
 

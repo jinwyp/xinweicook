@@ -1,6 +1,6 @@
 ## Req
 
-POST `/user/device`
+POST `/api/user/device`
 
 ### Body
 

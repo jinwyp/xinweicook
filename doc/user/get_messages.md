@@ -1,6 +1,6 @@
 ## Req
 
-GET `/user/messages`
+GET `/api/user/messages`
 
 Group `member`
 

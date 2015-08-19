@@ -1,5 +1,5 @@
 ## Req
-POST `/user/resetpassword`
+POST `/api/user/resetpassword`
 
 ### Body
 | Name   | Type   | Desc   |

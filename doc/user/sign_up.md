@@ -1,6 +1,6 @@
 ## Req
 
-POST `/user/signup`
+POST `/api/user/signup`
 
 ### Body
 

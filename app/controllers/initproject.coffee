@@ -69,7 +69,6 @@ exports.removeSetting = (req, res, next) ->
 
 
 
-
 exports.createDishTag = (req, res, next) ->
 
   models.tag.findOneAsync({}).then (resultTag) ->
