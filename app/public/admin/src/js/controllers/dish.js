@@ -391,6 +391,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
+            console.log ($scope.data.dish.infoUniqueFeature)
 
         });
     }
@@ -424,6 +425,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             return;
         }
         //deleteProperty($scope.data.dish);
+        console.log ($scope.data.dish.infoUniqueFeature)
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;
