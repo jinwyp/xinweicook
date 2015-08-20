@@ -100,9 +100,11 @@
   color: white;
 
   .operation {
-    padding: 95px 0 0 85px;
     font-size: 22px;
     line-height: 1.8;
+    width: 360px;
+    margin: 95px auto;
+    text-align: center;
     img {
       width: 54px;
       margin: 8px;
@@ -112,9 +114,9 @@
     width: 82px;
     height: 103px;
     background: url(../img/top-right-arrow.png) no-repeat;
-    background-size: 80px;
+    background-size: 66px;
     position: absolute;
     top: 9px;
-    right: 5px;
+    right: -7px;
   }
 }

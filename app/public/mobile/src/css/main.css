@@ -1055,24 +1055,26 @@ label {
 }
 /* line 102, ../sass/_invite.scss */
 .tip .operation {
-  padding: 95px 0 0 85px;
   font-size: 22px;
   line-height: 1.8;
+  width: 360px;
+  margin: 95px auto;
+  text-align: center;
 }
-/* line 106, ../sass/_invite.scss */
+/* line 108, ../sass/_invite.scss */
 .tip .operation img {
   width: 54px;
   margin: 8px;
 }
-/* line 111, ../sass/_invite.scss */
+/* line 113, ../sass/_invite.scss */
 .tip .top-right-arrow {
   width: 82px;
   height: 103px;
   background: url(../img/top-right-arrow.png) no-repeat;
-  background-size: 80px;
+  background-size: 66px;
   position: absolute;
   top: 9px;
-  right: 5px;
+  right: -7px;
 }
 
 /* line 4, ../sass/_coupons.scss */

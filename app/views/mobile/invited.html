@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: white;
-            font-size: 15px;
+            font-size: 14px;
             text-align: center;
             margin: 0;
         }
@@ -18,7 +18,7 @@
         #avatar {
             width: 80px;
             border-radius: 50%;
-            margin-top: 32px;
+            margin-top: 22px;
         }
         .what {
             line-height: 1.7;
@@ -27,44 +27,53 @@
             color: black;
         }
         .xw-img img {
-            width: 70%;
-            margin: -20px 0;
+            width: 44%;
+        }
+        .codes {
+            width: 90%;
+            margin: 1em auto;
+            z-index: 100;
+            line-height: 66px;
+            border-radius: 15px;
+            background-color: #FFF6F6;
+            border: 2px solid rgb(244,77,77);
         }
         .code-title {
             font-size: 13px;
             color: #909090;
+            margin-right: 10px;
+            vertical-align: middle;
         }
         #code {
             color: black;
             line-height: 1.8;
-            font-size: 20px;
+            font-size: 18px;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+            width: 6.5em;
+            background-color:#DAD5D5;
+        }
+        .rmb {
+            font-size: 21px;
+            font-weight: 100;
+            vertical-align: middle;
+            color: rgb(244,77,77);
         }
         h5 {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 100;
             margin-bottom:0;
         }
         .how-to-exchange-wrapper {
-            position: fixed;
             bottom: 0;
             width: 100%;
         }
         .how-to-exchange {
             font-size: 13px;
-            color:#909090;
-            margin-top: 7px;
-            margin-bottom: 25px;
-        }
-        .exchange-btn {
-            display: block;
-            width: 93%;
-            text-align: center;
-            margin: 0 auto 14px;
-            height: 2.8em;
-            background-color: rgb(244,77,77);
-            line-height: 2.8em;
-            color: white !important;
-            font-weight: 100;
+            color: #909090;
+            width: 90%;
+            margin: 7px auto 25px;
         }
     </style>
 </head>
@@ -81,23 +90,22 @@
         他/她分享了一张价值 ¥10 的优惠券。<br/>
     </p>
 
-    <div class="xw-img">
-        <img src="/mobile/src/img/xw.jpg" alt=""/>
-    </div>
-
-    <p>
-        <span class="code-title">兑换码</span> <br/>
+    <p class="codes">
+        <span class="code-title">兑换码</span>
         <span id="code"></span>
+        <span class="rmb">¥10</span>
     </p>
 
     <div class="how-to-exchange-wrapper">
         <h5>如何兑换?</h5>
         <p class="how-to-exchange">
-            进入微信公众号 「新味」 ,点击 「我」 → 「优惠券」 <br/>
+            长按下图识别二维码, 进入 「新味」 的公众号并注册成为会员, 点击 「我」 → 「优惠券」
             输入兑换码即可完成兑换。
         </p>
+    </div>
 
-        <a class="exchange-btn" href="">现在就去兑换</a>
+    <div class="xw-img">
+        <img src="/mobile/src/img/xwgzh.jpg" alt=""/>
     </div>
 </div>
 </body>
