@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <title>新味</title>
+    <style>
+        body {
+            background-color: white;
+            font-size: 15px;
+            text-align: center;
+            margin: 0;
+        }
+        a:link, a:visited, a:focus, a:hover, a:active {
+            text-decoration: none;
+            color: inherit;
+        }
+        #avatar {
+            width: 80px;
+            border-radius: 50%;
+            margin-top: 32px;
+        }
+        .what {
+            line-height: 1.7;
+        }
+        .what strong {
+            color: black;
+        }
+        .xw-img img {
+            width: 70%;
+            margin: -20px 0;
+        }
+        .code-title {
+            font-size: 13px;
+            color: #909090;
+        }
+        #code {
+            color: black;
+            line-height: 1.8;
+            font-size: 20px;
+        }
+        h5 {
+            font-size: 15px;
+            font-weight: 100;
+            margin-bottom:0;
+        }
+        .how-to-exchange-wrapper {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .how-to-exchange {
+            font-size: 13px;
+            color:#909090;
+            margin-top: 7px;
+            margin-bottom: 25px;
+        }
+        .exchange-btn {
+            display: block;
+            width: 93%;
+            text-align: center;
+            margin: 0 auto 14px;
+            height: 2.8em;
+            background-color: rgb(244,77,77);
+            line-height: 2.8em;
+            color: white !important;
+            font-weight: 100;
+        }
+    </style>
+</head>
+<body class="invited-body">
+
+<div class="main invited-main">
+    <div class="avatar-wrapper">
+        <img id="avatar" src="/mobile/src/img/avatar/4.jpg"/>
+    </div>
+
+    <p class="what">
+        您的好友 <strong id="friend-name"></strong> <br/>
+        分享了一张价值 ¥10 的优惠券。<br/>
+        <span id="place"></span>
+    </p>
+
+    <div class="xw-img">
+        <img src="/mobile/src/img/xw.jpg" alt=""/>
+    </div>
+
+    <p>
+        <span class="code-title">兑换码</span> <br/>
+        <span id="code"></span>
+    </p>
+
+    <div class="how-to-exchange-wrapper">
+        <h5>如何兑换?</h5>
+        <p class="how-to-exchange">
+            进入微信公众号 「新味」 ,点击 「我」 → 「优惠券」 <br/>
+            输入兑换码即可完成兑换。
+        </p>
+
+        <a class="exchange-btn" href="">现在就去兑换</a>
+    </div>
+</div>
+</body>
+<script>
+    (function () {
+        'use strict';
+
+        var queries = location.href.split('/');
+        var last = queries.length - 1;
+        var code = b642utf(queries[last - 2]);
+        var name = b642utf(queries[last - 1]);
+        var place = b642utf(queries[last]);
+        var idx = Math.floor(Math.random() * 7) + 1;
+
+        document.getElementById('avatar').src = '/mobile/src/img/avatar/' + idx + '.jpg';
+        document.getElementById('code').textContent = code;
+        document.getElementById('friend-name').textContent = name;
+        document.getElementById('place').textContent = '约你一起去' + place + '吃便当';
+
+        function b642utf(str) {
+            return decodeURIComponent(escape(window.atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+        }
+    }());
+</script>
+</html>

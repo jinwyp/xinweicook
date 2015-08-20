@@ -4,7 +4,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
         //weixin js config
         wx: {
             appId: 'wx37a1323e488cef84',
-            jsApiList: ['getLocation', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'showOptionMenu', 'showOptionMenu']
+            jsApiList: ['getLocation', 'onMenuShareTimeline', 'onMenuShareAppMessage']
         },
 
         // xinwei location, gcj02

@@ -939,3 +939,140 @@ label {
   background-position-x: 0;
   padding-left: 24px;
 }
+
+/* line 3, ../sass/_invite.scss */
+.invite-body {
+  background-color: white;
+}
+
+/* line 8, ../sass/_invite.scss */
+.invite-img-wrapper img {
+  width: 90%;
+}
+
+/* line 13, ../sass/_invite.scss */
+.notes {
+  margin-top: -10px;
+  line-height: 1.9;
+  margin-bottom: 3em;
+  font-size: 15px;
+}
+
+/* line 20, ../sass/_invite.scss */
+.share-block {
+  border: 2px solid #f44d4d;
+  border-radius: 12px;
+  background-color: #f44d4d;
+  overflow: hidden;
+  font-size: 15px;
+  position: absolute;
+  width: 93%;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+/* line 33, ../sass/_invite.scss */
+.share-block .content {
+  background-color: #FFF6F6;
+  padding: 15px;
+}
+/* line 36, ../sass/_invite.scss */
+.share-block .content select {
+  width: 100%;
+  -webkit-appearance: none;
+  border: 1px solid #f44d4d !important;
+  border-radius: 5px !important;
+  padding: 0.3em !important;
+  padding-right: 1.3em !important;
+  background: url(../img/up-triangle.svg?a) 100% 45%/12px no-repeat white;
+}
+/* line 46, ../sass/_invite.scss */
+.share-block .content .txt {
+  margin: 0 0 15px;
+}
+/* line 48, ../sass/_invite.scss */
+.share-block .content .txt .money {
+  font-size: 40px;
+  font-weight: 100;
+  color: #f44d4d;
+  padding-left: 2px;
+  vertical-align: middle;
+}
+/* line 55, ../sass/_invite.scss */
+.share-block .content .txt .codes {
+  line-height: 1.5;
+  margin: 0;
+  height: 57px;
+  padding-top: 17px;
+}
+/* line 60, ../sass/_invite.scss */
+.share-block .content .txt .codes .caption {
+  padding-right: 0;
+}
+/* line 63, ../sass/_invite.scss */
+.share-block .content .txt .codes .code {
+  padding-left: .5em;
+  background-color: #DAD5D5;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+}
+/* line 73, ../sass/_invite.scss */
+.share-block .content .inputs {
+  margin: 0;
+}
+/* line 76, ../sass/_invite.scss */
+.share-block .content .col-xs-4:first-child {
+  padding-left: 0;
+}
+/* line 79, ../sass/_invite.scss */
+.share-block .content .col-xs-8:last-child {
+  padding-right: 0;
+}
+/* line 84, ../sass/_invite.scss */
+.share-block .button {
+  color: white;
+  background-color: #f44d4d;
+  line-height: 2.5;
+  font-weight: 100;
+}
+
+/* line 92, ../sass/_invite.scss */
+.tip {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 100;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+/* line 102, ../sass/_invite.scss */
+.tip .operation {
+  padding: 95px 0 0 85px;
+  font-size: 22px;
+  line-height: 1.8;
+}
+/* line 106, ../sass/_invite.scss */
+.tip .operation img {
+  width: 54px;
+  margin: 8px;
+}
+/* line 111, ../sass/_invite.scss */
+.tip .top-right-arrow {
+  width: 82px;
+  height: 103px;
+  background: url(../img/top-right-arrow.png) no-repeat;
+  background-size: 80px;
+  position: absolute;
+  top: 9px;
+  right: 5px;
+}
+
+/* line 3, ../sass/invited.scss */
+.invited-main {
+  background-color: white;
+  text-align: center;
+}
