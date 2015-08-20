@@ -248,6 +248,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 en : 'Sauce'
             },
             {
+                zh : '口味',
+                en : 'Flavor'
+            },
+            {
                 zh : '牛肉',
                 en : 'beef'
             },
