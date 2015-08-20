@@ -4,6 +4,14 @@ GET `/api/user/coupon/invitation/:invitationCode`
 
 Group `member`
 
+
+例如 `/api/user/coupon/invitation/AWDZNVZK`
+
+| Name                   | Type   | Desc        |
+|:-------                |:-------|:-------     |
+| invitationCode         | String | 该用户发给朋友的邀请码    |
+
+
 ## Res
 ### Body
 

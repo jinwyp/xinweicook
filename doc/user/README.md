@@ -11,10 +11,11 @@
 
 
 
-###  头像字段 avatarPic
-| Name      | Type   | Desc   |
-|:-------   |:-------|:-------|
-| avatarPic | String | 头像字段 |
+###  用户字段
+| Name               | Type   | Desc   |
+|:-------            |:-------|:-------|
+| avatarPic          | String | 头像字段 |
+| invitationSendCode | String | 该用户可以发送给朋友的邀请码 |
 
 
 
@@ -295,6 +296,7 @@
       "publishedAt": "2015-07-09T10:16:21.571Z"
     }
   ],
+
   "couponList": [
      {
        "_id": "55d452425a9bbacc2ad5ac26",
