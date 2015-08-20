@@ -82,7 +82,14 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 pwd: pwd,
                 code: code
             });
+        },
+        applyInvitationCode: function (code) {
+            return $http.get('/api/user/coupon/invitation/' + code)
+        },
+        invitedFriends: function () {
+            $http.get('/api/user/coupon/friends');
         }
+
     }
 });
 

@@ -164,6 +164,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 }
             })
         } else {
+            //todo:
             location.href = '/mobile';
         }
 
@@ -174,10 +175,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         }
 
         if (!$scope.address.district) {
+            //todo:
             location.href = '/mobile/';
         }
-
-        // todo : set fake address, to delete it later.
 
         Orders.deliveryTime({
             cookingType: "ready to eat",

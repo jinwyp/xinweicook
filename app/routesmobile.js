@@ -50,8 +50,11 @@ expressRoutes = function(app) {
     app.get('/mobile/invite', function (req, res) {
         res.render('mobile/invite.html');
     });
-    app.get('/mobile/invited/:code/:name/:place', function (req, res) {
+    app.get('/mobile/invited/:avatar/:code/:name/:place', function (req, res) {
         res.render('mobile/invited.html');
+    });
+    app.get('/mobile/coupons', function (req, res) {
+        res.render('mobile/coupons.html');
     });
 
 

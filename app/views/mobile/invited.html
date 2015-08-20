@@ -72,7 +72,7 @@
 
 <div class="main invited-main">
     <div class="avatar-wrapper">
-        <img id="avatar" src="/mobile/src/img/avatar/4.jpg"/>
+        <img id="avatar"/>
     </div>
 
     <p class="what">
@@ -107,10 +107,11 @@
 
         var queries = location.href.replace(/\?.*/, '').split('/');
         var last = queries.length - 1;
+        var avatar = b642utf(queries[last - 3]);
         var code = b642utf(queries[last - 2]);
         var name = b642utf(queries[last - 1]);
         var place = b642utf(queries[last]);
-        var idx = Math.floor(Math.random() * 7) + 1;
+        var idx = avatar % 7 + 1;
 
         document.getElementById('avatar').src = '/mobile/src/img/avatar/' + idx + '.jpg';
         document.getElementById('code').textContent = code;

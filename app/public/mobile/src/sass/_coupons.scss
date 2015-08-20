@@ -1,0 +1,20 @@
+@import "base";
+
+.coupons-main {
+  .flat-button.invalid {
+    border-color: $invalid-text-color;
+    color: $invalid-text-color;
+  }
+  .table-wrapper {
+    overflow: auto;
+    p {
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    table {
+      min-width: 500px;
+    }
+  }
+}

@@ -19,15 +19,24 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     var testImgUrl = 'http://m.xinweicook.com/mobile/src/img/icons/ToolbarCartIcon.png';
 
     function init() {
+        var avatar;
+        var avatarCount = 7;
+        var link = '';
+        var code = '';
+        var prefix = '';
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
+            var id = $scope.user._id;
+            id = '0x' + id.substr(17, 6);
+            avatar = +id % avatarCount + 1;
+            avatar = Utils.utf2b64(avatar);
+            code = Utils.utf2b64($scope.user.invitationSendCode);
+            prefix = '/' + avatar + '/' + code;
         });
-
-        var link = '';
 
         $scope.$watchGroup(['role', 'place'], function (newValues) {
             if (!$scope.user) return;
-            var queries = '/' + Utils.utf2b64($scope.user.invitationSendCode) +
+            var queries = prefix +
                           '/' + Utils.utf2b64(newValues[0]) +
                           '/' + Utils.utf2b64(newValues[1]);
             link = location.href.replace('invite', 'invited' + queries);
@@ -40,6 +49,10 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 success: function (res) {
                     Debug.alert('分享至朋友圈成功');
                     Debug.alert(res);
+                    $scope.css.showTip = false;
+                    User.invitedFriends().then(function () {
+                        alert('分享至朋友圈成功!');
+                    }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
                 },
                 cancel: function (res) {
                     Debug.alert('取消分享至朋友圈');
