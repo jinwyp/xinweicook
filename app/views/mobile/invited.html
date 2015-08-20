@@ -76,9 +76,9 @@
     </div>
 
     <p class="what">
-        您的好友 <strong id="friend-name"></strong> <br/>
-        分享了一张价值 ¥10 的优惠券。<br/>
-        <span id="place"></span>
+        您的好友 <strong id="friend-name"></strong><br/>
+        <span id="place"></span><br/>
+        他/她分享了一张价值 ¥10 的优惠券。<br/>
     </p>
 
     <div class="xw-img">
@@ -116,7 +116,7 @@
         document.getElementById('avatar').src = '/mobile/src/img/avatar/' + idx + '.jpg';
         document.getElementById('code').textContent = code;
         document.getElementById('friend-name').textContent = name;
-        document.getElementById('place').textContent = '约你一起去' + place + '吃便当';
+        document.getElementById('place').textContent = '约你一起去 ' + place + ' 吃便当';
 
         function b642utf(str) {
             return decodeURIComponent(escape(window.atob(str.replace(/-/g, '+').replace(/_/g, '/'))));

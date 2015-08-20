@@ -1,4 +1,6 @@
-angular.module('xw.controllers').controller('couponsCtrl', function ($scope, User, Debug) {
+angular.module('xw.controllers').controller('couponsCtrl', function ($scope, User, Debug, ScopeDecorator) {
+
+    ScopeDecorator.common($scope);
 
     $scope.apply = function () {
         User.applyInvitationCode($scope.invitationCode).then(function () {

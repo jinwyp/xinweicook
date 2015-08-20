@@ -5,8 +5,21 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     };
     $scope.ready = false;
 
-    $scope.roles = ['陈盥洗', '麻花腾', '粥杰伦'];
-    $scope.places = ['优衣窟', '北戴河', '钓鱼岛', '火星', 'Kepler-452b', '召唤师峡谷', '艾欧尼亚'].map(function (place) {
+    $scope.roles = [
+        '柠则饕','榴烨','吴咽祖','梨意疯','蔬荠',
+        '鹌祖拉baby','果必停','糯一','榴墙咚','粥杰伦',
+        '梨命好','饭冰冰','京腥','凳炒','望风',
+        '梅梅','卷腐','豆森','低卡葡黎熬','掰掰合',
+        '橙薏逊', '羊幂', '糖淹', '甲奶酿', '瞪籽荠',
+        '松成鲜', '淋汁苓', '煌削茗', '鱼沉庆', '油红明',
+        'TFGirls'
+    ];
+
+    $scope.places = [
+        '三栗屯', '仁敏广场', '老地方', '他家', '她家',
+        '鹿夹嘴', '海腩岛', '续加惠', '精鹌撕', '馨舔底',
+        '麻耳呆夫', '挤粥岛'
+    ].map(function (place) {
         return {
             inner: place,
             display: '约你一起去' + place + '吃便当'
@@ -45,13 +58,12 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 title: '微信分享至朋友圈测试',
                 link: link,
                 imgUrl: testImgUrl,
-                desc: '描述能不能用?',
                 success: function (res) {
                     Debug.alert('分享至朋友圈成功');
                     Debug.alert(res);
                     $scope.css.showTip = false;
                     User.invitedFriends().then(function () {
-                        alert('分享至朋友圈成功!');
+                        alert('分享成功, 2张优惠券到手!');
                     }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
                 },
                 cancel: function (res) {
