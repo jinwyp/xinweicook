@@ -4,7 +4,6 @@ GET `/api/user/coupon/invitation/:invitationCode`
 
 Group `member`
 
-### GET Query params 参数
 
 例如 `/api/user/coupon/invitation/AWDZNVZK`
 
