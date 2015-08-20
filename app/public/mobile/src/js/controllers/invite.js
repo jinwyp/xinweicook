@@ -55,7 +55,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             link = location.href.replace('invite', 'invited' + queries);
 
             Weixin.shareTimeline({
-                title: newValues[0] + newValues[1],
+                title: newValues[0] + '约你一起去' + newValues[1] + '吃便当',
                 link: link,
                 imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
                 success: function (res) {
