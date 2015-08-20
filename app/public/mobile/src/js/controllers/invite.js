@@ -55,9 +55,9 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             link = location.href.replace('invite', 'invited' + queries);
 
             Weixin.shareTimeline({
-                title: '微信分享至朋友圈测试',
+                title: newValues[0] + newValues[1],
                 link: link,
-                imgUrl: testImgUrl,
+                imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
                 success: function (res) {
                     Debug.alert('分享至朋友圈成功');
                     Debug.alert(res);
