@@ -4,6 +4,9 @@ GET `/api/user/coupon/friends`
 
 Group `member`
 
+
+
+
 ## Res
 ### Body
 
