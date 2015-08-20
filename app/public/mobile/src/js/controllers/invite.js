@@ -31,6 +31,25 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                           '/' + Utils.utf2b64(newValues[0]) +
                           '/' + Utils.utf2b64(newValues[1]);
             link = location.href.replace('invite', 'invited' + queries);
+
+            Weixin.shareTimeline({
+                title: '微信分享至朋友圈测试',
+                link: link,
+                imgUrl: testImgUrl,
+                desc: '描述能不能用?',
+                success: function (res) {
+                    Debug.alert('分享至朋友圈成功');
+                    Debug.alert(res);
+                },
+                cancel: function (res) {
+                    Debug.alert('取消分享至朋友圈');
+                    Debug.alert(res);
+                },
+                fail: function (res) {
+                    Debug.alert('分享至朋友圈失败');
+                    Debug.alert(res);
+                }
+            });
         });
 
         Weixin.getJsconfig().then(function (res) {
@@ -43,24 +62,6 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
 
             Weixin.ready(function () {
                 Debug.alert('ready');
-                Weixin.shareTimeline({
-                    title: '微信分享至朋友圈测试',
-                    link: link,
-                    imgUrl: testImgUrl,
-                    desc: '描述能不能用?',
-                    success: function (res) {
-                        Debug.alert('分享至朋友圈成功');
-                        Debug.alert(res);
-                    },
-                    cancel: function (res) {
-                        Debug.alert('取消分享至朋友圈');
-                        Debug.alert(res);
-                    },
-                    fail: function (res) {
-                        Debug.alert('分享至朋友圈失败');
-                        Debug.alert(res);
-                    }
-                });
 
                 $scope.ready = true;
             })

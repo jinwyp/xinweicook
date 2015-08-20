@@ -105,7 +105,7 @@
     (function () {
         'use strict';
 
-        var queries = location.href.split('/');
+        var queries = location.href.replace(/\?.*/, '').split('/');
         var last = queries.length - 1;
         var code = b642utf(queries[last - 2]);
         var name = b642utf(queries[last - 1]);
