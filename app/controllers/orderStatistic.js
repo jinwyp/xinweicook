@@ -19,6 +19,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
     var range = {s: {c:10000000, r:10000000}, e: {c:0, r:0 }};
 
+    // 写表头第一行
     for (var column=0; column < totalColumn; column++){
 
         var cell = {v: propertyList[column] };
@@ -37,7 +38,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
     }
 
-
+    // 从第二行写入内容
     for (var row=0; row < totalRow; row++){
         for (var column=0; column < totalColumn; column++){
 

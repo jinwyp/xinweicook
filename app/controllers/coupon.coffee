@@ -1,4 +1,5 @@
 # 美食趣闻
+XLSX = require('xlsx');
 
 
 
@@ -115,6 +116,15 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
 
 
 
+
+
+
+
+
+
+
+
+
 exports.addNewCoupon = (req, res, next) ->
 
   models.coupon.validationNewCoupon req.body
@@ -153,3 +163,77 @@ exports.assignCouponToUser = (req, res, next) ->
 
 
 
+
+
+exports.addNewCoupon150000 = (req, res, next) ->
+
+  genCouponCode = (length = 4) ->
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    str = ""
+    for i in [1..4]
+      str += chars[Math.floor(Math.random() * chars.length)];
+    str = "XW" + str + "XWC"
+    str
+
+  genCouponCodeLast = (code)->
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    str2 = ""
+    total = 0
+    for j in [0..8]
+      total = total + chars.indexOf(code[j])
+
+    # 身份证校验位 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8 7 6 5 4 3 2
+    verifyCode = ["1", "0", "X", "9", "8", "7",  "6", "5", "4", "3", "2"]
+
+    str2 = code + verifyCode[total%11]
+
+
+  generateSheetFromArray = (worksheet, arrayData)->
+    totalRow = arrayData.length;
+
+    range = {s: {c:100, r:10000000}, e: {c:0, r:0 }}
+
+    # 写入内容
+    for row in [0..totalRow]
+
+      range.s.r = row if range.s.r > row
+      range.e.r = row + 10 if range.e.r < row
+
+      cell = {v: arrayData[row], t :"s" }
+
+      cell_ref = XLSX.utils.encode_cell({c:1,r:row})
+
+      worksheet[cell_ref] = cell;
+
+    if range.s.c < 10000000
+      worksheet['!ref'] = XLSX.utils.encode_range(range);
+
+    return worksheet
+
+
+
+  result = []
+  for i in [1..10]
+    tempStr = genCouponCode()
+
+    console.log("+++", i, genCouponCodeLast(tempStr))
+    result.push(genCouponCodeLast(tempStr))
+
+  workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+
+  first_sheet_name = workbook.SheetNames[0];
+  first_worksheet = workbook.Sheets[first_sheet_name];
+
+  newSheet = generateSheetFromArray(first_worksheet, result);
+  workbook.Sheets[first_sheet_name] = newSheet;
+
+  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'));
+
+
+
+
+  res.json result
+#  models.coupon.addNew req.body
+#  .then (resultCoupon) ->
+#      res.json resultCoupon
+#  .catch next

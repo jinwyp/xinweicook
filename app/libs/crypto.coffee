@@ -14,7 +14,7 @@ module.exports = Crypto =
     crypto.randomBytes(length).toString("base64")
 
   gencode : (length = 8) ->
-    chars = 'ABCDEFGHJKMNPQRSTUVWXTZ'.split('');
+    chars = 'ABCDEFGHJKMNPQRSTUVWXWZ'.split('');
     str = ""
     for i in [1..length]
       str += chars[Math.floor(Math.random() * chars.length)];
