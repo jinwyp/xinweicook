@@ -10,10 +10,15 @@ function loginCtrl($scope, User, $location, $timeout) {
     var pwdErrTimes = 0;
     $scope.login = function (form) {
         User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
-            // todo: redirect
-            //document.location = 'detail page'
+            var redirect = location.search.substring(1).split('=');
+            if (redirect.length > 1) {
+                redirect = redirect[1];
+                if (!/(\/\w*)+/.test(redirect)) {
+                    redirect = '';
+                }
+            }
             $timeout(function () {
-                location.href = '/mobile';
+                location.href = redirect || '/mobile';
             },120);
         }).catch(function (res) {
             // todo:

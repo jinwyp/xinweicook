@@ -1,6 +1,6 @@
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = ['/mobile/', '/mobile/login'];
-    var loginRedrectPath = ['/mobile/'];
+    var loginRedrectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/invite', '/mobile/coupons'];
 
     return {
         'request': function(config) {
@@ -13,14 +13,17 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
 
         'responseError': function(response) {
             // do something on error
+            var redirectPath = '';
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
                 if (noRedirectPath.indexOf(location.pathname) == -1) {
-
+                    if (loginRedrectPath.indexOf(location.pathname) != -1) {
+                        redirectPath = '?redirect=' + location.pathname
+                    }
                     setTimeout(function () {
                         // todo:
-                        location.href = '/mobile/login';
+                        location.href = '/mobile/login' + redirectPath ;
                     }, 120);
                 }
             }

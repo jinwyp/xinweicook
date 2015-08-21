@@ -62,7 +62,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 Weixin.shareAppMessage({
                     title: title,
                     link: link,
-                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw_square.jpg',
                     desc: '平时我这么高冷，今天来带你一起飞。男神女神做庄，还不快喊小伙伴一起乖乖坐好等我上菜！',
                     //todo: 需要复用success
                     success: function (res) {
@@ -83,7 +83,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 Weixin.shareTimeline({
                     title: name + '约你一起去' + place + '吃便当',
                     link: link,
-                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw_square.jpg',
                     success: function (res) {
                         Debug.alert('分享至朋友圈成功');
                         Debug.alert(res);
