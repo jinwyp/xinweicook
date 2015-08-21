@@ -114,6 +114,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (data) {
             $scope.isInRange = $localStorage.isInRange4KM = !!data.isInRange;
             $localStorage.distance = data.distance;
+
+            Debug.alert('与xw的步行距离:' + data.distance);
         });
     };
 
@@ -161,6 +163,11 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
                     if ($scope.address) return;
 
                     Debug.alert(res);
+                    Debug.alert('微信返回的当前坐标');
+                    Debug.alert({
+                        lat: res.latitude,
+                        lng: res.longitude
+                    });
                     Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
                         if ($scope.address) return;
 
@@ -169,6 +176,12 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
                         $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
                         $localStorage.address.geoLatitude = result.location.lat;
                         $localStorage.address.geoLongitude = result.location.lng;
+
+                        Debug.alert('百度根据坐标查询地名后返回的坐标');
+                        Debug.alert({
+                            lat: result.location.lat,
+                            lng: result.location.lng
+                        });
 
                         $scope.chooseAddress($localStorage.address);
 
