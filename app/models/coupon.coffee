@@ -141,3 +141,5 @@ module.exports =
           else
             req.query.code = { $exists: false }
         next()
+      else
+        next()

@@ -126,10 +126,11 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
     $scope.updateCoupon = function (form) {
+
         if (form.$invalid) {
             return;
         }
-
+        console.log(form.$invalid);
         $scope.data.coupon.put().then(function (resultCoupon) {
             console.log(resultCoupon);
             Notification.success({message: 'Update Success', delay: 8000});
