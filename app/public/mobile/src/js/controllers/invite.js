@@ -58,7 +58,8 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             var queries = prefix +
                           '/' + Utils.utf2b64(newValues[0]) +
                           '/' + Utils.utf2b64(newValues[1]);
-            link = location.href.replace('invite', 'invited' + queries);
+            link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
+                Debug.alert(link);
 
             Weixin.shareTimeline({
                 title: newValues[0] + '约你一起去' + newValues[1] + '吃便当',

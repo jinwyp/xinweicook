@@ -60,6 +60,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
          * @param settings
          */
         shareTimeline: function (settings) {
+            Debug.alert('shareTimeline已经执行')
             wx.onMenuShareTimeline(settings);
         },
 
