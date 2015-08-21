@@ -8,14 +8,26 @@
 
 angular
     .module('RDash')
-    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Coupons', couponController ]);
+    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', couponController ]);
 
 
 
-function couponController($scope, $timeout, $state, $stateParams, Notification, Coupons) {
+function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons) {
 
     $scope.data = {
         searchFilter : '',
+        searchOptions : {
+            skip : 0,
+            limit : 1000,
+            createdAt :'',
+            usedTime : '',
+            code : 'true',
+            _id : ''
+
+        },
+        searchSort : {
+            sort : '-createdAt'
+        },
 
         currentDeleteIndex : -1,
 
@@ -45,10 +57,25 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         isAddNewStatus : true
     };
 
+
+    $scope.searchCoupon = function (form) {
+        Util.delProperty($scope.data.searchOptions);
+
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+        Coupons.getList(options).then(function (resultCoupon) {
+            $scope.data.couponList = resultCoupon;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+
+        }).catch(function(err){
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            });
+
+    };
+
+
+
     if ($state.current.data.type === 'list'){
-        Coupons.getList().then(function (coupons) {
-            $scope.data.couponList = coupons;
-        });
+        $scope.searchCoupon();
     }
 
     if ($state.current.data.type === 'update'){
