@@ -17,6 +17,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
                 console.log(401);
                 if (noRedirectPath.indexOf(location.pathname) == -1) {
                     setTimeout(function () {
+                        // todo:
                         location.href = '/mobile/login';
                     }, 120);
                 }

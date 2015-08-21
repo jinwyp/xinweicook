@@ -80,11 +80,17 @@
         <div class="form-block">
             <h5>优惠</h5>
             <hr class="form-line"/>
-<!--            <div class="row">
+            <div class="row">
                 <span class="col-xs-6 text-left">使用优惠券</span>
-                <span class="col-xs-6 text-right rmb-char negative">4</span>
+                <span ng-if="coupon.code2" class="col-xs-6 text-right rmb-char negative">{{coupon.code2.price}}</span>
             </div>
-            <hr class="form-line"/>-->
+            <div class="form-group">
+                <label class="control-label col-xs-5" ng-repeat="item in user.couponList">
+                    <input ng-model="coupon.code2" ng-value="item" name="coupon" type="radio" />{{item.name.zh}}
+                </label>
+                <span ng-if="coupon.code2" class="cancel-code2 flat-button" ng-click="coupon.code2 = null">取消</span>
+            </div>
+            <hr class="form-line"/>
             <div class="form-group promotion-group">
                 <label for="promotionCode" class="control-label col-xs-3">优惠代码</label>
                 <div class="col-xs-7">
@@ -114,12 +120,12 @@
             </div>
             <div class="row group-on">
                 <span class="col-xs-6">优惠金额</span>
-                <span class="col-xs-2 price pull-right rmb-char">{{couponPrice}}</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{couponPrice + coupon.code2.price}}</span>
                 <span class="col-xs-1 pull-right text-right sign">-</span>
             </div>
             <div class="row">
                 <span class="col-xs-6">应付总额</span>
-                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice() + deliveryFee - couponPrice}}</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice() + deliveryFee - couponPrice - coupon.code2.price}}</span>
             </div>
         </div>
 

@@ -20,6 +20,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         $scope.coupon.code = '';
         $scope.couponPrice = 0;
         $scope.couponLimitPrice = 0;
+        $scope.coupon.code2 = '';
     };
 
     $scope.$watch('coupon.code', function (newCode, oldCode) {
@@ -114,6 +115,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 if (!$scope.couponPrice) return true;
                 if ($scope.orderPrice() >= $scope.couponLimitPrice) {
                     order.promotionCode = $scope.coupon.code;
+
+                    if ($scope.coupon.code2) {
+                        order.coupon = $scope.coupon.code2._id;
+                    }
                     return true;
                 } else return false;
             }
@@ -164,6 +169,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 }
             })
         } else {
+            //todo:
             location.href = '/mobile';
         }
 
@@ -174,10 +180,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         }
 
         if (!$scope.address.district) {
+            //todo:
             location.href = '/mobile/';
         }
-
-        // todo : set fake address, to delete it later.
 
         Orders.deliveryTime({
             cookingType: "ready to eat",
