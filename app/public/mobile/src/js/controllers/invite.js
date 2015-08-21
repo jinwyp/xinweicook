@@ -29,8 +29,6 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     $scope.role = $scope.roles[0];
     $scope.place = $scope.places[0].inner;
 
-    var testImgUrl = 'http://m.xinweicook.com/mobile/src/img/icons/ToolbarCartIcon.png';
-
     function init() {
         var avatar;
         var avatarCount = 16; // todo:头像数量. 用gulp来替换也许比较好
@@ -45,24 +43,20 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             avatar = Utils.utf2b64(avatar);
             code = Utils.utf2b64($scope.user.invitationSendCode);
             prefix = '/' + avatar + '/' + code;
+            bindShare($scope.role, $scope.place)
         }).catch(function (res) {
             Debug.alert('获取用户信息后出错');
             Debug.alert(res);
         });
 
-        $scope.$watchGroup(['role', 'place'], function (newValues) {
-            if (!$scope.user) return;
-            try {
-
-
+        function bindShare(name, place) {
             var queries = prefix +
-                          '/' + Utils.utf2b64(newValues[0]) +
-                          '/' + Utils.utf2b64(newValues[1]);
+                '/' + Utils.utf2b64(name) +
+                '/' + Utils.utf2b64(place);
             link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
-                Debug.alert(link);
 
             Weixin.shareTimeline({
-                title: newValues[0] + '约你一起去' + newValues[1] + '吃便当',
+                title: name + '约你一起去' + place + '吃便当',
                 link: link,
                 imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
                 success: function (res) {
@@ -82,7 +76,11 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                     Debug.alert(res);
                 }
             });
-            } catch(e) {Debug.alert('改变名字或地址后出错');Debug.alert(e)}
+        }
+
+        $scope.$watchGroup(['role', 'place'], function (newValues) {
+            if (!$scope.user) return;
+            bindShare(newValues[0], newValues[1]);
         });
 
         Weixin.getJsconfig().then(function (res) {
