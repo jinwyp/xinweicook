@@ -324,8 +324,6 @@ exports.addNewOrder = (req, res, next) ->
     else
       isUsedAccountBalance = false
 
-    console.log userAccount, isUsedAccountBalance
-
     models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
@@ -464,6 +462,8 @@ exports.addNewOrder = (req, res, next) ->
     # 优惠券已使用后处理
     if req.body.coupon
       coupon.used(req.u)
+
+
 
     # 余额已使用后处理
     if isUsedAccountBalance
@@ -670,6 +670,23 @@ exports.updateOrder = (req, res, next) ->
         models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
 
+      # 该用户首次下单给邀请的人添加优惠券
+      if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon
+        models.user.findOneAsync({_id:req.u.invitationFromUser}).then (fromUser) ->
+          if fromUser
+            newCoupon =
+              name :
+                zh : "邀请的好友首次下单返利优惠券"
+                en : "Friend First Order Rebate Coupon"
+              price : 10
+              couponType : "coupon"
+              usedTime : 1
+              user : fromUser._id.toString()
+            models.coupon.addNew(newCoupon).then (resultCoupon)->
+              fromUser.couponList.push(resultCoupon._id.toString())
+              fromUser.saveAsync()
+              req.u.isHaveFirstOrderCoupon = true
+              req.u.saveAsync()
 
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid

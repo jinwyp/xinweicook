@@ -213,7 +213,7 @@ exports.addNewCoupon150000 = (req, res, next) ->
 
 
   result = []
-  for i in [1..10]
+  for i in [1..2]
     tempStr = genCouponCode()
 
     console.log("+++", i, genCouponCodeLast(tempStr))
@@ -227,7 +227,7 @@ exports.addNewCoupon150000 = (req, res, next) ->
   newSheet = generateSheetFromArray(first_worksheet, result);
   workbook.Sheets[first_sheet_name] = newSheet;
 
-  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'));
+#  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'));
 
 
 

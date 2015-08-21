@@ -61,6 +61,7 @@ module.exports =
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
     isUsedInvitationSendCode: type: Boolean, default: false
+    isHaveFirstOrderCoupon: type: Boolean, default: false
 
     invitationFromCode : String
     invitationFromUser : type: Schema.ObjectId, ref: "user"
