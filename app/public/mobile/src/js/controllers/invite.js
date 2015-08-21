@@ -45,10 +45,16 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             avatar = Utils.utf2b64(avatar);
             code = Utils.utf2b64($scope.user.invitationSendCode);
             prefix = '/' + avatar + '/' + code;
+        }).catch(function (res) {
+            Debug.alert('获取用户信息后出错');
+            Debug.alert(res);
         });
 
         $scope.$watchGroup(['role', 'place'], function (newValues) {
             if (!$scope.user) return;
+            try {
+
+
             var queries = prefix +
                           '/' + Utils.utf2b64(newValues[0]) +
                           '/' + Utils.utf2b64(newValues[1]);
@@ -75,6 +81,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                     Debug.alert(res);
                 }
             });
+            } catch(e) {Debug.alert('改变名字或地址后出错');Debug.alert(e)}
         });
 
         Weixin.getJsconfig().then(function (res) {
