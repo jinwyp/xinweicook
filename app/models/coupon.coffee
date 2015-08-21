@@ -140,5 +140,4 @@ module.exports =
           req.query.code = { $exists: true }
         else
           req.query.code = { $exists: false }
-        console.log req.query.code
         next()
