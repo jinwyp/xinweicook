@@ -63,7 +63,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                     title: title,
                     link: link,
                     imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
-                    desc: title + '.',
+                    desc: '快叫上男神女神一起去吧！两人同行立减20元！',
                     //todo: 需要复用success
                     success: function (res) {
                         Debug.alert('分享至朋友成功');

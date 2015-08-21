@@ -1,6 +1,6 @@
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = ['/mobile/', '/mobile/login'];
-    var loginRedrectPath = [''];
+    var loginRedrectPath = ['/mobile/'];
 
     return {
         'request': function(config) {
