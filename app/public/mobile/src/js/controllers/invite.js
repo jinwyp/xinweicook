@@ -93,7 +93,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
 
             Weixin.ready(function () {
                 Debug.alert('ready');
-
+                bindShare($scope.role, $scope.place);
                 $scope.ready = true;
             })
         }).catch(function (res) {
