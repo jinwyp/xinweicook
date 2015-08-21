@@ -14,11 +14,6 @@ function meCtrl($scope, User, $localStorage, Debug) {
         history.back();
     };
 
-    $scope.sendFriendsOk = function () {
-        User.invitedFriends();
-    };
-
-
     function init() {
         if (!$localStorage.access_token) {
             location.href = 'login'

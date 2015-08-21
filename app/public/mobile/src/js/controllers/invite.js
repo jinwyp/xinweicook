@@ -43,6 +43,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             avatar = Utils.utf2b64(avatar);
             code = Utils.utf2b64($scope.user.invitationSendCode);
             prefix = '/' + avatar + '/' + code;
+            Debug.alert('getUser绑定share');
             bindShare($scope.role, $scope.place)
         }).catch(function (res) {
             Debug.alert('获取用户信息后出错');
@@ -50,36 +51,67 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
         });
 
         function bindShare(name, place) {
-            var queries = prefix +
-                '/' + Utils.utf2b64(name) +
-                '/' + Utils.utf2b64(place);
-            link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
+            try {
+                var queries = prefix +
+                    '/' + Utils.utf2b64(name) +
+                    '/' + Utils.utf2b64(place);
+                link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
+                var title = name + '约你一起去' + place + '吃便当';
 
-            Weixin.shareTimeline({
-                title: name + '约你一起去' + place + '吃便当',
-                link: link,
-                imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
-                success: function (res) {
-                    Debug.alert('分享至朋友圈成功');
-                    Debug.alert(res);
-                    $scope.css.showTip = false;
-                    User.invitedFriends().then(function () {
-                        alert('分享成功, 2张优惠券到手!');
-                    }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
-                },
-                cancel: function (res) {
-                    Debug.alert('取消分享至朋友圈');
-                    Debug.alert(res);
-                },
-                fail: function (res) {
-                    Debug.alert('分享至朋友圈失败');
-                    Debug.alert(res);
-                }
-            });
+                Debug.alert(link);
+                Weixin.shareAppMessage({
+                    title: title,
+                    link: link,
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    desc: '平时我这么高冷，今天来带你一起飞。男神女神做庄，还不快喊小伙伴一起乖乖坐好等我上菜！',
+                    //todo: 需要复用success
+                    success: function (res) {
+                        Debug.alert('分享至朋友成功');
+                        Debug.alert(res);
+                        $scope.css.showTip = false;
+                        alert('分享成功!');
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享朋友');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友失败');
+                        Debug.alert(res);
+                    }
+                });
+                Weixin.shareTimeline({
+                    title: name + '约你一起去' + place + '吃便当',
+                    link: link,
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    success: function (res) {
+                        Debug.alert('分享至朋友圈成功');
+                        Debug.alert(res);
+                        $scope.css.showTip = false;
+                        User.invitedFriends().then(function () {
+                            alert('分享成功!');
+                        }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享至朋友圈');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友圈失败');
+                        Debug.alert(res);
+                    }
+                });
+            } catch (e) {
+                Debug.alert('绑定share出错');
+                Debug.alert(e)
+            }
+
+
         }
 
         $scope.$watchGroup(['role', 'place'], function (newValues) {
             if (!$scope.user) return;
+            Debug.alert('role, place更改绑定share');
             bindShare(newValues[0], newValues[1]);
         });
 
