@@ -47,7 +47,7 @@
 </div>
 
 <div class="selection-cover" ng-if="curDish" ng-click="hide()"></div>
-<div class="selections-container" ng-if="curDish">
+<div class="selections-container" ng-cloak ng-if="curDish">
     <div class="block">
         <h4 class="text-center">{{curDish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
         <ul class="properties">

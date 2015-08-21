@@ -211,8 +211,8 @@ label {
 /* line 9, ../sass/_eat.scss */
 .img-group img {
   width: 100%;
-  min-height: 230px;
-  height: 63.27vw;
+  min-height: 202px;
+  height: 63.33vw;
 }
 
 /* line 16, ../sass/_eat.scss */
@@ -1249,8 +1249,9 @@ label {
 .cart-bar2 .select-all {
   background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
   padding-left: 49px;
+  padding-right: 0;
 }
-/* line 59, ../sass/_cart.scss */
+/* line 60, ../sass/_cart.scss */
 .cart-bar2 .buy-button {
   background-color: #f44d4d;
   color: white;
