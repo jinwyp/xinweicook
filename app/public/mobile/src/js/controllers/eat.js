@@ -159,29 +159,18 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             Weixin.ready(function () {
                 if ($scope.address) return;
 
-                Weixin.getLocation(function (res) {
+                Weixin.getLocation(function (res_) {
                     if ($scope.address) return;
 
-                    Debug.alert(res);
-                    Debug.alert('微信返回的当前坐标');
-                    Debug.alert({
-                        lat: res.latitude,
-                        lng: res.longitude
-                    });
-                    Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
+                    Debug.alert(res_);
+                    Weixin.getLocationName(res_.latitude, res_.longitude).then(function (res) {
                         if ($scope.address) return;
 
                         var result = res.data.result;
 
                         $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
-                        $localStorage.address.geoLatitude = result.location.lat;
-                        $localStorage.address.geoLongitude = result.location.lng;
-
-                        Debug.alert('百度根据坐标查询地名后返回的坐标');
-                        Debug.alert({
-                            lat: result.location.lat,
-                            lng: result.location.lng
-                        });
+                        $localStorage.address.geoLatitude = res_.latitude;
+                        $localStorage.address.geoLongitude = res_.longitude;
 
                         $scope.chooseAddress($localStorage.address);
 
