@@ -33,7 +33,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
 
     function init() {
         var avatar;
-        var avatarCount = 7;
+        var avatarCount = 16; // todo:头像数量. 用gulp来替换也许比较好
         var link = '';
         var code = '';
         var prefix = '';
