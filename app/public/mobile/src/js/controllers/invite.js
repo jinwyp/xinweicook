@@ -43,6 +43,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
             avatar = Utils.utf2b64(avatar);
             code = Utils.utf2b64($scope.user.invitationSendCode);
             prefix = '/' + avatar + '/' + code;
+            Debug.alert('getUser绑定share');
             bindShare($scope.role, $scope.place)
         }).catch(function (res) {
             Debug.alert('获取用户信息后出错');
@@ -50,36 +51,46 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
         });
 
         function bindShare(name, place) {
-            var queries = prefix +
-                '/' + Utils.utf2b64(name) +
-                '/' + Utils.utf2b64(place);
-            link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
+            try {
+                var queries = prefix +
+                    '/' + Utils.utf2b64(name) +
+                    '/' + Utils.utf2b64(place);
+                link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
 
-            Weixin.shareTimeline({
-                title: name + '约你一起去' + place + '吃便当',
-                link: link,
-                imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
-                success: function (res) {
-                    Debug.alert('分享至朋友圈成功');
-                    Debug.alert(res);
-                    $scope.css.showTip = false;
-                    User.invitedFriends().then(function () {
-                        alert('分享成功!');
-                    }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
-                },
-                cancel: function (res) {
-                    Debug.alert('取消分享至朋友圈');
-                    Debug.alert(res);
-                },
-                fail: function (res) {
-                    Debug.alert('分享至朋友圈失败');
-                    Debug.alert(res);
-                }
-            });
+
+                Debug.alert(link);
+                Weixin.shareTimeline({
+                    title: name + '约你一起去' + place + '吃便当',
+                    link: link,
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    success: function (res) {
+                        Debug.alert('分享至朋友圈成功');
+                        Debug.alert(res);
+                        $scope.css.showTip = false;
+                        User.invitedFriends().then(function () {
+                            alert('分享成功!');
+                        }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享至朋友圈');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友圈失败');
+                        Debug.alert(res);
+                    }
+                });
+            } catch (e) {
+                Debug.alert('绑定share出错');
+                Debug.alert(e)
+            }
+
+
         }
 
         $scope.$watchGroup(['role', 'place'], function (newValues) {
             if (!$scope.user) return;
+            Debug.alert('role, place更改绑定share');
             bindShare(newValues[0], newValues[1]);
         });
 
