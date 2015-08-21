@@ -18,9 +18,8 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
                     return (!!address.city && !!address.location )
                 });
 
-                if (!$scope.searchAddresses.length) {
-                     $scope.css.showAddressTip = true;
-                }
+                $scope.css.showAddressTip = !$scope.searchAddresses.length
+
             })
         }
     };

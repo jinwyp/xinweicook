@@ -114,6 +114,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (data) {
             $scope.isInRange = $localStorage.isInRange4KM = !!data.isInRange;
             $localStorage.distance = data.distance;
+
+            Debug.alert('与xw的步行距离:' + data.distance);
         });
     };
 
@@ -157,18 +159,18 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             Weixin.ready(function () {
                 if ($scope.address) return;
 
-                Weixin.getLocation(function (res) {
+                Weixin.getLocation(function (res_) {
                     if ($scope.address) return;
 
-                    Debug.alert(res);
-                    Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
+                    Debug.alert(res_);
+                    Weixin.getLocationName(res_.latitude, res_.longitude).then(function (res) {
                         if ($scope.address) return;
 
                         var result = res.data.result;
 
                         $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
-                        $localStorage.address.geoLatitude = result.location.lat;
-                        $localStorage.address.geoLongitude = result.location.lng;
+                        $localStorage.address.geoLatitude = res_.latitude;
+                        $localStorage.address.geoLongitude = res_.longitude;
 
                         $scope.chooseAddress($localStorage.address);
 
