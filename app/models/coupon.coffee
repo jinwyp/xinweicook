@@ -135,9 +135,9 @@ module.exports =
             next()
         )
       else if req.method is "GET"
-
-        if req.query.code is "true"
-          req.query.code = { $exists: true }
-        else
-          req.query.code = { $exists: false }
+        if not req.params.id
+          if req.query.code is "true"
+            req.query.code = { $exists: true }
+          else
+            req.query.code = { $exists: false }
         next()
