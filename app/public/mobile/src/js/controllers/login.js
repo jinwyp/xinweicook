@@ -14,7 +14,7 @@ function loginCtrl($scope, User, $location, $timeout) {
             //document.location = 'detail page'
             $timeout(function () {
                 location.href = '/mobile';
-            },100);
+            },120);
         }).catch(function (res) {
             // todo:
             if (res.data && res.data.validationStatus == 1111) {
@@ -40,7 +40,7 @@ function loginCtrl($scope, User, $location, $timeout) {
             alert('注册成功!');
             $timeout(function () {
                 location.href = '/mobile';
-            }, 100)
+            }, 120)
         }).catch(function (res) {
             alert('注册失败,请稍后重试');
         })
@@ -72,6 +72,12 @@ function loginCtrl($scope, User, $location, $timeout) {
         $location.path(path);
         $scope.path = path;
 
+        User.getUserInfo().then(function (res) {
+            // 如果在登录页面获取到用户信息,那么跳转到首页
+            setTimeout(function () {
+                location.href = '/mobile/';
+            }, 120);
+        })
     }
 
     init();
