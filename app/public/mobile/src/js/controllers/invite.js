@@ -64,7 +64,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                     Debug.alert(res);
                     $scope.css.showTip = false;
                     User.invitedFriends().then(function () {
-                        alert('分享成功, 2张优惠券到手!');
+                        alert('分享成功!');
                     }).catch(Debug.promiseErrFn('分享至朋友圈后成功分享失败'))
                 },
                 cancel: function (res) {

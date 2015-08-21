@@ -188,16 +188,17 @@ label {
 /* line 9, ../sass/_eat.scss */
 .img-group img {
   width: 100%;
-  height: 63.27vw;
+  min-height: 202px;
+  height: 63.33vw;
 }
 
-/* line 15, ../sass/_eat.scss */
+/* line 16, ../sass/_eat.scss */
 .eat-nav {
   margin-bottom: 10px;
   color: #f44d4d;
   font-size: 18px;
 }
-/* line 19, ../sass/_eat.scss */
+/* line 20, ../sass/_eat.scss */
 .eat-nav .profile-icon {
   background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
   height: 46px;
@@ -207,32 +208,32 @@ label {
   right: 0;
 }
 
-/* line 28, ../sass/_eat.scss */
+/* line 29, ../sass/_eat.scss */
 .no-filter .count-operation {
   background-color: rgba(54, 55, 55, 0.78);
 }
 
-/* line 31, ../sass/_eat.scss */
+/* line 32, ../sass/_eat.scss */
 .eat-list {
   width: 95%;
   margin: 0 auto;
 }
-/* line 35, ../sass/_eat.scss */
+/* line 36, ../sass/_eat.scss */
 .eat-list li {
   background-color: white;
   margin-bottom: 17px;
   box-shadow: #DEDEDE 0 1px 1px;
 }
-/* line 39, ../sass/_eat.scss */
+/* line 40, ../sass/_eat.scss */
 .eat-list li:last-child {
   margin-bottom: 60px;
 }
-/* line 43, ../sass/_eat.scss */
+/* line 44, ../sass/_eat.scss */
 .eat-list .img-group {
   position: relative;
   overflow: hidden;
 }
-/* line 46, ../sass/_eat.scss */
+/* line 47, ../sass/_eat.scss */
 .eat-list .img-group .count-operation {
   font-size: 0;
   font-weight: 100;
@@ -242,7 +243,7 @@ label {
   width: 100%;
   color: white;
 }
-/* line 54, ../sass/_eat.scss */
+/* line 55, ../sass/_eat.scss */
 .eat-list .img-group .count-operation > div {
   height: 100%;
   display: inline-block;
@@ -250,7 +251,7 @@ label {
   font-size: 50px;
   position: relative;
 }
-/* line 60, ../sass/_eat.scss */
+/* line 61, ../sass/_eat.scss */
 .eat-list .img-group .count-operation > div .vertical-center {
   font-weight: 100;
   left: 0;
@@ -262,35 +263,35 @@ label {
   top: 0;
   bottom: 0;
 }
-/* line 72, ../sass/_eat.scss */
+/* line 73, ../sass/_eat.scss */
 .eat-list .img-group .count-operation .subtract {
   width: 20%;
 }
-/* line 75, ../sass/_eat.scss */
+/* line 76, ../sass/_eat.scss */
 .eat-list .img-group .count-operation .count {
   width: 60%;
 }
-/* line 78, ../sass/_eat.scss */
+/* line 79, ../sass/_eat.scss */
 .eat-list .img-group .count-operation .add {
   width: 20%;
 }
-/* line 83, ../sass/_eat.scss */
+/* line 84, ../sass/_eat.scss */
 .eat-list .img-group.blur img {
   /*    -webkit-filter: blur(10px);
       -moz-filter: blur(10px);
       filter: blur(10px);*/
 }
-/* line 88, ../sass/_eat.scss */
+/* line 89, ../sass/_eat.scss */
 .eat-list .detail {
   padding: 0 10px 10px;
   position: relative;
 }
-/* line 91, ../sass/_eat.scss */
+/* line 92, ../sass/_eat.scss */
 .eat-list .detail .title {
   margin: 12px 0 16px;
   font-size: 18px;
 }
-/* line 95, ../sass/_eat.scss */
+/* line 96, ../sass/_eat.scss */
 .eat-list .detail .buy {
   line-height: 30px;
   height: 30px;
@@ -301,26 +302,26 @@ label {
   font-size: 0;
   box-shadow: #C3C0C0 0 1px 1px;
 }
-/* line 104, ../sass/_eat.scss */
+/* line 105, ../sass/_eat.scss */
 .eat-list .detail .buy .price {
   background-color: #ede2d0;
   font-size: 18px;
 }
-/* line 107, ../sass/_eat.scss */
+/* line 108, ../sass/_eat.scss */
 .eat-list .detail .buy .price::before {
   content: "¥ ";
 }
-/* line 111, ../sass/_eat.scss */
+/* line 112, ../sass/_eat.scss */
 .eat-list .detail .buy .button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 115, ../sass/_eat.scss */
+/* line 116, ../sass/_eat.scss */
 .eat-list .detail .buy .button.out-of-stock {
   background-color: #75A3B7;
 }
-/* line 119, ../sass/_eat.scss */
+/* line 120, ../sass/_eat.scss */
 .eat-list .detail .buy span {
   height: 30px;
   text-align: center;
@@ -328,7 +329,7 @@ label {
   display: inline-block;
 }
 
-/* line 130, ../sass/_eat.scss */
+/* line 131, ../sass/_eat.scss */
 .selection-cover {
   background-color: rgba(88, 88, 88, 0.48);
   top: 0;
@@ -338,7 +339,7 @@ label {
 }
 
 /** 多属性选择面板 **/
-/* line 144, ../sass/_eat.scss */
+/* line 145, ../sass/_eat.scss */
 .selections-container {
   position: fixed;
   bottom: 0;
@@ -347,11 +348,11 @@ label {
   z-index: 10;
   box-shadow: #9C9999 0 0 1px;
 }
-/* line 152, ../sass/_eat.scss */
+/* line 153, ../sass/_eat.scss */
 .selections-container h4, .selections-container h5 {
   font-weight: 100;
 }
-/* line 156, ../sass/_eat.scss */
+/* line 157, ../sass/_eat.scss */
 .selections-container h4 {
   position: relative;
   margin: 0;
@@ -359,7 +360,7 @@ label {
   line-height: 64px;
   font-weight: 100;
 }
-/* line 164, ../sass/_eat.scss */
+/* line 165, ../sass/_eat.scss */
 .selections-container .close-button {
   background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
   width: 1.1em;
@@ -369,26 +370,26 @@ label {
   opacity: 0.5;
   top: 0;
 }
-/* line 174, ../sass/_eat.scss */
+/* line 175, ../sass/_eat.scss */
 .selections-container .properties {
   margin-bottom: 0;
 }
-/* line 176, ../sass/_eat.scss */
+/* line 177, ../sass/_eat.scss */
 .selections-container .properties > li {
   border-top: 1px solid #DEDEDE;
   padding-left: 15px;
   padding-bottom: 14px;
 }
-/* line 183, ../sass/_eat.scss */
+/* line 184, ../sass/_eat.scss */
 .selections-container .properties > li h5 {
   font-size: 15px;
   padding: 8px 0;
 }
-/* line 190, ../sass/_eat.scss */
+/* line 191, ../sass/_eat.scss */
 .selections-container .selections {
   font-size: 16px;
 }
-/* line 192, ../sass/_eat.scss */
+/* line 193, ../sass/_eat.scss */
 .selections-container .selections li {
   color: #f44d4d;
   display: inline-block;
@@ -398,28 +399,28 @@ label {
   line-height: 1.9em;
   border-radius: 6px;
 }
-/* line 200, ../sass/_eat.scss */
+/* line 201, ../sass/_eat.scss */
 .selections-container .selections li:not(:last-child) {
   margin-right: 0.7em;
 }
-/* line 203, ../sass/_eat.scss */
+/* line 204, ../sass/_eat.scss */
 .selections-container .selections li.selected {
   color: white;
   background-color: #f44d4d;
 }
-/* line 210, ../sass/_eat.scss */
+/* line 211, ../sass/_eat.scss */
 .selections-container .counter-wrapper {
   border-top: 1px solid #DEDEDE;
   padding: 13px 0 15px 15px;
   position: relative;
 }
-/* line 214, ../sass/_eat.scss */
+/* line 215, ../sass/_eat.scss */
 .selections-container .counter-wrapper i {
   line-height: 34px;
   font-style: normal;
   font-size: 15px;
 }
-/* line 219, ../sass/_eat.scss */
+/* line 220, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter {
   display: inline-block;
   position: absolute;
@@ -431,21 +432,21 @@ label {
   font-size: 0;
   color: #f44d4d;
 }
-/* line 229, ../sass/_eat.scss */
+/* line 230, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span {
   display: inline-block;
   width: 40px;
   font-size: 18px;
 }
-/* line 234, ../sass/_eat.scss */
+/* line 235, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span:not(:last-child) {
   border-right: 1px solid #DEDEDE;
 }
-/* line 237, ../sass/_eat.scss */
+/* line 238, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter .number {
   width: 60px;
 }
-/* line 243, ../sass/_eat.scss */
+/* line 244, ../sass/_eat.scss */
 .selections-container .add-to-cart-button {
   position: relative;
   height: 53px;
@@ -455,17 +456,17 @@ label {
   background-color: #f44d4d;
   color: white;
 }
-/* line 251, ../sass/_eat.scss */
+/* line 252, ../sass/_eat.scss */
 .selections-container .add-to-cart-button .rmb-char {
   position: absolute;
   left: 15px;
 }
-/* line 255, ../sass/_eat.scss */
+/* line 256, ../sass/_eat.scss */
 .selections-container .add-to-cart-button.invalid {
   background-color: #C7C7C7;
 }
 
-/* line 263, ../sass/_eat.scss */
+/* line 264, ../sass/_eat.scss */
 .address-cover {
   position: fixed;
   height: 100%;
@@ -474,7 +475,7 @@ label {
   background-color: rgba(206, 208, 165, 0.7);
 }
 
-/* line 271, ../sass/_eat.scss */
+/* line 272, ../sass/_eat.scss */
 .eat-address {
   position: fixed;
   width: 100%;
@@ -484,7 +485,7 @@ label {
   box-shadow: #9C9999 0 0 1px;
   height: 53px;
 }
-/* line 279, ../sass/_eat.scss */
+/* line 280, ../sass/_eat.scss */
 .eat-address .address-icon {
   position: absolute;
   height: 40px;
@@ -494,15 +495,15 @@ label {
   background: url(../img/icons/LocationPinIcon.png) no-repeat;
   background-size: 48%;
 }
-/* line 289, ../sass/_eat.scss */
+/* line 290, ../sass/_eat.scss */
 .eat-address .address-content .address-title {
   font-size: 10px;
 }
-/* line 292, ../sass/_eat.scss */
+/* line 293, ../sass/_eat.scss */
 .eat-address .address-content .address-detail {
   font-size: 13px;
 }
-/* line 296, ../sass/_eat.scss */
+/* line 297, ../sass/_eat.scss */
 .eat-address .cart {
   background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
   background-size: 48%;
@@ -512,7 +513,7 @@ label {
   width: 48px;
   height: 40px;
 }
-/* line 304, ../sass/_eat.scss */
+/* line 305, ../sass/_eat.scss */
 .eat-address .cart .total-count {
   font-size: 10px;
   text-align: center;
@@ -527,47 +528,47 @@ label {
   border-radius: 50%;
 }
 
-/* line 320, ../sass/_eat.scss */
+/* line 321, ../sass/_eat.scss */
 .address-group {
   background-color: rgba(241, 241, 241, 0.78);
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-/* line 325, ../sass/_eat.scss */
+/* line 326, ../sass/_eat.scss */
 .address-group .eat-address {
   position: relative;
 }
-/* line 328, ../sass/_eat.scss */
+/* line 329, ../sass/_eat.scss */
 .address-group .address-list {
   font-size: 13px;
   padding: 0 7px;
   margin-bottom: 0;
 }
-/* line 332, ../sass/_eat.scss */
+/* line 333, ../sass/_eat.scss */
 .address-group .address-list li {
   background-color: white;
   margin-top: 6px;
   padding: 17px 20px;
 }
-/* line 336, ../sass/_eat.scss */
+/* line 337, ../sass/_eat.scss */
 .address-group .address-list li.active {
   border-left: #f44d4d 4px solid;
   padding-left: 16px;
 }
-/* line 342, ../sass/_eat.scss */
+/* line 343, ../sass/_eat.scss */
 .address-group .address-button-wrapper {
   text-align: center;
   padding: 20px 26px;
 }
-/* line 345, ../sass/_eat.scss */
+/* line 346, ../sass/_eat.scss */
 .address-group .address-button-wrapper span {
   border-radius: 3px;
   background-color: #8C8C8C;
   color: white;
   padding: 10px 33px;
 }
-/* line 351, ../sass/_eat.scss */
+/* line 352, ../sass/_eat.scss */
 .address-group .address-button-wrapper > span {
   margin-right: 42px;
 }
