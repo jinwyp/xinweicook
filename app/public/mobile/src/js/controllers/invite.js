@@ -56,9 +56,30 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                     '/' + Utils.utf2b64(name) +
                     '/' + Utils.utf2b64(place);
                 link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
-
+                var title = name + '约你一起去' + place + '吃便当';
 
                 Debug.alert(link);
+                Weixin.shareAppMessage({
+                    title: title,
+                    link: link,
+                    imgUrl: 'http://m.xinweicook.com/mobile/src/img/xw.jpg',
+                    desc: title + '.',
+                    //todo: 需要复用success
+                    success: function (res) {
+                        Debug.alert('分享至朋友成功');
+                        Debug.alert(res);
+                        $scope.css.showTip = false;
+                        alert('分享成功!');
+                    },
+                    cancel: function (res) {
+                        Debug.alert('取消分享朋友');
+                        Debug.alert(res);
+                    },
+                    fail: function (res) {
+                        Debug.alert('分享至朋友失败');
+                        Debug.alert(res);
+                    }
+                });
                 Weixin.shareTimeline({
                     title: name + '约你一起去' + place + '吃便当',
                     link: link,
