@@ -189,34 +189,29 @@ exports.addNewCoupon150000 = (req, res, next) ->
 
 
   generateSheetFromArray = (worksheet, arrayData)->
-    totalRow = arrayData.length;
+    totalRow = arrayData.length - 1;
 
-    range = {s: {c:100, r:10000000}, e: {c:0, r:0 }}
+    range = {s: {c:0, r:0}, e: {c:10, r:200000 }}
 
     # 写入内容
     for row in [0..totalRow]
 
-      range.s.r = row if range.s.r > row
-      range.e.r = row + 10 if range.e.r < row
-
-      cell = {v: arrayData[row], t :"s" }
-
-      cell_ref = XLSX.utils.encode_cell({c:1,r:row})
+      cell = {v: arrayData[row], t:"s" }
+      cell.t = "s";
+      cell_ref = XLSX.utils.encode_cell({c:0,r:row})
 
       worksheet[cell_ref] = cell;
 
-    if range.s.c < 10000000
-      worksheet['!ref'] = XLSX.utils.encode_range(range);
+    worksheet['!ref'] = XLSX.utils.encode_range(range);
 
     return worksheet
 
 
 
   result = []
-  for i in [1..2]
+  for i in [1..160]
     tempStr = genCouponCode()
 
-    console.log("+++", i, genCouponCodeLast(tempStr))
     result.push(genCouponCodeLast(tempStr))
 
   workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
@@ -227,12 +222,12 @@ exports.addNewCoupon150000 = (req, res, next) ->
   newSheet = generateSheetFromArray(first_worksheet, result);
   workbook.Sheets[first_sheet_name] = newSheet;
 
-#  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'));
+#  csv = XLSX.utils.sheet_to_csv(newSheet);
+
+  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'), {bookSST:false, bookType:"xlsb"});
 
 
-
-
-  res.json result
+  res.json []
 #  models.coupon.addNew req.body
 #  .then (resultCoupon) ->
 #      res.json resultCoupon
