@@ -1,4 +1,5 @@
 prettify = require "prettify-error"
+errcode = require "./errcode"
 
 module.exports =
   Err: ->
@@ -9,12 +10,7 @@ module.exports =
       @status = status
       @validationStatus = validationStatus
     Err::__proto__ = Error.prototype
-    Err.code =
-      user :
-        wrongMobile : 1110
-        wrongPassword: 1111
-      order :
-        wrongMobile : 2110
+    Err.code = errcode
     Err
 
   middleware: ->
