@@ -128,7 +128,7 @@ module.exports =
         return throw new Err "Dish ID or dish not found !", 400
 
     checkOutOfStock : (dish) ->
-      if dish.stock <=-2
+      if dish.stock <=0
         return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400
 
     validationDishId : (_id) ->
@@ -160,7 +160,7 @@ module.exports =
     reduceStock : (stockNumber, user, remark, orderId ) ->
       @stock = @stock - Number(stockNumber)
 
-      if @stock < 0
+      if @stock <= 1
         # 给客服发送短信
         text = models.sms.constantTemplateCustomerOutOfStockNotify(@title.zh)
         models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 王宇鹏电话

@@ -1,6 +1,6 @@
 # 美食趣闻
 XLSX = require('xlsx');
-
+couponData = require('./coupondata1.js');
 
 
 exports.couponList = (req, res, next) ->
@@ -165,6 +165,19 @@ exports.assignCouponToUser = (req, res, next) ->
 
 
 
+
+
+
+exports.verifyCoupon150000 = (req, res, next) ->
+#  result = couponData.indexOf("XWTNIFXWC71")
+  result = couponData["XWTNIFXWC7"]
+  if couponData["XWTNIFXWC71"]
+    result = true
+  else
+    result = false
+  res.send result
+
+
 exports.addNewCoupon150000 = (req, res, next) ->
 
   genCouponCode = (length = 4) ->
@@ -209,7 +222,7 @@ exports.addNewCoupon150000 = (req, res, next) ->
 
 
   result = []
-  for i in [1..160]
+  for i in [1..1000]
     tempStr = genCouponCode()
 
     result.push(genCouponCodeLast(tempStr))
@@ -224,10 +237,10 @@ exports.addNewCoupon150000 = (req, res, next) ->
 
 #  csv = XLSX.utils.sheet_to_csv(newSheet);
 
-  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'), {bookSST:false, bookType:"xlsb"});
+#  XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputcoupon.xlsx'), {bookSST:false, bookType:"xlsx"});
 
 
-  res.json []
+  res.json result
 #  models.coupon.addNew req.body
 #  .then (resultCoupon) ->
 #      res.json resultCoupon
