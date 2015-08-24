@@ -157,6 +157,8 @@
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
+                <th>优惠码</th>
+                <th>优惠券</th>
 
                 <th>支付方式</th>
                 <th>是否付款</th>
@@ -186,6 +188,8 @@
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.userComment}}</td>
+                <td>{{order.promotionDiscount}} {{order.promotionCode ? ('(' + order.promotionCode +')'):''}}</td>
+                <td>{{order.couponDiscount}} {{order.coupon ? ('(' + order.coupon +')'):''}}</td>
 
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
