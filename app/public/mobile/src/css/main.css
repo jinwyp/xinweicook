@@ -608,6 +608,10 @@ label {
   margin-bottom: 10px;
 }
 /* line 31, ../sass/_order.scss */
+.form-block .order-list .title {
+  padding-left: 15px;
+}
+/* line 35, ../sass/_order.scss */
 .form-block .order-list .select {
   border-radius: 50%;
   background-color: #e2e2e2;
@@ -620,15 +624,15 @@ label {
   top: 6px;
   color: white;
 }
-/* line 42, ../sass/_order.scss */
+/* line 46, ../sass/_order.scss */
 .form-block .order-list .select.active {
   background-color: #ff9595;
 }
-/* line 46, ../sass/_order.scss */
+/* line 50, ../sass/_order.scss */
 .form-block .time-btn-group {
   margin-top: 7px;
 }
-/* line 49, ../sass/_order.scss */
+/* line 53, ../sass/_order.scss */
 .form-block .time-btn {
   width: 252px;
   margin-right: 10px;
@@ -637,28 +641,28 @@ label {
   background-color: #e2e2e2;
   line-height: 1.2;
 }
-/* line 56, ../sass/_order.scss */
+/* line 60, ../sass/_order.scss */
 .form-block .time-btn.active {
   color: white;
   background-color: #f44d4d;
 }
-/* line 61, ../sass/_order.scss */
+/* line 65, ../sass/_order.scss */
 .form-block .promotion-group {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-/* line 67, ../sass/_order.scss */
+/* line 71, ../sass/_order.scss */
 .dish-list .form-line:last-of-type {
   border-color: transparent;
 }
 
-/* line 72, ../sass/_order.scss */
+/* line 76, ../sass/_order.scss */
 .pay .row {
   position: relative;
   padding-left: 43px;
 }
-/* line 76, ../sass/_order.scss */
+/* line 80, ../sass/_order.scss */
 .pay .icon {
   height: 23px;
   left: 19px;
@@ -667,13 +671,13 @@ label {
   background: url(../img/icons/ForkIcon.png) no-repeat;
   background-size: contain;
 }
-/* line 83, ../sass/_order.scss */
+/* line 87, ../sass/_order.scss */
 .pay .icon.active {
   background: url(../img/icons/ForkIconHighlighted.png) no-repeat;
   background-size: contain;
 }
 
-/* line 90, ../sass/_order.scss */
+/* line 94, ../sass/_order.scss */
 .flat-button {
   border: 1px #f44d4d solid;
   border-radius: 4px;
@@ -683,25 +687,25 @@ label {
   line-height: 30px;
 }
 
-/* line 103, ../sass/_order.scss */
+/* line 107, ../sass/_order.scss */
 .price-block {
   background: transparent;
   margin-top: -10px;
 }
-/* line 106, ../sass/_order.scss */
+/* line 110, ../sass/_order.scss */
 .price-block .group-on {
   color: #f44d4d;
 }
-/* line 109, ../sass/_order.scss */
+/* line 113, ../sass/_order.scss */
 .price-block .price {
   width: 5.5em;
 }
-/* line 112, ../sass/_order.scss */
+/* line 116, ../sass/_order.scss */
 .price-block .sign {
   padding-right: 0;
 }
 
-/* line 117, ../sass/_order.scss */
+/* line 121, ../sass/_order.scss */
 .confirm-button {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -709,17 +713,17 @@ label {
   height: 52px;
   margin: -12px auto 0;
 }
-/* line 123, ../sass/_order.scss */
+/* line 127, ../sass/_order.scss */
 .confirm-button.valid {
   background-color: #f44d4d;
   color: white;
 }
-/* line 127, ../sass/_order.scss */
+/* line 131, ../sass/_order.scss */
 .confirm-button.invalid {
   background-color: #eee;
 }
 
-/* line 132, ../sass/_order.scss */
+/* line 136, ../sass/_order.scss */
 .pay-window {
   position: fixed;
   top: 36%;
@@ -733,13 +737,13 @@ label {
   box-shadow: 2px 2px 5px gray;
   border: 1px darkgrey solid;
 }
-/* line 144, ../sass/_order.scss */
+/* line 148, ../sass/_order.scss */
 .pay-window .order-success-tip {
   text-align: center;
   font-size: 16px;
   margin-bottom: 48px;
 }
-/* line 149, ../sass/_order.scss */
+/* line 153, ../sass/_order.scss */
 .pay-window .confirm-button {
   text-align: center;
   background: #44b549;

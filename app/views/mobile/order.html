@@ -47,8 +47,8 @@
             <h5>即食包</h5>
             <hr class="form-line"/>
             <div class="row order-list" ng-repeat-start="dish in subDishCart">
-                <span class="col-xs-6 text-left">{{dish.title.zh}}</span>
-                <span class="col-xs-1 text-center plus-char">{{dish.number}}</span>
+                <span class="col-xs-7 text-left title">{{dish.title.zh}}</span>
+                <span class="col-xs-2 text-center plus-char">{{dish.number}}</span>
                 <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.number}}</span>
                 <!--<span class="col-xs-2 text-center select">备</span>-->
             </div>
@@ -79,16 +79,25 @@
 
         <div class="form-block">
             <h5>优惠</h5>
-            <hr class="form-line"/>
-            <div class="row">
-                <span class="col-xs-6 text-left">使用优惠券</span>
-                <span ng-if="coupon.code2" class="col-xs-6 text-right rmb-char negative">{{coupon.code2.price}}</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-5" ng-repeat="item in user.couponList">
-                    <input ng-model="coupon.code2" ng-value="item" name="coupon" type="radio" />{{item.name.zh}}
-                </label>
-                <span ng-if="coupon.code2" class="cancel-code2 flat-button" ng-click="coupon.code2 = null">取消</span>
+            <div class="coupons">
+                <hr class="form-line"/>
+                <div class="row">
+                    <span class="col-xs-6 text-left">使用优惠券</span>
+                    <span ng-if="coupon.code2" class="col-xs-6 text-right rmb-char negative">{{coupon.code2.price}}</span>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-8">
+                        <select name="coupon" id="coupon" class="form-control"
+                                ng-model="coupon.code2"
+                                ng-options="(item.name.zh + '(¥' + item.price + ')') for item in user.couponList"></select>
+                    </div>
+                    <!--<label class="control-label col-xs-5" ng-repeat="item in user.couponList">-->
+                    <!--<input ng-model="coupon.code2" ng-value="item" name="coupon" type="radio" />{{item.name.zh}}-->
+                    <!--</label>-->
+                    <div class="col-xs-4 text-right">
+                        <span ng-if="coupon.code2" class="cancel-code2 flat-button" ng-click="coupon.code2 = null">取消</span>
+                    </div>
+                </div>
             </div>
             <hr class="form-line"/>
             <div class="form-group promotion-group">

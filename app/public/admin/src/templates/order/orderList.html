@@ -151,12 +151,14 @@
             <tr>
                 <th>订单号 / 创建时间</th>
                 <th>订单状态</th>
-                <th>拆分订单</th>
-                <th>子订单</th>
+                <!--<th>拆分订单</th>暂时隐藏掉,S要求-->
+                <!--<th>子订单</th>-->
                 <th>订单来源</th>
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
+                <th>优惠码</th>
+                <th>优惠券</th>
 
                 <th>支付方式</th>
                 <th>是否付款</th>
@@ -178,14 +180,16 @@
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
                 <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
                 <td>{{order.status}}</td>
-                <td>{{order.isSplitOrder}}</td>
-                <td>{{order.isChildOrder}}</td>
+                <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
+                <!--<td>{{order.isChildOrder}}</td>-->
                 <td>{{order.clientFrom}}</td>
 
                 <td>{{order.address.contactPerson}} {{order.address.mobile}}</td>
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.userComment}}</td>
+                <td>{{order.promotionDiscount}} {{order.promotionCode ? ('(' + order.promotionCode +')'):''}}</td>
+                <td>{{order.couponDiscount}}</td>
 
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
