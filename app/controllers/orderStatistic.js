@@ -158,6 +158,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
     return worksheet
 }
 
+
 exports.orderExportList = function(req, res, next) {
 
     models.order.validationGetOrderList(req.query);
@@ -243,6 +244,29 @@ exports.orderExportList = function(req, res, next) {
 exports.orderExportInternalList = function(req, res, next) {
     models.order.validationGetOrderList(req.query);
 
+    var query = { $and: [] };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        query.$and.push( {cookingType : req.query.cookingType});
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        query.$and.push( {clientFrom : req.query.clientFrom});
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        query.$and.push( {deliveryDateType : req.query.deliveryDateType});
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        query.$and.push( {status : req.query.status});
+    }
+
+
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
 
@@ -254,7 +278,7 @@ exports.orderExportInternalList = function(req, res, next) {
 
     req.query.limit = 10000;
 
-    models.order.find({}).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
+    models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})
         .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
         .lean()
@@ -265,8 +289,8 @@ exports.orderExportInternalList = function(req, res, next) {
 
             XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
 
-//            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
-            res.send(resultOrders)
+            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+//            res.send(resultOrders)
         }).catch(next);
 
 
@@ -314,6 +338,10 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
         matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
     }
 
     if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
