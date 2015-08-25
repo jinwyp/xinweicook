@@ -64,12 +64,13 @@ exports.getCouponForUserShare = (req, res, next) ->
       req.u.saveAsync()
 
     .then (user)->
-
-      res.json user[0]
+      models.user.find1({_id : req.u._id})
+    .then (resultUser)->
+        res.json resultUser
 
     .catch next
   else
-    res.json req.u
+    next(new Err "Already shared", 400)
 
 
 
@@ -97,6 +98,7 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
         user : req.u._id.toString()
 
       models.coupon.addNew(newCoupon)
+
     .then (resultCouponList)->
       req.u.couponList.push(resultCouponList._id.toString())
 
@@ -104,12 +106,13 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
       req.u.saveAsync()
 
     .then (user)->
-
-      res.json user[0]
-
+      models.user.find1({_id : req.u._id})
+    .then (resultUser)->
+      res.json resultUser
     .catch next
   else
-    res.json req.u
+    next(new Err "Already used invitation code", 400)
+
 
 
 
