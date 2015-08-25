@@ -124,4 +124,5 @@ sftp-config.json
 ### directories for previewing design jpg
 app/public/jpg/
 app/public/admin/src/excel/output1.xlsx
+app/public/admin/src/excel/output2.xlsx
 app/public/admin/src/excel/outputcoupon.xlsx
