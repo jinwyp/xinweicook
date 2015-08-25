@@ -87,6 +87,28 @@ module.exports =
         str
       return _.sample(['W', 'X', 'Y', 'Z']) + _.sample(['W', 'X', 'Y', 'Z']) + randomString(8)
 
+    verifyCoupon15W : (couponcode) ->
+      strStart = couponcode.substring(0,2);
+      strMid = couponcode.substring(6,9);
+      strLast = couponcode.substring(9,10);
+
+      chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      total = 0
+      for j in [0..8]
+        total = total + chars.indexOf(couponcode[j])
+
+      # 身份证校验位 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8 7 6 5 4 3 2
+      verifyCode = ["1", "0", "X", "9", "8", "7",  "6", "5", "4", "3", "2"]
+
+      strtemp = verifyCode[total%11]
+
+      console.log strStart,strMid, strLast, strtemp
+
+      if strStart is "XW" and strMid is "XWC" and strLast is strtemp
+        return true
+      else
+        false
+
     addNew : (newCoupon) ->
       @validationNewCoupon newCoupon
 
