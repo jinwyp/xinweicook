@@ -2,8 +2,6 @@ module.exports = (allowGroupResource="guest") ->
   (req, res, next) ->
     models.user.findUserByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then( (user)->
       req.u = user
-      if user.mobile is "13761202466"
-        logger.error(user)
 
       switch allowGroupResource
         when "admin"

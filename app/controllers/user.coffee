@@ -191,9 +191,13 @@ exports.updateShoppingCart = (req, res, next) ->
 
   models.user.validationShoppingCart req.body
 
-  req.u.shoppingCart = req.body.shoppingCart
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.find1({_id : resultUser._id})
+  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
+    models.user.checkNotFound(resultUser)
+
+    resultUser.shoppingCart = req.body.shoppingCart
+    resultUser.saveAsync()
+  .spread (resultUser2, numberAffected) ->
+    models.user.find1({_id : resultUser2._id})
   .then (user) ->
     res.json user
   .catch next
