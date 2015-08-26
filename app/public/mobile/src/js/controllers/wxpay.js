@@ -40,9 +40,9 @@ function wxpayCtrl($scope, Orders, Debug) {
                             if (/\bok\b/.test(res.err_msg)) {
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
                                     Debug.alert('更新订单状态成功');
-                                    //setTimeout(function () {
-                                    //    location.href = '/mobile'
-                                    //}, 2000);
+                                    setTimeout(function () {
+                                        location.href = '/mobile/invite'
+                                    }, 2000);
                                 }).catch(function (res) {
                                     Debug.alert('订单状态更新失败');
                                     Debug.alert(res);
