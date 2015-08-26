@@ -262,9 +262,11 @@ exports.chargeAccount = (req, res, next) ->
 exports.chargeAccountAlipayNotify = (req, res, next) ->
 
   models.useraccount.validationAlipayNotify(req.body)
+  accountDetailData = {}
 
   models.accountdetail.findOneAsync({_id : req.body.out_trade_no}).then (resultAccountDetail)->
     models.accountdetail.checkNotFound(resultAccountDetail)
+    accountDetailData = resultAccountDetail
     resultAccountDetail.isPaid = true
     resultAccountDetail.paymentAlipay =
       notify_time : req.body.notify_time
@@ -298,7 +300,9 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
 
     models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
   .then (resultAccount)->
+
     models.useraccount.checkNotFound(resultAccount)
+    resultAccount.balance = resultAccount.balance + accountDetailData.amount
     resultAccount.saveAsync()
 
   .then (resultAccount2)->
