@@ -104,6 +104,61 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 }
 
 
+
+function generateOrderInternalSheetFromArray(worksheet, arrayData){
+    var totalRow = arrayData.length - 1;
+    var currentRow = 1;
+
+    var range = {s: {c:0, r:0}, e: {c:10, r:200000 }};
+
+    for (var row=0; row <= totalRow; row++){
+
+        var cellOrderNumber = {v: arrayData[row].orderNumber, t:"s" };
+        var cell_refOrderNumber = XLSX.utils.encode_cell({c:0,r:currentRow});
+        worksheet[cell_refOrderNumber] = cellOrderNumber;
+
+        currentRow = currentRow + 1;
+        var tempPerson = arrayData[row].address.contactPerson + " " + arrayData[row].address.mobile + " " + arrayData[row].address.city + " " + arrayData[row].address.address
+        var cellPerson = {v: tempPerson, t:"s" };
+        var cell_refPerson = XLSX.utils.encode_cell({c:0,r:currentRow});
+        worksheet[cell_refPerson] = cellPerson;
+
+        var tempDishList = arrayData[row].dishList;
+        for (var rowdish=0; rowdish <= tempDishList.length-1; rowdish++){
+
+            currentRow = currentRow + 1;
+            var tempDishName = tempDishList[rowdish].dish.title.zh;
+            var cellDishName = {v: tempDishName, t:"s" };
+            var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
+            worksheet[cell_refDishName] = cellDishName;
+
+            var cellDishNumber = {v: "*" + tempDishList[rowdish].number.toString(), t:"s" };
+            var cell_refDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
+            worksheet[cell_refDishNumber] = cellDishNumber;
+
+            for (var rowsubdish=0; rowsubdish <= tempDishList[rowdish].subDish.length-1; rowsubdish++){
+                currentRow = currentRow + 1;
+                var tempSubDishName = "---> " + tempDishList[rowdish].subDish[rowsubdish].dish.title.zh;
+                var cellSubDishName = {v: tempSubDishName, t:"s" };
+                var cell_refSubDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
+                worksheet[cell_refSubDishName] = cellSubDishName;
+
+                var cellSubDishNumber = {v: "*" + tempDishList[rowdish].subDish[rowsubdish].number.toString(), t:"s" };
+                var cell_refSubDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
+                worksheet[cell_refSubDishNumber] = cellSubDishNumber;
+            }
+
+        }
+
+        currentRow = currentRow + 3
+
+    }
+    worksheet['!ref'] = XLSX.utils.encode_range(range);
+
+    return worksheet
+}
+
+
 exports.orderExportList = function(req, res, next) {
 
     models.order.validationGetOrderList(req.query);
@@ -186,6 +241,63 @@ exports.orderExportList = function(req, res, next) {
 
 
 
+exports.orderExportInternalList = function(req, res, next) {
+    models.order.validationGetOrderList(req.query);
+
+    var query = { $and: [] };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        query.$and.push( {cookingType : req.query.cookingType});
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        query.$and.push( {clientFrom : req.query.clientFrom});
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        query.$and.push( {deliveryDateType : req.query.deliveryDateType});
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        query.$and.push( {status : req.query.status});
+    }
+
+
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+    /* DO SOMETHING WITH workbook HERE */
+
+    var first_sheet_name = workbook.SheetNames[0];
+    var first_worksheet = workbook.Sheets[first_sheet_name];
+
+    //var first_cell= first_worksheet['A1'];
+    //console.log (first_cell);
+
+    req.query.limit = 10000;
+
+    models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
+        .populate({path: 'dishList.dish', select: models.dish.fields()})
+        .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+        .lean()
+        .execAsync()
+        .then(function(resultOrders){
+            var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
+            workbook.Sheets[first_sheet_name] = newSheet;
+
+            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+
+            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+//            res.send(resultOrders)
+        }).catch(next);
+
+
+};
+
+
+
 
 exports.orderStatisticByAddress = function(req, res, next) {
 
@@ -226,6 +338,10 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
         matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
     }
 
     if (typeof req.query.status !== 'undefined' && req.query.status !== '') {

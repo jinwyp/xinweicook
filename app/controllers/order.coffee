@@ -328,10 +328,27 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
-      models.coupon.checkNotFound resultPromotionCode
-      models.coupon.checkExpired resultPromotionCode
-      models.coupon.checkUsed(resultPromotionCode, req.u)
-      promotionCode = resultPromotionCode
+      console.log resultPromotionCode
+      if resultPromotionCode
+        models.coupon.checkExpired resultPromotionCode
+        models.coupon.checkUsed(resultPromotionCode, req.u)
+        promotionCode = resultPromotionCode
+      else
+        if models.coupon.verifyCoupon15W(req.body.promotionCode)
+          newCoupon =
+            name :
+              zh : "活动1优惠码"
+              en : "Event1 Promotion Code"
+            price : 10
+            couponType : "promocode"
+            code : req.body.promotionCode
+            usedTime : 0
+
+          models.coupon.addNew(newCoupon).then (resultCoupon)->
+            promotionCode = resultCoupon
+
+        else
+          models.coupon.checkNotFound resultPromotionCode
 
     models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
