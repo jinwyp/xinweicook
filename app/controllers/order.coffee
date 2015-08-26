@@ -233,9 +233,10 @@ exports.addNewOrder = (req, res, next) ->
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
     dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
-    for subDish,subDishIndex in dish.subDish
-      dishIdList.push subDish.dish
-      dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
+    if dish.subDish
+      for subDish,subDishIndex in dish.subDish
+        dishIdList.push subDish.dish
+        dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
 
   newOrder =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -437,13 +438,14 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.userComment = ""
         newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
-      for subDish,subDishIndex in dish.subDish
-        if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
-          newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToCookList.push({dish:dishDataList[subDish.dish], number:subDish.number})
-        else
-          newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
+      if dish.subDish
+        for subDish,subDishIndex in dish.subDish
+          if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
+            newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+            dishReadyToCookList.push({dish:dishDataList[subDish.dish], number:subDish.number})
+          else
+            newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+            dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
 
 

@@ -221,7 +221,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'CouponController'
             })
             .state('menu.addNewCoupon', {
-                url: '/couponadd',
+                url: '/couponadd/:userId',
                 templateUrl: 'templates/coupon/couponDetail.html',
                 data: {
                     title: '优惠码管理',

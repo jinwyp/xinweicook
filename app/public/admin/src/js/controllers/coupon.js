@@ -52,8 +52,10 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             price : 10,
             code : '',
             priceLimit : 10,
-            usedTime : 0,
-            usedCountLimitOfOneUser : 1
+            usedTime : 1,
+            usedCountLimitOfOneUser : 1,
+            isUsed : false,
+            user : ''
 
         }
     };
@@ -119,6 +121,15 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         });
     }
 
+    if ($state.current.data.type === 'add'){
+
+        if ($stateParams.userId) {
+            $scope.data.coupon.user = $stateParams.userId;
+            $scope.data.coupon.couponType = 'coupon';
+        }
+
+    }
+
     $scope.delCoupon = function (order) {
 
         var index = $scope.data.couponList.indexOf(order);
@@ -146,7 +157,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         }
 
         var newCoupon = angular.copy($scope.data.coupon);
-        //console.log (newCoupon);
+        Util.delProperty(newCoupon);
         Coupons.post(newCoupon).then(function (resultCoupon) {
             console.log(resultCoupon);
             Notification.success({message: 'Save Success', delay: 8000});
@@ -161,7 +172,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         if (form.$invalid) {
             return;
         }
-        console.log(form.$invalid);
+
         $scope.data.coupon.put().then(function (resultCoupon) {
             console.log(resultCoupon);
             Notification.success({message: 'Update Success', delay: 8000});

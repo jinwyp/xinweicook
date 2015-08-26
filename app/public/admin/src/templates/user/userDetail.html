@@ -282,6 +282,25 @@
 
         </div>
 
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">
+                    <button class="btn btn-info" ng-click="showUserCoupons()">查看用户优惠券</button>
+                    <a class="btn btn-success" ui-sref="menu.addNewCoupon({ userId: data.user._id })">新增优惠券</a>
+                </h3>
+            </div>
+
+            <!-- List group -->
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="coupon in data.userCouponList">
+                    <a ui-sref="menu.updateCoupon({ id: coupon._id })">优惠金额:{{coupon.price}}</a>  / 订单金额限制:{{coupon.priceLimit}} / {{coupon.isUsed ? '已使用' : '未使用'}} {{coupon.isExpired ? '已过期' : '未过期'}} / 名称: {{coupon.name.zh}} - {{coupon.name.en}} / 有效期:{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss'}}
+                </li>
+            </ul>
+
+        </div>
     </div>
 
 

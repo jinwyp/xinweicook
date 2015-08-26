@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons) {
 
     $scope.data = {
         searchFilter : '',
@@ -48,6 +48,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         },
         userAccount : {},
         userAccountDetails : [],
+        userCouponList : [],
 
         userGroupList: [
             {
@@ -108,6 +109,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.data.searchOptions.skip = ($scope.data.userListCurrentPage-1) * $scope.data.searchOptions.limit;
         $scope.searchUser();
     };
+
 
     $scope.delUser = function (user) {
 
@@ -207,6 +209,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         UserAccountDetails.getList({user : $stateParams.id, sort : '-createdAt'}).then(function (resultUserAccountDetails) {
             $scope.data.userAccountDetails = resultUserAccountDetails;
+            Notification.success({message: 'Search Success', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
+
+
+    $scope.showUserCoupons = function () {
+
+        Coupons.getList({user : $stateParams.id, sort : '-createdAt'}).then(function (resultUserCoupons) {
+            $scope.data.userCouponList = resultUserCoupons;
             Notification.success({message: 'Search Success', delay: 8000});
 
         }).catch(function(err){

@@ -150,8 +150,9 @@ module.exports =
 
   rest:
     middleware : (req, res, next) ->
-      if req.method is "POST"
+      if req.method is "POST" and req.body.code
         models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
+          console.log(result)
           if result
             next(new Err("优惠码已经存在 - 后台管理"), 400)
           else
@@ -159,3 +160,20 @@ module.exports =
         )
       else
         next()
+
+    postProcess : (req, res, next) ->
+      if req.method is "POST"
+        # 给用户新增优惠券
+        if req.body.user and req.body.user.length > 23
+          models.user.findOneAsync({_id:req.body.user}).then (resultUser) ->
+            if resultUser
+              models.coupon.findAsync({user:req.body.user}).then (resultCoupons) ->
+                if resultCoupons
+                  tempLength = resultCoupons.length-1
+                  for i in [0..tempLength]
+                    if resultUser.couponList.indexOf(resultCoupons[i]._id.toString()) is -1
+                      resultUser.couponList.push(resultCoupons[i]._id.toString())
+
+                  resultUser.saveAsync().catch( (err)->
+                    logger.error("创建优惠券失败:", err)
+                  )

@@ -276,6 +276,7 @@ module.exports =
               unless libs.validator.isLength subDish.dish, 24, 24
                 return throw new Err "Field validation error,  subDishID must be 24-24", 400
           else
+            if dish.subDish
               throw new Err "Field validation error,  subDish must be Array", 400
 
       unless libs.validator.isFloat newOrder.address.geoLatitude

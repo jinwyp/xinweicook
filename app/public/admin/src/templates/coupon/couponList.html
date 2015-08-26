@@ -70,7 +70,8 @@
     <table class="table table-striped table-bordered table-hover table-responsive">
         <thead>
             <tr>
-                <th>_id / 绑定用户</th>
+                <th>_id</th>
+                <th>所属用户</th>
                 <th>优惠码名称 中文</th>
                 <th>优惠码名称 英文</th>
                 <th>优惠码 code</th>
@@ -88,7 +89,8 @@
         </thead>
         <tbody>
             <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">优惠券:{{coupon._id}}</a> <br/> <a ui-sref="menu.updateUser({ id: coupon.user })">{{coupon.user ? '用户:'+coupon.user : '' }}</a> </td>
+                <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">{{coupon._id}}</a> </td>
+                <td> <a ui-sref="menu.updateUser({ id: coupon.user })">{{coupon.user ? coupon.user : '' }}</a> </td>
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
                 <td>{{coupon.code}}</td>
