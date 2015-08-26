@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>481</integer>
+                    <integer>526</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z316 z311 z315 z312 z317 z314 z313"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bq:s9MyGnrOorWNr9qtSYOUP6sbiL6UVEVR</attribute>
+        <attribute name="value" type="string">Bearer 2C8:XzlURm0jK56idweItbeM4rs1axleUGYl</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -4677,12 +4677,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n\\n\\t\\"promotionCode\\" : \\"XWAAAAXWC8\\", \\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDateCook\\" : \\"2015-06-13\\",\\n    \\"deliveryTimeCook\\" : \\"12:00\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"王宇鹏\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"55d465ed8efebbc334d16b89\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [                 \\n{\\n                    \\"dish\\": \\"55d44ef96ed1ecac29cdc8cf\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"55d44ef96ed1ecac29cdc8d4\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n\\t\\t},\\n{             \\"dish\\": \\"55d44ef96ed1ecac29cdc8c5\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [                 {\\n                    \\"dish\\": \\"55d44ef96ed1ecac29cdc8cf\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"55d44ef96ed1ecac29cdc8d4\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n\\t\\t}\\n    ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n\\n\\t\\"promotionCode\\" : \\"XWAAAAXWC8\\", \\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDateCook\\" : \\"2015-06-13\\",\\n    \\"deliveryTimeCook\\" : \\"12:00\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"王宇鹏\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [                 \\n\\t\\t\\t\\t{\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n\\t\\t}\\n\\n    ]\\n}"]</attribute>
         <attribute name="order" type="int64">22</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay Duplicate</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z623 z622 z624 z618 z621 z620 z619"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z624 z622 z621 z619 z623 z620 z618"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z626">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>

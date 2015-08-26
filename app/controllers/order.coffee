@@ -328,18 +328,21 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
-      console.log resultPromotionCode
+
       if resultPromotionCode
         models.coupon.checkExpired resultPromotionCode
         models.coupon.checkUsed(resultPromotionCode, req.u)
         promotionCode = resultPromotionCode
       else
+        # 15W 活动优惠码
         if models.coupon.verifyCoupon15W(req.body.promotionCode)
           newCoupon =
             name :
               zh : "活动1优惠码"
               en : "Event1 Promotion Code"
-            price : 10
+            price : 50
+            priceLimit : 150
+            endDate: moment().endOf("year")
             couponType : "promocode"
             code : req.body.promotionCode
             usedTime : 0

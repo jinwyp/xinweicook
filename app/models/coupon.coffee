@@ -117,6 +117,7 @@ module.exports =
           zh : "优惠券"
           en : "coupon"
         price : 2
+        couponType : "promocode"
 
       createCoupon = _.assign(createCoupon, newCoupon)
 
@@ -156,12 +157,5 @@ module.exports =
           else
             next()
         )
-      else if req.method is "GET"
-        if not req.params.id
-          if req.query.code is "true"
-            req.query.code = { $exists: true }
-          else
-            req.query.code = { $exists: false }
-        next()
       else
         next()

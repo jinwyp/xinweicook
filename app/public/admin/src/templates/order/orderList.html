@@ -158,8 +158,6 @@
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
-                <th>优惠码</th>
-                <th>优惠券</th>
 
                 <th>支付方式</th>
                 <th>是否付款</th>
@@ -168,9 +166,9 @@
                 <th>订单菜品类型</th>
                 <th>菜品价格</th>
                 <!--<th>积分</th>-->
-                <!--<th>优惠码 / 优惠码折扣</th>-->
-                <!--<th>优惠券 / 优惠券折扣</th>-->
-                <!--<th>余额支付</th>-->
+                <th>优惠码 </th>
+                <th>优惠券 </th>
+                <th>余额支付</th>
                 <th>运费</th>
                 <th>总价</th>
 
@@ -189,8 +187,6 @@
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.userComment}}</td>
-                <td>{{order.promotionDiscount}} {{order.promotionCode ? ('(' + order.promotionCode +')'):''}}</td>
-                <td>{{order.couponDiscount}}</td>
 
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
@@ -199,9 +195,9 @@
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
-                <!--<td>{{order.promotionCode}} / {{order.promotionDiscount}} </td>-->
-                <!--<td>{{order.coupon}} / {{order.couponDiscount}} </td>-->
-                <!--<td>{{order.accountUsedDiscount}} </td>-->
+                <td>{{order.promotionDiscount}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
+                <td> <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount}}</a> </td>
+                <td>{{order.accountUsedDiscount}} </td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
 
