@@ -406,6 +406,8 @@ exports.addNewOrder = (req, res, next) ->
         # 使用余额支付 检查余额是否够
         if  userAccount.balance >= newOrder.totalPrice
           newOrder.accountUsedDiscount = newOrder.totalPrice
+          newOrder.isPaymentPaid = true
+          newOrder.status = models.order.constantStatus().paid
           newOrder.totalPrice = 0
         else
           newOrder.accountUsedDiscount = userAccount.balance

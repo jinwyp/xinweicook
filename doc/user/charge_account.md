@@ -1,6 +1,6 @@
 ## Req
 
-POST `/api/user/account`
+POST `/api/user/account/details`
 
 ### Body
 
