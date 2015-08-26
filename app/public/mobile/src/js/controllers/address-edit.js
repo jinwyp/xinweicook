@@ -154,6 +154,10 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
             user.address.forEach(function (address) {
                 address.geoLatitude = address.geoLatitude || 0;
                 address.geoLongitude = address.geoLongitude || 0;
+
+                if (address.contactPerson.length == 1) {
+                    address.contactPerson += ' ';
+                }
             });
 
             if ($scope.deleteAddress.called) {
