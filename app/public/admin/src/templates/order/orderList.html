@@ -195,7 +195,7 @@
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
-                <td>{{order.promotionDiscount}} {{order.promotionCode ? ('(' + order.promotionCode +')'):''}} </td>
+                <td>{{order.promotionDiscount}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
                 <td> <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount}}</a> </td>
                 <td>{{order.accountUsedDiscount}} </td>
                 <td>{{order.freight}}</td>

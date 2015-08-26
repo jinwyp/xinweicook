@@ -21,13 +21,18 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             limit : 1000,
             createdAt :'',
             usedTime : '',
-            code : 'true',
+            couponType : '!=coupon',
             _id : ''
 
         },
         searchSort : {
             sort : '-createdAt'
         },
+
+        couponListCount : 0,
+        couponListCurrentPage : 1,
+        couponListTotalPages : 1,
+        couponListPagesArray : [],
 
         currentDeleteIndex : -1,
 
@@ -58,6 +63,26 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
 
+
+    $scope.searchOrderCount = function (){
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Coupons.one('count').get($scope.data.searchOptions).then(function (resultCoupons) {
+
+            $scope.data.couponListCount = resultCoupons.count;
+            $scope.data.couponListTotalPages = Math.ceil(resultCoupons.count / $scope.data.searchOptions.limit);
+
+            $scope.data.couponListPagesArray= [];
+            for (var i = 1; i <= $scope.data.couponListTotalPages; i++){
+                $scope.data.couponListPagesArray.push( {value : i} )
+            }
+
+            $scope.searchCoupon();
+
+        });
+    };
+
     $scope.searchCoupon = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
@@ -67,15 +92,21 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){
-                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-            });
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
 
+    };
+
+    $scope.changePagination = function (currentPageNo) {
+        $scope.data.couponListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.couponListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchCoupon();
     };
 
 
 
     if ($state.current.data.type === 'list'){
-        $scope.searchCoupon();
+        $scope.searchOrderCount();
     }
 
     if ($state.current.data.type === 'update'){
