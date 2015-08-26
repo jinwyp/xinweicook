@@ -24,7 +24,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
     };
 
     $scope.$watch('coupon.code', function (newCode, oldCode) {
-        if (newCode !== oldCode && /\w{10}/.test(newCode)) {
+        if (newCode !== oldCode && /^\w{8}(\w{2})?$/.test(newCode)) {
             $scope.couponPrice = 0;
             $scope.couponLimitPrice = 0;
             Coupon.getCouponInfo(newCode).then(function (res) {
