@@ -2,6 +2,7 @@
 
 $select-btn-width: 100px;
 .fav-list.cart-list {
+  overflow: hidden;
   li {
     position: relative;
   }
@@ -17,24 +18,30 @@ $select-btn-width: 100px;
   .dish-detail {
     width: 120px;
     margin-left: 132px;
+    h5 {
+      font-size: 15px;
+    }
   }
   .counter {
     position: absolute;
-    height: 32px;
-    line-height: 31px;
+    height: 26px;
+    line-height: 24px;
     text-align: center;
-    right: -6px;
-    top: 44px;
+    right: -14px;
+    top: 50px;
     span {
       display: inline-block;
       width: 40px;
-      height: 32px;
+      height: 26px;
       font-size: 18px;
+      color: #A5A5A5;
     }
     .number {
-      width: 60px;
-      height: 32px;
-      background-color: gray;
+      width: 45px;
+      height: 26px;
+      background-color: #E2E2E2;
+      color: inherit;
+      border-radius: 5px;
     }
   }
 }

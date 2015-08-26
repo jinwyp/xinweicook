@@ -1190,50 +1190,61 @@ label {
   margin-left: 10px;
 }
 
-/* line 5, ../sass/_cart.scss */
+/* line 4, ../sass/_cart.scss */
+.fav-list.cart-list {
+  overflow: hidden;
+}
+/* line 6, ../sass/_cart.scss */
 .fav-list.cart-list li {
   position: relative;
 }
-/* line 8, ../sass/_cart.scss */
+/* line 9, ../sass/_cart.scss */
 .fav-list.cart-list .select {
   background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
   width: 24px;
   height: 100%;
   position: absolute;
 }
-/* line 14, ../sass/_cart.scss */
+/* line 15, ../sass/_cart.scss */
 .fav-list.cart-list .dish-img {
   left: 38px;
 }
-/* line 17, ../sass/_cart.scss */
+/* line 18, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail {
   width: 120px;
   margin-left: 132px;
 }
 /* line 21, ../sass/_cart.scss */
+.fav-list.cart-list .dish-detail h5 {
+  font-size: 15px;
+}
+/* line 25, ../sass/_cart.scss */
 .fav-list.cart-list .counter {
   position: absolute;
-  height: 32px;
-  line-height: 31px;
+  height: 26px;
+  line-height: 24px;
   text-align: center;
-  right: -6px;
-  top: 44px;
+  right: -14px;
+  top: 50px;
 }
-/* line 28, ../sass/_cart.scss */
+/* line 32, ../sass/_cart.scss */
 .fav-list.cart-list .counter span {
   display: inline-block;
   width: 40px;
-  height: 32px;
+  height: 26px;
   font-size: 18px;
+  color: #A5A5A5;
 }
-/* line 34, ../sass/_cart.scss */
+/* line 39, ../sass/_cart.scss */
 .fav-list.cart-list .counter .number {
-  width: 60px;
-  height: 32px;
-  background-color: gray;
+  width: 45px;
+  height: 26px;
+  background-color: #E2E2E2;
+  color: inherit;
+  border-radius: 5px;
 }
 
-/* line 43, ../sass/_cart.scss */
+/* line 50, ../sass/_cart.scss */
 .cart-bar2 {
   font-size: 13px;
   margin: 0;
@@ -1245,13 +1256,13 @@ label {
   bottom: 0;
   background-color: #EDE2D0;
 }
-/* line 54, ../sass/_cart.scss */
+/* line 61, ../sass/_cart.scss */
 .cart-bar2 .select-all {
   background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
   padding-left: 49px;
   padding-right: 0;
 }
-/* line 60, ../sass/_cart.scss */
+/* line 67, ../sass/_cart.scss */
 .cart-bar2 .buy-button {
   background-color: #f44d4d;
   color: white;
