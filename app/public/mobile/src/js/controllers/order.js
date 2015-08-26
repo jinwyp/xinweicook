@@ -27,8 +27,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if (newCode !== oldCode && /^\w{8}(\w{2})?$/.test(newCode)) {
             $scope.couponPrice = 0;
             $scope.couponLimitPrice = 0;
-            if (newCode.length == 8) newCode = 'zz' + newCode;
-            Coupon.getCouponInfo(newCode).then(function (res) {
+            var sendCode = newCode;
+            if (newCode.length == 8) sendCode = 'zz' + newCode;
+            Coupon.getCouponInfo(sendCode).then(function (res) {
                 var coupon = res.data;
                 var now = new Date(res.headers('date'));
                 var startDate = new Date(coupon.startDate);
@@ -38,6 +39,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                     $scope.couponPrice = coupon.price;
                     $scope.couponLimitPrice = coupon.priceLimit;
                     $scope.coupon = coupon;
+                    $scope.coupon.code = newCode;
                 }
             }).catch(function (res) {
                 alert('无效的优惠代码');
@@ -119,6 +121,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 if (!$scope.couponPrice) return true;
                 if ($scope.orderPrice() >= $scope.couponLimitPrice) {
                     order.promotionCode = $scope.coupon.code;
+                    if (order.promotionCode.length == 8) {
+                        order.promotionCode = 'zz' + order.promotionCode;
+                    }
                     return true;
                 } else return false;
             }
