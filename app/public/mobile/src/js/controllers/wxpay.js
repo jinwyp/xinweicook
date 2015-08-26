@@ -12,7 +12,7 @@ function wxpayCtrl($scope, Orders, Debug) {
 
         if (!/\w{24}/.test(orderId)) {
             alert('支付失败, 请稍后重试');
-            $scope.state = 'fail';
+            $scope.state = 'fail1';
             return;
         }
 
@@ -60,7 +60,7 @@ function wxpayCtrl($scope, Orders, Debug) {
                                     Debug.alert(res);
                                 });
                                 $scope.$apply(function () {
-                                    $scope.state = 'fail';
+                                    $scope.state = 'fail2';
                                 })
                             }
                         } catch(e) {
