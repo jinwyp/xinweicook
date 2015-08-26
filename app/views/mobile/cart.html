@@ -32,11 +32,11 @@
                             {{item.subDish.outOfStock ? '无货' : '有货'}}
                         </span>
                         <span class="rmb-char">
-                            {{item.subDish ? item.dish.priceOriginal : (item.dish.priceOriginal + item.subDish.priceOriginal)}}
+                            {{item.subDish ? (item.dish.priceOriginal + item.subDish.priceOriginal) : item.dish.priceOriginal}}
                         </span>
                     </div>
                     <div class="counter">
-                        <span ng-click="decrease(item)">-</span>
+                        <span ng-click="decrease(item, $index)">-</span>
                         <span class="number">{{item.subDish ? item.subDish.number : item.dish.number}}</span><!-- todo: dish.number是否合适 -->
                         <span ng-click="increase(item)">+</span>
                     </div>
@@ -55,7 +55,7 @@
         结算
     </div>
     <div class="col-xs-6 text-center pull-right">
-        总价 (不含运费) : <span class="rmb-char">114{{totalPrice}}</span>
+        总价 (不含运费) : <span class="rmb-char">{{totalPrice()}}</span>
     </div>
 </footer>
 

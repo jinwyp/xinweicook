@@ -30,6 +30,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     $scope.decrease = function (item, idx) {
         var cancel = false;
+        var key = item.dish.cookingType == 'ready to cook' ? 'cookList' : 'eatList';
+        var list = $scope.dishList[key];
         if (item.subDish && item.subDish.number == 1) {
             cancel = !confirm('确定删除该商品吗?');
         } else if (item.dish.number == 1) {
@@ -62,17 +64,16 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         });
 
         // 再更新展示数据上的数量
-        item.dish.number--;
         if (item.subDish) {
             item.subDish.number--;
+            item.dish.number--;
 
+            // 主菜品在其number为0时,也会被删掉
             if (item.subDish.number == 0) {
-                if (item.dish.cookingType == 'ready to cook') {
-                    $scope.dishList.cookList.splice(idx, 1);
-                } else {
-                    $scope.dishList.eatList.splice(idx, 1);
-                }
+                list.splice(idx, 1);
             }
+        } else if (!item.dish.number--) {
+            list.splice(idx, 1);
         }
 
         User.postCart(postCart);
@@ -86,6 +87,23 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         $scope.dishList.eatList.forEach(function (item) {
             item.selected = !item.selected;
         });
+    };
+
+    $scope.totalPrice = function () {
+        var price = 0;
+        var keys = ['cookList', 'eatList'];
+        $scope.dishList && keys.forEach(function (key) {
+            var list = $scope.dishList[key];
+            list && list.forEach(function (el) {
+                if (!el.selected) return;
+                if (el.subDish) {
+                    price += el.subDish.number * el.dish.priceOriginal + el.subDish.priceOriginal
+                } else {
+                    price += el.dish.number * el.dish.priceOriginal;
+                }
+            })
+        });
+        return price;
     };
 
     function outOfStock (dish) {
