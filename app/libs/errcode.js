@@ -21,4 +21,4 @@ module.exports = {
         sendFailed: 3115,
         reachSendLimitation: 3116
     }
-}
+};

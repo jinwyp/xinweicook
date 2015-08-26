@@ -825,6 +825,12 @@ label {
 }
 
 /* line 52, ../sass/_addresslist.scss */
+.no-address-tip {
+  margin: 52px;
+  font-size: 16px;
+}
+
+/* line 57, ../sass/_addresslist.scss */
 .icon-add {
   position: absolute;
   top: 0;
@@ -834,7 +840,7 @@ label {
   right: 0;
   font-size: 34px;
 }
-/* line 60, ../sass/_addresslist.scss */
+/* line 65, ../sass/_addresslist.scss */
 .icon-add::before {
   content: "+";
 }
