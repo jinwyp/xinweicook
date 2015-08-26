@@ -17,7 +17,8 @@ angular.module('xw.services').factory('Alert', function () {
     return {
         show: function (code, def) {
             var msg = codeMsg[code];
-            msg && alert(msg) || def && alert(def);
+            if (msg) alert(msg);
+            else if (def) alert(def);
         }
     }
 })
