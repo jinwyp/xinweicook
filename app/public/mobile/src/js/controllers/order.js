@@ -27,6 +27,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if (newCode !== oldCode && /^\w{8}(\w{2})?$/.test(newCode)) {
             $scope.couponPrice = 0;
             $scope.couponLimitPrice = 0;
+            if (newCode.length == 8) newCode = 'zz' + newCode;
             Coupon.getCouponInfo(newCode).then(function (res) {
                 var coupon = res.data;
                 var now = new Date(res.headers('date'));
