@@ -338,8 +338,8 @@ exports.addNewOrder = (req, res, next) ->
         if models.coupon.verifyCoupon15W(req.body.promotionCode)
           newCoupon =
             name :
-              zh : "活动1优惠码"
-              en : "Event1 Promotion Code"
+              zh : "蒙牛活动优惠码"
+              en : "Mengniu Promotion Code"
             price : 50
             priceLimit : 150
             endDate: moment().endOf("year")

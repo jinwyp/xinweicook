@@ -1861,12 +1861,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">PUT</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n    \\"address\\":[\\n        {\\n            \\"geoLatitude\\" : 20, \\n            \\"geoLongitude\\" : 20,\\n\\n            \\"country\\" : \\"china\\",\\n            \\"province\\": \\"shanghai\\",\\n            \\"city\\": \\"shanghai\\",\\n            \\"district\\": \\"shanghai\\",\\n            \\"street\\" : \\"枫林路\\",\\n            \\"address\\": \\"510号\\",\\n\\n            \\"isTemporary\\" : false, \\n            \\"isDefault\\":  false,\\n\\n            \\"contactPerson\\": \\"xinwei\\",\\n            \\"mobile\\": \\"13564568304\\",\\n            \\"alias\\": \\"\\",\\n            \\"remark\\": \\"\\"\\n        }\\n    ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n    \\"couponList\\" : [ \\n        \\"55dd27e07d3440960ee3ded6\\", \\n        \\"55dd27e07d3440960ee3ded7\\", \\n        \\"55dd284c7d3440960ee3e101\\"\\n    ],\\n    \\"address\\" : [ \\n        {\\n            \\"province\\" : \\"上海\\",\\n            \\"city\\" : \\"上海\\",\\n            \\"district\\" : \\"静安\\",\\n            \\"street\\" : \\"富民路\\/长乐路(路口)\\",\\n            \\"geoLatitude\\" : 31.21777475610373,\\n            \\"geoLongitude\\" : 121.4521092029388,\\n            \\"address\\" : \\"富民路291号悟锦世纪大楼801\\",\\n            \\"contactPerson\\" : \\"Ray\\",\\n            \\"mobile\\" : \\"18217138117\\",\\n            \\"_id\\" : \\"55dd2a0bf8a6195e11cd66d7\\",\\n            \\"sortOrder\\" : 0,\\n            \\"isDefault\\" : false,\\n            \\"isValid\\" : false,\\n            \\"isTemporary\\" : false\\n        }, \\n        {\\n            \\"province\\" : \\"上海\\",\\n            \\"city\\" : \\"上海\\",\\n            \\"district\\" : \\"静安\\",\\n            \\"street\\" : \\"富民路\\/长乐路(路口)\\",\\n            \\"geoLatitude\\" : 31.21777475610373,\\n            \\"geoLongitude\\" : 121.4521092029388,\\n            \\"address\\" : \\"富民路291号悟锦世纪大楼801\\",\\n            \\"contactPerson\\" : \\"Ray\\",\\n            \\"mobile\\" : \\"18217138117\\",\\n            \\"_id\\" : \\"55dd2a0bf8a6195e11cd66d6\\",\\n            \\"sortOrder\\" : 0,\\n            \\"isDefault\\" : false,\\n            \\"isValid\\" : false,\\n            \\"isTemporary\\" : false\\n        }, \\n        {\\n            \\"province\\" : \\"上海\\",\\n            \\"city\\" : \\"上海\\",\\n            \\"district\\" : \\"静安\\",\\n            \\"street\\" : \\"富民路\\/长乐路(路口)\\",\\n            \\"geoLatitude\\" : 31.21777475610373,\\n            \\"geoLongitude\\" : 121.4521092029388,\\n            \\"address\\" : \\"富民路291号悟锦世纪大楼801\\",\\n            \\"contactPerson\\" : \\"Ray\\",\\n            \\"mobile\\" : \\"18217138117\\",\\n            \\"_id\\" : \\"55dd2a0bf8a6195e11cd66d5\\",\\n            \\"sortOrder\\" : 0,\\n            \\"isDefault\\" : false,\\n            \\"isValid\\" : false,\\n            \\"isTemporary\\" : false\\n        }\\n    ],\\n    \\"group\\" : \\"member\\",\\n    \\"__v\\" : 4,\\n    \\"invitationSendCode\\" : \\"NMWGDGWS\\",\\n    \\"invitationFromCode\\" : \\"ZWWPGKJM\\",\\n    \\"invitationFromUser\\" : \\"55c828ae79d390b416943284\\"\\n}"]</attribute>
         <attribute name="order" type="int64">18</attribute>
         <attribute name="name" type="string">user-updateUserInfo</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z301 z300 z299 z304 z303 z302 z305"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z305 z304 z299 z300 z302 z301 z303"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z307">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"115DCB44-9E20-4D5A-B82B-2B95E53F9356"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z316 z311 z315 z312 z317 z314 z313"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2C8:XzlURm0jK56idweItbeM4rs1axleUGYl</attribute>
+        <attribute name="value" type="string">Bearer 2RS:V5zDVEkNMCkgOwGCmgvkrV8tJvr2pafg</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -3665,12 +3665,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"18217138117\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">7</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z510 z512 z517 z513 z514 z511 z515"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z517 z513 z515 z512 z510 z514 z511"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z517">
         <attribute name="value" type="string">Bearer </attribute>

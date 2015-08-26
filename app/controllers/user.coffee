@@ -171,14 +171,16 @@ exports.updateUserInfo = (req, res, next) ->
 
   models.user.validationUserInfo req.body
 
-  req.u.address = req.body.address
-  req.u.gender = req.body.gender if req.body.gender
-  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
-
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    console.log resultUser, numberAffected
+  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
     models.user.checkNotFound(resultUser)
-    models.user.find1({_id : resultUser._id})
+
+    resultUser.address = req.body.address
+    resultUser.gender = req.body.gender if req.body.gender
+    resultUser.avatarPic = req.body.avatarPic if req.body.avatarPic
+
+    resultUser.saveAsync()
+  .then (resultUser) ->
+    models.user.find1({_id : resultUser[0]._id})
   .then (user) ->
     res.json user
   .catch next
