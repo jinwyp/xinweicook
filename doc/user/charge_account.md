@@ -19,12 +19,22 @@ POST `/api/user/account`
 
 ## Res
 ### Body
+
+#### 返回充值记录明细,等待支付宝确认
+
 ```js
 {
-  "modifiedAt": "2015-08-11T09:49:08.782Z",
-  "createdAt": "2015-08-11T09:22:25.617Z",
-  "user": "55c2d55edae7610b0557e93e",
   "__v": 0,
-  "balance": 12
+  "modifiedAt": "2015-08-26T10:00:40.234Z",
+  "createdAt": "2015-08-26T10:00:40.234Z",
+  "user": "55d30af82d861f987b5bd86d",
+  "amount": 10,
+  "_id": "55dd8e4871bf38ae72b14c9e",
+  "isPaid": false,
+  "name": {
+    "zh": "在线充值",
+    "en": "Online Recharge"
+  },
+  "isPlus": true
 }
 ```
