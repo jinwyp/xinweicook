@@ -409,6 +409,13 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.isPaymentPaid = true
           newOrder.status = models.order.constantStatus().paid
           newOrder.totalPrice = 0
+
+          newOrderReadyToCook.isPaymentPaid = true
+          newOrderReadyToCook.status = models.order.constantStatus().paid
+
+          newOrderReadyToEat.isPaymentPaid = true
+          newOrderReadyToEat.status = models.order.constantStatus().paid
+
         else
           newOrder.accountUsedDiscount = userAccount.balance
           newOrder.totalPrice = newOrder.totalPrice - userAccount.balance
