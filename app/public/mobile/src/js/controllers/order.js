@@ -198,6 +198,11 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
+            if ($scope.user.couponList) {
+                $scope.user.couponList = $scope.user.couponList.filter(function (el) {
+                    return !el.isUsed;
+                })
+            }
             //$scope.address.mobile = $scope.user.mobile;
             //$scope.address.contactPerson = $scope.user.username;
         })

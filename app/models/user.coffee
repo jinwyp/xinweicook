@@ -137,12 +137,12 @@ module.exports =
 
     checkNotFound: (u) ->
       if not u
-        throw new Err "找不到该用户", 401
+        throw new Err "找不到该用户", 401, Err.code.user.notFound
       else
         u
     checkFound: (user) ->
       if user
-        return throw new Err "User Mobile already exist !", 400
+        return throw new Err "User Mobile already exist !", 400, Err.code.user.alreadyExist
     checkNotSpam: (u) ->
       if u.isSpam
         throw new Err "该用户被举报", 403

@@ -39,7 +39,7 @@ module.exports =
 
     validationSMSType : (type) ->
       unless libs.validator.isIn(type, @constantSMSType())
-        return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400
+        return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400, Err.code.sms.wrongType
 
     # 发送短信
     sendSmsVia3rd: (mobile, text) ->
@@ -61,7 +61,7 @@ module.exports =
         console.log "------------------ Send SMS Yunpian ------------------", body
         result = JSON.parse(body)
         if result.code isnt 0
-          throw new Err "短信发送失败 " + result.msg, 400
+          throw new Err "短信发送失败 " + result.msg, 400, Err.code.sms.sendFailed
         else
           result
       .catch( (err)->
@@ -87,7 +87,7 @@ module.exports =
             resultLog.sends = 0  #如果修改时间小于今天 则把今天要发送短信的清零
 
           if resultLog.sends >= conf.code.sends
-            throw new Err "达到今日最大发送次数" + conf.code.sends, 400
+            throw new Err "达到今日最大发送次数" + conf.code.sends, 400, Err.code.sms.tooManyTries
         else
           resultLog = new models.sms(type: type, mobile: mobile, sends: 0)
 
@@ -103,19 +103,19 @@ module.exports =
       @findOneAsync(type: type, mobile: mobile).then((log)->
         if log
           if log.trys >= conf.code.trys
-            throw new Err "达到今日最大尝试次数", 400
+            throw new Err "达到今日最大尝试次数", 400, Err.code.sms.tooManyTries
           log.trys++
           log.saveAsync().then(->
             if log.expiredAt < moment()
-              throw new Err "过期的验证码", 400
+              throw new Err "过期的验证码", 400, Err.code.sms.expired
             else if log.code?.toString() isnt code?.toString()
-              throw new Err "验证码错误", 400
+              throw new Err "验证码错误", 400, Err.code.sms.wrongCode
             else
               log.expiredAt = moment()
               log.saveAsync()
           )
         else
-          throw new Err "无效的验证码", 400
+          throw new Err "无效的验证码", 400, Err.code.sms.invalidCode
       )
   methods: {}
   rest: {}
