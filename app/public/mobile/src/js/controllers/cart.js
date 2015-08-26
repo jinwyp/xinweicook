@@ -78,6 +78,16 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         User.postCart(postCart);
     };
 
+    $scope.selectAll = function () {
+        $scope.dishList.selectedAll = !$scope.dishList.selectedAll;
+        $scope.dishList.cookList.forEach(function (item) {
+            item.selected = !item.selected;
+        });
+        $scope.dishList.eatList.forEach(function (item) {
+            item.selected = !item.selected;
+        });
+    };
+
     function outOfStock (dish) {
         return dish.outOfStock || !dish.isPublished;
     }

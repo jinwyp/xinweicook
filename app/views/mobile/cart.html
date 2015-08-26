@@ -21,7 +21,7 @@
         <h4>{{listName == 'cookList' ? '即食包' : '便当'}}</h4>
         <ul class="fav-list cart-list">
             <li ng-repeat="item in list">
-                <div class="select"></div>
+                <div class="select" ng-class="{active: item.selected}" ng-click="item.selected=!item.selected"></div>
                 <div class="dish-wrapper">
                     <a ng-href="{{item.subDish.outOfStock ? '' : '/mobile/cook/' + item.dish._id}}">
                         <span class="dish-img" ng-style="{'background-image': 'url(' + item.dish.cover[0].zh + ')'}"></span>
@@ -48,7 +48,7 @@
 </div>
 
 <footer class="cart-bar2 row">
-    <div class="col-xs-3 select-all">全选</div>
+    <div class="col-xs-3 select-all" ng-class="{active: dishList.selectedAll}" ng-click="selectAll()">全选</div>
     <div class="col-xs-3 pull-right buy-button text-center"
          ng-class="{invalid: selectedDishes.length}"
          ng-click="selectedDishes.length && buy()">

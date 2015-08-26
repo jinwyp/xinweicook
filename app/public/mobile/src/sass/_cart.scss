@@ -11,6 +11,9 @@ $select-btn-width: 100px;
     width: 24px;
     height: 100%;
     position: absolute;
+    &.active {
+      background-image: url(../img/icons/ForkIconHighlighted.png);
+    }
   }
   .dish-img {
     left: 38px;
@@ -62,6 +65,9 @@ $select-btn-width: 100px;
     background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
     padding-left: 49px;
     padding-right: 0;
+    &.active {
+      background-image: url(../img/icons/ForkIconHighlighted.png);
+    }
   }
 
   .buy-button {

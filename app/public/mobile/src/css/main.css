@@ -1205,20 +1205,24 @@ label {
   height: 100%;
   position: absolute;
 }
-/* line 15, ../sass/_cart.scss */
+/* line 14, ../sass/_cart.scss */
+.fav-list.cart-list .select.active {
+  background-image: url(../img/icons/ForkIconHighlighted.png);
+}
+/* line 18, ../sass/_cart.scss */
 .fav-list.cart-list .dish-img {
   left: 38px;
 }
-/* line 18, ../sass/_cart.scss */
+/* line 21, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail {
   width: 120px;
   margin-left: 132px;
 }
-/* line 21, ../sass/_cart.scss */
+/* line 24, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail h5 {
   font-size: 15px;
 }
-/* line 25, ../sass/_cart.scss */
+/* line 28, ../sass/_cart.scss */
 .fav-list.cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1227,7 +1231,7 @@ label {
   right: -14px;
   top: 50px;
 }
-/* line 32, ../sass/_cart.scss */
+/* line 35, ../sass/_cart.scss */
 .fav-list.cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1235,7 +1239,7 @@ label {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 39, ../sass/_cart.scss */
+/* line 42, ../sass/_cart.scss */
 .fav-list.cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1244,7 +1248,7 @@ label {
   border-radius: 5px;
 }
 
-/* line 50, ../sass/_cart.scss */
+/* line 53, ../sass/_cart.scss */
 .cart-bar2 {
   font-size: 13px;
   margin: 0;
@@ -1256,13 +1260,17 @@ label {
   bottom: 0;
   background-color: #EDE2D0;
 }
-/* line 61, ../sass/_cart.scss */
+/* line 64, ../sass/_cart.scss */
 .cart-bar2 .select-all {
   background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
   padding-left: 49px;
   padding-right: 0;
 }
-/* line 67, ../sass/_cart.scss */
+/* line 68, ../sass/_cart.scss */
+.cart-bar2 .select-all.active {
+  background-image: url(../img/icons/ForkIconHighlighted.png);
+}
+/* line 73, ../sass/_cart.scss */
 .cart-bar2 .buy-button {
   background-color: #f44d4d;
   color: white;
