@@ -717,7 +717,20 @@ exports.updateOrder = (req, res, next) ->
               fromUser.couponList.push(resultCoupon._id.toString())
               fromUser.saveAsync()
               req.u.isHaveFirstOrderCoupon = true
+
+              req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+              if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+                req.u.isSharedInvitationSendCode = false
               req.u.saveAsync()
+       else
+        # 该用户完成支付后可以再次分享邀请码
+        req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+        if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+          req.u.isSharedInvitationSendCode = false
+        req.u.saveAsync()
+
 
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid

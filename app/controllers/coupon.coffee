@@ -61,6 +61,7 @@ exports.getCouponForUserShare = (req, res, next) ->
         req.u.couponList.push(coupon._id.toString())
 
       req.u.isSharedInvitationSendCode = true
+      req.u.sharedInvitationSendCodeUsedTime = req.u.sharedInvitationSendCodeUsedTime + 1
       req.u.saveAsync()
 
     .then (user)->
