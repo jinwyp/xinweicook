@@ -4799,7 +4799,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"accountChargeCode\\":\\"EGAh6TC7fA\\",\\"remark\\":\\"\\\\u5907\\\\u6ce8\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"accountChargeCode\\": \\"EGAh6TC7fA\\",\\n  \\"remark\\": \\"备注\\"\\n}"]</attribute>
         <attribute name="order" type="int64">16</attribute>
         <attribute name="name" type="string">user-ChargeAccountByaccountChargeCode</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
