@@ -20,8 +20,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             limit : 1000,
             group : '',
             _id : '',
-            mobile : ''
-
+            mobile : '',
+            invitationSendCode : ''
         },
 
         searchSort : {
