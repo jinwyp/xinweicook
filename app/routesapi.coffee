@@ -95,8 +95,8 @@ expressRoutes = (app) ->
 
 
 #  app.post("/api/administrator/coupon", couponController.addNewCoupon)
-  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
-  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
+#  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
+#  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)
