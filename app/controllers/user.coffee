@@ -224,6 +224,7 @@ exports.userInfoAccount = (req, res, next) ->
   .catch next
 
 
+
 # 用户账户余额明细
 exports.userAccountDetail = (req, res, next) ->
 
@@ -312,3 +313,28 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
     res.send "success"
   .catch next
 
+
+
+
+# 用户账户 使用充值码充值
+exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
+
+  models.coupon.validationCouponCode(req.body.accountChargeCode)
+  couponData = {}
+  models.coupon.findOneAsync({code : req.body.accountChargeCode, couponType:models.coupon.constantCouponType().accountchargecode, isExpired : false, isUsed : false})
+  .then (resultCoupon)->
+    models.coupon.checkNotFound resultCoupon
+    models.coupon.checkExpired resultCoupon
+    models.coupon.checkUsed(resultCoupon, req.u)
+    couponData = resultCoupon
+
+    models.useraccount.findOneAsync({user : req.u._id.toString()})
+  .then (resultAccount)->
+      models.useraccount.checkNotFound(resultAccount)
+
+      resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark)
+  .then (resultAccount)->
+      couponData.used()
+      res.json resultAccount[0]
+
+  .catch next

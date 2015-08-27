@@ -70,6 +70,22 @@ module.exports =
 
       models.accountdetail.createAsync(newAccountDetail)
 
+    addMoney : (amount, name, remark) ->
+      @balance = @balance + Number(amount)
+
+      newAccountDetail =
+        user : @user
+        isPlus : true
+        amount : Number(amount)
+        name :
+          zh : "在线充值"
+          en : "Online Recharge"
+
+      newAccountDetail.remark = remark if remark
+      newAccountDetail.name = name if name
+
+      models.accountdetail.createAsync(newAccountDetail)
+      @saveAsync()
 
     reduceMoney : (amount, name, remark, orderId) ->
       @balance = @balance - Number(amount)

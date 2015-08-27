@@ -51,7 +51,7 @@ exports.getCouponForUserShare = (req, res, next) ->
         zh : "分享朋友圈优惠券"
         en : "Share To Friends Coupon"
       price : 5
-      couponType : "coupon"
+      couponType : models.coupon.constantCouponType().coupon
       usedTime : 1
       user : req.u._id.toString()
 
@@ -93,7 +93,7 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
           zh : "好友邀请优惠券"
           en : "Friend Invitation Coupon"
         price : 10
-        couponType : "coupon"
+        couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : req.u._id.toString()
 

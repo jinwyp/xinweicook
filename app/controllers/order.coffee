@@ -354,7 +354,7 @@ exports.addNewOrder = (req, res, next) ->
         else
           models.coupon.checkNotFound resultPromotionCode
 
-    models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
+    models.coupon.findOne({_id: req.body.coupon, couponType:models.coupon.constantCouponType().coupon, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
     # 处理优惠券是否有效
     if req.body.coupon
@@ -710,7 +710,7 @@ exports.updateOrder = (req, res, next) ->
                 zh : "邀请的好友首次下单返利优惠券"
                 en : "Friend First Order Rebate Coupon"
               price : 10
-              couponType : "coupon"
+              couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
             models.coupon.addNew(newCoupon).then (resultCoupon)->
