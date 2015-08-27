@@ -7,7 +7,7 @@ module.exports =
   schema:
     name: zh:String, en:String # 名字
     description: zh:String, en:String
-    couponType : String   # 目前有两种类型 优惠码 promocode 和 优惠券 coupon
+    couponType : String   # 目前有两种类型 优惠码 promocode 和 优惠券 coupon 和 充值卡 accountchargecode
     price: Number
     code: String
     priceLimit: type: Number, default: 10 # 订单金额高于限制才可以使用优惠券
@@ -28,6 +28,11 @@ module.exports =
   statics :
     fields : ->
       selectFields = "-isExpired"
+    constantCouponType : () ->
+      payment =
+        promocode : "promocode"
+        coupon : "coupon"
+        accountchargecode : "accountchargecode"
     checkNotFound : (coupon) ->
       if not coupon
         throw new Err "Coupon not Found or used or expired!", 400
@@ -66,13 +71,13 @@ module.exports =
     validationNewCoupon : (coupon) ->
       unless libs.validator.isLength coupon.name.zh, 3, 100
         return throw new Err "Field validation error,  coupon zh name length must be 3-100", 400
-      unless libs.validator.isInt coupon.price, {min: 1, max: 200}
-        return throw new Err "Field validation error,  coupon price must be number 1-200", 400
+      unless libs.validator.isInt coupon.price, {min: 1, max: 5000}
+        return throw new Err "Field validation error,  coupon price must be number 1-5000", 400
       unless libs.validator.isLength coupon.couponType, 4, 20
         return throw new Err "Field validation error,  couponType ID length must be 4-20", 400
       unless libs.validator.isInt coupon.usedTime, {min: 0, max: 9000}
         return throw new Err "Field validation error,  coupon usedTime must be 0-9000", 400
-      if coupon.couponType is "promocode"
+      if coupon.couponType is models.coupon.constantCouponType().promocode or coupon.couponType is models.coupon.constantCouponType().accountchargecode
         @validationCouponCode coupon.code
 
     find1 : (options) ->
@@ -86,6 +91,14 @@ module.exports =
           str += chars[Math.floor(Math.random() * chars.length)];
         str
       return _.sample(['W', 'X', 'Y', 'Z']) + _.sample(['W', 'X', 'Y', 'Z']) + randomString(8)
+    gencodeCharge : () ->
+      randomString = (length = 8)->
+        chars = '23456789ABCDEFGHJKMNPQRSTUVWXTZacdefghikmnpqrstuvwxyz'.split('');
+        str = ""
+        for i in [1..length]
+          str += chars[Math.floor(Math.random() * chars.length)];
+        str
+      return _.sample(['E', 'F', 'G', 'H']) + _.sample(['E', 'F', 'G', 'H']) + randomString(8)
 
     verifyCoupon15W : (couponcode) ->
       strStart = couponcode.substring(0,2);
@@ -117,11 +130,11 @@ module.exports =
           zh : "优惠券"
           en : "coupon"
         price : 2
-        couponType : "promocode"
+        couponType : models.coupon.constantCouponType().promocode
 
       createCoupon = _.assign(createCoupon, newCoupon)
 
-      if newCoupon.couponType is "promocode"
+      if newCoupon.couponType is models.coupon.constantCouponType().promocode
 
         if newCoupon.code and newCoupon.code isnt ""
           createCoupon.code = newCoupon.code

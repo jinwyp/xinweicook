@@ -344,7 +344,7 @@ exports.addNewOrder = (req, res, next) ->
             price : 50
             priceLimit : 150
             endDate: moment().endOf("year")
-            couponType : "promocode"
+            couponType : models.coupon.constantCouponType().promocode
             code : req.body.promotionCode
             usedTime : 0
 

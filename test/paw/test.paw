@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>526</integer>
+                    <integer>481</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1114,12 +1114,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"couponType\\": \\"promocode\\",\\n  \\"code\\": \\"\\",\\n  \\"name\\": {\\n    \\"zh\\": \\"优惠券test100元\\"\\n  },\\n  \\"price\\": \\"60\\",\\n  \\"priceLimit\\": \\"1\\",\\n  \\"usedTime\\": \\"0\\"\\n}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"accountchargecode\\",\\"code\\":\\"123456789W\\",\\"name\\":{\\"zh\\":\\"TLC\\\\u793c\\\\u54c1\\\\u5361\\",\\"en\\":\\"TLC Gift Card\\"},\\"price\\":500,\\"priceLimit\\":1,\\"usedTime\\":1,\\"count\\":2}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">8</attribute>
-        <attribute name="name" type="string">coupon-addNewCouponSingle</attribute>
+        <attribute name="name" type="string">coupon-addNewCouponBatch</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z236 z238 z237"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z236 z237 z238"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z236">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z316 z317 z311 z313 z315 z312 z314"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2C8:NagQMkXH9KfHiQCGpaBNYIrC8X1/Cfnl</attribute>
+        <attribute name="value" type="string">Bearer 2Bq:Muu85QwXnp9MTriVH/UrQM06fTglCl2e</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2428,10 +2428,10 @@
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n\\n\\t\\"coupon\\" : \\"55dd96f2475a8dd77cb133c3\\",\\n\\t\\"usedAccountBalance\\" : true,\\n\\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDateCook\\" : \\"2015-06-13\\",\\n    \\"deliveryTimeCook\\" : \\"12:00\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"王宇鹏\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n\\t\\t\\t\\"remark\\" : \\"加点盐\\",\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"55b1ed7843ffd0964028dfa1\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : []\\n\\t\\t}\\n    ]\\n}"]</attribute>
         <attribute name="order" type="int64">21</attribute>
-        <attribute name="name" type="string">user-addNewOrder Alipay</attribute>
+        <attribute name="name" type="string">user-addNewOrder Alipay Coupon</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z379 z381 z383 z382 z376 z378 z380"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z380 z381 z378 z382 z379 z376 z383"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z378">
         <attribute name="value" type="string">application/json</attribute>
@@ -4677,12 +4677,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n\\n\\t\\"promotionCode\\" : \\"XWAAAAXWC8\\", \\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDateCook\\" : \\"2015-06-13\\",\\n    \\"deliveryTimeCook\\" : \\"12:00\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"王宇鹏\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [                 \\n\\t\\t\\t\\t{\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n\\t\\t}\\n\\n    ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n    \\"cookingType\\" : \\"ready to cook\\",\\n    \\"clientFrom\\" : \\"ios\\",\\n    \\"credit\\" : 0,\\n    \\"freight\\" : 20,\\n\\n\\t\\"promotionCode\\" : \\"XWAAAAXWC8\\", \\n    \\"payment\\" : \\"alipay direct\\",\\n    \\"paymentUsedCash\\" : false,\\n\\n    \\"deliveryDateCook\\" : \\"2015-06-13\\",\\n    \\"deliveryTimeCook\\" : \\"12:00\\",\\n\\n    \\"address\\" : {\\n        \\"geoLatitude\\" : 30,\\n        \\"geoLongitude\\" : 30,\\n\\n        \\"country\\" : \\"\\",\\n        \\"province\\": \\"shanghai\\",\\n        \\"city\\": \\"shanghai\\",\\n        \\"district\\": \\"shanghai\\" ,\\n        \\"street\\" : \\"shanghai\\" ,\\n        \\"address\\": \\"xxxxx\\" ,\\n\\n        \\"contactPerson\\": \\"王宇鹏\\" ,\\n        \\"mobile\\": \\"13564568304\\" ,\\n        \\"remark\\": \\"comment\\"\\n    },\\n\\n    \\"dishList\\" : [\\n        {\\n            \\"dish\\": \\"55d465ed8efebbc334d16b89\\",\\n            \\"number\\": 1,\\n            \\"subDish\\" : [\\n            ]\\n\\t\\t}\\n\\n    ]\\n}"]</attribute>
         <attribute name="order" type="int64">22</attribute>
-        <attribute name="name" type="string">user-addNewOrder Alipay Duplicate</attribute>
+        <attribute name="name" type="string">user-addNewOrder Alipay PromoCode</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z624 z622 z621 z619 z623 z620 z618"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z621 z624 z619 z618 z622 z623 z620"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z626">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
