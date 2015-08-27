@@ -24,9 +24,23 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponStatus.$dirty&&searchForm.couponStatus.$valid, 'has-error':searchForm.couponStatus.$dirty&&searchForm.couponStatus.$invalid}">
+                    <label  class="col-lg-2 control-label" >类型</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponStatus"  ng-value="'!=coupon'" ng-model="data.searchOptions.couponType" required>优惠码（用于线下）
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponStatus"  ng-value="'coupon'" ng-model="data.searchOptions.couponType" required>优惠券（绑定用户）
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -36,11 +50,27 @@
 
 
 
+    <nav>
+        <ul class="pagination">
+            <li>
+                <span aria-hidden="true"> 共{{data.couponListCount}}条记录 </span>
+            </li>
+
+            <li>
+                <a aria-label="Previous" ng-hide="data.couponListCurrentPage==1"  ng-click="changePagination(data.couponListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li ng-repeat="page in data.couponListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
+            <li>
+                <a aria-label="Next" ng-hide="data.couponListCurrentPage==data.couponListTotalPages"  ng-click="changePagination(data.couponListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>
+            </li>
+        </ul>
+    </nav>
+
 
     <table class="table table-striped table-bordered table-hover table-responsive">
         <thead>
             <tr>
-                <th>_id</th>
+                <th>_id / 绑定用户</th>
                 <th>优惠码名称 中文</th>
                 <th>优惠码名称 英文</th>
                 <th>优惠码 code</th>
@@ -58,7 +88,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">{{coupon._id}}</a></td>
+                <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">优惠券:{{coupon._id}}</a> <br/> <a ui-sref="menu.updateUser({ id: coupon.user })">{{coupon.user ? '用户:'+coupon.user : '' }}</a> </td>
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
                 <td>{{coupon.code}}</td>

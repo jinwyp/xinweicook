@@ -58,6 +58,14 @@ module.exports =
     couponList :[type: Schema.ObjectId, ref: "coupon"]
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
+    invitationSendCode : type: String
+    isSharedInvitationSendCode: type: Boolean, default: false
+    isUsedInvitationSendCode: type: Boolean, default: false
+    isHaveFirstOrderCoupon: type: Boolean, default: false
+
+    invitationFromCode : String
+    invitationFromUser : type: Schema.ObjectId, ref: "user"
+
 
     oldUserData :
       mobile:String
@@ -72,7 +80,7 @@ module.exports =
     fields : ->
       selectFields = "-pwd"
     fieldsLess : ->
-      selectFields = "-pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
+      selectFields = "-autoIncrementId -pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
 
     constantUserRole : () ->
       type =
@@ -87,6 +95,9 @@ module.exports =
     validationPassword : (password) ->
       unless libs.validator.isLength password, 6, 20
         return throw new Err "Field validation error,  password mus be 6-20", 400
+    validationInvitationSendCode : (code) ->
+      unless libs.validator.isLength code, 8, 8
+        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender
@@ -125,13 +136,13 @@ module.exports =
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
     checkNotFound: (u) ->
-      if not u
-        throw new Err "找不到该用户", 401
+      if not u or not u.mobile
+        throw new Err "找不到该用户", 401, Err.code.user.notFound
       else
         u
     checkFound: (user) ->
       if user
-        return throw new Err "User Mobile already exist !", 400
+        return throw new Err "User Mobile already exist !", 400, Err.code.user.alreadyExist
     checkNotSpam: (u) ->
       if u.isSpam
         throw new Err "该用户被举报", 403
@@ -151,7 +162,7 @@ module.exports =
         models.user.findOneAsync(mobile: mobile).then (resultUser) ->
           models.user.checkFound(resultUser)
           unless resultUser
-            models.user.createAsync(mobile: mobile, pwd: pwd)
+            models.user.createAsync(mobile: mobile, pwd: pwd, )
       )
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->

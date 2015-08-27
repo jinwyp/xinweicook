@@ -1,6 +1,8 @@
-angular.module('xw.controllers').controller('meCtrl', eatCtrl);
+angular.module('xw.controllers').controller('meCtrl', meCtrl);
 
-function eatCtrl($scope, User, $localStorage) {
+function meCtrl($scope, User, $localStorage, Debug) {
+
+    $scope.isDebug = Debug.isDebug;
 
     $scope.logout = function () {
         User.logout().then(function () {
@@ -11,7 +13,6 @@ function eatCtrl($scope, User, $localStorage) {
     $scope.back = function () {
         history.back();
     };
-
 
     function init() {
         if (!$localStorage.access_token) {

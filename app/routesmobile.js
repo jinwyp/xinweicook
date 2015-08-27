@@ -56,6 +56,15 @@ expressRoutes = function(app) {
     app.get('/mobile/app', function (req, res) {
         res.render('mobile/app.html');
     });
+    app.get('/mobile/invite', function (req, res) {
+        res.render('mobile/invite.html');
+    });
+    app.get('/mobile/invited/:avatar/:code/:name/:place', function (req, res) {
+        res.render('mobile/invited.html');
+    });
+    app.get('/mobile/coupons', function (req, res) {
+        res.render('mobile/coupons.html');
+    });
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求

@@ -170,6 +170,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             {
                 name : '浇头',
                 value : 'topping'
+            },
+            {
+                name : '饮料',
+                value : 'drink'
             }
         ],
 
@@ -244,6 +248,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 en : 'Sauce'
             },
             {
+                zh : '口味',
+                en : 'Flavor'
+            },
+            {
                 zh : '牛肉',
                 en : 'beef'
             },
@@ -275,6 +283,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                     delete obj[p];
                 }
                 if (angular.isArray(obj[p]) ){
+
                     if(obj[p].length === 0){
                         delete obj[p];
                     }else{
@@ -282,12 +291,14 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                             if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
                                 obj[p].splice(index, 1)
                             }
-                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == ''){
+
+                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == '' && !angular.isUndefined(subobj.value) && subobj.value.zh == ''){
                                 obj[p].splice(index, 1)
                             }
-                            if(!angular.isUndefined(subobj.quantity) && subobj.quantity == ''){
+                            if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
                                 obj[p].splice(index, 1)
                             }
+
                         })
                     }
                 }else if (angular.isObject(obj[p])) {
@@ -385,13 +396,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
-
-            //编辑dish时， 处理dish group 显示
-            //angular.forEach($scope.data.dishGroup, function(dish) {
-            //    if (dish.zh === $scope.data.dish.group.zh){
-            //        $scope.data.dish.group = dish;
-            //    }
-            //});
         });
     }
 
@@ -423,12 +427,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if (form.$invalid) {
             return;
         }
-
+        deleteProperty($scope.data.dish);
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;
             });
-            console.log(resultDish);
             Notification.success({message: 'Update Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);

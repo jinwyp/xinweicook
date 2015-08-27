@@ -61,6 +61,8 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
+  app.get("/api/user/coupon/friends", libs.auth("member"), couponController.getCouponForUserShare)
+  app.get("/api/user/coupon/invitation/:invitationCode", libs.auth("member"), couponController.getCouponForUserInvitationSendCode)
 
   app.get("/api/user/messages", libs.auth("member"), userController.getUserMessages)
   app.put("/api/user", libs.auth("member"), userController.updateUserInfo)
@@ -102,7 +104,9 @@ expressRoutes = (app) ->
 
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
-  app.get("/api/administrator/export", orderStatController.orderExportList)
+  app.get("/api/administrator/export/orders", orderStatController.orderExportList)
+  app.get("/api/administrator/export/ordersinternal", orderStatController.orderExportInternalList)
+  app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
 #  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)

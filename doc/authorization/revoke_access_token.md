@@ -1,5 +1,5 @@
 ## Req
-POST `/user/logout`
+POST `/api/user/logout`
 
 Name            | Type   | Desc
 :-------------- | :----- | :-------------

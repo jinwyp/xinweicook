@@ -1,6 +1,6 @@
 ## Req
 
-GET `/user/account`
+GET `/api/user/account`
 
 Group `member`
 

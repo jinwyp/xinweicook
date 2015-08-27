@@ -23,6 +23,8 @@
    * [获取用户通知消息](user/get_messages.md)
    * [更新用户信息和收货地址](user/update_userinfo.md)
    * [更新购物车](user/update_shoppingcart.md)
+   * [用户成功分享邀请码获得优惠券](user/coupon_share_invitation_code.md)
+   * [用户使用他人邀请码获得优惠券](user/coupon_used_invitation_code.md)
    * [获取用户账户余额](user/get_account.md)
    * [获取用户账户余额明细](user/get_account_details.md)
    * [用户账户余额充值](user/charge_account.md)

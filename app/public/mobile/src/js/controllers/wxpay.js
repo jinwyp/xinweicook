@@ -10,6 +10,12 @@ function wxpayCtrl($scope, Orders, Debug) {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
 
+        if (!/\w{24}/.test(orderId)) {
+            alert('支付失败, 请稍后重试');
+            $scope.state = 'fail1';
+            return;
+        }
+
         Debug.alert('订单ID' + orderId);
         Orders.getUnifiedOrder({
             _id: orderId,
@@ -35,7 +41,7 @@ function wxpayCtrl($scope, Orders, Debug) {
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
                                     Debug.alert('更新订单状态成功');
                                     setTimeout(function () {
-                                        location.href = '/mobile'
+                                        location.href = '/mobile/invite'
                                     }, 2000);
                                 }).catch(function (res) {
                                     Debug.alert('订单状态更新失败');
@@ -54,7 +60,7 @@ function wxpayCtrl($scope, Orders, Debug) {
                                     Debug.alert(res);
                                 });
                                 $scope.$apply(function () {
-                                    $scope.state = 'fail';
+                                    $scope.state = 'fail2';
                                 })
                             }
                         } catch(e) {

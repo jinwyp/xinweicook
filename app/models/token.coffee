@@ -42,11 +42,11 @@ module.exports =
             t
       )
     findTokenByAccessToken: (access_token) ->
-      @findOne(access_token: access_token).populate("user", models.user.fields()).execAsync()
+      @findOne(access_token: access_token).execAsync()
       .then( (resultToken) ->
         models.token.tokenFound(resultToken)
         models.token.accessTokenNotExpired(resultToken)
-        models.user.findOneAsync({_id:resultToken.user._id.toString()})
+        models.user.findOne({_id:resultToken.user}).select(models.user.fields()).execAsync()
       )
     refreshAccessToken: (refresh_token) ->
       @findOne(refresh_token:refresh_token).populate("user").execAsync().then(@tokenFound)

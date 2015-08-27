@@ -3,7 +3,7 @@ angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeout, ScopeDecorator, $location, $q) {
     $scope.cart = null;
     $scope.address = '';
-    $scope.curDish = null;
+    $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.css = {
         showAllAddress: false,
         showLocationFailed: false
@@ -24,28 +24,33 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         var selection = dish.curSelection;
         var exist;
 
+        // 若菜品有多属性则进行如下选择
         if (selection) {
             dish.subDish = dish.subDish || [];
 
-            // 检查dish的subDish中是否存在curSelection
-            //  如果有, 则增加相应数量,
-            //  如果没有, 则添加curSelection到subDish
-            exist = dish.subDish.some(function (el) {
-                // el.dish为id
-                if (el.dish == selection._id) {
-                    el.number += dish.count;
-                    return true;
-                }
-            });
+            Object.keys(selection).forEach(function (propertyName) {
+                var item = selection[propertyName];
 
-            if (!exist) {
-                dish.subDish.push({
-                    dish: selection._id,
-                    number: dish.count,
-                    title: selection.title,
-                    priceOriginal: selection.priceOriginal
-                })
-            }
+                // 检查dish的subDish中是否存在curSelection
+                //  如果有, 则增加相应数量,
+                //  如果没有, 则添加curSelection到subDish
+                exist = dish.subDish.some(function (el) {
+                    // el.dish为id
+                    if (el.dish == item._id) {
+                        el.number += dish.count;
+                        return true;
+                    }
+                });
+
+                if (!exist) {
+                    dish.subDish.push({
+                        dish: item._id,
+                        number: dish.count,
+                        title: item.title,
+                        priceOriginal: item.priceOriginal
+                    })
+                }
+            })
         }
 
         // 检查cart中是否存在dish
@@ -87,7 +92,11 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         if (!$scope.curDish) return p;
         return p + $scope.curDish.count *
             ($scope.curDish.priceOriginal +
-            ($scope.curDish.curSelection ? $scope.curDish.curSelection.priceOriginal : 0))
+            (!$scope.curDish.curSelection ? 0 :
+                Object.keys($scope.curDish.curSelection).reduce(function (_p, name) {
+                    return _p + $scope.curDish.curSelection[name].priceOriginal
+                }, 0))
+            )
     };
 
     $scope.makeOrder = function () {
@@ -122,6 +131,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (data) {
             $scope.isInRange = $localStorage.isInRange4KM = !!data.isInRange;
             $localStorage.distance = data.distance;
+
+            Debug.alert('与xw的步行距离:' + data.distance);
         });
     };
 
@@ -180,18 +191,18 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             Weixin.ready(function () {
                 if ($scope.address) return;
 
-                Weixin.getLocation(function (res) {
+                Weixin.getLocation(function (res_) {
                     if ($scope.address) return;
 
-                    Debug.alert(res);
-                    Weixin.getLocationName(res.latitude, res.longitude).then(function (res) {
+                    Debug.alert(res_);
+                    Weixin.getLocationName(res_.latitude, res_.longitude).then(function (res) {
                         if ($scope.address) return;
 
                         var result = res.data.result;
 
                         $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
-                        $localStorage.address.geoLatitude = result.location.lat;
-                        $localStorage.address.geoLongitude = result.location.lng;
+                        $localStorage.address.geoLatitude = res_.latitude;
+                        $localStorage.address.geoLongitude = res_.longitude;
 
                         $scope.chooseAddress($localStorage.address);
 

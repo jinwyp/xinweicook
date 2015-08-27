@@ -2,25 +2,299 @@
  * Created by jinwyp on 8/6/15.
  */
 
-XLSX = require('xlsx');
+var path = require('path');
+var XLSX = require('xlsx');
 
+
+function datenum(v, date1904) {
+    if(date1904) v+=1462;
+    var epoch = Date.parse(v);
+    return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
+}
+
+
+function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabelList){
+    var totalRow = arrayData.length;
+    var totalColumn = propertyList.length;
+
+    var range = {s: {c:10000000, r:10000000}, e: {c:0, r:0 }};
+
+    // 写表头第一行
+    for (var column=0; column < totalColumn; column++){
+
+        var cell = {v: propertyList[column] };
+        if(cell.v == null) continue;
+        var cell_ref = XLSX.utils.encode_cell({c:column,r:0});
+
+        if(typeof cell.v === 'number') cell.t = 'n';
+        else if(typeof cell.v === 'boolean') cell.t = 'b';
+        else if(cell.v instanceof Date) {
+            cell.t = 'n'; cell.z = XLSX.SSF._table[14];
+            cell.v = datenum(cell.v);
+        }
+        else cell.t = 's';
+
+        worksheet[cell_ref] = cell;
+
+    }
+
+    // 从第二行写入内容
+    for (var row=0; row < totalRow; row++){
+        for (var column=0; column < totalColumn; column++){
+
+            if(range.s.r > row) range.s.r = row;
+            if(range.s.c > column) range.s.c = column;
+            if(range.e.r < row) range.e.r = row+10;
+            if(range.e.c < column) range.e.c = column;
+
+
+            var cell = {v: arrayData[row][propertyList[column]] };
+            var tempCellString = "";
+            var currentCell = arrayData[row][propertyList[column]];
+
+            if ( Array.isArray(currentCell) && propertyList[column] ==='dishList' ){
+
+                currentCell.forEach(function(dish){
+                    if (dish.dish){
+                        tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
+
+                        dish.subDish.forEach(function(subDish){
+                            tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                        });
+                    }else{
+                        console.log('------+++++++',dish.dish);
+                        console.log('------+++++++',dish);
+                        console.log('------+++++++',currentCell);
+                    }
+
+                });
+
+                cell.v = tempCellString
+            }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='address'){
+                //cell.v = JSON.stringify(arrayData[row][propertyList[column])
+
+                for(var pro in currentCell ){
+                    if (currentCell.hasOwnProperty(pro)) {
+                        tempCellString = tempCellString + '(' + pro + ' : '+ currentCell[pro] + ' ), ';
+                    }
+                }
+                cell.v = tempCellString
+            }
+
+
+            if(cell.v == null) continue;
+            var cell_ref = XLSX.utils.encode_cell({c:column,r:row+1});
+
+            //console.log("-------:", cell_ref, cell);
+
+            if(typeof cell.v === 'number') cell.t = 'n';
+            else if(typeof cell.v === 'boolean') cell.t = 'b';
+            else if(cell.v instanceof Date) {
+                cell.t = 'n'; cell.z = XLSX.SSF._table[14];
+                cell.v = datenum(cell.v);
+            }
+            else cell.t = 's';
+
+            worksheet[cell_ref] = cell;
+
+        }
+    }
+    if(range.s.c < 10000000) worksheet['!ref'] = XLSX.utils.encode_range(range);
+    return worksheet
+}
+
+
+
+function generateOrderInternalSheetFromArray(worksheet, arrayData){
+    var totalRow = arrayData.length - 1;
+    var currentRow = 1;
+
+    var range = {s: {c:0, r:0}, e: {c:10, r:200000 }};
+
+    for (var row=0; row <= totalRow; row++){
+
+        var cellOrderNumber = {v: arrayData[row].orderNumber, t:"s" };
+        var cell_refOrderNumber = XLSX.utils.encode_cell({c:0,r:currentRow});
+        worksheet[cell_refOrderNumber] = cellOrderNumber;
+
+        currentRow = currentRow + 1;
+        var tempPerson = arrayData[row].address.contactPerson + " " + arrayData[row].address.mobile + " " + arrayData[row].address.city + " " + arrayData[row].address.address
+        var cellPerson = {v: tempPerson, t:"s" };
+        var cell_refPerson = XLSX.utils.encode_cell({c:0,r:currentRow});
+        worksheet[cell_refPerson] = cellPerson;
+
+        var tempDishList = arrayData[row].dishList;
+        for (var rowdish=0; rowdish <= tempDishList.length-1; rowdish++){
+
+            currentRow = currentRow + 1;
+            var tempDishName = tempDishList[rowdish].dish.title.zh;
+            var cellDishName = {v: tempDishName, t:"s" };
+            var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
+            worksheet[cell_refDishName] = cellDishName;
+
+            var cellDishNumber = {v: "*" + tempDishList[rowdish].number.toString(), t:"s" };
+            var cell_refDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
+            worksheet[cell_refDishNumber] = cellDishNumber;
+
+            for (var rowsubdish=0; rowsubdish <= tempDishList[rowdish].subDish.length-1; rowsubdish++){
+                currentRow = currentRow + 1;
+                var tempSubDishName = "---> " + tempDishList[rowdish].subDish[rowsubdish].dish.title.zh;
+                var cellSubDishName = {v: tempSubDishName, t:"s" };
+                var cell_refSubDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
+                worksheet[cell_refSubDishName] = cellSubDishName;
+
+                var cellSubDishNumber = {v: "*" + tempDishList[rowdish].subDish[rowsubdish].number.toString(), t:"s" };
+                var cell_refSubDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
+                worksheet[cell_refSubDishNumber] = cellSubDishNumber;
+            }
+
+        }
+
+        currentRow = currentRow + 3
+
+    }
+    worksheet['!ref'] = XLSX.utils.encode_range(range);
+
+    return worksheet
+}
 
 
 exports.orderExportList = function(req, res, next) {
 
-    var workbook = XLSX.readFile('test/eatlist.xlsx');
+    models.order.validationGetOrderList(req.query);
+
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
 
     var first_sheet_name = workbook.SheetNames[0];
     var first_worksheet = workbook.Sheets[first_sheet_name];
-    var first_cell= first_worksheet['A1'];
-    console.log (first_cell);
 
-    XLSX.writeFile(workbook, 'test/out.xlsx');
+    //var first_cell= first_worksheet['A1'];
+    //console.log (first_cell);
 
-    res.status(200).json([])
+    req.query.limit = 10000;
+
+
+    models.order.find({}).sort("-createdAt").skip (req.query.skip).limit (req.query.limit)
+    .populate({path: 'dishList.dish', select: models.dish.fields()})
+    .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+    .lean()
+    .execAsync()
+    .then(function(resultOrders){
+
+        var propertyList = [
+            'createdAt',
+            '_id',
+            'orderNumber',
+            'user',
+            'isSplitOrder',
+            'isChildOrder',
+            'childOrderList',
+            'cookingType',
+
+            'clientFrom',
+            'payment',
+            'paymentUsedCash',
+            'isPaymentPaid',
+
+            'status',
+
+            'address',
+            'deliveryDateTime',
+            'deliveryDate',
+            'deliveryTime',
+            'deliveryDateType',
+
+            'express',
+
+            'promotionCode',
+            'promotionDiscount',
+            'coupon',
+            'couponDiscount',
+            'accountUsedDiscount',
+            'credit',
+            'dishesPrice',
+            'freight',
+            'totalPrice',
+
+            'userComment',
+            'csComment',
+
+            'dishList'
+
+
+        ];
+
+        var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
+        workbook.Sheets[first_sheet_name] = newSheet;
+
+        XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+
+        //console.log (path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+        res.download(path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+
+    }).catch(next);
+
+
 };
 
+
+
+
+exports.orderExportInternalList = function(req, res, next) {
+    models.order.validationGetOrderList(req.query);
+
+    var query = { $and: [] };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        query.$and.push( {cookingType : req.query.cookingType});
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        query.$and.push( {clientFrom : req.query.clientFrom});
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        query.$and.push( {deliveryDateType : req.query.deliveryDateType});
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        query.$and.push( {status : req.query.status});
+    }
+
+
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+    /* DO SOMETHING WITH workbook HERE */
+
+    var first_sheet_name = workbook.SheetNames[0];
+    var first_worksheet = workbook.Sheets[first_sheet_name];
+
+    //var first_cell= first_worksheet['A1'];
+    //console.log (first_cell);
+
+    req.query.limit = 10000;
+
+    models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
+        .populate({path: 'dishList.dish', select: models.dish.fields()})
+        .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+        .lean()
+        .execAsync()
+        .then(function(resultOrders){
+            var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
+            workbook.Sheets[first_sheet_name] = newSheet;
+
+            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+
+            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+//            res.send(resultOrders)
+        }).catch(next);
+
+
+};
 
 
 
@@ -64,6 +338,10 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
         matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
     }
 
     if (typeof req.query.status !== 'undefined' && req.query.status !== '') {

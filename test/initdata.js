@@ -7,14 +7,21 @@
 var userAdmin = [
     {
         username : "jinwang@xinweicook.com",
-        pwd : "jinwang2011",
-        mobile : "13564568304",
+        pwd : "xwcook789",
+        mobile : "13564568303",
         email : "jinwang@xinweicook.com",
         group : "admin"
     },
     {
+        username : "x@x.com",
+        pwd : "xwcook789",
+        mobile : "13564568301",
+        email : "x@x.com",
+        group : "admin"
+    },
+    {
         username : "x@x2.com",
-        pwd : "guessmypw~",
+        pwd : "xwcook789",
         mobile : "13564568302",
         email : "x@x2.com",
         group : "admin"
@@ -22,18 +29,12 @@ var userAdmin = [
     {
         username : "steveadmin",
         pwd : "xwcook789",
-        mobile : "18621378963",
+        mobile : "18621378962",
         email : "x@x3.com",
         group : "admin",
         fullName : "steve"
     },
-    {
-        username : "x@x4.com",
-        pwd : "guessmypw~",
-        mobile : "13564568304",
-        email : "x@x4.com",
-        group : "admin"
-    },
+
     {
         username : "shaoxiaoqing",
         pwd : "xwcook789",

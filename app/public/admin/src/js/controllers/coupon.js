@@ -8,14 +8,31 @@
 
 angular
     .module('RDash')
-    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Coupons', couponController ]);
+    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', couponController ]);
 
 
 
-function couponController($scope, $timeout, $state, $stateParams, Notification, Coupons) {
+function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons) {
 
     $scope.data = {
         searchFilter : '',
+        searchOptions : {
+            skip : 0,
+            limit : 1000,
+            createdAt :'',
+            usedTime : '',
+            couponType : '!=coupon',
+            _id : ''
+
+        },
+        searchSort : {
+            sort : '-createdAt'
+        },
+
+        couponListCount : 0,
+        couponListCurrentPage : 1,
+        couponListTotalPages : 1,
+        couponListPagesArray : [],
 
         currentDeleteIndex : -1,
 
@@ -31,6 +48,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
                 zh : '',
                 en : ''
             },
+            couponType : 'promocode',
             price : 10,
             code : '',
             priceLimit : 10,
@@ -44,10 +62,51 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         isAddNewStatus : true
     };
 
-    if ($state.current.data.type === 'list'){
-        Coupons.getList().then(function (coupons) {
-            $scope.data.couponList = coupons;
+
+
+    $scope.searchOrderCount = function (){
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Coupons.one('count').get($scope.data.searchOptions).then(function (resultCoupons) {
+
+            $scope.data.couponListCount = resultCoupons.count;
+            $scope.data.couponListTotalPages = Math.ceil(resultCoupons.count / $scope.data.searchOptions.limit);
+
+            $scope.data.couponListPagesArray= [];
+            for (var i = 1; i <= $scope.data.couponListTotalPages; i++){
+                $scope.data.couponListPagesArray.push( {value : i} )
+            }
+
+            $scope.searchCoupon();
+
         });
+    };
+
+    $scope.searchCoupon = function (form) {
+        Util.delProperty($scope.data.searchOptions);
+
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+        Coupons.getList(options).then(function (resultCoupon) {
+            $scope.data.couponList = resultCoupon;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+    };
+
+    $scope.changePagination = function (currentPageNo) {
+        $scope.data.couponListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.couponListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchCoupon();
+    };
+
+
+
+    if ($state.current.data.type === 'list'){
+        $scope.searchOrderCount();
     }
 
     if ($state.current.data.type === 'update'){
@@ -98,10 +157,11 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
     $scope.updateCoupon = function (form) {
+
         if (form.$invalid) {
             return;
         }
-
+        console.log(form.$invalid);
         $scope.data.coupon.put().then(function (resultCoupon) {
             console.log(resultCoupon);
             Notification.success({message: 'Update Success', delay: 8000});

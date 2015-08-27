@@ -1,6 +1,6 @@
 ## Req
 
-POST `/qiniu/token/upload`
+POST `/api/qiniu/token/upload`
 
 ### Body
 

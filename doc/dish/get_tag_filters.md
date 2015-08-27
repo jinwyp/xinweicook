@@ -1,6 +1,6 @@
 ## Req
 
-GET `/tagfilters`
+GET `/api/tagfilters`
 
 
 ## Res

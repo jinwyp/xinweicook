@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <title>新味</title>
+    <style>
+        body {
+            background-color: white;
+            font-size: 14px;
+            text-align: center;
+            margin: 0;
+        }
+        a:link, a:visited, a:focus, a:hover, a:active {
+            text-decoration: none;
+            color: inherit;
+        }
+        #avatar {
+            width: 80px;
+            border-radius: 50%;
+            margin-top: 22px;
+        }
+        .what {
+            line-height: 1.7;
+        }
+        .what strong {
+            color: black;
+        }
+        .xw-img img {
+            width: 44%;
+        }
+        .codes {
+            width: 90%;
+            margin: 1em auto;
+            z-index: 100;
+            line-height: 66px;
+            border-radius: 15px;
+            background-color: #FFF6F6;
+            border: 2px solid rgb(244,77,77);
+        }
+        .code-title {
+            font-size: 13px;
+            color: #909090;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        #code {
+            color: black;
+            line-height: 1.8;
+            font-size: 18px;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+            width: 6.5em;
+            background-color:#DAD5D5;
+        }
+        .rmb {
+            font-size: 21px;
+            font-weight: 100;
+            vertical-align: middle;
+            color: rgb(244,77,77);
+        }
+        h5 {
+            font-size: 14px;
+            font-weight: 100;
+            margin-bottom:0;
+        }
+        .how-to-exchange-wrapper {
+            bottom: 0;
+            width: 100%;
+        }
+        .how-to-exchange {
+            font-size: 13px;
+            color: #909090;
+            width: 90%;
+            margin: 7px auto 25px;
+        }
+    </style>
+</head>
+<body class="invited-body">
+
+<div class="main invited-main">
+    <div class="avatar-wrapper">
+        <img id="avatar"/>
+    </div>
+
+    <p class="what">
+        您的好友 <strong id="friend-name"></strong><br/>
+        <span id="place"></span><br/>
+        他/她分享了一张价值 ¥10 的优惠券。<br/>
+    </p>
+
+    <p class="codes">
+        <span class="code-title">兑换码</span>
+        <span id="code"></span>
+        <span class="rmb">¥10</span>
+    </p>
+
+    <div class="how-to-exchange-wrapper">
+        <h5>如何兑换?</h5>
+        <p class="how-to-exchange">
+            长按下图识别二维码, 进入 「新味」 的公众号并注册成为会员, 点击 「我」 → 「优惠券」
+            输入兑换码即可完成兑换。
+        </p>
+    </div>
+
+    <div class="xw-img">
+        <img src="/mobile/src/img/xwgzh.jpg" alt=""/>
+    </div>
+</div>
+</body>
+<script>
+    (function () {
+        'use strict';
+
+        var queries = location.href.replace(/\?.*/, '').split('/');
+        var last = queries.length - 1;
+        var avatar = b642utf(queries[last - 3]);
+        var code = b642utf(queries[last - 2]);
+        var name = b642utf(queries[last - 1]);
+        var place = b642utf(queries[last]);
+        var idx = avatar % 7 + 1;
+
+        document.getElementById('avatar').src = '/mobile/src/img/avatar/' + idx + '.jpg';
+        document.getElementById('code').textContent = code;
+        document.getElementById('friend-name').textContent = name;
+        document.getElementById('place').textContent = '约你一起去 ' + place + ' 吃便当';
+
+        function b642utf(str) {
+            return decodeURIComponent(escape(window.atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+        }
+    }());
+</script>
+</html>

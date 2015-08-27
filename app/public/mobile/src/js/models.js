@@ -105,7 +105,14 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 timer = setTimeout(this.postCart.bind(this, cart), timeSpan + 100)
             }
             cartDate = now;
+        },
+        applyInvitationCode: function (code) {
+            return $http.get('/api/user/coupon/invitation/' + code)
+        },
+        invitedFriends: function () {
+            return $http.get('/api/user/coupon/friends');
         }
+
     }
 });
 

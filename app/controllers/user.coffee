@@ -56,6 +56,24 @@ exports.userSignUp = (req, res, next) ->
 
   models.user.signUp(mobile, pwd, code)
   .then (resultUser)->
+
+    # 新用户新增优惠券
+    newCoupon =
+      name :
+        zh : "新注册用户优惠券"
+        en : "NewUserCoupon"
+      price : 5
+      couponType : "coupon"
+      usedTime : 1
+      user : resultUser._id.toString()
+
+    Promise.all([models.coupon.addNew(newCoupon), models.coupon.addNew(newCoupon)]).then (resultCouponList)->
+      for coupon, couponIndex in resultCouponList
+        resultUser.couponList.push(coupon._id.toString())
+
+      resultUser.saveAsync()
+
+
     models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
@@ -104,8 +122,92 @@ exports.resetPassword = (req, res, next) ->
 exports.userInfo = (req, res, next) ->
 
   models.user.find1({_id : req.u._id}).then (resultUser)->
-    res.json resultUser
+
+    # 生成用户自己往外发的邀请码
+    if not resultUser.invitationSendCode
+      tempcode = []
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+
+      promiseList = [
+        models.user.findOneAsync({invitationSendCode : tempcode[0]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[1]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[2]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[3]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[4]})
+      ]
+      Promise.all(promiseList).then (resultUserList)->
+
+        for user, userIndex in resultUserList
+          if not user
+            resultUser.invitationSendCode = tempcode[userIndex]
+
+        resultUser.saveAsync()
+        res.json resultUser
+    else
+      res.json resultUser
+
   .catch next
+
+
+
+
+# 获取用户消息通知 iOS
+exports.getUserMessages = (req, res, next) ->
+
+  models.message.find({user:req.u._id})
+  .execAsync()
+  .then (resultMessages) ->
+    res.json resultMessages
+  .catch next
+
+
+
+# 修改用户信息 修改收货地址
+exports.updateUserInfo = (req, res, next) ->
+
+  models.user.validationUserInfo req.body
+
+  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
+    models.user.checkNotFound(resultUser)
+
+    resultUser.address = req.body.address
+    resultUser.gender = req.body.gender if req.body.gender
+    resultUser.avatarPic = req.body.avatarPic if req.body.avatarPic
+
+    resultUser.saveAsync()
+  .then (resultUser) ->
+    models.user.find1({_id : resultUser[0]._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+# 修改或加入 购物车商品
+exports.updateShoppingCart = (req, res, next) ->
+
+  models.user.validationShoppingCart req.body
+
+  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
+    models.user.checkNotFound(resultUser)
+
+    resultUser.shoppingCart = req.body.shoppingCart
+    resultUser.saveAsync()
+  .spread (resultUser2, numberAffected) ->
+    models.user.find1({_id : resultUser2._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+
 
 
 # 用户账户余额
@@ -152,48 +254,3 @@ exports.chargeAccount = (req, res, next) ->
     res.json resultAccount[0]
 
   .catch next
-
-
-
-# 获取用户消息通知 iOS
-exports.getUserMessages = (req, res, next) ->
-
-  models.message.find({user:req.u._id})
-  .execAsync()
-  .then (resultMessages) ->
-    res.json resultMessages
-  .catch next
-
-
-
-# 修改用户信息 收货地址
-exports.updateUserInfo = (req, res, next) ->
-
-  models.user.validationUserInfo req.body
-
-  req.u.address = req.body.address
-  req.u.gender = req.body.gender if req.body.gender
-  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
-
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.checkNotFound(resultUser)
-    models.user.find1({_id : resultUser._id})
-  .then (user) ->
-    res.json user
-  .catch next
-
-
-
-
-# 修改或加入 购物车商品
-exports.updateShoppingCart = (req, res, next) ->
-
-  models.user.validationShoppingCart req.body
-
-  req.u.shoppingCart = req.body.shoppingCart
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.find1({_id : resultUser._id})
-  .then (user) ->
-    res.json user
-  .catch next
-

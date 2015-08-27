@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>新味</title>
+</head>
+<body class="invite-body" ng-app="xw" ng-controller="inviteCtrl">
+
+
+<div ng-cloak>
+    <div class="invite-img-wrapper text-center">
+        <img src="/mobile/src/img/xw.jpg"/>
+    </div>
+    <p class="notes text-center">
+        分享到朋友圈, 立得两张 ¥5 优惠券<br/>
+        使用兑换码赠好友优惠券一张 <br/>
+        好友下单后，您既得¥10优惠券
+    </p>
+
+    <div class="share-block">
+        <div class="content">
+            <div class="txt row">
+                <span class="money col-xs-4">¥10</span>
+                <div class="col-xs-8 codes row">
+                    <span class="col-xs-4 caption">兑换码:</span><span class="col-xs-8 code pull-right">{{user.invitationSendCode}}</span>
+                </div>
+            </div>
+            <div class="inputs row">
+                <div class="col-xs-4">
+                    <select ng-model="role" ng-options="role for role in roles" name="roles" id="roles"></select>
+                </div>
+                <div class="col-xs-8">
+                    <select ng-model="place" ng-options="place.inner as place.display for place in places" name="places" id="places"></select>
+                </div>
+            </div>
+        </div>
+        <div ng-class="{invalid: !ready}" ng-click="ready && (css.showTip=true)" class="button text-center">分享兑换码</div>
+    </div>
+
+    <div ng-click="css.showTip=false" class="tip" ng-if="css.showTip">
+        <div class="operation">
+            点击右上角<img src="/mobile/src/img/wxsetting.png" alt="微信选项按钮"/>按钮, <i class="top-right-arrow"></i><br/>
+            选择 "分享到朋友圈"
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/service/utils.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/weixin.js"></script>
+<script src="/mobile/src/js/controllers/invite.js"></script>
+</html>

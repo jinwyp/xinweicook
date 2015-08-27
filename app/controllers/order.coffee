@@ -99,33 +99,47 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
   code = req.query.code;
   order_number_state = req.query.state;
-  models.order.validationOrderId order_number_state
+
+  if not req.query.code?
+    logger.error req.query
+
+#  models.order.validationOrderId order_number_state
+
+  unless libs.validator.isLength order_number_state, 24, 24
+#    return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(order_number_state) )
 
   if not code or code.length is 0
-    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
-  else
-    weixinpay.getUserOpenId(code, (err, result) ->
+#    throw new Err "Weixin Pay OpenId get code error,  code is null", 400
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
-      if err
-        next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
 
-      if !result.errcode
-        models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-          if resultOrder
-#            console.log "========================OrderId :: ", resultOrder
-            models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
-              if resultUser
-#                console.log "========================UserId :: ", resultUser
-                resultUser.weixinId.access_token = result.access_token
-                resultUser.weixinId.openid = result.openid
-                resultUser.weixinId.refresh_token = result.refresh_token
+  weixinpay.getUserOpenId(code, (err, result) ->
 
-                resultUser.saveAsync()
+    if err
+#      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
 
-          res.redirect("/mobile/wxpay/" + order_number_state)
-#        res.send result
-        .catch next
-    )
+    if !result.errcode
+      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+        if resultOrder
+          models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+            if resultUser
+              resultUser.weixinId.access_token = result.access_token
+              resultUser.weixinId.openid = result.openid
+              resultUser.weixinId.refresh_token = result.refresh_token
+
+              resultUser.saveAsync()
+          return res.redirect("/mobile/wxpay/" + order_number_state)
+        else
+          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
+
+      .catch (err)->
+        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
+
+    else
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(result)) )
+  )
 
 
 
@@ -310,16 +324,34 @@ exports.addNewOrder = (req, res, next) ->
     else
       isUsedAccountBalance = false
 
-    console.log userAccount, isUsedAccountBalance
-
     models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
-      models.coupon.checkNotFound resultPromotionCode
-      models.coupon.checkExpired resultPromotionCode
-      models.coupon.checkUsed(resultPromotionCode, req.u)
-      promotionCode = resultPromotionCode
+
+      if resultPromotionCode
+        models.coupon.checkExpired resultPromotionCode
+        models.coupon.checkUsed(resultPromotionCode, req.u)
+        promotionCode = resultPromotionCode
+      else
+        # 15W 活动优惠码
+        if models.coupon.verifyCoupon15W(req.body.promotionCode)
+          newCoupon =
+            name :
+              zh : "蒙牛活动优惠码"
+              en : "Mengniu Promotion Code"
+            price : 50
+            priceLimit : 150
+            endDate: moment().endOf("year")
+            couponType : "promocode"
+            code : req.body.promotionCode
+            usedTime : 0
+
+          models.coupon.addNew(newCoupon).then (resultCoupon)->
+            promotionCode = resultCoupon
+
+        else
+          models.coupon.checkNotFound resultPromotionCode
 
     models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
@@ -451,6 +483,8 @@ exports.addNewOrder = (req, res, next) ->
     if req.body.coupon
       coupon.used(req.u)
 
+
+
     # 余额已使用后处理
     if isUsedAccountBalance
       userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
@@ -571,7 +605,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
       weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
-          next new Err err
+          next (new Err err)
 
         if resultWeixinPay
 
@@ -656,6 +690,23 @@ exports.updateOrder = (req, res, next) ->
         models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
 
+      # 该用户首次下单给邀请的人添加优惠券
+      if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon
+        models.user.findOneAsync({_id:req.u.invitationFromUser}).then (fromUser) ->
+          if fromUser
+            newCoupon =
+              name :
+                zh : "邀请的好友首次下单返利优惠券"
+                en : "Friend First Order Rebate Coupon"
+              price : 10
+              couponType : "coupon"
+              usedTime : 1
+              user : fromUser._id.toString()
+            models.coupon.addNew(newCoupon).then (resultCoupon)->
+              fromUser.couponList.push(resultCoupon._id.toString())
+              fromUser.saveAsync()
+              req.u.isHaveFirstOrderCoupon = true
+              req.u.saveAsync()
 
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid

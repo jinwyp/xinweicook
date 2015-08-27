@@ -1,6 +1,6 @@
 ## Req
 
-POST `/orders/delivery/time`
+POST `/api/orders/delivery/time`
 
 Group `member`
 

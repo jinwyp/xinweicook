@@ -13,7 +13,9 @@
   .form-line {
     margin: 0;
   }
-
+  [type=radio] {
+    margin-right: 4px;
+  }
   input,textarea, select {
     background-color: $body-bg-color;
   }
@@ -24,6 +26,10 @@
 
   .remark {
     margin-bottom: 10px;
+  }
+
+  .order-list .title {
+    padding-left: 15px;
   }
 
   .order-list .select {
@@ -92,6 +98,10 @@
   padding: 5px 10px;
   color: $primary-color;
   line-height: 30px;
+  //&.cancel-code2 {
+  //  position:relative;
+  //  top: 2px;
+  //}
 }
 
 .price-block {

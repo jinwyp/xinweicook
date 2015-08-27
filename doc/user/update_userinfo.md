@@ -1,6 +1,6 @@
 ## Req
 
-PUT `/user`
+PUT `/api/user`
 
 Group `member`
 

@@ -20,13 +20,16 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         $scope.coupon.code = '';
         $scope.couponPrice = 0;
         $scope.couponLimitPrice = 0;
+        $scope.coupon.code2 = '';
     };
 
     $scope.$watch('coupon.code', function (newCode, oldCode) {
-        if (newCode !== oldCode && /\w{10}/.test(newCode)) {
+        if (newCode !== oldCode && /^\w{8}(\w{2})?$/.test(newCode)) {
             $scope.couponPrice = 0;
             $scope.couponLimitPrice = 0;
-            Coupon.getCouponInfo(newCode).then(function (res) {
+            var sendCode = newCode;
+            if (newCode.length == 8) sendCode = 'zz' + newCode;
+            Coupon.getCouponInfo(sendCode).then(function (res) {
                 var coupon = res.data;
                 var now = new Date(res.headers('date'));
                 var startDate = new Date(coupon.startDate);
@@ -36,6 +39,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                     $scope.couponPrice = coupon.price;
                     $scope.couponLimitPrice = coupon.priceLimit;
                     $scope.coupon = coupon;
+                    $scope.coupon.code = newCode;
                 }
             }).catch(function (res) {
                 alert('无效的优惠代码');
@@ -111,9 +115,15 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             },
 
             '订单金额未满足优惠代码使用条件': function () {
+                if ($scope.coupon.code2) {
+                    order.coupon = $scope.coupon.code2._id;
+                }
                 if (!$scope.couponPrice) return true;
                 if ($scope.orderPrice() >= $scope.couponLimitPrice) {
                     order.promotionCode = $scope.coupon.code;
+                    if (order.promotionCode.length == 8) {
+                        order.promotionCode = 'zz' + order.promotionCode;
+                    }
                     return true;
                 } else return false;
             }
@@ -164,6 +174,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 }
             })
         } else {
+            //todo:
             location.href = '/mobile';
         }
 
@@ -174,10 +185,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         }
 
         if (!$scope.address.district) {
+            //todo:
             location.href = '/mobile/';
         }
-
-        // todo : set fake address, to delete it later.
 
         Orders.deliveryTime({
             cookingType: "ready to eat",
@@ -194,6 +204,11 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
+            if ($scope.user.couponList) {
+                $scope.user.couponList = $scope.user.couponList.filter(function (el) {
+                    return !el.isUsed;
+                })
+            }
             //$scope.address.mobile = $scope.user.mobile;
             //$scope.address.contactPerson = $scope.user.username;
         })

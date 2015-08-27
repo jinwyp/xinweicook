@@ -1,6 +1,6 @@
 ## Req
 
-GET `/dishes/:_id`
+GET `/api/dishes/:_id`
 
 
 ## Res

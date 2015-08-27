@@ -7,15 +7,18 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
     $scope.address = null;
     $scope.css = {
         isEdit: false, // false表示新建地址
-        showFakeInput: true
+        showFakeInput: true,
+        showAddressTip: false
     };
 
     $scope.search = function () {
         if ($scope.address.street) {
             Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
                 $scope.searchAddresses = res.data.result.filter(function (address) {
-                    return (!!address.city && !!address.district && !!address.location )
-                })
+                    return (!!address.city && !!address.location )
+                });
+
+                $scope.css.showAddressTip = !$scope.searchAddresses.length
             })
         }
     };
@@ -150,6 +153,10 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
             user.address.forEach(function (address) {
                 address.geoLatitude = address.geoLatitude || 0;
                 address.geoLongitude = address.geoLongitude || 0;
+
+                if (address.contactPerson.length == 1) {
+                    address.contactPerson += ' ';
+                }
             });
 
             if ($scope.deleteAddress.called) {

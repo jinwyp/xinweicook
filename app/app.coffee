@@ -32,8 +32,8 @@ app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
 app.use alipayBodyParser if not conf.debug
-app.use bodyParser.json()
-app.use bodyParser.urlencoded(extended: true)
+app.use bodyParser.json({limit: '1mb'})
+app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")
 
 app.use libs.logger.middleware()

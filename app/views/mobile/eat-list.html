@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <title>新味 便当</title>
+    <title>新味便当</title>
 </head>
 <body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
 
@@ -20,9 +20,9 @@
     <ul class="eat-list food-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
             <div class="dish-detail">
-                <div class="img-group" ng-class="{blur: !!dish.count}">
+                <div class="img-group">
                     <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
-                        <img img-lazy-load="dish.cover[0].zh"/>
+                        <img img-lazy-load="dish.cover[0].zh | adapt"/>
                     </a>
                 </div>
                 <div class="detail">
@@ -46,17 +46,17 @@
     </ul>
 </div>
 
-<div class="selection-cover" ng-if="curDish" ng-click="hide()"></div>
-<div class="selections-container" ng-cloak ng-if="curDish">
+<div class="selection-cover" ng-cloak ng-if="curDish" ng-click="hide()"></div>
+<div class="selections-container" ng-if="curDish" ng-cloak>
     <div class="block">
         <h4 class="text-center">{{curDish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
-        <ul class="properties">
+        <ul class="properties" ng-if="curDish.preferences.length" ng-init="curDish.curSelection = {}">
             <li ng-repeat="property in curDish.preferences">
                 <h5>{{property.name.zh}}</h5>
                 <!-- todo: 应该把curSelection 改成 curSelection[property.name.zh], .. -->
-                <ul class="selections" ng-init="curDish.curSelection = property.foodMaterial[0].dish">
-                    <li ng-click="curDish.curSelection = selection.dish"
-                        ng-class="{selected: curDish.curSelection == selection.dish}"
+                <ul class="selections" ng-init="curDish.curSelection[property.name.zh] = property.foodMaterial[0].dish">
+                    <li ng-click="curDish.curSelection[property.name.zh] = selection.dish"
+                        ng-class="{selected: curDish.curSelection[property.name.zh] == selection.dish}"
                         ng-repeat="selection in property.foodMaterial">
                         {{selection.dish.title.zh}}
                     </li>
@@ -121,6 +121,7 @@
 <script src="/mobile/src/js/service/scope-decorator.js?v=11"></script>
 <script src="/mobile/src/js/directives/img-lazy-load.js"></script>
 <script src="/mobile/src/js/weixin.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/models.js?v=11"></script>
 <script src="/mobile/src/js/config.js?v=11"></script>
 <script src="/mobile/src/js/controllers/eat.js?v=11"></script>
