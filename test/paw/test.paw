@@ -1114,7 +1114,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"accountchargecode\\",\\"code\\":\\"123456789W\\",\\"name\\":{\\"zh\\":\\"TLC\\\\u793c\\\\u54c1\\\\u5361\\",\\"en\\":\\"TLC Gift Card\\"},\\"price\\":500,\\"priceLimit\\":1,\\"usedTime\\":1,\\"count\\":2}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"couponType\\":\\"accountchargecode\\",\\"code\\":\\"123456789W\\",\\"name\\":{\\"zh\\":\\"TLC\\\\u793c\\\\u54c1\\\\u5361\\",\\"en\\":\\"TLC Gift Card\\"},\\"price\\":500,\\"priceLimit\\":1,\\"usedTime\\":1,\\"count\\":1}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">8</attribute>
         <attribute name="name" type="string">coupon-addNewCouponBatch</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
@@ -3365,7 +3365,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z468"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z472">
-        <attribute name="value" type="string">xn--btrz41b.com</attribute>
+        <attribute name="value" type="string">api.xinweicook.com</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z186"></relationship>
     </object>
@@ -3380,7 +3380,7 @@
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z233"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z475">
-        <attribute name="value" type="string">http</attribute>
+        <attribute name="value" type="string">https</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z477"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z199"></relationship>
     </object>
