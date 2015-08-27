@@ -106,6 +106,10 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         return price;
     };
 
+    $scope.makeOrder = function () {
+
+    }
+
     function outOfStock (dish) {
         return dish.outOfStock || !dish.isPublished;
     }
