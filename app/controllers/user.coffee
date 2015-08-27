@@ -63,7 +63,7 @@ exports.userSignUp = (req, res, next) ->
         zh : "新注册用户优惠券"
         en : "NewUserCoupon"
       price : 5
-      couponType : "coupon"
+      couponType : models.coupon.constantCouponType().coupon
       usedTime : 1
       user : resultUser._id.toString()
 

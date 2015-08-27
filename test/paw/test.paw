@@ -2702,7 +2702,7 @@
         <attribute name="name" type="string">user-addDeviceId</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z404 z402 z406 z407 z400 z405 z401"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z407 z406 z400 z402 z404 z401 z405"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z404">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
@@ -3670,7 +3670,7 @@
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z517 z513 z515 z512 z510 z514 z511"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z514 z512 z515 z517 z513 z510 z511"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z517">
         <attribute name="value" type="string">Bearer </attribute>
