@@ -140,23 +140,23 @@ exports.addNewCoupon = (req, res, next) ->
 
 exports.addNewCouponBatch = (req, res, next) ->
 
-#  models.coupon.validationNewCoupon req.body
+  models.coupon.validationNewCoupon req.body
 
   couponList =[]
   codeList = []
-  for j in [1..108]
+  for j in [1..req.body.count]
     newCoupon =
       name :
         zh : "TLC礼品卡"
         en : "TLC Gift Card"
-      price : 500
+      price : 20
       priceLimit : 10
-      startDate: moment().add(30, 'days')
-      endDate: moment().add(7, 'months')
-      couponType : models.coupon.constantCouponType().accountchargecode
+#      startDate: moment().add(30, 'days')
+#      endDate: moment().add(7, 'months')
+      couponType : req.body.couponType
       usedTime : 1
 
-#    newCoupon = _.assign(newCoupon, req.body)
+    newCoupon = _.assign(newCoupon, req.body)
 
     if newCoupon.couponType is models.coupon.constantCouponType().promocode
       newCoupon.code = models.coupon.gencode()
