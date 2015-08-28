@@ -441,12 +441,13 @@ module.exports =
               hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
             resultTime.push(segmentHour)
 
-        # 处理第二天的时间点
-        for i in [1..18]
-          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
-          segmentHour =
-            hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
-          resultTime.push(segmentHour)
+        # 处理第二天的时间点 不包括星期天
+        if timeNow.day() > 0
+          for i in [1..18]
+            timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+            segmentHour =
+              hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
+            resultTime.push(segmentHour)
 
       resultTime
 
