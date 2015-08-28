@@ -425,7 +425,7 @@ exports.addNewOrder = (req, res, next) ->
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
       # 处理订单备注里面的商品备注
-      if dish.remark
+      if dish.remark?
         if not newOrder.userComment
           newOrder.userComment = ""
         newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
@@ -435,17 +435,19 @@ exports.addNewOrder = (req, res, next) ->
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
 
-        if not newOrderReadyToCook.userComment
-          newOrderReadyToCook.userComment = ""
-        newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+        if dish.remark?
+          if not newOrderReadyToCook.userComment
+            newOrderReadyToCook.userComment = ""
+          newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
 
-        if not newOrderReadyToEat.userComment
-          newOrderReadyToEat.userComment = ""
-        newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+        if dish.remark?
+          if not newOrderReadyToEat.userComment
+            newOrderReadyToEat.userComment = ""
+          newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
       if dish.subDish
         for subDish,subDishIndex in dish.subDish
@@ -718,6 +720,7 @@ exports.updateOrder = (req, res, next) ->
               fromUser.saveAsync()
               req.u.isHaveFirstOrderCoupon = true
 
+              # 该用户完成支付后可以再次分享邀请码
               req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
 
               if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
