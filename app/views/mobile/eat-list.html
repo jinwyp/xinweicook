@@ -53,7 +53,6 @@
         <ul class="properties" ng-if="curDish.preferences.length" ng-init="curDish.curSelection = {}">
             <li ng-repeat="property in curDish.preferences">
                 <h5>{{property.name.zh}}</h5>
-                <!-- todo: 应该把curSelection 改成 curSelection[property.name.zh], .. -->
                 <ul class="selections" ng-init="curDish.curSelection[property.name.zh] = property.foodMaterial[0].dish">
                     <li ng-click="curDish.curSelection[property.name.zh] = selection.dish"
                         ng-class="{selected: curDish.curSelection[property.name.zh] == selection.dish}"

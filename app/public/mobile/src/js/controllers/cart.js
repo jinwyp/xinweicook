@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator, $localStorage) {
+angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator, $localStorage, $timeout) {
     ScopeDecorator.common($scope);
 
 
@@ -72,7 +72,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             if (item.subDish.number == 0) {
                 list.splice(idx, 1);
             }
-        } else if (!item.dish.number--) {
+        } else if (!--item.dish.number) {
             list.splice(idx, 1);
         }
 
@@ -80,12 +80,12 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.selectAll = function () {
-        $scope.dishList.selectedAll = !$scope.dishList.selectedAll;
+        var state = $scope.dishList.selectedAll = !$scope.dishList.selectedAll;
         $scope.dishList.cookList.forEach(function (item) {
-            item.selected = !item.selected;
+            item.selected = state;
         });
         $scope.dishList.eatList.forEach(function (item) {
-            item.selected = !item.selected;
+            item.selected = state;
         });
     };
 
@@ -111,14 +111,14 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var orderLists = {cookList: null, eatList: null};
 
         Object.keys(lists).forEach(function (name) {
-            var list = lists[name] = $scope[name].filter(function (el) {return !!el.selected});
+            var list = lists[name] = $scope.dishList[name] && $scope.dishList[name].filter(function (el) {return !!el.selected});
             var cookingType = name == 'cookList' ? 'ready to cook' : 'ready to eat';
             var orderList = orderLists[name] = postCart.filter(function (el) {
-                return !!el.cookingType == cookingType;
+                return el.cookingType == cookingType;
             });
 
             // 从orderList中删掉那些不在list中的子菜品
-            for (var i = 0; i < orderLists.length;) {
+            for (var i = 0; i < orderList.length;) {
                 var dish = orderList[i];
                 if (!list.some(function (el) {return el.dish._id == dish.dish;})) {
                     orderList.splice(i, 1);
@@ -129,11 +129,23 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                             dish.subDish.splice(j, 1);
                         } else j++;
                     }
+                    i++;
                 } else i++;
             }
         });
 
         $localStorage.cart = orderLists;
+
+        $timeout(function () {
+            location.href = 'order';
+        }, 150);
+    };
+
+    $scope.okToBuy = function () {
+        if ($scope.dishList && $scope.dishList.cookList) {
+            return $scope.dishList.cookList.some(function (el) {return el.selected})
+                || $scope.dishList.eatList.some(function (el) {return el.selected})
+        } else return false;
     };
 
     function outOfStock (dish) {
@@ -181,6 +193,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             postCart = cart.map(function (el) {
                 var dish = el.dish;
                 var newDish = {
+                    _id: dish._id,
                     dish: dish._id,
                     number: el.number,
                     cookingType: dish.cookingType,
@@ -190,6 +203,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 if (el.subDish && el.subDish.length) {
                     newDish.subDish = el.subDish.map(function (item) {
                         return {
+                            _id: item.dish._id,
                             dish: item.dish._id,
                             number: item.number,
                             cookingType: item.dish.cookingType,

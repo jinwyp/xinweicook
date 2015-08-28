@@ -20,7 +20,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         $scope.coupon.code = '';
         $scope.couponPrice = 0;
         $scope.couponLimitPrice = 0;
-        $scope.coupon.code2 = '';
     };
 
     $scope.$watch('coupon.code', function (newCode, oldCode) {
@@ -53,13 +52,18 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         //        price += dish.priceOriginal * dish.count
         //});
         //return price;
-        return $scope.cart.reduce(function price(total, cur) {
-            total += cur.priceOriginal * cur.number;
-            if (cur.subDish) {
-                total += cur.subDish.reduce(price, 0)
-            }
-            return total;
-        }, 0)
+        var price = 0;
+        Object.keys($scope.cart).forEach(function (name) {
+            var list = $scope.cart[name];
+            price += list.reduce(function price(total, cur) {
+                total += cur.priceOriginal * cur.number;
+                if (cur.subDish) {
+                    total += cur.subDish.reduce(price, 0)
+                }
+                return total;
+            }, 0)
+        });
+        return price;
     };
 
 
@@ -79,7 +83,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
         var check = {
             '联系信息无效': function () {
-                var keys = ['geoLatitude', 'geoLongitude', 'province', 'city', 'district', 'street', 'address', 'contactPerson', 'mobile'];
+                var keys = ['geoLatitude', 'geoLongitude', 'province', 'city',
+                    'district', 'street', 'address', 'contactPerson', 'mobile'];
                 var valid = keys.every(function (key) {
                     return !!$scope.address[key];
                 });
@@ -93,20 +98,33 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
             },
 
             '至少选择一个即食包': function () {
-                    order.dishList = $scope.cart
-                        .map(function (dish) {return {
-                            dish: dish._id,
+                order.dishList = [];
+                Object.keys($scope.cart).forEach(function (name) {
+                    var list = $scope.cart[name];
+                    list.forEach(function (dish) {
+                        order.dishList.push({
+                            dish: dish.dish,
                             number: dish.number,
-                            subDish: dish.subDish || [] //todo: 多出来的属性不影响吗?
-                        }});
+                            subDish: dish.subDish || []
+                        })
+                    })
+                });
                 return true;
             },
 
             '获取配送时间失败,请稍后重试': function () {
                 try {
-                    var time = $scope.deliveryTime.selectTime.hour;
-                    order.deliveryDateEat = time.substr(0, 10);
-                    order.deliveryTimeEat = time.substr(11, 5);
+                    if ($scope.eatTime) {
+                        var time = $scope.eatTime.selectTime.hour;
+                        order.deliveryDateEat = time.substr(0, 10);
+                        order.deliveryTimeEat = time.substr(11, 5);
+                    }
+                    if ($scope.cookTime) {
+                        order.deliveryDateCook = $scope.cookTime.selectDay.day;
+                        if ($scope.cookTime.selectTime) {
+                            order.deliveryTimeCook = $scope.cookTime.selectTime.name + ':00';
+                        }
+                    }
                 } catch (e){
                     return false;
                 }
@@ -160,19 +178,22 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if ($localStorage.cart) {
             $scope.cart = $localStorage.cart;
             $scope.subDishCart = [];
-            $scope.cart.forEach(function (dish) {
-                if (dish.subDish) {
-                    dish.subDish.forEach(function (el) {
-                        $scope.subDishCart.push({
-                            title: {zh: dish.title.zh + '(' + el.title.zh + ')'},
-                            number: el.number,
-                            priceOriginal: dish.priceOriginal + el.priceOriginal
+            $scope.dishList = {cookList:[], eatList:[]};
+            Object.keys($scope.dishList).forEach(function (name) {
+                $scope.cart[name].forEach(function (dish) {
+                    if (dish.subDish) {
+                        dish.subDish.forEach(function (el) {
+                            $scope.dishList[name].push({
+                                title: {zh: dish.title.zh + '(' + el.title.zh + ')'},
+                                number: el.number,
+                                priceOriginal: dish.priceOriginal + el.priceOriginal
+                            })
                         })
-                    })
-                } else {
-                    $scope.subDishCart.push(dish)
-                }
-            })
+                    } else {
+                        $scope.dishList[name].push(dish);
+                    }
+                })
+            });
         } else {
             //todo:
             location.href = '/mobile';
@@ -181,26 +202,52 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
         if ($localStorage.address) {
             $scope.address = $localStorage.address;
             isCityShanghai = $scope.address.city.indexOf('上海') != -1;
-            delete $localStorage.address;
+
+            $scope.deliveryFee = 0;
+            if ($scope.dishList.cookList.length) {
+                if (isCityShanghai) $scope.deliveryFee = 5;
+                else if (/浙江|江苏|安徽/.test($scope.address.province)) {
+                    $scope.deliveryFee = 12;
+                } else $scope.deliveryFee = 24;
+            }
+
+            if ($scope.dishList.eatList.length) {
+                $scope.deliveryFee += 5;
+            }
+
+            // todo: 暂时注释
+            // delete $localStorage.address;
         }
 
+        //  因为每次都会删掉localStorage的地址,所以无法进入同一张订单页
         if (!$scope.address.district) {
             //todo:
             location.href = '/mobile/';
         }
 
-        Orders.deliveryTime({
+        $scope.dishList.eatList.length && Orders.deliveryTime({
             cookingType: "ready to eat",
             isCityShanghai: isCityShanghai,
             isInRange4KM: $localStorage.isInRange4KM || false
         }).then(function (res) {
-            $scope.deliveryTime = res.data;
-            $scope.deliveryTime.selectTime = res.data[0];
-        }).catch(function (res) {
-            console.log('get time error');
+            $scope.eatTime = res.data;
+            $scope.eatTime.selectTime = res.data[0];
         });
 
-        delete $localStorage.isInRange4KM;
+        $scope.dishList.cookList.length && Orders.deliveryTime({
+            cookingType: "ready to cook",
+            isCityShanghai: isCityShanghai,
+            isInRange4KM: $localStorage.isInRange4KM || false
+        }).then(function (res) {
+            $scope.cookTime = res.data;
+            $scope.cookTime.selectDay = res.data[0];
+            if ($scope.cookTime.selectDay.segment) {
+                $scope.cookTime.selectTime = $scope.cookTime.selectDay.segment[0];
+            }
+        });
+
+        // todo: 暂时注释
+        // delete $localStorage.isInRange4KM;
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;

@@ -74,5 +74,15 @@ $select-btn-width: 100px;
     background-color: $primary-color;
     color: white;
     font-size: 16px;
+    &.invalid {
+      background-color: #B3B3B3;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  // iphone5 中,如果总价超过2位数,显示就会出错
+  .cart-bar2 .rmb-char:before {
+    content: '¥'
   }
 }

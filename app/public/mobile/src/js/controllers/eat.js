@@ -58,7 +58,7 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         //  如果没有, 则添加到cart中
         exist = $scope.cart.some(function (el) {
             if (el._id == dish._id) {
-                el.number += el.count;
+                el.number += dish.count;
                 return true;
             }
         });
@@ -117,7 +117,7 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             return
         }
         $timeout(function () {
-            location.href = 'order';// todo: replace with route
+            location.href = 'cart';// todo: replace with route
         }, 200); // let $localStorage sync. but
     };
 
@@ -158,15 +158,6 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
 
 
     function init() {
-        // todo: 暂时不使用localStorage.cart去初始化dish,否则会出现严重问题, 除非加上购物车.
-        //if ($localStorage.cart) {
-        //    $scope.cart = $localStorage.cart;
-        //} else {
-        //    $localStorage.cart = $scope.cart = [];
-        //}
-
-        $localStorage.cart = $scope.cart = [];
-
         // 初始化选择的地址
         if ($localStorage.selectedAddress) {
             $scope.chooseAddress($localStorage.selectedAddress);
@@ -231,6 +222,18 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             }),
             User.getUserInfo().then(function (res) {
                 $scope.allAddresses = res.data.address;
+                $scope.cart = res.data.shoppingCart.map(function (el) {
+                    var dish = el.dish;
+                    dish.number = el.number;
+                    if (!el.subDish) return dish;
+                    dish.subDish = el.subDish.map(function (item) {
+                        var sDish = item.dish;
+                        sDish.number = item.number;
+                        sDish.dish = sDish._id;
+                        return sDish;
+                    });
+                    return dish;
+                });
                 return res.data;
             })
         ]).then(function (results) {

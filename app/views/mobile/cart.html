@@ -50,8 +50,8 @@
 <footer class="cart-bar2 row">
     <div class="col-xs-3 select-all" ng-class="{active: dishList.selectedAll}" ng-click="selectAll()">全选</div>
     <div class="col-xs-3 pull-right buy-button text-center"
-         ng-class="{invalid: selectedDishes.length}"
-         ng-click="selectedDishes.length && buy()">
+         ng-class="{invalid: !okToBuy()}"
+         ng-click="okToBuy() && makeOrder()">
         结算
     </div>
     <div class="col-xs-6 text-center pull-right">

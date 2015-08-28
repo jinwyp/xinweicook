@@ -18,7 +18,6 @@ angular.module('xw.models').factory('Orders', function ($http) {
             return $http.post('/api/orders', data);
         },
         deliveryTime: function (data) {
-            data.cookingType = 'ready to eat';
             return $http.post('/api/orders/delivery/time', data)
         },
         getOrder: function (orderId) {

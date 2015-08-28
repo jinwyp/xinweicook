@@ -43,10 +43,10 @@
             </div>
         </div>
 
-        <div class="form-block dish-list">
-            <h5>即食包</h5>
+        <div class="form-block dish-list" ng-repeat="(name, list) in dishList" ng-if="list.length">
+            <h5>{{name == 'cookList' ? '食材包' : '便当'}}</h5>
             <hr class="form-line"/>
-            <div class="row order-list" ng-repeat-start="dish in subDishCart">
+            <div class="row order-list" ng-repeat-start="dish in list">
                 <span class="col-xs-7 text-left title">{{dish.title.zh}}</span>
                 <span class="col-xs-2 text-center plus-char">{{dish.number}}</span>
                 <span class="col-xs-3 text-center rmb-char">{{dish.priceOriginal * dish.number}}</span>
@@ -61,9 +61,17 @@
 
             </div>-->
             <div class="form-group remark">
-                <div class="col-xs-12">
-                    <select class="form-control" ng-model="deliveryTime.selectTime" ng-options="date.hour for date in deliveryTime"></select>
-                    <!--{{deliveryTime[0].hour}}-->
+                <!-- time selection for eat -->
+                <div class="col-xs-12" ng-if="name == 'eatList'">
+                    <select class="form-control" ng-model="eatTime.selectTime" ng-options="date.hour for date in eatTime"></select>
+                </div>
+
+                <!-- time selection for cook -->
+                <div class="col-xs-6" ng-if="name == 'cookList'">
+                    <select class="form-control" ng-model="cookTime.selectDay" ng-options="day.day for day in cookTime"></select>
+                </div>
+                <div class="col-xs-6 no-padding-left" ng-if="name == 'cookList' && cookTime[0].segment">
+                    <select class="form-control" ng-model="cookTime.selectTime" ng-options="time.text for time in cookTime.selectDay.segment | filter: {status: true}"></select>
                 </div>
             </div>
         </div>

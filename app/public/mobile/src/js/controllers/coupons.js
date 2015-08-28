@@ -3,6 +3,11 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
     ScopeDecorator.common($scope);
 
     $scope.apply = function () {
+        if ($scope.invitationCode == $scope.user.invitationSendCode) {
+            // todo: to be deleted
+            alert('亲,这是您自己的邀请码, 是给您的好友兑换的, 自己不能兑换哦. \n当您的好友使用此兑换码兑换了优惠券,并成功通过它购买后,你就可以获得优惠券');
+            return;
+        }
         User.applyInvitationCode($scope.invitationCode).then(function () {
             alert('兑换成功!');
             $scope.invitationCode = '';
@@ -17,6 +22,7 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
 
     function init() {
         User.getUserInfo().then(function (res) {
+            $scope.user = res.data;
             $scope.couponList = res.data.couponList;
         })
     }
