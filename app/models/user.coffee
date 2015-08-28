@@ -151,12 +151,11 @@ module.exports =
         throw new Err "该用户被举报", 403
       else
         u
-    checkPwdCorrect: (pwd) ->
-      (u) ->
-        if bcrypt.compareSync pwd.toString(), u.pwd
-          u
-        else
-          throw new Err("密码错误", 401, Err.code.user.wrongPassword)
+    checkPwdCorrect: (formPwd, user) ->
+      if bcrypt.compareSync(formPwd.toString(), user.pwd)
+        user
+      else
+        throw new Err("密码错误", 401, Err.code.user.wrongPassword)
 
     signUp: (mobile, pwd, code) ->
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
@@ -178,7 +177,12 @@ module.exports =
         )
       )
     findUserByMobilePwd: (mobile, pwd) ->
-      @findOneAsync(mobile: mobile).then(@checkNotFound).then(@checkNotSpam).then(@checkPwdCorrect(pwd))
+      @findOneAsync(mobile: mobile).then (user)->
+        models.user.checkNotFound(user)
+        models.user.checkNotSpam(user)
+        models.user.checkPwdCorrect(pwd, user)
+        user
+
     findUserById: (userId) ->
       unless Number.isInteger userId
         Promise.reject(new Err "Access Token 错误", 401)

@@ -3665,7 +3665,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"grant_type\\": \\"password\\",\\n  \\"username\\": \\"13564568304\\",\\n  \\"password\\": \\"123456\\",\\n  \\"deviceToken\\": \\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"grant_type\\": \\"password\\",\\n  \\"username\\": \\"13564568304\\",\\n\\n  \\"deviceToken\\": \\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"\\n}"]</attribute>
         <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
