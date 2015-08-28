@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z313 z311 z317 z314 z316 z315 z312"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bq:SpmkmZlVcQ3WLFhKM5id7moYsqPbZhP4</attribute>
+        <attribute name="value" type="string">Bearer 2Bq:peTyGxGi4DlcSfijHMQ7+41CxDYqqAM9</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -3084,7 +3084,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n    \\"coupon\\" : \\"55d2db0276099336415251a2\\",\\n\\t\\"promotionCode\\" : \\"cool001001\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-07-15\\",\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"address\\": {\\n    \\"mobile\\": \\"18621800000\\",\\n    \\"contactPerson\\": \\"Lex\\",\\n    \\"geoLongitude\\": 121.4905260411753,\\n    \\"province\\": null,\\n    \\"street\\": null,\\n    \\"isDefault\\": true,\\n    \\"address\\": \\"上海市宝山区牡丹江路1599号北翼商业街2层\\",\\n    \\"alias\\": \\"\\",\\n    \\"city\\": \\"上海市\\",\\n    \\"geoLatitude\\": 31.40744502149409,\\n    \\"district\\": null,\\n    \\"isTemporary\\": false,\\n    \\"isValid\\": false,\\n    \\"country\\": \\"china\\",\\n    \\"remark\\": \\"shop A\\"\\n  },\\n  \\"paymentUsedCash\\": false,\\n  \\"dishList\\": [\\n    {\\n      \\"number\\": 1,\\n      \\"subDish\\": [],\\n      \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n      \\"remark\\": null\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n    \\"coupon\\" : \\"55d2db0276099336415251a2\\",\\n\\t\\"promotionCode\\" : \\"cool001001\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-07-15\\",\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"address\\": {\\n    \\"mobile\\": \\"18621800000\\",\\n    \\"contactPerson\\": \\"Lex\\",\\n    \\"geoLongitude\\": 121.4905260411753,\\n    \\"province\\": 2222,\\n    \\"street\\": 2222,\\n    \\"isDefault\\": true,\\n    \\"address\\": \\"上海市宝山区牡丹江路1599号北翼商业街2层\\",\\n    \\"alias\\": \\"\\",\\n    \\"city\\": \\"上海市\\",\\n    \\"geoLatitude\\": 31.40744502149409,\\n    \\"district\\": 22,\\n    \\"isTemporary\\": false,\\n    \\"isValid\\": false,\\n    \\"country\\": \\"china\\",\\n    \\"remark\\": \\"shop A\\"\\n  },\\n  \\"paymentUsedCash\\": false,\\n  \\"dishList\\": [\\n    {\\n      \\"number\\": 1,\\n      \\"subDish\\": [],\\n      \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n      \\"remark\\": null\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">24</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay Test</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -3665,7 +3665,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"grant_type\\": \\"password\\",\\n  \\"username\\": \\"13564568304\\",\\n\\n  \\"deviceToken\\": \\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"\\n}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>

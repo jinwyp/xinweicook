@@ -163,6 +163,15 @@ module.exports =
       if invalidDishIdList.length > 0
         throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
 
+    checkInvalidDrink : (dishList) ->
+      drinkList = []
+      for dish,dishIndex in dishList
+        # 饮料不能单独点
+        if dish.sideDishType is models.dish.constantSideDishType().drink
+          drinkList.push(dish)
+      if drinkList.length is dishList.length
+        throw new Err "Can't order drink only !", 400
+
     constantStatus : () ->
       status =
         notpaid : "not paid"

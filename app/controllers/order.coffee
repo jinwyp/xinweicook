@@ -372,6 +372,9 @@ exports.addNewOrder = (req, res, next) ->
     # 判断是否有不存在的菜品ID
     models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
 
+    # 判断饮料不能单独下单，数量不超过十个
+    models.order.checkInvalidDrink(resultDishes)
+
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
