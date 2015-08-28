@@ -38,6 +38,7 @@
             border-radius: 15px;
             background-color: #FFF6F6;
             border: 2px solid rgb(244,77,77);
+            max-width: 500px;
         }
         .code-title {
             font-size: 13px;
@@ -76,19 +77,36 @@
             width: 90%;
             margin: 7px auto 25px;
         }
+        .download-caption, .download-link {
+            text-align: center;
+        }
+        .download-caption {
+            margin: 40px;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.6
+        }
+        .download-link {
+            padding-top: 5px;
+        }
+        #qrcode {
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+        #weixin-tip img{max-width: 100%; height: auto;}
     </style>
 </head>
 <body class="invited-body">
 
 <div class="main invited-main">
     <div class="avatar-wrapper">
-        <img id="avatar"/>
+        <img id="avatar" src="/mobile/src/img/avatar/1.jpg" />
     </div>
 
     <p class="what">
-        您的好友 <strong id="friend-name"></strong><br/>
-        <span id="place"></span><br/>
-        他/她分享了一张价值 ¥10 的优惠券。<br/>
+        您的好友约你一起吃便当 <br/>
+        他/她分享了一张价值 ¥10 的优惠券。
     </p>
 
     <p class="codes">
@@ -99,15 +117,31 @@
 
     <div class="how-to-exchange-wrapper">
         <h5>如何兑换?</h5>
-        <p class="how-to-exchange">
+        <p class="how-to-exchange" style="display:none;" id="for-others">
+            打开个人中心，点击 [优惠券] 进入优惠券页面，输入邀请码即可完成兑换。优惠券兑换成功后即可在下单时使用。
+        </p>
+        <p class="how-to-exchange" style="display:none;" id="for-wx">
             长按下图识别二维码, 进入 「新味」 的公众号并注册成为会员, 点击 「我」 → 「优惠券」
             输入兑换码即可完成兑换。
         </p>
     </div>
 
-    <div class="xw-img">
+    <div class="xw-img" id="xw-img" style="display: none;">
         <img src="/mobile/src/img/xwgzh.jpg" alt=""/>
     </div>
+
+    <div id="for-others-down-load" style="display: none;">
+        <div class="download-caption">
+            新味<br>
+            Stay Hungry, Stay Foodish
+        </div>
+        <div class="download-link">
+            <a id="download" href="http://itunes.apple.com/us/app/id991712290">
+                <img src="/mobile/src/img/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="app store badge"/>
+            </a>
+        </div>
+    </div>
+
 </div>
 </body>
 <script>
@@ -116,19 +150,17 @@
 
         var queries = location.href.replace(/\?.*/, '').split('/');
         var last = queries.length - 1;
-        var avatar = b642utf(queries[last - 3]);
-        var code = b642utf(queries[last - 2]);
-        var name = b642utf(queries[last - 1]);
-        var place = b642utf(queries[last]);
-        var idx = avatar % 7 + 1;
+        var code = queries[last];
 
-        document.getElementById('avatar').src = '/mobile/src/img/avatar/' + idx + '.jpg';
         document.getElementById('code').textContent = code;
-        document.getElementById('friend-name').textContent = name;
-        document.getElementById('place').textContent = '约你一起去 ' + place + ' 吃便当';
 
-        function b642utf(str) {
-            return decodeURIComponent(escape(window.atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+        var isWeixin = /MicroMessenger/i.test(navigator.userAgent.toLowerCase());
+        if (isWeixin) {
+            document.getElementById('for-wx').style.display = 'block';
+            document.getElementById('xw-img').style.display = 'block';
+        } else {
+            document.getElementById('for-others').style.display = 'block';
+            document.getElementById('for-others-down-load').style.display = 'block';
         }
     }());
 </script>

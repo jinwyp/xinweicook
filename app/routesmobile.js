@@ -53,6 +53,9 @@ expressRoutes = function(app) {
     app.get('/mobile/invited/:avatar/:code/:name/:place', function (req, res) {
         res.render('mobile/invited.html');
     });
+    app.get('/mobile/invited-app/:code', function (req, res) {
+        res.render('mobile/invited-app.html');
+    });
     app.get('/mobile/coupons', function (req, res) {
         res.render('mobile/coupons.html');
     });
