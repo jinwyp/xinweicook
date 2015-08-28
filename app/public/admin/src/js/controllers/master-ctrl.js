@@ -88,6 +88,13 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
         $http.get('/api/administrator/initremovesetting');
     };
 
+    $scope.addcoupons = function () {
+        $http.post('/api/administrator/coupons').then(function(result){
+            console.log (result.data);
+            $scope.couponList = result.data
+        });
+    };
+
 
     window.onresize = function() {
         $scope.$apply();

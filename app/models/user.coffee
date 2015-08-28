@@ -60,12 +60,15 @@ module.exports =
 
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
+    sharedInvitationSendCodeUsedTime: type: Number, default: 0
+    sharedInvitationSendCodeTotalCount: type: Number, default: 1
     isUsedInvitationSendCode: type: Boolean, default: false
     isHaveFirstOrderCoupon: type: Boolean, default: false
 
     invitationFromCode : String
     invitationFromUser : type: Schema.ObjectId, ref: "user"
 
+    firstTimeRegFromApp: type: Boolean, default: false
 
     oldUserData :
       mobile:String

@@ -51,7 +51,7 @@ exports.getCouponForUserShare = (req, res, next) ->
         zh : "分享朋友圈优惠券"
         en : "Share To Friends Coupon"
       price : 5
-      couponType : "coupon"
+      couponType : models.coupon.constantCouponType().coupon
       usedTime : 1
       user : req.u._id.toString()
 
@@ -61,6 +61,7 @@ exports.getCouponForUserShare = (req, res, next) ->
         req.u.couponList.push(coupon._id.toString())
 
       req.u.isSharedInvitationSendCode = true
+      req.u.sharedInvitationSendCodeUsedTime = req.u.sharedInvitationSendCodeUsedTime + 1
       req.u.saveAsync()
 
     .then (user)->
@@ -93,7 +94,7 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
           zh : "好友邀请优惠券"
           en : "Friend Invitation Coupon"
         price : 10
-        couponType : "coupon"
+        couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : req.u._id.toString()
 
@@ -137,6 +138,39 @@ exports.addNewCoupon = (req, res, next) ->
     res.json resultCoupon
   .catch next
 
+
+exports.addNewCouponBatch = (req, res, next) ->
+
+  models.coupon.validationNewCoupon req.body
+
+  couponList =[]
+  codeList = []
+  for j in [1..req.body.count]
+    newCoupon =
+      name :
+        zh : "TLC礼品卡"
+        en : "TLC Gift Card"
+      price : 20
+      priceLimit : 10
+#      startDate: moment().add(30, 'days')
+#      endDate: moment().add(7, 'months')
+      couponType : req.body.couponType
+      usedTime : 1
+
+    newCoupon = _.assign(newCoupon, req.body)
+
+    if newCoupon.couponType is models.coupon.constantCouponType().promocode
+      newCoupon.code = models.coupon.gencode()
+    else if newCoupon.couponType is models.coupon.constantCouponType().accountchargecode
+      newCoupon.code = models.coupon.gencodeCharge()
+
+    couponList.push(newCoupon)
+    codeList.push(newCoupon.code)
+
+  models.coupon.createAsync(couponList)
+  .then (resultCoupon) ->
+      res.json codeList
+  .catch next
 
 
 exports.assignCouponToUser = (req, res, next) ->

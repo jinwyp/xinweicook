@@ -59,6 +59,21 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid, 'has-error':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid}">
+                    <label for="inputUserInvitationSendCode" class="col-lg-2 control-label" >该用户自己的邀请码</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputUserInvitationSendCode" placeholder="" name="userInvitationSendCode" ng-model="data.searchOptions.invitationSendCode" ng-minlength="8">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$error.minlength || searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">Search</button>
@@ -99,6 +114,7 @@
                 <th>性别</th>
                 <th>地址</th>
                 <th>优惠券</th>
+                <th>邀请码</th>
                 <!--<th>操作</th>-->
 
             </tr>
@@ -123,6 +139,7 @@
                     </ul>
                 </td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
+                <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}}</td>
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？-->
                         <!--<button class="btn btn-danger" ng-click="delUser(user)">立即删除</button>-->

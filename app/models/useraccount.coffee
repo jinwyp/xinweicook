@@ -16,6 +16,12 @@ module.exports =
       unless libs.validator.isInt account.reduceAmount, {min: 1, max: 900000}
         return throw new Err "Field validation error,  addAmount must be 1-900000", 400
 
+    validationAlipayNotify : (account) ->
+      unless libs.validator.isLength account.out_trade_no, 24, 24
+        return throw new Err "Field validation error,  out_trade_no must be 24-24", 400
+      if account.trade_status isnt "TRADE_SUCCESS"
+        return throw new Err "Field validation error,  trade_status not TRADE_SUCCESS", 400
+
     validationUserInfo : (updateUser) ->
       if updateUser.gender
           unless libs.validator.isInt updateUser.gender, {min: 1, max: 9}
@@ -48,6 +54,22 @@ module.exports =
         return throw new Err "User account not found !", 400
 
   methods:
+
+    chargeAccountDetail : (amount, name, remark) ->
+
+      newAccountDetail =
+        user : @user
+        isPlus : true
+        amount : Number(amount)
+        name :
+          zh : "在线充值"
+          en : "Online Recharge"
+
+      newAccountDetail.remark = remark if remark
+      newAccountDetail.name = name if name
+
+      models.accountdetail.createAsync(newAccountDetail)
+
     addMoney : (amount, name, remark) ->
       @balance = @balance + Number(amount)
 

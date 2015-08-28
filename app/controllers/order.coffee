@@ -233,9 +233,10 @@ exports.addNewOrder = (req, res, next) ->
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
     dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
-    for subDish,subDishIndex in dish.subDish
-      dishIdList.push subDish.dish
-      dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
+    if dish.subDish
+      for subDish,subDishIndex in dish.subDish
+        dishIdList.push subDish.dish
+        dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
 
   newOrder =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -343,7 +344,7 @@ exports.addNewOrder = (req, res, next) ->
             price : 50
             priceLimit : 150
             endDate: moment().endOf("year")
-            couponType : "promocode"
+            couponType : models.coupon.constantCouponType().promocode
             code : req.body.promotionCode
             usedTime : 0
 
@@ -353,7 +354,7 @@ exports.addNewOrder = (req, res, next) ->
         else
           models.coupon.checkNotFound resultPromotionCode
 
-    models.coupon.findOne({_id: req.body.coupon, isExpired : false, isUsed : false}).execAsync()
+    models.coupon.findOne({_id: req.body.coupon, couponType:models.coupon.constantCouponType().coupon, isExpired : false, isUsed : false}).execAsync()
   .then (resultCoupon) ->
     # 处理优惠券是否有效
     if req.body.coupon
@@ -405,7 +406,16 @@ exports.addNewOrder = (req, res, next) ->
         # 使用余额支付 检查余额是否够
         if  userAccount.balance >= newOrder.totalPrice
           newOrder.accountUsedDiscount = newOrder.totalPrice
+          newOrder.isPaymentPaid = true
+          newOrder.status = models.order.constantStatus().paid
           newOrder.totalPrice = 0
+
+          newOrderReadyToCook.isPaymentPaid = true
+          newOrderReadyToCook.status = models.order.constantStatus().paid
+
+          newOrderReadyToEat.isPaymentPaid = true
+          newOrderReadyToEat.status = models.order.constantStatus().paid
+
         else
           newOrder.accountUsedDiscount = userAccount.balance
           newOrder.totalPrice = newOrder.totalPrice - userAccount.balance
@@ -437,13 +447,14 @@ exports.addNewOrder = (req, res, next) ->
           newOrderReadyToEat.userComment = ""
         newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
-      for subDish,subDishIndex in dish.subDish
-        if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
-          newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToCookList.push({dish:dishDataList[subDish.dish], number:subDish.number})
-        else
-          newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
-          dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
+      if dish.subDish
+        for subDish,subDishIndex in dish.subDish
+          if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
+            newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+            dishReadyToCookList.push({dish:dishDataList[subDish.dish], number:subDish.number})
+          else
+            newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[subDish.dish].getPrice(subDish.number) * subDish.number
+            dishReadyToEatList.push({dish:dishDataList[subDish.dish], number:subDish.number})
 
 
 
@@ -699,14 +710,27 @@ exports.updateOrder = (req, res, next) ->
                 zh : "邀请的好友首次下单返利优惠券"
                 en : "Friend First Order Rebate Coupon"
               price : 10
-              couponType : "coupon"
+              couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
             models.coupon.addNew(newCoupon).then (resultCoupon)->
               fromUser.couponList.push(resultCoupon._id.toString())
               fromUser.saveAsync()
               req.u.isHaveFirstOrderCoupon = true
+
+              req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+              if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+                req.u.isSharedInvitationSendCode = false
               req.u.saveAsync()
+       else
+        # 该用户完成支付后可以再次分享邀请码
+        req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+        if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+          req.u.isSharedInvitationSendCode = false
+        req.u.saveAsync()
+
 
     else
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid

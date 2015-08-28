@@ -29,6 +29,7 @@ expressRoutes = (app) ->
 #  )
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
+  app.post("/api/orders/payment/alipay/notify/account", userController.chargeAccountAlipayNotify)
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
@@ -70,7 +71,8 @@ expressRoutes = (app) ->
 
   app.get("/api/user/account", libs.auth("member"), userController.userInfoAccount)
   app.get("/api/user/account/details", libs.auth("member"), userController.userAccountDetail)
-  app.post("/api/user/account", libs.auth("member"), userController.chargeAccount)
+  app.post("/api/user/account/details", libs.auth("member"), userController.chargeAccount)
+  app.post("/api/user/account/chargecode", libs.auth("member"), userController.chargeAccountFromAccoutChargeCode)
 
   app.get("/api/coupons/:_id", libs.auth("member"), couponController.couponSingleInfo)
   app.get("/api/coupons/code/:code", libs.auth("member"), couponController.couponSingleInfoByCode)
@@ -93,8 +95,9 @@ expressRoutes = (app) ->
 
 
 
-  app.post("/api/administrator/coupons", couponController.addNewCoupon)
-  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
+#  app.post("/api/administrator/coupon", couponController.addNewCoupon)
+#  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
+#  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)

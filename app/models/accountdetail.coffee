@@ -9,7 +9,40 @@ module.exports =
     remark : String
     name : zh:String, en:String
 
+    isPaid :  type: Boolean, default: false
+
+    paymentAlipay :
+      notify_time : type: String
+      notify_type : type: String
+      notify_id : type: String
+      sign_type: type: String
+      sign: type: String
+      out_trade_no : type: String
+      subject : type: String
+      payment_type : type: String
+      trade_no : type: String
+      trade_status : type: String
+      price : type: Number
+      total_fee : type: Number
+      quantity : type: Number
+      body : type: String
+      is_total_fee_adjust : type: String
+      use_coupon : type: String
+      gmt_create : type: String
+      gmt_payment : type : String
+      refund_status : type : String
+      gmt_refund : type : String
+      seller_email : type : String
+      buyer_email : type : String
+      seller_id : type : String
+      buyer_id : type : String
+
+
   statics:
+    checkNotFound : (accoutDetail) ->
+      if not accoutDetail
+        throw new Err "accoutDetail ID or accoutDetail not found !", 400
+
     validationGetAccountDetailList : (query) ->
       if query.skip
         unless libs.validator.isInt query.skip, {min: 0}

@@ -63,7 +63,7 @@ exports.userSignUp = (req, res, next) ->
         zh : "新注册用户优惠券"
         en : "NewUserCoupon"
       price : 5
-      couponType : "coupon"
+      couponType : models.coupon.constantCouponType().coupon
       usedTime : 1
       user : resultUser._id.toString()
 
@@ -224,6 +224,7 @@ exports.userInfoAccount = (req, res, next) ->
   .catch next
 
 
+
 # 用户账户余额明细
 exports.userAccountDetail = (req, res, next) ->
 
@@ -241,16 +242,99 @@ exports.userAccountDetail = (req, res, next) ->
   .catch next
 
 
-# 用户账户余额充值
+# 用户账户余额充值 先生成充值记录明细
 exports.chargeAccount = (req, res, next) ->
 
   models.useraccount.validationChargeAccount(req.body)
 
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
-    resultAccount.addMoney(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark)
 
+    resultAccount.chargeAccountDetail(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark)
+
+  .then (resultAccountDetail)->
+    res.json resultAccountDetail
+
+  .catch next
+
+
+
+# 用户账户余额充值 支付宝通知回调
+exports.chargeAccountAlipayNotify = (req, res, next) ->
+
+  models.useraccount.validationAlipayNotify(req.body)
+  accountDetailData = {}
+
+  models.accountdetail.findOneAsync({_id : req.body.out_trade_no}).then (resultAccountDetail)->
+    models.accountdetail.checkNotFound(resultAccountDetail)
+    accountDetailData = resultAccountDetail
+    resultAccountDetail.isPaid = true
+    resultAccountDetail.paymentAlipay =
+      notify_time : req.body.notify_time
+      notify_type : req.body.notify_type
+      notify_id : req.body.notify_id
+      sign_type: req.body.sign_type,
+      sign: req.body.sign_type,
+
+      out_trade_no : req.body.out_trade_no
+      subject : req.body.subject
+      payment_type : req.body.payment_type
+      trade_no : req.body.trade_no
+      trade_status : req.body.trade_status
+      price : req.body.price
+      total_fee : req.body.total_fee
+      quantity : req.body.quantity
+      body : req.body.body
+      is_total_fee_adjust : req.body.is_total_fee_adjust
+      use_coupon : req.body.use_coupon
+      gmt_create : req.body.gmt_create
+      gmt_payment : req.body.gmt_payment
+#      refund_status : req.body.refund_status
+#      gmt_refund : req.body.gmt_refund
+      seller_email : req.body.seller_email
+      buyer_email : req.body.buyer_email
+      seller_id : req.body.seller_id
+      buyer_id : req.body.buyer_id
+
+    resultAccountDetail.saveAsync()
+  .then (resultAccoutDetail2) ->
+
+    models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
   .then (resultAccount)->
-    res.json resultAccount[0]
+
+    models.useraccount.checkNotFound(resultAccount)
+    resultAccount.balance = resultAccount.balance + accountDetailData.amount
+    resultAccount.saveAsync()
+
+  .then (resultAccount2)->
+#    res.json resultAccount2[0]
+
+    res.set('Content-Type', 'text/plain');
+    res.send "success"
+  .catch next
+
+
+
+
+# 用户账户 使用充值码充值
+exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
+
+  models.coupon.validationCouponCode(req.body.accountChargeCode)
+  couponData = {}
+  models.coupon.findOneAsync({code : req.body.accountChargeCode, couponType:models.coupon.constantCouponType().accountchargecode, isExpired : false, isUsed : false})
+  .then (resultCoupon)->
+    models.coupon.checkNotFound resultCoupon
+    models.coupon.checkExpired resultCoupon
+    models.coupon.checkUsed(resultCoupon, req.u)
+    couponData = resultCoupon
+
+    models.useraccount.findOneAsync({user : req.u._id.toString()})
+  .then (resultAccount)->
+      models.useraccount.checkNotFound(resultAccount)
+
+      resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark)
+  .then (resultAccount)->
+      couponData.used()
+      res.json resultAccount[0]
 
   .catch next

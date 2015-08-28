@@ -23,6 +23,6 @@ gulp.task('errcode', function () {
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
 
-gulp.watch('app/libs/errcode.js', ['errcode']).on('change', function (event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks `errcode`');
-})
+//gulp.watch('app/libs/errcode.js', ['errcode']).on('change', function (event) {
+//    console.log('File ' + event.path + ' was ' + event.type + ', running tasks `errcode`');
+//})
