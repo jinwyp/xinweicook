@@ -231,6 +231,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
 
 
+            .state('menu.deviceTokens', {
+                url: '/devicetokens',
+                templateUrl: 'templates/user/deviceTokenList.html',
+                data: {
+                    title: 'iOS设备ID管理',
+                    type : 'list'
+                },
+                controller: 'UserDeviceController'
+            })
+
             .state('menu.logs', {
                 url: '/logs',
                 templateUrl: 'templates/log/logList.html',
