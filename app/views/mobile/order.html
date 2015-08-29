@@ -134,7 +134,7 @@
             </div>
             <div class="row">
                 <span class="col-xs-6">应付总额</span>
-                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice() + deliveryFee - couponPrice - coupon.code2.price}}</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{orderPrice() + deliveryFee - couponPrice - coupon.code2.price | number:1}}</span>
             </div>
         </div>
 
