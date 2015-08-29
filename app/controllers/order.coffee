@@ -402,6 +402,7 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+    newOrder.totalPrice =  Math.ceil(newOrder.totalPrice * 10) / 10
 
     # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
     if newOrder.totalPrice isnt 0.1
