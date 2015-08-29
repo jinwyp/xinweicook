@@ -205,6 +205,9 @@ $sc-h5-font-size: 15px;
         color: white;
         background-color: $primary-color;
       }
+      &:first-child {
+        margin-bottom: 8px;
+      }
     }
   }
 

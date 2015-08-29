@@ -67,7 +67,7 @@
         <div class="add-to-cart-button text-center"
              ng-class="{invalid: curDish.count == 0}"
              ng-click="curDish.count>0 && addToCart(curDish)">
-            <span class="rmb-char">{{totalPrice()}}</span>
+            <span class="rmb-char">{{totalPrice()|number:1}}</span>
             加入购物袋
         </div>
     </div>
