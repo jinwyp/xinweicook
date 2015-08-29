@@ -20,5 +20,8 @@ module.exports = {
         tooManyTries: 3114,
         sendFailed: 3115,
         reachSendLimitation: 3116
+    },
+    dish: {
+        outOfStock: 4110
     }
 };

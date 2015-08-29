@@ -129,7 +129,7 @@ module.exports =
 
     checkOutOfStock : (dish) ->
       if dish.stock <=0
-        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400
+        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400, Err.code.dish.outOfStock
 
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24

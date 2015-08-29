@@ -19,8 +19,11 @@ return {
         tooManyTries: 3114,
         sendFailed: 3115,
         reachSendLimitation: 3116
+    },
+    dish: {
+        outOfStock: 4110
     }
-}
+};
 });
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = ['/mobile/', '/mobile/login'];

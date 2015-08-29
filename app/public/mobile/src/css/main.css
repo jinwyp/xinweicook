@@ -573,6 +573,34 @@ label {
   margin-right: 42px;
 }
 
+@media (max-width: 414px) {
+  /* line 359, ../sass/_eat.scss */
+  .detail .title {
+    max-width: 262px;
+  }
+}
+@media (max-width: 375px) {
+  /* line 365, ../sass/_eat.scss */
+  .detail .title {
+    max-width: 218px;
+  }
+
+  /* line 368, ../sass/_eat.scss */
+  .selections-container .block h4 {
+    font-size: 16px;
+  }
+}
+@media (max-width: 320px) {
+  /* line 374, ../sass/_eat.scss */
+  .detail .title {
+    max-width: 163px;
+  }
+
+  /* line 377, ../sass/_eat.scss */
+  .selections-container .block h4 {
+    font-size: 14px;
+  }
+}
 /* line 3, ../sass/_order.scss */
 .form-block {
   padding: 3px 15px 3px 12px;
