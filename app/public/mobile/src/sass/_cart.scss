@@ -49,6 +49,13 @@ $select-btn-width: 100px;
   }
 }
 
+.no-delivery-tip {
+  color: white;
+  background-color: $primary-color;
+  height: 50px;
+  line-height: 50px;
+  text-indent: 2em;
+}
 
 .cart-bar2 {
   font-size: 13px;

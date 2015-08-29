@@ -1,10 +1,15 @@
-angular.module('xw.controllers').controller('favCtrl', function ($scope, User, ScopeDecorator) {
+angular.module('xw.controllers').controller('favCtrl', function ($scope, User, ScopeDecorator, $filter) {
 
     ScopeDecorator.common($scope);
 
     function outOfStock (dish) {
         return dish.outOfStock || !dish.isPublished;
     }
+
+    var adapt = $filter('adapt');
+    $scope.imgAdapt = function (src) {
+        return adapt(src);
+    };
 
     function init() {
         User.getUserInfo().then(function (res) {

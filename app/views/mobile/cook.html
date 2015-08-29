@@ -18,7 +18,7 @@
 
 <div class="main cook-main" ng-cloak>
     <div class="dish-brief">
-        <img ng-src="{{dish.cover[0].zh}}"/>
+        <img ng-src="{{dish.cover[0].zh | adapt}}"/>
         <div class="detail">
             <h5>{{dish.title.zh}}</h5>
             <p class="brief">{{dish.brief.zh}}</p>
@@ -32,7 +32,7 @@
             <ul class="features">
                 <li class="feature" ng-repeat="feature in dish.infoUniqueFeature">
                     <p ng-if="feature.contentType == 'txt'">{{feature.value.zh}}</p>
-                    <img ng-src="{{feature.value.zh}}" ng-if="feature.contentType == 'pic'"/>
+                    <img ng-src="{{feature.value.zh | adapt}}" ng-if="feature.contentType == 'pic'"/>
                 </li>
             </ul>
         </div>
@@ -43,7 +43,7 @@
                 <li ng-repeat="ingredient in dish.infoIngredient"
                     ng-class="{img: ingredient.contentType == 'pic'}" >
                     <span ng-if="ingredient.contentType == 'txt'"></span>
-                    <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh}}" alt=""/>
+                    <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt}}" alt=""/>
                 </li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
             <h5>菜谱</h5>
             <ul class="ingredients">
                 <li ng-repeat="step in dish.infoCookingStep">
-                    <img ng-if="step.contentType == 'pic'" ng-src="{{step.value.zh}}"/>
+                    <img ng-if="step.contentType == 'pic'" ng-src="{{step.value.zh | adapt}}"/>
                     <div class="txt-info" ng-if="step.contentType == 'txt'">
                         <h6>{{($index + 1) / 2 + '.' + step.title.zh}}</h6>
                         <p>{{step.value.zh}}</p>
@@ -60,15 +60,14 @@
                 </li>
             </ul>
         </div>
-
     </div>
-
-
 </div>
+
+<add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
 <footer class="cook-footer row">
     <div class="col-xs-2">
-        <div class="cart">
+        <div class="cart" ng-click="goToCart()">
             <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
         </div>
     </div>
@@ -77,7 +76,7 @@
         <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
     </div>
 
-    <div class="col-xs-5 pull-right add-to-cart-container">
+    <div class="col-xs-5 pull-right add-to-cart-container" ng-click="addDish(dish)">
         加入购物袋
     </div>
 
@@ -91,6 +90,9 @@
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/directives/add-dish-bar.js"></script>
+<script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
 <script src="/mobile/src/js/service/debug.js"></script>
 <script src="/mobile/src/js/controllers/cook.js"></script>

@@ -1,6 +1,7 @@
-angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator, $localStorage, $timeout) {
+angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator, $localStorage, $timeout, $filter) {
     ScopeDecorator.common($scope);
 
+    $scope.isInRange = false;
 
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
@@ -79,13 +80,22 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         User.postCart(postCart);
     };
 
+    $scope.select = function (item) {
+        if (item.outOfStock) return;
+        if (item.dish.cookingType == 'ready to eat' && !$scope.isInRange) {
+            item.selected = false;
+            return;
+        }
+        item.selected = !item.selected;
+    };
+
     $scope.selectAll = function () {
         var state = $scope.dishList.selectedAll = !$scope.dishList.selectedAll;
         $scope.dishList.cookList.forEach(function (item) {
-            item.selected = state;
+            item.selected = state && !item.outOfStock;
         });
         $scope.dishList.eatList.forEach(function (item) {
-            item.selected = state;
+            item.selected = state && !item.outOfStock && $scope.isInRange;
         });
     };
 
@@ -107,6 +117,25 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.makeOrder = function () {
+        if ($scope.dishList.eatList.length) {
+            var bentoSelected = false;
+            var count = $scope.dishList.eatList.reduce(function (c, el) {
+                if (el.selected) bentoSelected = true;
+                var number = 0;
+                if (el.subDish) {
+                    number = el.subDish.number;
+                } else {
+                    number = el.dish.number;
+                }
+                return c + number;
+            }, 0);
+            if (!bentoSelected) count = 100;
+            if (count < 2) {
+                alert('便当2份起送, 请添加更多便当');
+                return;
+            }
+        }
+
         var lists = {cookList: null, eatList: null};
         var orderLists = {cookList: null, eatList: null};
 
@@ -148,6 +177,11 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         } else return false;
     };
 
+    var adapt = $filter('adapt');
+    $scope.imgAdapt = function (src) {
+        return adapt(src);
+    };
+
     function outOfStock (dish) {
         return dish.outOfStock || !dish.isPublished;
     }
@@ -155,6 +189,10 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     var postCart = null;
 
     function init() {
+
+        if (typeof $localStorage.isInRange4KM == 'undefined') location.href='/mobile/';
+        $scope.isInRange = $localStorage.isInRange4KM;
+
         User.getUserInfo().then(function (res) {
             var cart = res.data.shoppingCart;
             $scope.dishList = {
@@ -165,6 +203,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             cart.forEach(function (el) {
                 var dish = el.dish;
                 dish.number = el.number;
+                dish.outOfStock = outOfStock(dish);
 
                 var entries = [];
 
@@ -175,11 +214,12 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
                         entries.push({
                             dish: dish,
-                            subDish:item.dish
+                            subDish:item.dish,
+                            outOfStock: dish.outOfStock && item.dish.outOfStock
                         });
                     })
                 } else {
-                    entries.push({dish: dish})
+                    entries.push({dish: dish, outOfStock: dish.outOfStock})
                 }
 
                 if (dish.cookingType == 'ready to cook') {

@@ -36,7 +36,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="order in orders">
+        <tr ng-repeat="order in orders | filter:{isSplitOrder: false}">
             <td style="width: 10em;">{{order.dishHistory[0].dish.title.zh}}</td>
             <td>{{order.status}}</td>
             <td><a class="repay" ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{order._id}}#wechat_redirect"

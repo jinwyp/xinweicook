@@ -69,9 +69,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
 
     $scope.submitOrder = function () {
         var order = {
-            cookingType: 'ready to eat',
+            cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
             clientFrom: 'wechat',
-            freight: 5,
+            freight: $scope.deliveryFee,
             payment: 'weixinpay',
             device_info: 'WEB',
             trade_type: 'JSAPI',

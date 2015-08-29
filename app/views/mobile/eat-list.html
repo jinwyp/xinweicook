@@ -46,38 +46,7 @@
     </ul>
 </div>
 
-<div class="selection-cover" ng-cloak ng-if="curDish" ng-click="hide()"></div>
-<div class="selections-container" ng-if="curDish" ng-cloak>
-    <div class="block">
-        <h4 class="text-center">{{curDish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
-        <ul class="properties" ng-if="curDish.preferences.length" ng-init="curDish.curSelection = {}">
-            <li ng-repeat="property in curDish.preferences">
-                <h5>{{property.name.zh}}</h5>
-                <ul class="selections" ng-init="curDish.curSelection[property.name.zh] = property.foodMaterial[0].dish">
-                    <li ng-click="curDish.curSelection[property.name.zh] = selection.dish"
-                        ng-class="{selected: curDish.curSelection[property.name.zh] == selection.dish}"
-                        ng-repeat="selection in property.foodMaterial">
-                        {{selection.dish.title.zh}}
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <div class="counter-wrapper">
-            <i>份数</i>
-            <div class="counter text-center">
-                <span ng-click="curDish.count>0 && (curDish.count=curDish.count-1)" class="minus">-</span>
-                <span class="number">{{curDish.count}}</span>
-                <span ng-click="curDish.count=curDish.count+1" class="add">+</span>
-            </div>
-        </div>
-        <div class="add-to-cart-button text-center"
-             ng-class="{invalid: curDish.count == 0}"
-             ng-click="curDish.count>0 && addToCart(curDish)">
-            <span class="rmb-char">{{totalPrice()}}</span>
-            加入购物袋
-        </div>
-    </div>
-</div>
+<add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
 <div class="address-wrapper" ng-cloak>
     <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
@@ -92,7 +61,7 @@
                 <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
                 <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
             </div>
-            <div class="cart" ng-click="makeOrder()">
+            <div class="cart" ng-click="cart.length && goToCart()">
                 <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
             </div>
         </div>
@@ -119,8 +88,10 @@
 <script src="/mobile/src/js/service/map.js?v=11"></script>
 <script src="/mobile/src/js/service/scope-decorator.js?v=11"></script>
 <script src="/mobile/src/js/directives/img-lazy-load.js"></script>
+<script src="/mobile/src/js/directives/add-dish-bar.js"></script>
 <script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/models.js?v=11"></script>
 <script src="/mobile/src/js/config.js?v=11"></script>
 <script src="/mobile/src/js/controllers/eat.js?v=11"></script>
