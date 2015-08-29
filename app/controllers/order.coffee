@@ -597,9 +597,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if resultOrder.clientFrom is "ios"
         weixinpay = WXPay(configWeiXinAppPay)
 
+      tempTotalPrice =  Math.ceil(resultOrder.totalPrice * 100)
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
-        total_fee: resultOrder.totalPrice * 100
+        total_fee: tempTotalPrice
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
