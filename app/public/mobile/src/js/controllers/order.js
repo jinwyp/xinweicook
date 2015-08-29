@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
     $scope.cart = null;
     $scope.subDishCart = null;
     $scope.address = {
@@ -102,6 +102,13 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 return true;
             },
 
+            '然而只点饮料并不能配送!': function () {
+                var onlyDrink = $scope.cart.every(function (dish) {
+                    return dish.sideDishType == 'drink'
+                });
+                return !onlyDrink
+            },
+
             '获取配送时间失败,请稍后重试': function () {
                 try {
                     var time = $scope.deliveryTime.selectTime.hour;
@@ -147,6 +154,15 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon) {
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {
+                var msg = Alert.message(res.data.validationStatus);
+                if (res.data.validationStatus == 4110) {
+                    if (/Dish Out Of Stock ! \w+ ([\w\u4E00-\u9FA5]+) /) {
+                        alert(RegExp.$1 + msg);
+                        return;
+                    }
+                    alert(msg);
+                    return;
+                }
                 alert('生成订单失败,请稍后再试');
             })
         }

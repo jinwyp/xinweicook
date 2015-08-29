@@ -11,7 +11,8 @@ angular.module('xw.services').factory('Alert', function () {
         3113: '错误的短信码类型',
         3114: '短信码验证次数过多, 请重新接收短信码',
         3115: '发送失败, 请稍后重试',
-        3116: '短信码发送次数达到当日最大次数'
+        3116: '短信码发送次数达到当日最大次数',
+        4110: '菜品库存不足'
     };
 
     return {
@@ -19,6 +20,9 @@ angular.module('xw.services').factory('Alert', function () {
             var msg = codeMsg[code];
             if (msg) alert(msg);
             else if (def) alert(def);
+        },
+        message: function (code) {
+            return codeMsg[code] || '';
         }
     }
 })

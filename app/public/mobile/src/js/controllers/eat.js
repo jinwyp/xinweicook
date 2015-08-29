@@ -99,6 +99,10 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
             return;
         }
+        if ($scope.cart.every(function (dish) {return dish.sideDishType == 'drink'})) {
+            alert('然而只点饮料并不能配送, 亲!')
+            return ;
+        }
         if (typeof $scope.isInRange !== 'undefined') {
             if (!$scope.isInRange) {
                 alert('抱歉, 当前地址不在我们配送范围之内.');

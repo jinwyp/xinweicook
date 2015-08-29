@@ -354,3 +354,27 @@ $address-height: 40px;
     }
   }
 }
+
+@media (max-width: 414px) {
+  .detail .title{
+    max-width: 262px;
+  }
+}
+
+@media (max-width: 375px) {
+  .detail .title {
+    max-width: 218px;
+  }
+  .selections-container .block h4 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 320px) {
+  .detail .title {
+    max-width: 163px;
+  }
+  .selections-container .block h4 {
+    font-size: 14px;
+  }
+}
