@@ -372,6 +372,9 @@ exports.addNewOrder = (req, res, next) ->
     # 判断是否有不存在的菜品ID
     models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
 
+    # 判断饮料不能单独下单，数量不超过十个
+    models.order.checkInvalidDrink(resultDishes)
+
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
@@ -399,6 +402,7 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.totalPrice = 0.1
     else
       newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+    newOrder.totalPrice =  Math.ceil(newOrder.totalPrice * 10) / 10
 
     # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
     if newOrder.totalPrice isnt 0.1
@@ -425,7 +429,7 @@ exports.addNewOrder = (req, res, next) ->
     # 处理子订单菜品数量和总价
     for dish,dishIndex in req.body.dishList
       # 处理订单备注里面的商品备注
-      if dish.remark
+      if dish.remark?
         if not newOrder.userComment
           newOrder.userComment = ""
         newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
@@ -435,17 +439,19 @@ exports.addNewOrder = (req, res, next) ->
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
 
-        if not newOrderReadyToCook.userComment
-          newOrderReadyToCook.userComment = ""
-        newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+        if dish.remark?
+          if not newOrderReadyToCook.userComment
+            newOrderReadyToCook.userComment = ""
+          newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
 
-        if not newOrderReadyToEat.userComment
-          newOrderReadyToEat.userComment = ""
-        newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
+        if dish.remark?
+          if not newOrderReadyToEat.userComment
+            newOrderReadyToEat.userComment = ""
+          newOrderReadyToEat.userComment = newOrderReadyToEat.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
       if dish.subDish
         for subDish,subDishIndex in dish.subDish
@@ -591,9 +597,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
       if resultOrder.clientFrom is "ios"
         weixinpay = WXPay(configWeiXinAppPay)
 
+      tempTotalPrice =  Math.ceil(resultOrder.totalPrice * 100)
       weixinpayOrder =
         out_trade_no: resultOrder.orderNumber
-        total_fee: resultOrder.totalPrice * 100
+        total_fee: tempTotalPrice
         spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
@@ -718,6 +725,7 @@ exports.updateOrder = (req, res, next) ->
               fromUser.saveAsync()
               req.u.isHaveFirstOrderCoupon = true
 
+              # 该用户完成支付后可以再次分享邀请码
               req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
 
               if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime

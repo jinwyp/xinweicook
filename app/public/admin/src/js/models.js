@@ -46,7 +46,9 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
 
 
-
+angular.module('RDash.models').factory('Devices', function (Restangular) {
+    return Restangular.service('devices');
+});
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });

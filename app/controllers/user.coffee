@@ -171,15 +171,11 @@ exports.updateUserInfo = (req, res, next) ->
 
   models.user.validationUserInfo req.body
 
-  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
-    models.user.checkNotFound(resultUser)
+  req.u.address = req.body.address
+  req.u.gender = req.body.gender if req.body.gender
+  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
-    resultUser.address = req.body.address
-    resultUser.gender = req.body.gender if req.body.gender
-    resultUser.avatarPic = req.body.avatarPic if req.body.avatarPic
-
-    resultUser.saveAsync()
-  .then (resultUser) ->
+  req.u.saveAsync().then (resultUser) ->
     models.user.find1({_id : resultUser[0]._id})
   .then (user) ->
     res.json user
@@ -193,13 +189,9 @@ exports.updateShoppingCart = (req, res, next) ->
 
   models.user.validationShoppingCart req.body
 
-  models.user.findOneAsync({_id : req.u._id}).then (resultUser) ->
-    models.user.checkNotFound(resultUser)
-
-    resultUser.shoppingCart = req.body.shoppingCart
-    resultUser.saveAsync()
-  .spread (resultUser2, numberAffected) ->
-    models.user.find1({_id : resultUser2._id})
+  req.u.shoppingCart = req.body.shoppingCart
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.find1({_id : resultUser._id})
   .then (user) ->
     res.json user
   .catch next
