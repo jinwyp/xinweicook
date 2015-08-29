@@ -59,7 +59,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 total += cur.subDish.reduce(price, 0)
             }
             return total;
-        }, 0)
+        }, 0).toFixed(1);
     };
 
 
