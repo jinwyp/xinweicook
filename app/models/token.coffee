@@ -44,8 +44,8 @@ module.exports =
 
                   u.firstTimeRegFromApp = true
                   u.saveAsync()
-            else
-              models.device.createAsync({deviceToken:deviceToken, user: u._id})
+#            else
+#              models.device.createAsync({deviceToken:deviceToken, user: u._id})
         @u = u
         @findOneAsync(user:u._id)
       ).then((t)->
