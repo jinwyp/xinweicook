@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>赞过的菜</title>
+</head>
+<body ng-app="xw" ng-controller="favCtrl">
+
+<nav class="fav-nav nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span>赞过的菜</span>
+</nav>
+
+<div ng-cloak>
+    <div class="fav-block" ng-if="cookList.length">
+        <h4>食材包</h4>
+        <ul class="fav-list">
+            <li ng-repeat="dish in cookList">
+                <div class="dish-wrapper">
+                    <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/cook/' + dish._id}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url(' + imgAdapt(dish.cover[0].zh ) + ')'}"></span>
+                        <div class="dish-detail">
+                            <h5>{{dish.title.zh}}</h5>
+                            <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
+                            <span class="rmb-char">{{dish.priceOriginal}}</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="fav-block" ng-if="eatList.length">
+        <h4>便当</h4>
+        <ul class="fav-list">
+            <li ng-repeat="dish in eatList">
+                <div class="dish-wrapper">
+                    <a ng-href="{{dish.outOfStock ? 'javascript:;' : '/mobile/#/eat'}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url(' + imgAdapt(dish.cover[0].zh ) + ')'}"></span>
+                        <div class="dish-detail">
+                            <h5>{{dish.title.zh}}</h5>
+                            <span class="stock" ng-class="{'out-of-stock': dish.outOfStock}">{{dish.outOfStock ? '无货' : '有货'}}</span>
+                            <span class="rmb-char">{{dish.priceOriginal}}</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/controllers/fav-list.js"></script>
+</html>

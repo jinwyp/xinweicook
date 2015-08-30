@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>购物袋</title>
+</head>
+<body ng-app="xw" ng-controller="cartCtrl">
+
+<nav class="fav-nav nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span>购物袋</span>
+</nav>
+
+<div ng-cloak>
+
+    <div ng-repeat="(listName, list) in dishList" class="fav-block cart-block" ng-if="list.length">
+        <div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">
+            您当前的配送地址不在便当的配送范围内
+        </div>
+        <h4>{{listName == 'cookList' ? '食材包' : '便当'}}</h4>
+        <ul class="fav-list cart-list">
+            <li ng-repeat="item in list">
+                <div class="select" ng-class="{active: item.selected}" ng-click="select(item)"></div>
+                <div class="dish-wrapper">
+                    <a ng-href="{{item.subDish.outOfStock ? '' : '/mobile/cook/' + item.dish._id}}">
+                        <span class="dish-img" ng-style="{'background-image': 'url('+ imgAdapt(item.dish.cover[0].zh) + ')'}"></span>
+                    </a>
+                    <div class="dish-detail">
+                        <h5>{{item.dish.title.zh}}<span ng-if="item.subDish">({{item.subDish.title.zh}})</span></h5>
+                        <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
+                            {{item.outOfStock ? '无货' : '有货'}}
+                        </span>
+                        <span class="rmb-char">
+                            {{item.subDish ? (item.dish.priceOriginal + item.subDish.priceOriginal) : item.dish.priceOriginal}}
+                        </span>
+                    </div>
+                    <div class="counter">
+                        <span ng-click="decrease(item, $index)">-</span>
+                        <span class="number">{{item.subDish ? item.subDish.number : item.dish.number}}</span><!-- todo: dish.number是否合适 -->
+                        <span ng-click="increase(item)">+</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<footer class="cart-bar2 row">
+    <div class="col-xs-3 select-all" ng-class="{active: dishList.selectedAll}" ng-click="selectAll()">全选</div>
+    <div class="col-xs-3 pull-right buy-button text-center"
+         ng-class="{invalid: !okToBuy()}"
+         ng-click="okToBuy() && makeOrder()">
+        结算
+    </div>
+    <div class="col-xs-6 text-center pull-right">
+        总价 (不含运费) : <span class="rmb-char">{{totalPrice()}}</span>
+    </div>
+</footer>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/controllers/cart.js"></script>
+</html>

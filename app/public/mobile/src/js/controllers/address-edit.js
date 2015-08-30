@@ -19,7 +19,6 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
                 });
 
                 $scope.css.showAddressTip = !$scope.searchAddresses.length
-
             })
         }
     };

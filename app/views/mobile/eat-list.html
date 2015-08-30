@@ -11,67 +11,43 @@
 <body ng-app="xw" ng-controller="eatCtrl" class="no-filter">
 
 <nav class="eat-nav nav">
-    <span class="no-bottom-border">便当</span>
+    <a href="#/cook"><span ng-class="{active: path == '/cook'}">食材包</span></a>
+    <a href="#/eat"><span ng-class="{active: path == '/eat'}">便当</span></a>
     <a href="me"><span class="profile-icon icon"></span></a>
 </nav>
 
 <div class="eat-list-wrapper" ng-cloak>
-    <ul class="eat-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: 'ready to eat'}">
-            <div class="img-group" ng-class="{blur: !!dish.count}">
-                <img ng-repeat="cover_ in dish.cover | limitTo : 1" ng-src="{{cover_.zh | adapt}}" alt="ready to eat"/>
-            </div>
-            <div class="detail">
-                <div class="caption">
-                    <h3 class="title">{{dish.title.zh}}</h3>
-                    <div class="ingredient-group">
-                        <div class="brief">{{dish.brief.zh}}</div>
-                    </div>
+    <ul class="eat-list food-list">
+        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
+            <div class="dish-detail">
+                <div class="img-group">
+                    <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
+                        <img img-lazy-load="dish.cover[0].zh | adapt"/>
+                    </a>
                 </div>
-                <!--<div class="user-actions" style="display:none"></div> todo -->
-                <div class="buy">
-                    <span class="price">{{dish.priceOriginal}}</span>
-                    <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
-                    <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                <div class="detail">
+                    <div class="caption">
+                        <h3 class="title">{{::dish.title.zh}}</h3>
+                        <div class="ingredient-group" ng-if="path == '/eat'">
+                            <div class="brief">{{::dish.brief.zh}}</div>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
+                    </div>
+                    <div class="buy">
+                        <span class="price">{{::dish.priceOriginal}}</span>
+                        <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
+                        <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                    </div>
                 </div>
             </div>
         </li>
     </ul>
 </div>
 
-<div class="selection-cover" ng-cloak ng-if="curDish" ng-click="hide()"></div>
-<div class="selections-container" ng-if="curDish" ng-cloak>
-    <div class="block">
-        <h4 class="text-center">{{curDish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
-        <ul class="properties" ng-if="curDish.preferences.length" ng-init="curDish.curSelection = {}">
-            <li ng-repeat="property in curDish.preferences">
-                <h5>{{property.name.zh}}</h5>
-                <!-- todo: 应该把curSelection 改成 curSelection[property.name.zh], .. -->
-                <ul class="selections" ng-init="curDish.curSelection[property.name.zh] = property.foodMaterial[0].dish">
-                    <li ng-click="curDish.curSelection[property.name.zh] = selection.dish"
-                        ng-class="{selected: curDish.curSelection[property.name.zh] == selection.dish}"
-                        ng-repeat="selection in property.foodMaterial">
-                        {{selection.dish.title.zh}}
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <div class="counter-wrapper">
-            <i>份数</i>
-            <div class="counter text-center">
-                <span ng-click="curDish.count>0 && (curDish.count=curDish.count-1)" class="minus">-</span>
-                <span class="number">{{curDish.count}}</span>
-                <span ng-click="curDish.count=curDish.count+1" class="add">+</span>
-            </div>
-        </div>
-        <div class="add-to-cart-button text-center"
-             ng-class="{invalid: curDish.count == 0}"
-             ng-click="curDish.count>0 && addToCart(curDish)">
-            <span class="rmb-char">{{totalPrice()|number:1}}</span>
-            加入购物袋
-        </div>
-    </div>
-</div>
+
+<add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
 <div class="address-wrapper" ng-cloak>
     <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
@@ -86,7 +62,7 @@
                 <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
                 <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
             </div>
-            <div class="cart" ng-click="makeOrder()">
+            <div class="cart" ng-click="cart.length && goToCart()">
                 <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
             </div>
         </div>
@@ -111,8 +87,12 @@
 
 <script src="/mobile/src/js/service/debug.js?v=11"></script>
 <script src="/mobile/src/js/service/map.js?v=11"></script>
+<script src="/mobile/src/js/service/scope-decorator.js?v=11"></script>
+<script src="/mobile/src/js/directives/img-lazy-load.js"></script>
+<script src="/mobile/src/js/directives/add-dish-bar.js"></script>
 <script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/models.js?v=11"></script>
 <script src="/mobile/src/js/config.js?v=11"></script>
 <script src="/mobile/src/js/controllers/eat.js?v=11"></script>

@@ -26,8 +26,10 @@ return {
 };
 });
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
-    var noRedirectPath = ['/mobile/', '/mobile/login'];
-    var loginRedrectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/invite', '/mobile/coupons'];
+    var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/];
+    var noRedirectAPI = ['/api/user'];
+    var loginRedirectPath = ['/mobile/me', '/mobile/addresslist',
+        '/mobile/invite', '/mobile/coupons', '/mobile/cook'];
 
     return {
         'request': function(config) {
@@ -44,15 +46,20 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             if (response.status == 401) {
                 // todo: redirect
                 console.log(401);
-                if (noRedirectPath.indexOf(location.pathname) == -1) {
-                    if (loginRedrectPath.indexOf(location.pathname) != -1) {
-                        redirectPath = '?redirect=' + location.pathname
+                if (noRedirectPath.some(function (RE) {return RE.test(location.pathname)})) {
+                    if (noRedirectAPI.indexOf(response.config.url) != -1) {
+                        return $q.reject(response);
                     }
-                    setTimeout(function () {
-                        // todo:
-                        location.href = '/mobile/login' + redirectPath ;
-                    }, 120);
                 }
+                if (loginRedirectPath.some(function(path){
+                        return location.pathname.indexOf(path) != -1
+                    })) {
+                    redirectPath = '?redirect=' + location.pathname
+                }
+                setTimeout(function () {
+                    // todo:
+                    location.href = '/mobile/login' + redirectPath ;
+                }, 120);
             }
             return $q.reject(response);
         }

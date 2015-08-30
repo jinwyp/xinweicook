@@ -1,0 +1,95 @@
+@import "base";
+
+$select-btn-width: 100px;
+.fav-list.cart-list {
+  overflow: hidden;
+  li {
+    position: relative;
+  }
+  .select {
+    background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
+    width: 24px;
+    height: 100%;
+    position: absolute;
+    &.active {
+      background-image: url(../img/icons/ForkIconHighlighted.png);
+    }
+  }
+  .dish-img {
+    left: 38px;
+  }
+  .dish-detail {
+    width: 120px;
+    margin-left: 132px;
+    h5 {
+      font-size: 15px;
+    }
+  }
+  .counter {
+    position: absolute;
+    height: 26px;
+    line-height: 24px;
+    text-align: center;
+    right: -14px;
+    top: 50px;
+    span {
+      display: inline-block;
+      width: 40px;
+      height: 26px;
+      font-size: 18px;
+      color: #A5A5A5;
+    }
+    .number {
+      width: 45px;
+      height: 26px;
+      background-color: #E2E2E2;
+      color: inherit;
+      border-radius: 5px;
+    }
+  }
+}
+
+.no-delivery-tip {
+  color: white;
+  background-color: $primary-color;
+  height: 50px;
+  line-height: 50px;
+  text-indent: 2em;
+}
+
+.cart-bar2 {
+  font-size: 13px;
+  margin: 0;
+  height: $cart-bar-height;
+  line-height: $cart-bar-height;
+  box-shadow: #9C9999 0 0 1px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #EDE2D0;
+
+  .select-all {
+    background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
+    padding-left: 49px;
+    padding-right: 0;
+    &.active {
+      background-image: url(../img/icons/ForkIconHighlighted.png);
+    }
+  }
+
+  .buy-button {
+    background-color: $primary-color;
+    color: white;
+    font-size: 16px;
+    &.invalid {
+      background-color: #B3B3B3;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  // iphone5 中,如果总价超过2位数,显示就会出错
+  .cart-bar2 .rmb-char:before {
+    content: '¥'
+  }
+}

@@ -8,15 +8,15 @@ $out-of-stock-bg-color: #75A3B7;
 .img-group {
   img {
     width: 100%;
-    min-height: 202px;
+    min-height: 202px; // for browsers not supporting vw.
     height: 63.33vw; // 95% view port width * 2/3 (actual image's height/width ratio)
   }
 }
 
 .eat-nav {
   margin-bottom: 10px;
-  color: $primary-color;
   font-size: 18px;
+  color: #C1BEBE;
   .profile-icon {
     background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
     height: 46px;
@@ -25,11 +25,24 @@ $out-of-stock-bg-color: #75A3B7;
     background-size: contain;
     right: 0;
   }
+  span {
+    border-bottom: solid 1px transparent;
+    padding: 0 15px 11px;
+
+    &:nth-child(2) {
+      margin-right: 38px;
+    }
+
+    &.active {
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
 }
 .no-filter .count-operation {
   background-color: rgba(54, 55, 55, 0.78);
 }
-.eat-list {
+.food-list {
   width: 95%;
   margin: 0 auto;
 
@@ -38,10 +51,11 @@ $out-of-stock-bg-color: #75A3B7;
     margin-bottom: 17px;
     box-shadow: #DEDEDE 0 1px 1px;
     &:last-child {
-      margin-bottom: 60px;
+      margin-bottom: $margin-to-cart-length;
     }
   }
   .img-group {
+    background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
     position: relative;
     overflow: hidden;
     .count-operation {
@@ -93,6 +107,11 @@ $out-of-stock-bg-color: #75A3B7;
       margin: 12px 0 16px;
       font-size: 18px;
     }
+    .user-actions {
+      .like-icon {
+        margin-top: 7px;
+      }
+    }
     .buy {
       line-height: $buy-height;
       height: $buy-height;
@@ -127,6 +146,7 @@ $out-of-stock-bg-color: #75A3B7;
   }
 }
 
+$address-icon-height: 40px;
 
 .selection-cover {
   background-color: rgba(88, 88, 88, 0.48);
@@ -226,7 +246,7 @@ $sc-h5-font-size: 15px;
       right: $sc-left-padding;
       border: $ms-border;
       border-radius: 5px;
-      line-height: 34px;
+      line-height: 33px; // todo: 可能用padding比较好,否则会与border-bottom连不上
       height: 36px;
       font-size: 0;
       color: $primary-color;
@@ -273,16 +293,13 @@ $address-height: 40px;
 }
 
 .eat-address {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  padding: 9px 0 9px $address-height;
-  background-color: rgba(223, 223, 223, 0.8);
-  box-shadow: #9C9999 0 0 1px;
-  height: 53px;
+  @include cart-bar(-10px);
+  position: relative;
+
+  padding: 9px 0 9px $address-icon-height;
   .address-icon {
     position: absolute;
-    height: 40px;
+    height: $address-icon-height;
     width: 35px;
     left: 12px;
     bottom: -2px;
@@ -297,28 +314,6 @@ $address-height: 40px;
       font-size: 13px;
     }
   }
-  .cart {
-    background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
-    background-size: 48%;
-    position: absolute;
-    right: -10px;
-    top: 17px;
-    width: 48px;
-    height: 40px;
-    .total-count {
-      font-size: 10px;
-      text-align: center;
-      color: white;
-      position: absolute;
-      left: 17px;
-      width: 14px;
-      height: 14px;
-      line-height: 14px;
-      top: -4px;
-      background: red;
-      border-radius: 50%;
-    }
-  }
 }
 
 .address-group {
@@ -326,9 +321,6 @@ $address-height: 40px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  .eat-address {
-    position: relative;
-  }
   .address-list {
     font-size: 13px;
     padding: 0 7px;

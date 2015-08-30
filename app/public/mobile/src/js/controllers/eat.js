@@ -1,16 +1,13 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeout) {
-    $scope.cart = null;
+function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeout, ScopeDecorator, $location, $q) {
+    $scope.cart = [];
+    $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.css = {
         showAllAddress: false,
         showLocationFailed: false
-    };
-
-    $scope.hide = function () {
-        $scope.curDish = null;
     };
 
     $scope.addDish = function (dish) {
@@ -19,101 +16,19 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             dish.count = 1;
         }
     };
-    
-    $scope.addToCart = function (dish) {
-        var selection = dish.curSelection;
-        var exist;
 
-        // 若菜品有多属性则进行如下选择
-        if (selection) {
-            dish.subDish = dish.subDish || [];
+    //if ($scope.cart.every(function (dish) {return dish.sideDishType == 'drink'})) {
+    //    alert('然而只点饮料并不能配送, 亲!')
+    //    return ;
+    //}
 
-            Object.keys(selection).forEach(function (propertyName) {
-                var item = selection[propertyName];
-
-                // 检查dish的subDish中是否存在curSelection
-                //  如果有, 则增加相应数量,
-                //  如果没有, 则添加curSelection到subDish
-                exist = dish.subDish.some(function (el) {
-                    // el.dish为id
-                    if (el.dish == item._id) {
-                        el.number += dish.count;
-                        return true;
-                    }
-                });
-
-                if (!exist) {
-                    dish.subDish.push({
-                        dish: item._id,
-                        number: dish.count,
-                        title: item.title,
-                        priceOriginal: item.priceOriginal
-                    })
-                }
-            })
-        }
-
-        // 检查cart中是否存在dish
-        //  如果有, 则增加相应数量,
-        //  如果没有, 则添加到cart中
-        exist = $scope.cart.some(function (el) {
-            if (el._id == dish._id) {
-                el.number += el.count;
-                return true;
-            }
-        });
-
-        if (!exist) {
-            dish.number = dish.count;
-            $scope.cart.push(dish);
-        }
-
-        dish.count = 0;
-
-        $scope.hide();
-    };
-
-    $scope.totalPrice = function () {
-        var p = $scope.cart.reduce(function price(total, cur) {
-            total += cur.priceOriginal * cur.number;
-            if (cur.subDish) {
-                total += cur.subDish.reduce(price, 0)
-            }
-            return total;
-        }, 0);
-        if (!$scope.curDish) return p;
-        return p + $scope.curDish.count *
-            ($scope.curDish.priceOriginal +
-            (!$scope.curDish.curSelection ? 0 :
-                Object.keys($scope.curDish.curSelection).reduce(function (_p, name) {
-                    return _p + $scope.curDish.curSelection[name].priceOriginal
-                }, 0))
-            )
-    };
-
-    $scope.makeOrder = function () {
-        //var itemCount = $scope.cart.reduce(function (count, el) {
-        //    return count + el.number;
-        //}, 0);
-        //if (itemCount < 2) {
-        //    alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
-        //    return;
-        //}
-        if ($scope.cart.every(function (dish) {return dish.sideDishType == 'drink'})) {
-            alert('然而只点饮料并不能配送, 亲!')
-            return ;
-        }
-        if (typeof $scope.isInRange !== 'undefined') {
-            if (!$scope.isInRange) {
-                alert('抱歉, 当前地址不在我们配送范围之内.');
-                return;
-            }
-        } else {
+    $scope.goToCart = function () {
+        if (typeof $scope.isInRange == 'undefined') {
             alert('正在计算配送距离,请稍后重试');
             return
         }
         $timeout(function () {
-            location.href = 'order';// todo: replace with route
+            location.href = 'cart';// todo: replace with route
         }, 200); // let $localStorage sync. but
     };
 
@@ -134,32 +49,27 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         $scope.css.showAllAddress = false;
     };
 
-    $scope.isRangeValid = function () {
-        if (typeof $scope.isInRange !== 'undefined') {
-            return $scope.isInRange;
-        } else {
-            alert('正在计算距离,请稍后');
-            return false
-        }
+    $scope.likeDish = function (dish) {
+        Dishes.like(dish._id).then(function (res) {
+            // 如果成功,并不是很有必要重新拉取用户列表.因为这里不会更新用户信息.
+            dish.liked = !dish.liked;
+        }).catch(Debug.promiseErrFn('更新用户喜欢状态失败'))
     };
 
-
+    ScopeDecorator.nav($scope);
 
 
     function init() {
-        // todo: 暂时不使用localStorage.cart去初始化dish,否则会出现严重问题, 除非加上购物车.
-        //if ($localStorage.cart) {
-        //    $scope.cart = $localStorage.cart;
-        //} else {
-        //    $localStorage.cart = $scope.cart = [];
-        //}
-
-        $localStorage.cart = $scope.cart = [];
-
+        // 初始化选择的地址
         if ($localStorage.selectedAddress) {
             $scope.chooseAddress($localStorage.selectedAddress);
             delete $localStorage.selectedAddress;
         }
+
+        // 初始化nav
+        var path = $location.path() || '/eat';
+        $location.path(path);
+        $scope.path = path;
 
         $scope.address || Weixin.getJsconfig().then(function (res) {
             if ($scope.address) return;
@@ -205,32 +115,28 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             Debug.alert('获取jsconfig失败');
             Debug.alert(res);
             $scope.css.showLocationFailed = true;
-        })
-
-        Dishes.getList().then(function (res) {
-            $scope.dishes = res.data;
-
-            var cart = $localStorage.cart;
-            if (!cart || !cart.length) return;
-
-            for (var i = 0, el; i < cart.length;) {
-                el = cart[i];
-                var exist = $scope.dishes.some(function (dish) {
-                    if (el._id == dish._id) {
-                        dish.count = el.count;
-                        cart[i] = dish;
-                        return true;
-                    }
-                });
-                if (!exist) {
-                    cart.splice(i, 1);
-                } else i++;
-            }
         });
 
-        User.getUserInfo().then(function (res) {
-            $scope.allAddresses = res.data.address;
-        })
+        $q.all([
+            Dishes.getList().then(function (res) {
+                $scope.dishes = res.data;
+                return true;
+            }),
+            User.getUserInfo().then(function (res) {
+                $scope.allAddresses = res.data.address;
+                return $scope.user = res.data;
+            })
+        ]).then(function (results) {
+            //初始化用户的喜好到菜品
+            var dishLikeList = results[1].dishLikeList;
+            $scope.dishes.forEach(function (dish) {
+                dishLikeList.some(function (el) {
+                    if (el._id == dish._id) {
+                        return dish.liked = true;
+                    }
+                })
+            })
+        });
     }
 
     init();

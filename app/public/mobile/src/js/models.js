@@ -2,6 +2,12 @@ angular.module('xw.models').factory('Dishes', function ($http) {
     return {
         getList: function () {
             return $http.get('/api/dishes')
+        },
+        like: function (id) {
+            return $http.put('/api/dishes/' + id + '/like');
+        },
+        getOne: function (id) {
+            return $http.get('/api/dishes/' + id);
         }
     }
 });
@@ -12,7 +18,6 @@ angular.module('xw.models').factory('Orders', function ($http) {
             return $http.post('/api/orders', data);
         },
         deliveryTime: function (data) {
-            data.cookingType = 'ready to eat';
             return $http.post('/api/orders/delivery/time', data)
         },
         getOrder: function (orderId) {
@@ -31,6 +36,12 @@ angular.module('xw.models').factory('Orders', function ($http) {
 });
 
 angular.module('xw.models').factory('User', function ($http, $localStorage) {
+    // 这些变量作为更新购物车用
+    // 最近一次添加至cart的时间
+    var cartDate = Date.now();
+    var timeSpan = 500;
+    var timer = null;
+
     return {
         login: function (username, password) {
             return $http.post('/api/user/token', {
@@ -82,6 +93,17 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 pwd: pwd,
                 code: code
             });
+        },
+        postCart: function (cart) {
+            var now = Date.now();
+            if (now - cartDate > timeSpan) {
+                clearTimeout(timer);
+                $http.post('/api/user/shoppingcart', {shoppingCart: cart});
+            } else {
+                clearTimeout(timer);
+                timer = setTimeout(this.postCart.bind(this, cart), timeSpan + 100)
+            }
+            cartDate = now;
         },
         applyInvitationCode: function (code) {
             return $http.get('/api/user/coupon/invitation/' + code)
