@@ -117,9 +117,14 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.makeOrder = function () {
-        if (!$scope.dishList.cookList.length) {
-            if ($scope.dishList.eatList.every(function (dish) {
-                    return dish.sideDishType == 'drink'
+        var hasCook = $scope.dishList.cookList.some(function (dish) {
+            return dish.selected;
+        });
+        if (!hasCook) {
+            if ($scope.dishList.eatList.filter(function (dish) {
+                    return dish.selected;
+                }).every(function (dish) {
+                    return dish.dish.sideDishType == 'drink'
                 })) {
                 alert('然而只点饮料并不能配送, 亲!');
                 return ;
@@ -145,7 +150,10 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 } else if (dish.subDish) {
                     for (var j = 0; j < dish.subDish.length;) {
                         var sDish = dish.subDish[j];
-                        if (!list.some(function (el) {return el.subDish._id == sDish.dish;})) {
+                        if (!list.some(function (el) {
+                                if (!el.subDish) return false;
+                                return el.subDish._id == sDish.dish;
+                            })) {
                             dish.subDish.splice(j, 1);
                         } else j++;
                     }

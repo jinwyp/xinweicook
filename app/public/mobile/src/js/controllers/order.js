@@ -107,14 +107,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 return true;
             },
 
-            '然而只点饮料并不能配送!': function () {
-                if ($scope.cart.cookList.length) return true;
-                var onlyDrink = $scope.cart.eatList.every(function (dish) {
-                    return dish.sideDishType == 'drink'
-                });
-                return !onlyDrink
-            },
-
             '获取配送时间失败,请稍后重试': function () {
                 try {
                     if ($scope.eatTime) {
@@ -160,6 +152,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
 
         if (ok) {
             Orders.postOrder(order).then(function (res) {
+                clearAddress();
+
                 $scope.orderSuccess = true;
                 $scope.wxstate = res.data._id;
 
@@ -181,6 +175,11 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             })
         }
     };
+
+    function clearAddress() {
+        delete $localStorage.isInRange4KM;
+        delete $localStorage.address;
+    }
 
 
 
@@ -226,8 +225,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             if ($scope.dishList.eatList.length) {
                 $scope.deliveryFee += 5;
             }
-
-            delete $localStorage.address;
         }
 
         //  因为每次都会删掉localStorage的地址,所以无法进入同一张订单页
@@ -256,8 +253,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 $scope.cookTime.selectTime = $scope.cookTime.selectDay.segment[0];
             }
         });
-
-        delete $localStorage.isInRange4KM;
         
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;

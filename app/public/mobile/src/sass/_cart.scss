@@ -93,3 +93,9 @@ $select-btn-width: 100px;
     content: '¥'
   }
 }
+
+@media (max-width: 332px) {
+  .cart-bar2 .price {
+    font-size: 12px;
+  }
+}

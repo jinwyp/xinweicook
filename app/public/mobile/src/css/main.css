@@ -1351,6 +1351,12 @@ label {
     content: "¥";
   }
 }
+@media (max-width: 332px) {
+  /* line 98, ../sass/_cart.scss */
+  .cart-bar2 .price {
+    font-size: 12px;
+  }
+}
 /* line 3, ../sass/_invite.scss */
 .invite-body {
   background-color: white;

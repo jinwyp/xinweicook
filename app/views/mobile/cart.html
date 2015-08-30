@@ -57,8 +57,8 @@
          ng-click="okToBuy() && makeOrder()">
         结算
     </div>
-    <div class="col-xs-6 text-center pull-right">
-        总价 (不含运费) : <span class="rmb-char">{{totalPrice()}}</span>
+    <div class="col-xs-6 text-center pull-right price">
+        总价 (不含运费) : <span class="rmb-char">{{totalPrice()|number:1}}</span>
     </div>
 </footer>
 
