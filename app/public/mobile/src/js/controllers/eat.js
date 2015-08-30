@@ -92,13 +92,13 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
     };
 
     $scope.makeOrder = function () {
-        var itemCount = $scope.cart.reduce(function (count, el) {
-            return count + el.number;
-        }, 0);
-        if (itemCount < 2) {
-            alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
-            return;
-        }
+        //var itemCount = $scope.cart.reduce(function (count, el) {
+        //    return count + el.number;
+        //}, 0);
+        //if (itemCount < 2) {
+        //    alert('亲, 我们的即食包是2份起送哦, 请再添加一份吧!');
+        //    return;
+        //}
         if ($scope.cart.every(function (dish) {return dish.sideDishType == 'drink'})) {
             alert('然而只点饮料并不能配送, 亲!')
             return ;
