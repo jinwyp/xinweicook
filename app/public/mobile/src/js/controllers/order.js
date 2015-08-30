@@ -108,7 +108,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             },
 
             '然而只点饮料并不能配送!': function () {
-                var onlyDrink = $scope.cart.every(function (dish) {
+                if ($scope.cart.cookList.length) return true;
+                var onlyDrink = $scope.cart.eatList.every(function (dish) {
                     return dish.sideDishType == 'drink'
                 });
                 return !onlyDrink
