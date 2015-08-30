@@ -130,6 +130,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
 
             Debug.alert('与xw的步行距离:' + data.distance);
         });
+
+        $scope.css.showAllAddress = false;
     };
 
     $scope.isRangeValid = function () {
