@@ -222,7 +222,7 @@ exports.userAccountDetail = (req, res, next) ->
 
   models.accountdetail.validationGetAccountDetailList req.query
 
-  models.accountdetail.find({user : req.u._id.toString()})
+  models.accountdetail.find({user : req.u._id.toString(), isPaid:true})
   .sort "-createdAt"
   .skip(req.query.skip)
   .limit(req.query.skip)
@@ -295,7 +295,7 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
   .then (resultAccount)->
 
     models.useraccount.checkNotFound(resultAccount)
-    resultAccount.balance = resultAccount.balance + accountDetailData.amount
+    resultAccount.balance = resultAccount.balance + accountDetailData.amountXinwei
     resultAccount.saveAsync()
 
   .then (resultAccount2)->
