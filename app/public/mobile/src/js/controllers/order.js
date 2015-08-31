@@ -93,7 +93,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             },
 
             '联系人姓名不能少于2个字符': function () {
-                return !$scope.address.contactPerson || $scope.address.contactPerson.length < 2
+                return !$scope.address.contactPerson || $scope.address.contactPerson.length >= 2
             },
 
             '至少选择一个即食包': function () {
