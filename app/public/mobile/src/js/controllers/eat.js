@@ -68,6 +68,7 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
 
         // 初始化nav
         var path = $location.path() || '/eat';
+        if (path !== '/cook') path = '/eat';
         $location.path(path);
         $scope.path = path;
 
