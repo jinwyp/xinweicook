@@ -222,7 +222,10 @@ exports.userAccountDetail = (req, res, next) ->
 
   models.accountdetail.validationGetAccountDetailList req.query
 
-  models.accountdetail.find({user : req.u._id.toString(), isPaid:true})
+  models.accountdetail.find({ $or: [
+    { user : req.u._id.toString(), isPaid:true, isPlus:true },
+    { user : req.u._id.toString(), isPaid:false, isPlus:false }
+  ] })
   .sort "-createdAt"
   .skip(req.query.skip)
   .limit(req.query.skip)
