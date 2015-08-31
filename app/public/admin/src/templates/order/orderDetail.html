@@ -127,7 +127,7 @@
                     <label class="col-lg-2 control-label" >子订单列表:</label>
 
                     <div class="col-lg-10">
-                        <span class="help-block" ng-repeat="childOrder in data.order.childOrderList">{{childOrder}}</span>
+                        <span class="help-block" ng-repeat="childOrder in data.order.childOrderList"> <a ui-sref="menu.updateOrder({ id: childOrder })">{{childOrder}}</a> </span>
                     </div>
                 </div>
 

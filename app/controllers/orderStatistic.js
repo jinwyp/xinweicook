@@ -244,7 +244,23 @@ exports.orderExportList = function(req, res, next) {
 exports.orderExportInternalList = function(req, res, next) {
     models.order.validationGetOrderList(req.query);
 
+
+    var idList = [];
+    if (req.query.idList){
+        idList = JSON.parse(req.query.idList)
+    }
+
+
     var query = { $and: [] };
+
+    if (Array.isArray(idList)){
+
+        if (idList.length > 0){
+            query.$and.push({_id : { $in: idList} }) ;
+        }
+    }
+
+
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
@@ -266,6 +282,9 @@ exports.orderExportInternalList = function(req, res, next) {
         query.$and.push( {status : req.query.status});
     }
 
+    if (query.$and.length === 0 ){
+        query ={}
+    }
 
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
