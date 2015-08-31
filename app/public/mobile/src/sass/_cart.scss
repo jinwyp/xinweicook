@@ -5,6 +5,9 @@ $select-btn-width: 100px;
   overflow: hidden;
   li {
     position: relative;
+    &:last-child {
+      margin-bottom: 43px;
+    }
   }
   .select {
     background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;

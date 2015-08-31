@@ -1253,34 +1253,38 @@ label {
 .fav-list.cart-list li {
   position: relative;
 }
-/* line 9, ../sass/_cart.scss */
+/* line 8, ../sass/_cart.scss */
+.fav-list.cart-list li:last-child {
+  margin-bottom: 43px;
+}
+/* line 12, ../sass/_cart.scss */
 .fav-list.cart-list .select {
   background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
   width: 24px;
   height: 100%;
   position: absolute;
 }
-/* line 14, ../sass/_cart.scss */
+/* line 17, ../sass/_cart.scss */
 .fav-list.cart-list .select.active {
   background-image: url(../img/icons/ForkIconHighlighted.png);
 }
-/* line 18, ../sass/_cart.scss */
+/* line 21, ../sass/_cart.scss */
 .fav-list.cart-list .dish-img {
   left: 38px;
 }
-/* line 21, ../sass/_cart.scss */
+/* line 24, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail {
   margin-left: 132px;
 }
-/* line 23, ../sass/_cart.scss */
+/* line 26, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail h5 {
   font-size: 15px;
 }
-/* line 26, ../sass/_cart.scss */
+/* line 29, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail .sub-name {
   display: inline;
 }
-/* line 30, ../sass/_cart.scss */
+/* line 33, ../sass/_cart.scss */
 .fav-list.cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1289,7 +1293,7 @@ label {
   right: -14px;
   top: 50px;
 }
-/* line 37, ../sass/_cart.scss */
+/* line 40, ../sass/_cart.scss */
 .fav-list.cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1297,7 +1301,7 @@ label {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 44, ../sass/_cart.scss */
+/* line 47, ../sass/_cart.scss */
 .fav-list.cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1306,7 +1310,7 @@ label {
   border-radius: 5px;
 }
 
-/* line 54, ../sass/_cart.scss */
+/* line 57, ../sass/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1315,7 +1319,7 @@ label {
   text-indent: 2em;
 }
 
-/* line 62, ../sass/_cart.scss */
+/* line 65, ../sass/_cart.scss */
 .cart-bar2 {
   font-size: 13px;
   margin: 0;
@@ -1327,35 +1331,35 @@ label {
   bottom: 0;
   background-color: #EDE2D0;
 }
-/* line 73, ../sass/_cart.scss */
+/* line 76, ../sass/_cart.scss */
 .cart-bar2 .select-all {
   background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
   padding-left: 49px;
   padding-right: 0;
 }
-/* line 77, ../sass/_cart.scss */
+/* line 80, ../sass/_cart.scss */
 .cart-bar2 .select-all.active {
   background-image: url(../img/icons/ForkIconHighlighted.png);
 }
-/* line 82, ../sass/_cart.scss */
+/* line 85, ../sass/_cart.scss */
 .cart-bar2 .buy-button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 86, ../sass/_cart.scss */
+/* line 89, ../sass/_cart.scss */
 .cart-bar2 .buy-button.invalid {
   background-color: #B3B3B3;
 }
 
 @media (max-width: 320px) {
-  /* line 94, ../sass/_cart.scss */
+  /* line 97, ../sass/_cart.scss */
   .cart-bar2 .rmb-char:before {
     content: "¥";
   }
 }
 @media (max-width: 332px) {
-  /* line 100, ../sass/_cart.scss */
+  /* line 103, ../sass/_cart.scss */
   .cart-bar2 .price {
     font-size: 12px;
   }
