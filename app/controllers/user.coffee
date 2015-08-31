@@ -253,7 +253,6 @@ exports.chargeAccount = (req, res, next) ->
 
 # 用户账户余额充值 支付宝通知回调
 exports.chargeAccountAlipayNotify = (req, res, next) ->
-
   models.useraccount.validationAlipayNotify(req.body)
   accountDetailData = {}
 

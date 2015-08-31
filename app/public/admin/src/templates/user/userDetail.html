@@ -277,7 +277,9 @@
 
             <!-- List group -->
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="item in data.userAccountDetails">{{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 消费名称:{{item.name.zh}} 金额:{{item.amount}} / 备注:{{item.remark}} </li>
+                <li class="list-group-item" ng-repeat="item in data.userAccountDetails">
+                    {{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 消费名称:{{item.name.zh}} RMB花费:{{item.amount}} / 新味币金额:{{item.amountXinwei}} / {{item.isPaid ? '已支付':'未支付'}} / 备注:{{item.remark}}
+                </li>
             </ul>
 
         </div>

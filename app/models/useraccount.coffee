@@ -68,7 +68,7 @@ module.exports =
         user : @user
         isPlus : true
         amount : Number(amount)
-        amountXinwei : models.accountdetail.chargeAmountArithmetic(Number(amount))
+        amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
           zh : "在线充值"
           en : "Online Recharge"
@@ -84,7 +84,8 @@ module.exports =
       newAccountDetail =
         user : @user
         isPlus : true
-        amount : Number(amount)
+
+        amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
           zh : "在线充值"
           en : "Online Recharge"
@@ -102,7 +103,8 @@ module.exports =
       newAccountDetail =
         user : @user
         isPlus : false
-        amount : -Number(amount)
+        amountXinwei : -Number(amount)
+        
         name :
           zh : "在线消费"
           en : "Online Pay"
