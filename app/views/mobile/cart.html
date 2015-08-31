@@ -15,7 +15,7 @@
     <span>购物袋</span>
 </nav>
 
-<div ng-cloak>
+<div class="cart-main" ng-cloak>
 
     <div ng-repeat="(listName, list) in dishList" class="fav-block cart-block" ng-if="list.length">
         <div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">
@@ -48,9 +48,14 @@
         </ul>
     </div>
 
+    <div ng-if="!dishList['cookList'].length && !dishList['eatList'].length" class="empty-cart text-center">
+        <div class="icon"></div>
+        <p class="text">空着呢, 快把我填满吧</p>
+    </div>
+
 </div>
 
-<footer class="cart-bar2 row">
+<footer ng-cloak ng-if="dishList['cookList'].length || dishList['eatList'].length" class="cart-bar2 row">
     <div class="col-xs-3 select-all" ng-class="{active: dishList.selectedAll}" ng-click="selectAll()">全选</div>
     <div class="col-xs-3 pull-right buy-button text-center"
          ng-class="{invalid: !okToBuy()}"
