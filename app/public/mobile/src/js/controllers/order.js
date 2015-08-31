@@ -92,6 +92,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 return valid;
             },
 
+            '联系人姓名不能少于2个字符': function () {
+                return !$scope.address.contactPerson || $scope.address.contactPerson.length >= 2
+            },
+
             '至少选择一个即食包': function () {
                 order.dishList = [];
                 Object.keys($scope.cart).forEach(function (name) {

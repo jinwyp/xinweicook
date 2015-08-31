@@ -1,13 +1,13 @@
 @import "base";
 
 $select-btn-width: 100px;
+.cart-main {
+  margin-bottom: 60px;
+}
 .fav-list.cart-list {
   overflow: hidden;
   li {
     position: relative;
-    &:last-child {
-      margin-bottom: 43px;
-    }
   }
   .select {
     background: url(../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
@@ -89,6 +89,16 @@ $select-btn-width: 100px;
     &.invalid {
       background-color: #B3B3B3;
     }
+  }
+}
+
+.empty-cart {
+  .icon {
+    height: 183px;
+    background: url(../img/icons/EmptyCart.png) no-repeat 50%/32%;
+  }
+  .text {
+    color:#969696;
   }
 }
 
