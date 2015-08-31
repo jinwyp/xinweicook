@@ -28,7 +28,7 @@
 
     <div class="info">
         <div class="info-block feature-block" ng-if="dish.infoUniqueFeature.length">
-            <h5>你知道吗</h5>
+            <h5>你知道吗?</h5>
             <ul class="features">
                 <li class="feature" ng-repeat="feature in dish.infoUniqueFeature">
                     <p ng-if="feature.contentType == 'txt'">{{feature.value.zh}}</p>
@@ -38,12 +38,11 @@
         </div>
 
         <div class="ingredient-block info-block" ng-if="dish.infoIngredient.length">
-            <h5>配料</h5>
+            <h5>原料</h5>
             <ul class="ingredients row">
-                <li ng-repeat="ingredient in dish.infoIngredient"
-                    ng-class="{img: ingredient.contentType == 'pic'}" >
-                    <span ng-if="ingredient.contentType == 'txt'"></span>
-                    <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt}}" alt=""/>
+                <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient">
+                    <span ng-if="ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
+                    <!--<img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt}}" alt=""/>-->
                 </li>
             </ul>
         </div>
