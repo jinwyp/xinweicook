@@ -30,7 +30,7 @@
                         <span class="dish-img" ng-style="{'background-image': 'url('+ imgAdapt(item.dish.cover[0].zh) + ')'}"></span>
                     </a>
                     <div class="dish-detail">
-                        <h5>{{item.dish.title.zh}}<span ng-if="item.subDish">({{item.subDish.title.zh}})</span></h5>
+                        <h5>{{item.dish.title.zh}}<span class="sub-name" ng-if="item.subDish">({{item.subDish.title.zh}})</span></h5>
                         <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
                             {{item.outOfStock ? '无货' : '有货'}}
                         </span>

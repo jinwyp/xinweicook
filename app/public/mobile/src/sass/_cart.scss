@@ -19,10 +19,12 @@ $select-btn-width: 100px;
     left: 38px;
   }
   .dish-detail {
-    width: 120px;
     margin-left: 132px;
     h5 {
       font-size: 15px;
+    }
+    .sub-name {
+      display: inline;
     }
   }
   .counter {

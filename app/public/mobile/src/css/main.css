@@ -1270,14 +1270,17 @@ label {
 }
 /* line 21, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail {
-  width: 120px;
   margin-left: 132px;
 }
-/* line 24, ../sass/_cart.scss */
+/* line 23, ../sass/_cart.scss */
 .fav-list.cart-list .dish-detail h5 {
   font-size: 15px;
 }
-/* line 28, ../sass/_cart.scss */
+/* line 26, ../sass/_cart.scss */
+.fav-list.cart-list .dish-detail .sub-name {
+  display: inline;
+}
+/* line 30, ../sass/_cart.scss */
 .fav-list.cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1286,7 +1289,7 @@ label {
   right: -14px;
   top: 50px;
 }
-/* line 35, ../sass/_cart.scss */
+/* line 37, ../sass/_cart.scss */
 .fav-list.cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1294,7 +1297,7 @@ label {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 42, ../sass/_cart.scss */
+/* line 44, ../sass/_cart.scss */
 .fav-list.cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1303,7 +1306,7 @@ label {
   border-radius: 5px;
 }
 
-/* line 52, ../sass/_cart.scss */
+/* line 54, ../sass/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1312,7 +1315,7 @@ label {
   text-indent: 2em;
 }
 
-/* line 60, ../sass/_cart.scss */
+/* line 62, ../sass/_cart.scss */
 .cart-bar2 {
   font-size: 13px;
   margin: 0;
@@ -1324,35 +1327,35 @@ label {
   bottom: 0;
   background-color: #EDE2D0;
 }
-/* line 71, ../sass/_cart.scss */
+/* line 73, ../sass/_cart.scss */
 .cart-bar2 .select-all {
   background: url(../img/icons/ForkIconWhite.png) no-repeat 20% 50%/24%;
   padding-left: 49px;
   padding-right: 0;
 }
-/* line 75, ../sass/_cart.scss */
+/* line 77, ../sass/_cart.scss */
 .cart-bar2 .select-all.active {
   background-image: url(../img/icons/ForkIconHighlighted.png);
 }
-/* line 80, ../sass/_cart.scss */
+/* line 82, ../sass/_cart.scss */
 .cart-bar2 .buy-button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 84, ../sass/_cart.scss */
+/* line 86, ../sass/_cart.scss */
 .cart-bar2 .buy-button.invalid {
   background-color: #B3B3B3;
 }
 
 @media (max-width: 320px) {
-  /* line 92, ../sass/_cart.scss */
+  /* line 94, ../sass/_cart.scss */
   .cart-bar2 .rmb-char:before {
     content: "¥";
   }
 }
 @media (max-width: 332px) {
-  /* line 98, ../sass/_cart.scss */
+  /* line 100, ../sass/_cart.scss */
   .cart-bar2 .price {
     font-size: 12px;
   }
