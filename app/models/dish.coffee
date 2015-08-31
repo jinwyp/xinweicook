@@ -215,7 +215,7 @@ module.exports =
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->
-      if @stock > -2
+      if @stock > -1
         false
       else
         true

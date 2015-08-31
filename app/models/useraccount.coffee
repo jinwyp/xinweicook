@@ -53,6 +53,13 @@ module.exports =
       unless useraccount
         return throw new Err "User account not found !", 400
 
+    chargeAmountArithmetic : (amount) ->
+      result = amount
+
+      result = 350 if amount is 300
+      result = 600 if amount is 500
+      result = 1250 if amount is 1000
+      result = 2600 if amount is 2000
   methods:
 
     chargeAccountDetail : (amount, name, remark) ->
@@ -61,6 +68,7 @@ module.exports =
         user : @user
         isPlus : true
         amount : Number(amount)
+        amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
           zh : "在线充值"
           en : "Online Recharge"
@@ -76,7 +84,8 @@ module.exports =
       newAccountDetail =
         user : @user
         isPlus : true
-        amount : Number(amount)
+
+        amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
           zh : "在线充值"
           en : "Online Recharge"
@@ -94,7 +103,8 @@ module.exports =
       newAccountDetail =
         user : @user
         isPlus : false
-        amount : -Number(amount)
+        amountXinwei : -Number(amount)
+
         name :
           zh : "在线消费"
           en : "Online Pay"

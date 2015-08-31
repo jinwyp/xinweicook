@@ -214,6 +214,9 @@ exports.addNewOrder = (req, res, next) ->
   models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
+  if req.body.address.fromDistance?
+    req.body.address.distanceFrom = req.body.address.fromDistance
+
 
   dishIdList = []
   dishNumberList = {}
@@ -823,6 +826,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
   models.order.validationWeixinPayNotify req.body
 
   models.order.findOne {orderNumber : req.body.out_trade_no}
+  .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
