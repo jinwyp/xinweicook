@@ -136,6 +136,31 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
             var cell_refDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
             worksheet[cell_refDishNumber] = cellDishNumber;
 
+
+            var language = '中文';
+            if (arrayData[row].language === 'en'){
+                language = '英文';
+            }
+
+            var cellLanguage = {v: language, t:"s" };
+            var cell_refLanguage = XLSX.utils.encode_cell({c:2,r:currentRow});
+            worksheet[cell_refLanguage] = cellLanguage;
+
+
+            var packageType = '';
+            console.log(arrayData[row].packageType);
+            if (arrayData[row].packageType === 'foambox'){
+                packageType = '泡沫箱';
+            }
+            if (arrayData[row].packageType === 'paperbox'){
+                packageType = '纸盒箱';
+            }
+
+            var cellPackageType = {v: packageType, t:"s" };
+            var cell_refPackageType = XLSX.utils.encode_cell({c:3,r:currentRow});
+            worksheet[cell_refPackageType] = cellPackageType;
+
+
             for (var rowsubdish=0; rowsubdish <= tempDishList[rowdish].subDish.length-1; rowsubdish++){
                 currentRow = currentRow + 1;
                 var tempSubDishName = "---> " + tempDishList[rowdish].subDish[rowsubdish].dish.title.zh;

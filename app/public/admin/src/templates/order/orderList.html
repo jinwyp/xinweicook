@@ -120,7 +120,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatistic(searchForm)">统计同一收货地址销量</button>
-                        <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出内部制作单</a>
+                        <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中内部制作单</a>
                         <a class="btn btn-default"  href="/api/administrator/export/orders" target="_blank">导出所有订单</a>
                     </div>
 

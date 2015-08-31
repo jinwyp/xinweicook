@@ -171,7 +171,34 @@
 
 
 
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >语言</label>
 
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="orderLanguage"  ng-value="'zh'" ng-model="data.order.language">中文
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="orderLanguage"  ng-value="'en'" ng-model="data.order.language">英文
+                        </label>
+                    </div>
+
+                </div>
+
+                
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >包装形式:</label>
+
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="orderPackageType"  ng-value="'paperbox'" ng-model="data.order.packageType">纸盒箱
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="orderPackageType"  ng-value="'foambox'" ng-model="data.order.packageType">泡沫箱
+                        </label>
+                    </div>
+
+                </div>
 
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >配送物流:</label>

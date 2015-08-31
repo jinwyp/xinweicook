@@ -210,9 +210,18 @@ exports.pushMobileMessage = (req, res, next) ->
 
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
+
+
   models.order.validationNewOrder req.body
   models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
+
+  languageStr = req.acceptsLanguages()
+
+  if languageStr[0] is "en"
+    languageStr = "en"
+  else
+    languageStr = "zh"
 
   if req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
@@ -233,6 +242,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
 
+
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
     dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
@@ -248,6 +258,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : req.body.dishList
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -267,6 +278,12 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
     newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+
+    if req.body.address.city is "上海市"
+      newOrder.packageType = "paperbox"
+    else
+      newOrder.packageType = "foambox"
+
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
@@ -283,6 +300,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -297,6 +315,11 @@ exports.addNewOrder = (req, res, next) ->
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
+  if req.body.address.city is "上海市"
+    newOrderReadyToCook.packageType = "paperbox"
+  else
+    newOrderReadyToCook.packageType = "foambox"
+
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
@@ -305,6 +328,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
