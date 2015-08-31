@@ -2,13 +2,14 @@
 <div class="selections-container" ng-if="dish" ng-cloak>
     <div class="block">
         <h4 class="text-center">{{dish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
-        <ul class="properties" ng-if="dish.preferences.length" ng-init="dish.curSelection = {}">
+        <ul class="properties" ng-if="dish.preferences.length">
             <li ng-repeat="property in dish.preferences">
                 <h5>{{property.name.zh}}</h5>
-                <ul class="selections" ng-init="dish.curSelection[property.name.zh] = property.foodMaterial[0].dish">
-                    <li ng-click="dish.curSelection[property.name.zh] = selection.dish"
-                        ng-class="{selected: dish.curSelection[property.name.zh] == selection.dish}"
-                        ng-repeat="selection in property.foodMaterial">
+                <ul class="selections">
+                    <li ng-repeat="selection in property.foodMaterial"
+                        ng-click="!selection.dish.outOfStock && (dish.curSelection[property.name.zh] = selection.dish)"
+                        ng-class="{'no-stock': selection.dish.outOfStock,
+                        selected: dish.curSelection[property.name.zh] == selection.dish}">
                         {{selection.dish.title.zh}}
                     </li>
                 </ul>

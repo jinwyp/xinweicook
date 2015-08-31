@@ -25,6 +25,21 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                 }
             });
 
+            $scope.$watch('dish', function (dish) {
+                if (dish) {
+                    var curSelection = {};
+                    $scope.dish.preferences.forEach(function (property) {
+                        property.foodMaterial.some(function (el) {
+                            if (!el.dish.outOfStock) {
+                                curSelection[property.name.zh] = el.dish;
+                                return true;
+                            } else return false;
+                        })
+                    });
+                    $scope.dish.curSelection = curSelection;
+                }
+            });
+
             $scope.addToCart = function (dish) {
                 var selection = dish.curSelection;
                 var exist;

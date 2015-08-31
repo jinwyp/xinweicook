@@ -214,7 +214,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                         entries.push({
                             dish: dish,
                             subDish:item.dish,
-                            outOfStock: dish.outOfStock && item.dish.outOfStock
+                            outOfStock: dish.outOfStock || item.dish.outOfStock
                         });
                     })
                 } else {
