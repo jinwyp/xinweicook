@@ -228,6 +228,10 @@ $sc-h5-font-size: 15px;
       &:first-child {
         margin-bottom: 8px;
       }
+      &.no-stock {
+        color: #CCCCCC;
+        border-color: #CCCCCC;
+      }
     }
   }
 
