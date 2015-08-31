@@ -826,6 +826,7 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
   models.order.validationWeixinPayNotify req.body
 
   models.order.findOne {orderNumber : req.body.out_trade_no}
+  .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)

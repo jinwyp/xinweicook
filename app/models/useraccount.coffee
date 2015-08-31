@@ -104,7 +104,7 @@ module.exports =
         user : @user
         isPlus : false
         amountXinwei : -Number(amount)
-        
+
         name :
           zh : "在线消费"
           en : "Online Pay"
