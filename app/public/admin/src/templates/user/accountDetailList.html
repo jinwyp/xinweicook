@@ -115,7 +115,7 @@
                 <td>{{account.amount}}</td>
                 <td>{{account.amountXinwei}}</td>
                 <td><span ng-show="account.isPlus">{{account.isPaid ? '已支付' : '未支付' }}</span></td>
-                <td>{{account.isPlus ? '充值' : '消费'}}</td>
+                <td>{{account.isPlus ? '充值' : '消费'}} <br/> <a ui-sref="menu.updateCoupon({ id: account.coupon })" ng-show="account.coupon">充值码ID: {{account.coupon}}</a></td>
                 <td><a ui-sref="menu.updateOrder({ id: account.order })">{{account.order}}</a></td>
 
                 <td>

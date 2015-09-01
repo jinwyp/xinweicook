@@ -328,7 +328,7 @@ exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
   .then (resultAccount)->
       models.useraccount.checkNotFound(resultAccount)
 
-      resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark)
+      resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString())
   .then (resultAccount)->
       couponData.used()
       res.json resultAccount[0]

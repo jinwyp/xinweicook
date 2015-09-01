@@ -81,7 +81,7 @@ module.exports =
 
       models.accountdetail.createAsync(newAccountDetail)
 
-    addMoney : (amount, name, remark) ->
+    addMoney : (amount, name, remark, couponid) ->
       @balance = @balance + Number(amount)
 
       newAccountDetail =
@@ -90,11 +90,12 @@ module.exports =
 
         amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
-          zh : "在线充值"
-          en : "Online Recharge"
+          zh : "使用充值码充值"
+          en : "Code Recharge"
 
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
+      newAccountDetail.coupon = couponid if couponid
 
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()

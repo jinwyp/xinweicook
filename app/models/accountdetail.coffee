@@ -4,6 +4,7 @@ module.exports =
   schema:
     user :type: Schema.ObjectId, ref: "user"
     order :type: Schema.ObjectId, ref: "order"
+    coupon :type: Schema.ObjectId, ref: "coupon"
     isPlus : type: Boolean, default: false  # 默认是减库存 状态
     amount : type:Number   # 该数量可以为正负,不受到isPlus状态干扰
     amountXinwei : type:Number   # 新味币充值多少例如充300人民币得到350新味币
