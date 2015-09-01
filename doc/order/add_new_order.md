@@ -8,7 +8,7 @@ Group `member`
 | Name             | Type     | Desc                              |
 |:-----------------|:---------|:----------------------------------|
 | cookingType      | String   | "ready to cook" 或 "ready to eat"                  |
-| clientFrom       | String   |  website, ios, android, wechat(公众号支付)                   |
+| clientFrom       | String   |  website, mobileweb, ios, android, wechat(公众号支付)                   |
 | freight          | Number   | 运费                                               |
 | coupon           | String   | 用户账号里面的优惠券 24位ID 5590d256103f46d9ac31e3ee   |
 | promotionCode    | String   | 优惠码  10位字符串  |
