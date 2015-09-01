@@ -256,12 +256,15 @@ exports.chargeAccount = (req, res, next) ->
 
 # 用户账户余额充值 支付宝通知回调
 exports.chargeAccountAlipayNotify = (req, res, next) ->
+
   models.useraccount.validationAlipayNotify(req.body)
   accountDetailData = {}
 
-  models.accountdetail.findOneAsync({_id : req.body.out_trade_no}).then (resultAccountDetail)->
+  models.accountdetail.findOneAsync({_id : req.body.out_trade_no, isPaid:false, isPlus:true}).then (resultAccountDetail)->
+
     models.accountdetail.checkNotFound(resultAccountDetail)
     accountDetailData = resultAccountDetail
+
     resultAccountDetail.isPaid = true
     resultAccountDetail.paymentAlipay =
       notify_time : req.body.notify_time
@@ -295,7 +298,6 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
 
     models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
   .then (resultAccount)->
-
     models.useraccount.checkNotFound(resultAccount)
     resultAccount.balance = resultAccount.balance + accountDetailData.amountXinwei
     resultAccount.saveAsync()

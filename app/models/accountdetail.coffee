@@ -61,7 +61,5 @@ module.exports =
 
 
   methods: {}
-  rest:
-    idProperty : "user"
-
+  rest: {}
 

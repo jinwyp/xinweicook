@@ -60,6 +60,9 @@ module.exports =
       result = 600 if amount is 500
       result = 1250 if amount is 1000
       result = 2600 if amount is 2000
+
+      result
+
   methods:
 
     chargeAccountDetail : (amount, name, remark) ->
