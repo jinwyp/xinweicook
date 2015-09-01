@@ -412,23 +412,32 @@ exports.addNewOrder = (req, res, next) ->
       dishDataList[dish._id] = dish
 
 
-    if req.body.promotionCode or req.body.coupon
-      newOrder.promotionDiscount = promotionCode.price if req.body.promotionCode
-      newOrder.couponDiscount = coupon.price if req.body.coupon
+    # 计算订单总金额
+    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
-      if newOrder.dishesPrice >= promotionCode.priceLimit and req.body.promotionCode
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+    # 计算优惠券
+    if req.body.coupon and newOrder.dishesPrice >= coupon.priceLimit
+      newOrder.totalPrice = newOrder.totalPrice - coupon.price
+      newOrder.couponDiscount = coupon.price
 
-      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price
+    # 计算优惠码 有两种，金额折扣和百分比折扣
+    if req.body.promotionCode and newOrder.dishesPrice >= promotionCode.priceLimit
+      console.log promotionCode.price, promotionCode.couponType
+      if promotionCode.couponType is models.coupon.constantCouponType().promocodePercentage
 
-      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon and req.body.promotionCode
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price - promotionCode.price
+        tempTotalPrice = Math.ceil(newOrder.totalPrice * promotionCode.price / 100 * 10) / 10
+        console.log tempTotalPrice, newOrder.totalPrice, newOrder.totalPrice - tempTotalPrice
+        newOrder.promotionDiscount = Math.ceil((newOrder.totalPrice - tempTotalPrice) * 10) / 10
+        newOrder.totalPrice = tempTotalPrice
 
-      if newOrder.totalPrice <= 0
-          newOrder.totalPrice = 0.1
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+      else
+        newOrder.totalPrice = newOrder.totalPrice - promotionCode.price
+        newOrder.promotionDiscount = promotionCode.price
+
+
+    if newOrder.totalPrice <= 0
+        newOrder.totalPrice = 0.1
+
     newOrder.totalPrice =  Math.ceil(newOrder.totalPrice * 10) / 10
 
     # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
