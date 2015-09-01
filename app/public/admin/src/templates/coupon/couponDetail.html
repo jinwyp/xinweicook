@@ -37,21 +37,27 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
-                    <label class="col-lg-2 control-label" >优惠券类型</label>
+                <div class="form-group has-feedback" ng-if="data.coupon.couponType=='promocode' || data.coupon.couponType=='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                    <label class="col-lg-2 control-label" >优惠码类型</label>
 
                     <div class="col-lg-6">
                         <label class="radio-inline">
-                            <input type="radio" ng-value="'promocode'" ng-model="data.coupon.couponType">金额
+                            <input type="radio" ng-value="'promocode'" ng-model="data.coupon.couponType">优惠码金额
                         </label>
                         <label class="radio-inline">
-                            <input type="radio"  ng-value="'promocodepercentage'" ng-model="data.coupon.couponType">百分比
+                            <input type="radio"  ng-value="'promocodepercentage'" ng-model="data.coupon.couponType">优惠码百分比
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'coupon'" ng-model="data.coupon.couponType">优惠券（绑定用户）
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'accountchargecode'" ng-model="data.coupon.couponType">新味币充值码
                         </label>
                     </div>
 
                 </div>
 
-                <div class="form-group has-feedback" ng-if="data.coupon.couponType==='promocode'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                <div class="form-group has-feedback"  ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
                     <label for="inputCouponPrice" class="col-lg-2 control-label" >优惠金额</label>
 
                     <div class="col-lg-8">

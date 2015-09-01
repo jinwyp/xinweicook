@@ -422,11 +422,9 @@ exports.addNewOrder = (req, res, next) ->
 
     # 计算优惠码 有两种，金额折扣和百分比折扣
     if req.body.promotionCode and newOrder.dishesPrice >= promotionCode.priceLimit
-      console.log promotionCode.price, promotionCode.couponType
-      if promotionCode.couponType is models.coupon.constantCouponType().promocodePercentage
 
+      if promotionCode.couponType is models.coupon.constantCouponType().promocodePercentage
         tempTotalPrice = Math.ceil(newOrder.totalPrice * promotionCode.price / 100 * 10) / 10
-        console.log tempTotalPrice, newOrder.totalPrice, newOrder.totalPrice - tempTotalPrice
         newOrder.promotionDiscount = Math.ceil((newOrder.totalPrice - tempTotalPrice) * 10) / 10
         newOrder.totalPrice = tempTotalPrice
 
