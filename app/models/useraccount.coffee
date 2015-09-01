@@ -98,7 +98,6 @@ module.exports =
 
     reduceMoney : (amount, name, remark, orderId) ->
       @balance = @balance - Number(amount)
-      console.log(amount, Number(amount) )
 
       newAccountDetail =
         user : @user
