@@ -38,6 +38,20 @@
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                    <label class="col-lg-2 control-label" >优惠券类型</label>
+
+                    <div class="col-lg-6">
+                        <label class="radio-inline">
+                            <input type="radio" ng-value="'promocode'" ng-model="data.coupon.couponType">金额
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'promocodepercentage'" ng-model="data.coupon.couponType">百分比
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="form-group has-feedback" ng-if="data.coupon.couponType==='promocode'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
                     <label for="inputCouponPrice" class="col-lg-2 control-label" >优惠金额</label>
 
                     <div class="col-lg-8">
@@ -49,6 +63,22 @@
                     <div class="col-lg-2">
                         <span class="help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.required">请填入信息！</span>
                         <span class="help-block" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.min || couponForm.couponPrice.$dirty&&couponForm.couponPrice.$error.max">字符错误9-200！</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group has-feedback" ng-if="data.coupon.couponType==='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$valid, 'has-error':couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$invalid}">
+                    <label for="inputCouponPrice2" class="col-lg-2 control-label" >优惠订单金额百分比</label>
+
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" id="inputCouponPrice2" placeholder="百分比" name="couponPrice2" ng-model="data.coupon.price" required min="30" max="99">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="help-block" ng-if="couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$error.min || couponForm.couponPrice2.$dirty&&couponForm.couponPrice2.$error.max">字符错误30-99！</span>
                     </div>
 
                 </div>
@@ -97,7 +127,7 @@
                             <input type="radio" ng-value="1" ng-model="data.coupon.usedTime">只能使用一次
                         </label>
                         <label class="radio-inline">
-                            <input type="radio"  ng-value="0" ng-model="data.coupon.usedTime">无限次,但每个用户只能用一次
+                            <input type="radio"  ng-value="0" ng-model="data.coupon.usedTime">无限次,（请选择下面的 每个用户只能用一次）
                         </label>
                     </div>
                 </div>

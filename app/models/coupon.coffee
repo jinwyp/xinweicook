@@ -31,6 +31,7 @@ module.exports =
     constantCouponType : () ->
       payment =
         promocode : "promocode"
+        promocodePercentage : "promocodepercentage"
         coupon : "coupon"
         accountchargecode : "accountchargecode"
     checkNotFound : (coupon) ->

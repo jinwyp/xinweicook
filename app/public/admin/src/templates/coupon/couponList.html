@@ -97,7 +97,7 @@
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
                 <td>{{coupon.code}}</td>
-                <td>{{coupon.price}}</td>
+                <td>{{coupon.price}} <span ng-if="coupon.couponType==='promocodepercentage'">%</span></td>
                 <td>{{coupon.priceLimit}}</td>
                 <td>{{coupon.usedTime}}</td>
                 <td>{{coupon.usedCountLimitOfOneUser}}</td>
