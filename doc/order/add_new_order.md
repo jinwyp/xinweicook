@@ -18,7 +18,7 @@ Group `member`
 | deliveryDateCook | String   | 用于 "ready to cook" 食材包 预计到达日期 年月日  注意用双位数表达日期 2015-06-13      |
 | deliveryTimeCook | String   | 用于 "ready to cook" 食材包 预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
 | deliveryDateEat  | String   | 用于 "ready to eat" 预计到达日期 年月日  注意用双位数表达日期 2015-06-13         |
-| deliveryTimeEat  | String   | "ready to eat"  预计到达时间 格式 小时:分钟 12:00  三个时间点 12:00 / 17:00 / 20:00         |
+| deliveryTimeEat  | String   | "ready to eat"  预计到达时间 格式 小时:分钟 12:00          |
 | userComment      | String   | 订单备注        |
 | address          | Object   | 地址       |
 |   -> geoLatitude   | Number   | 纬度       |

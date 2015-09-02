@@ -141,7 +141,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
     else
       logger.error(err)
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode not found") + encodeURIComponent(JSON.stringify(result)) )
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
 
