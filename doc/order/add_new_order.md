@@ -8,7 +8,7 @@ Group `member`
 | Name             | Type     | Desc                              |
 |:-----------------|:---------|:----------------------------------|
 | cookingType      | String   | "ready to cook" 或 "ready to eat"                  |
-| clientFrom       | String   |  website, ios, android, wechat(公众号支付)                   |
+| clientFrom       | String   |  website, mobileweb, ios, android, wechat(公众号支付)                   |
 | freight          | Number   | 运费                                               |
 | coupon           | String   | 用户账号里面的优惠券 24位ID 5590d256103f46d9ac31e3ee   |
 | promotionCode    | String   | 优惠码  10位字符串  |
@@ -47,6 +47,11 @@ Group `member`
 当提交的订单只包含 “ready to cook” 或 "ready to eat" 菜品时，订单只生成一个订单， 而当提交的菜品即有“ready to cook” 或 "ready to eat"时，订单会生成三个订单，一个主订单（用于支付）和另外两个子订单（用于以后在用户中心的订单里面查询）。
 
 订单生成后，只返回一个主订单，主订单的isSplitOrder属性为true, 主订单的childOrderList属性包括子订单的ID
+
+
+#### 优惠码 优惠券 余额 计算
+
+优惠券 和 优惠码 还有余额可以一起使用，先计算优惠券金额，剩余金额计算优惠码（如果优惠码是百分比折扣，则按照总金额减去优惠券的优惠金额 再乘以百分比折扣），此时如果总金额为0 则不再计算余额，进入支付环节，需要支付0.1元， 否则使用余额支付，如果剩余总金额可以完全用余额支付则不再需要在线支付。
 
 
 

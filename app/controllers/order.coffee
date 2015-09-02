@@ -118,9 +118,10 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
     if err
 #      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
+      logger.error(err)
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
-    if !result.errcode
+    if not result.errcode
       models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
         if resultOrder
           models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
@@ -135,10 +136,12 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
           return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
 
       .catch (err)->
-        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(err)) )
+        logger.error(err)
+        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     else
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token Error") + encodeURIComponent(JSON.stringify(result)) )
+      logger.error(err)
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode not found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
 
@@ -210,9 +213,18 @@ exports.pushMobileMessage = (req, res, next) ->
 
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
+
+
   models.order.validationNewOrder req.body
   models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
+
+  languageStr = req.acceptsLanguages()
+
+  if languageStr[0] is "en"
+    languageStr = "en"
+  else
+    languageStr = "zh"
 
   if req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
@@ -233,6 +245,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
 
+
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
     dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
@@ -248,6 +261,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : req.body.dishList
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -267,6 +281,12 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
     newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+
+    if req.body.address.city is "上海市"
+      newOrder.packageType = "paperbox"
+    else
+      newOrder.packageType = "foambox"
+
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
@@ -283,6 +303,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -297,6 +318,11 @@ exports.addNewOrder = (req, res, next) ->
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
 
+  if req.body.address.city is "上海市"
+    newOrderReadyToCook.packageType = "paperbox"
+  else
+    newOrderReadyToCook.packageType = "foambox"
+
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
@@ -305,6 +331,7 @@ exports.addNewOrder = (req, res, next) ->
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
+    language : languageStr
     clientFrom : req.body.clientFrom
     status : models.order.constantStatus().notpaid
     payment : req.body.payment
@@ -388,23 +415,30 @@ exports.addNewOrder = (req, res, next) ->
       dishDataList[dish._id] = dish
 
 
-    if req.body.promotionCode or req.body.coupon
-      newOrder.promotionDiscount = promotionCode.price if req.body.promotionCode
-      newOrder.couponDiscount = coupon.price if req.body.coupon
+    # 计算订单总金额
+    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
-      if newOrder.dishesPrice >= promotionCode.priceLimit and req.body.promotionCode
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - promotionCode.price
+    # 计算优惠券
+    if req.body.coupon and newOrder.dishesPrice >= coupon.priceLimit
+      newOrder.totalPrice = newOrder.totalPrice - coupon.price
+      newOrder.couponDiscount = coupon.price
 
-      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price
+    # 计算优惠码 有两种，金额折扣和百分比折扣
+    if req.body.promotionCode and newOrder.dishesPrice >= promotionCode.priceLimit
 
-      if newOrder.dishesPrice >= coupon.priceLimit and req.body.coupon and req.body.promotionCode
-        newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight - coupon.price - promotionCode.price
+      if promotionCode.couponType is models.coupon.constantCouponType().promocodePercentage
+        tempTotalPrice = Math.ceil(newOrder.totalPrice * promotionCode.price / 100 * 10) / 10
+        newOrder.promotionDiscount = Math.ceil((newOrder.totalPrice - tempTotalPrice) * 10) / 10
+        newOrder.totalPrice = tempTotalPrice
 
-      if newOrder.totalPrice <= 0
-          newOrder.totalPrice = 0.1
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+      else
+        newOrder.totalPrice = newOrder.totalPrice - promotionCode.price
+        newOrder.promotionDiscount = promotionCode.price
+
+
+    if newOrder.totalPrice <= 0
+        newOrder.totalPrice = 0.1
+
     newOrder.totalPrice =  Math.ceil(newOrder.totalPrice * 10) / 10
 
     # 处理总价减去账户余额 用过优惠券和优惠码后不在使用余额
@@ -710,6 +744,7 @@ exports.updateOrder = (req, res, next) ->
         models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 索晶电话
         models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
+        models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 杨唤电话
 
       # 该用户首次下单给邀请的人添加优惠券
       if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon

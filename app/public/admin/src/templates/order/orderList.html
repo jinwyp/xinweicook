@@ -120,7 +120,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatistic(searchForm)">统计同一收货地址销量</button>
-                        <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}" target="_blank">导出内部制作单</a>
+                        <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中内部制作单</a>
                         <a class="btn btn-default"  href="/api/administrator/export/orders" target="_blank">导出所有订单</a>
                     </div>
 
@@ -158,6 +158,7 @@
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
+                <th>客服备注</th>
 
                 <th>支付方式</th>
                 <th>是否付款</th>
@@ -172,12 +173,14 @@
                 <th>运费</th>
                 <th>总价</th>
 
-                <th>操作</th>
+                <!--<th>操作</th>-->
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss'}} <br/>
+                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleSelection(order._id)">
+                </td>
                 <td>{{order.status}}</td>
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
                 <!--<td>{{order.isChildOrder}}</td>-->
@@ -187,6 +190,7 @@
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.userComment}}</td>
+                <td>{{order.csComment}}</td>
 
                 <td>{{order.payment}}</td>
                 <td>{{order.isPaymentPaid}}</td>
@@ -195,19 +199,19 @@
                 <td>{{order.cookingType}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
-                <td>{{order.promotionDiscount}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
-                <td> <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount}}</a> </td>
+                <td>{{order.promotionDiscount? ( -order.promotionDiscount ):''}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
+                <td> <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount ? ( -order.couponDiscount ):''}}</a> </td>
                 <td>{{order.accountUsedDiscount}} </td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
 
-                <td>
-                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===order._id">确认真的删除吗？
-                        <button class="btn btn-danger" ng-click="delOrder(order)">立即删除</button>
-                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
-                    </div>
-                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==order._id" ng-click="data.currentDeleteIndex=order._id">删除</button>
-                </td>
+                <!--<td>-->
+                    <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===order._id">确认真的删除吗？-->
+                        <!--<button class="btn btn-danger" ng-click="delOrder(order)">立即删除</button>-->
+                        <!--<button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>-->
+                    <!--</div>-->
+                    <!--<button class="btn btn-danger" ng-show="data.currentDeleteIndex!==order._id" ng-click="data.currentDeleteIndex=order._id">删除</button>-->
+                <!--</td>-->
             </tr>
         </tbody>
     </table>

@@ -136,6 +136,31 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
             var cell_refDishNumber = XLSX.utils.encode_cell({c:1,r:currentRow});
             worksheet[cell_refDishNumber] = cellDishNumber;
 
+
+            var language = '中文';
+            if (arrayData[row].language === 'en'){
+                language = '英文';
+            }
+
+            var cellLanguage = {v: language, t:"s" };
+            var cell_refLanguage = XLSX.utils.encode_cell({c:2,r:currentRow});
+            worksheet[cell_refLanguage] = cellLanguage;
+
+
+            var packageType = '';
+            console.log(arrayData[row].packageType);
+            if (arrayData[row].packageType === 'foambox'){
+                packageType = '泡沫箱';
+            }
+            if (arrayData[row].packageType === 'paperbox'){
+                packageType = '纸盒箱';
+            }
+
+            var cellPackageType = {v: packageType, t:"s" };
+            var cell_refPackageType = XLSX.utils.encode_cell({c:3,r:currentRow});
+            worksheet[cell_refPackageType] = cellPackageType;
+
+
             for (var rowsubdish=0; rowsubdish <= tempDishList[rowdish].subDish.length-1; rowsubdish++){
                 currentRow = currentRow + 1;
                 var tempSubDishName = "---> " + tempDishList[rowdish].subDish[rowsubdish].dish.title.zh;
@@ -244,7 +269,23 @@ exports.orderExportList = function(req, res, next) {
 exports.orderExportInternalList = function(req, res, next) {
     models.order.validationGetOrderList(req.query);
 
+
+    var idList = [];
+    if (req.query.idList){
+        idList = JSON.parse(req.query.idList)
+    }
+
+
     var query = { $and: [] };
+
+    if (Array.isArray(idList)){
+
+        if (idList.length > 0){
+            query.$and.push({_id : { $in: idList} }) ;
+        }
+    }
+
+
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
@@ -266,6 +307,9 @@ exports.orderExportInternalList = function(req, res, next) {
         query.$and.push( {status : req.query.status});
     }
 
+    if (query.$and.length === 0 ){
+        query ={}
+    }
 
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */

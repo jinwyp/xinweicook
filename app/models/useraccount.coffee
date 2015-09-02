@@ -60,6 +60,9 @@ module.exports =
       result = 600 if amount is 500
       result = 1250 if amount is 1000
       result = 2600 if amount is 2000
+
+      result
+
   methods:
 
     chargeAccountDetail : (amount, name, remark) ->
@@ -78,7 +81,7 @@ module.exports =
 
       models.accountdetail.createAsync(newAccountDetail)
 
-    addMoney : (amount, name, remark) ->
+    addMoney : (amount, name, remark, couponid) ->
       @balance = @balance + Number(amount)
 
       newAccountDetail =
@@ -87,18 +90,18 @@ module.exports =
 
         amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
         name :
-          zh : "在线充值"
-          en : "Online Recharge"
+          zh : "使用充值码充值"
+          en : "Code Recharge"
 
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
+      newAccountDetail.coupon = couponid if couponid
 
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()
 
     reduceMoney : (amount, name, remark, orderId) ->
       @balance = @balance - Number(amount)
-      console.log(amount, Number(amount) )
 
       newAccountDetail =
         user : @user

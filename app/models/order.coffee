@@ -154,6 +154,10 @@ module.exports =
     userComment: String # 用户备注
     csComment: String # 客服备注
 
+    language: String # 中文zh 英文en
+
+    packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
+
   statics:
     checkNotFound : (order) ->
       if not order

@@ -7,7 +7,7 @@ module.exports =
   schema:
     name: zh:String, en:String # 名字
     description: zh:String, en:String
-    couponType : String   # 目前有两种类型 优惠码 promocode 和 优惠券 coupon 和 充值卡码 accountchargecode
+    couponType : String   # 目前有两种类型 优惠码 promocode promocodepercentage 和 优惠券 coupon 和 充值卡码 accountchargecode
     price: Number
     code: String
     priceLimit: type: Number, default: 10 # 订单金额高于限制才可以使用优惠券
@@ -31,6 +31,7 @@ module.exports =
     constantCouponType : () ->
       payment =
         promocode : "promocode"
+        promocodePercentage : "promocodepercentage"
         coupon : "coupon"
         accountchargecode : "accountchargecode"
     checkNotFound : (coupon) ->

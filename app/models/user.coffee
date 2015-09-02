@@ -111,7 +111,7 @@ module.exports =
         throw new Err "Field validation error,  address must be ArrayObject", 400
       else
         for address,addressIndex in updateUser.address
-          delete address._id if address._id?
+          delete address._id
 
           unless libs.validator.isFloat address.geoLatitude
             return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
@@ -127,15 +127,15 @@ module.exports =
             return throw new Err "Field validation error,  detail address must be 2-1000", 400
           unless libs.validator.isLength address.contactPerson, 2, 99
             return throw new Err "Field validation error,  contactPerson must be 2-99", 400
-          unless libs.validator.isMobilePhone(address.mobile, 'zh-CN')
-            return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+#          unless libs.validator.isMobilePhone(address.mobile, 'zh-CN')
+#            return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
 
     validationShoppingCart : (updateUser) ->
       unless Array.isArray updateUser.shoppingCart
         throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
       else
         for dish,dishIndex in updateUser.shoppingCart
-          delete dish._id if dish._id?
+          delete dish._id
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
             return throw new Err "Field validation error,  dish.number must be 1-100", 400
           unless libs.validator.isLength dish.dish, 24, 24

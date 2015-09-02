@@ -169,6 +169,7 @@ module.exports =
           models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 索晶电话
           models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 何华电话
           models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 赵梦菲电话
+          models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", err))     # 杨唤电话
 
       newInventoryChange =
         user : user._id

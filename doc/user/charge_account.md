@@ -35,6 +35,7 @@ POST `/api/user/account/details`
   "createdAt": "2015-08-26T10:00:40.234Z",
   "user": "55d30af82d861f987b5bd86d",
   "amount": 10,
+  "amountXinwei": 10,
   "_id": "55dd8e4871bf38ae72b14c9e",
   "isPaid": false,
   "name": {

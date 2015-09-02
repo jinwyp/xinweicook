@@ -66,7 +66,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
 
 
-    $scope.searchOrderCount = function (){
+    $scope.searchCouponCount = function (){
 
         Util.delProperty($scope.data.searchOptions);
 
@@ -108,7 +108,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
 
     if ($state.current.data.type === 'list'){
-        $scope.searchOrderCount();
+        $scope.searchCouponCount();
     }
 
     if ($state.current.data.type === 'update'){
@@ -135,9 +135,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         var index = $scope.data.couponList.indexOf(order);
 
         $scope.data.couponList[index].remove().then(function (resultCoupon) {
-            Coupons.getList().then(function (coupons) {
-                $scope.data.couponList = coupons;
-            });
+            $scope.searchCouponCount();
 
             Notification.success({message : 'Delete Success', delay : 8000});
 
@@ -159,7 +157,6 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         var newCoupon = angular.copy($scope.data.coupon);
         Util.delProperty(newCoupon);
         Coupons.post(newCoupon).then(function (resultCoupon) {
-            console.log(resultCoupon);
             Notification.success({message: 'Save Success', delay: 8000});
 
         }).catch(function(err){
@@ -174,7 +171,6 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         }
 
         $scope.data.coupon.put().then(function (resultCoupon) {
-            console.log(resultCoupon);
             Notification.success({message: 'Update Success', delay: 8000});
         }).catch(function(err){
             console.log(err);

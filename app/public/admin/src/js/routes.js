@@ -230,6 +230,15 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'CouponController'
             })
 
+            .state('menu.accountDetails', {
+                url: '/accountdetails',
+                templateUrl: 'templates/user/accountDetailList.html',
+                data: {
+                    title: '账户余额明细管理',
+                    type : 'list'
+                },
+                controller: 'UserAccountDetailController'
+            })
 
             .state('menu.deviceTokens', {
                 url: '/devicetokens',
@@ -240,6 +249,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 },
                 controller: 'UserDeviceController'
             })
+
 
             .state('menu.logs', {
                 url: '/logs',

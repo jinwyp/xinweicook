@@ -29,6 +29,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             clientFrom : '',
             deliveryDateType : ''
         },
+        exportOrderIdList : [],
 
         searchSort : {
             sort : '-createdAt'
@@ -433,8 +434,24 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
+    // toggle selection for a given fruit by name
+    $scope.toggleSelection = function toggleSelection(orderId) {
+        var idx = $scope.data.exportOrderIdList.indexOf(orderId);
+
+        // is currently selected
+        if (idx > -1) {
+            $scope.data.exportOrderIdList.splice(idx, 1);
+        } else {
+            // is newly selected
+            $scope.data.exportOrderIdList.push(orderId);
+        }
+
+    };
 
 
+    $scope.arrayToUrl = function (array) {
+        return JSON.stringify(array)
+    };
 
 
 }

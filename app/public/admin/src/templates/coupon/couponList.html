@@ -35,7 +35,7 @@
                             <input type="radio" name="couponStatus"  ng-value="'coupon'" ng-model="data.searchOptions.couponType" required>优惠券（绑定用户）
                         </label>
                         <label class="radio-inline" >
-                            <input type="radio" name="couponStatus"  ng-value="'accountchargecode'" ng-model="data.searchOptions.couponType" required>余额充值码
+                            <input type="radio" name="couponStatus"  ng-value="'accountchargecode'" ng-model="data.searchOptions.couponType" required>新味币充值码
                         </label>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchCouponCount(searchForm)">Search</button>
                     </div>
                 </div>
             </form>
@@ -97,7 +97,7 @@
                 <td>{{coupon.name.zh}}</td>
                 <td>{{coupon.name.en}}</td>
                 <td>{{coupon.code}}</td>
-                <td>{{coupon.price}}</td>
+                <td>{{coupon.price}} <span ng-if="coupon.couponType==='promocodepercentage'">%</span></td>
                 <td>{{coupon.priceLimit}}</td>
                 <td>{{coupon.usedTime}}</td>
                 <td>{{coupon.usedCountLimitOfOneUser}}</td>
