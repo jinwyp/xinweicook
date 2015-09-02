@@ -31,7 +31,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
-app.use alipayBodyParser if not conf.debug
+app.use alipayBodyParser.middleware if not conf.debug
 app.use bodyParser.json({limit: '1mb'})
 app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")
