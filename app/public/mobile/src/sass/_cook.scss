@@ -36,6 +36,10 @@ $cook-font-lighter-color: #646464;
   background-color: white;
 }
 
+.ingredients .img {
+  width: 100% !important;
+}
+
 .info-block {
   color: $cook-font-lighter-color;
   p, span {
