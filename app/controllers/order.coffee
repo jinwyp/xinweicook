@@ -101,7 +101,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
   order_number_state = req.query.state
 
   if not req.query.code?
-    logger.error req.query
+    logger.error("OpenID 失败 code not found:", req.query)
 
 #  models.order.validationOrderId order_number_state
 
@@ -118,7 +118,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
     if err
 #      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
-      logger.error(err)
+      logger.error("OpenID 失败 网络:", err)
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
@@ -138,13 +138,13 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
           return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
 
       .catch (err)->
-        logger.error(err)
+        logger.error("OpenID 失败 错误:", err)
         return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     else
       result.code = req.query.code
       result.order_number_state = req.query.order_number_state
-      logger.error(result)
+      logger.error("OpenID 失败 errcode:", result)
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
