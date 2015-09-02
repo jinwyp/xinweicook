@@ -97,8 +97,8 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 exports.getWeixinPayUserOpenId = (req, res, next) ->
 #  console.log "========================WeixinPayOpenId :: ", req.query
 
-  code = req.query.code;
-  order_number_state = req.query.state;
+  code = req.query.code
+  order_number_state = req.query.state
 
   if not req.query.code?
     logger.error req.query
@@ -121,6 +121,8 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
       logger.error(err)
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
+
+
     if not result.errcode
       models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
         if resultOrder
@@ -140,6 +142,8 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
         return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     else
+      result.code = req.query.code
+      result.order_number_state = req.query.order_number_state
       logger.error(result)
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )

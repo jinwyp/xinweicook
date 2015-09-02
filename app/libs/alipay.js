@@ -71,13 +71,75 @@ var configAlipay = {
 
 // 签名
 // 在请求参数列表中,除去 sign、sign_type 两个参数外,其他需要使用到的参数皆是要签名的参数。(个别接口中参数 sign_type 也需要参与签名。)
-function alipay_sign(params) {
+
+
+
+function sign_md52(params) {
     return md5( params.sort().join('&') + configAlipay.key )
 }
 
 
 
+/**
+ * 生成签名结果
+ * @param para_sort 已排序要签名的数组
+ * return 签名结果字符串
+ */
+function sign_md5(params) {
+    //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+    var ls = '';
+    for(var k in params){
+        ls = ls + k + '=' + para[k] + '&';
+    }
+    ls = ls.substring(0, ls.length - 1);
 
+
+    var mysign = "";
+
+    var sign_type = configAlipay.sign_type;
+    if(sign_type == "MD5"){
+        mysign = md5( ls + configAlipay.key )
+    }else{
+        mysign = "";
+    }
+    return mysign;
+}
+
+
+/**
+ * 除去对象中的空值和签名参数
+ * @param para 签名参对象
+ * return 去掉空值与签名参数后的新签名参对象
+ */
+function signFilter (para){
+    var para_filter = {};
+
+    for (var key in para){
+        if(key == 'sign' || key == 'sign_type' || para[key] == ''){
+            continue;
+        }
+        else{
+            para_filter[key] = para[key];
+        }
+    }
+
+    return argSort(para_filter);
+}
+
+
+/**
+ * 对对象排序
+ * @param para 排序前的对象
+ * return 排序后的对象
+ */
+exports.argSort = function(para){
+    var result = {};
+    var keys = Object.keys(para).sort();
+    for (var i = 0; i < keys.length; i++){
+        result[keys[i]] = para[keys[i]];
+    }
+    return result;
+}
 
 
 
@@ -103,6 +165,13 @@ exports.generateWapCreateDirectPayUrl = function (order) {
 
     };
 
+    //除去待签名参数数组中的空值和签名参数
+    var para_filter = paraFilter(urlParams);
+
+    //生成签名结果
+    var mysign = sign_md5(para_filter);
+
+    urlParams.sign = mysign;
 
     //var request_paramsWap = [
     //    'service=alipay.wap.trade.create.direct',
@@ -125,7 +194,8 @@ exports.generateWapCreateDirectPayUrl = function (order) {
     //];
     //var url = configAlipay.mobile_gateway + request_paramsWap.join("&") + '&sign=' + alipay_sign(request_params);
     //
-    //return url
+
+    return urlParams
 
 };
 
