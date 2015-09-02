@@ -140,7 +140,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
         return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     else
-      logger.error(err)
+      logger.error(result)
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
@@ -775,7 +775,39 @@ exports.updateOrder = (req, res, next) ->
 
         if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
           req.u.isSharedInvitationSendCode = false
-        req.u.saveAsync()
+
+
+        if req.u.sharedInvitationSendCodeTotalCount >= 5 and not req.u.isPaid5Orders
+          newCoupon =
+            name :
+              zh : "满5单优惠券"
+              en : "Achieve 5 orders Coupon"
+            price : 10
+            couponType : models.coupon.constantCouponType().coupon
+            usedTime : 1
+            user : req.u._id.toString()
+
+          models.coupon.addNew(newCoupon).then (resultCouponList)->
+            req.u.couponList.push(resultCouponList._id.toString())
+            req.u.isPaid5Orders = true
+            req.u.saveAsync()
+
+        else if req.u.sharedInvitationSendCodeTotalCount >=10 and not req.u.isPaid10Orders
+          newCoupon =
+            name :
+              zh : "满10单优惠券"
+              en : "Achieve 10 orders Coupon"
+            price : 20
+            couponType : models.coupon.constantCouponType().coupon
+            usedTime : 1
+            user : req.u._id.toString()
+
+          models.coupon.addNew(newCoupon).then (resultCouponList)->
+            req.u.couponList.push(resultCouponList._id.toString())
+            req.u.isPaid10Orders = true
+            req.u.saveAsync()
+        else
+          req.u.saveAsync()
 
 
     else
