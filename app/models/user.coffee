@@ -127,8 +127,8 @@ module.exports =
             return throw new Err "Field validation error,  detail address must be 2-1000", 400
           unless libs.validator.isLength address.contactPerson, 2, 99
             return throw new Err "Field validation error,  contactPerson must be 2-99", 400
-          unless libs.validator.isMobilePhone(address.mobile, 'zh-CN')
-            return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+#          unless libs.validator.isMobilePhone(address.mobile, 'zh-CN')
+#            return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
 
     validationShoppingCart : (updateUser) ->
       unless Array.isArray updateUser.shoppingCart
