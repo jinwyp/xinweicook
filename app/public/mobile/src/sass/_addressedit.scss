@@ -40,6 +40,18 @@
     text-indent: 0.3em;
     width: 30%;
   }
+  .form-control-container {
+    position: relative;
+    .form-tip {
+      position: absolute;
+      padding-top: 10px;
+      top: 0;
+      font-size: 14px;
+      line-height: 1.42;
+      right: 12px;
+      color: $primary-color
+    }
+  }
 }
 
 .address-edit-body {
