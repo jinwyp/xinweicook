@@ -1153,19 +1153,24 @@ label {
 }
 
 /* line 39, ../sass/_cook.scss */
+.ingredients .img {
+  width: 100% !important;
+}
+
+/* line 43, ../sass/_cook.scss */
 .info-block {
   color: #646464;
 }
-/* line 41, ../sass/_cook.scss */
+/* line 45, ../sass/_cook.scss */
 .info-block p, .info-block span {
   font-size: 12px;
 }
-/* line 44, ../sass/_cook.scss */
+/* line 48, ../sass/_cook.scss */
 .info-block h6 {
   color: #646464;
   font-size: 13px;
 }
-/* line 48, ../sass/_cook.scss */
+/* line 52, ../sass/_cook.scss */
 .info-block h5 {
   color: #4b4b4c;
   margin-top: 20px;
@@ -1174,30 +1179,30 @@ label {
   border-top: 1px solid rgba(195, 195, 195, 0.33);
   border-bottom: 1px solid rgba(195, 195, 195, 0.33);
 }
-/* line 55, ../sass/_cook.scss */
+/* line 59, ../sass/_cook.scss */
 .info-block h5::before, .info-block h5::after {
   content: " - ";
 }
-/* line 59, ../sass/_cook.scss */
+/* line 63, ../sass/_cook.scss */
 .info-block.feature-block h5 {
   border-top: 0;
   margin-top: 10px;
 }
-/* line 63, ../sass/_cook.scss */
+/* line 67, ../sass/_cook.scss */
 .info-block .row {
   margin-right: 0;
   margin-left: 0;
 }
-/* line 67, ../sass/_cook.scss */
+/* line 71, ../sass/_cook.scss */
 .info-block .txt-info {
   overflow: hidden;
 }
-/* line 70, ../sass/_cook.scss */
+/* line 74, ../sass/_cook.scss */
 .info-block .feature:not(last-child) {
   margin-bottom: 10px;
 }
 
-/* line 75, ../sass/_cook.scss */
+/* line 79, ../sass/_cook.scss */
 .cook-footer {
   padding-right: 0;
   background-color: rgba(232, 232, 232, 0.7);
@@ -1235,7 +1240,7 @@ label {
   background: red;
   border-radius: 50%;
 }
-/* line 83, ../sass/_cook.scss */
+/* line 87, ../sass/_cook.scss */
 .cook-footer .add-to-cart-container {
   width: 104px;
   height: 53px;
@@ -1244,7 +1249,7 @@ label {
   background-color: #f44d4d;
   color: white;
 }
-/* line 91, ../sass/_cook.scss */
+/* line 95, ../sass/_cook.scss */
 .cook-footer .like-icon {
   margin-top: 17px;
   margin-left: 10px;

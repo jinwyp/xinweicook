@@ -40,9 +40,10 @@
         <div class="ingredient-block info-block" ng-if="dish.infoIngredient.length">
             <h5>原料</h5>
             <ul class="ingredients row">
-                <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient">
+                <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient"
+                    ng-class="{img: ingredient.contentType == 'pic'}">
                     <span ng-if="ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
-                    <!--<img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt}}" alt=""/>-->
+                    <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt:0.4}}" alt=""/>
                 </li>
             </ul>
         </div>
