@@ -976,13 +976,27 @@ label {
   text-indent: 0.3em;
   width: 30%;
 }
-
+/* line 43, ../sass/_addressedit.scss */
+.address-edit-form .form-control-container {
+  position: relative;
+}
 /* line 45, ../sass/_addressedit.scss */
+.address-edit-form .form-control-container .form-tip {
+  position: absolute;
+  padding-top: 10px;
+  top: 0;
+  font-size: 14px;
+  line-height: 1.42;
+  right: 12px;
+  color: #f44d4d;
+}
+
+/* line 57, ../sass/_addressedit.scss */
 .address-edit-body {
   background-color: white;
 }
 
-/* line 49, ../sass/_addressedit.scss */
+/* line 61, ../sass/_addressedit.scss */
 .suggestion-addresses-wrapper {
   background-color: rgba(29, 29, 29, 0.69);
   color: white;
@@ -995,40 +1009,40 @@ label {
   z-index: 10;
   border-radius: 3px;
 }
-/* line 60, ../sass/_addressedit.scss */
+/* line 72, ../sass/_addressedit.scss */
 .suggestion-addresses-wrapper h5 {
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 65, ../sass/_addressedit.scss */
+/* line 77, ../sass/_addressedit.scss */
 .suggestion-addresses-wrapper .search-addresses li {
   background: url(../img/icons/HouseIcon.png) 8px 50% no-repeat;
   background-size: auto 37%;
   padding: 10px 10px 10px 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 70, ../sass/_addressedit.scss */
+/* line 82, ../sass/_addressedit.scss */
 .suggestion-addresses-wrapper .search-addresses li .general-address {
   font-size: 12px;
   padding-top: 3px;
   font-weight: 100;
 }
-/* line 77, ../sass/_addressedit.scss */
+/* line 89, ../sass/_addressedit.scss */
 .suggestion-addresses-wrapper .address-not-found {
   padding: 27px;
 }
 
-/* line 82, ../sass/_addressedit.scss */
+/* line 94, ../sass/_addressedit.scss */
 .action-group {
   height: 100px;
   padding: 80px 20px 0;
   color: #f44d4d;
 }
-/* line 87, ../sass/_addressedit.scss */
+/* line 99, ../sass/_addressedit.scss */
 .action-group .glyphicon-trash {
   padding-right: 2px;
 }
-/* line 90, ../sass/_addressedit.scss */
+/* line 102, ../sass/_addressedit.scss */
 .action-group .locate-icon {
   background: url(../img/icons/LocationIconEnabled.png) 50% no-repeat;
   background-size: 17%;
