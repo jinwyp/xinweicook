@@ -68,7 +68,9 @@ module.exports =
     invitationFromCode : String
     invitationFromUser : type: Schema.ObjectId, ref: "user"
 
-    firstTimeRegFromApp: type: Boolean, default: false
+    isPaid5Orders: type: Boolean, default: false
+
+    isPaid10Orders: type: Boolean, default: false
 
     oldUserData :
       mobile:String
