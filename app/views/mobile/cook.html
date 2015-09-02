@@ -42,7 +42,7 @@
             <ul class="ingredients row">
                 <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient"
                     ng-class="{img: ingredient.contentType == 'pic'}">
-                    <span ng-if="!ingredient.contentType && ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
+                    <span ng-if="!ingredient.contentType || ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
                     <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt:0.4}}" alt=""/>
                 </li>
             </ul>
