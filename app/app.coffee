@@ -44,7 +44,6 @@ app.use libs.lang.middleware
 
 app.use models.Router
 
-
 require("./routesmobile")(app)
 require("./routesapi")(app)
 
