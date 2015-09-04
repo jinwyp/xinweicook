@@ -1,7 +1,7 @@
 # 订单
 WXPay = require "../libs/weixinpay"
 
-
+AliPay = require "../libs/alipay.js"
 
 configWeiXinPay =
   appid: conf.weixinpay.appid
@@ -19,7 +19,7 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
-
+alipay = AliPay()
 
 
 
@@ -596,9 +596,13 @@ exports.addNewOrder = (req, res, next) ->
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
 
 
+    # 生成支付宝签名
+    aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder)
 
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
+    resultTemp.aliPaySign = aliPaySign
+
     res.json resultTemp
   .catch next
 
