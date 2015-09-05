@@ -4,8 +4,10 @@
         <div class="panel-heading">
             <h3 class="panel-title panel-titlenew"><span ng-show="css.isAddNewStatus">新增 Order 订单</span> <span ng-hide="css.isAddNewStatus">修改 Order 订单 - {{data.order.orderNumber}} - {{data.order._id}}</span>
                 <a class="btn btn-sm btn-info pull-right" ui-sref="menu.orders" role="button">返回</a>
+                <a href="https://mapi.alipay.com/gateway.do?service={{data.order.aliPaySign.service}}&partner={{data.order.aliPaySign.partner}}&_input_charset={{data.order.aliPaySign._input_charset}}&sign_type={{data.order.aliPaySign.sign_type}}&out_trade_no={{data.order.aliPaySign.out_trade_no}}&subject={{data.order.aliPaySign.subject}}&total_fee={{data.order.aliPaySign.total_fee}}&seller_id={{data.order.aliPaySign.seller_id}}&payment_type=1&sign={{data.order.aliPaySign.sign}}" target="_blank">111</a>
             </h3>
         </div>
+
 
 <!--
 
