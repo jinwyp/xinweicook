@@ -12,7 +12,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage) {
         var orderId = paths[paths.length - 1];
 
         if (orderId == 'NOORDERID') {
-            if ($localStorage.ordeId) {
+            if ($localStorage.orderId) {
                 orderId = $localStorage.orderId;
                 delete $localStorage.orderId;
             }
