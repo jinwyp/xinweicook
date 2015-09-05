@@ -1,14 +1,22 @@
 angular.module('xw.controllers').controller('wxpayCtrl', wxpayCtrl);
 
-function wxpayCtrl($scope, Orders, Debug) {
+function wxpayCtrl($scope, Orders, Debug, $localStorage) {
 
 
+    // fail1 订单号异常, fail2 支付失败, fail3 支付失败之跨号支付
     $scope.state = 'processing';
 
 
     function init() {
         var paths = location.href.split('/');
         var orderId = paths[paths.length - 1];
+
+        if (orderId == 'NOORDERID') {
+            if ($localStorage.orderId) {
+                orderId = $localStorage.orderId;
+                delete $localStorage.orderId;
+            }
+        }
 
         if (!/\w{24}/.test(orderId)) {
             alert('支付失败, 请稍后重试');
@@ -61,7 +69,14 @@ function wxpayCtrl($scope, Orders, Debug) {
                                 });
                                 $scope.$apply(function () {
                                     $scope.state = 'fail2';
-                                })
+                                    //  跨号支付
+                                    if (typeof res.err_desc == 'string' &&
+                                        res.err_desc.indexOf('跨号') != -1) {
+                                        $localStorage.orderId = orderId;
+                                        alert(res.err_desc);
+                                        $scope.state = 'fail3';
+                                    }
+                                });
                             }
                         } catch(e) {
                             Debug.alert('更新订单时抛出异常');

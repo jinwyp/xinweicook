@@ -14,7 +14,7 @@
     <span class="no-bottom-border">微信支付</span>
 </nav>
 
-<div class="contact-form-wrapper wxpay-main" ng-cloak>
+<div class="wxpay-main" ng-cloak>
     <div class="text-center" ng-if="state == 'processing'">支付中...</div>
     <div class="text-center" ng-if="state == 'success'">支付成功!
         <!--<div class="follow">-->
@@ -24,6 +24,14 @@
     </div>
     <div class="text-center" ng-if="state == 'fail1'">支付失败, 请稍后重试</div>
     <div class="text-center" ng-if="state == 'fail2'">支付失败, 请稍后重试.</div>
+    <div class="text-center" ng-if="state == 'fail3'">
+        <p style="font-size: 15px; line-height: 1.8">不允许跨号支付? <br/>
+            长按图片[识别二维码]付款
+        </p>
+        <div>
+            <img src="/mobile/src/img/wxpay-qrcode.png"/>
+        </div>
+    </div>
 </div>
 
 </body>
