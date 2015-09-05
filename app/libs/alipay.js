@@ -29,7 +29,7 @@ var configAlipay = {
 
     notify_url: 'http://m.xinweicook.com/api/orders/payment/alipay/mobile',
 
-    mobile_return_url: '/alipay/return',
+    mobile_return_url: 'http://m.xinweicook.com/mobile/alipay/return',
     website_return_url: '/alipay/return',
 
 
@@ -39,10 +39,9 @@ var configAlipay = {
     urlAlipayWap : 'http://wappaygw.alipay.com/service/rest.htm?',
 
 
-    urlAlipayWebsite_create_direct_pay_by_user : 'https://mapi.alipay.com/gateway.do?',
+    serviceAlipayWebsite_create_direct_pay_by_user : 'create_direct_pay_by_user',
 
-
-    urlAlipayWap_create_direct_pay_by_user : 'http://wappaygw.alipay.com/service/rest.htm?',
+    serviceAlipayWap_create_direct_pay_by_user : 'alipay.wap.create.direct.pay.by.user',
 
 
 
@@ -168,7 +167,6 @@ function sign_md5(obj) {
     }
     ls = ls.substring(0, ls.length - 1);
 
-
     var mysign = "";
 
     var sign_type = configAlipay.sign_type;
@@ -202,8 +200,8 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
         seller_id : configAlipay.partner,
         out_trade_no : order.orderNumber,
 
-        payment_type : '1',
-        body : order.dishHistory[0].dish.title.zh
+        payment_type : '1'
+        //body : order.dishHistory[0].dish.title.zh
 
     };
 
@@ -214,6 +212,12 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
     var mysign = sign_md5(para_filter);
 
     urlParams.sign = mysign;
+
+    urlParams.fullurl = Object.keys(urlParams).map(function (key) {
+        return key + "=" + encodeURIComponent(urlParams[key]);
+    }).join("&");
+
+    urlParams.fullurl = configAlipay.urlAlipayWebsite + urlParams.fullurl;
 
     return urlParams
 
@@ -248,9 +252,9 @@ var mid = function(req,res,next){
                 var qs = require('querystring');
                 var ob = qs.decode(buf);
                 req.query = ob;
-            }catch (e){
+            }catch (err){
                 console.log('taobao body parser fail!');
-                console.log(e);
+                console.log(err);
             }
         }
         next();

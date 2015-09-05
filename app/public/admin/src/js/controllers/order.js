@@ -335,22 +335,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Orders.one($stateParams.id).get().then(function (resutlOrder) {
             $scope.data.order = resutlOrder;
-            $scope.data.order.aliPaySign = {
-                "service": "alipay.wap.create.direct.pay.by.user",
-                    "partner": "2088111042213083",
-                    "_input_charset": "utf-8",
-                    "sign_type": "MD5",
-                    "notify_url": "http://m.xinweicook.com/api/orders/payment/alipay/mobile",
-                    "return_url": "/alipay/return",
-                    "out_trade_no": "201509050141212183743",
-                    "subject": "干煸茶树菇孜然雪花牛柳",
-                    "total_fee": 68,
-                    "seller_id": "2088111042213083",
-                    "payment_type": "1",
-                    "body": "干煸茶树菇孜然雪花牛柳",
-                    "sign": "592cb18d58af83cf02c6f3adef83fb3b"
-            };
-
 
             //编辑order时， 处理order express 显示
             if (angular.isUndefined($scope.data.order.express)){
