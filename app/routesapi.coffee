@@ -28,6 +28,25 @@ expressRoutes = (app) ->
 #    res.render('admin/index.html', { title : 'XinWeiCook' })
 #  )
 
+  app.get("/admin/shiplist/:orderId", (req, res, next) ->
+    models.order.validationOrderId req.params.orderId
+
+    models.order.findOne(_id: req.params.orderId)
+    .populate({path: 'dishList.dish', select: models.dish.fields()})
+    .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+    .execAsync()
+    .then (resultOrder) ->
+      models.order.checkNotFound resultOrder
+      console.log resultOrder, moment(resultOrder.createdAt).format("ddd, YYYY-MM-D h:mm:ss a")
+      resultOrder.createdAtNew = moment(resultOrder.createdAt).format("ddd, YYYY-MM-D H:mm:ss")
+      res.render('admin/ship_list.html', {title: 'XinWeiCook', order:resultOrder})
+
+    .catch next
+
+  )
+
+
+
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
   app.post("/api/orders/payment/alipay/notify/account", userController.chargeAccountAlipayNotify)

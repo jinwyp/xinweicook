@@ -59,7 +59,8 @@ module.exports =
       if contentType is @constantContentType().chargeAccountByCode10
         newMessage.text.zh = @constantContentType().chargeAccountByCode10Text.zh + additionalContent.code
         newMessage.text.en = @constantContentType().chargeAccountByCode10Text.en + additionalContent.code
-        newMessage.contentType = @constantContentType().chargeAccountByCode10
+#        newMessage.contentType = @constantContentType().chargeAccountByCode10 # 兼容老版本APP
+        newMessage.contentType = @constantContentType().orderAdd
 
       @createAsync(newMessage)
 
@@ -91,7 +92,7 @@ module.exports =
             onRejected(err)
           else
             try
-              
+
               tempResult = JSON.parse(resultPush)
               onFulfilled(tempResult)
             catch err
