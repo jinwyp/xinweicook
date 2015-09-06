@@ -18,7 +18,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage) {
             }
         }
 
-        if (!/\w{24}/.test(orderId)) {
+        if (!/^\w{24}$/.test(orderId)) {
             alert('支付失败, 请稍后重试');
             $scope.state = 'fail1';
             return;
