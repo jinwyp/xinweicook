@@ -1575,3 +1575,34 @@ label {
 .wxpay-main .follow img {
   width: 100%;
 }
+/* line 21, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay {
+  width: 95%;
+  border: 1px solid #DADADA;
+  border-radius: 3px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 0 7px;
+}
+/* line 29, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay .title {
+  font-size: 12px;
+  margin: 7px 0;
+}
+/* line 33, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay .guide {
+  font-size: 14px;
+}
+/* line 37, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay h5 {
+  font-weight: 100;
+}
+/* line 40, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay img {
+  width: 45%;
+  margin-bottom: 15px;
+}
+/* line 44, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay hr {
+  margin: 0;
+}

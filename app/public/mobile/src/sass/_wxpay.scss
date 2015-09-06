@@ -17,4 +17,32 @@
       width: 100%
     }
   }
+
+  .qr-pay {
+    width: 95%;
+    border: 1px solid #DADADA;
+    border-radius: 3px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 0 7px;
+
+    .title {
+      font-size: 12px;
+      margin: 7px 0;
+    }
+    .guide {
+      font-size: 14px;
+    }
+
+    h5 {
+      font-weight: 100;
+    }
+    img {
+      width: 45%;
+      margin-bottom: 15px;
+    }
+    hr {
+      margin: 0;
+    }
+  }
 }

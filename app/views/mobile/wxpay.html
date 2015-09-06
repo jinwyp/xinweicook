@@ -24,13 +24,12 @@
     </div>
     <div class="text-center" ng-if="state == 'fail1'">支付失败, 请稍后重试</div>
     <div class="text-center" ng-if="state == 'fail2'">支付失败, 请稍后重试.</div>
-    <div class="text-center" ng-if="state == 'fail3'">
-        <p style="font-size: 15px; line-height: 1.8">不允许跨号支付? <br/>
-            长按图片[识别二维码]付款
-        </p>
-        <div>
-            <img src="/mobile/src/img/wxpay-qrcode.png"/>
-        </div>
+    <div class="text-center qr-pay" ng-if="state == 'fail3'">
+        <h5>微信扫码支付</h5>
+        <hr/>
+        <p class="title">遇到不允许跨号支付?</p>
+        <img src="/mobile/src/img/wxpay-qrcode.png"/>
+        <p class="guide">长按图片[识别二维码]付款</p>
     </div>
 </div>
 
