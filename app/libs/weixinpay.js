@@ -56,7 +56,7 @@ var util = {
 
 
 
-// 基本配置
+
 var configWeiXinPay = {
     appid: "",  //公众账号ID
     mch_id: "", //商户号

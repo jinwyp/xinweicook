@@ -1,7 +1,7 @@
 # 订单
 WXPay = require "../libs/weixinpay"
 
-
+AliPay = require "../libs/alipay.js"
 
 configWeiXinPay =
   appid: conf.weixinpay.appid
@@ -19,7 +19,7 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
-
+alipay = AliPay()
 
 
 
@@ -101,7 +101,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
   order_number_state = req.query.state
 
   if not req.query.code?
-    logger.error("OpenID 失败 code not found:", JSON.stringify(req.query))
+    logger.error("OpenID 失败 code not found: "+JSON.stringify(req.query) )
 
 #  models.order.validationOrderId order_number_state
 
@@ -144,7 +144,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
     else
       result.code = req.query.code
       result.order_number_state = req.query.order_number_state
-      logger.error("OpenID 失败 errcode:", JSON.stringify(result))
+      logger.error("OpenID 失败 errcode: " + JSON.stringify(result) )
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
@@ -596,9 +596,13 @@ exports.addNewOrder = (req, res, next) ->
     models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
 
 
+    # 生成支付宝签名
+    aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder)
 
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
+    resultTemp.aliPaySign = aliPaySign
+
     res.json resultTemp
   .catch next
 
