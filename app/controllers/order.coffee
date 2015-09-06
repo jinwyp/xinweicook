@@ -96,7 +96,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
 #  console.log "========================WeixinPayOpenId :: ", req.query
-
+  logger.error("OpenID 回调: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.req.query) )
   code = req.query.code
   order_number_state = req.query.state
 
@@ -124,6 +124,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
 
     if not result.errcode
+      logger.error("OpenID 成功 code: " + JSON.stringify(result) )
       models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
         if resultOrder
           models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
