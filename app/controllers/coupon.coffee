@@ -46,29 +46,10 @@ exports.getCouponForUserShare = (req, res, next) ->
 
   if not req.u.isSharedInvitationSendCode
 
-    newCoupon =
-      name :
-        zh : "分享朋友圈优惠券"
-        en : "Share To Friends Coupon"
-      price : 5
-      couponType : models.coupon.constantCouponType().coupon
-      usedTime : 1
-      user : req.u._id.toString()
-
-    Promise.all([models.coupon.addNew(newCoupon), models.coupon.addNew(newCoupon)])
-    .then (resultCouponList)->
-      for coupon, couponIndex in resultCouponList
-        req.u.couponList.push(coupon._id.toString())
-
-      req.u.isSharedInvitationSendCode = true
-      req.u.sharedInvitationSendCodeUsedTime = req.u.sharedInvitationSendCodeUsedTime + 1
-      req.u.saveAsync()
-
-    .then (user)->
+    models.coupon.addCouponForShare(req.u).then (user)->
       models.user.find1({_id : req.u._id})
     .then (resultUser)->
         res.json resultUser
-
     .catch next
   else
     next(new Err "Already shared", 400)
@@ -80,32 +61,10 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
 
   models.user.validationInvitationSendCode(req.params.invitationCode)
 
+
   if not req.u.isUsedInvitationSendCode
-    # 用户不能自己邀请自己
-    models.user.findOneAsync({invitationSendCode:req.params.invitationCode, _id:{$ne:req.u._id.toString()}} )
-    .then (resultUser)->
-      models.user.checkNotFound(resultUser)
 
-      req.u.invitationFromCode = resultUser.invitationSendCode
-      req.u.invitationFromUser = resultUser._id.toString()
-
-      newCoupon =
-        name :
-          zh : "好友邀请优惠券"
-          en : "Friend Invitation Coupon"
-        price : 10
-        couponType : models.coupon.constantCouponType().coupon
-        usedTime : 1
-        user : req.u._id.toString()
-
-      models.coupon.addNew(newCoupon)
-
-    .then (resultCouponList)->
-      req.u.couponList.push(resultCouponList._id.toString())
-
-      req.u.isUsedInvitationSendCode = true
-      req.u.saveAsync()
-
+    models.coupon.addCouponFromInvitationSendCode(req.u, req.params.invitationCode)
     .then (user)->
       models.user.find1({_id : req.u._id})
     .then (resultUser)->

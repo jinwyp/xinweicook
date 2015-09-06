@@ -144,7 +144,100 @@ module.exports =
 
       @createAsync(createCoupon)
 
+    addCouponForNewUser : (user) ->
+      # 新注册用户 送2张5元优惠券
+      newCoupon =
+        name :
+          zh : "新注册用户优惠券"
+          en : "NewUserCoupon"
+        price : 5
+        couponType : models.coupon.constantCouponType().coupon
+        usedTime : 1
+        user : user._id.toString()
 
+      newCouponList = []
+      newCouponList.push(newCoupon)
+      newCouponList.push(newCoupon)
+
+      models.coupon.createAsync(newCouponList).then (resultCouponList)->
+
+        for coupon, couponIndex in resultCouponList
+          user.couponList.push(coupon._id.toString())
+
+        user.saveAsync()
+
+    addCouponForNewIOS : (user) ->
+      #新iOS用户送1张15元优惠券
+
+      if not user.firstTimeRegFromApp
+        newCoupon =
+          name :
+            zh : "新APP注册用户优惠券"
+            en : "New App User Coupon"
+          price : 15
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+
+        models.coupon.createAsync(newCoupon).then (resultCouponList)->
+          user.couponList.push(resultCouponList._id.toString())
+
+          user.firstTimeRegFromApp = true
+          user.saveAsync()
+
+    addCouponForShare : (user) ->
+      # 用户分享朋友圈获得2张5元优惠券
+      if not user.isSharedInvitationSendCode
+
+        newCoupon =
+          name :
+            zh : "分享朋友圈优惠券"
+            en : "Share To Friends Coupon"
+          price : 5
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+
+        newCouponList = []
+        newCouponList.push(newCoupon)
+        newCouponList.push(newCoupon)
+
+        models.coupon.createAsync(newCouponList).then (resultCouponList)->
+
+          for coupon, couponIndex in resultCouponList
+            user.couponList.push(coupon._id.toString())
+
+          user.isSharedInvitationSendCode = true
+          user.sharedInvitationSendCodeUsedTime = user.sharedInvitationSendCodeUsedTime + 1
+          user.saveAsync()
+
+    addCouponFromInvitationSendCode : (user, invitationCode) ->
+      # 用户使用朋友的邀请码获得1张10元优惠券
+      if not user.isUsedInvitationSendCode
+
+        # 用户不能自己邀请自己
+        models.user.findOneAsync({invitationSendCode:invitationCode, _id:{$ne:user._id.toString()} } ).then (resultUser)->
+          models.user.checkNotFound(resultUser)
+
+          user.invitationFromCode = resultUser.invitationSendCode
+          user.invitationFromUser = resultUser._id.toString()
+
+          newCoupon =
+            name :
+              zh : "好友邀请优惠券"
+              en : "Friend Invitation Coupon"
+            price : 10
+            couponType : models.coupon.constantCouponType().coupon
+            usedTime : 1
+            user : user._id.toString()
+
+          models.coupon.addNew(newCoupon)
+
+        .then (resultCouponList)->
+          user.couponList.push(resultCouponList._id.toString())
+
+          user.isUsedInvitationSendCode = true
+          user.saveAsync()
 
 
   methods:

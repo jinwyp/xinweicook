@@ -169,7 +169,7 @@ module.exports =
         models.user.findOneAsync(mobile: mobile).then (resultUser) ->
           models.user.checkFound(resultUser)
           unless resultUser
-            models.user.createAsync(mobile: mobile, pwd: pwd, )
+            models.user.createAsync(mobile: mobile, pwd: pwd )
       )
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
