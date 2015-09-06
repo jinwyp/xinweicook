@@ -151,9 +151,10 @@
 
         <div class="pay-window" style="display: none;">
             <div class="order-success-tip">订单生成成功</div>
-            <a class="confirm-button form-control" ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">
+            <a class="confirm-button form-control" id="weixinPay" ng-href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&response_type=code&scope=snsapi_base&state={{wxstate}}#wechat_redirect">
                 使用微信支付
             </a>
+            <a id="directPay" ng-href="/mobile/wxpay/{{wxstate}}"></a>
         </div>
     </form>
 </div>
