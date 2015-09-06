@@ -170,6 +170,7 @@ module.exports =
       #新iOS用户送1张15元优惠券
 
       if not user.firstTimeRegFromApp
+
         newCoupon =
           name :
             zh : "新APP注册用户优惠券"
