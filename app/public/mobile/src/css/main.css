@@ -445,38 +445,35 @@ label {
   height: 2.1em;
   line-height: 1.9em;
   border-radius: 6px;
+  margin-bottom: 8px;
 }
-/* line 221, ../sass/_eat.scss */
+/* line 222, ../sass/_eat.scss */
 .selections-container .selections li:not(:last-child) {
   margin-right: 0.7em;
 }
-/* line 224, ../sass/_eat.scss */
+/* line 225, ../sass/_eat.scss */
 .selections-container .selections li.selected {
   color: white;
   background-color: #f44d4d;
 }
-/* line 228, ../sass/_eat.scss */
-.selections-container .selections li:first-child {
-  margin-bottom: 8px;
-}
-/* line 231, ../sass/_eat.scss */
+/* line 229, ../sass/_eat.scss */
 .selections-container .selections li.no-stock {
   color: #CCCCCC;
   border-color: #CCCCCC;
 }
-/* line 238, ../sass/_eat.scss */
+/* line 236, ../sass/_eat.scss */
 .selections-container .counter-wrapper {
   border-top: 1px solid #DEDEDE;
   padding: 13px 0 15px 15px;
   position: relative;
 }
-/* line 242, ../sass/_eat.scss */
+/* line 240, ../sass/_eat.scss */
 .selections-container .counter-wrapper i {
   line-height: 34px;
   font-style: normal;
   font-size: 15px;
 }
-/* line 247, ../sass/_eat.scss */
+/* line 245, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter {
   display: inline-block;
   position: absolute;
@@ -488,21 +485,21 @@ label {
   font-size: 0;
   color: #f44d4d;
 }
-/* line 257, ../sass/_eat.scss */
+/* line 255, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span {
   display: inline-block;
   width: 40px;
   font-size: 18px;
 }
-/* line 262, ../sass/_eat.scss */
+/* line 260, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span:not(:last-child) {
   border-right: 1px solid #DEDEDE;
 }
-/* line 265, ../sass/_eat.scss */
+/* line 263, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter .number {
   width: 60px;
 }
-/* line 271, ../sass/_eat.scss */
+/* line 269, ../sass/_eat.scss */
 .selections-container .add-to-cart-button {
   position: relative;
   height: 53px;
@@ -512,17 +509,17 @@ label {
   background-color: #f44d4d;
   color: white;
 }
-/* line 279, ../sass/_eat.scss */
+/* line 277, ../sass/_eat.scss */
 .selections-container .add-to-cart-button .rmb-char {
   position: absolute;
   left: 15px;
 }
-/* line 283, ../sass/_eat.scss */
+/* line 281, ../sass/_eat.scss */
 .selections-container .add-to-cart-button.invalid {
   background-color: #C7C7C7;
 }
 
-/* line 291, ../sass/_eat.scss */
+/* line 289, ../sass/_eat.scss */
 .address-cover {
   position: fixed;
   height: 100%;
@@ -531,7 +528,7 @@ label {
   background-color: rgba(206, 208, 165, 0.7);
 }
 
-/* line 299, ../sass/_eat.scss */
+/* line 297, ../sass/_eat.scss */
 .eat-address {
   background-color: rgba(232, 232, 232, 0.7);
   box-shadow: #9C9999 0 0 1px;
@@ -566,7 +563,7 @@ label {
   background: red;
   border-radius: 50%;
 }
-/* line 304, ../sass/_eat.scss */
+/* line 302, ../sass/_eat.scss */
 .eat-address .address-icon {
   position: absolute;
   height: 40px;
@@ -576,80 +573,80 @@ label {
   background: url(../img/icons/LocationPinIcon.png) no-repeat;
   background-size: 48%;
 }
-/* line 314, ../sass/_eat.scss */
+/* line 312, ../sass/_eat.scss */
 .eat-address .address-content .address-title {
   font-size: 10px;
 }
-/* line 317, ../sass/_eat.scss */
+/* line 315, ../sass/_eat.scss */
 .eat-address .address-content .address-detail {
   font-size: 13px;
 }
 
-/* line 323, ../sass/_eat.scss */
+/* line 321, ../sass/_eat.scss */
 .address-group {
   background-color: rgba(241, 241, 241, 0.78);
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-/* line 328, ../sass/_eat.scss */
+/* line 326, ../sass/_eat.scss */
 .address-group .address-list {
   font-size: 13px;
   padding: 0 7px;
   margin-bottom: 0;
 }
-/* line 332, ../sass/_eat.scss */
+/* line 330, ../sass/_eat.scss */
 .address-group .address-list li {
   background-color: white;
   margin-top: 6px;
   padding: 17px 20px;
 }
-/* line 336, ../sass/_eat.scss */
+/* line 334, ../sass/_eat.scss */
 .address-group .address-list li.active {
   border-left: #f44d4d 4px solid;
   padding-left: 16px;
 }
-/* line 342, ../sass/_eat.scss */
+/* line 340, ../sass/_eat.scss */
 .address-group .address-button-wrapper {
   text-align: center;
   padding: 20px 26px;
 }
-/* line 345, ../sass/_eat.scss */
+/* line 343, ../sass/_eat.scss */
 .address-group .address-button-wrapper span {
   border-radius: 3px;
   background-color: #8C8C8C;
   color: white;
   padding: 10px 33px;
 }
-/* line 351, ../sass/_eat.scss */
+/* line 349, ../sass/_eat.scss */
 .address-group .address-button-wrapper > span {
   margin-right: 42px;
 }
 
 @media (max-width: 414px) {
-  /* line 358, ../sass/_eat.scss */
+  /* line 356, ../sass/_eat.scss */
   .detail .title {
     max-width: 262px;
   }
 }
 @media (max-width: 375px) {
-  /* line 364, ../sass/_eat.scss */
+  /* line 362, ../sass/_eat.scss */
   .detail .title {
     max-width: 218px;
   }
 
-  /* line 367, ../sass/_eat.scss */
+  /* line 365, ../sass/_eat.scss */
   .selections-container .block h4 {
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  /* line 373, ../sass/_eat.scss */
+  /* line 371, ../sass/_eat.scss */
   .detail .title {
     max-width: 163px;
   }
 
-  /* line 376, ../sass/_eat.scss */
+  /* line 374, ../sass/_eat.scss */
   .selections-container .block h4 {
     font-size: 14px;
   }
