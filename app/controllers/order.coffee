@@ -568,7 +568,7 @@ exports.addNewOrder = (req, res, next) ->
     newAddress.street = req.body.address.street if req.body.address.street
     newAddress.address = req.body.address.address if req.body.address.address
 
-    newAddress.isDefault = true
+    newAddress.isDefault = false
     newAddress.contactPerson = req.body.address.contactPerson if req.body.address.contactPerson
     newAddress.mobile = req.body.address.mobile if req.body.address.mobile
 
