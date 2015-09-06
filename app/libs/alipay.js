@@ -198,7 +198,6 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
         subject : order.dishHistory[0].dish.title.zh,
         total_fee : order.totalPrice,
         seller_id : configAlipay.partner,
-        out_trade_no : order.orderNumber,
 
         payment_type : '1'
         //body : order.dishHistory[0].dish.title.zh
