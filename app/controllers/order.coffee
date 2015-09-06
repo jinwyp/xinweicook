@@ -778,7 +778,7 @@ exports.updateOrder = (req, res, next) ->
               if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
                 req.u.isSharedInvitationSendCode = false
               req.u.saveAsync()
-       else
+      else
         # 该用户完成支付后可以再次分享邀请码
         req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
 
