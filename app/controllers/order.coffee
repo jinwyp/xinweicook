@@ -801,6 +801,17 @@ exports.updateOrder = (req, res, next) ->
             req.u.isPaid5Orders = true
             req.u.saveAsync()
 
+          # 发送iOS 推送 满5单发充值码
+          additionalContent =
+            userId : req.u._id
+            orderId : resultOrder._id
+            code : "XWORDERFIV"
+
+          pushOptions =
+            isPushMobile : true
+
+          models.message.sendMessageToUser(req.u._id, models.message.constantContentType().chargeAccountByCode10, additionalContent, pushOptions)
+
         else if req.u.sharedInvitationSendCodeTotalCount >=10 and not req.u.isPaid10Orders
           newCoupon =
             name :

@@ -16,6 +16,14 @@ var request = require('request');
 
 expressRoutes = function(app) {
 
+    app.get("/admin/shiplist", function (req, res) {
+        res.render('admin/ship_list.html', {title: 'XinWeiCook'})
+    });
+
+
+
+
+
     app.get("/", function (req, res) {
         res.redirect('/mobile');
     });

@@ -330,7 +330,7 @@ exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
 
       resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString())
   .then (resultAccount)->
-      couponData.used()
+      couponData.used(req.u)
       res.json resultAccount[0]
 
   .catch next
