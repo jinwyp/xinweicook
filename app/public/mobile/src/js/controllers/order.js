@@ -162,7 +162,12 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 $scope.wxstate = res.data._id;
 
                 setTimeout(function () {
-                    document.querySelector('.confirm-button.form-control').click();
+                    var selector = '#weixinPay';
+                    var weixinId = $scope.user.weixinId;
+                    if (weixinId && weixinId.openid) {
+                        selector = '#directPay';
+                    }
+                    document.querySelector(selector).click();
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {

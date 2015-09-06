@@ -8,12 +8,14 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
     $scope.css = {
         isEdit: false, // false表示新建地址
         showFakeInput: true,
-        showAddressTip: false
+        showAddressTip: false,
+        validStreet: true //编辑street之后设置为false
     };
 
     $scope.search = function () {
         if ($scope.address.street) {
             Map.suggestion($scope.address.street, $scope.address.city.Name || '全国').then(function (res) {
+                $scope.css.validStreet = false;
                 $scope.searchAddresses = res.data.result.filter(function (address) {
                     return (!!address.city && !!address.location )
                 });
@@ -26,7 +28,7 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
     var formKeys = ['province', 'city', 'district', 'street', 'address', 'contactPerson', 'mobile'];
     var objectKeys = ['province', 'city', 'district'];
     $scope.formValid = function () {
-        if (!$scope.address) return false;
+        if (!$scope.address || !$scope.css.validStreet) return false;
         return formKeys.every(function (key) {
             return !!$scope.address[key];
         })
@@ -68,6 +70,8 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         $scope.address.street = addr.name;
 
         $scope.searchAddresses = null;
+
+        $scope.css.validStreet = true;
     };
 
 
@@ -134,9 +138,23 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         }
     };
 
+    //对可能存在的不规范地址进行修复
+    function checkAndRepairInvalidAddress(address) {
+        if (!address.geoLatitude) {
+            address.geoLatitude = 0;
+            address.getLongitude = 0;
+            address.street = '';
+        }
+
+        if (address.contactPerson.length == 1) {
+            address.contactPerson += ' ';
+        }
+    }
+
     function init() {
         if ($localStorage.editAddress) {
             $scope.address = $localStorage.editAddress;
+            checkAndRepairInvalidAddress($scope.address);
             oldAddress = angular.copy($scope.address);
             $scope.css.isEdit = true;
             delete $localStorage.editAddress;
@@ -149,14 +167,8 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
         User.getUserInfo().then(function (res) {
             user = res.data; // 仅仅为了更新.
 
-            // 为增加坐标之前可能存在的无坐标地址设置一个默认坐标
             user.address.forEach(function (address) {
-                address.geoLatitude = address.geoLatitude || 0;
-                address.geoLongitude = address.geoLongitude || 0;
-
-                if (address.contactPerson.length == 1) {
-                    address.contactPerson += ' ';
-                }
+                checkAndRepairInvalidAddress(address);
             });
 
             if ($scope.deleteAddress.called) {

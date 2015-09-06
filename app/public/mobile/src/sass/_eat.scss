@@ -218,15 +218,13 @@ $sc-h5-font-size: 15px;
       height: 2.1em;
       line-height: 1.9em;
       border-radius: 6px;
+      margin-bottom: 8px;
       &:not(:last-child) {
         margin-right: 0.7em;
       }
       &.selected {
         color: white;
         background-color: $primary-color;
-      }
-      &:first-child {
-        margin-bottom: 8px;
       }
       &.no-stock {
         color: #CCCCCC;
