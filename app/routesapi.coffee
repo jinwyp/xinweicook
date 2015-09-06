@@ -37,7 +37,6 @@ expressRoutes = (app) ->
     .execAsync()
     .then (resultOrder) ->
       models.order.checkNotFound resultOrder
-      console.log resultOrder, moment(resultOrder.createdAt).format("ddd, YYYY-MM-D h:mm:ss a")
       resultOrder.createdAtNew = moment(resultOrder.createdAt).format("ddd, YYYY-MM-D H:mm:ss")
       res.render('admin/ship_list.html', {title: 'XinWeiCook', order:resultOrder})
 

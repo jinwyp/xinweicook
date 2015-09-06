@@ -164,9 +164,8 @@ td {
                 <td>商品总额(元): <%= order.dishesPrice %></td>
             </tr>
             <tr>
-                <td colspan="2"></td>
-                <td >优惠码折扣(元): <%= -order.promotionDiscount||0 %></td>
-                <td >优惠券折扣(元): <%= -order.couponDiscount||0 %></td>
+                <td colspan="3"></td>
+                <td >优惠券(元): <%= -order.couponDiscount||0 %> + 优惠码(元): <%= -order.promotionDiscount||0 %></td>
             </tr>
 
             <tr>

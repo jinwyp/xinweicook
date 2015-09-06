@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="col-lg-9">
-                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} ({{data.order.coupon}}) - 余额:{{data.order.accountUsedDiscount}}</span>
+                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} (<a ui-sref="menu.updateCoupon({ id: data.order.coupon })">{{data.order.coupon}}</a>) - 余额:{{data.order.accountUsedDiscount}}</span>
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@
                     <label class="col-lg-2 control-label" >订单号:</label>
 
                     <div class="col-lg-10">
-                        <span class="help-block">{{data.order.orderNumber}}</span>
+                        <span class="help-block">{{data.order.orderNumber}} -  创建时间:{{data.order.createdAt | date:'yyyy-MM-dd HH:mm:ss'}} </span>
                     </div>
                 </div>
 
