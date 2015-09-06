@@ -72,9 +72,14 @@ module.exports =
       return new Promise (onFulfilled, onRejected) ->
         xingePush.pushToSingleDevice(deviceToken, iOSMessage, Xinge.IOS_ENV_DEV, (err, resultPush) ->
           if err
-            onRejected err
-
-          onFulfilled JSON.parse resultPush
+            onRejected(err)
+          else
+            try
+              tempResult = JSON.parse(resultPush)
+              onFulfilled(tempResult)
+            catch err
+              # http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
+              onRejected(err)
         )
 
     sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
