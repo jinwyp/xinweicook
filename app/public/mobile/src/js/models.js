@@ -122,3 +122,11 @@ angular.module('xw.models').factory('Coupon', function ($http) {
         }
     }
 });
+
+angular.module('xw.models').factory('Alipay', function ($http) {
+    return {
+        notify: function (id) {
+            return $http.post('/api/orders/payment/alipay/mobile', {out_trade_no: id})
+        }
+    }
+})

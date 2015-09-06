@@ -11,6 +11,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
     $scope.couponPrice = 0;
     $scope.couponLimitPrice = 0;
     $scope.deliveryFee = 5;
+    $scope.isWeixin = /MicroMessenger/i.test(navigator.userAgent);
 
     $scope.back = function () {
         history.back();
@@ -65,9 +66,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
     $scope.submitOrder = function () {
         var order = {
             cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
-            clientFrom: 'wechat',
+            clientFrom: $scope.isWeixin ? 'wechat' : 'mobileweb',
             freight: $scope.deliveryFee,
-            payment: 'weixinpay',
+            payment:  $scope.isWeixin ? 'weixinpay' : 'alipay direct',
             device_info: 'WEB',
             trade_type: 'JSAPI',
             credit: 0,
@@ -160,12 +161,16 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
 
                 $scope.orderSuccess = true;
                 $scope.wxstate = res.data._id;
+                $scope.alipayLink = res.data.aliPaySign.fullurl;
 
                 setTimeout(function () {
                     var selector = '#weixinPay';
                     var weixinId = $scope.user.weixinId;
                     if (weixinId && weixinId.openid) {
                         selector = '#directPay';
+                    }
+                    if (!$scope.isWeixin) {
+                        selector = '#alipayPay';
                     }
                     document.querySelector(selector).click();
                 }, 200);

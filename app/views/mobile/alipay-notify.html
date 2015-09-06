@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>支付结果</title>
+</head>
+<body ng-app="xw" ng-controller="alipayNotifyCtrl">
+
+<nav class="order-nav nav">
+    <span class="no-bottom-border">支付结果</span>
+</nav>
+
+<div class="wxpay-main" ng-cloak>
+    <div class="text-center" ng-if="success">支付成功!</div>
+    <div class="text-center" ng-if="!success">支付失败!</div>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/controllers/alipay-notify.js"></script>
+</html>
