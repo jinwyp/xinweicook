@@ -79,6 +79,21 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                 exist = $scope.cart.some(function (el) {
                     if (el._id == dish._id) {
                         el.number += dish.count;
+
+                        if (dish.subDish) {
+                            dish.subDish.forEach(function (ds) {
+                                var _exist = el.subDish.some(function (es) {
+                                    if (es.dish == ds.dish) {
+                                        es.number++;
+                                        return true;
+                                    }
+                                });
+                                if (!_exist) {
+                                    el.subDish.push(ds);
+                                }
+                            })
+                        }
+
                         return true;
                     }
                 });

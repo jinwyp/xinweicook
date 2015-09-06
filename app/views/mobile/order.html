@@ -120,9 +120,13 @@
         <div class="form-block pay">
             <h5>支付方式</h5>
             <hr class="form-line"/>
-            <div class="row">
+            <div class="row" ng-if="isWeixin">
                 <span class="col-xs-1 icon active"></span>
                 <span class="col-xs-5">微信支付</span>
+            </div>
+            <div class="row" ng-if="!isWeixin">
+                <span class="col-xs-1 icon active"></span>
+                <span class="col-xs-5">支付宝支付</span>
             </div>
         </div>
 
@@ -155,6 +159,7 @@
                 使用微信支付
             </a>
             <a id="directPay" ng-href="/mobile/wxpay/{{wxstate}}"></a>
+            <a id="alipayPay" ng-href="{{alipayLink}}"></a>
         </div>
     </form>
 </div>

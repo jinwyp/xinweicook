@@ -72,6 +72,9 @@ expressRoutes = function(app) {
     app.get('/mobile/coupons', function (req, res) {
         res.render('mobile/coupons.html');
     });
+    app.get("http://m.xinweicook.com/mobile/alipay/return", function (res) {
+        res.render('mobile/alipay-notify.html');
+    });
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求
