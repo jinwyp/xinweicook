@@ -1,0 +1,197 @@
+<html>
+<style>* {
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, .64);
+    font-size: 14px;
+/ / - border : 1 px solid red
+}
+
+.page {
+    height: 297mm;
+    width: 210mm;
+    page-break-before: always
+}
+
+.logo {
+    float: left;
+    height: 22mm;
+    margin: 17mm 0 0 0mm
+}
+
+.ad {
+    margin: 5mm auto;
+    width: 50%;
+    display: block
+}
+
+.sign {
+    margin: 5mm auto;
+    width: 70%;
+    display: block
+}
+
+.container {
+    width: 70%;
+    margin: auto
+}
+
+.header {
+    width: 100%;
+    height: 41.7mm
+}
+
+.info {
+    float: left;
+    margin: 20mm 0 0 5mm;
+    width: 87mm
+}
+
+.info p {
+    padding-bottom: 2.5mm
+}
+
+.order_info {
+    width: 100%;
+    border: none;
+
+}
+
+.order_info td {
+    text-align: center
+}
+
+.items {
+    width: 100%;
+    border: none;
+    border-top: 2px solid #000
+}
+
+.items td {
+    text-align: center
+}
+
+.price_info {
+    width: 100%;
+    border: none;
+    border-top: 2px solid #000
+}
+
+.price_info td {
+    text-align: center
+}
+
+td {
+    padding: 2mm
+}
+
+@page {
+    size: A4;
+    margin: 0;
+    padding: 0;
+}</style>
+
+
+
+
+<div class="page">
+    <div class="container">
+        <div class="header">
+            <img src="/logo.png" class="logo" >
+
+            <div class="info">
+                <p>姓名: <%= order.address.contactPerson %></p>
+                <p>电话: <%= order.address.mobile %> </p>
+                <p>地址: <%= order.address.province %>, <%= order.address.city %>, <%= order.address.district %>, <%= order.address.street %>, <%= order.address.address %></p>
+            </div>
+        </div>
+
+        <table class="order_info">
+            <tbody>
+            <tr>
+                <td ></td>
+                <td ></td>
+            </tr>
+            <tr>
+                <td >订单单号: <%= order.orderNumber %></td>
+                <td >下单时间: <%= order.createdAtNew %></td>
+            </tr>
+            <tr>
+                <td ></td>
+                <td ></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <table class="items">
+            <tbody>
+            <tr>
+                <td>产品</td>
+                <td>数量</td>
+                <td>单价(元)</td>
+                <td>总价(元)</td>
+            </tr>
+
+
+            <% for(var i=0; i<order.dishList.length; i++) { %>
+            <tr>
+                <td><%= order.dishList[i].dish.title.zh %></td>
+                <td><%= order.dishList[i].number %></td>
+                <td><%= order.dishList[i].dish.priceOriginal %></td>
+                <td><%= Number(order.dishList[i].dish.priceOriginal) * Number(order.dishList[i].number) %></td>
+            </tr>
+
+            <% for(var j=0; j<order.dishList[i].subDish.length; j++) { %>
+            <tr>
+                <td> --> <%= order.dishList[i].subDish[j].dish.title.zh %></td>
+                <td><%= order.dishList[i].subDish[j].number %></td>
+                <td><%= order.dishList[i].subDish[j].dish.priceOriginal %></td>
+                <td><%= Number(order.dishList[i].subDish[j].dish.priceOriginal) * Number(order.dishList[i].subDish[j].number) %></td>
+            </tr>
+            <% } %>
+
+            <% } %>
+
+            </tbody>
+        </table>
+
+        <table class="price_info">
+            <tbody>
+            <tr>
+                <td colspan="2"></td>
+                <td>运费(元): <%= order.freight %></td>
+                <td>商品总额(元): <%= order.dishesPrice %></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td >优惠券(元): <%= -order.couponDiscount||0 %> + 优惠码(元): <%= -order.promotionDiscount||0 %></td>
+            </tr>
+
+            <tr>
+                <td colspan="3"></td>
+                <td >新味币支付(元): <%= -order.accountUsedDiscount||0 %></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td >订单总额(元): <%= order.totalPrice %></td>
+
+            </tr>
+            <!--<tr>-->
+                <!--<td>&nbsp;</td>-->
+                <!--<td>&nbsp;</td>-->
+                <!--<td>应付款(元): 0</td>-->
+                <!--<td>已付款(元): 59</td>-->
+            <!--</tr>-->
+
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+    <!--<img src="/images/ship/ad.jpg" class="ad" >-->
+    <img src="/sign.png" class="sign" >
+</div>
+</html>

@@ -17,14 +17,21 @@ module.exports =
         orderAddText :
           zh : "您的订单已创建，请及时付款"
           en : "Your order has been created, continue to complete the payment"
+
         orderPaid : "orderPaid"
         orderPaidText :
           zh : "您的订单已付款，正在打包中"
           en : "Your order has been placed, we are preparing your package"
+
         orderShipped : "orderShipped"
         orderShippedText :
           zh : "您的订单已发货，美味即将到家"
           en : "Your order has been shipped, it is on its way"
+
+        chargeAccountByCode10 : "chargeAccountByCode10"
+        chargeAccountByCode10Text :
+          zh : "满5单送10元新味币,充值码"
+          en : "10RMB Xinwei coin, charge with code "
 
     checkNotFound : (message) ->
       if not message
@@ -34,7 +41,9 @@ module.exports =
 
       newMessage =
         contentType : ""
-        text : ""
+        text :
+          zh : ""
+          en : ""
 
       newMessage.isPushMobile = true
 
@@ -42,10 +51,16 @@ module.exports =
         newMessage.user = additionalContent.userId if additionalContent.userId
         newMessage.orderId = additionalContent.orderId if additionalContent.orderId
 
+
       if contentType is @constantContentType().orderAdd
         newMessage.text = @constantContentType().orderAddText
         newMessage.contentType = @constantContentType().orderAdd
 
+      if contentType is @constantContentType().chargeAccountByCode10
+        newMessage.text.zh = @constantContentType().chargeAccountByCode10Text.zh + additionalContent.code
+        newMessage.text.en = @constantContentType().chargeAccountByCode10Text.en + additionalContent.code
+#        newMessage.contentType = @constantContentType().chargeAccountByCode10 # 兼容老版本APP
+        newMessage.contentType = @constantContentType().orderAdd
 
       @createAsync(newMessage)
 
@@ -61,10 +76,12 @@ module.exports =
       iOSMessage.sound = "default"
 
       iOSMessage.customContent =
-        page : 1
+#        page : 20
         contentType : newMessage.contentType
 #          orderId : newMessage.orderId
 #          userId : newMessage.user
+
+      iOSMessage.customContent.code = additionalContent.code if additionalContent.code
 
       iOSMessage.loopTimes = 1 # 重复推送的次数
       iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
@@ -75,6 +92,7 @@ module.exports =
             onRejected(err)
           else
             try
+
               tempResult = JSON.parse(resultPush)
               onFulfilled(tempResult)
             catch err

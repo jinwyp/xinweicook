@@ -186,7 +186,7 @@
                 <!--<td>{{order.isChildOrder}}</td>-->
                 <td>{{order.clientFrom}}</td>
 
-                <td>{{order.address.contactPerson}} {{order.address.mobile}}</td>
+                <td> <a href="/admin/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a>  {{order.address.mobile}} </td>
                 <td>{{order.address.address}} / {{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / 距离{{order.address.distanceFrom}}米</td>
 
                 <td>{{order.userComment}}</td>

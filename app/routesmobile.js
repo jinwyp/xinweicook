@@ -16,6 +16,10 @@ var request = require('request');
 
 expressRoutes = function(app) {
 
+
+
+
+
     app.get("/", function (req, res) {
         res.redirect('/mobile');
     });

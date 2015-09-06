@@ -28,22 +28,7 @@ module.exports =
               resultDevice.user = u._id
               resultDevice.saveAsync()
 
-              #新iOS用户送15元优惠码
-              if not u.firstTimeRegFromApp
-                newCoupon =
-                  name :
-                    zh : "新APP注册用户优惠券"
-                    en : "New App User Coupon"
-                  price : 15
-                  couponType : models.coupon.constantCouponType().coupon
-                  usedTime : 1
-                  user : u._id.toString()
-
-                models.coupon.addNew(newCoupon).then (resultCouponList)->
-                  u.couponList.push(resultCouponList._id.toString())
-
-                  u.firstTimeRegFromApp = true
-                  u.saveAsync()
+              models.coupon.addCouponForNewIOS(u)
 #            else
 #              models.device.createAsync({deviceToken:deviceToken, user: u._id})
         @u = u
