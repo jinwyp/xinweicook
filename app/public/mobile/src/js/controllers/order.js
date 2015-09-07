@@ -166,9 +166,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 setTimeout(function () {
                     var selector = '#weixinPay';
                     var weixinId = $scope.user.weixinId;
-                    if (weixinId && weixinId.openid) {
-                        selector = '#directPay';
-                    }
+                    //if (weixinId && weixinId.openid) {
+                    //    selector = '#directPay';
+                    //}
                     if (!$scope.isWeixin) {
                         selector = '#alipayPay';
                     }
