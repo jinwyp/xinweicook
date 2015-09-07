@@ -96,7 +96,7 @@
                         <span ng-repeat="( key, value ) in log.meta.params">params : {{key}} : {{value}} <br/><br/></span>
                     </div>
                 </td>
-                <td>{{log.timestamp | date:'MM-dd HH:mm'}} <br><pre>{{log.message}}</pre></td>
+                <td>{{log.timestamp | date:'MM-dd HH:mm'}} - {{log.meta.method}}: {{log.meta.url}} <br/><pre>{{log.message}}</pre></td>
                 <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>
         </tbody>
