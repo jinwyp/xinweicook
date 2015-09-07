@@ -217,7 +217,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-            //console.log ('------------------ WeixinPay user openID: ', body);
+            logger.error ('------------------ WeixinPay user openID: ', body);
             var result = {};
             try {
                 result = JSON.parse(body) ;
