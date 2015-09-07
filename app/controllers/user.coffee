@@ -50,7 +50,7 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 exports.userSignUp = (req, res, next) ->
   # 注册
-  { mobile, pwd, code } = req.body
+  { mobile, pwd, code, couponcode } = req.body
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
@@ -58,6 +58,9 @@ exports.userSignUp = (req, res, next) ->
   .then (resultUser)->
 
     models.coupon.addCouponForNewUser(resultUser)
+
+    if couponcode
+      models.coupon.addCouponFromCouponChargeCode(resultUser, couponcode)
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)

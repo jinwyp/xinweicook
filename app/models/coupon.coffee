@@ -233,13 +233,41 @@ module.exports =
             usedTime : 1
             user : user._id.toString()
 
-          models.coupon.addNew(newCoupon)
+          models.coupon.createAsync(newCoupon)
 
         .then (resultCouponList)->
           user.couponList.push(resultCouponList._id.toString())
 
           user.isUsedInvitationSendCode = true
           user.saveAsync()
+
+    addCouponFromCouponChargeCode : (user, couponChargeCode) ->
+      # 扫二维码 送1张5元优惠券
+
+      models.coupon.validationCouponCode(couponChargeCode)
+      couponData = {}
+
+      models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
+      .then (resultCoupon)->
+        models.coupon.checkNotFound resultCoupon
+        models.coupon.checkUsed(resultCoupon, user)
+        couponData = resultCoupon
+
+        newCoupon =
+          name :
+            zh : "扫二维码优惠券"
+            en : "QR Code Coupon"
+          price : couponData.price
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+
+        models.coupon.createAsync(newCoupon)
+      .then (resultCouponList)->
+        user.couponList.push(resultCouponList._id.toString())
+        couponData.used(user)
+        user.saveAsync()
+
 
 
   methods:
