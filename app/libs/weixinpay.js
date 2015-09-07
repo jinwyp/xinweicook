@@ -134,7 +134,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         openid: item.openid || "", // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         //product_id : item.product_id || "sample product_id", // trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        body:  item.body || "sample body 商品描述", //商品描述 商品或支付单简要描述
+        body:  item.body || "sample body 商品描述" //商品描述 商品或支付单简要描述
 
         // 上面为必填 下面为选填
 //        detail:  item.detail || "sample detail" , //商品详情 商品名称明细列表
