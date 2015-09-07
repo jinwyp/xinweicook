@@ -4,7 +4,7 @@
 
 var sha1 = require('sha1');
 var md5     = require('MD5');
-var request = require('request');
+var requestC = require('request');
 var xml2js  = require('xml2js');
 var _       = require('lodash');
 
@@ -137,8 +137,8 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         body:  item.body || "sample body 商品描述", //商品描述 商品或支付单简要描述
 
         // 上面为必填 下面为选填
-        detail:  item.detail || "sample detail" , //商品详情 商品名称明细列表
-        attach: item.attach || "sample attach"  // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+//        detail:  item.detail || "sample detail" , //商品详情 商品名称明细列表
+//        attach: item.attach || "sample attach"  // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
         //goods_tag : item.goods_tag, //商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
         //fee_type : item.fee_type || "CNY" //符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
 
@@ -155,13 +155,14 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         method: 'POST',
         url: configWeiXinPay.url_createUnifiedOrder,
         body: util.buildXML(newOrder),
-        timeout: 10000
+        timeout: 8000
     };
 
-    request(opts, function(err, response, body){
-        console.log("========== WeixinPay createUnifiedOrder error:", err);
+    requestC(opts, function(err, response, body){
+//        console.log("========== WeixinPay createUnifiedOrder error:", err);
 
         if (err) {
+            logger.error('------------------ WeixinPay createUnifiedOrder: ', err);
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
@@ -212,12 +213,12 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
 
     //通过code换取网页授权access_token
     //文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
-    request(opts, function(err, response, body){
+    requestC(opts, function(err, response, body){
         if (err){
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-            logger.error ('------------------ WeixinPay user openID: ', body);
+//            logger.error ('------------------ WeixinPay user openID: ', body);
             var result = {};
             try {
                 result = JSON.parse(body) ;
@@ -245,7 +246,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
         timeout: 5000
     };
 
-    request(opts, function(err, response, body){
+    requestC(opts, function(err, response, body){
         if (err){
             callback(err)
         }else{
@@ -259,7 +260,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
                     url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + resultBody.access_token + '&type=jsapi',
                     timeout: 5000
                 };
-                request(options, function(err2, response, body2){
+                requestC(options, function(err2, response, body2){
                     if (err2){
                         callback(err2)
                     }else{
