@@ -9,12 +9,14 @@ POST `/api/user/signup`
 | mobile | string | 手机号 |
 | pwd    | string | 密码   |
 | code   | string | 验证码 |
+| couponcode   | string | 送优惠券的兑换码 |
 
 ```js
 {
   "mobile": "18600000000",
   "pwd": "boo",
-  "code": "123456"
+  "code": "123456"，
+  "couponcode" : "XWSALES001"
 }
 ```
 
