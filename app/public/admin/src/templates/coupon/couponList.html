@@ -29,7 +29,7 @@
                     <label  class="col-lg-2 control-label" >类型</label>
                     <div class="col-lg-10">
                         <label class="radio-inline" >
-                            <input type="radio" name="couponStatus"  ng-value="''" ng-model="data.searchOptions.couponType" required>优惠码
+                            <input type="radio" name="couponStatus"  ng-value="''" ng-model="data.searchOptions.couponType" required>ALL
                         </label>
                         <label class="radio-inline" >
                             <input type="radio" name="couponStatus"  ng-value="'promocode'" ng-model="data.searchOptions.couponType" required>优惠码金额折扣
@@ -48,6 +48,37 @@
                         </label>
                     </div>
                 </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponIsUsed.$dirty&&searchForm.couponIsUsed.$valid, 'has-error':searchForm.couponIsUsed.$dirty&&searchForm.couponIsUsed.$invalid}">
+                    <label  class="col-lg-2 control-label" >是否使用(针对优惠券)</label>
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="''" ng-model="data.searchOptions.couponType" >ALL
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="'false'" ng-model="data.searchOptions.isUsed" >未使用
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="'true'" ng-model="data.searchOptions.isUsed" >已使用
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponUsedCount.$dirty&&searchForm.couponUsedCount.$valid, 'has-error':searchForm.couponUsedCount.$dirty&&searchForm.couponUsedCount.$invalid}">
+                    <label  class="col-lg-2 control-label" >使用次数(针对优惠码)</label>
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="''" ng-model="data.searchOptions.isUsedCount" >ALL
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="'0'" ng-model="data.searchOptions.isUsedCount" >未使用
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="'>0'" ng-model="data.searchOptions.isUsedCount" >已使用过
+                        </label>
+                    </div>
+                </div>
+
 
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.promoCode.$dirty&&searchForm.promoCode.$valid, 'has-error':searchForm.promoCode.$dirty&&searchForm.promoCode.$invalid}">
                     <label for="inputPromoCode" class="col-lg-2 control-label" >优惠码</label>
