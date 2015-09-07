@@ -97,7 +97,7 @@ module.exports =
               if err
                 logger.error("信鸽推送发送失败: ", JSON.stringify(err))
               else
-                logger.error("信鸽推送发送: ", JSON.stringify(resultPush))
+                logger.error("信鸽推送发送: ", resultPush)
                 try
                   tempResult = JSON.parse(resultPush)
                 catch err
