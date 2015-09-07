@@ -123,6 +123,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                         order.deliveryDateCook = $scope.cookTime.selectDay.day;
                         if ($scope.cookTime.selectTime) {
                             order.deliveryTimeCook = $scope.cookTime.selectTime.name + ':00';
+                        } else {
+                            order.deliveryTimeCook = '12:00';
                         }
                     }
                 } catch (e){
