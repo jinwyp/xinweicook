@@ -72,8 +72,14 @@ expressRoutes = function(app) {
     app.get('/mobile/coupons', function (req, res) {
         res.render('mobile/coupons.html');
     });
-    app.get("http://m.xinweicook.com/mobile/alipay/return", function (res) {
+    app.get("/mobile/alipay/return", function (res) {
         res.render('mobile/alipay-notify.html');
+    });
+    app.get("/mobile/balance", function (res) {
+        res.render('mobile/balance.html');
+    });
+    app.get("/mobile/chargebalance", function (res) {
+        res.render('mobile/charge-balance.html');
     });
 
 
