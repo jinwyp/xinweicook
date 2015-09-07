@@ -143,6 +143,12 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
         return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     else
+      # 给客服发送新订单短信
+      if not conf.debug
+        text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
+        models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败OpenID:", err))     # 王宇鹏电话
+
+
       result.code = req.query.code
       result.order_number_state = req.query.order_number_state
       logger.error("OpenID 失败 errcode: " + JSON.stringify(result) )
