@@ -852,57 +852,63 @@ exports.updateOrder = (req, res, next) ->
 
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
-  console.log "========================OrderAlipayNotify :: ", req.body
-  models.order.validationAlipayNotify req.body
+#  console.log "========================OrderAlipayNotify :: ", req.body
+  models.order.validationAlipayNotify(req.body)
 
-#  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
-  models.order.findOne {orderNumber : req.body.out_trade_no}
-  .populate "childOrderList"
-  .execAsync()
-  .then (resultOrder) ->
-    models.order.checkNotFound(resultOrder)
+  if req.body.trade_status is "TRADE_SUCCESS"
 
-    resultOrder.isPaymentPaid = true
-    resultOrder.status = models.order.constantStatus().paid
+#    models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
+    models.order.findOne({orderNumber : req.body.out_trade_no})
+    .populate "childOrderList"
+    .execAsync()
+    .then (resultOrder) ->
+      models.order.checkNotFound(resultOrder)
 
-    resultOrder.paymentAlipay =
-      notify_time : req.body.notify_time
-      notify_type : req.body.notify_type
-      notify_id : req.body.notify_id
-      sign_type: req.body.sign_type,
-      sign: req.body.sign_type,
+      resultOrder.isPaymentPaid = true
+      resultOrder.status = models.order.constantStatus().paid
 
-      out_trade_no : req.body.out_trade_no
-      subject : req.body.subject
-      payment_type : req.body.payment_type
-      trade_no : req.body.trade_no
-      trade_status : req.body.trade_status
-      price : req.body.price
-      total_fee : req.body.total_fee
-      quantity : req.body.quantity
-      body : req.body.body
-      is_total_fee_adjust : req.body.is_total_fee_adjust
-      use_coupon : req.body.use_coupon
-      gmt_create : req.body.gmt_create
-      gmt_payment : req.body.gmt_payment
-#      refund_status : req.body.refund_status
-#      gmt_refund : req.body.gmt_refund
-      seller_email : req.body.seller_email
-      buyer_email : req.body.buyer_email
-      seller_id : req.body.seller_id
-      buyer_id : req.body.buyer_id
+      resultOrder.paymentAlipay =
+        notify_time : req.body.notify_time
+        notify_type : req.body.notify_type
+        notify_id : req.body.notify_id
+        sign_type: req.body.sign_type,
+        sign: req.body.sign_type,
 
-    if resultOrder.childOrderList.length > 0
-      for childOrder in resultOrder.childOrderList
-        childOrder.isPaymentPaid = true
-        childOrder.status = models.order.constantStatus().paid
-        childOrder.saveAsync()
+        out_trade_no : req.body.out_trade_no
+        subject : req.body.subject
+        payment_type : req.body.payment_type
+        trade_no : req.body.trade_no
+        trade_status : req.body.trade_status
+        price : req.body.price
+        total_fee : req.body.total_fee
+        quantity : req.body.quantity
+        body : req.body.body
+        is_total_fee_adjust : req.body.is_total_fee_adjust
+        use_coupon : req.body.use_coupon
+        gmt_create : req.body.gmt_create
+        gmt_payment : req.body.gmt_payment
+  #      refund_status : req.body.refund_status
+  #      gmt_refund : req.body.gmt_refund
+        seller_email : req.body.seller_email
+        buyer_email : req.body.buyer_email
+        seller_id : req.body.seller_id
+        buyer_id : req.body.buyer_id
 
-    resultOrder.saveAsync()
-  .spread (resultOrder2, numberAffected) ->
+      if resultOrder.childOrderList.length > 0
+        for childOrder in resultOrder.childOrderList
+          childOrder.isPaymentPaid = true
+          childOrder.status = models.order.constantStatus().paid
+          childOrder.saveAsync()
+
+      resultOrder.saveAsync()
+    .spread (resultOrder2, numberAffected) ->
+      res.set('Content-Type', 'text/plain');
+      res.send "success"
+    .catch next
+
+  else
     res.set('Content-Type', 'text/plain');
     res.send "success"
-  .catch next
 
 
 
