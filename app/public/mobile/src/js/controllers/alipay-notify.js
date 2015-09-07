@@ -6,7 +6,8 @@ angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope
         var searches = location.search.slice(1).split('&');
         $scope.searches = searches.reduce(function (obj, cur) {
             cur = cur.split('=');
-            return obj[cur[0]] = decodeURIComponent(cur[1]);
+            obj[cur[0]] = decodeURIComponent(cur[1]);
+            return obj
         }, {});
 
         Debug.alert($scope.searches);

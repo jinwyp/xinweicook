@@ -84,7 +84,8 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
         var searches = location.search.slice(1).split('&');
         searches = searches.reduce(function (obj, cur) {
             cur = cur.split('=');
-            return obj[cur[0]] = decodeURIComponent(cur[1]);
+            obj[cur[0]] = decodeURIComponent(cur[1]);
+            return obj;
         }, {});
 
         couponcode = searches.couponcode || '';
