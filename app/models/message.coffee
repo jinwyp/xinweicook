@@ -37,7 +37,7 @@ module.exports =
       if not message
         return throw new Err "Push Message not found !", 400
 
-    sendMessageXinge : ( deviceToken, contentType, additionalContent ) ->
+    sendMessageXinge : ( deviceToken, contentType, additionalContent, callback ) ->
 
       newMessage =
         contentType : ""
@@ -86,26 +86,24 @@ module.exports =
       iOSMessage.loopTimes = 1 # 重复推送的次数
       iOSMessage.loopInterval = 1  # 重复推送的时间间隔，单位为天
 
-      return new Promise (onFulfilled, onRejected) ->
-        xingePush.pushToSingleDevice(deviceToken, iOSMessage, Xinge.IOS_ENV_DEV, (err, resultPush) ->
-          if err
-            onRejected(err)
-          else
-            logger.error("信鸽推送发送: ", JSON.stringify(resultPush))
-            try
-              tempResult = JSON.parse(resultPush)
-              onFulfilled(tempResult)
-            catch err
-              # http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
-              onRejected(err)
-        )
+      xingePush.pushToSingleDevice(deviceToken, iOSMessage, Xinge.IOS_ENV_DEV, callback)
 
     sendMessageToUser : ( userId, contentType, additionalContent, pushOptions ) ->
 
       if pushOptions.isPushMobile
         models.device.findOneAsync(user: userId).then (resultDevice) ->
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
-            models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent).catch( (err) -> logger.error("信鸽推送发送失败: ", JSON.stringify(err)) )
+            models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent, (err, resultPush) ->
+              if err
+                logger.error("信鸽推送发送失败: ", JSON.stringify(err))
+              else
+                logger.error("信鸽推送发送: ", JSON.stringify(resultPush))
+                try
+                  tempResult = JSON.parse(resultPush)
+                catch err
+                # http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
+                  logger.error("信鸽推送发送失败 JSON非法: ", JSON.stringify(err))
+            )
 
       if pushOptions.isPushSMS and additionalContent.smsText
         models.user.findOneAsync(_id: userId).then (resultUser) ->
