@@ -56,12 +56,16 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 return res;
             })
         },
-        signup: function (mobile, pwd, code) {
-            return $http.post('/api/user/signup', {
+        signup: function (mobile, pwd, code, couponcode) {
+            var opts = {
                 mobile: mobile,
                 pwd: pwd,
                 code: code
-            }).then(function (res) {
+            };
+            if (couponcode) {
+                opts.couponcode = couponcode;
+            }
+            return $http.post('/api/user/signup', opts).then(function (res) {
                 if (res.data && res.data.access_token) {
                     $localStorage.access_token = res.data.access_token;
                 }
