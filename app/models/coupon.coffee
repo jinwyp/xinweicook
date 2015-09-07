@@ -34,6 +34,7 @@ module.exports =
         promocodePercentage : "promocodepercentage"
         coupon : "coupon"
         accountchargecode : "accountchargecode"
+        couponchargecode : "couponchargecode"
     checkNotFound : (coupon) ->
       if not coupon
         throw new Err "Coupon not Found or used or expired!", 400

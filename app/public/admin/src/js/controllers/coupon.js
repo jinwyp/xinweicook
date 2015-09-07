@@ -19,14 +19,14 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         searchOptions : {
             skip : 0,
             limit : 1000,
-            createdAt :'',
             usedTime : '',
-            couponType : '!=coupon',
+            couponType : '',
             _id : ''
 
         },
         searchSort : {
-            sort : '-createdAt'
+//            sort : '-createdAt',
+            sort : 'couponType'
         },
 
         couponListCount : 0,
