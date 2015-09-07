@@ -91,8 +91,8 @@ module.exports =
           if err
             onRejected(err)
           else
+            logger.error("信鸽推送发送: ", JSON.stringify(resultPush))
             try
-
               tempResult = JSON.parse(resultPush)
               onFulfilled(tempResult)
             catch err
@@ -105,7 +105,7 @@ module.exports =
       if pushOptions.isPushMobile
         models.device.findOneAsync(user: userId).then (resultDevice) ->
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
-            models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent).catch( (err) -> logger.error("信鸽推送发送失败:", err))
+            models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent).catch( (err) -> logger.error("信鸽推送发送失败: ", JSON.stringify(err)) )
 
       if pushOptions.isPushSMS and additionalContent.smsText
         models.user.findOneAsync(_id: userId).then (resultUser) ->
