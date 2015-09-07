@@ -116,6 +116,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         Coupons.one($stateParams.id).get().then(function (resutlCoupon) {
             $scope.data.coupon = resutlCoupon;
+            if(typeof $scope.data.coupon.couponType === 'undefined'){
+                $scope.data.coupon.couponType = 'promocode'
+            }
 
 
         });
