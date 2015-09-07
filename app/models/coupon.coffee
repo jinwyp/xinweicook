@@ -29,7 +29,8 @@ module.exports =
     fields : ->
       selectFields = "-isExpired"
     constantCouponType : () ->
-      payment =
+      type =
+        code : ["promocode", "promocodepercentage"]
         promocode : "promocode"
         promocodePercentage : "promocodepercentage"
         coupon : "coupon"

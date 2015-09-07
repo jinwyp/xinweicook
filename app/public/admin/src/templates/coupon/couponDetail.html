@@ -37,7 +37,7 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-if="css.isAddNewStatus || data.coupon.couponType=='promocode' || data.coupon.couponType=='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                <div class="form-group has-feedback" ng-if="css.isAddNewStatus || data.coupon.couponType=='' || data.coupon.couponType=='promocode' || data.coupon.couponType=='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
                     <label class="col-lg-2 control-label" >优惠码类型</label>
 
                     <div class="col-lg-8">

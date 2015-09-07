@@ -360,7 +360,7 @@ exports.addNewOrder = (req, res, next) ->
     else
       isUsedAccountBalance = false
 
-    models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+    models.coupon.findOne({code: req.body.promotionCode,  couponType: { $in: models.coupon.constantCouponType().code },  isExpired : false, isUsed : false}).execAsync()
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
