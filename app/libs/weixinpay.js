@@ -162,7 +162,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         console.log("========== WeixinPay createUnifiedOrder error:", err);
 
         if (err) {
-            logger.error('------------------ WeixinPay createUnifiedOrder: ', err);
+            logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
