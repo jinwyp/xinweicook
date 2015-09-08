@@ -31,7 +31,7 @@ module.exports =
           params: req.params
           user : ""
 
-      error.req.user = req.u._id if req.u._id
+      error.req.user = req.u._id if req.u
 
       tempError = prettify(error)
       if not tempError
