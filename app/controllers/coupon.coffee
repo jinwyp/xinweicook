@@ -27,11 +27,31 @@ exports.couponSingleInfoByCode = (req, res, next) ->
   models.coupon.validationCouponCode req.params.code
 
   models.coupon.find1({code: req.params.code, isExpired : false, isUsed : false}).then (resultCoupon) ->
-    models.coupon.checkNotFound resultCoupon
-    models.coupon.checkExpired resultCoupon
-    models.coupon.checkUsed(resultCoupon, req.u)
 
-    res.json resultCoupon
+    if resultCoupon
+      models.coupon.checkNotFound resultCoupon
+      models.coupon.checkExpired resultCoupon
+      models.coupon.checkUsed(resultCoupon, req.u)
+      res.json resultCoupon
+    else
+      if models.coupon.verifyCoupon15W(req.params.code)
+        newCoupon =
+          name :
+            zh : "蒙牛活动优惠码"
+            en : "Mengniu Promotion Code"
+          price : 50
+          priceLimit : 150
+          endDate: moment().endOf("year")
+          couponType : models.coupon.constantCouponType().promocode
+          code : req.params.code
+          usedTime : 0
+
+        models.coupon.addNew(newCoupon).then (resultCoupon2)->
+          res.json resultCoupon2
+        .catch(next)
+      else
+        models.coupon.checkNotFound resultCoupon
+
   .catch(next)
 
 
