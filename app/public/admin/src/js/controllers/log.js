@@ -19,7 +19,7 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
         searchOptions : {
             skip : 0,
             limit : 500,
-            level : ''
+            level : 'error'
         },
 
         searchSort : {
