@@ -20,8 +20,8 @@
     </div>
     <p class="notes text-center">
         分享到朋友圈, 立得两张 ¥5 优惠券<br/>
-        使用兑换码赠好友优惠券一张 <br/>
-        好友下单后，您既得¥10优惠券
+        好友使用您的邀请码会得到¥10优惠券 <br/>
+        好友下单后，您还会得到¥10优惠券
     </p>
 
     <div class="share-block">
@@ -29,7 +29,7 @@
             <div class="txt row">
                 <span class="money col-xs-4">¥10</span>
                 <div class="col-xs-8 codes row">
-                    <span class="col-xs-4 caption">兑换码:</span><span class="col-xs-8 code pull-right">{{user.invitationSendCode}}</span>
+                    <span class="col-xs-4 caption">您的邀请码:</span><span class="col-xs-8 code pull-right">{{user.invitationSendCode}}</span>
                 </div>
             </div>
             <div class="inputs row">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div ng-class="{invalid: !ready}" ng-click="ready && (css.showTip=true)" class="button text-center">分享兑换码</div>
+        <div ng-class="{invalid: !ready}" ng-click="ready && (css.showTip=true)" class="button text-center">分享</div>
     </div>
 
     <div ng-click="css.showTip=false" class="tip" ng-if="css.showTip">
