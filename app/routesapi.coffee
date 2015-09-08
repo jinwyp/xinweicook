@@ -52,6 +52,7 @@ expressRoutes = (app) ->
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
+  app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
 
 #  app.use libs.secure.middleware
 

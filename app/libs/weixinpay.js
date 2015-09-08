@@ -67,7 +67,8 @@ var configWeiXinPay = {
     notify_url : "",
 
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
-    url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //通过code换取网页授权access_token
+    url_getUserOauthCode : "https://open.weixin.qq.com/connect/oauth2/authorize?", //第一步：用户同意授权，获取code  http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
+    url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //第二步：通过code换取网页授权access_token
     url_getDeveloperAccessToken : "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&",
     url_getDeveloperTicket : "https://api.weixin.qq.com/cgi-bin/ticket/getticket?"
 
@@ -194,6 +195,14 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
 
 
 
+weiXinPay.prototype.getUserOauthUrl = function(redirectUrl, state){
+
+    // URL范例 https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+    var url = configWeiXinPay.url_getUserOauthCode + 'appid=' + this.config.appid + '&redirect_uri=' + encodeURIComponent(redirectUrl) + '&response_type=code' + '&scope=snsapi_base' + '&state=' + encodeURIComponent(state) + '#wechat_redirect';
+    logger.error('Get User Oauth Code: ', url);
+    return url
+}
+
 
 
 
@@ -218,7 +227,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
-//            logger.error ('------------------ WeixinPay user openID: ', body);
+            logger.error ('------------------ WeixinPay user OpenID: ', body);
             var result = {};
             try {
                 result = JSON.parse(body) ;
