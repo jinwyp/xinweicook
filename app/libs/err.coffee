@@ -29,6 +29,7 @@ module.exports =
           body: req.body
           query: req.query
           params: req.params
+          user : req.u._id
 
       tempError = prettify(error)
       if not tempError
