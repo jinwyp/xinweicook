@@ -127,7 +127,7 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-  logger.error("OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   order_number_state = req.query.state
 
