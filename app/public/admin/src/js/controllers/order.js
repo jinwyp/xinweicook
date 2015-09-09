@@ -328,7 +328,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     if ($state.current.data.type === 'list'){
         $scope.searchOrderCount();
-        $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2)
+        var createdAt = $scope.data.searchOptions.createdAt || '';
+        $scope.data.searchDateFrom = createdAt.substring(2)
     }
 
     if ($state.current.data.type === 'update'){
