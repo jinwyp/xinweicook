@@ -160,7 +160,40 @@ exports.updateUserInfo = (req, res, next) ->
 
   models.user.validationUserInfo req.body
 
-  req.u.address = req.body.address
+  if req.u.address and req.body.address.length > 0
+
+    for address,addressIndex in req.body.address
+
+      if req.u.address.length-1 >= addressIndex
+
+        req.u.address[addressIndex].geoLatitude = address.geoLatitude if address.geoLatitude
+        req.u.address[addressIndex].geoLongitude = address.geoLongitude if address.geoLongitude
+
+        req.u.address[addressIndex].country = address.country if address.country
+        req.u.address[addressIndex].province = address.province if address.province
+        req.u.address[addressIndex].city = address.city if address.city
+        req.u.address[addressIndex].district = address.district if address.district
+        req.u.address[addressIndex].street = address.street if address.street
+        req.u.address[addressIndex].address = address.address if address.address
+
+        req.u.address[addressIndex].isDefault = address.isDefault if address.isDefault
+
+        req.u.address[addressIndex].contactPerson = address.contactPerson if address.contactPerson
+        req.u.address[addressIndex].mobile = address.mobile if address.mobile
+        req.u.address[addressIndex].alias = address.alias if address.alias
+        req.u.address[addressIndex].remark = address.alias if address.remark
+
+      else
+        req.u.address.push(address)
+
+      req.u.address[addressIndex].sortOrder = addressIndex
+
+    if req.u.address.length > req.body.address.length
+      req.u.address.splice(req.body.address.length, req.u.address.length - req.body.address.length);
+
+  else
+    req.u.address = req.body.address
+
   req.u.gender = req.body.gender if req.body.gender
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
