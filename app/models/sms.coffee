@@ -58,14 +58,15 @@ module.exports =
 #        logger.debug "-----sendSMSYunpian", resp.statusCode
 #        @statusCode = resp.statusCode
 #        libs.parse.json(body).should.have.property("code", 0)
-        console.log "------------------ Send SMS Yunpian ------------------", body
+#        console.log "------------------ Send SMS Yunpian ------------------", body
+        logger.error("短信发送成功: " + mobile, body)
         result = JSON.parse(body)
         if result.code isnt 0
           throw new Err "短信发送失败 " + result.msg, 400, Err.code.sms.sendFailed
         else
           result
       .catch( (err)->
-        logger.error("短信发送失败:", JSON.stringify(err))
+        logger.error("短信发送失败: " + mobile, JSON.stringify(err))
       )
 
 
