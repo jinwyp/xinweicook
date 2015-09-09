@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
     $scope.cart = null;
     $scope.subDishCart = null;
     $scope.address = {
@@ -63,7 +63,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
     };
 
 
+    var submitted = false;
     $scope.submitOrder = function () {
+        if (submitted) return;
         var order = {
             cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
             clientFrom: $scope.isWeixin ? 'wechat' : 'mobileweb',
@@ -158,6 +160,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
         });
 
         if (ok) {
+            submitted = true;
             Orders.postOrder(order).then(function (res) {
                 clearAddress();
 
@@ -176,6 +179,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                         document.querySelector(selector).click();
                         return;
                     }
+                    if (Debug.isDebug) {
+                        location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
+                        return;
+                    }
                     location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
                         'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
                         'response_type=code&scope=snsapi_base&' +
@@ -184,6 +191,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {
+                submitted = false;
                 var msg = Alert.message(res.data.validationStatus);
                 if (res.data.validationStatus == 4110) {
                     if (/Dish Out Of Stock ! \w+ ([\w\u4E00-\u9FA5]+) /) {
