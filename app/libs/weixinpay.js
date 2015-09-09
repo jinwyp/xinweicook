@@ -156,7 +156,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         method: 'POST',
         url: configWeiXinPay.url_createUnifiedOrder,
         body: util.buildXML(newOrder),
-        timeout: 20000
+        timeout: 10000
     };
 
     requestC(opts, function(err, response, body){
@@ -217,7 +217,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     var opts = {
         method: 'GET',
         url: url,
-        timeout: 10000
+        timeout: 6000
     };
 
     //通过code换取网页授权access_token
@@ -261,7 +261,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
     var opts = {
         method: 'GET',
         url: url,
-        timeout: 5000
+        timeout: 6000
     };
 
     requestC(opts, function(err, response, body){
