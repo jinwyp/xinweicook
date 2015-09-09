@@ -149,12 +149,9 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
     if err
 #      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
-      logger.error("OpenID Failed Network error:", JSON.stringify(err))
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
     if not result.errcode
-      logger.error("OpenID Success: " + JSON.stringify(result) )
-
       models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
         if resultOrder
           models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
@@ -182,12 +179,9 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
       # 给开发发送Open短信
       if not conf.debug
         text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
-        models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败OpenID:", JSON.stringify(err)))     # 王宇鹏电话
-        models.sms.sendSmsVia3rd("15900719671", text).catch( (err) -> logger.error("短信发送失败OpenID:", JSON.stringify(err)))     # 岳可诚电话
+        models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
+        models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
 
-      result.code = req.query.code
-      result.order_number_state = req.query.order_number_state
-      logger.error("OpenID Failed errcode: " + JSON.stringify(result) )
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
   )
 
