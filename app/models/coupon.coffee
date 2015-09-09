@@ -242,6 +242,37 @@ module.exports =
           user.isUsedInvitationSendCode = true
           user.saveAsync()
 
+    addCouponForInvitationRebate : (user) ->
+      # 该用户首次下单给邀请的人添加优惠券
+      if user.invitationFromUser and not user.isHaveFirstOrderCoupon
+        models.user.findOneAsync({_id:user.invitationFromUser}).then (fromUser) ->
+          console.log("-------", fromUser)
+          if fromUser
+            newCoupon =
+              name :
+                zh : "邀请的好友首次下单返利优惠券"
+                en : "Friend First Order Rebate Coupon"
+              price : 10
+              couponType : models.coupon.constantCouponType().coupon
+              usedTime : 1
+              user : fromUser._id.toString()
+
+            models.coupon.createAsync(newCoupon).then (resultCoupon)->
+              fromUser.couponList.push(resultCoupon._id.toString())
+              fromUser.saveAsync()
+              user.isHaveFirstOrderCoupon = true
+
+              # 发送iOS 推送
+              additionalContent =
+                userId : user._id.toString()
+
+              pushOptions =
+                isPushMobile : true
+
+              models.message.sendMessageToUser(user._id, models.message.constantContentType().coupon, additionalContent, pushOptions)
+
+              user.saveAsync()
+
     addCouponFromCouponChargeCode : (user, couponChargeCode) ->
       # 扫二维码 送1张5元优惠券
 
@@ -268,6 +299,57 @@ module.exports =
         user.couponList.push(resultCouponList._id.toString())
         couponData.used(user)
         user.saveAsync()
+
+    addCouponPaidManyOrder : (user) ->
+      # 用户订单超过5单和10单赠送优惠券
+      newCouponList = []
+      if user.sharedInvitationSendCodeTotalCount >=5 and not user.isPaid5Orders
+        newCoupon5 =
+          name :
+            zh : "满5单优惠券"
+            en : "Achieve 5 orders Coupon"
+          price : 10
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+
+        newCouponList.push(newCoupon5)
+
+      if user.sharedInvitationSendCodeTotalCount >=10 and not user.isPaid10Orders
+        newCoupon10 =
+          name :
+            zh : "满10单优惠券"
+            en : "Achieve 10 orders Coupon"
+          price : 20
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+        newCouponList.push(newCoupon10)
+
+      if newCouponList.length > 0
+        models.coupon.createAsync(newCouponList).then (resultCouponList)->
+          for coupon, couponIndex in resultCouponList
+            user.couponList.push(coupon._id.toString())
+            if coupon.price is 10
+              user.isPaid5Orders = true
+            if coupon.price is 20
+              user.isPaid10Orders = true
+
+          # 发送iOS 推送
+          additionalContent =
+            userId : user._id.toString()
+
+          pushOptions =
+            isPushMobile : true
+
+          models.message.sendMessageToUser(user._id, models.message.constantContentType().coupon, additionalContent, pushOptions)
+
+          user.saveAsync()
+      else
+        user.saveAsync()
+
+
+
 
 
 

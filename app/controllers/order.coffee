@@ -767,7 +767,8 @@ exports.updateOrder = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled and resultOrder.status isnt models.order.constantStatus().paid
+      # 修改订单支付状态
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 
@@ -786,82 +787,36 @@ exports.updateOrder = (req, res, next) ->
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
 
-      # 该用户首次下单给邀请的人添加优惠券
+
+      # 该用户完成支付后可以再次分享邀请码
+      req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+      if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+        req.u.isSharedInvitationSendCode = false
+
+      # 避免重复的req.u.save
       if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon
-        models.user.findOneAsync({_id:req.u.invitationFromUser}).then (fromUser) ->
-          if fromUser
-            newCoupon =
-              name :
-                zh : "邀请的好友首次下单返利优惠券"
-                en : "Friend First Order Rebate Coupon"
-              price : 10
-              couponType : models.coupon.constantCouponType().coupon
-              usedTime : 1
-              user : fromUser._id.toString()
-            models.coupon.addNew(newCoupon).then (resultCoupon)->
-              fromUser.couponList.push(resultCoupon._id.toString())
-              fromUser.saveAsync()
-              req.u.isHaveFirstOrderCoupon = true
-
-              # 该用户完成支付后可以再次分享邀请码
-              req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
-
-              if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
-                req.u.isSharedInvitationSendCode = false
-              req.u.saveAsync()
+        # 该用户首次下单给邀请的人添加优惠券
+        models.coupon.addCouponForInvitationRebate(req.u)
       else
-        # 该用户完成支付后可以再次分享邀请码
-        req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
-
-        if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
-          req.u.isSharedInvitationSendCode = false
+        # 用户订单超过5单和10单赠送优惠券
+        models.coupon.addCouponPaidManyOrder(req.u)
 
 
-        if req.u.sharedInvitationSendCodeTotalCount >= 5 and not req.u.isPaid5Orders
-          newCoupon =
-            name :
-              zh : "满5单优惠券"
-              en : "Achieve 5 orders Coupon"
-            price : 10
-            couponType : models.coupon.constantCouponType().coupon
-            usedTime : 1
-            user : req.u._id.toString()
+      if req.u.sharedInvitationSendCodeTotalCount is 6
+        # 发送iOS 推送 满6单发新味币充值码
+        additionalContent =
+          userId : req.u._id
+          orderId : resultOrder._id
+          code : "XWORDERFIV"
 
-          models.coupon.addNew(newCoupon).then (resultCouponList)->
-            req.u.couponList.push(resultCouponList._id.toString())
-            req.u.isPaid5Orders = true
-            req.u.saveAsync()
+        pushOptions =
+          isPushMobile : true
 
-          # 发送iOS 推送 满5单发充值码
-          additionalContent =
-            userId : req.u._id
-            orderId : resultOrder._id
-            code : "XWORDERFIV"
-
-          pushOptions =
-            isPushMobile : true
-
-          models.message.sendMessageToUser(req.u._id, models.message.constantContentType().chargeAccountByCode10, additionalContent, pushOptions)
-
-        else if req.u.sharedInvitationSendCodeTotalCount >=10 and not req.u.isPaid10Orders
-          newCoupon =
-            name :
-              zh : "满10单优惠券"
-              en : "Achieve 10 orders Coupon"
-            price : 20
-            couponType : models.coupon.constantCouponType().coupon
-            usedTime : 1
-            user : req.u._id.toString()
-
-          models.coupon.addNew(newCoupon).then (resultCouponList)->
-            req.u.couponList.push(resultCouponList._id.toString())
-            req.u.isPaid10Orders = true
-            req.u.saveAsync()
-        else
-          req.u.saveAsync()
-
+        models.message.sendMessageToUser(req.u._id, models.message.constantContentType().chargeAccountByCode10, additionalContent, pushOptions)
 
     else
+      # 取消订单
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
         resultOrder.status = models.order.constantStatus().canceled
 

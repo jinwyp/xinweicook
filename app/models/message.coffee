@@ -33,6 +33,11 @@ module.exports =
           zh : "满5单送10元新味币,充值码"
           en : "10RMB Xinwei coin, charge with code "
 
+        coupon : "coupon"
+        couponText :
+          zh : "您收到新味赠送的优惠券"
+          en : "Your got a new XinweiCook coupon"
+
     checkNotFound : (message) ->
       if not message
         return throw new Err "Push Message not found !", 400
@@ -51,7 +56,6 @@ module.exports =
         newMessage.user = additionalContent.userId if additionalContent.userId
         newMessage.orderId = additionalContent.orderId if additionalContent.orderId
 
-
       if contentType is @constantContentType().orderAdd
         newMessage.text = @constantContentType().orderAddText
         newMessage.contentType = @constantContentType().orderAdd
@@ -60,7 +64,12 @@ module.exports =
         newMessage.text.zh = @constantContentType().chargeAccountByCode10Text.zh + additionalContent.code
         newMessage.text.en = @constantContentType().chargeAccountByCode10Text.en + additionalContent.code
 #        newMessage.contentType = @constantContentType().chargeAccountByCode10 # 兼容老版本APP
-        newMessage.contentType = @constantContentType().orderAdd
+        newMessage.contentType = @constantContentType().orderPaid
+
+      if contentType is @constantContentType().coupon
+        newMessage.text = @constantContentType().couponText
+#        newMessage.contentType = @constantContentType().coupon # 兼容老版本APP
+        newMessage.contentType = @constantContentType().orderPaid
 
       @createAsync(newMessage)
 
@@ -95,14 +104,14 @@ module.exports =
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
             models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent, (err, resultPush) ->
               if err
-                logger.error("信鸽推送发送失败: ", JSON.stringify(err))
+                logger.error("信鸽推送发送失败: "+ contentType, JSON.stringify(err))
               else
-                logger.error("信鸽推送发送: ", resultPush)
+                logger.error("信鸽推送发送: "+ contentType, resultPush)
                 try
                   tempResult = JSON.parse(resultPush)
                 catch err
                 # http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
-                  logger.error("信鸽推送发送失败 JSON非法: ", JSON.stringify(err))
+                  logger.error("信鸽推送发送失败 JSON非法: " + contentType, JSON.stringify(err))
             )
 
       if pushOptions.isPushSMS and additionalContent.smsText
