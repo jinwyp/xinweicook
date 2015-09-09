@@ -148,10 +148,11 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
   models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
     if resultOrder
+
       models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
         if resultUser
 
-          if resultUser.openid
+          if resultUser.weixinId and resultUser.weixinId.openid
             return res.redirect("/mobile/wxpay/" + order_number_state)
 
           else
@@ -707,6 +708,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
       if req.u.weixinId.openid and resultOrder.clientFrom is "wechat"
+        console.log "------------------Weixinpay Unified Order-------: ", req.u.weixinId
         weixinpayOrder.openid = req.u.weixinId.openid
 
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
