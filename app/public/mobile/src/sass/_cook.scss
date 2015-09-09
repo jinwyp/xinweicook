@@ -7,6 +7,8 @@ $cook-font-lighter-color: #646464;
 
   img {
     width: 100%;
+    height: 66.66vw; //see _eat.scss
+    min-height: 200px; // adapt to iphone 5s width
   }
   .detail {
     padding: 10px;
@@ -30,6 +32,7 @@ $cook-font-lighter-color: #646464;
 .info {
   img {
     width: 100%;
+    min-height: 180px;
   }
   padding: 0 10px;
   margin: 0 8px $margin-to-cart-length;
