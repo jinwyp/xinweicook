@@ -146,45 +146,54 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
 
-  weixinpay.getUserOpenId(code, (err, result) ->
+  models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+    if resultOrder
+      models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+        if resultUser
 
-    if err
-#      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
+          if resultUser.openid
+            return res.redirect("/mobile/wxpay/" + order_number_state)
 
-    if not result.errcode
-      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-        if resultOrder
-          models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
-            if resultUser
-              resultUser.weixinId.access_token = result.access_token
-              resultUser.weixinId.openid = result.openid
-              resultUser.weixinId.refresh_token = result.refresh_token
+          else
 
-              resultUser.saveAsync().then (resultUser2) ->
-                return res.redirect("/mobile/wxpay/" + order_number_state)
-              .catch (err)->
-                logger.error("OpenID Failed Save User error:", JSON.stringify(err))
-            else
-              return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found user of this order"))
-          .catch (err)->
-              logger.error("OpenID Failed Search User error:", JSON.stringify(err))
+            weixinpay.getUserOpenId(code, (err, result) ->
+
+              if err
+          #      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
+                return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
+
+              if not result.errcode
+                resultUser.weixinId.access_token = result.access_token
+                resultUser.weixinId.openid = result.openid
+                resultUser.weixinId.refresh_token = result.refresh_token
+
+                resultUser.saveAsync().then (resultUser2) ->
+                  return res.redirect("/mobile/wxpay/" + order_number_state)
+                .catch (err)->
+                    logger.error("OpenID Failed Save User error:", JSON.stringify(err))
+              else
+                # 给开发发送Open短信
+                if not conf.debug
+                  text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
+                  models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
+                  models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
+
+                return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
+            )
+
         else
-          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
-
+          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found user of this order"))
       .catch (err)->
-        logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
-        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
-
+          logger.error("OpenID Failed Search User error:", JSON.stringify(err))
     else
-      # 给开发发送Open短信
-      if not conf.debug
-        text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
-        models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
-        models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
 
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
-  )
+  .catch (err)->
+      logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
+
+
+
 
 
 
