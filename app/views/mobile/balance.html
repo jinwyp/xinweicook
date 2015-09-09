@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>账户余额</title>
+</head>
+<body ng-app="xw" ng-controller="balanceCtrl">
+
+<nav class="balance-nav nav">
+    <back-button></back-button>
+    <span>账户余额</span>
+</nav>
+
+<div class="balance-main text-center" ng-cloak>
+    <div class="wrapper">
+        <div class="center-block balance-big-icon"></div>
+        <h4 class="title">我的新味币</h4>
+        <p class="balance"></p>
+        <div class="charge-group">
+            <a class="online-charge" href="">在线充值</a>
+            <a class="code-charge" href="">充值码充值</a>
+        </div>
+    </div>
+
+    <a class="charge-history" href="/mobile/chargehistory">充值消费记录</a>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/directives/back-button.js"></script>
+<script src="/mobile/src/js/controllers/balance.js"></script>
+</html>

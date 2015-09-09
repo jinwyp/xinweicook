@@ -75,7 +75,7 @@ expressRoutes = function(app) {
     app.get("/mobile/alipay/return", function (res) {
         res.render('mobile/alipay-notify.html');
     });
-    app.get("/mobile/balance", function (res) {
+    app.get("/mobile/balance", function (req, res) {
         res.render('mobile/balance.html');
     });
     app.get("/mobile/chargebalance", function (res) {
