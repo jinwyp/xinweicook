@@ -12,7 +12,7 @@
 
 <nav style="display:none;" class="cook-nav nav">
     <div class="back-icon" ng-click="back()"></div>
-    <span>赞过的菜</span>
+    <span>{{::dish.title.zh}}</span>
 </nav>
 
 
@@ -32,7 +32,7 @@
             <ul class="features">
                 <li class="feature" ng-repeat="feature in dish.infoUniqueFeature">
                     <p ng-if="feature.contentType == 'txt'">{{feature.value.zh}}</p>
-                    <img ng-src="{{feature.value.zh | adapt}}" ng-if="feature.contentType == 'pic'"/>
+                    <img img-lazy-load="feature.value.zh | adapt" ng-if="feature.contentType == 'pic'"/>
                 </li>
             </ul>
         </div>
@@ -43,7 +43,7 @@
                 <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient"
                     ng-class="{img: ingredient.contentType == 'pic'}">
                     <span ng-if="!ingredient.contentType || ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
-                    <img ng-if="ingredient.contentType == 'pic'" ng-src="{{ingredient.value.zh | adapt:0.4}}" alt=""/>
+                    <img img-lazy-load="ingredient.value.zh | adapt:0.4" ng-if="ingredient.contentType == 'pic'" alt=""/>
                 </li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
             <h5>菜谱</h5>
             <ul class="ingredients">
                 <li ng-repeat="step in dish.infoCookingStep">
-                    <img ng-if="step.contentType == 'pic'" ng-src="{{step.value.zh | adapt}}"/>
+                    <img img-lazy-load="step.value.zh | adapt" ng-if="step.contentType == 'pic'"/>
                     <div class="txt-info" ng-if="step.contentType == 'txt'">
                         <h6>{{($index + 1) / 2 + '.' + step.title.zh}}</h6>
                         <p>{{step.value.zh}}</p>
@@ -92,6 +92,7 @@
 <script src="/mobile/src/js/config.js"></script>
 <script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/directives/add-dish-bar.js"></script>
+<script src="/mobile/src/js/directives/img-lazy-load.js"></script>
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
 <script src="/mobile/src/js/service/debug.js"></script>
