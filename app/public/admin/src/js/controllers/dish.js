@@ -266,7 +266,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     $scope.css = {
         isAddNewStatus : true,
         showTable : 'dishes',
-        searchDishStatisticSortBy : 'yesterdaySales'
+        searchDishStatisticSortBy : 'salesToday'
     };
 
 
@@ -317,6 +317,33 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     }
 
 
+
+    $scope.searchDishStatistic = function (form, sortBy) {
+        $scope.css.showTable = 'statistic';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        //if ($scope.data.searchDateFrom !==''){
+        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        //}
+
+        if ($scope.css.searchDishStatisticSortBy === 'salesToday' || $scope.data.dishStatisticByStock.length === 0){
+            Util.delProperty($scope.data.searchOptions);
+
+            Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
+                $scope.data.dishStatisticByStock = result.data;
+                Notification.success({message: 'Search Success! ', delay: 8000});
+            }).catch(function(err){
+                console.log(err);
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            });
+        }
+
+
+    };
+
+
+
+
     $scope.searchDish = function (form) {
         if ($localStorage.dishSearchOptions){
             $scope.data.searchOptions = $localStorage.dishSearchOptions
@@ -352,27 +379,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
-    };
-
-
-    $scope.searchDishStatistic = function (form, sortBy) {
-        $scope.css.showTable = 'statistic';
-        $scope.css.searchDishStatisticSortBy = sortBy;
-
-        //if ($scope.data.searchDateFrom !==''){
-        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
-        //}
-
-
-        Util.delProperty($scope.data.searchOptions);
-
-        Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
-            $scope.data.dishStatisticByStock = result.data;
-            Notification.success({message: 'Search Success! ', delay: 8000});
-        }).catch(function(err){
-            console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
     };
 
 

@@ -417,7 +417,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 100 }
+        { "$limit": 300 }
     );
 
     //console.log (pipeline);
@@ -439,26 +439,21 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
 exports.dishStatisticByStock = function(req, res, next) {
 
-    var pipeline = [];
-    var pipelineYesterday = [];
-    var pipelinePerDay = [];
-    var pipelinePerWeek = [];
-
-    var matchList = {};
+    var query = {};
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        query.createdAt = { $gte: new Date(req.query.createdAt)}
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
-        matchList.cookingType = req.query.cookingType
+        query.cookingType = req.query.cookingType
     }
 
     if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
-        matchList.sideDishType = req.query.sideDishType
+        query.sideDishType = req.query.sideDishType
     }
 
     if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
-        matchList.isPublished = req.query.isPublished
+        query.isPublished = req.query.isPublished
     }
 
 
@@ -466,51 +461,138 @@ exports.dishStatisticByStock = function(req, res, next) {
     //    { "$match":matchList}
     //);
 
+    var timeNow = moment();
+    var today = moment(timeNow.clone().format("YYYY-MM-DD 00:00:00"));
+    var yesterday = today.clone().subtract(1, 'days');
+    var dayBeforeYesterday2 = today.clone().subtract(2, 'days');
+    var last3Day = today.clone().subtract(3, 'days');
+    var last7Day = today.clone().subtract(7, 'days');
+    var last15Day = today.clone().subtract(15, 'days');
+    var last30Day = today.clone().subtract(30, 'days');
+    var last60Day = today.clone().subtract(60, 'days');
+    var last90Day = today.clone().subtract(90, 'days');
 
-    // Grouping pipeline
-    pipeline.push (
-        { "$match":{
-            "isPlus" : false,
-            "remark": { $ne: "adminOperation" }
-        }},
 
-        { "$group": {
-            "_id": '$dish',
-            "dishSaleQuantity": { "$sum": "$quantity" },
-            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "quantity": "$quantity", "user": "$user", "isPlus": "$isPlus" , "createdAt": "$createdAt"  } }
-        }}
-    );
+    var pipelineTotal = [];
+    var pipelineToday = [];
+    var pipelineYesterday = [];
+    var pipelineDayBeforeYesterday = [];
+    var pipelineLast3Day = [];
+    var pipelineLast7Day = [];
+    var pipelineLast15Day = [];
+    var pipelineLast30Day = [];
+    var pipelineLast60Day = [];
+    var pipelineLast90Day = [];
+
+    var pipelinePerDay = [];
+    var pipelinePerWeek = [];
+
+
+    var group = { "$group": {
+        "_id": '$dish',
+        "dishSaleQuantity": { "$sum": "$quantity" },
+        "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark" } }
+    }}
 
     // Sorting pipeline
-    pipeline.push (
+    var sort =  { "$sort": { "dishSaleQuantity": 1 } };
+
+    // Optionally limit results
+    var limit =  { "$limit": 1000 };
+
+/*
+
+    // Sorting pipeline
+    pipelineTotal.push (
         { "$sort": { "dishSaleQuantity": 1 } }
     );
 
     // Optionally limit results
-    pipeline.push (
+    pipelineTotal.push (
         { "$limit": 1000 }
     );
+*/
 
 
-    timeNow = moment();
-    today = moment(timeNow.clone().format("YYYY-MM-DD 00:00:00"));
-    yesterday = today.clone().subtract(1, 'days');
+
+    // Grouping pipeline
+    pipelineTotal.push (
+        { "$match":{
+            "isPlus" : false,
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineToday.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
 
     pipelineYesterday.push (
         { "$match":{
             "isPlus" : false,
             "createdAt": { "$gte": yesterday.toDate(), "$lt": today.toDate() },
             "remark": { $ne: "adminOperation" }
-        }},
+        }}, group, sort, limit
+    );
 
-        { "$group": {
-            "_id": '$dish',
-            "dishSaleQuantity": { "$sum": "$quantity" },
-            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "quantity": "$quantity", "user": "$user", "isPlus": "$isPlus" , "createdAt": "$createdAt"  } }
-        }},
+    pipelineDayBeforeYesterday.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": dayBeforeYesterday2.toDate(), "$lt": yesterday.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
 
-        { "$sort": { "dishSaleQuantity": 1 } },
-        { "$limit": 1000 }
+    pipelineLast3Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last3Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineLast7Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last7Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineLast15Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last15Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineLast30Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last30Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineLast60Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last60Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
+    );
+
+    pipelineLast90Day.push (
+        { "$match":{
+            "isPlus" : false,
+            "createdAt": { "$gte": last90Day.toDate(), "$lt": today.toDate() },
+            "remark": { $ne: "adminOperation" }
+        }}, group, sort, limit
     );
 
 
@@ -523,9 +605,11 @@ exports.dishStatisticByStock = function(req, res, next) {
             _id : 1,
             createdAt : 1,
             user : 1,
+            order: 1,
             dish : 1,
             quantity : 1,
             isPlus : 1,
+            remark : 1,
 
             year: { $year: "$createdAt" },
             month: { $month: "$createdAt" },
@@ -541,7 +625,7 @@ exports.dishStatisticByStock = function(req, res, next) {
             "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
 
             "dishSaleQuantity": { "$sum": "$quantity" },
-            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "quantity": "$quantity", "user": "$user", "isPlus": "$isPlus" , "createdAt": "$createdAt"  } }
+            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
         }},
 
         { $project :{
@@ -569,9 +653,11 @@ exports.dishStatisticByStock = function(req, res, next) {
             _id : 1,
             createdAt : 1,
             user : 1,
+            order: 1,
             dish : 1,
             quantity : 1,
             isPlus : 1,
+            remark : 1,
 
             year: { $year: "$createdAt" },
             month: { $month: "$createdAt" },
@@ -587,7 +673,7 @@ exports.dishStatisticByStock = function(req, res, next) {
             "_id": {dish:'$dish', week : "$week"},
 
             "dishSaleQuantity": { "$sum": "$quantity" },
-            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "quantity": "$quantity", "user": "$user", "isPlus": "$isPlus" , "createdAt": "$createdAt"  } }
+            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
         }},
 
         { $project :{
@@ -603,33 +689,80 @@ exports.dishStatisticByStock = function(req, res, next) {
     );
 
 
-    var dishList =[];
-    var dishHashList ={};
-    var dishHashListYesterday ={};
-    var dishHashListPerDay ={};
-    var dishHashListPerWeek ={};
+    var dishHashListTotal = {};
+    var dishHashListToday = {};
+    var dishHashListYesterday = {};
+    var dishHashListDayBeforeYesterday = {};
+    var dishHashListLast3Day = {};
+    var dishHashListLast7Day = {};
+    var dishHashListLast15Day = {};
+    var dishHashListLast30Day = {};
+    var dishHashListLast60Day = {};
+    var dishHashListLast90Day = {};
+    var dishHashListPerDay = {};
+    var dishHashListPerWeek = {};
 
     var promiseList = [
-        models.dish.find(matchList).lean().execAsync(),
-        models.inventory.aggregateAsync( pipeline),
+        models.dish.find(query).lean().execAsync(),
+        models.inventory.aggregateAsync( pipelineTotal),
+        models.inventory.aggregateAsync( pipelineToday),
         models.inventory.aggregateAsync( pipelineYesterday),
+        models.inventory.aggregateAsync( pipelineDayBeforeYesterday),
+        models.inventory.aggregateAsync( pipelineLast3Day),
+        models.inventory.aggregateAsync( pipelineLast7Day),
+        models.inventory.aggregateAsync( pipelineLast15Day),
+        models.inventory.aggregateAsync( pipelineLast30Day),
+        models.inventory.aggregateAsync( pipelineLast60Day),
+        models.inventory.aggregateAsync( pipelineLast90Day),
         models.inventory.aggregateAsync( pipelinePerDay),
         models.inventory.aggregateAsync( pipelinePerWeek)
     ];
 
-    Promise.all(promiseList).spread(function(resultDish, resultInventroy, resultInventroyYesterday, resultInventroyPerDay, resultInventroyPerWeek){
-        if (resultDish && resultDish.length > 0 && resultInventroy.length > 0 && resultInventroyPerDay.length > 0) {
+    Promise.all(promiseList).spread(function(resultDish, resultInventroyTotal, resultInventroyToday, resultInventroyYesterday, resultInventroyDayBeforeYesterday, resultInventroyLast3Day, resultInventroyLast7Day, resultInventroyLast15Day, resultInventroyLast30Day, resultInventroyLast60Day, resultInventroyLast90Day, resultInventroyPerDay, resultInventroyPerWeek){
+        if (resultDish && resultDish.length > 0 && resultInventroyTotal.length > 0 && resultInventroyPerDay.length > 0) {
             //dishIdList = resultDish.map(function(dish){
             //    return dish._id.toString()
             //});
 
 
-            resultInventroy.forEach(function(dishInventory){
-                dishHashList[dishInventory._id.toString()] = dishInventory
+            resultInventroyTotal.forEach(function(dishInventory){
+                dishHashListTotal[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyToday.forEach(function(dishInventory){
+                dishHashListToday[dishInventory._id.toString()] = dishInventory
             });
 
             resultInventroyYesterday.forEach(function(dishInventoryYesterday){
                 dishHashListYesterday[dishInventoryYesterday._id.toString()] = dishInventoryYesterday
+            });
+
+            resultInventroyDayBeforeYesterday.forEach(function(dishInventory){
+                dishHashListDayBeforeYesterday[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast3Day.forEach(function(dishInventory){
+                dishHashListLast3Day[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast7Day.forEach(function(dishInventory){
+                dishHashListLast7Day[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast15Day.forEach(function(dishInventory){
+                dishHashListLast15Day[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast30Day.forEach(function(dishInventory){
+                dishHashListLast30Day[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast60Day.forEach(function(dishInventory){
+                dishHashListLast60Day[dishInventory._id.toString()] = dishInventory
+            });
+
+            resultInventroyLast90Day.forEach(function(dishInventory){
+                dishHashListLast90Day[dishInventory._id.toString()] = dishInventory
             });
 
 
@@ -650,26 +783,65 @@ exports.dishStatisticByStock = function(req, res, next) {
             });
 
 
+            // 整合数据
             resultDish.forEach(function(dishOne){
 
-                if (typeof dishHashList[dishOne._id.toString()] !== "undefined"){
+                if (typeof dishHashListTotal[dishOne._id.toString()] !== "undefined"){
 
-                    dishOne.totalSales = dishHashList[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.totalInventory = dishHashList[dishOne._id.toString()];
+                    dishOne.salesTotal = dishHashListTotal[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesTotalInventory = dishHashListTotal[dishOne._id.toString()];
 
-                    dishOne.dailySales = dishHashListPerDay[dishOne._id.toString()];
-                    dishOne.weekSales = dishHashListPerWeek[dishOne._id.toString()];
-                }else {
-                    dishOne.totalSales = 0;
+                    dishOne.salesDaily = dishHashListPerDay[dishOne._id.toString()];
+                    dishOne.salesWeek = dishHashListPerWeek[dishOne._id.toString()];
                 }
 
+                if (typeof dishHashListToday[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesToday = dishHashListToday[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesTodayInventory = dishHashListToday[dishOne._id.toString()];
+                }
 
                 if (typeof dishHashListYesterday[dishOne._id.toString()] !== "undefined"){
-                    dishOne.yesterdaySales = dishHashListYesterday[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.yesterdayInventory = dishHashListYesterday[dishOne._id.toString()];
-                }else{
-                    dishOne.yesterdaySales = 0;
+                    dishOne.salesYesterday = dishHashListYesterday[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesYesterdayInventory = dishHashListYesterday[dishOne._id.toString()];
                 }
+
+                if (typeof dishHashListDayBeforeYesterday[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesDayBeforeYesterday = dishHashListDayBeforeYesterday[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesDayBeforeYesterdayInventory = dishHashListDayBeforeYesterday[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast3Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast3Day = dishHashListLast3Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast3DayInventory = dishHashListLast3Day[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast7Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast7Day = dishHashListLast7Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast7DayInventory = dishHashListLast7Day[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast15Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast15Day = dishHashListLast15Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast15DayInventory = dishHashListLast15Day[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast30Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast30Day = dishHashListLast30Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast30DayInventory = dishHashListLast30Day[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast60Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast60Day = dishHashListLast60Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast60DayInventory = dishHashListLast60Day[dishOne._id.toString()];
+                }
+
+                if (typeof dishHashListLast90Day[dishOne._id.toString()] !== "undefined"){
+                    dishOne.salesLast90Day = dishHashListLast90Day[dishOne._id.toString()].dishSaleQuantity;
+                    dishOne.salesLast90DayInventory = dishHashListLast90Day[dishOne._id.toString()];
+                }
+
+
+
 
 
 
