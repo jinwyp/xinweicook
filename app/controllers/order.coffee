@@ -19,6 +19,7 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
+
 alipay = AliPay()
 
 
@@ -672,12 +673,12 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
   models.order.findByIdAsync(req.body._id).then (resultOrder) ->
-
+    WXPayOrder = WXPay(configWeiXinPay)
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder
 
       if resultOrder.clientFrom is "ios"
-        weixinpay = WXPay(configWeiXinAppPay)
+        WXPayOrder = WXPay(configWeiXinAppPay)
 
       tempTotalPrice =  Math.ceil(resultOrder.totalPrice * 100)
       weixinpayOrder =
@@ -703,7 +704,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
         weixinpayOrder.total_fee = 1
 
       console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
-      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+      WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next (new Err err)
 
@@ -712,7 +713,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
           weixinpayMobileSign =
             appId: configWeiXinPay.appid
             timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: weixinpay.util.generateNonceString()
+            nonceStr: WXPayOrder.util.generateNonceString()
             package: "prepay_id="+resultWeixinPay.prepay_id
             signType: "MD5"
 
@@ -723,10 +724,10 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
             prepayId : resultWeixinPay.prepay_id
             packageValue : 'Sign=WXPay'
             timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: weixinpay.util.generateNonceString()
+            nonceStr: WXPayOrder.util.generateNonceString()
 
-          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+          weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
+          weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
 
           resultOrder.paymentWeixinpay =
             nativeSign: weixinpayNativeSign
