@@ -45,4 +45,34 @@ exports.runCronJob = (req, res, next) ->
 
 
 
+exports.getNoOrderUserLast7Day = (req, res, next) ->
+  # 当周还未下单的但有优惠券 每周三上午10点推送
+  # 一周时间没下单
+
+  timeNow = moment()
+  today = moment().startOf('day')
+  last3Day = today.clone().subtract(3, 'days');
+  last7Day = today.clone().subtract(7, 'days');
+  last15Day = today.clone().subtract(15, 'days');
+
+  console.log(timeNow.format("YYYY-MM-DD HH:mm:ss"))
+  console.log(today.format("YYYY-MM-DD HH:mm:ss"))
+
+  models.user.findAsync({lastOrderDate : {$lt:last7Day} }).then (resultUserList) ->
+
+    if resultUserList.length > 0
+      for user, userIndex in resultUserList
+
+        # 发送iOS 推送
+        additionalContent = {userId : user._id.toString()}
+        pushOptions = {isPushMobile : true}
+
+        models.message.sendMessageToUser(user._id, models.message.constantContentType().coupon, additionalContent, pushOptions)
+
+    res.send("ok")
+  .catch next
+
+
+
+
 

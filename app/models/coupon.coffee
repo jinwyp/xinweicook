@@ -246,7 +246,7 @@ module.exports =
       # 该用户首次下单给邀请的人添加优惠券
       if user.invitationFromUser and not user.isHaveFirstOrderCoupon
         models.user.findOneAsync({_id:user.invitationFromUser}).then (fromUser) ->
-          console.log("-------", fromUser)
+
           if fromUser
             newCoupon =
               name :
@@ -263,11 +263,8 @@ module.exports =
               user.isHaveFirstOrderCoupon = true
 
               # 发送iOS 推送
-              additionalContent =
-                userId : user._id.toString()
-
-              pushOptions =
-                isPushMobile : true
+              additionalContent = {userId : user._id.toString()}
+              pushOptions = {isPushMobile : true}
 
               models.message.sendMessageToUser(user._id, models.message.constantContentType().coupon, additionalContent, pushOptions)
 
@@ -336,11 +333,8 @@ module.exports =
               user.isPaid10Orders = true
 
           # 发送iOS 推送
-          additionalContent =
-            userId : user._id.toString()
-
-          pushOptions =
-            isPushMobile : true
+          additionalContent = {userId : user._id.toString()}
+          pushOptions = {isPushMobile : true}
 
           models.message.sendMessageToUser(user._id, models.message.constantContentType().coupon, additionalContent, pushOptions)
 
