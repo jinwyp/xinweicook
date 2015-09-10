@@ -462,7 +462,9 @@ exports.dishStatisticByStock = function(req, res, next) {
     //);
 
     var timeNow = moment();
+    console.log("----------timeNow:", timeNow.format("YYYY-MM-DD HH:mm:ss ZZ"))
     var today = moment(timeNow.clone().format("YYYY-MM-DD 00:00:00"));
+    console.log("----------timeToday:", today.format("YYYY-MM-DD HH:mm:ss ZZ"))
     var yesterday = today.clone().subtract(1, 'days');
     var dayBeforeYesterday2 = today.clone().subtract(2, 'days');
     var last3Day = today.clone().subtract(3, 'days');
@@ -719,6 +721,7 @@ exports.dishStatisticByStock = function(req, res, next) {
     ];
 
     Promise.all(promiseList).spread(function(resultDish, resultInventroyTotal, resultInventroyToday, resultInventroyYesterday, resultInventroyDayBeforeYesterday, resultInventroyLast3Day, resultInventroyLast7Day, resultInventroyLast15Day, resultInventroyLast30Day, resultInventroyLast60Day, resultInventroyLast90Day, resultInventroyPerDay, resultInventroyPerWeek){
+        console.log("----------timeToday:", resultInventroyToday)
         if (resultDish && resultDish.length > 0 && resultInventroyTotal.length > 0 && resultInventroyPerDay.length > 0) {
             //dishIdList = resultDish.map(function(dish){
             //    return dish._id.toString()
@@ -789,7 +792,7 @@ exports.dishStatisticByStock = function(req, res, next) {
                 if (typeof dishHashListTotal[dishOne._id.toString()] !== "undefined"){
 
                     dishOne.salesTotal = dishHashListTotal[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesTotalInventory = dishHashListTotal[dishOne._id.toString()];
+//                    dishOne.salesTotalInventory = dishHashListTotal[dishOne._id.toString()];
 
                     dishOne.salesDaily = dishHashListPerDay[dishOne._id.toString()];
                     dishOne.salesWeek = dishHashListPerWeek[dishOne._id.toString()];
@@ -797,47 +800,47 @@ exports.dishStatisticByStock = function(req, res, next) {
 
                 if (typeof dishHashListToday[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesToday = dishHashListToday[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesTodayInventory = dishHashListToday[dishOne._id.toString()];
+//                    dishOne.salesTodayInventory = dishHashListToday[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListYesterday[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesYesterday = dishHashListYesterday[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesYesterdayInventory = dishHashListYesterday[dishOne._id.toString()];
+//                    dishOne.salesYesterdayInventory = dishHashListYesterday[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListDayBeforeYesterday[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesDayBeforeYesterday = dishHashListDayBeforeYesterday[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesDayBeforeYesterdayInventory = dishHashListDayBeforeYesterday[dishOne._id.toString()];
+//                    dishOne.salesDayBeforeYesterdayInventory = dishHashListDayBeforeYesterday[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast3Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast3Day = dishHashListLast3Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast3DayInventory = dishHashListLast3Day[dishOne._id.toString()];
+//                    dishOne.salesLast3DayInventory = dishHashListLast3Day[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast7Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast7Day = dishHashListLast7Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast7DayInventory = dishHashListLast7Day[dishOne._id.toString()];
+//                    dishOne.salesLast7DayInventory = dishHashListLast7Day[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast15Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast15Day = dishHashListLast15Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast15DayInventory = dishHashListLast15Day[dishOne._id.toString()];
+//                    dishOne.salesLast15DayInventory = dishHashListLast15Day[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast30Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast30Day = dishHashListLast30Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast30DayInventory = dishHashListLast30Day[dishOne._id.toString()];
+//                    dishOne.salesLast30DayInventory = dishHashListLast30Day[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast60Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast60Day = dishHashListLast60Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast60DayInventory = dishHashListLast60Day[dishOne._id.toString()];
+//                    dishOne.salesLast60DayInventory = dishHashListLast60Day[dishOne._id.toString()];
                 }
 
                 if (typeof dishHashListLast90Day[dishOne._id.toString()] !== "undefined"){
                     dishOne.salesLast90Day = dishHashListLast90Day[dishOne._id.toString()].dishSaleQuantity;
-                    dishOne.salesLast90DayInventory = dishHashListLast90Day[dishOne._id.toString()];
+//                    dishOne.salesLast90DayInventory = dishHashListLast90Day[dishOne._id.toString()];
                 }
 
 
