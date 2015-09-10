@@ -179,15 +179,12 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
                         document.querySelector(selector).click();
                         return;
                     }
-                    if (Debug.isDebug) {
-                        location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
-                        return;
-                    }
-                    location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
-                        'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
-                        'response_type=code&scope=snsapi_base&' +
-                        'state=' + $scope.wxstate +
-                        '#wechat_redirect'
+                    location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
+                    //location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
+                    //    'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
+                    //    'response_type=code&scope=snsapi_base&' +
+                    //    'state=' + $scope.wxstate +
+                    //    '#wechat_redirect'
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {
