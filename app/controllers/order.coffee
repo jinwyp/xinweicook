@@ -791,10 +791,16 @@ exports.updateOrder = (req, res, next) ->
           childOrder.saveAsync()
 
       # 扣除商品库存
+      dishHistoryIdList = []
+      dishIdList = {}
       for dish, dishIndex in resultOrder.dishHistory
-        models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
-          if resultDish
-            resultDish.reduceStock(dish.number, req.u, "userOrder", resultOrder._id.toString())
+        dishHistoryIdList.push(dish.dish._id)
+        dishIdList[dish.dish._id] = dish.number
+
+      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+        if resultDishList
+          for dish, dishIndex in resultDishList
+            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
