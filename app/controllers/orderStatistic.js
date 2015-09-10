@@ -462,9 +462,7 @@ exports.dishStatisticByStock = function(req, res, next) {
     //);
 
     var timeNow = moment();
-    console.log("----------timeNow:", timeNow.format("YYYY-MM-DD HH:mm:ss ZZ"))
     var today = moment(timeNow.clone().format("YYYY-MM-DD 00:00:00"));
-    console.log("----------timeToday:", today.format("YYYY-MM-DD HH:mm:ss ZZ"))
     var yesterday = today.clone().subtract(1, 'days');
     var dayBeforeYesterday2 = today.clone().subtract(2, 'days');
     var last3Day = today.clone().subtract(3, 'days');
@@ -721,7 +719,7 @@ exports.dishStatisticByStock = function(req, res, next) {
     ];
 
     Promise.all(promiseList).spread(function(resultDish, resultInventroyTotal, resultInventroyToday, resultInventroyYesterday, resultInventroyDayBeforeYesterday, resultInventroyLast3Day, resultInventroyLast7Day, resultInventroyLast15Day, resultInventroyLast30Day, resultInventroyLast60Day, resultInventroyLast90Day, resultInventroyPerDay, resultInventroyPerWeek){
-        console.log("----------timeToday:", resultInventroyToday)
+
         if (resultDish && resultDish.length > 0 && resultInventroyTotal.length > 0 && resultInventroyPerDay.length > 0) {
             //dishIdList = resultDish.map(function(dish){
             //    return dish._id.toString()
