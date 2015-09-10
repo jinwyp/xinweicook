@@ -1616,4 +1616,37 @@ label {
 /* line 6, ../sass/_balance.scss */
 .balance-main .wrapper {
   background-color: white;
+  padding-top: 24px;
+  padding-bottom: 2px;
+}
+/* line 10, ../sass/_balance.scss */
+.balance-main .wrapper .title {
+  font-weight: 100;
+}
+/* line 13, ../sass/_balance.scss */
+.balance-main .wrapper .balance {
+  font-size: 50px;
+  font-weight: 200;
+}
+/* line 18, ../sass/_balance.scss */
+.balance-main .wrapper .charge-group a {
+  margin: 10px auto;
+  display: block;
+  font-size: 18px;
+  line-height: 2.3;
+  width: 95%;
+  border: 1px solid;
+  border-radius: 4px;
+}
+/* line 26, ../sass/_balance.scss */
+.balance-main .wrapper .charge-group a.online-charge {
+  color: #f44d4d;
+}
+/* line 33, ../sass/_balance.scss */
+.balance-main .charge-history {
+  background-color: white;
+  display: block;
+  line-height: 2.3;
+  margin-top: 10px;
+  font-size: 17px;
 }
