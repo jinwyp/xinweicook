@@ -1,7 +1,7 @@
 @charset "UTF-8";
-/* line 144, icons/*.png */
+/* line 152, icons/*.png */
 .icons-sprite {
-  background-image: url('../img/icons-s3f753926fb.png');
+  background-image: url('../img/icons-s34c97195b6.png');
   background-repeat: no-repeat;
 }
 
@@ -92,8 +92,8 @@ label {
 /* line 151, ../sass/_base.scss */
 .back-icon {
   background-repeat: no-repeat;
-  background-image: url('../img/icons-s5f023fe603.png');
-  background-position: 0 -287px;
+  background-image: url('../img/icons-s60d990717e.png');
+  background-position: 0 -385px;
   height: 20px;
   width: 44px;
   -moz-background-size: 98px auto;
@@ -1620,15 +1620,27 @@ label {
   padding-bottom: 2px;
 }
 /* line 10, ../sass/_balance.scss */
+.balance-main .wrapper .balance-big-icon {
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s60d990717e.png');
+  background-position: 0 0;
+  height: 98px;
+  width: 98px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
+}
+/* line 13, ../sass/_balance.scss */
 .balance-main .wrapper .title {
   font-weight: 100;
 }
-/* line 13, ../sass/_balance.scss */
+/* line 16, ../sass/_balance.scss */
 .balance-main .wrapper .balance {
   font-size: 50px;
   font-weight: 200;
 }
-/* line 18, ../sass/_balance.scss */
+/* line 21, ../sass/_balance.scss */
 .balance-main .wrapper .charge-group a {
   margin: 10px auto;
   display: block;
@@ -1638,11 +1650,11 @@ label {
   border: 1px solid;
   border-radius: 4px;
 }
-/* line 26, ../sass/_balance.scss */
+/* line 29, ../sass/_balance.scss */
 .balance-main .wrapper .charge-group a.online-charge {
   color: #f44d4d;
 }
-/* line 33, ../sass/_balance.scss */
+/* line 36, ../sass/_balance.scss */
 .balance-main .charge-history {
   background-color: white;
   display: block;
