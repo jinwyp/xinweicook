@@ -148,10 +148,11 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
   models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
     if resultOrder
+
       models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
         if resultUser
 
-          if resultUser.openid
+          if resultUser.weixinId and resultUser.weixinId.openid
             return res.redirect("/mobile/wxpay/" + order_number_state)
 
           else
@@ -686,73 +687,75 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder
 
-      if resultOrder.clientFrom is "ios"
-        WXPayOrder = WXPay(configWeiXinAppPay)
+      models.user.findByIdAsync(resultOrder.user).then (resultUser) ->
+        if resultUser
 
-      tempTotalPrice =  Math.ceil(resultOrder.totalPrice * 100)
-      weixinpayOrder =
-        out_trade_no: resultOrder.orderNumber
-        total_fee: tempTotalPrice
-        spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+          if resultOrder.clientFrom is "ios"
+            WXPayOrder = WXPay(configWeiXinAppPay)
 
-        notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
-        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
-        openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
-        product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+          weixinpayOrder =
+            out_trade_no: resultOrder.orderNumber
+            total_fee: Math.ceil(resultOrder.totalPrice * 100)
+            spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        body:  resultOrder.dishHistory[0].dish.title.zh
-        detail:  resultOrder.dishHistory[0].dish.title.zh
+            notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
+            trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
+#            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+            product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+            body:  resultOrder.dishHistory[0].dish.title.zh
+            detail:  resultOrder.dishHistory[0].dish.title.zh
 
-      if req.u.weixinId.openid and resultOrder.clientFrom is "wechat"
-        weixinpayOrder.openid = req.u.weixinId.openid
+            attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
-      if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
-        weixinpayOrder.total_fee = 1
+          if resultUser.weixinId and resultUser.weixinId.openid and resultOrder.clientFrom is "wechat"
+            weixinpayOrder.openid = resultUser.weixinId.openid
 
-      console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
-      WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
-        if err
-          next (new Err err)
+          if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+            weixinpayOrder.total_fee = 1
 
-        if resultWeixinPay
+          console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
+          WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+            if err
+              next (new Err err)
 
-          weixinpayMobileSign =
-            appId: configWeiXinPay.appid
-            timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: WXPayOrder.util.generateNonceString()
-            package: "prepay_id="+resultWeixinPay.prepay_id
-            signType: "MD5"
+            if resultWeixinPay
 
-          # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
-          weixinpayNativeSign =
-            appId : configWeiXinAppPay.appid
-            partnerId : configWeiXinAppPay.mch_id
-            prepayId : resultWeixinPay.prepay_id
-            packageValue : 'Sign=WXPay'
-            timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: WXPayOrder.util.generateNonceString()
+              weixinpayMobileSign =
+                appId: configWeiXinPay.appid
+                timeStamp: parseInt(+new Date() / 1000, 10) + ""
+                nonceStr: WXPayOrder.util.generateNonceString()
+                package: "prepay_id="+resultWeixinPay.prepay_id
+                signType: "MD5"
 
-          weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
-          weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
+              # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
+              weixinpayNativeSign =
+                appId : configWeiXinAppPay.appid
+                partnerId : configWeiXinAppPay.mch_id
+                prepayId : resultWeixinPay.prepay_id
+                packageValue : 'Sign=WXPay'
+                timeStamp: parseInt(+new Date() / 1000, 10) + ""
+                nonceStr: WXPayOrder.util.generateNonceString()
 
-          resultOrder.paymentWeixinpay =
-            nativeSign: weixinpayNativeSign
-            mobileSign: weixinpayMobileSign
-            nonce_str : resultWeixinPay.nonce_str
-            sign : resultWeixinPay.sign
-            trade_type : resultWeixinPay.trade_type
-            prepay_id: resultWeixinPay.prepay_id
-            code_url: resultWeixinPay.code_url
+              weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
+              weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
 
-          resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-#          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-            resultTemp = resultOrder2.toJSON()
-            delete resultTemp.dishList
-#            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
-            res.json resultTemp
+              resultOrder.paymentWeixinpay =
+                nativeSign: weixinpayNativeSign
+                mobileSign: weixinpayMobileSign
+                nonce_str : resultWeixinPay.nonce_str
+                sign : resultWeixinPay.sign
+                trade_type : resultWeixinPay.trade_type
+                prepay_id: resultWeixinPay.prepay_id
+                code_url: resultWeixinPay.code_url
+
+              resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
+    #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+                resultTemp = resultOrder2.toJSON()
+                delete resultTemp.dishList
+    #            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+                res.json resultTemp
 
     else
       throw new Err "Field validation error,  orderID not found!", 200
@@ -776,7 +779,7 @@ exports.updateOrder = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled and resultOrder.status isnt models.order.constantStatus().paid
+    if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
       # 修改订单支付状态
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid

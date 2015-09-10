@@ -254,15 +254,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.searchOrderCount = function (){
 
-        if ($localStorage.orderSearchOptions){
-            $scope.data.searchOptions = $localStorage.orderSearchOptions
-        }
-
         $scope.css.showTable = 'orders';
 
-        if ($scope.data.searchDateFrom !==''){
+        if ($scope.data.searchDateFrom){
             //console.log (new Date($scope.data.searchDateFrom));
             $scope.data.searchOptions.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+        }else{
+            $scope.data.searchOptions.createdAt = '';
         }
 
 
@@ -327,9 +325,17 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     if ($state.current.data.type === 'list'){
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions = $localStorage.orderSearchOptions;
+        }
+        if ($scope.data.searchOptions.createdAt){
+            $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
+        }else{
+            $scope.data.searchDateFrom = '';
+        }
+
         $scope.searchOrderCount();
-        var createdAt = $scope.data.searchOptions.createdAt || '';
-        $scope.data.searchDateFrom = createdAt.substring(2)
+
     }
 
     if ($state.current.data.type === 'update'){
