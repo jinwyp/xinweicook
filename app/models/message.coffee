@@ -30,7 +30,7 @@ module.exports =
 
         chargeAccountByCode10 : "chargeAccountByCode10"
         chargeAccountByCode10Text :
-          zh : "满5单送10元新味币,充值码"
+          zh : "满6单送10元新味币,充值码"
           en : "10RMB Xinwei coin, charge with code "
 
         coupon : "coupon"
