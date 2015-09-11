@@ -52,6 +52,18 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.chargeType.$dirty&&searchForm.chargeType.$valid, 'has-error':searchForm.chargeType.$dirty&&searchForm.chargeType.$invalid}">
+                    <label class="col-lg-2 control-label" >充值类型</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="group in data.chargeTypeList">
+                            <input type="radio" name="chargeType"  ng-value="group.value" ng-model="data.searchOptions.chargeType">{{group.name}}
+                        </label>
+
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isPlus.$dirty&&searchForm.isPlus.$valid, 'has-error':searchForm.isPlus.$dirty&&searchForm.isPlus.$invalid}">
                     <label class="col-lg-2 control-label" >充值或消费</label>
                     <div class="col-lg-8">
@@ -61,6 +73,8 @@
 
                     </div>
                 </div>
+
+
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
@@ -97,6 +111,7 @@
                 <th>用户ID</th>
                 <th>明细名称</th>
                 <th>备注</th>
+                <th>充值类型</th>
                 <th>充值RMB</th>
                 <th>新味币</th>
                 <th>是否支付</th>
@@ -112,6 +127,7 @@
                 <td><a ui-sref="menu.updateUser({ id: account.user })">{{account.user}}</a> </td>
                 <td>{{account.name.zh}}</td>
                 <td>{{account.remark}}</td>
+                <td>{{account.chargeType}}</td>
                 <td>{{account.amount}}</td>
                 <td>{{account.amountXinwei}}</td>
                 <td><span ng-show="account.isPlus">{{account.isPaid ? '已支付' : '未支付' }}</span></td>

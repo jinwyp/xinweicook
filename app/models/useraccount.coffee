@@ -67,6 +67,7 @@ module.exports =
     chargeAccountDetail : (amount, name, remark) ->
 
       newAccountDetail =
+        chargeType : models.accountdetail.constantChargeType().alipaydirect
         user : @user
         isPlus : true
         amount : Number(amount)
@@ -80,10 +81,11 @@ module.exports =
 
       models.accountdetail.createAsync(newAccountDetail)
 
-    addMoney : (amount, name, remark, couponid) ->
+    chargeAccountDetailByChargeCode : (amount, name, remark, couponid) ->
       @balance = @balance + Number(amount)
 
       newAccountDetail =
+        chargeType : models.accountdetail.constantChargeType().chargecode
         user : @user
         isPlus : true
 

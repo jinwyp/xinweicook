@@ -20,7 +20,7 @@
         <li ng-repeat="record in records">
             <div class="record-detail">
                 <h5>{{record.name.zh}}</h5>
-                <div>{{record.createdAt | date:'M/d/yy, hh:mm'}}</div>
+                <div>{{record.createdAt | date:'M/d/yy, HH:mm'}}</div>
             </div>
             <div class="number" ng-class="!record.isPlus && 'minus'">{{record.amountXinwei}}</div>
         </li>

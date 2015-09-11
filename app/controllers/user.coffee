@@ -246,7 +246,8 @@ exports.userAccountDetail = (req, res, next) ->
   models.accountdetail.validationGetAccountDetailList req.query
 
   models.accountdetail.find({ $or: [
-    { user : req.u._id.toString(), isPaid:false, isPlus:true },
+    { user : req.u._id.toString(), isPaid:true, isPlus:true, chargeType: models.accountdetail.constantChargeType().alipaydirect },
+    { user : req.u._id.toString(), isPlus:true, chargeType: models.accountdetail.constantChargeType().chargecode },
     { user : req.u._id.toString(), isPaid:false, isPlus:false }
   ] })
   .sort "-createdAt"
@@ -356,7 +357,7 @@ exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
   .then (resultAccount)->
       models.useraccount.checkNotFound(resultAccount)
 
-      resultAccount.addMoney(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString())
+      resultAccount.chargeAccountDetailByChargeCode(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString())
   .then (resultAccount)->
       couponData.used(req.u)
       res.json resultAccount[0]

@@ -19,6 +19,7 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
             skip : 0,
             limit : 1000,
             isPlus : '',
+            chargeType : '',
             user : '',
             order : ''
         },
@@ -49,6 +50,21 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
             {
                 name : '消费',
                 value : 'false'
+            }
+        ],
+
+        chargeTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '充值码充值',
+                value : 'chargecode'
+            },
+            {
+                name : '在线充值',
+                value : 'alipaydirect'
             }
         ]
 
