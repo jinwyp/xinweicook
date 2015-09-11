@@ -150,5 +150,9 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
 
 
+  app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)
+  app.get("/api/admin/cronjob/user/noorder/test", cronJobController.getNoOrderUserLast7DayTest)
+
+
 
 module.exports = expressRoutes

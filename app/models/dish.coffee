@@ -173,7 +173,7 @@ module.exports =
 
       newInventoryChange.remark = remark if remark
       newInventoryChange.order = orderId if orderId
-      
+
       models.inventory.createAsync(newInventoryChange)
       @saveAsync()
 

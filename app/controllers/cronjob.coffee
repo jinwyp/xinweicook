@@ -43,6 +43,68 @@ exports.runCronJob = (req, res, next) ->
 
 
 
+exports.getNoOrderUserLast7DayTest = (req, res, next) ->
+  logger.error("Cron 测试 每周三10d点发送iOS推送: " )
+  res.send("ok")
+
+exports.getNoOrderUserLast7Day = (req, res, next) ->
+  # 当周还未下单的但有优惠券 每周三上午10点推送
+  # 一周时间没下单
+
+  timeNow = moment()
+  today = moment().startOf('day')
+  last3Day = today.clone().subtract(3, 'days');
+  last7Day = today.clone().subtract(7, 'days');
+  last15Day = today.clone().subtract(15, 'days');
+
+#  console.log(timeNow.format("YYYY-MM-DD HH:mm:ss"))
+#  console.log(today.format("YYYY-MM-DD HH:mm:ss"))
+
+  sendUserIdList = []
+
+  models.user.find({lastOrderDate : {$lt:last3Day} })
+  .populate({path: 'couponList'})
+  .execAsync()
+  .then (resultUserList) ->
+
+    if resultUserList.length > 0
+      for user, userIndex in resultUserList
+
+        if user.couponList and user.couponList.length > 0
+          isSendMessage = false
+          for coupon, couponIndex in user.couponList
+            isSendMessage = true if coupon.isUsed is false
+
+          if isSendMessage
+            sendUserIdList.push(user._id.toString())
+
+
+    models.user.findAsync({lastOrderDate : {$lt:last7Day} }).then (resultUserList) ->
+
+      if resultUserList.length > 0
+        for user, userIndex in resultUserList
+          if sendUserIdList.indexOf(user._id.toString()) is -1
+            sendUserIdList.push(user._id.toString())
+
+
+#      console.log(sendUserIdList)
+      for sendUser, sendUserIndex in sendUserIdList
+        # 发送iOS 推送
+        additionalContent = {userId : sendUser}
+        pushOptions = {isPushMobile : true}
+
+        models.message.sendMessageToUser(sendUser, models.message.constantContentType().cronjob, additionalContent, pushOptions)
+
+      logger.error("Cron 每周三10d点发送iOS推送: ", JSON.stringify(sendUserIdList) )
+      res.send("ok")
+    .catch next
+
+  .catch next
+
+
+
+
+
 
 
 

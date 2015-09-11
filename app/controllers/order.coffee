@@ -590,10 +590,10 @@ exports.addNewOrder = (req, res, next) ->
       coupon.used(req.u)
 
 
-
     # 余额已使用后处理
     if isUsedAccountBalance
       userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
+
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0
@@ -627,9 +627,11 @@ exports.addNewOrder = (req, res, next) ->
     if isAddNewFlag
       req.u.address.push(newAddress)
 
+    # 记录最后下单时间
+    req.u.lastOrderDate = moment()
 
     req.u.saveAsync().catch (err)->
-      logger.error "---- User Save error", err
+      logger.error "New Order User Save error", err
 
 
 

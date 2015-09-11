@@ -307,7 +307,8 @@ var testOrder = {
     "_id" : "55d348169098a7ee3fbf4f47",
     "modifiedAt" : "2015-08-18T14:58:41.585Z",
     "createdAt" : "2015-08-18T14:58:30.104Z",
-    "autoIncrementId" : 10695, "orderNumber" : "201508182258300433817", "user" : "55d336639098a7ee3fbf49e1", "cookingType" : "ready to cook", "clientFrom" : "ios", "payment" : "alipay direct", "paymentUsedCash" : false, "credit" : 0, "freight" : 24, "dishesPrice" : 180, "totalPrice" : 204, "deliveryDate" : "2015-08-20", "deliveryTime" : "00:00", "deliveryDateTime" : "2015-08-19T16:00:00.000Z", "deliveryDateType" : "today", "dishHistory" : [
+    "autoIncrementId" : 10695, "orderNumber" : "201508182258300433817", "user" : "55d336639098a7ee3fbf49e1", "cookingType" : "ready to cook", "clientFrom" : "ios", "payment" : "alipay direct", "paymentUsedCash" : false, "credit" : 0, "freight" : 24, "dishesPrice" : 180, "totalPrice" : 204, "deliveryDate" : "2015-08-20", "deliveryTime" : "00:00", "deliveryDateTime" : "2015-08-19T16:00:00.000Z", "deliveryDateType" : "today",
+    "dishHistory" : [
     {"number" : 1, "dish" : {"_id" : "55b1b46e4c2900bb159cafe0", "modifiedAt" : "2015-08-17T19:05:21.073Z", "createdAt" : "2015-07-24T03:43:43.704Z", "autoIncrementId" : 10265, "sortId" : 1001, "cookingType" : "ready to cook", "sideDishType" : "main", "setType" : "single", "difficulty" : 1, "time" : 10, "servings" : 1, "priceOriginal" : 18, "__v" : 0, "statisticViews" : 0, "statisticLikeUserList" : [], "statisticLike" : 0, "statisticSales" : 0, "statisticHot" : 0, "stock" : 14, "recommendSet" : [], "topping" : [], "preferences" : [], "priceWholesale" : [], "tagFilter" : ["5590d256103f46d9ac31e3eb", "5590d256103f46d9ac31e3f3", "5590d256103f46d9ac31e3f4"], "region" : [], "infoCookingStep" : [
         {"contentType" : "pic", "_id" : "55b1b46e4c2900bb159cb465", "sortId" : 1, "value" : {"zh" : "https://dn-xinweicook.qbox.me/白灼芥兰s-_MG_7578.jpg", "en" : "https://dn-xinweicook.qbox.me/白灼芥兰s-_MG_7578.jpg"}, "title" : {"zh" : "", "en" : ""}},
         {"contentType" : "txt", "_id" : "55b1b46e4c2900bb159cb464", "sortId" : 1, "value" : {"zh" : "汤锅加水烧开，加入2勺盐和所有色拉油，放入芥兰，当水再次烧开时，捞出沥干，装盘待用。", "en" : "Add water to the pot, bring to boil. Add 2 tsp of salt and all cooking oil. Put Chinese broccoli in, when the water boils again, take out and drain.Then lay on a plate."}, "title" : {"zh" : "煮芥兰", "en" : "Boil the Chinese broccoli"}},
@@ -453,4 +454,19 @@ var testOrder = {
 ], "status"            : "paid", "isPaymentPaid" : true, "address" : {"mobile" : "15166665203", "contactPerson" : "任真", "geoLongitude" : 120.3927247537109, "province" : "山东", "street" : "华城路四小区18号楼", "address" : "1单元", "alias" : "", "city" : "青岛", "geoLatitude" : 36.31319352210113, "district" : "城阳区", "country" : "china", "remark" : "", "isValid" : true}, "childOrderList" : [], "isChildOrder" : false, "isSplitOrder" : false, "__v" : 0, "paymentAlipay" : {"notify_time" : "2015-08-18 22:58:38", "notify_type" : "trade_status_sync", "notify_id" : "d821963f81418cfa2aa283d9c886189334", "sign_type" : "RSA", "sign" : "RSA", "out_trade_no" : "201508182258300433817", "subject" : "XinWei_ReadyToCook", "payment_type" : "1", "trade_no" : "2015081800001000200065107844", "trade_status" : "TRADE_SUCCESS", "price" : 204, "total_fee" : 204, "quantity" : 1, "body" : "XinWeiCook", "is_total_fee_adjust" : "N", "use_coupon" : "N", "gmt_create" : "2015-08-18 22:58:37", "gmt_payment" : "2015-08-18 22:58:38", "seller_email" : "steve.ge@me.com", "buyer_email" : "15020088077", "seller_id" : "2088111042213083",
         "buyer_id" : "2088512557232202"}
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
