@@ -6,27 +6,25 @@
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <title>账户余额</title>
+    <title>充值消费记录</title>
 </head>
-<body ng-app="xw" ng-controller="balanceCtrl">
+<body class="balance-records-body" ng-app="xw" ng-controller="balanceRecordsCtrl">
 
-<nav class="balance-nav nav">
+<nav class="nav">
     <back-button></back-button>
-    <span>账户余额</span>
+    <span>充值消费记录</span>
 </nav>
 
-<div class="balance-main text-center" ng-cloak>
-    <div class="wrapper">
-        <div class="center-block balance-big-icon"></div>
-        <h4 class="title">我的新味币</h4>
-        <p class="balance">{{balance}}</p>
-        <div class="charge-group">
-            <a class="online-charge" ng-if="!isWeixin" ng-href="SET_AIPAY_ADDRESS">在线充值</a>
-            <a class="code-charge" href="/mobile/chargebalance">充值码充值</a>
-        </div>
-    </div>
-
-    <a class="charge-history" href="/mobile/balancerecords">充值消费记录</a>
+<div class="charge-balance-main" ng-cloak>
+    <ul class="record-list">
+        <li ng-repeat="record in records">
+            <div class="record-detail">
+                <h5>{{record.name.zh}}</h5>
+                <div>{{record.createdAt | date:'M/d/yy, hh:mm'}}</div>
+            </div>
+            <div class="number" ng-class="!record.isPlus && 'minus'">{{record.amountXinwei}}</div>
+        </li>
+    </ul>
 </div>
 
 </body>
@@ -37,8 +35,7 @@
 <script src="/mobile/src/js/modules.js"></script>
 <script src="/mobile/src/js/models.js"></script>
 <script src="/mobile/src/js/config.js"></script>
-<script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/service/debug.js"></script>
 <script src="/mobile/src/js/directives/back-button.js"></script>
-<script src="/mobile/src/js/controllers/balance.js"></script>
+<script src="/mobile/src/js/controllers/balance-records.js"></script>
 </html>

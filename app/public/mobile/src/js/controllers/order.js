@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) {
     $scope.cart = null;
     $scope.subDishCart = null;
     $scope.address = {
@@ -46,6 +46,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             })
         }
     });
+
+    $scope.$watch('balance.enabled')
 
     $scope.orderPrice = function () {
         var price = 0;
@@ -271,6 +273,14 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert) {
             $scope.cookTime.selectDay = res.data[0];
             if ($scope.cookTime.selectDay.segment) {
                 $scope.cookTime.selectTime = $scope.cookTime.selectDay.segment[0];
+            }
+        });
+
+        Balance.balance().then(function (res) {
+            $scope.balance = {
+                totalBalance: res.data.balance,
+                usedBalance: 0,
+                enabled: false
             }
         });
         

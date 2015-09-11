@@ -1,0 +1,21 @@
+@import "base";
+
+.charge-balance-main {
+  .form-group {
+    margin-bottom: 0;
+    input {
+      background-color: white;
+    }
+  }
+  .charge-button {
+    display: block;
+    text-align: center;
+    background-color: white;
+    margin: 0 10px;
+    line-height: 2.8;
+    color: $primary-color;
+    &.invalid {
+      color: #B1B1B1;
+    }
+  }
+}

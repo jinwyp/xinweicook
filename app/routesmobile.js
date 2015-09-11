@@ -72,14 +72,17 @@ expressRoutes = function(app) {
     app.get('/mobile/coupons', function (req, res) {
         res.render('mobile/coupons.html');
     });
-    app.get("/mobile/alipay/return", function (res) {
+    app.get("/mobile/alipay/return", function (req, res) {
         res.render('mobile/alipay-notify.html');
     });
     app.get("/mobile/balance", function (req, res) {
         res.render('mobile/balance.html');
     });
-    app.get("/mobile/chargebalance", function (res) {
+    app.get("/mobile/chargebalance", function (req, res) {
         res.render('mobile/charge-balance.html');
+    });
+    app.get("/mobile/balancerecords", function (req, res) {
+        res.render('mobile/balance-records.html');
     });
 
 

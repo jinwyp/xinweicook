@@ -734,18 +734,22 @@ label {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+/* line 70, ../sass/_order.scss */
+.form-block .balance-group {
+  margin-left: 8px;
+}
 
-/* line 71, ../sass/_order.scss */
+/* line 75, ../sass/_order.scss */
 .dish-list .form-line:last-of-type {
   border-color: transparent;
 }
 
-/* line 76, ../sass/_order.scss */
+/* line 80, ../sass/_order.scss */
 .pay .row {
   position: relative;
   padding-left: 43px;
 }
-/* line 80, ../sass/_order.scss */
+/* line 84, ../sass/_order.scss */
 .pay .icon {
   height: 23px;
   left: 19px;
@@ -754,13 +758,13 @@ label {
   background: url(../img/icons/ForkIcon.png) no-repeat;
   background-size: contain;
 }
-/* line 87, ../sass/_order.scss */
+/* line 91, ../sass/_order.scss */
 .pay .icon.active {
   background: url(../img/icons/ForkIconHighlighted.png) no-repeat;
   background-size: contain;
 }
 
-/* line 94, ../sass/_order.scss */
+/* line 98, ../sass/_order.scss */
 .flat-button {
   border: 1px #f44d4d solid;
   border-radius: 4px;
@@ -770,25 +774,25 @@ label {
   line-height: 30px;
 }
 
-/* line 107, ../sass/_order.scss */
+/* line 111, ../sass/_order.scss */
 .price-block {
   background: transparent;
   margin-top: -10px;
 }
-/* line 110, ../sass/_order.scss */
+/* line 114, ../sass/_order.scss */
 .price-block .group-on {
   color: #f44d4d;
 }
-/* line 113, ../sass/_order.scss */
+/* line 117, ../sass/_order.scss */
 .price-block .price {
   width: 5.5em;
 }
-/* line 116, ../sass/_order.scss */
+/* line 120, ../sass/_order.scss */
 .price-block .sign {
   padding-right: 0;
 }
 
-/* line 121, ../sass/_order.scss */
+/* line 125, ../sass/_order.scss */
 .confirm-button {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -796,17 +800,17 @@ label {
   height: 52px;
   margin: -12px auto 0;
 }
-/* line 127, ../sass/_order.scss */
+/* line 131, ../sass/_order.scss */
 .confirm-button.valid {
   background-color: #f44d4d;
   color: white;
 }
-/* line 131, ../sass/_order.scss */
+/* line 135, ../sass/_order.scss */
 .confirm-button.invalid {
   background-color: #eee;
 }
 
-/* line 136, ../sass/_order.scss */
+/* line 140, ../sass/_order.scss */
 .pay-window {
   position: fixed;
   top: 36%;
@@ -820,13 +824,13 @@ label {
   box-shadow: 2px 2px 5px gray;
   border: 1px darkgrey solid;
 }
-/* line 148, ../sass/_order.scss */
+/* line 152, ../sass/_order.scss */
 .pay-window .order-success-tip {
   text-align: center;
   font-size: 16px;
   margin-bottom: 48px;
 }
-/* line 153, ../sass/_order.scss */
+/* line 157, ../sass/_order.scss */
 .pay-window .confirm-button {
   text-align: center;
   background: #44b549;
@@ -1661,4 +1665,79 @@ label {
   line-height: 2.3;
   margin-top: 10px;
   font-size: 17px;
+}
+
+/* line 4, ../sass/_chargebalance.scss */
+.charge-balance-main .form-group {
+  margin-bottom: 0;
+}
+/* line 6, ../sass/_chargebalance.scss */
+.charge-balance-main .form-group input {
+  background-color: white;
+}
+/* line 10, ../sass/_chargebalance.scss */
+.charge-balance-main .charge-button {
+  display: block;
+  text-align: center;
+  background-color: white;
+  margin: 0 10px;
+  line-height: 2.8;
+  color: #f44d4d;
+}
+/* line 17, ../sass/_chargebalance.scss */
+.charge-balance-main .charge-button.invalid {
+  color: #B1B1B1;
+}
+
+/* line 3, ../sass/_balancerecords.scss */
+.balance-records-body {
+  background-color: white;
+}
+
+/* line 6, ../sass/_balancerecords.scss */
+.charge-balance-main {
+  margin-top: -10px;
+  padding: 0 14px;
+}
+/* line 9, ../sass/_balancerecords.scss */
+.charge-balance-main li {
+  position: relative;
+  border-bottom: 1px #F1F1F1 solid;
+  padding: 2px 0 4px;
+}
+/* line 14, ../sass/_balancerecords.scss */
+.charge-balance-main li .record-detail h5 {
+  font-weight: 100;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+/* line 19, ../sass/_balancerecords.scss */
+.charge-balance-main li .record-detail div {
+  color: gray;
+}
+/* line 23, ../sass/_balancerecords.scss */
+.charge-balance-main li .number {
+  position: absolute;
+  right: 2px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 30px;
+  line-height: 30px;
+  font-size: 24px;
+  font-weight: 100;
+  color: #f44d4d;
+}
+/* line 34, ../sass/_balancerecords.scss */
+.charge-balance-main li .number::before {
+  content: '+';
+  vertical-align: text-bottom;
+}
+/* line 38, ../sass/_balancerecords.scss */
+.charge-balance-main li .number.minus {
+  color: #72CA62;
+}
+/* line 40, ../sass/_balancerecords.scss */
+.charge-balance-main li .number.minus::before {
+  content: "-";
 }
