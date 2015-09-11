@@ -117,7 +117,7 @@ module.exports =
               if err
                 logger.error("信鸽推送发送失败: "+ contentType, JSON.stringify(err))
               else
-                logger.error("信鸽推送发送: "+ contentType, resultPush)
+                logger.error("信鸽推送发送: "+ contentType, resultPush) # ret_code 71	APNS服务器繁忙 73	消息字符数超限 http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
                 try
                   tempResult = JSON.parse(resultPush)
                 catch err
