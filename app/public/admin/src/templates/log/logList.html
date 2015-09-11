@@ -73,7 +73,7 @@
     <table class="table table-striped table-bordered table-hover table-responsive">
         <thead>
             <tr>
-                <th>_id</th>
+                <th>_id / 创建时间</th>
                 <th>level</th>
                 <th>host</th>
                 <th >meta</th>
@@ -84,19 +84,21 @@
         <tbody>
             <tr ng-repeat="log in data.logList | filter: data.searchFilter">
                 <!--<td><a ui-sref="menu.updateTag({ id: log._id })">{{log._id}}</a></td>-->
-                <td>{{log._id}}</td>
+                <td>{{log._id}} <br/> {{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
                 <td>{{log.level}}</td>
                 <td>{{log.hostname}}</td>
                 <td>
                     <div style="width: 30%;">
-                        url : {{log.meta.url}} <br/><br/> method : {{log.meta.method}} <br/><br/>
+                        url : {{log.meta.url}} <br/><br/>
+                        method : {{log.meta.method}} <br/><br/>
+                        user : <a ui-sref="menu.updateUser({ id: log.meta.user })">{{log.meta.user}}</a>  <br/><br/>
                         <span ng-repeat="( key, value ) in log.meta.header">header : {{key}} : {{value}} <br/><br/></span>
                         <span ng-repeat="( key, value ) in log.meta.body">body : {{key}} : {{value}} <br/><br/></span>
                         <span ng-repeat="( key, value ) in log.meta.query">query : {{key}} : {{value}} <br/><br/></span>
                         <span ng-repeat="( key, value ) in log.meta.params">params : {{key}} : {{value}} <br/><br/></span>
                     </div>
                 </td>
-                <td><pre>{{log.message}}</pre></td>
+                <td>{{log.timestamp | date:'MM-dd HH:mm:ss'}} - {{log.meta.method}}: {{log.meta.url}} <br/> user : <a ui-sref="menu.updateUser({ id: log.meta.user })">{{log.meta.user}}</a> <pre>{{log.message}}</pre></td>
                 <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>
         </tbody>

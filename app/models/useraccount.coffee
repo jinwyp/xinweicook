@@ -19,8 +19,7 @@ module.exports =
     validationAlipayNotify : (account) ->
       unless libs.validator.isLength account.out_trade_no, 24, 24
         return throw new Err "Field validation error,  out_trade_no must be 24-24", 400
-      if account.trade_status isnt "TRADE_SUCCESS"
-        return throw new Err "Field validation error,  trade_status not TRADE_SUCCESS", 400
+
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender

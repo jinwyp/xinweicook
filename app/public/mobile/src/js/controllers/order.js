@@ -94,7 +94,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
     };
 
 
+    var submitted = false;
     $scope.submitOrder = function () {
+        if (submitted) return;
         var order = {
             cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
             clientFrom: $scope.isWeixin ? 'wechat' : 'mobileweb',
@@ -155,6 +157,8 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                         order.deliveryDateCook = $scope.cookTime.selectDay.day;
                         if ($scope.cookTime.selectTime) {
                             order.deliveryTimeCook = $scope.cookTime.selectTime.name + ':00';
+                        } else {
+                            order.deliveryTimeCook = '12:00';
                         }
                     }
                 } catch (e){
@@ -188,6 +192,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         });
 
         if (ok) {
+            submitted = true;
             Orders.postOrder(order).then(function (res) {
                 clearAddress();
 
@@ -206,14 +211,16 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                         document.querySelector(selector).click();
                         return;
                     }
-                    location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
-                        'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
-                        'response_type=code&scope=snsapi_base&' +
-                        'state=' + $scope.wxstate +
-                        '#wechat_redirect'
+                    location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
+                    //location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
+                    //    'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
+                    //    'response_type=code&scope=snsapi_base&' +
+                    //    'state=' + $scope.wxstate +
+                    //    '#wechat_redirect'
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {
+                submitted = false;
                 var msg = Alert.message(res.data.validationStatus);
                 if (res.data.validationStatus == 4110) {
                     if (/Dish Out Of Stock ! \w+ ([\w\u4E00-\u9FA5]+) /) {

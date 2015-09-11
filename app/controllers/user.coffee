@@ -50,7 +50,7 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 exports.userSignUp = (req, res, next) ->
   # 注册
-  { mobile, pwd, code } = req.body
+  { mobile, pwd, code, couponcode } = req.body
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
@@ -58,6 +58,9 @@ exports.userSignUp = (req, res, next) ->
   .then (resultUser)->
 
     models.coupon.addCouponForNewUser(resultUser)
+
+    if couponcode
+      models.coupon.addCouponFromCouponChargeCode(resultUser, couponcode)
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)
@@ -157,8 +160,42 @@ exports.updateUserInfo = (req, res, next) ->
 
   models.user.validationUserInfo req.body
 
-  req.u.address = req.body.address
+  if req.u.address and req.body.address.length > 0
+
+    for address,addressIndex in req.body.address
+
+      if req.u.address.length-1 >= addressIndex
+
+        req.u.address[addressIndex].geoLatitude = address.geoLatitude if address.geoLatitude
+        req.u.address[addressIndex].geoLongitude = address.geoLongitude if address.geoLongitude
+
+        req.u.address[addressIndex].country = address.country if address.country
+        req.u.address[addressIndex].province = address.province if address.province
+        req.u.address[addressIndex].city = address.city if address.city
+        req.u.address[addressIndex].district = address.district if address.district
+        req.u.address[addressIndex].street = address.street if address.street
+        req.u.address[addressIndex].address = address.address if address.address
+
+        req.u.address[addressIndex].isDefault = address.isDefault if address.isDefault
+
+        req.u.address[addressIndex].contactPerson = address.contactPerson if address.contactPerson
+        req.u.address[addressIndex].mobile = address.mobile if address.mobile
+        req.u.address[addressIndex].alias = address.alias if address.alias
+        req.u.address[addressIndex].remark = address.alias if address.remark
+
+      else
+        req.u.address.push(address)
+
+      req.u.address[addressIndex].sortOrder = addressIndex
+
+    if req.u.address.length > req.body.address.length
+      req.u.address.splice(req.body.address.length, req.u.address.length - req.body.address.length);
+
+  else
+    req.u.address = req.body.address
+
   req.u.gender = req.body.gender if req.body.gender
+  req.u.lang = req.body.language if req.body.language
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
   req.u.saveAsync().then (resultUser) ->
@@ -244,57 +281,62 @@ exports.chargeAccount = (req, res, next) ->
 exports.chargeAccountAlipayNotify = (req, res, next) ->
 
   models.useraccount.validationAlipayNotify(req.body)
-  accountDetailData = {}
 
-  models.accountdetail.findOneAsync({_id : req.body.out_trade_no, isPaid:false, isPlus:true}).then (resultAccountDetail)->
+  if req.body.trade_status is "TRADE_SUCCESS"
+    accountDetailData = {}
 
-    models.accountdetail.checkNotFound(resultAccountDetail)
-    accountDetailData = resultAccountDetail
+    models.accountdetail.findOneAsync({_id : req.body.out_trade_no, isPaid:false, isPlus:true}).then (resultAccountDetail)->
 
-    resultAccountDetail.isPaid = true
-    resultAccountDetail.paymentAlipay =
-      notify_time : req.body.notify_time
-      notify_type : req.body.notify_type
-      notify_id : req.body.notify_id
-      sign_type: req.body.sign_type,
-      sign: req.body.sign_type,
+      models.accountdetail.checkNotFound(resultAccountDetail)
+      accountDetailData = resultAccountDetail
 
-      out_trade_no : req.body.out_trade_no
-      subject : req.body.subject
-      payment_type : req.body.payment_type
-      trade_no : req.body.trade_no
-      trade_status : req.body.trade_status
-      price : req.body.price
-      total_fee : req.body.total_fee
-      quantity : req.body.quantity
-      body : req.body.body
-      is_total_fee_adjust : req.body.is_total_fee_adjust
-      use_coupon : req.body.use_coupon
-      gmt_create : req.body.gmt_create
-      gmt_payment : req.body.gmt_payment
-#      refund_status : req.body.refund_status
-#      gmt_refund : req.body.gmt_refund
-      seller_email : req.body.seller_email
-      buyer_email : req.body.buyer_email
-      seller_id : req.body.seller_id
-      buyer_id : req.body.buyer_id
+      resultAccountDetail.isPaid = true
+      resultAccountDetail.paymentAlipay =
+        notify_time : req.body.notify_time
+        notify_type : req.body.notify_type
+        notify_id : req.body.notify_id
+        sign_type: req.body.sign_type,
+        sign: req.body.sign_type,
 
-    resultAccountDetail.saveAsync()
-  .then (resultAccoutDetail2) ->
+        out_trade_no : req.body.out_trade_no
+        subject : req.body.subject
+        payment_type : req.body.payment_type
+        trade_no : req.body.trade_no
+        trade_status : req.body.trade_status
+        price : req.body.price
+        total_fee : req.body.total_fee
+        quantity : req.body.quantity
+        body : req.body.body
+        is_total_fee_adjust : req.body.is_total_fee_adjust
+        use_coupon : req.body.use_coupon
+        gmt_create : req.body.gmt_create
+        gmt_payment : req.body.gmt_payment
+  #      refund_status : req.body.refund_status
+  #      gmt_refund : req.body.gmt_refund
+        seller_email : req.body.seller_email
+        buyer_email : req.body.buyer_email
+        seller_id : req.body.seller_id
+        buyer_id : req.body.buyer_id
 
-    models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
-  .then (resultAccount)->
-    models.useraccount.checkNotFound(resultAccount)
-    resultAccount.balance = resultAccount.balance + accountDetailData.amountXinwei
-    resultAccount.saveAsync()
+      resultAccountDetail.saveAsync()
+    .then (resultAccoutDetail2) ->
 
-  .then (resultAccount2)->
-#    res.json resultAccount2[0]
+      models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
+    .then (resultAccount)->
+      models.useraccount.checkNotFound(resultAccount)
+      resultAccount.balance = resultAccount.balance + accountDetailData.amountXinwei
+      resultAccount.saveAsync()
 
+    .then (resultAccount2)->
+  #    res.json resultAccount2[0]
+
+      res.set('Content-Type', 'text/plain');
+      res.send "success"
+    .catch next
+
+  else
     res.set('Content-Type', 'text/plain');
     res.send "success"
-  .catch next
-
 
 
 

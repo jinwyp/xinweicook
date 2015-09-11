@@ -44,7 +44,7 @@ module.exports =
     credit: type: Number, default: 0
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
-    lang: String
+    lang: String #zh #en
 
     shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"
@@ -55,8 +55,10 @@ module.exports =
       ]
     ]
 
+
     couponList :[type: Schema.ObjectId, ref: "coupon"]
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
+
 
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
@@ -73,6 +75,9 @@ module.exports =
     isPaid5Orders: type: Boolean, default: false
 
     isPaid10Orders: type: Boolean, default: false
+
+
+    lastOrderDate: type: Date
 
     oldUserData :
       mobile:String

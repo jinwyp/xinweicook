@@ -40,7 +40,8 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
         User.signup(
             $scope.signupData.mobile,
             $scope.signupData.pwd,
-            $scope.signupData.code
+            $scope.signupData.code,
+            couponcode
         ).then(function (res) {
             // todo: redirect
             alert('注册成功!');
@@ -73,10 +74,21 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
         $scope.path = $location.path();
     });
 
+    var couponcode = '';
+
     function init() {
         var path = $location.path() || '/login';
         $location.path(path);
         $scope.path = path;
+
+        var searches = location.search.slice(1).split('&');
+        searches = searches.reduce(function (obj, cur) {
+            cur = cur.split('=');
+            obj[cur[0]] = decodeURIComponent(cur[1]);
+            return obj;
+        }, {});
+
+        couponcode = searches.couponcode || '';
 
         User.getUserInfo().then(function (res) {
             // 如果在登录页面获取到用户信息,那么跳转到首页

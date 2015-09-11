@@ -27,12 +27,21 @@
 
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponStatus.$dirty&&searchForm.couponStatus.$valid, 'has-error':searchForm.couponStatus.$dirty&&searchForm.couponStatus.$invalid}">
                     <label  class="col-lg-2 control-label" >类型</label>
-                    <div class="col-lg-8">
+                    <div class="col-lg-10">
                         <label class="radio-inline" >
-                            <input type="radio" name="couponStatus"  ng-value="'!=coupon'" ng-model="data.searchOptions.couponType" required>优惠码（用于线下）
+                            <input type="radio" name="couponStatus"  ng-value="''" ng-model="data.searchOptions.couponType" required>ALL
                         </label>
                         <label class="radio-inline" >
-                            <input type="radio" name="couponStatus"  ng-value="'coupon'" ng-model="data.searchOptions.couponType" required>优惠券（绑定用户）
+                            <input type="radio" name="couponStatus"  ng-value="'promocode'" ng-model="data.searchOptions.couponType" required>优惠码金额折扣
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponStatus"  ng-value="'promocodepercentage'" ng-model="data.searchOptions.couponType" required>优惠码百分比折扣
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponStatus"  ng-value="'coupon'" ng-model="data.searchOptions.couponType" required>优惠券(绑定用户)
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponStatus"  ng-value="'couponchargecode'" ng-model="data.searchOptions.couponType" required>优惠券兑换码
                         </label>
                         <label class="radio-inline" >
                             <input type="radio" name="couponStatus"  ng-value="'accountchargecode'" ng-model="data.searchOptions.couponType" required>新味币充值码
@@ -40,6 +49,49 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponIsUsed.$dirty&&searchForm.couponIsUsed.$valid, 'has-error':searchForm.couponIsUsed.$dirty&&searchForm.couponIsUsed.$invalid}">
+                    <label  class="col-lg-2 control-label" >是否使用(针对优惠券)</label>
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="''" ng-model="data.searchOptions.couponType" >ALL
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="'false'" ng-model="data.searchOptions.isUsed" >未使用
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponIsUsed"  ng-value="'true'" ng-model="data.searchOptions.isUsed" >已使用
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponUsedCount.$dirty&&searchForm.couponUsedCount.$valid, 'has-error':searchForm.couponUsedCount.$dirty&&searchForm.couponUsedCount.$invalid}">
+                    <label  class="col-lg-2 control-label" >使用次数(针对优惠码)</label>
+                    <div class="col-lg-10">
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="''" ng-model="data.searchOptions.isUsedCount" >ALL
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="'0'" ng-model="data.searchOptions.isUsedCount" >未使用
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="couponUsedCount"  ng-value="'>0'" ng-model="data.searchOptions.isUsedCount" >已使用过
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.promoCode.$dirty&&searchForm.promoCode.$valid, 'has-error':searchForm.promoCode.$dirty&&searchForm.promoCode.$invalid}">
+                    <label for="inputPromoCode" class="col-lg-2 control-label" >优惠码</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputPromoCode" placeholder="" name="promoCode" ng-model="data.searchOptions.code" ng-minlength="10">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.promoCode.$dirty&&searchForm.promoCode.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.promoCode.$dirty&&searchForm.promoCode.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.promoCode.$dirty&&searchForm.promoCode.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.promoCode.$dirty&&searchForm.promoCode.$error.minlength || searchForm.promoCode.$dirty&&searchForm.promoCode.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
@@ -75,8 +127,8 @@
             <tr>
                 <th>_id / 创建时间</th>
                 <th>所属用户</th>
-                <th>优惠码名称 中文</th>
-                <th>优惠码名称 英文</th>
+                <th>优惠码名称</th>
+                <th>类型</th>
                 <th>优惠码 code</th>
                 <th>优惠金额</th>
                 <th>订单金额限制</th>
@@ -94,8 +146,14 @@
             <tr ng-repeat="coupon in data.couponList | filter: data.searchFilter">
                 <td><a ui-sref="menu.updateCoupon({ id: coupon._id })">{{coupon._id}}</a>  <br/> {{coupon.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
                 <td> <a ui-sref="menu.updateUser({ id: coupon.user })">{{coupon.user ? coupon.user : '' }}</a> </td>
-                <td>{{coupon.name.zh}}</td>
-                <td>{{coupon.name.en}}</td>
+                <td>{{coupon.name.zh}} <br>{{coupon.name.en}}</td>
+                <td>
+                    <span ng-show="coupon.couponType==='promocode'">优惠码 金额折扣</span>
+                    <span ng-show="coupon.couponType==='promocodepercentage'">优惠码百分比折扣</span>
+                    <span ng-show="coupon.couponType==='coupon'">优惠券</span>
+                    <span ng-show="coupon.couponType==='couponchargecode'">优惠券兑换码</span>
+                    <span ng-show="coupon.couponType==='accountchargecode'">新味币充值码</span>
+                </td>
                 <td>{{coupon.code}}</td>
                 <td>{{coupon.price}} <span ng-if="coupon.couponType==='promocodepercentage'">%</span></td>
                 <td>{{coupon.priceLimit}}</td>

@@ -37,10 +37,10 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-if="data.coupon.couponType=='promocode' || data.coupon.couponType=='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
+                <div class="form-group has-feedback" ng-if="css.isAddNewStatus || data.coupon.couponType==='' || data.coupon.couponType==='promocode' || data.coupon.couponType==='promocodepercentage'" ng-class="{'has-success':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid, 'has-error':couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid}">
                     <label class="col-lg-2 control-label" >优惠码类型</label>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <label class="radio-inline">
                             <input type="radio" ng-value="'promocode'" ng-model="data.coupon.couponType">优惠码金额
                         </label>
@@ -49,6 +49,9 @@
                         </label>
                         <label class="radio-inline">
                             <input type="radio"  ng-value="'coupon'" ng-model="data.coupon.couponType">优惠券（绑定用户）
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'couponchargecode'" ng-model="data.coupon.couponType">优惠券兑换码
                         </label>
                         <label class="radio-inline">
                             <input type="radio"  ng-value="'accountchargecode'" ng-model="data.coupon.couponType">新味币充值码

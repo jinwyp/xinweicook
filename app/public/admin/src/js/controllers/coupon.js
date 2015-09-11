@@ -19,14 +19,16 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         searchOptions : {
             skip : 0,
             limit : 1000,
-            createdAt :'',
             usedTime : '',
-            couponType : '!=coupon',
+            isUsedCount : '',
+            isUsed : '',
+            couponType : '',
             _id : ''
 
         },
         searchSort : {
             sort : '-createdAt'
+//            sort : 'couponType'
         },
 
         couponListCount : 0,
@@ -116,6 +118,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         Coupons.one($stateParams.id).get().then(function (resutlCoupon) {
             $scope.data.coupon = resutlCoupon;
+            if(typeof $scope.data.coupon.couponType === 'undefined'){
+                $scope.data.coupon.couponType = 'promocode'
+            }
 
 
         });

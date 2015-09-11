@@ -19,6 +19,7 @@ configWeiXinAppPay =
 
 
 weixinpay = WXPay(configWeiXinPay)
+
 alipay = AliPay()
 
 
@@ -91,17 +92,48 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
 
 
 
+exports.getWeixinPayUserOauthCode = (req, res, next) ->
+  orderId = req.query.orderid
+  unless libs.validator.isLength orderId, 24, 24
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(userId) )
+
+  models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
+    if resultOrder
+
+      models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+        if resultUser
+
+#          if resultUser.weixinId.openid?
+#            return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error, can not found this userId of this order"))
+#          else
+#            return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error, can not found this userId of this order"))
+
+          return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/orders/payment/weixinpay/openid", resultOrder._id.toString()))
+
+        else
+          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error, can not found this userId of this order"))
+    else
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error, can not found this orderId"))
+
+  .catch (err)->
+    return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error") + encodeURIComponent(JSON.stringify(err)) )
+
+
+
+
+
+
+
 
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-#  console.log "========================WeixinPayOpenId :: ", req.query
-  logger.error("OpenID 回调: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   order_number_state = req.query.state
 
   if not req.query.code?
-    logger.error("OpenID 失败 code not found: "+JSON.stringify(req.query) )
+    logger.error("OpenID Failed code not found: "+JSON.stringify(req.query) )
 
 #  models.order.validationOrderId order_number_state
 
@@ -114,40 +146,55 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
 
-  weixinpay.getUserOpenId(code, (err, result) ->
+  models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
+    if resultOrder
 
-    if err
-#      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
-      logger.error("OpenID 失败 网络传输:", JSON.stringify(err))
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
+      models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
+        if resultUser
 
+          if resultUser.weixinId and resultUser.weixinId.openid
+            return res.redirect("/mobile/wxpay/" + order_number_state)
 
+          else
 
-    if not result.errcode
-      logger.error("OpenID 成功 code: " + JSON.stringify(result) )
-      models.order.findOneAsync({"_id": order_number_state}).then (resultOrder) ->
-        if resultOrder
-          models.user.findOneAsync({"_id": resultOrder.user.toString()}).then (resultUser) ->
-            if resultUser
-              resultUser.weixinId.access_token = result.access_token
-              resultUser.weixinId.openid = result.openid
-              resultUser.weixinId.refresh_token = result.refresh_token
+            weixinpay.getUserOpenId(code, (err, result) ->
 
-              resultUser.saveAsync()
-          return res.redirect("/mobile/wxpay/" + order_number_state)
+              if err
+          #      next(throw new Err "Weixin Pay OpenId get code error,  code is null", 400)
+                return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 500 Error") + encodeURIComponent(JSON.stringify(err)) )
+
+              if not result.errcode
+                resultUser.weixinId.access_token = result.access_token
+                resultUser.weixinId.openid = result.openid
+                resultUser.weixinId.refresh_token = result.refresh_token
+
+                resultUser.saveAsync().then (resultUser2) ->
+                  return res.redirect("/mobile/wxpay/" + order_number_state)
+                .catch (err)->
+                    logger.error("OpenID Failed Save User error:", JSON.stringify(err))
+              else
+                # 给开发发送Open短信
+                if not conf.debug
+                  text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
+                  models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
+                  models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
+
+                return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
+            )
+
         else
-          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
-
+          return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found user of this order"))
       .catch (err)->
-        logger.error("OpenID 失败 查询OrderNumber错误:", JSON.stringify(err))
-        return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
-
+          logger.error("OpenID Failed Search User error:", JSON.stringify(err))
     else
-      result.code = req.query.code
-      result.order_number_state = req.query.order_number_state
-      logger.error("OpenID 失败 errcode: " + JSON.stringify(result) )
-      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error errcode found") + encodeURIComponent(JSON.stringify(result)) )
-  )
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
+
+  .catch (err)->
+      logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
+      return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
+
+
+
 
 
 
@@ -360,7 +407,7 @@ exports.addNewOrder = (req, res, next) ->
     else
       isUsedAccountBalance = false
 
-    models.coupon.findOne({code: req.body.promotionCode, isExpired : false, isUsed : false}).execAsync()
+    models.coupon.findOne({code: req.body.promotionCode,  couponType: { $in: models.coupon.constantCouponType().code },  isExpired : false, isUsed : false}).execAsync()
   .then (resultPromotionCode) ->
     # 处理优惠码是否有效
     if req.body.promotionCode
@@ -543,10 +590,10 @@ exports.addNewOrder = (req, res, next) ->
       coupon.used(req.u)
 
 
-
     # 余额已使用后处理
     if isUsedAccountBalance
       userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
+
 
     # 删除用户购物车商品
     if req.u.shoppingCart.length > 0
@@ -580,21 +627,23 @@ exports.addNewOrder = (req, res, next) ->
     if isAddNewFlag
       req.u.address.push(newAddress)
 
+    # 记录最后下单时间
+    req.u.lastOrderDate = moment()
 
     req.u.saveAsync().catch (err)->
-      logger.error "---- User Save error", err
+      logger.error "New Order User Save error", err
 
 
 
     # 发送iOS 推送
-    additionalContent =
-      userId : req.u._id
-      orderId : resultOrder._id
-
-    pushOptions =
-      isPushMobile : true
-
-    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
+#    additionalContent =
+#      userId : req.u._id
+#      orderId : resultOrder._id
+#
+#    pushOptions =
+#      isPushMobile : true
+#
+#    models.message.sendMessageToUser(req.u._id, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
 
 
     # 生成支付宝签名
@@ -636,77 +685,79 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
 
 
   models.order.findByIdAsync(req.body._id).then (resultOrder) ->
-
+    WXPayOrder = WXPay(configWeiXinPay)
     #处理如果是微信支付需要先生成微信支付的统一订单
     if resultOrder
 
-      if resultOrder.clientFrom is "ios"
-        weixinpay = WXPay(configWeiXinAppPay)
+      models.user.findByIdAsync(resultOrder.user).then (resultUser) ->
+        if resultUser
 
-      tempTotalPrice =  Math.ceil(resultOrder.totalPrice * 100)
-      weixinpayOrder =
-        out_trade_no: resultOrder.orderNumber
-        total_fee: tempTotalPrice
-        spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+          if resultOrder.clientFrom is "ios"
+            WXPayOrder = WXPay(configWeiXinAppPay)
 
-        notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
-        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
-        openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
-        product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+          weixinpayOrder =
+            out_trade_no: resultOrder.orderNumber
+            total_fee: Math.ceil(resultOrder.totalPrice * 100)
+            spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
-        body:  resultOrder.dishHistory[0].dish.title.zh
-        detail:  resultOrder.dishHistory[0].dish.title.zh
+            notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
+            trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
+#            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+            product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 
-        attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+            body:  resultOrder.dishHistory[0].dish.title.zh
+            detail:  resultOrder.dishHistory[0].dish.title.zh
 
-      if req.u.weixinId.openid and resultOrder.clientFrom is "wechat"
-        weixinpayOrder.openid = req.u.weixinId.openid
+            attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
-      if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
-        weixinpayOrder.total_fee = 1
+          if resultUser.weixinId and resultUser.weixinId.openid and resultOrder.clientFrom is "wechat"
+            weixinpayOrder.openid = resultUser.weixinId.openid
 
-      console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
-      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
-        if err
-          next (new Err err)
+          if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+            weixinpayOrder.total_fee = 1
 
-        if resultWeixinPay
+          console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
+          WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+            if err
+              next (new Err err)
 
-          weixinpayMobileSign =
-            appId: configWeiXinPay.appid
-            timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: weixinpay.util.generateNonceString()
-            package: "prepay_id="+resultWeixinPay.prepay_id
-            signType: "MD5"
+            if resultWeixinPay
 
-          # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
-          weixinpayNativeSign =
-            appId : configWeiXinAppPay.appid
-            partnerId : configWeiXinAppPay.mch_id
-            prepayId : resultWeixinPay.prepay_id
-            packageValue : 'Sign=WXPay'
-            timeStamp: parseInt(+new Date() / 1000, 10) + ""
-            nonceStr: weixinpay.util.generateNonceString()
+              weixinpayMobileSign =
+                appId: configWeiXinPay.appid
+                timeStamp: parseInt(+new Date() / 1000, 10) + ""
+                nonceStr: WXPayOrder.util.generateNonceString()
+                package: "prepay_id="+resultWeixinPay.prepay_id
+                signType: "MD5"
 
-          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+              # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
+              weixinpayNativeSign =
+                appId : configWeiXinAppPay.appid
+                partnerId : configWeiXinAppPay.mch_id
+                prepayId : resultWeixinPay.prepay_id
+                packageValue : 'Sign=WXPay'
+                timeStamp: parseInt(+new Date() / 1000, 10) + ""
+                nonceStr: WXPayOrder.util.generateNonceString()
 
-          resultOrder.paymentWeixinpay =
-            nativeSign: weixinpayNativeSign
-            mobileSign: weixinpayMobileSign
-            nonce_str : resultWeixinPay.nonce_str
-            sign : resultWeixinPay.sign
-            trade_type : resultWeixinPay.trade_type
-            prepay_id: resultWeixinPay.prepay_id
-            code_url: resultWeixinPay.code_url
+              weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
+              weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
 
-          resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-#          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-            resultTemp = resultOrder2.toJSON()
-            delete resultTemp.dishList
-#            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
-            res.json resultTemp
+              resultOrder.paymentWeixinpay =
+                nativeSign: weixinpayNativeSign
+                mobileSign: weixinpayMobileSign
+                nonce_str : resultWeixinPay.nonce_str
+                sign : resultWeixinPay.sign
+                trade_type : resultWeixinPay.trade_type
+                prepay_id: resultWeixinPay.prepay_id
+                code_url: resultWeixinPay.code_url
+
+              resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
+    #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+                resultTemp = resultOrder2.toJSON()
+                delete resultTemp.dishList
+    #            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+                res.json resultTemp
 
     else
       throw new Err "Field validation error,  orderID not found!", 200
@@ -731,6 +782,7 @@ exports.updateOrder = (req, res, next) ->
     models.order.checkNotFound(resultOrder)
 
     if req.body.isPaymentPaid is "true" and resultOrder.status isnt models.order.constantStatus().canceled
+      # 修改订单支付状态
       resultOrder.isPaymentPaid = true
       resultOrder.status = models.order.constantStatus().paid
 
@@ -741,96 +793,50 @@ exports.updateOrder = (req, res, next) ->
           childOrder.saveAsync()
 
       # 扣除商品库存
+      dishHistoryIdList = []
+      dishIdList = {}
       for dish, dishIndex in resultOrder.dishHistory
-        models.dish.findOne({_id:dish.dish._id}).then (resultDish) ->
-          if resultDish
-            resultDish.reduceStock(dish.number, req.u, "userOrder", resultOrder._id.toString())
+        dishHistoryIdList.push(dish.dish._id)
+        dishIdList[dish.dish._id] = dish.number
+
+      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+        if resultDishList
+          for dish, dishIndex in resultDishList
+            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
-      text = models.sms.constantTemplateCustomerNewOrderNotify(resultOrder.orderNumber)
-#      models.sms.sendSmsVia3rd("13564568304", text).catch( (err) -> logger.error("短信发送失败:", err))     # 王宇鹏电话
-      if not conf.debug
-        models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 索晶电话
-        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 何华电话
-        models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 赵梦菲电话
-        models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送新订单通知失败:", err))     # 杨唤电话
+      models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
 
-      # 该用户首次下单给邀请的人添加优惠券
+
+      # 该用户完成支付后可以再次分享邀请码
+      req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+      if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+        req.u.isSharedInvitationSendCode = false
+
+      # 避免重复的req.u.save
       if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon
-        models.user.findOneAsync({_id:req.u.invitationFromUser}).then (fromUser) ->
-          if fromUser
-            newCoupon =
-              name :
-                zh : "邀请的好友首次下单返利优惠券"
-                en : "Friend First Order Rebate Coupon"
-              price : 10
-              couponType : models.coupon.constantCouponType().coupon
-              usedTime : 1
-              user : fromUser._id.toString()
-            models.coupon.addNew(newCoupon).then (resultCoupon)->
-              fromUser.couponList.push(resultCoupon._id.toString())
-              fromUser.saveAsync()
-              req.u.isHaveFirstOrderCoupon = true
-
-              # 该用户完成支付后可以再次分享邀请码
-              req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
-
-              if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
-                req.u.isSharedInvitationSendCode = false
-              req.u.saveAsync()
+        # 该用户首次下单给邀请的人添加优惠券
+        models.coupon.addCouponForInvitationRebate(req.u)
       else
-        # 该用户完成支付后可以再次分享邀请码
-        req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
-
-        if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
-          req.u.isSharedInvitationSendCode = false
+        # 用户订单超过5单和10单赠送优惠券
+        models.coupon.addCouponPaidManyOrder(req.u)
 
 
-        if req.u.sharedInvitationSendCodeTotalCount >= 5 and not req.u.isPaid5Orders
-          newCoupon =
-            name :
-              zh : "满5单优惠券"
-              en : "Achieve 5 orders Coupon"
-            price : 10
-            couponType : models.coupon.constantCouponType().coupon
-            usedTime : 1
-            user : req.u._id.toString()
+      if req.u.sharedInvitationSendCodeTotalCount is 6
+        # 发送iOS 推送 满6单发新味币充值码
+        additionalContent =
+          userId : req.u._id
+          orderId : resultOrder._id
+          code : "XWORDERFIV"
 
-          models.coupon.addNew(newCoupon).then (resultCouponList)->
-            req.u.couponList.push(resultCouponList._id.toString())
-            req.u.isPaid5Orders = true
-            req.u.saveAsync()
+        pushOptions =
+          isPushMobile : true
 
-          # 发送iOS 推送 满5单发充值码
-          additionalContent =
-            userId : req.u._id
-            orderId : resultOrder._id
-            code : "XWORDERFIV"
-
-          pushOptions =
-            isPushMobile : true
-
-          models.message.sendMessageToUser(req.u._id, models.message.constantContentType().chargeAccountByCode10, additionalContent, pushOptions)
-
-        else if req.u.sharedInvitationSendCodeTotalCount >=10 and not req.u.isPaid10Orders
-          newCoupon =
-            name :
-              zh : "满10单优惠券"
-              en : "Achieve 10 orders Coupon"
-            price : 20
-            couponType : models.coupon.constantCouponType().coupon
-            usedTime : 1
-            user : req.u._id.toString()
-
-          models.coupon.addNew(newCoupon).then (resultCouponList)->
-            req.u.couponList.push(resultCouponList._id.toString())
-            req.u.isPaid10Orders = true
-            req.u.saveAsync()
-        else
-          req.u.saveAsync()
-
+        models.message.sendMessageToUser(req.u._id, models.message.constantContentType().chargeAccountByCode10, additionalContent, pushOptions)
 
     else
+      # 取消订单
       if req.body.status is models.order.constantStatus().canceled and resultOrder.status is models.order.constantStatus().notpaid
         resultOrder.status = models.order.constantStatus().canceled
 
@@ -852,57 +858,63 @@ exports.updateOrder = (req, res, next) ->
 
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
-  console.log "========================OrderAlipayNotify :: ", req.body
-  models.order.validationAlipayNotify req.body
+#  console.log "========================OrderAlipayNotify :: ", req.body
+  models.order.validationAlipayNotify(req.body)
 
-#  models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
-  models.order.findOne {orderNumber : req.body.out_trade_no}
-  .populate "childOrderList"
-  .execAsync()
-  .then (resultOrder) ->
-    models.order.checkNotFound(resultOrder)
+  if req.body.trade_status is "TRADE_SUCCESS"
 
-    resultOrder.isPaymentPaid = true
-    resultOrder.status = models.order.constantStatus().paid
+#    models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
+    models.order.findOne({orderNumber : req.body.out_trade_no})
+    .populate "childOrderList"
+    .execAsync()
+    .then (resultOrder) ->
+      models.order.checkNotFound(resultOrder)
 
-    resultOrder.paymentAlipay =
-      notify_time : req.body.notify_time
-      notify_type : req.body.notify_type
-      notify_id : req.body.notify_id
-      sign_type: req.body.sign_type,
-      sign: req.body.sign_type,
+      resultOrder.isPaymentPaid = true
+      resultOrder.status = models.order.constantStatus().paid
 
-      out_trade_no : req.body.out_trade_no
-      subject : req.body.subject
-      payment_type : req.body.payment_type
-      trade_no : req.body.trade_no
-      trade_status : req.body.trade_status
-      price : req.body.price
-      total_fee : req.body.total_fee
-      quantity : req.body.quantity
-      body : req.body.body
-      is_total_fee_adjust : req.body.is_total_fee_adjust
-      use_coupon : req.body.use_coupon
-      gmt_create : req.body.gmt_create
-      gmt_payment : req.body.gmt_payment
-#      refund_status : req.body.refund_status
-#      gmt_refund : req.body.gmt_refund
-      seller_email : req.body.seller_email
-      buyer_email : req.body.buyer_email
-      seller_id : req.body.seller_id
-      buyer_id : req.body.buyer_id
+      resultOrder.paymentAlipay =
+        notify_time : req.body.notify_time
+        notify_type : req.body.notify_type
+        notify_id : req.body.notify_id
+        sign_type: req.body.sign_type,
+        sign: req.body.sign_type,
 
-    if resultOrder.childOrderList.length > 0
-      for childOrder in resultOrder.childOrderList
-        childOrder.isPaymentPaid = true
-        childOrder.status = models.order.constantStatus().paid
-        childOrder.saveAsync()
+        out_trade_no : req.body.out_trade_no
+        subject : req.body.subject
+        payment_type : req.body.payment_type
+        trade_no : req.body.trade_no
+        trade_status : req.body.trade_status
+        price : req.body.price
+        total_fee : req.body.total_fee
+        quantity : req.body.quantity
+        body : req.body.body
+        is_total_fee_adjust : req.body.is_total_fee_adjust
+        use_coupon : req.body.use_coupon
+        gmt_create : req.body.gmt_create
+        gmt_payment : req.body.gmt_payment
+  #      refund_status : req.body.refund_status
+  #      gmt_refund : req.body.gmt_refund
+        seller_email : req.body.seller_email
+        buyer_email : req.body.buyer_email
+        seller_id : req.body.seller_id
+        buyer_id : req.body.buyer_id
 
-    resultOrder.saveAsync()
-  .spread (resultOrder2, numberAffected) ->
+      if resultOrder.childOrderList.length > 0
+        for childOrder in resultOrder.childOrderList
+          childOrder.isPaymentPaid = true
+          childOrder.status = models.order.constantStatus().paid
+          childOrder.saveAsync()
+
+      resultOrder.saveAsync()
+    .spread (resultOrder2, numberAffected) ->
+      res.set('Content-Type', 'text/plain');
+      res.send "success"
+    .catch next
+
+  else
     res.set('Content-Type', 'text/plain');
     res.send "success"
-  .catch next
 
 
 

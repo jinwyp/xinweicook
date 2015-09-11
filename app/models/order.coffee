@@ -312,8 +312,7 @@ module.exports =
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
-      if order.trade_status isnt "TRADE_SUCCESS"
-        return throw new Err "Field validation error,  trade_status not TRADE_SUCCESS", 400
+
 
     validationWeixinPayUnifiedOrder : (body) ->
 #        unless libs.validator.isIP body.spbill_create_ip

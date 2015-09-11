@@ -194,6 +194,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
         User.getUserInfo().then(function (res) {
             var cart = res.data.shoppingCart;
+            var push = [].push;
             $scope.dishList = {
                 cookList: [],
                 eatList: []
@@ -222,9 +223,9 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 }
 
                 if (dish.cookingType == 'ready to cook') {
-                    $scope.dishList.cookList.push.apply($scope.dishList.cookList, entries);
+                    push.apply($scope.dishList.cookList, entries);
                 } else {
-                    $scope.dishList.eatList.push.apply($scope.dishList.eatList, entries);
+                    push.apply($scope.dishList.eatList, entries);
                 }
             });
 

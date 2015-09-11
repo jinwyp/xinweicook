@@ -52,6 +52,7 @@ expressRoutes = (app) ->
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
+  app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
 
 #  app.use libs.secure.middleware
 
@@ -147,6 +148,10 @@ expressRoutes = (app) ->
 
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
+
+
+  app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)
+  app.get("/api/admin/cronjob/user/noorder/test", cronJobController.getNoOrderUserLast7DayTest)
 
 
 
