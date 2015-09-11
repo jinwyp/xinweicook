@@ -5,7 +5,8 @@ module.exports =
     user :type: Schema.ObjectId, ref: "user"
     order :type: Schema.ObjectId, ref: "order"
     coupon :type: Schema.ObjectId, ref: "coupon"
-    isPlus : type: Boolean, default: false  # 默认是减库存 状态
+    chargeType : type: Boolean # 充值方式类型 alipay chargecode
+    isPlus : type: Boolean, default: false  # 默认是减
     amount : type:Number   # 该数量可以为正负,不受到isPlus状态干扰
     amountXinwei : type:Number   # 新味币充值多少例如充300人民币得到350新味币
     remark : String
@@ -41,6 +42,11 @@ module.exports =
 
 
   statics:
+    constantChargeType : () ->
+      type =
+        alipaydirect : "alipaydirect"
+        chargecode : "chargecode"
+
     checkNotFound : (accoutDetail) ->
       if not accoutDetail
         throw new Err "accoutDetail ID or accoutDetail not found !", 400

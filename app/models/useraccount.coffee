@@ -67,6 +67,7 @@ module.exports =
     chargeAccountDetail : (amount, name, remark) ->
 
       newAccountDetail =
+        chargeType : models.accountdetail.constantChargeType().alipaydirect
         user : @user
         isPlus : true
         amount : Number(amount)
