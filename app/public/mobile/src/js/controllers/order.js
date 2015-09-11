@@ -47,7 +47,21 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         }
     });
 
-    $scope.$watch('balance.enabled')
+    $scope.$watch('balance.enabled', function (enabled) {
+        if (enabled === null || enabled === undefined) return;
+        var totalPrice = $scope.totalPrice();
+        var couponPrice = $scope.couponPrice || 0;
+        var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
+        var originalBalance = $scope.balance.originalBalance;
+        if (enabled) {
+            var remainPrice = totalPrice - couponPrice - couponCardPrice;
+            remainPrice = remainPrice < 0 ? 0 : remainPrice;
+            $scope.balance.usedBalance = originalBalance >= remainPrice ?
+                remainPrice : originalBalance;
+        } else {
+            $scope.balance.usedBalance = 0;
+        }
+    });
 
     $scope.orderPrice = function () {
         var price = 0;
@@ -64,6 +78,21 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         return price;
     };
 
+    $scope.totalPrice = function () {
+        return $scope.orderPrice() + $scope.deliveryFee;
+    };
+
+    $scope.payPrice = function () {
+        var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
+        var usedBalance = $scope.balance ? $scope.balance.usedBalance : 0;
+        var payPrice = $scope.totalPrice() - $scope.couponPrice -
+            couponCardPrice - $scope.balance.usedBalance;
+        if (payPrice <= 0) {
+            payPrice = usedBalance ? 0 : 0.1
+        }
+        return payPrice;
+    };
+
 
     $scope.submitOrder = function () {
         var order = {
@@ -73,6 +102,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
             payment:  $scope.isWeixin ? 'weixinpay' : 'alipay direct',
             device_info: 'WEB',
             trade_type: 'JSAPI',
+            usedAccountBalance: !!$scope.balance.usedBalance,
             credit: 0,
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
@@ -278,7 +308,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
 
         Balance.balance().then(function (res) {
             $scope.balance = {
-                totalBalance: res.data.balance,
+                originalBalance: res.data.balance,
                 usedBalance: 0,
                 enabled: false
             }
