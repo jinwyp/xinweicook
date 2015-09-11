@@ -44,7 +44,7 @@ module.exports =
     credit: type: Number, default: 0
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
-    lang: String
+    lang: String #zh #en
 
     shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"

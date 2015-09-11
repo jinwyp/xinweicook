@@ -93,7 +93,7 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
         additionalContent = {userId : sendUser}
         pushOptions = {isPushMobile : true}
 
-        models.message.sendMessageToUser(sendUser, models.message.constantContentType().coupon, additionalContent, pushOptions)
+        models.message.sendMessageToUser(sendUser, models.message.constantContentType().cronjob, additionalContent, pushOptions)
 
       logger.error("Cron 每周三10d点发送iOS推送: ", JSON.stringify(sendUserIdList) )
       res.send("ok")

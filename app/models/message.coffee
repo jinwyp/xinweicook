@@ -38,6 +38,12 @@ module.exports =
           zh : "您收到新味赠送的优惠券"
           en : "Your got a new XinweiCook coupon"
 
+        cronjob : "cronjob"
+        cronjobText :
+#          zh : "您有新味优惠券还未使用噢，快来看看本周便当，美味优惠即达！"
+          zh : "您有新味优惠券还未使用噢，快来看看本周便当！"
+          en : "You have unused Xinwei coupons, see what's on the menu!"
+
     checkNotFound : (message) ->
       if not message
         return throw new Err "Push Message not found !", 400
@@ -68,6 +74,11 @@ module.exports =
 
       if contentType is @constantContentType().coupon
         newMessage.text = @constantContentType().couponText
+#        newMessage.contentType = @constantContentType().coupon # 兼容老版本APP
+        newMessage.contentType = @constantContentType().orderPaid
+
+      if contentType is @constantContentType().cronjob
+        newMessage.text = @constantContentType().cronjobText
 #        newMessage.contentType = @constantContentType().coupon # 兼容老版本APP
         newMessage.contentType = @constantContentType().orderPaid
 
