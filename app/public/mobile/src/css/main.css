@@ -1698,28 +1698,28 @@ label {
 }
 
 /* line 6, ../sass/_balancerecords.scss */
-.charge-balance-main {
+.balance-records-main {
   margin-top: -10px;
   padding: 0 14px;
 }
 /* line 9, ../sass/_balancerecords.scss */
-.charge-balance-main li {
+.balance-records-main li {
   position: relative;
   border-bottom: 1px #F1F1F1 solid;
   padding: 2px 0 4px;
 }
 /* line 14, ../sass/_balancerecords.scss */
-.charge-balance-main li .record-detail h5 {
+.balance-records-main li .record-detail h5 {
   font-weight: 100;
   font-size: 15px;
   margin-bottom: 2px;
 }
 /* line 19, ../sass/_balancerecords.scss */
-.charge-balance-main li .record-detail div {
+.balance-records-main li .record-detail div {
   color: gray;
 }
 /* line 23, ../sass/_balancerecords.scss */
-.charge-balance-main li .number {
+.balance-records-main li .number {
   position: absolute;
   right: 2px;
   top: 0;
@@ -1732,15 +1732,15 @@ label {
   color: #f44d4d;
 }
 /* line 34, ../sass/_balancerecords.scss */
-.charge-balance-main li .number::before {
+.balance-records-main li .number::before {
   content: '+';
   vertical-align: text-bottom;
 }
 /* line 38, ../sass/_balancerecords.scss */
-.charge-balance-main li .number.minus {
+.balance-records-main li .number.minus {
   color: #72CA62;
 }
 /* line 40, ../sass/_balancerecords.scss */
-.charge-balance-main li .number.minus::before {
+.balance-records-main li .number.minus::before {
   content: "-";
 }

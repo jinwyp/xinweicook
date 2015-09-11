@@ -131,9 +131,9 @@
             <div class="form-group balance-group" ng-if="balance.originalBalance">
                 <div class="checkbox">
                     <label>
-                        <input ng-model="balance.enabled" type="checkbox" ng-click="useBalance()">
+                        <input ng-model="balance.enabled" type="checkbox">
                         <span ng-if="!balance.enabled">使用新味币(剩余 ¥{{balance.originalBalance}})支付此订单</span>
-                        <span ng-if="balance.enabled">使用新味币支付 ¥{{balance.usedBalance}} (支付后剩余 ¥{{balance.originalBalance - balance.usedBalance}})</span>
+                        <span ng-if="balance.enabled">使用新味币支付 ¥{{usedBalance()}} (支付后剩余 ¥{{balance.originalBalance - usedBalance()}})</span>
                     </label>
                 </div>
             </div>
@@ -155,7 +155,7 @@
             </div>
             <div class="row group-on">
                 <span class="col-xs-6">新味币</span>
-                <span class="col-xs-2 price pull-right rmb-char">{{balance.usedBalance}}</span>
+                <span class="col-xs-2 price pull-right rmb-char">{{usedBalance()}}</span>
                 <span class="col-xs-1 pull-right text-right sign">-</span>
             </div>
             <div class="row">

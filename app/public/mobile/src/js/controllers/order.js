@@ -47,8 +47,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         }
     });
 
-    $scope.$watch('balance.enabled', function (enabled) {
-        if (enabled === null || enabled === undefined) return;
+    $scope.usedBalance = function () {
+        if (!$scope.balance) return 0;
+        var enabled = $scope.balance.enabled;
         var totalPrice = $scope.totalPrice();
         var couponPrice = $scope.couponPrice || 0;
         var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
@@ -56,12 +57,11 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         if (enabled) {
             var remainPrice = totalPrice - couponPrice - couponCardPrice;
             remainPrice = remainPrice < 0 ? 0 : remainPrice;
-            $scope.balance.usedBalance = originalBalance >= remainPrice ?
-                remainPrice : originalBalance;
+            return originalBalance >= remainPrice ? remainPrice : originalBalance;
         } else {
-            $scope.balance.usedBalance = 0;
+            return 0;
         }
-    });
+    };
 
     $scope.orderPrice = function () {
         var price = 0;
@@ -84,9 +84,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
 
     $scope.payPrice = function () {
         var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
-        var usedBalance = $scope.balance ? $scope.balance.usedBalance : 0;
+        var usedBalance = $scope.usedBalance();
         var payPrice = $scope.totalPrice() - $scope.couponPrice -
-            couponCardPrice - $scope.balance.usedBalance;
+            couponCardPrice - usedBalance;
         if (payPrice <= 0) {
             payPrice = usedBalance ? 0 : 0.1
         }
@@ -97,14 +97,21 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
     var submitted = false;
     $scope.submitOrder = function () {
         if (submitted) return;
+        var payPrice = $scope.payPrice();
+        var clientFrom = 'mobileweb';
+        if ($scope.isWeixin && payPrice !== 0) {
+            clientFrom = 'wechat'
+        }
+        var payment = $scope.isWeixin ? 'weixinpay' : 'alipay direct';
+        payment = payPrice === 0 ? 'account balance' : payment;
         var order = {
             cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
-            clientFrom: $scope.isWeixin ? 'wechat' : 'mobileweb',
+            clientFrom: clientFrom,
             freight: $scope.deliveryFee,
-            payment:  $scope.isWeixin ? 'weixinpay' : 'alipay direct',
+            payment: payment,
             device_info: 'WEB',
             trade_type: 'JSAPI',
-            usedAccountBalance: !!$scope.balance.usedBalance,
+            usedAccountBalance: $scope.usedBalance(),
             credit: 0,
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
@@ -201,11 +208,17 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                 $scope.alipayLink = res.data.aliPaySign.fullurl;
 
                 setTimeout(function () {
-                    var selector = '#weixinPay';
-                    var weixinId = $scope.user.weixinId;
+                    //var weixinId = $scope.user.weixinId;
                     //if (weixinId && weixinId.openid) {
                     //    selector = '#directPay';
                     //}
+                    if (payPrice === 0) {
+                        alert('支付成功!');
+                        location.href = '/mobile/invite';
+                        return;
+                    }
+
+                    var selector = '#weixinPay';
                     if (!$scope.isWeixin) {
                         selector = '#alipayPay';
                         document.querySelector(selector).click();
@@ -316,7 +329,6 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         Balance.balance().then(function (res) {
             $scope.balance = {
                 originalBalance: res.data.balance,
-                usedBalance: 0,
                 enabled: false
             }
         });
