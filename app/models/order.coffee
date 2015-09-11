@@ -190,6 +190,7 @@ module.exports =
         weixinpay : "weixinpay"
         paypal : "paypal"
         cod : "cod"
+        account : "account balance"
     constantClientFrom : () ->
       clientFromType =
         website : "website"
@@ -252,7 +253,7 @@ module.exports =
       unless libs.validator.isLength newOrder.payment, 3, 20
         return throw new Err "Field validation error,  payment length must be 3-20", 400
 
-      if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod
+      if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod and newOrder.payment isnt @constantPayment().account
         return throw new Err "Field validation error,  payment text wrong", 400
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
