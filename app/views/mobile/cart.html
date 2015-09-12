@@ -26,7 +26,7 @@
             <li ng-repeat="item in list">
                 <div class="select" ng-class="{active: item.selected}" ng-click="select(item)"></div>
                 <div class="dish-wrapper">
-                    <a ng-href="{{item.subDish.outOfStock ? '' : '/mobile/cook/' + item.dish._id}}">
+                    <a ng-href="{{listName == 'eatList' ? '/mobile/' : ('/mobile/cook/' + item.dish._id)}}">
                         <span class="dish-img" ng-style="{'background-image': 'url('+ imgAdapt(item.dish.cover[0].zh) + ')'}"></span>
                     </a>
                     <div class="dish-detail">

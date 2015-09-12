@@ -1,5 +1,6 @@
 @import "compass/utilities/sprites";
 @import "icons/*.png";
+@import "compass/css3";
 
 // variables
 //  color
@@ -74,6 +75,55 @@ label {
 }
 
 
+// mixins
+$cart-bar-height: 53px;
+// cart-bar has a default relative position could be overwrite;
+@mixin cart-bar($right: auto, $left: auto) {
+  background-color: rgba(232, 232, 232, 0.7); //rgba(223, 223, 223, 0.8);
+  box-shadow: #9C9999 0 0 1px;
+  position: relative;
+  height: $cart-bar-height;
+  width: 100%;
+  .cart {
+    background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
+    background-size: 48%;
+    position: absolute;
+    top: 16px;
+    right: $right;
+    left: $left;
+    width: 48px;
+    height: 40px;
+    .total-count {
+      font-size: 10px;
+      text-align: center;
+      color: white;
+      position: absolute;
+      left: 17px;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
+      top: -4px;
+      background: red;
+      border-radius: 50%;
+    }
+  }
+}
+
+// 基于 http://themestent.github.io/retina-icon-sprites/ 修改
+$retina: sprite-map("icons/*.png");
+@mixin retina-sprite-background($name){
+  background-repeat: no-repeat;
+  background-image: sprite-url($retina);
+  background-position: 0 round(nth(sprite-position($retina, $name), 2) / 3);
+  height:round(image-height(sprite-file($retina, $name)) / 3);
+  width: round(image-width(sprite-file($retina, $name)) / 3);
+
+  // treat the @2x retina sprite sheet as 50% wide for double resolution upon display
+  $double-width:ceil(image-width(sprite-path($retina)) / 3);
+  @include background-size($double-width auto);
+}
+
+
 // commons
 .nav {
   background-color: white;
@@ -99,12 +149,9 @@ label {
 }
 
 .back-icon {
-  background: url(../img/icons/NavBarBackIcon.png) no-repeat;
-  background-size: contain;
+  @include retina-sprite-background(NavBarBackIcon);
   position: absolute;
   left: 0;
-  width: 47px;
-  height: 34px;
   top: 12px;
 }
 
@@ -139,40 +186,6 @@ label {
 
 .no-padding-left {
   padding-left: 0;
-}
-
-$cart-bar-height: 53px;
-
-// cart-bar has a default relative position could be overwrite;
-@mixin cart-bar($right: auto, $left: auto) {
-  background-color: rgba(232, 232, 232, 0.7); //rgba(223, 223, 223, 0.8);
-  box-shadow: #9C9999 0 0 1px;
-  position: relative;
-  height: $cart-bar-height;
-  width: 100%;
-  .cart {
-    background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
-    background-size: 48%;
-    position: absolute;
-    top: 16px;
-    right: $right;
-    left: $left;
-    width: 48px;
-    height: 40px;
-    .total-count {
-      font-size: 10px;
-      text-align: center;
-      color: white;
-      position: absolute;
-      left: 17px;
-      width: 14px;
-      height: 14px;
-      line-height: 14px;
-      top: -4px;
-      background: red;
-      border-radius: 50%;
-    }
-  }
 }
 
 // like-icon

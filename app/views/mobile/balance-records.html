@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>充值消费记录</title>
+</head>
+<body class="balance-records-body" ng-app="xw" ng-controller="balanceRecordsCtrl">
+
+<nav class="nav">
+    <back-button></back-button>
+    <span>充值消费记录</span>
+</nav>
+
+<div class="balance-records-main" ng-cloak>
+    <ul class="record-list">
+        <li ng-repeat="record in records">
+            <div class="record-detail">
+                <h5>{{record.name.zh}}</h5>
+                <div>{{record.createdAt | date:'M/d/yy, HH:mm'}}</div>
+            </div>
+            <div class="number" ng-class="!record.isPlus && 'minus'">{{record.amountXinwei}}</div>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/directives/back-button.js"></script>
+<script src="/mobile/src/js/controllers/balance-records.js"></script>
+</html>

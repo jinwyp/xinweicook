@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
-function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
+function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) {
     $scope.cart = null;
     $scope.subDishCart = null;
     $scope.address = {
@@ -47,6 +47,22 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
         }
     });
 
+    $scope.usedBalance = function () {
+        if (!$scope.balance) return 0;
+        var enabled = $scope.balance.enabled;
+        var totalPrice = $scope.totalPrice();
+        var couponPrice = $scope.couponPrice || 0;
+        var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
+        var originalBalance = $scope.balance.originalBalance;
+        if (enabled) {
+            var remainPrice = totalPrice - couponPrice - couponCardPrice;
+            remainPrice = remainPrice < 0 ? 0 : remainPrice;
+            return originalBalance >= remainPrice ? remainPrice : originalBalance;
+        } else {
+            return 0;
+        }
+    };
+
     $scope.orderPrice = function () {
         var price = 0;
         Object.keys($scope.cart).forEach(function (name) {
@@ -62,17 +78,40 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
         return price;
     };
 
+    $scope.totalPrice = function () {
+        return $scope.orderPrice() + $scope.deliveryFee;
+    };
+
+    $scope.payPrice = function () {
+        var couponCardPrice = $scope.coupon.code2 ? $scope.coupon.code2.price : 0;
+        var usedBalance = $scope.usedBalance();
+        var payPrice = $scope.totalPrice() - $scope.couponPrice -
+            couponCardPrice - usedBalance;
+        if (payPrice <= 0) {
+            payPrice = usedBalance ? 0 : 0.1
+        }
+        return payPrice;
+    };
+
 
     var submitted = false;
     $scope.submitOrder = function () {
         if (submitted) return;
+        var payPrice = $scope.payPrice();
+        var clientFrom = 'mobileweb';
+        if ($scope.isWeixin && payPrice !== 0) {
+            clientFrom = 'wechat'
+        }
+        var payment = $scope.isWeixin ? 'weixinpay' : 'alipay direct';
+        payment = payPrice === 0 ? 'account balance' : payment;
         var order = {
             cookingType: $scope.dishList.cookList.length ? 'ready to cook' : 'ready to eat',
-            clientFrom: $scope.isWeixin ? 'wechat' : 'mobileweb',
+            clientFrom: clientFrom,
             freight: $scope.deliveryFee,
-            payment:  $scope.isWeixin ? 'weixinpay' : 'alipay direct',
+            payment: payment,
             device_info: 'WEB',
             trade_type: 'JSAPI',
+            usedAccountBalance: $scope.usedBalance(),
             credit: 0,
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
@@ -169,25 +208,28 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
                 $scope.alipayLink = res.data.aliPaySign.fullurl;
 
                 setTimeout(function () {
-                    var selector = '#weixinPay';
-                    var weixinId = $scope.user.weixinId;
+                    //var weixinId = $scope.user.weixinId;
                     //if (weixinId && weixinId.openid) {
                     //    selector = '#directPay';
                     //}
+                    if (payPrice === 0) {
+                        alert('支付成功!');
+                        location.href = '/mobile/invite';
+                        return;
+                    }
+
+                    var selector = '#weixinPay';
                     if (!$scope.isWeixin) {
                         selector = '#alipayPay';
                         document.querySelector(selector).click();
                         return;
                     }
-                    if (Debug.isDebug) {
-                        location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
-                        return;
-                    }
-                    location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
-                        'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
-                        'response_type=code&scope=snsapi_base&' +
-                        'state=' + $scope.wxstate +
-                        '#wechat_redirect'
+                    location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
+                    //location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37a1323e488cef84&' +
+                    //    'redirect_uri=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Fweixinpay%2Fopenid&' +
+                    //    'response_type=code&scope=snsapi_base&' +
+                    //    'state=' + $scope.wxstate +
+                    //    '#wechat_redirect'
                 }, 200);
                 // todo: change btn text
             }).catch(function (res) {
@@ -281,6 +323,13 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Debug) {
             $scope.cookTime.selectDay = res.data[0];
             if ($scope.cookTime.selectDay.segment) {
                 $scope.cookTime.selectTime = $scope.cookTime.selectDay.segment[0];
+            }
+        });
+
+        Balance.balance().then(function (res) {
+            $scope.balance = {
+                originalBalance: res.data.balance,
+                enabled: false
             }
         });
         

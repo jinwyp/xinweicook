@@ -133,4 +133,19 @@ angular.module('xw.models').factory('Alipay', function ($http) {
             return $http.post('/api/orders/payment/alipay/mobile', {out_trade_no: id})
         }
     }
+});
+
+angular.module('xw.models').factory('Balance', function ($http, Debug) {
+    return {
+        balance: function () {
+            return $http.get('/api/user/account')
+        },
+        chargeByCode: function (code) {
+            return $http.post('/api/user/account/chargecode', {accountChargeCode: code});
+        },
+        balanceRecords: function () {
+            return $http.get('/api/user/account/details?skip=0&limit=200')
+                .catch(Debug.promiseErrFn('获取余额记录失败'))
+        }
+    }
 })

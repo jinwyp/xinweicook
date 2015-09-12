@@ -1,0 +1,43 @@
+@import "base";
+
+.balance-main {
+  margin-top: -10px;
+
+  .wrapper {
+    background-color: white;
+    padding-top: 24px;
+    padding-bottom: 2px;
+    .balance-big-icon {
+      @include retina-sprite-background(BalanceIcon)
+    }
+    .title {
+      font-weight: 100;
+    }
+    .balance {
+      font-size: 50px;
+      font-weight: 200;
+    }
+    .charge-group {
+      a {
+        margin: 10px auto;
+        display: block;
+        font-size: 18px;
+        line-height: 2.3;
+        width: 95%;
+        border: 1px solid;
+        border-radius: 4px;
+        &.online-charge {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .charge-history {
+    background-color: white;
+    display: block;
+    line-height: 2.3;
+    margin-top: 10px;
+    font-size: 17px;
+  }
+}
