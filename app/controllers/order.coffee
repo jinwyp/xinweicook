@@ -845,6 +845,7 @@ exports.updateOrder = (req, res, next) ->
             resultOrder.status = models.order.constantStatus().canceled
             childOrder.saveAsync()
 
+
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
     res.json resultOrder

@@ -68,7 +68,7 @@ conf =
     expire: 10 # mins
 
   token:
-    expires_in: 3600 * 24 * 2 #hours
+    expires_in: 3600 * 24 * 7 # 7 Day
     sso: true
   default:
     avatar: "http://ww2.sinaimg.cn/large/7112dac1gw1esc9njt3ijj20e80e83yv.jpg"
