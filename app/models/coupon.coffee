@@ -20,9 +20,11 @@ module.exports =
     isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
 
-    usedUserList : [type: Schema.Types.ObjectId, ref: 'User']  # 记录哪些用户使用过
+    usedUserList : [type: Schema.Types.ObjectId, ref: 'user']  # 记录哪些用户使用过
 
-    user : type: Schema.Types.ObjectId, ref: 'User'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    user : type: Schema.Types.ObjectId, ref: 'user'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+
+    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
 
 
   statics :
@@ -284,12 +286,13 @@ module.exports =
 
         newCoupon =
           name :
-            zh : "扫二维码优惠券"
-            en : "QR Code Coupon"
+            zh : "扫二维码优惠券 " + resultCoupon.code
+            en : "QR Code Coupon " + resultCoupon.code
           price : couponData.price
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
+          fromCoupon : resultCoupon._id.toString()
 
         models.coupon.createAsync(newCoupon)
       .then (resultCouponList)->
