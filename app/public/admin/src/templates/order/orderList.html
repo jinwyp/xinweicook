@@ -116,6 +116,23 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isSort.$dirty&&searchForm.isSort.$valid, 'has-error':searchForm.isSort.$dirty&&searchForm.isSort.$invalid}">
+                    <label  class="col-lg-2 control-label" >排序</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" >
+                            <input type="radio" name="isSort"  ng-value="'-createdAt'" ng-model="data.searchSort.sort">订单创建时间 从新到旧
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="isSort"  ng-value="'-modifiedAt'" ng-model="data.searchSort.sort">支付时间 从新到旧
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="isSort"  ng-value="'-deliveryDateTime'" ng-model="data.searchSort.sort">预计送达时间 从新到旧
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
