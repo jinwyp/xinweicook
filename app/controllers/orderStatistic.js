@@ -118,7 +118,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
         worksheet[cell_refOrderNumber] = cellOrderNumber;
 
         currentRow = currentRow + 1;
-        var tempPerson = arrayData[row].address.contactPerson + " " + arrayData[row].address.mobile + " " + arrayData[row].address.city + " " + arrayData[row].address.address
+        var tempPerson = arrayData[row].address.contactPerson + " - " + arrayData[row].address.mobile + " " + arrayData[row].address.city + " / " + arrayData[row].address.district + " / " + arrayData[row].address.street + " / " + arrayData[row].address.address + " / 距离:" + arrayData[row].address.distanceFrom + "米";
         var cellPerson = {v: tempPerson, t:"s" };
         var cell_refPerson = XLSX.utils.encode_cell({c:0,r:currentRow});
         worksheet[cell_refPerson] = cellPerson;
