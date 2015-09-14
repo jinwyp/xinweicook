@@ -63,7 +63,7 @@ exports.userSignUp = (req, res, next) ->
       models.coupon.addCouponFromCouponChargeCode(resultUser, couponcode)
 
 
-    models.token.findTokenByMobilePwd(mobile, pwd)
+    models.token.findTokenByMobilePwd(mobile, pwd, req)
   .then (t) ->
     libs.cache.setHeader res
     res.json
