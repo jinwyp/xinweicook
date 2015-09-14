@@ -75,7 +75,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 for(var pro in currentCell ){
                     if (currentCell.hasOwnProperty(pro)) {
-                        tempCellString = tempCellString + '(' + pro + ' : '+ currentCell[pro] + ' ), ';
+                        tempCellString = tempCellString + ' ' + pro + ' : '+ currentCell[pro] + ' , ';
                     }
                 }
                 cell.v = tempCellString
