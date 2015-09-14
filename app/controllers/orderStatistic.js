@@ -184,6 +184,9 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 }
 
 
+
+
+
 exports.orderExportList = function(req, res, next) {
 
     models.order.validationGetOrderList(req.query);
@@ -432,7 +435,36 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
 
 
+exports.orderPrintShippingList = function(req, res, next) {
 
+    orderIdList = [];
+    console.log(req.query.idList);
+    if (req.query.idList){
+        orderIdList = JSON.parse(req.query.idList)
+    }
+
+    if (libs.validator.isLength(req.params.orderId, 24, 24) ){
+        orderIdList.push(req.params.orderId)
+    }
+
+    models.order.find({_id : {$in: orderIdList }}).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync()
+    .then(function(resultOrderList){
+        if (resultOrderList.length > 0){
+            resultOrderList.forEach(function(order){
+                order.createdAtNew = moment(order.createdAt).format("ddd, YYYY-MM-D H:mm:ss")
+            });
+            res.render('admin/ship_list.html', {title: 'XinWeiCook', orderList:resultOrderList})
+        }else{
+            res.send('ok')
+        }
+
+
+    })
+    .catch(next)
+
+
+
+};
 
 
 
