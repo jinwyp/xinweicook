@@ -28,9 +28,6 @@ expressRoutes = (app) ->
 #    res.render('admin/index.html', { title : 'XinWeiCook' })
 #  )
 
-  app.get("/admin/shiplist/:orderId", orderStatController.orderPrintShippingList)
-  app.get("/admin/shiplist/orders", orderStatController.orderPrintShippingList)
-
 
 
 
@@ -116,6 +113,11 @@ expressRoutes = (app) ->
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/export/orders", orderStatController.orderExportList)
   app.get("/api/administrator/export/ordersinternal", orderStatController.orderExportInternalList)
+
+  app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
+  app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
+
+
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
 #  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)

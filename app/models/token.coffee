@@ -22,7 +22,8 @@ module.exports =
       models.user.findUserByMobilePwd(mobile,pwd)
       .bind(@)
       .then((u)->
-        if req.headers["user-agent"] is "Xinwei Cook"
+
+        if req.get("user-agent") is "Xinwei Cook"
           models.coupon.addCouponForNewIOS(u)
 
         if deviceToken?
