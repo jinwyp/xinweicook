@@ -7,7 +7,8 @@ exports.tokenSignIn = (req, res, next) ->
   models.user.validationPassword(password)
   switch grant_type
     when "password"
-      models.token.findTokenByMobilePwd(username, password, deviceToken).then((t) ->
+      models.token.findTokenByMobilePwd(username, password, deviceToken, req).then((t) ->
+
         libs.cache.setHeader res
         res.json
           access_token: t.access_token

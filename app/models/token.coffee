@@ -18,17 +18,19 @@ module.exports =
         throw new Err "Access Token 已过期", 401
       else
         t
-    findTokenByMobilePwd: (mobile, pwd, deviceToken) ->
+    findTokenByMobilePwd: (mobile, pwd, deviceToken, req) ->
       models.user.findUserByMobilePwd(mobile,pwd)
       .bind(@)
       .then((u)->
+        if req.headers["user-agent"] is "Xinwei Cook"
+          models.coupon.addCouponForNewIOS(u)
+
         if deviceToken?
           models.device.findOneAsync({deviceToken:deviceToken}).then (resultDevice) ->
             if resultDevice
               resultDevice.user = u._id
               resultDevice.saveAsync()
 
-              models.coupon.addCouponForNewIOS(u)
 #            else
 #              models.device.createAsync({deviceToken:deviceToken, user: u._id})
         @u = u
