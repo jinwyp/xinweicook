@@ -62,8 +62,10 @@ exports.userSignUp = (req, res, next) ->
     if couponcode
       models.coupon.addCouponFromCouponChargeCode(resultUser, couponcode)
 
+    if req.get("user-agent") is "Xinwei Cook"
+      models.coupon.addCouponForNewIOS(resultUser)
 
-    models.token.findTokenByMobilePwd(mobile, pwd, req)
+    models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
     res.json
