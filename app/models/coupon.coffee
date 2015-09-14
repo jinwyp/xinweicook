@@ -127,6 +127,31 @@ module.exports =
       else
         false
 
+    revokeUsed : (couponcode, user) ->
+      promiseCoupon = {}
+      if libs.validator.isLength(couponcode, 10, 10)
+        promiseCoupon = models.coupon.findOneAsync({code : couponcode})
+      else
+        promiseCoupon = models.coupon.findOneAsync({_id : couponcode})
+
+      promiseCoupon.then (resultCuopon) ->
+        console.log(resultCuopon)
+        if resultCuopon
+
+          if resultCuopon.usedTime is 1
+            resultCuopon.isUsed = false
+          else
+            # 是否每人可以多次使用
+            if resultCuopon.usedCountLimitOfOneUser is 1
+              couponIndex = resultCuopon.usedUserList.indexOf(user._id)
+              if couponIndex > -1
+                resultCuopon.usedUserList.splice(couponIndex, 1)
+                resultCuopon.isUsedCount = resultCuopon.isUsedCount - 1
+            else
+              resultCuopon.isUsedCount = resultCuopon.isUsedCount - 1
+
+          resultCuopon.saveAsync()
+
     addNew : (newCoupon) ->
       @validationNewCoupon newCoupon
 
@@ -364,6 +389,8 @@ module.exports =
           @isUsedCount = @isUsedCount + 1
 
       @saveAsync()
+
+
 
   rest:
     middleware : (req, res, next) ->

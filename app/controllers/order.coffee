@@ -845,6 +845,16 @@ exports.updateOrder = (req, res, next) ->
             resultOrder.status = models.order.constantStatus().canceled
             childOrder.saveAsync()
 
+        # 撤销优惠码使用
+        if resultOrder.promotionCode
+          models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+
+        # 撤销优惠券使用
+        if resultOrder.coupon
+          models.coupon.revokeUsed(resultOrder.coupon, req.u)
+
+        # 撤销余额使用
+
 
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
