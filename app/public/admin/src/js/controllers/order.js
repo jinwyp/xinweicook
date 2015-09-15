@@ -27,7 +27,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             isChildOrder : '',
             cookingType : '',
             clientFrom : '',
-            deliveryDateType : ''
+            deliveryDateType : '',
+            address : {
+                contactPerson : 'xxxx',
+                mobile : ''
+            }
+
         },
         exportOrderIdList : [],
 
