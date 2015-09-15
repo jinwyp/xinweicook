@@ -504,7 +504,7 @@ module.exports =
             # 撤销优惠券使用
             if resultOrder.coupon
               models.coupon.revokeUsed(resultOrder.coupon, req.u)
-
+            console.log(resultOrder.accountUsedDiscount)
             # 撤销余额使用
             if resultOrder.accountUsedDiscount > 0
 
