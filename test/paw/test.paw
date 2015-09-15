@@ -129,7 +129,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"401444\\",\\"couponcode\\":\\"XWSALES001\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"362619\\",\\"couponcode\\":\\"XWSALES001\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z311 z312 z315 z313 z314 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2C9:03G7Z90hcWTuLXX6ygAVbO9PO9RvEXI1</attribute>
+        <attribute name="value" type="string">Bearer 2Cc:5XBS1AOZiqZaEKu1Gba+7FX5AGKwTyQW</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
