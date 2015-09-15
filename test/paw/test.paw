@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>A33E2BBA-1BCE-47DA-95B5-7D5D6B60502C</UUID>
-        <nextObjectID>685</nextObjectID>
+        <nextObjectID>686</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -91,9 +91,9 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z112"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z106">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">Xinwei Cook</attribute>
         <attribute name="order" type="int64">7</attribute>
-        <attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string">user-agent</attribute>
         <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -129,12 +129,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"362619\\",\\"couponcode\\":\\"XWSALES001\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"495955\\",\\"couponcode\\":\\"XWSALES001\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z105 z113 z136 z148 z119 z142 z106"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z105 z113 z136 z148 z119 z142 z686 z106"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string"></attribute>
@@ -5321,5 +5321,15 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z683"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z686">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">8</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z112"></relationship>
     </object>
 </database>

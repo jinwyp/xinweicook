@@ -173,7 +173,7 @@ module.exports =
 
       @createAsync(createCoupon)
 
-    addCouponForNewUser : (user) ->
+    addCouponForNewUser : (user, req) ->
       # 新注册用户 送2张5元优惠券
       newCoupon =
         name :
@@ -188,32 +188,58 @@ module.exports =
       newCouponList.push(newCoupon)
       newCouponList.push(newCoupon)
 
+
+      #新iOS用户送1张15元优惠券
+      newCouponIOS =
+        name :
+          zh : "新APP注册用户优惠券"
+          en : "New App User Coupon"
+        price : 15
+        couponType : models.coupon.constantCouponType().coupon
+        usedTime : 1
+        user : user._id.toString()
+
+      if not user.firstTimeRegFromApp and req.get("user-agent") is "Xinwei Cook"
+        newCouponList.push(newCouponIOS)
+
       models.coupon.createAsync(newCouponList).then (resultCouponList)->
 
         for coupon, couponIndex in resultCouponList
           user.couponList.push(coupon._id.toString())
 
+        if not user.firstTimeRegFromApp and req.get("user-agent") is "Xinwei Cook"
+          user.firstTimeRegFromApp = true
+
         user.saveAsync()
 
-    addCouponForNewIOS : (user) ->
-      #新iOS用户送1张15元优惠券
+    addCouponFromCouponChargeCode : (user, couponChargeCode) ->
+      # 扫二维码 送1张5元优惠券
 
-      if not user.firstTimeRegFromApp
+      models.coupon.validationCouponCode(couponChargeCode)
+      couponData = {}
+
+      models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
+      .then (resultCoupon)->
+        models.coupon.checkNotFound resultCoupon
+        models.coupon.checkUsed(resultCoupon, user)
+        couponData = resultCoupon
 
         newCoupon =
           name :
-            zh : "新APP注册用户优惠券"
-            en : "New App User Coupon"
-          price : 15
+            zh : "扫二维码优惠券 " + resultCoupon.code
+            en : "QR Code Coupon " + resultCoupon.code
+          price : couponData.price
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
+          fromCoupon : resultCoupon._id.toString()
 
-        models.coupon.createAsync(newCoupon).then (resultCouponList)->
-          user.couponList.push(resultCouponList._id.toString())
+        models.coupon.createAsync(newCoupon)
+      .then (resultCouponList)->
+        user.couponList.push(resultCouponList._id.toString())
+        couponData.used(user)
+        user.saveAsync()
 
-          user.firstTimeRegFromApp = true
-          user.saveAsync()
 
     addCouponForShare : (user) ->
       # 用户分享朋友圈获得2张5元优惠券
@@ -297,33 +323,6 @@ module.exports =
 
               user.saveAsync()
 
-    addCouponFromCouponChargeCode : (user, couponChargeCode) ->
-      # 扫二维码 送1张5元优惠券
-
-      models.coupon.validationCouponCode(couponChargeCode)
-      couponData = {}
-
-      models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
-      .then (resultCoupon)->
-        models.coupon.checkNotFound resultCoupon
-        models.coupon.checkUsed(resultCoupon, user)
-        couponData = resultCoupon
-
-        newCoupon =
-          name :
-            zh : "扫二维码优惠券 " + resultCoupon.code
-            en : "QR Code Coupon " + resultCoupon.code
-          price : couponData.price
-          couponType : models.coupon.constantCouponType().coupon
-          usedTime : 1
-          user : user._id.toString()
-          fromCoupon : resultCoupon._id.toString()
-
-        models.coupon.createAsync(newCoupon)
-      .then (resultCouponList)->
-        user.couponList.push(resultCouponList._id.toString())
-        couponData.used(user)
-        user.saveAsync()
 
     addCouponPaidManyOrder : (user) ->
       # 用户订单超过5单和10单赠送优惠券
