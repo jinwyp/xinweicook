@@ -855,7 +855,7 @@ exports.updateOrder = (req, res, next) ->
 
         # 撤销余额使用
         if resultOrder.accountUsedDiscount > 0
-          console.log(resultOrder.accountUsedDiscount)
+
           models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
             if resultAccount
               resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
