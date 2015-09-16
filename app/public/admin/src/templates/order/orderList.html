@@ -176,8 +176,8 @@
         </div>
     </div>
 
-    <nav>
-        <ul class="pagination">
+    <nav ng-if="css.showTable === 'orders'">
+        <ul class="pagination" >
             <li>
                 <span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>
             </li>
