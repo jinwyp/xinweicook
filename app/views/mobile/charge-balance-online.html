@@ -16,15 +16,15 @@
 </nav>
 
 <div class="charge-balance-online-main" ng-cloak>
-    <div class="cur-balance">
+    <div class="cur-balance clearfix">
         <span class="label-txt">现有余额</span>
-        <span class="balance"><i>{{balance}}</i>新味币</span>
+        <span class="balance pull-right"><i>{{balance}}</i> 新味币</span>
     </div>
 
     <ul class="selections">
         <li><span>价格</span><span>充值</span></li>
-        <li ng-repeat="item in chargeSelections">
-            <span>¥ {{item.price}}</span><span>{{item.coin}} 新味币</span><span class="glyphicon glyphicon-ok"></span>
+        <li ng-repeat="item in chargeSelections" ng-click="chargeSelections.selected = $index">
+            <span>¥ {{item.price}}</span><span>{{item.coin}} 新味币</span><span ng-if="$index == chargeSelections.selected" class="glyphicon glyphicon-ok"></span>
         </li>
     </ul>
 

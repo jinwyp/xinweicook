@@ -1747,16 +1747,52 @@ label {
 
 /* line 3, ../sass/_chargebalanceonline.scss */
 .cur-balance {
-  background-color: white;
-}
-
-/* line 6, ../sass/_chargebalanceonline.scss */
-.cur-balance {
   line-height: 50px;
   color: #6B6B6B;
+  padding: 0 10px;
+  margin-bottom: 20px;
+  background-color: white;
 }
 /* line 10, ../sass/_chargebalanceonline.scss */
 .cur-balance i {
   font-style: normal;
   color: #4b4b4c;
+}
+
+/* line 17, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections {
+  background-color: white;
+  padding-left: 18px;
+  margin-bottom: 20px;
+}
+/* line 21, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections li {
+  line-height: 41px;
+}
+/* line 23, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections li:not(:last-child) {
+  border-bottom: 1px solid #F1F1F1;
+}
+/* line 26, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections li span {
+  display: inline-block;
+}
+/* line 28, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections li span:first-child {
+  width: 40%;
+}
+/* line 31, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections li span:nth-child(2) {
+  width: 49%;
+}
+/* line 36, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .selections .glyphicon-ok {
+  color: #f44d4d;
+}
+/* line 40, ../sass/_chargebalanceonline.scss */
+.charge-balance-online-main .confirm {
+  line-height: 50px;
+  background-color: white;
+  text-align: center;
+  color: #f44d4d;
 }

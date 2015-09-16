@@ -19,6 +19,7 @@ angular.module('xw.controllers').controller('chargeBalanceOnlineCtrl', function 
                 coin: 2600
             }
         ];
+        $scope.chargeSelections.selected = 0;
 
         Balance.balance().then(function (res) {
             $scope.balance = res.data.balance;

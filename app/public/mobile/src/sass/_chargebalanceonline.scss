@@ -1,14 +1,46 @@
 @import "base";
 
 .cur-balance {
-  background-color: white;
-}
-.cur-balance {
   line-height: 50px;
   color: #6B6B6B;
+  padding: 0 10px;
+  margin-bottom: 20px;
+  background-color: white;
 
   i {
     font-style: normal;
     color: $body-color;
+  }
+}
+
+.charge-balance-online-main {
+  .selections {
+    background-color: white;
+    padding-left: 18px;
+    margin-bottom: 20px;
+    li {
+      line-height: 41px;
+      &:not(:last-child) {
+        border-bottom: 1px solid #F1F1F1;
+      }
+      span {
+        display: inline-block;
+        &:first-child {
+          width: 40%;
+        }
+        &:nth-child(2) {
+          width: 49%;
+        }
+      }
+    }
+    .glyphicon-ok {
+      color: $primary-color;
+    }
+  }
+  .confirm {
+    line-height: 50px;
+    background-color: white;
+    text-align: center;
+    color: $primary-color;
   }
 }
