@@ -318,15 +318,20 @@
 
             <td>{{order.saleQuantity}}</td>
             <td>{{order.saleTotalPrice }}</td>
-            <td>{{order.saleAvgTotalPrice}}</td>
+            <td>{{order.saleAvgTotalPrice | number : 2}}</td>
 
             <td>{{order.saleDishesPrice}}</td>
-            <td>{{order.saleAvgDishesPrice}}</td>
+            <td>{{order.saleAvgDishesPrice | number : 2}}</td>
 
             <td>{{order.saleFreight}}</td>
-            <td>{{order.saleAvgFreight}} </td>
+            <td>{{order.saleAvgFreight | number : 2}} </td>
 
-            <td> <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span></td>
+            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order.date">
+                    <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
+                </span>
+
+            </td>
 
         </tr>
         </tbody>

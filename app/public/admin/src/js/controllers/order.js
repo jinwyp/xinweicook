@@ -50,6 +50,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         orderListPagesArray : [],
 
         currentDeleteIndex : -1,
+        currentDailySalesIndex : false,
 
 
 
