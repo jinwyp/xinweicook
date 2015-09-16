@@ -136,6 +136,7 @@ expressRoutes = (app) ->
 
 
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
+  app.get("/api/admin/statistic/order/daily", orderStatController.orderDailySales)
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
 
 

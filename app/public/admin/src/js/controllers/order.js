@@ -54,6 +54,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         orderStatisticByAddressList : [],
+        orderStatisticByDailySalesList : [],
         orderList : [],
         order : {},
 
@@ -426,8 +427,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
-    $scope.searchOrderStatistic = function () {
-        $scope.css.showTable = 'statistic';
+    $scope.searchOrderStatisticByAddress = function () {
+        $scope.css.showTable = 'statisticByAddress';
 
         if ($scope.data.searchDateFrom !==''){
             $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
@@ -446,9 +447,29 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
+    $scope.searchOrderStatisticByDailySales = function () {
+        $scope.css.showTable = 'statisticByDailySales';
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (resultOrder) {
+            $scope.data.orderStatisticByDailySalesList = resultOrder.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+                console.log(err);
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            });
+    };
+
+
 
     // toggle selection for a given fruit by name
-    $scope.toggleSelection = function toggleSelection(orderId) {
+    $scope.toggleOrderSelection = function toggleSelection(orderId) {
         var idx = $scope.data.exportOrderIdList.indexOf(orderId);
 
         // is currently selected
