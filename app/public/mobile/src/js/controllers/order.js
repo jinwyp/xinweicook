@@ -329,7 +329,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         Balance.balance().then(function (res) {
             $scope.balance = {
                 originalBalance: res.data.balance,
-                enabled: false
+                enabled: true
             }
         });
         
