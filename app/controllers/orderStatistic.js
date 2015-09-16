@@ -602,6 +602,16 @@ exports.orderDailySales = function(req, res, next) {
             "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
             "saleFreight": { "$sum": "$freight" },
             "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
             "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
         }},
         { $project :{
@@ -614,6 +624,17 @@ exports.orderDailySales = function(req, res, next) {
             "saleAvgDishesPrice": 1,
             "saleFreight": 1,
             "saleAvgFreight": 1,
+
+            "salePromotionDiscount": 1,
+            "saleAvgPromotionDiscount": 1,
+
+            "saleCouponDiscount": 1,
+            "saleAvgCouponDiscount": 1,
+
+            "saleAccountUsedDiscount": 1,
+            "saleAvgAccountUsedDiscount": 1,
+
+
 
             "orderList": 1
 

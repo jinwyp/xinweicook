@@ -307,6 +307,11 @@
             <th>菜品客单价</th>
             <th>运费总金额</th>
             <th>运费平均金额</th>
+
+            <th>优惠码总金额 / 平均</th>
+            <th>优惠券总金额 / 平均</th>
+            <th>新味币总金额 / 平均</th>
+
             <th>订单详细列表</th>
 
         </tr>
@@ -325,6 +330,10 @@
 
             <td>{{order.saleFreight | number : 2}}</td>
             <td>{{order.saleAvgFreight | number : 2}} </td>
+
+            <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
+            <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
+            <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
 
             <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
                 <span ng-if="data.currentDailySalesIndex === order.date">
