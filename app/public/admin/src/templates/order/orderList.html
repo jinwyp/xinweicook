@@ -314,7 +314,7 @@
         <tbody>
         <tr ng-repeat="order in data.orderStatisticByDailySalesList ">
             <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
-            <td>{{order.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{order.date | date:'yyyy-MM-dd'}}</td>
 
             <td>{{order.saleQuantity}}</td>
             <td>{{order.saleTotalPrice | number : 2}}</td>
