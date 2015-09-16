@@ -9,3 +9,14 @@ angular.module('xw.filters').filter('adapt', function () {
                 query)
     }
 });
+
+angular.module('xw.filters').filter('fraction', function () {
+    var superscripts = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+    var subscripts = ['\u2080', '\u2081', '\u2082', '\u2083', '\u2084',
+        '\u2085', '\u2086', '\u2087', '\u2088', '\u2089'];
+    return function (str) {
+        return str.replace(/(\d+)\/(\d+)/g, function (_, sup, sub) {
+            return superscripts[sup] + '⁄' + subscripts[sub] + ' ';
+        })
+    }
+});
