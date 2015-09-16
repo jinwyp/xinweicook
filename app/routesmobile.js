@@ -81,6 +81,9 @@ expressRoutes = function(app) {
     app.get("/mobile/chargebalance", function (req, res) {
         res.render('mobile/charge-balance.html');
     });
+    app.get("/mobile/chargebalanceonline", function (req, res) {
+        res.render('mobile/charge-balance-online.html');
+    });
     app.get("/mobile/balancerecords", function (req, res) {
         res.render('mobile/balance-records.html');
     });

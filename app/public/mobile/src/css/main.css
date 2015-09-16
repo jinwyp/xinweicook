@@ -1744,3 +1744,19 @@ label {
 .balance-records-main li .number.minus::before {
   content: "-";
 }
+
+/* line 3, ../sass/_chargebalanceonline.scss */
+.cur-balance {
+  background-color: white;
+}
+
+/* line 6, ../sass/_chargebalanceonline.scss */
+.cur-balance {
+  line-height: 50px;
+  color: #6B6B6B;
+}
+/* line 10, ../sass/_chargebalanceonline.scss */
+.cur-balance i {
+  font-style: normal;
+  color: #4b4b4c;
+}

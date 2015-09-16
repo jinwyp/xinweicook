@@ -1,0 +1,14 @@
+@import "base";
+
+.cur-balance {
+  background-color: white;
+}
+.cur-balance {
+  line-height: 50px;
+  color: #6B6B6B;
+
+  i {
+    font-style: normal;
+    color: $body-color;
+  }
+}
