@@ -90,6 +90,33 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$valid, 'has-error':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$invalid}">
+                    <label for="inputOrderContactPerson" class="col-lg-2 control-label" >该订单联系人</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputOrderContactPerson" placeholder="联系人 (可能与该订单下单用户的信息不同)" name="orderContactPerson" ng-model="data.searchOptions.addressContactPerson" ng-minlength="2">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.minlength || searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderMobile.$dirty&&searchForm.orderMobile.$valid, 'has-error':searchForm.orderMobile.$dirty&&searchForm.orderMobile.$invalid}">
+                    <label for="inputOrderMobile" class="col-lg-2 control-label" >该订单手机</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputOrderMobile" placeholder="手机" name="orderMobile" ng-model="data.searchOptions.addressMobile" ng-minlength="2">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.minlength || searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid, 'has-error':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid}">
                     <label for="inputOrderNumber" class="col-lg-2 control-label" >订单号</label>
                     <div class="col-lg-4">

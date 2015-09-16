@@ -466,6 +466,18 @@ module.exports =
 
   methods: {}
   rest:
+    middleware : (req, res, next) ->
+      if req.method is "GET"
+        if req.query.addressContactPerson
+          req.query['address.contactPerson'] = req.query.addressContactPerson
+          delete req.query.addressContactPerson
+
+        if req.query.addressMobile
+          req.query['address.mobile'] = req.query.addressMobile
+          delete req.query.addressMobile
+
+      next()
+
     postProcess : (req, res, next) ->
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->

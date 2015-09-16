@@ -79,6 +79,20 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                     }
                 }
                 cell.v = tempCellString
+            }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='express'){
+                //cell.v = JSON.stringify(arrayData[row][propertyList[column])
+
+                for(var pro in currentCell ){
+                    if (currentCell.hasOwnProperty(pro)) {
+                        if (Object.prototype.toString.call(currentCell[pro]) == "[object Object]"){
+                            tempCellString = tempCellString + ' ' + pro + ' : '+ currentCell[pro].zh + ' , ';
+                        }else{
+                            tempCellString = tempCellString + ' ' + pro + ' : '+ currentCell[pro] + ' , ';
+                        }
+
+                    }
+                }
+                cell.v = tempCellString
             }
 
 
