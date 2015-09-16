@@ -317,13 +317,13 @@
             <td>{{order.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 
             <td>{{order.saleQuantity}}</td>
-            <td>{{order.saleTotalPrice }}</td>
+            <td>{{order.saleTotalPrice | number : 2}}</td>
             <td>{{order.saleAvgTotalPrice | number : 2}}</td>
 
-            <td>{{order.saleDishesPrice}}</td>
+            <td>{{order.saleDishesPrice | number : 2}}</td>
             <td>{{order.saleAvgDishesPrice | number : 2}}</td>
 
-            <td>{{order.saleFreight}}</td>
+            <td>{{order.saleFreight | number : 2}}</td>
             <td>{{order.saleAvgFreight | number : 2}} </td>
 
             <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
