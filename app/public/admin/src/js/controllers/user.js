@@ -19,10 +19,16 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             skip : 0,
             limit : 1000,
             group : '',
+            lang : '',
             _id : '',
             mobile : '',
-            invitationSendCode : ''
+            invitationSendCode : '',
+            sharedInvitationSendCodeTotalCount : 0,
+            sharedInvitationSendCodeUsedTime : 0
         },
+
+        sharedInvitationSendCodeTotalCountNumber: 0,
+        sharedInvitationSendCodeUsedTimeNumber: 0,
 
         searchSort : {
             sort : '-createdAt'
@@ -63,6 +69,21 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 name : '管理员',
                 value : 'admin'
             }
+        ],
+
+        userLanguageList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '中文',
+                value : 'zh'
+            },
+            {
+                name : '英文',
+                value : 'en'
+            }
         ]
     };
 
@@ -73,6 +94,22 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
     $scope.searchUserCount = function (){
+        if ($scope.data.sharedInvitationSendCodeUsedTimeNumber){
+            //console.log (new Date($scope.data.searchDateFrom));
+            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
+        }else{
+            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '';
+        }
+
+
+        if ($scope.data.sharedInvitationSendCodeTotalCountNumber){
+            //console.log (new Date($scope.data.searchDateFrom));
+            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
+        }else{
+            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '';
+        }
+
+
         Util.delProperty($scope.data.searchOptions);
 
         Users.one('count').get($scope.data.searchOptions).then(function (users) {

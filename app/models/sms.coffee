@@ -109,7 +109,7 @@ module.exports =
           log.trys++
           log.saveAsync().then(->
             if log.expiredAt < moment()
-              throw new Err "过期的验证码", 400, Err.code.sms.expired
+              throw new Err "过期的验证码 ", 400, Err.code.sms.expired
             else if log.code?.toString() isnt code?.toString()
               throw new Err "验证码错误", 400, Err.code.sms.wrongCode
             else
@@ -124,7 +124,7 @@ module.exports =
       if not conf.debug
         text = models.sms.constantTemplateCustomerNewOrderNotify(orderNumber)
         models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 索晶电话
-        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 何华电话
+        models.sms.sendSmsVia3rd("15907090405", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 李晓雪电话
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 赵梦菲电话
         models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 杨唤电话
 
@@ -133,7 +133,7 @@ module.exports =
         text = models.sms.constantTemplateCustomerOutOfStockNotify(dishTitleZh)
         models.sms.sendSmsVia3rd("18621378962", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # Steve 葛伊能电话
         models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 索晶电话
-        models.sms.sendSmsVia3rd("18516272908", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 何华电话
+        models.sms.sendSmsVia3rd("15907090405", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 李晓雪电话
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 赵梦菲电话
         models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 杨唤电话
 

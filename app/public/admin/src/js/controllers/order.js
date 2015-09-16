@@ -27,7 +27,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             isChildOrder : '',
             cookingType : '',
             clientFrom : '',
-            deliveryDateType : ''
+            deliveryDateType : '',
+            address : {
+                contactPerson : 'xxxx',
+                mobile : ''
+            }
+
         },
         exportOrderIdList : [],
 
@@ -343,6 +348,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Orders.one($stateParams.id).get().then(function (resutlOrder) {
             $scope.data.order = resutlOrder;
+
+            // 不能重复取消订单
+            $scope.data.order.currentOrderStatus = $scope.data.order.status;
 
             //编辑order时， 处理order express 显示
             if (angular.isUndefined($scope.data.order.express)){

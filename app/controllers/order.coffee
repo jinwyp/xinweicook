@@ -592,7 +592,7 @@ exports.addNewOrder = (req, res, next) ->
 
     # 余额已使用后处理
     if isUsedAccountBalance
-      userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, "", resultOrder._id.toString())
 
 
     # 删除用户购物车商品
@@ -854,7 +854,11 @@ exports.updateOrder = (req, res, next) ->
           models.coupon.revokeUsed(resultOrder.coupon, req.u)
 
         # 撤销余额使用
+        if resultOrder.accountUsedDiscount > 0
 
+          models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
+            if resultAccount
+              resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
 
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->

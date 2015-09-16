@@ -23,6 +23,17 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userLanguage.$dirty&&searchForm.userLanguage.$valid, 'has-error':searchForm.userLanguage.$dirty&&searchForm.userLanguage.$invalid}">
+                    <label for="inputLanguageGroup" class="col-lg-2 control-label" >用户语言</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="group in data.userLanguageList">
+                            <input type="radio" name="userLanguage" id="inputLanguageGroup" ng-value="group.value" ng-model="data.searchOptions.lang">{{group.name}}
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userGroup.$dirty&&searchForm.userGroup.$valid, 'has-error':searchForm.userGroup.$dirty&&searchForm.userGroup.$invalid}">
                     <label for="inputUserGroup" class="col-lg-2 control-label" >用户组</label>
                     <div class="col-lg-8">
@@ -74,6 +85,33 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$valid, 'has-error':searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$invalid}">
+                    <label for="inputUserSharedInvitationSendCodeTotalCount" class="col-lg-2 control-label" >已支付订单数量大于等于</label>
+                    <div class="col-lg-4">
+                        <input type="number" class="form-control" id="inputUserSharedInvitationSendCodeTotalCount" placeholder="已支付订单数量" name="userSharedInvitationSendCodeTotalCount" ng-model="data.sharedInvitationSendCodeTotalCountNumber" min="0">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$error.min || searchForm.userSharedInvitationSendCodeTotalCount.$dirty&&searchForm.userSharedInvitationSendCodeTotalCount.$error.max">输入的信息格式错误！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$valid, 'has-error':searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$invalid}">
+                    <label for="inputUserSharedInvitationSendCodeUsedTime" class="col-lg-2 control-label" >邀请码分享次数大于等于</label>
+                    <div class="col-lg-4">
+                        <input type="number" class="form-control" id="inputUserSharedInvitationSendCodeUsedTime" placeholder="邀请码分享次数" name="userSharedInvitationSendCodeUsedTime" ng-model="data.sharedInvitationSendCodeUsedTimeNumber" min="0">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$error.min || searchForm.userSharedInvitationSendCodeUsedTime.$dirty&&searchForm.userSharedInvitationSendCodeUsedTime.$error.max">输入的信息格式错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">Search</button>
@@ -113,8 +151,10 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>地址</th>
+                <th>下单数</th>
                 <th>优惠券</th>
                 <th>邀请码</th>
+
                 <!--<th>操作</th>-->
 
             </tr>
@@ -138,8 +178,10 @@
                         <li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>
                     </ul>
                 </td>
+                <td>{{user.sharedInvitationSendCodeTotalCount}}</td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
                 <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}}</td>
+
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？-->
                         <!--<button class="btn btn-danger" ng-click="delUser(user)">立即删除</button>-->

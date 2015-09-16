@@ -23,7 +23,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             isUsedCount : '',
             isUsed : '',
             couponType : '',
-            _id : ''
+            _id : '',
+            fromCoupon : ''
 
         },
         searchSort : {
