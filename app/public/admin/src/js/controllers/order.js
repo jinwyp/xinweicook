@@ -28,10 +28,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             cookingType : '',
             clientFrom : '',
             deliveryDateType : '',
-            address : {
-                contactPerson : 'xxxx',
-                mobile : ''
-            }
+            "addressContactPerson" : '',
+            "addressMobile" : ''
 
         },
         exportOrderIdList : [],
@@ -267,7 +265,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }else{
             $scope.data.searchOptions.createdAt = '';
         }
-
 
         Util.delProperty($scope.data.searchOptions);
 
