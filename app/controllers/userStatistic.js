@@ -29,14 +29,14 @@ exports.userNewComerRate = function(req, res, next) {
 
     var promiseList = [
         models.user.count().execAsync(),
-        models.user.count({ createdAt:{"$lt": timeNow } }).execAsync(),
+        models.user.count({ createdAt:{"$lt": last7Day } }).execAsync(),
 
-        models.user.count({ createdAt:{"$lt": timeNow }, sharedInvitationSendCodeTotalCount:{"$gte": 1} }).execAsync(),
-        models.user.count({ createdAt:{"$lt": timeNow }, sharedInvitationSendCodeTotalCount:{"$eq": 1} }).execAsync(),
-        models.user.count({ createdAt:{"$lt": timeNow }, sharedInvitationSendCodeTotalCount:{"$eq": 2} }).execAsync(),
+        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} }).execAsync(),
+        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$eq": 1} }).execAsync(),
+        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$eq": 2} }).execAsync(),
 
-        models.user.count({ createdAt:{"$lt": timeNow }, sharedInvitationSendCodeTotalCount:{"$gte": 2} }).execAsync(),
-        models.user.count({ createdAt:{"$lt": timeNow }, sharedInvitationSendCodeTotalCount:{"$gte": 3} }).execAsync()
+        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} }).execAsync(),
+        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 3} }).execAsync()
     ];
 
     Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased1TimeUserCount, resultPurchased2TimeUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount){
