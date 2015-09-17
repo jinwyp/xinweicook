@@ -3665,12 +3665,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\",\\"couponcode\\":\\"XWSALES001\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z513 z510 z515 z512 z511 z517 z514"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z511 z512 z510 z515 z513 z514 z517"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z517">
         <attribute name="value" type="string">Bearer </attribute>

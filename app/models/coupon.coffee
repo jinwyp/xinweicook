@@ -239,6 +239,7 @@ module.exports =
         user.couponList.push(resultCouponList._id.toString())
         couponData.used(user)
         user.saveAsync()
+      .catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
 
 
     addCouponForShare : (user) ->
