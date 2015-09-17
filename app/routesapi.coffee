@@ -14,6 +14,7 @@ tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 couponController = require "./controllers/coupon.coffee"
 orderStatController = require "./controllers/orderStatistic.js"
+userStatController = require "./controllers/userStatistic.js"
 
 
 cronJobController = require "./controllers/cronjob.coffee"
@@ -138,6 +139,7 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
   app.get("/api/admin/statistic/order/daily", orderStatController.orderDailySales)
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
+  app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
 
 
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)

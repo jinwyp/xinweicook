@@ -112,6 +112,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             return $http.get('/api/admin/statistic/dish/stock', {
                 params: params
             })
-        }
+        },
+
+        getUserStatisticOfNewComers: function (params) {
+            return $http.get('/api/admin/statistic/user/newcomer', {
+                params: params
+            })
+        },
     };
 });
