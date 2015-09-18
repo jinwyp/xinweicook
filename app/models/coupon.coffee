@@ -48,22 +48,22 @@ module.exports =
       if moment(new Date(coupon.endDate)).isBefore(moment())
         coupon.isExpired = true
         coupon.save()
-        throw new Err "Coupon is expired!", 400
+        throw new Err "Coupon is expired!", 400, Err.code.coupon.expired
       if moment(new Date(coupon.startDate)).isAfter(moment())
-        throw new Err "Coupon is not start to use!", 400
+        throw new Err "Coupon is not start to use!", 400, Err.code.coupon.notStart
 
     checkUsed : (coupon, user) ->
       if coupon.usedTime isnt 1
         if coupon.usedCountLimitOfOneUser is 1
           # 可以使用多次,但一个用户只能使用一次
           if coupon.usedUserList.indexOf(user._id) > -1
-            throw new Err "Coupon is use by this user!", 400
+            throw new Err "Coupon is use by this user!", 400, Err.code.coupon.used
 
         if coupon.usedTime > 1 and coupon.isUsedCount >= coupon.usedTime
-          throw new Err "Coupon run out used count !", 400
+          throw new Err "Coupon run out used count !", 400, Err.code.coupon.outOfCount
       else
         if coupon.isUsed
-          throw new Err "Coupon is use by this user!", 400
+          throw new Err "Coupon is use by this user!", 400, Err.code.coupon.used
 
     validationCouponId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
