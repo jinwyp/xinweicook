@@ -115,7 +115,7 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">Search</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchUserStatisticOfNewComers(searchForm)">统计</button>
+                        <button type="submit" class="btn btn-default" ng-click="showUserStatistic(searchForm)">统计</button>
                     </div>
                 </div>
             </form>
@@ -136,20 +136,26 @@
                 <span class="label label-info">占七天前注册总用户: {{data.userStatisticOfNewComers.totalPurchasedUserCount / data.userStatisticOfNewComers.totalUserLast7dayCount * 100 | number :2 }}% </span>
             </h3>
             <h3>
-                <span class="label label-info">七天前注册只有1单用户数: {{data.userStatisticOfNewComers.purchased1TimeUserCount}}  </span>
+                <span class="label label-info">只有1单用户数: {{data.userStatisticOfNewComers.purchased1TimeUserCount}}  </span>
                 <span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased1TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>
             </h3>
             <h3>
-                <span class="label label-info">七天前注册只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>
+                <span class="label label-info">只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>
                 <span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased2TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>
             </h3>
             <h3>
-                <span class="label label-info">七天前注册两单及以上用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount}}</span>
+                <span class="label label-info">两单及以上用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount}}</span>
                 <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
             </h3>
             <h3>
-                <span class="label label-info">七天前注册三单及以上用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount}}</span>
+                <span class="label label-info">三单及以上用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount}}</span>
                 <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+
+            <h3>
+                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单时间间隔总和: {{data.userStatisticLoyalPurchaseFrequency.totalTime}}小时</span>
+                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单间隔总数量: {{data.userStatisticLoyalPurchaseFrequency.totalOrderNumber}}间隔数量</span>
+                <span class="label label-warning">购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticLoyalPurchaseFrequency.avgTime | number :2}}小时</span>
             </h3>
         </div>
 

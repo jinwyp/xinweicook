@@ -57,6 +57,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userCouponList : [],
 
         userStatisticOfNewComers : {},
+        userStatisticLoyalPurchaseFrequency : {},
 
         userGroupList: [
             {
@@ -171,18 +172,33 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
 
-
+    $scope.showUserStatistic = function () {
+        $scope.css.showTable = 'stat';
+        $scope.searchUserStatisticOfNewComers();
+        $scope.searchUserStatisticLoyalPurchaseFrequency();
+    }
 
 
 
     $scope.searchUserStatisticOfNewComers = function () {
 
-        $scope.css.showTable = 'stat';
-
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getUserStatisticOfNewComers($scope.data.searchOptions).then(function (result) {
             $scope.data.userStatisticOfNewComers = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+    $scope.searchUserStatisticLoyalPurchaseFrequency = function () {
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions).then(function (result) {
+            $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);

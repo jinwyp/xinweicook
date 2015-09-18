@@ -140,6 +140,7 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/order/daily", orderStatController.orderDailySales)
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
+  app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
 
 
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)

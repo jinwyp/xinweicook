@@ -119,5 +119,11 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
                 params: params
             })
         },
+
+        getUserStatisticLoyalPurchaseFrequency: function (params) {
+            return $http.get('/api/admin/statistic/user/frequency', {
+                params: params
+            })
+        },
     };
 });
