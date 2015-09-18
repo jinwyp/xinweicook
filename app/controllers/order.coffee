@@ -202,6 +202,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
 
 
+
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
   models.order.validationGetOrderList req.query
@@ -629,6 +630,32 @@ exports.addNewOrder = (req, res, next) ->
 
     # 记录最后下单时间
     req.u.lastOrderDate = moment()
+
+    # 新味币支付需要扣除库存等操作
+    if resultOrder.totalPrice is 0 and resultOrder.accountUsedDiscount > 0
+
+      # 扣除商品库存
+      dishHistoryIdList = []
+      dishIdList = {}
+      for dish, dishIndex in resultOrder.dishHistory
+        dishHistoryIdList.push(dish.dish._id)
+        dishIdList[dish.dish._id] = dish.number
+
+      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+        if resultDishList
+          for dish, dishIndex in resultDishList
+            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+
+      # 给客服发送新订单短信
+      models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
+
+
+      # 该用户完成支付后可以再次分享邀请码
+      req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+      if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+        req.u.isSharedInvitationSendCode = false
+
 
     req.u.saveAsync().catch (err)->
       logger.error "New Order User Save error", err
