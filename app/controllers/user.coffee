@@ -51,6 +51,9 @@ exports.getUploadQiniuToken = (req, res, next) ->
 exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code, couponcode } = req.body
+
+  logger.error("----注册请求couponcode", JSON.stringify(req.body))
+
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
