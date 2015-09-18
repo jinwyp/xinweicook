@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', 'Statistic', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -56,6 +56,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userAccountDetails : [],
         userCouponList : [],
 
+        userStatisticOfNewComers : {},
+
         userGroupList: [
             {
                 name : 'ALL',
@@ -88,7 +90,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : ''
     };
 
 
@@ -167,6 +170,25 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+
+
+
+
+
+    $scope.searchUserStatisticOfNewComers = function () {
+
+        $scope.css.showTable = 'stat';
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticOfNewComers($scope.data.searchOptions).then(function (result) {
+            $scope.data.userStatisticOfNewComers = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
 
 
     if ($state.current.data.type === 'list') {
@@ -266,6 +288,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         });
 
     };
+
+
+
+
+
+
 
 }
 

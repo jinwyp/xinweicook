@@ -163,7 +163,8 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatistic(searchForm)">统计同一收货地址销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByAddress(searchForm)">同一收货地址销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByDailySales(searchForm)">日销量</button>
                         <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中内部制作单</a>
                         <a class="btn btn-default"  href="/api/administrator/shiplist/orders?idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中出货单</a>
                         <a class="btn btn-default"  href="/api/administrator/export/orders" target="_blank">导出所有订单</a>
@@ -175,8 +176,8 @@
         </div>
     </div>
 
-    <nav>
-        <ul class="pagination">
+    <nav ng-if="css.showTable === 'orders'">
+        <ul class="pagination" >
             <li>
                 <span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>
             </li>
@@ -224,7 +225,7 @@
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
                 <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss'}} <br/>
-                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleSelection(order._id)">
+                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)">
                 </td>
                 <td>{{order.status}}</td>
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
@@ -265,7 +266,7 @@
 
 
 
-    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statistic'">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByAddress'">
         <thead>
         <tr>
             <th>订单地址</th>
@@ -288,6 +289,58 @@
             <td>{{order.orderTotalFreightPrice}}</td>
             <td>{{order.orderTotalPrice}} </td>
             <td> <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByDailySales'">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>订单数量</th>
+            <th>订单总金额</th>
+            <th>订单客单价</th>
+
+            <th>菜品总金额</th>
+            <th>菜品客单价</th>
+            <th>运费总金额</th>
+            <th>运费平均金额</th>
+
+            <th>优惠码总金额 / 平均</th>
+            <th>优惠券总金额 / 平均</th>
+            <th>新味币总金额 / 平均</th>
+
+            <th>订单详细列表</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in data.orderStatisticByDailySalesList ">
+            <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+            <td>{{order.date | date:'yyyy-MM-dd'}}</td>
+
+            <td>{{order.saleQuantity}}</td>
+            <td>{{order.saleTotalPrice | number : 2}}</td>
+            <td>{{order.saleAvgTotalPrice | number : 2}}</td>
+
+            <td>{{order.saleDishesPrice | number : 2}}</td>
+            <td>{{order.saleAvgDishesPrice | number : 2}}</td>
+
+            <td>{{order.saleFreight | number : 2}}</td>
+            <td>{{order.saleAvgFreight | number : 2}} </td>
+
+            <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
+            <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
+            <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
+
+            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order.date">
+                    <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
+                </span>
+
+            </td>
 
         </tr>
         </tbody>

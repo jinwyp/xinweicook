@@ -10,6 +10,7 @@ POST `/api/user/token`
 | username    | String | 手机号     |
 | password    | String | 密码       |
 | deviceToken | String | iOS设备ID       |
+| couponcode  | string | 送优惠券的兑换码 |
 
 ```js
 {

@@ -201,6 +201,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
 
 
+
 exports.orderExportList = function(req, res, next) {
 
     models.order.validationGetOrderList(req.query);
@@ -279,6 +280,7 @@ exports.orderExportList = function(req, res, next) {
 
 
 };
+
 
 
 
@@ -444,6 +446,216 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
 
 };
+
+
+
+
+
+
+
+
+exports.orderDailySales = function(req, res, next) {
+
+    var matchList = {};
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
+    }
+
+    var pipeline = [];
+
+    pipeline.push(
+        { "$match":matchList}
+    );
+
+
+    pipeline.push (
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+            hour: { $hour: "$createdAt" },
+            minutes: { $minute: "$createdAt" },
+            dayOfYear: { $dayOfYear: "$createdAt" },
+            dayOfWeek: { $dayOfWeek: "$createdAt" },
+            week: { $week: "$createdAt" },
+
+            "hour" : {  "$hour" : "$createdAt" },
+            "minute" : {"$minute" : "$createdAt"},
+            "second" : { "$second" : "$createdAt"},
+            "millisecond" : {"$millisecond" : "$createdAt"}
+        }},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: 1,
+            month: 1,
+            day: 1,
+            hour: 1,
+            minutes: 1,
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1,
+
+            "hour" : 1,
+            "minute" : 1,
+            "second" : 1,
+            "millisecond" : 1,
+
+            saleDate : {"$subtract" : [ "$createdAt",
+                        {"$add" : [ "$millisecond",
+                            {"$multiply" : ["$second", 1000]},
+                            {"$multiply" : ["$minute",60,1000]},
+                            {"$multiply" : ["$hour", 60, 60,1000]}
+                        ]}
+                    ]}
+
+        }}
+    );
+
+
+    // Grouping pipeline
+    pipeline.push (
+        { "$group": {
+//            "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
+            "_id":  "$saleDate",
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+        { $project :{
+            _id : 0,
+            "date" : "$_id",
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+            "saleAvgTotalPrice": 1,
+            "saleDishesPrice": 1,
+            "saleAvgDishesPrice": 1,
+            "saleFreight": 1,
+            "saleAvgFreight": 1,
+
+            "salePromotionDiscount": 1,
+            "saleAvgPromotionDiscount": 1,
+
+            "saleCouponDiscount": 1,
+            "saleAvgCouponDiscount": 1,
+
+            "saleAccountUsedDiscount": 1,
+            "saleAvgAccountUsedDiscount": 1,
+
+
+
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "date" : -1} },
+        { "$limit": 1000 }
+    );
+
+
+
+
+
+
+    //console.log (pipeline);
+    models.order.aggregateAsync( pipeline).then(function(resultOrder){
+        res.status(200).json(resultOrder)
+    }).catch(next)
+};
+
+
 
 
 
