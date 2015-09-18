@@ -60,11 +60,9 @@ exports.userSignUp = (req, res, next) ->
   models.user.signUp(mobile, pwd, code)
   .then (resultUser)->
 
-    models.coupon.addCouponForNewUser(resultUser, req)
-
-    if couponcode
-      models.coupon.addCouponFromCouponChargeCode(resultUser, couponcode)
-
+    models.coupon.addCouponForNewUser(resultUser, req).then (resultUser2) ->
+      if couponcode
+        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode)
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)

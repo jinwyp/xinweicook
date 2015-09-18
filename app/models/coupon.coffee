@@ -212,6 +212,8 @@ module.exports =
 
         user.saveAsync()
 
+
+
     addCouponFromCouponChargeCode : (user, couponChargeCode) ->
       # 扫二维码 送1张5元优惠券
 
@@ -220,6 +222,7 @@ module.exports =
 
       models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
       .then (resultCoupon)->
+
         models.coupon.checkNotFound resultCoupon
         models.coupon.checkUsed(resultCoupon, user)
         couponData = resultCoupon
