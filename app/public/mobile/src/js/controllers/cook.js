@@ -18,7 +18,7 @@ angular.module('xw.controllers').controller('cookCtrl', function ($scope, Dishes
 
     $scope.goToCart = function () {
         if (!$scope.cart.length) {
-            alert('请先添加一份食材包到购物车');
+            alert('请先添加一份食材包到购物袋');
             return;
         }
         var url = '';
