@@ -9,7 +9,7 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
 
     var pwdErrTimes = 0;
     $scope.login = function (form) {
-        User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
+        User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(function (res) {
             var redirect = location.search.substring(1).split('=');
             if (redirect.length > 1) {
                 redirect = redirect[1];
