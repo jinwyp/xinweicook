@@ -129,7 +129,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"169756\\",\\"couponcode\\":\\"XWSALES003\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"pwd\\":\\"123456\\",\\"code\\":\\"789837\\",\\"couponcode\\":\\"XWSALES003\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-SignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
@@ -1998,7 +1998,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z311 z312 z315 z313 z314 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Bu:bY0fPWQXg2jUM/2uVG7k0V3OFxaANrj7</attribute>
+        <attribute name="value" type="string">Bearer 3B5:IN9LN/bqbxiBR2w1HOeivOd8ZJ3GvraJ</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -4677,12 +4677,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n  \\"promotionCode\\": \\"XWAACQXWC1\\",\\n\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"address\\": {\\n    \\"geoLatitude\\": 30,\\n    \\"geoLongitude\\": 30,\\n    \\"country\\": \\"\\",\\n    \\"province\\": \\"shanghai\\",\\n    \\"city\\": \\"shanghai\\",\\n    \\"district\\": \\"shanghai\\",\\n    \\"street\\": \\"shanghai\\",\\n    \\"address\\": \\"xxxxx\\",\\n    \\"contactPerson\\": \\"王宇鹏\\",\\n    \\"mobile\\": \\"13564568304\\",\\n    \\"remark\\": \\"comment\\"\\n  },\\n  \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"55d44ef96ed1ecac29cdc8c5\\",\\n      \\"number\\": 1,\\n      \\"subDish\\": []\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n  \\"promotionCode\\": \\"XWAAAAXWC8\\",\\n\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"address\\": {\\n    \\"geoLatitude\\": 30,\\n    \\"geoLongitude\\": 30,\\n    \\"country\\": \\"\\",\\n    \\"province\\": \\"shanghai\\",\\n    \\"city\\": \\"shanghai\\",\\n    \\"district\\": \\"shanghai\\",\\n    \\"street\\": \\"shanghai\\",\\n    \\"address\\": \\"xxxxx\\",\\n    \\"contactPerson\\": \\"王宇鹏33\\",\\n    \\"mobile\\": \\"13564568304\\",\\n    \\"remark\\": \\"comment\\"\\n  },\\n  \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"55d44ef96ed1ecac29cdc8c5\\",\\n      \\"number\\": 1,\\n      \\"subDish\\": []\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">28</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay PromoCode</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z619 z623 z618 z624 z621 z622 z620"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z621 z618 z623 z619 z622 z624 z620"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z626">
         <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
