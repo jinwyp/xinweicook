@@ -394,7 +394,12 @@ exports.chargeAccount = (req, res, next) ->
             wxPay_unified_return_code_url: resultWeixinPay.code_url
 
           models.paymentdetail.createAsync(newPaymentDetail).then (resultPaymentDetail) ->
-            res.json resultPaymentDetail
+
+            resultTemp = resultAccountDetail.toJSON()
+            resultTemp.weixinPayUnifiedOrder = resultPaymentDetail
+
+            res.json resultTemp
+
           .catch(next)
 
 
