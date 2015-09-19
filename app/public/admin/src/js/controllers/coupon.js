@@ -24,7 +24,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             isUsed : '',
             couponType : '',
             _id : '',
-            fromCoupon : ''
+            fromCoupon : '',
+            user : ''
 
         },
         searchSort : {
