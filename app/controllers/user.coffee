@@ -5,6 +5,35 @@ qiniu.conf.ACCESS_KEY = conf.qiniu.access_key;
 qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 
+WXPay = require "../libs/weixinpay"
+
+AliPay = require "../libs/alipay.js"
+
+configAlipay =
+  notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/notify/account"
+  mobile_return_url : "http://m.xinweicook.com/mobile/alipay/returnaccountdetail"
+
+alipay = AliPay(configAlipay)
+
+
+configWeiXinPay =
+  appid: conf.weixinpay.appid
+  mch_id: conf.weixinpay.mch_id
+  secret: conf.weixinpay.secret
+  key: conf.weixinpay.key
+  notify_url : conf.url.base + conf.weixinpay.notify_url
+
+
+configWeiXinAppPay =
+  appid: conf.weixinAppPay.appid
+  mch_id: conf.weixinAppPay.mch_id
+  secret: conf.weixinAppPay.secret
+  key: conf.weixinAppPay.key
+  notify_url : conf.url.base + conf.weixinAppPay.notify_url
+
+weixinpay = WXPay(configWeiXinPay)
+
+
 exports.getUploadResponse = (req, res) ->
 
   infoObject = req.body
@@ -268,15 +297,137 @@ exports.chargeAccount = (req, res, next) ->
 
   models.useraccount.validationChargeAccount(req.body)
 
+  chargeType = models.accountdetail.constantChargeType().alipaydirect
+
+  if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
+    models.order.validationWeixinPayUnifiedOrder req.body
+    chargeType = models.accountdetail.constantChargeType().weixinpay
+
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
 
-    resultAccount.chargeAccountDetail(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark)
+    resultAccount.chargeAccountDetail(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark, chargeType)
 
   .then (resultAccountDetail)->
-    res.json resultAccountDetail
+
+    if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
+      # 微信支付生成统一订单
+
+      if req.body.trade_type is "NATIVE"
+        weixinpay = WXPay(configWeiXinAppPay)
+
+      weixinpayOrder =
+        out_trade_no: resultAccountDetail._id.toString()
+        total_fee: Math.ceil(resultAccountDetail.amount * 100)
+        spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+
+        notify_url: "http://m.xinweicook.com/mobile/wxpay/notifyaccountdetail"
+        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
+#            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+        product_id : resultAccountDetail._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+
+        body:  resultAccountDetail.name.zh
+        detail:  resultAccountDetail.name.zh
+
+#        attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+#        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+
+      if req.u.weixinId and req.u.weixinId.openid and req.body.trade_type is "JSAPI"
+        weixinpayOrder.openid = req.u.weixinId.openid
+      else
+        throw new Err "Field validation error,  need weixin pay user open id for charge account", 400
+
+      if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+        weixinpayOrder.total_fee = 1
+
+
+      console.log "------------------Weixinpay Unified Order For AccountDetail: ", weixinpayOrder
+      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+        if err
+          next (new Err err)
+
+        if resultWeixinPay
+
+          weixinpayMobileSign =
+            appId: configWeiXinPay.appid
+            timeStamp: parseInt(+new Date() / 1000, 10) + ""
+            nonceStr: weixinpay.util.generateNonceString()
+            package: "prepay_id="+resultWeixinPay.prepay_id
+            signType: "MD5"
+
+          # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
+          weixinpayNativeSign =
+            appId : configWeiXinAppPay.appid
+            partnerId : configWeiXinAppPay.mch_id
+            prepayId : resultWeixinPay.prepay_id
+            packageValue : 'Sign=WXPay'
+            timeStamp: parseInt(+new Date() / 1000, 10) + ""
+            nonceStr: weixinpay.util.generateNonceString()
+
+          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
+          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+
+
+          newPaymentDetail =
+            user : req.u._id
+            accountDetail : resultAccountDetail._id
+            businessType : models.paymentdetail.constantBusinessType().accountdetail
+
+            orderNumber : resultAccountDetail._id.toString()
+            totalPrice : resultAccountDetail.amount
+            orderTitle : resultAccountDetail.name.zh
+
+            wxPay_nativeSign: weixinpayNativeSign
+            wxPay_mobileSign: weixinpayMobileSign
+
+            wxPay_unified_return_return_code : resultWeixinPay.return_code
+            wxPay_unified_return_return_msg : resultWeixinPay.return_msg
+
+            wxPay_unified_return_appid : resultWeixinPay.appid
+            wxPay_unified_return_mch_id : resultWeixinPay.mch_id
+            wxPay_unified_return_result_code : resultWeixinPay.result_code
+
+            wxPay_unified_return_nonce_str : resultWeixinPay.nonce_str
+            wxPay_unified_return_sign : resultWeixinPay.sign
+            wxPay_unified_return_trade_type : resultWeixinPay.trade_type
+            wxPay_unified_return_prepay_id: resultWeixinPay.prepay_id
+            wxPay_unified_return_code_url: resultWeixinPay.code_url
+
+          models.paymentdetail.createAsync(newPaymentDetail).then (resultPaymentDetail) ->
+            res.json resultPaymentDetail
+          .catch(next)
+
+
+    else
+      # 生成支付宝签名
+
+      subject =
+        dish :
+          title :
+            zh : resultAccountDetail.name.zh
+            en : resultAccountDetail.name.en
+
+      alipayOrder =
+        totalPrice : resultAccountDetail.amount
+        orderNumber : resultAccountDetail._id.toString()
+        dishHistory : []
+
+      alipayOrder.dishHistory.push(subject)
+
+      if req.u.mobile is '15900719671'
+        alipayOrder.totalPrice = 0.01
+
+      aliPaySign = alipay.generateWapCreateDirectPayUrl(alipayOrder)
+      resultTemp = resultAccountDetail.toJSON()
+      resultTemp.aliPaySign = aliPaySign
+
+      res.json resultTemp
+
+
 
   .catch next
+
+
 
 
 
@@ -340,6 +491,77 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
   else
     res.set('Content-Type', 'text/plain');
     res.send "success"
+
+
+
+
+
+# 用户账户余额充值 微信支付通知回调
+exports.chargeAccountWeixinPayNotify = (req, res, next) ->
+  console.log "======================== WeixinPayNotify :: ", req.body
+
+  models.paymentdetail.validationWeixinPayNotify req.body
+
+  accountDetailData = {}
+
+  models.paymentdetail.findOneAsync({orderNumber : req.body.out_trade_no})
+  .then (resultPaymentDetail) ->
+    models.paymentdetail.checkNotFound(resultPaymentDetail)
+
+    resultPaymentDetail.wxPay_notify_return_return_code = req.body.return_code
+    resultPaymentDetail.wxPay_notify_return_return_msg = req.body.return_msg
+
+    resultPaymentDetail.wxPay_notify_return_appid = req.body.appid
+    resultPaymentDetail.wxPay_notify_return_mch_id = req.body.mch_id
+    resultPaymentDetail.wxPay_notify_return_sub_mch_id = req.body.sub_mch_id
+    resultPaymentDetail.wxPay_notify_return_nonce_str = req.body.nonce_str
+    resultPaymentDetail.wxPay_notify_return_sign = req.body.sign
+    resultPaymentDetail.wxPay_notify_return_result_code = req.body.result_code
+
+    resultPaymentDetail.wxPay_notify_return_openid = req.body.openid
+    resultPaymentDetail.wxPay_notify_return_is_subscribe = req.body.is_subscribe
+
+    resultPaymentDetail.wxPay_notify_return_trade_type = req.body.trade_type
+    resultPaymentDetail.wxPay_notify_return_bank_type = req.body.bank_type
+    resultPaymentDetail.wxPay_notify_return_total_fee = req.body.total_fee
+    resultPaymentDetail.wxPay_notify_return_fee_type = req.body.fee_type
+    resultPaymentDetail.wxPay_notify_return_cash_fee = req.body.cash_fee
+    resultPaymentDetail.wxPay_notify_return_cash_fee_type = req.body.cash_fee_type
+    resultPaymentDetail.wxPay_notify_return_coupon_fee = req.body.coupon_fee
+    resultPaymentDetail.wxPay_notify_return_coupon_count = req.body.coupon_count
+
+    resultPaymentDetail.wxPay_notify_return_out_trade_no = req.body.out_trade_no
+    resultPaymentDetail.wxPay_notify_return_attach = req.body.attach
+    resultPaymentDetail.wxPay_notify_return_transaction_id = req.body.transaction_id
+    resultPaymentDetail.wxPay_notify_return_time_end = req.body.time_end
+
+
+    resultPaymentDetail.saveAsync()
+  .then (resultPaymentDetail2) ->
+
+    models.accountdetail.findOneAsync({_id : resultPaymentDetail2[0].orderNumber, isPaid:false, isPlus:true})
+  .then (resultAccountDetail)->
+    models.accountdetail.checkNotFound(resultAccountDetail)
+
+    accountDetailData = resultAccountDetail
+    resultAccountDetail.isPaid = true
+    resultAccountDetail.saveAsync()
+
+  .then (resultAccoutDetail2) ->
+
+    models.useraccount.findOneAsync({user : resultAccoutDetail2[0].user})
+
+  .then (resultAccount)->
+    models.useraccount.checkNotFound(resultAccount)
+    resultAccount.balance = resultAccount.balance + accountDetailData.amountXinwei
+    resultAccount.saveAsync()
+
+    weixinpay.responseNotify res, true
+
+  .catch next
+
+
+
 
 
 

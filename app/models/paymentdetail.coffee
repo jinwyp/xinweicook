@@ -4,7 +4,13 @@ module.exports =
   schema:
     user :type: Schema.ObjectId, ref: "user"
     order :type: Schema.ObjectId, ref: "order"
+    accountDetail :type: Schema.ObjectId, ref: "accountdetail"
+
     businessType : type: String # 业务类型 订单order  或 新味币accountdetail
+
+    orderNumber : type: String
+    orderTitle : type: String
+    totalPrice : type: Number
 
 
     wxPay_unified_return_return_code: String  # 下面是微信支付统一订单成功返回字段 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
@@ -32,6 +38,8 @@ module.exports =
 
     wxPay_notify_return_appid : type: String
     wxPay_notify_return_mch_id : type: String
+    wxPay_notify_return_sub_mch_id : type: String
+
     wxPay_notify_return_device_info : type: String
     wxPay_notify_return_nonce_str : type: String
     wxPay_notify_return_sign : type: String
@@ -58,8 +66,40 @@ module.exports =
     wxPay_notify_return_time_end : type: String
 
 
+    wxPay_mobileSign :
+      appId : String
+      timeStamp: String
+      nonceStr: String
+      package: String
+      signType: String
+      paySign: String
 
-  statics:{}
+    wxPay_nativeSign :
+      appId : String
+      partnerId : String
+      prepayId : String
+      packageValue : String
+      nonceStr: String
+      timeStamp: String
+      sign : String
+
+  statics:
+    checkNotFound : (order) ->
+      if not order
+        return throw new Err "PaymentDetail id not found !", 400
+
+    constantBusinessType : () ->
+      type =
+        order : "order"
+        accountdetail : "accountdetail"
+
+    validationWeixinPayNotify : (order) ->
+      unless libs.validator.isLength order.return_code, 6, 7
+        return throw new Err "Field validation error,  return_code must be 4-7 and must be SUCCESS", 400
+      unless libs.validator.isLength order.result_code, 6, 7
+        return throw new Err "Field validation error,  result_code must be 4-7 and must be SUCCESS", 400
+      unless libs.validator.isLength order.out_trade_no, 24, 24
+        return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
   methods: {}
   rest: {}

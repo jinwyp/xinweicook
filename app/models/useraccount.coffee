@@ -64,7 +64,7 @@ module.exports =
 
   methods:
 
-    chargeAccountDetail : (amount, name, remark) ->
+    chargeAccountDetail : (amount, name, remark, chargeType) ->
 
       newAccountDetail =
         chargeType : models.accountdetail.constantChargeType().alipaydirect
@@ -78,6 +78,7 @@ module.exports =
 
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
+      newAccountDetail.chargeType = chargeType if chargeType
 
       models.accountdetail.createAsync(newAccountDetail)
 
