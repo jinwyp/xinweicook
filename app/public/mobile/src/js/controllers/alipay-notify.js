@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope, Alipay, Debug) {
+angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope, Alipay, Debug, Orders) {
 
     init();
 
@@ -16,11 +16,26 @@ angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope
             $scope.searches.trade_status == 'TRADE_SUCCESS'
         ) {
             $scope.success = true;
-            Alipay.notify($scope.searches['out_trade_no']).then(function () {
+            var orderId = $scope.searches['out_trade_no'];
+
+
+            if (orderId.length == 24) {
+                //充值
                 setTimeout(function () {
-                    location.href = '/mobile/';
-                }, 3000);
-            }).catch(Debug.promiseErrFn('通知失败'));
+                    location.href = '/mobile/balance';
+                }, 2500);
+            } else {
+                Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function () {
+                    Debug.alert('更新订单状态成功');
+                    setTimeout(function () {
+                        location.href = '/mobile/invite'
+                    }, 2000);
+                }).catch(function (res) {
+                    alert('更新订单状态失败');
+                    Debug.alert('订单状态更新失败');
+                    Debug.alert(res);
+                });
+            }
         }
     }
 });
