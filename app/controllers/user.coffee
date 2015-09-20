@@ -441,7 +441,7 @@ exports.chargeAccountAlipayNotify = (req, res, next) ->
 
   models.useraccount.validationAlipayNotify(req.body)
 
-  if req.body.trade_status is "TRADE_SUCCESS"
+  if req.body.trade_status is "TRADE_SUCCESS" or req.body.trade_status is "TRADE_FINISHED"
     accountDetailData = {}
 
     models.accountdetail.findOneAsync({_id : req.body.out_trade_no, isPaid:false, isPlus:true}).then (resultAccountDetail)->
