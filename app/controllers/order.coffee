@@ -674,7 +674,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
     # 生成支付宝签名
-    if req.u.mobile is '15900719671'
+    if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
       resultOrder.totalPrice = 0.01
     aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder)
 
@@ -902,16 +902,16 @@ exports.updateOrder = (req, res, next) ->
 
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
-#  console.log "========================OrderAlipayNotify :: ", req.body
-  #todo: 服务器body是这个: {"{\"out_trade_no\":\"201509201228272565209\"}": ""} 但本地却是{ "out_trade_no" : "201509201228272565209"}
-  Object.keys(req.body).some (key) ->
-    unless key.indexOf("out_trade_no") is -1
-      unless key is "out_trade_no"
-        try
-          req.body["out_trade_no"] = JSON.parse(key)["out_trade_no"]
-        catch err
-          next err
-      true
+  console.log "========================OrderAlipayNotify :: ", req.body
+#  #todo: 服务器body是这个: {"{\"out_trade_no\":\"201509201228272565209\"}": ""} 但本地却是{ "out_trade_no" : "201509201228272565209"}
+#  Object.keys(req.body).some (key) ->
+#    unless key.indexOf("out_trade_no") is -1
+#      unless key is "out_trade_no"
+#        try
+#          req.body["out_trade_no"] = JSON.parse(key)["out_trade_no"]
+#        catch err
+#          next err
+#      true
 
   models.order.validationAlipayNotify(req.body)
 
