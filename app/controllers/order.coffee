@@ -908,7 +908,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
     unless key.indexOf("out_trade_no") is -1
       unless key is "out_trade_no"
         try
-          req.body["out_trade_no"] = JSON.parse(key)
+          req.body["out_trade_no"] = JSON.parse(key)["out_trade_no"]
         catch err
           next err
       true
