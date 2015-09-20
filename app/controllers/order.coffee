@@ -903,6 +903,10 @@ exports.updateOrder = (req, res, next) ->
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
 #  console.log "========================OrderAlipayNotify :: ", req.body
+  console.log ""
+  console.log "DEBUG-TYPEOF-BODY", typeof req.body
+  console.log "DEBUG-BODY.out_trade_no.typeof", typeof req.body.out_trade_no
+  console.log "DEBUG-BODY.out_trade_no", req.body.out_trade_no
   models.order.validationAlipayNotify(req.body)
 
   if req.body.trade_status is "TRADE_SUCCESS"
