@@ -903,10 +903,16 @@ exports.updateOrder = (req, res, next) ->
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
 #  console.log "========================OrderAlipayNotify :: ", req.body
-  console.log ""
-  console.log "DEBUG-TYPEOF-BODY", typeof req.body
-  console.log "DEBUG-BODY.out_trade_no.typeof", typeof req.body.out_trade_no
-  console.log "DEBUG-BODY.out_trade_no", req.body.out_trade_no
+  #todo: 服务器body是这个: {"{\"out_trade_no\":\"201509201228272565209\"}": ""} 但本地却是{ "out_trade_no" : "201509201228272565209"}
+  Object.keys(req.body).some (key) ->
+    unless key.indexOf("out_trade_no") is -1
+      unless key is "out_trade_no"
+        try
+          req.body["out_trade_no"] = JSON.parse(key)
+        catch err
+          next err
+      true
+
   models.order.validationAlipayNotify(req.body)
 
   if req.body.trade_status is "TRADE_SUCCESS"
