@@ -201,7 +201,20 @@ var alipay2 = {
 };
 
 
-var weixinpay = {
+var weixinpayUnifiedOrderReturn = {
+    return_code : 'SUCCESS',
+    return_msg  : 'OK',
+    appid       : 'wx37a1323e488cef84',
+    mch_id      : '1231161502',
+    nonce_str   : 'ZbQ8DY5dyPCW4nIL',
+    sign        : '245C297546C9CA152D35A32D283B109E',
+    result_code : 'SUCCESS',
+    prepay_id   : 'wx20150919164301bf2576da0d0761322778',
+    trade_type  : 'JSAPI'
+};
+
+
+var weixinpayNotify = {
     appid : 'wxc31508f4ded1402b',
     attach : '55cb142f1ce9a11b3b29a3e1',
     bank_type : 'CFT',

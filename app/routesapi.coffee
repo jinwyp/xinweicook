@@ -14,6 +14,7 @@ tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 couponController = require "./controllers/coupon.coffee"
 orderStatController = require "./controllers/orderStatistic.js"
+userStatController = require "./controllers/userStatistic.js"
 
 
 cronJobController = require "./controllers/cronjob.coffee"
@@ -33,7 +34,10 @@ expressRoutes = (app) ->
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
   app.post("/api/orders/payment/alipay/notify/account", userController.chargeAccountAlipayNotify)
+
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
+  app.post("/mobile/wxpay/notifyaccountdetail", weixinPay.parserNotifyMiddleware, userController.chargeAccountWeixinPayNotify)
+
 
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
   app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
@@ -136,7 +140,10 @@ expressRoutes = (app) ->
 
 
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
+  app.get("/api/admin/statistic/order/daily", orderStatController.orderDailySales)
   app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
+  app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
+  app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
 
 
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)

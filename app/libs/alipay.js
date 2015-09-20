@@ -100,9 +100,9 @@ function createApplication() {
 function aliPay(config) {
 
     //default config
-    this.config = configAlipay;
+    this.config = {};
     if (typeof config === "object"){
-        this.config = _.assign (configAlipay, config)
+        this.config = _.assign ({}, configAlipay, config)
     }
 
 }
@@ -187,17 +187,17 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
 
     var urlParams = {
         service : 'alipay.wap.create.direct.pay.by.user',
-        partner : configAlipay.partner,
+        partner : this.config.partner,
         _input_charset : 'utf-8',
         sign_type : 'MD5',
 
-        notify_url : configAlipay.notify_url,
-        return_url : configAlipay.mobile_return_url,
+        notify_url : this.config.notify_url,
+        return_url : this.config.mobile_return_url,
 
         out_trade_no : order.orderNumber,
         subject : order.dishHistory[0].dish.title.zh,
         total_fee : order.totalPrice,
-        seller_id : configAlipay.partner,
+        seller_id : this.config.partner,
 
         payment_type : '1'
         //body : order.dishHistory[0].dish.title.zh
@@ -216,7 +216,7 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
         return key + "=" + encodeURIComponent(urlParams[key]);
     }).join("&");
 
-    urlParams.fullurl = configAlipay.urlAlipayWebsite + urlParams.fullurl;
+    urlParams.fullurl = this.config.urlAlipayWebsite + urlParams.fullurl;
 
     return urlParams
 

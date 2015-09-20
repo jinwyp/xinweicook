@@ -5,7 +5,7 @@ angular.module('xw.controllers').controller('chargeBalanceCtrl', function ($scop
         }).catch(function (res) {
             Debug.alert('充值失败');
             Debug.alert(res);
-            Alert(res.data.code, '充值失败,请稍后重试');
+            Alert.show(res.data.validationStatus, '充值失败,请稍后重试');
         })
     }
 });

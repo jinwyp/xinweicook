@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
     <title ng-bind="dish.title.zh"></title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
 <body>
 
@@ -42,7 +43,7 @@
             <ul class="ingredients row">
                 <li class="col-xs-6" ng-repeat="ingredient in dish.infoIngredient"
                     ng-class="{img: ingredient.contentType == 'pic'}">
-                    <span ng-if="!ingredient.contentType || ingredient.contentType == 'txt'">{{ingredient.value.zh}}</span>
+                    <span ng-if="!ingredient.contentType || ingredient.contentType == 'txt'">{{ingredient.value.zh | fraction}}</span>
                     <img img-lazy-load="ingredient.value.zh | adapt:0.4" ng-if="ingredient.contentType == 'pic'" alt=""/>
                 </li>
             </ul>

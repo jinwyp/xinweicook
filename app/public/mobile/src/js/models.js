@@ -43,12 +43,14 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
     var timer = null;
 
     return {
-        login: function (username, password) {
-            return $http.post('/api/user/token', {
+        login: function (username, password, couponcode) {
+            var args = {
                 username: username,
                 password: password,
                 grant_type: 'password'
-            }).then(function (res) {
+            };
+            if (couponcode) args.couponcode = couponcode;
+            return $http.post('/api/user/token', args).then(function (res) {
                 if (res.data && res.data.access_token) {
                     $localStorage.access_token = res.data.access_token;
                 }

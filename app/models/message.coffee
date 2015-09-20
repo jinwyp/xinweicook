@@ -91,7 +91,7 @@ module.exports =
 
       iOSMessage = new Xinge.IOSMessage()
       iOSMessage.acceptTime.push(new Xinge.TimeInterval(0, 0, 23, 0)) # 数组元素为TimeInterval实例，表示允许推送的时间段，选填
-      iOSMessage.alert = newMessage.text # https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
+      iOSMessage.alert = newMessage.text.zh # https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
       iOSMessage.badge = 1
       iOSMessage.sound = "default"
 

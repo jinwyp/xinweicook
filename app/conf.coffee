@@ -65,7 +65,7 @@ conf =
   code:
     trys: 5
     sends: 20
-    expire: 10 # mins
+    expire: 30 # mins
 
   token:
     expires_in: 3600 * 24 * 7 # 7 Day

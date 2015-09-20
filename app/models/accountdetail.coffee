@@ -45,6 +45,7 @@ module.exports =
     constantChargeType : () ->
       type =
         alipaydirect : "alipaydirect"
+        weixinpay : "weixinpay"
         chargecode : "chargecode"
 
     checkNotFound : (accoutDetail) ->

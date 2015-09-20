@@ -24,7 +24,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
     };
 
     $scope.$watch('coupon.code', function (newCode, oldCode) {
-        if (newCode !== oldCode && /^\w{8}(\w{2})?$/.test(newCode)) {
+        if (newCode !== oldCode && /^1a\w{6}$|^\w{10}$/.test(newCode)) {
             $scope.couponPrice = 0;
             $scope.couponLimitPrice = 0;
             var sendCode = newCode;
@@ -329,7 +329,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
         Balance.balance().then(function (res) {
             $scope.balance = {
                 originalBalance: res.data.balance,
-                enabled: false
+                enabled: true
             }
         });
         

@@ -466,6 +466,18 @@ module.exports =
 
   methods: {}
   rest:
+    middleware : (req, res, next) ->
+      if req.method is "GET"
+        if req.query.addressContactPerson
+          req.query['address.contactPerson'] = req.query.addressContactPerson
+          delete req.query.addressContactPerson
+
+        if req.query.addressMobile
+          req.query['address.mobile'] = req.query.addressMobile
+          delete req.query.addressMobile
+
+      next()
+
     postProcess : (req, res, next) ->
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
@@ -478,6 +490,39 @@ module.exports =
             pushOptions =
               isPushSMS : true
             models.message.sendMessageToUser(resultOrder.user, models.message.constantContentType().orderAdd, additionalContent, pushOptions)
+
+
+      if req.method is "PUT" and req.body.status is models.order.constantStatus().canceled and req.body.currentOrderStatus is models.order.constantStatus().notpaid
+        # 取消订单
+
+        models.order.findOne({_id:req.params.id})
+        .populate("user")
+        .populate({path: "dishList.dish", select: models.dish.fields()})
+        .populate({path: "dishList.subDish.dish", select: models.dish.fields()})
+        .populate "childOrderList"
+        .execAsync()
+        .then (resultOrder) ->
+          if resultOrder and resultOrder.status is models.order.constantStatus().canceled
+
+            if resultOrder.childOrderList.length > 0
+              for childOrder in resultOrder.childOrderList
+                resultOrder.status = models.order.constantStatus().canceled
+                childOrder.saveAsync()
+
+            # 撤销优惠码使用
+            if resultOrder.promotionCode
+              models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+
+            # 撤销优惠券使用
+            if resultOrder.coupon
+              models.coupon.revokeUsed(resultOrder.coupon, req.u)
+            console.log(resultOrder.accountUsedDiscount)
+            # 撤销余额使用
+            if resultOrder.accountUsedDiscount > 0
+
+              models.useraccount.findOneAsync({user : resultOrder.user._id.toString()}).then (resultAccount)->
+                if resultAccount
+                  resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
 
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "order", field: "autoIncrementId", startAt: 10000

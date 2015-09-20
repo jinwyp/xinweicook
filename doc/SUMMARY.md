@@ -28,6 +28,8 @@
    * [获取用户账户余额](user/get_account.md)
    * [获取用户账户余额明细](user/get_account_details.md)
    * [用户账户余额在线充值](user/charge_account.md)
+   * [支付状态通知支付宝即时到账](user/charge_account_notify_alipaydirect.md)
+   * [支付状态通知微信](user/charge_account_notify_weixinpay.md)
    * [用户账户余额充值码充值](user/charge_account_code.md)
 * [优惠码与优惠券](coupon/README.md)
    * [获取单一优惠码信息](coupon/get_single_coupon.md)

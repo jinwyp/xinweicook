@@ -64,7 +64,7 @@ module.exports =
 
   methods:
 
-    chargeAccountDetail : (amount, name, remark) ->
+    chargeAccountDetail : (amount, name, remark, chargeType) ->
 
       newAccountDetail =
         chargeType : models.accountdetail.constantChargeType().alipaydirect
@@ -78,6 +78,7 @@ module.exports =
 
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
+      newAccountDetail.chargeType = chargeType if chargeType
 
       models.accountdetail.createAsync(newAccountDetail)
 
@@ -99,6 +100,25 @@ module.exports =
       newAccountDetail.coupon = couponid if couponid
 
       models.accountdetail.createAsync(newAccountDetail)
+      @saveAsync()
+
+    addMoney : (amount, name, remark, orderId) ->
+      @balance = @balance + Number(amount)
+
+      newAccountDetail =
+        user : @user
+        isPlus : true
+        amountXinwei : Number(amount)
+        name :
+          zh : "订单取消返还"
+          en : "Order cancel return"
+
+      newAccountDetail.remark = remark if remark
+      newAccountDetail.name = name if name
+      newAccountDetail.order = orderId if orderId
+
+      models.accountdetail.createAsync(newAccountDetail)
+
       @saveAsync()
 
     reduceMoney : (amount, name, remark, orderId) ->

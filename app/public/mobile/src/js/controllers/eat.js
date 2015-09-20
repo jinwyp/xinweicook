@@ -27,6 +27,10 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
             alert('正在计算配送距离,请稍后重试');
             return
         }
+        if (!$scope.cart.length) {
+            alert('请至少添加一份菜品');
+            return;
+        }
         $timeout(function () {
             location.href = 'cart';// todo: replace with route
         }, 200); // let $localStorage sync. but

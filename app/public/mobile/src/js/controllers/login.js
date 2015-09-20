@@ -9,7 +9,7 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
 
     var pwdErrTimes = 0;
     $scope.login = function (form) {
-        User.login($scope.loginData.username, $scope.loginData.password).then(function (res) {
+        User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(function (res) {
             var redirect = location.search.substring(1).split('=');
             if (redirect.length > 1) {
                 redirect = redirect[1];
@@ -92,6 +92,13 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
 
         User.getUserInfo().then(function (res) {
             // 如果在登录页面获取到用户信息,那么跳转到首页
+
+            // 如果用户已经处于登录状态,并且有couponcode
+            if (couponcode) {
+                $location.path('/login');
+                return;
+            }
+
             setTimeout(function () {
                 location.href = '/mobile/';
             }, 120);

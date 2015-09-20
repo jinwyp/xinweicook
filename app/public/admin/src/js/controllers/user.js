@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', 'Statistic', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -19,10 +19,16 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             skip : 0,
             limit : 1000,
             group : '',
+            lang : '',
             _id : '',
             mobile : '',
-            invitationSendCode : ''
+            invitationSendCode : '',
+            sharedInvitationSendCodeTotalCount : 0,
+            sharedInvitationSendCodeUsedTime : 0
         },
+
+        sharedInvitationSendCodeTotalCountNumber: 0,
+        sharedInvitationSendCodeUsedTimeNumber: 0,
 
         searchSort : {
             sort : '-createdAt'
@@ -50,6 +56,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userAccountDetails : [],
         userCouponList : [],
 
+        userStatisticOfNewComers : {},
+        userStatisticLoyalPurchaseFrequency : {},
+
         userGroupList: [
             {
                 name : 'ALL',
@@ -63,16 +72,48 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 name : '管理员',
                 value : 'admin'
             }
+        ],
+
+        userLanguageList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '中文',
+                value : 'zh'
+            },
+            {
+                name : '英文',
+                value : 'en'
+            }
         ]
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : ''
     };
 
 
 
     $scope.searchUserCount = function (){
+        if ($scope.data.sharedInvitationSendCodeUsedTimeNumber){
+            //console.log (new Date($scope.data.searchDateFrom));
+            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
+        }else{
+            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '';
+        }
+
+
+        if ($scope.data.sharedInvitationSendCodeTotalCountNumber){
+            //console.log (new Date($scope.data.searchDateFrom));
+            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
+        }else{
+            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '';
+        }
+
+
         Util.delProperty($scope.data.searchOptions);
 
         Users.one('count').get($scope.data.searchOptions).then(function (users) {
@@ -130,6 +171,40 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+
+    $scope.showUserStatistic = function () {
+        $scope.css.showTable = 'stat';
+        $scope.searchUserStatisticOfNewComers();
+        $scope.searchUserStatisticLoyalPurchaseFrequency();
+    }
+
+
+
+    $scope.searchUserStatisticOfNewComers = function () {
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticOfNewComers($scope.data.searchOptions).then(function (result) {
+            $scope.data.userStatisticOfNewComers = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+    $scope.searchUserStatisticLoyalPurchaseFrequency = function () {
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions).then(function (result) {
+            $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
 
 
     if ($state.current.data.type === 'list') {
@@ -229,6 +304,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         });
 
     };
+
+
+
+
+
+
 
 }
 

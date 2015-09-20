@@ -20,7 +20,7 @@ configWeiXinAppPay =
 
 weixinpay = WXPay(configWeiXinPay)
 
-alipay = AliPay()
+alipay = AliPay({})
 
 
 
@@ -192,6 +192,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
   .catch (err)->
       logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
+
 
 
 
@@ -592,7 +593,7 @@ exports.addNewOrder = (req, res, next) ->
 
     # 余额已使用后处理
     if isUsedAccountBalance
-      userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, req.body.remark, resultOrder._id.toString())
+      userAccount.reduceMoney(resultOrder.accountUsedDiscount, {zh : "在线消费",en : "Online Pay"}, "", resultOrder._id.toString())
 
 
     # 删除用户购物车商品
@@ -630,6 +631,32 @@ exports.addNewOrder = (req, res, next) ->
     # 记录最后下单时间
     req.u.lastOrderDate = moment()
 
+    # 新味币支付需要扣除库存等操作
+    if resultOrder.totalPrice is 0 and resultOrder.accountUsedDiscount > 0
+
+      # 扣除商品库存
+      dishHistoryIdList = []
+      dishIdList = {}
+      for dish, dishIndex in resultOrder.dishHistory
+        dishHistoryIdList.push(dish.dish._id)
+        dishIdList[dish.dish._id] = dish.number
+
+      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+        if resultDishList
+          for dish, dishIndex in resultDishList
+            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+
+      # 给客服发送新订单短信
+      models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
+
+
+      # 该用户完成支付后可以再次分享邀请码
+      req.u.sharedInvitationSendCodeTotalCount = req.u.sharedInvitationSendCodeTotalCount + 1
+
+      if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
+        req.u.isSharedInvitationSendCode = false
+
+
     req.u.saveAsync().catch (err)->
       logger.error "New Order User Save error", err
 
@@ -647,6 +674,8 @@ exports.addNewOrder = (req, res, next) ->
 
 
     # 生成支付宝签名
+    if req.u.mobile is '15900719671'
+      resultOrder.totalPrice = 0.01
     aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder)
 
     resultTemp = resultOrder.toJSON()
@@ -854,7 +883,11 @@ exports.updateOrder = (req, res, next) ->
           models.coupon.revokeUsed(resultOrder.coupon, req.u)
 
         # 撤销余额使用
+        if resultOrder.accountUsedDiscount > 0
 
+          models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
+            if resultAccount
+              resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
 
     resultOrder.saveAsync()
   .spread (resultOrder, numberAffected) ->
@@ -870,6 +903,16 @@ exports.updateOrder = (req, res, next) ->
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
 #  console.log "========================OrderAlipayNotify :: ", req.body
+  #todo: 服务器body是这个: {"{\"out_trade_no\":\"201509201228272565209\"}": ""} 但本地却是{ "out_trade_no" : "201509201228272565209"}
+  Object.keys(req.body).some (key) ->
+    unless key.indexOf("out_trade_no") is -1
+      unless key is "out_trade_no"
+        try
+          req.body["out_trade_no"] = JSON.parse(key)["out_trade_no"]
+        catch err
+          next err
+      true
+
   models.order.validationAlipayNotify(req.body)
 
   if req.body.trade_status is "TRADE_SUCCESS"

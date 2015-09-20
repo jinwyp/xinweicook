@@ -23,5 +23,11 @@ module.exports = {
     },
     dish: {
         outOfStock: 4110
+    },
+    coupon: {
+        notStart: 5110,
+        expired: 5111,
+        used: 5112,
+        outOfCount: 5113
     }
 };
