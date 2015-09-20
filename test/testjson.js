@@ -201,6 +201,33 @@ var alipay2 = {
 };
 
 
+var alipayNotify = {
+    "payment_type": "1",
+    "subject": "豆豉鸡球",
+    "trade_no": "2015092000001000920075964013",
+    "buyer_email": "jinwyp@163.com",
+    "gmt_create": "2015-09-20 20:36:57",
+    "notify_type": "trade_status_sync",
+    "quantity": "1",
+    "out_trade_no": "201509202035582482449",
+    "seller_id": "2088111042213083",
+    "notify_time": "2015-09-20 20:36:58",
+    "trade_status": "TRADE_FINISHED",
+    "is_total_fee_adjust": "N",
+    "total_fee": "33.00",
+    "gmt_payment": "2015-09-20 20:36:58",
+    "seller_email": "steve.ge@me.com",
+    "gmt_close": "2015-09-20 20:36:58",
+    "price": "33.00",
+    "buyer_id": "2088002021829921",
+    "notify_id": "2267a8196d15c618b172764c1597755974",
+    "use_coupon": "N",
+    "sign_type": "MD5",
+    "sign": "46e60ea75801e1b7fe3a5a8176578d54"
+}
+
+
+
 var weixinpayUnifiedOrderReturn = {
     return_code : 'SUCCESS',
     return_msg  : 'OK',
