@@ -20,7 +20,7 @@ configWeiXinAppPay =
 
 weixinpay = WXPay(configWeiXinPay)
 
-alipay = AliPay()
+alipay = AliPay({})
 
 
 
