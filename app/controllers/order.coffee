@@ -915,7 +915,7 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
 
   models.order.validationAlipayNotify(req.body)
 
-  if req.body.trade_status is "TRADE_SUCCESS"
+  if req.body.trade_status is "TRADE_SUCCESS" or req.body.trade_status is "TRADE_FINISHED"
 
 #    models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
     models.order.findOne({orderNumber : req.body.out_trade_no})
