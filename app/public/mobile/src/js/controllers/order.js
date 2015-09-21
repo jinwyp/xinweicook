@@ -342,7 +342,12 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
             if ($scope.user.couponList) {
                 $scope.user.couponList = $scope.user.couponList.filter(function (el) {
                     return !el.isUsed;
-                })
+                });
+                if ($scope.user.couponList.length) {
+                    $scope.coupon.code2 = $scope.user.couponList.sort(function (a, b) {
+                        return b.price - a.price;
+                    })[0];
+                }
             }
             //$scope.address.mobile = $scope.user.mobile;
             //$scope.address.contactPerson = $scope.user.username;
