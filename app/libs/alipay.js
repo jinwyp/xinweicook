@@ -194,7 +194,7 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
         notify_url : this.config.notify_url,
         return_url : this.config.mobile_return_url,
 
-        out_trade_no : order.orderNumber,
+        out_trade_no : order._id.toString(),
         subject : order.dishHistory[0].dish.title.zh,
         total_fee : order.totalPrice,
         seller_id : this.config.partner,
