@@ -23,10 +23,6 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
     //}
 
     $scope.goToCart = function () {
-        if (typeof $scope.isInRange == 'undefined') {
-            alert('正在计算配送距离,请稍后重试');
-            return
-        }
         if (!$scope.cart.length) {
             alert('请至少添加一份菜品');
             return;
@@ -36,22 +32,22 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         }, 200); // let $localStorage sync. but
     };
 
-    $scope.chooseAddress = function (addr) {
-        $scope.address = addr;
-        $localStorage.address = addr;
-
-        delete $scope.isInRange;
-        delete $localStorage.isInRange4KM;
-
-        Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (data) {
-            $scope.isInRange = $localStorage.isInRange4KM = !!data.isInRange;
-            $localStorage.distance = data.distance;
-
-            Debug.alert('与xw的步行距离:' + data.distance);
-        });
-
-        $scope.css.showAllAddress = false;
-    };
+    //$scope.chooseAddress = function (addr) {
+    //    $scope.address = addr;
+    //    $localStorage.address = addr;
+    //
+    //    delete $scope.isInRange;
+    //    delete $localStorage.isInRange4KM;
+    //
+    //    Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (data) {
+    //        $scope.isInRange = $localStorage.isInRange4KM = !!data.isInRange;
+    //        $localStorage.distance = data.distance;
+    //
+    //        Debug.alert('与xw的步行距离:' + data.distance);
+    //    });
+    //
+    //    $scope.css.showAllAddress = false;
+    //};
 
     $scope.likeDish = function (dish) {
         Dishes.like(dish._id).then(function (res) {

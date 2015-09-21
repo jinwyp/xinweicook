@@ -9,7 +9,7 @@
     <title ng-bind="path == '/eat' ? '新味便当' : '新味食材包'"></title>
     <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
-<body class="no-filter">
+<body class="menu-body">
 
 <!--<nav class="eat-nav nav">-->
     <!--<a href="#/eat"><span ng-class="{active: path == '/eat'}">便当</span></a>-->
@@ -50,34 +50,19 @@
 
 <add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
-<div class="address-wrapper" ng-cloak>
-    <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
-    <div class="address-group">
-        <div class="eat-address">
-            <span class="address-icon icon"></span>
-            <div class="address-content" ng-click="css.showAllAddress=true">
-                <div class="address-title">送至地址:</div>
-                <div class="address-detail" ng-if="address">
-                    {{address.city + address.district + address.street + address.address}}
-                </div>
-                <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
-                <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
-            </div>
-            <div class="cart" ng-click="goToCart()">
-                <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
-            </div>
+<nav class="menu-nav">
+    <div class=""><span>帐号</span></div>
+    <div class=""><span>便当</span></div>
+    <div class="active"><span>食材包</span></div>
+
+    <div class="go-to-cart" ng-click="goToCart()">
+        <div class="icon bag-icon">
+            <i class="number">{{cart.length}}</i>
         </div>
-        <ul class="address-list" ng-if="css.showAllAddress">
-            <li ng-click="chooseAddress(addr)" ng-repeat="addr in allAddresses | limitTo: 3" ng-class="{active: address == addr}">
-                {{addr.city + addr.district + addr.street + addr.address}}
-            </li>
-        </ul>
-        <div class="address-button-wrapper" ng-if="css.showAllAddress">
-            <span style="display:none;">新建地址</span>
-            <a href="addresslist"><span>管理地址</span></a>
-        </div>
+        <span>{{cart.price || 0}}</span>
     </div>
-</div>
+</nav>
+
 </body>
 
 <script src="/components/angular/angular.min.js?v=11"></script>

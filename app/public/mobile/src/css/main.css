@@ -1,75 +1,74 @@
 @charset "UTF-8";
-/* line 152, icons/*.png */
-.icons-sprite {
-  background-image: url('../img/icons-s34c97195b6.png');
-  background-repeat: no-repeat;
-}
-
-/* line 22, ../sass/_base.scss */
+/* line 21, ../sass/_base.scss */
 html {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 26, ../sass/_base.scss */
+/* line 25, ../sass/_base.scss */
 body {
   background-color: #f1f1f1;
   color: #4b4b4c;
 }
 
-/* line 32, ../sass/_base.scss */
+/* line 31, ../sass/_base.scss */
 a:link, a:visited, a:focus, a:hover, a:active {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 38, ../sass/_base.scss */
+/* line 37, ../sass/_base.scss */
 ul, li {
   list-style: none;
   padding: 0;
 }
 
-/* line 43, ../sass/_base.scss */
+/* line 42, ../sass/_base.scss */
 input, textarea, select, option {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-/* line 49, ../sass/_base.scss */
+/* line 48, ../sass/_base.scss */
+i {
+  font-style: normal;
+}
+
+/* line 52, ../sass/_base.scss */
 ::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 52, ../sass/_base.scss */
+/* line 55, ../sass/_base.scss */
 :-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 55, ../sass/_base.scss */
+/* line 58, ../sass/_base.scss */
 ::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
 }
 
-/* line 59, ../sass/_base.scss */
+/* line 62, ../sass/_base.scss */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 67, ../sass/_base.scss */
+/* line 70, ../sass/_base.scss */
 .form-horizontal .control-label {
   padding-top: 7px;
   margin-bottom: 0;
   text-align: left;
 }
 
-/* line 73, ../sass/_base.scss */
+/* line 76, ../sass/_base.scss */
 label {
   font-weight: 400;
 }
 
-/* line 128, ../sass/_base.scss */
+/* line 131, ../sass/_base.scss */
 .nav {
   background-color: white;
   text-align: center;
@@ -78,18 +77,18 @@ label {
   position: relative;
   box-shadow: #DEDEDE 0 0 1px;
 }
-/* line 136, ../sass/_base.scss */
+/* line 139, ../sass/_base.scss */
 .nav span {
   border-bottom: solid 1px transparent;
   padding: 0 15px 11px;
 }
-/* line 144, ../sass/_base.scss */
+/* line 147, ../sass/_base.scss */
 .nav span.active {
   color: #f44d4d;
   border-color: #f44d4d;
 }
 
-/* line 151, ../sass/_base.scss */
+/* line 154, ../sass/_base.scss */
 .back-icon {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s60d990717e.png');
@@ -105,7 +104,7 @@ label {
   top: 12px;
 }
 
-/* line 158, ../sass/_base.scss */
+/* line 161, ../sass/_base.scss */
 .like-icon {
   width: 30px;
   display: block;
@@ -113,12 +112,12 @@ label {
   background: url(../img/icons/LikeIcon.png) 50% no-repeat;
   background-size: contain;
 }
-/* line 164, ../sass/_base.scss */
+/* line 167, ../sass/_base.scss */
 .like-icon.like {
   background-image: url(../img/icons/LikeIconHighlighted.png);
 }
 
-/* line 169, ../sass/_base.scss */
+/* line 172, ../sass/_base.scss */
 .form-line {
   margin: 0 5px 0 12px;
   border-bottom: 1px solid #bcbcbc;
@@ -126,29 +125,35 @@ label {
   opacity: 0.5;
 }
 
-/* line 176, ../sass/_base.scss */
+/* line 179, ../sass/_base.scss */
 .plus-char::before {
   content: 'X';
 }
 
-/* line 180, ../sass/_base.scss */
+/* line 183, ../sass/_base.scss */
 .rmb-char::before {
   content: "¥ ";
 }
 
-/* line 183, ../sass/_base.scss */
+/* line 186, ../sass/_base.scss */
 .rmb-char.negative::before {
   content: "- ¥ ";
 }
 
-/* line 187, ../sass/_base.scss */
+/* line 190, ../sass/_base.scss */
 .no-padding-left {
   padding-left: 0;
 }
 
-/* line 195, ../sass/_base.scss */
+/* line 198, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
+}
+
+/* line 152, icons/*.png */
+.icons-sprite {
+  background-image: url('../img/icons-s34c97195b6.png');
+  background-repeat: no-repeat;
 }
 
 /***** login *****/
@@ -222,16 +227,21 @@ label {
 .img-group img {
   width: 100%;
   min-height: 202px;
-  height: 63.33vw;
+  height: 66.66vw;
 }
 
 /* line 16, ../sass/_eat.scss */
+.menu-body {
+  background-color: white;
+}
+
+/* line 20, ../sass/_eat.scss */
 .eat-nav {
   margin-bottom: 10px;
   font-size: 18px;
   color: #C1BEBE;
 }
-/* line 20, ../sass/_eat.scss */
+/* line 24, ../sass/_eat.scss */
 .eat-nav .profile-icon {
   background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
   height: 46px;
@@ -240,48 +250,46 @@ label {
   background-size: contain;
   right: 0;
 }
-/* line 28, ../sass/_eat.scss */
+/* line 32, ../sass/_eat.scss */
 .eat-nav span {
   border-bottom: solid 1px transparent;
   padding: 0 15px 11px;
 }
-/* line 32, ../sass/_eat.scss */
+/* line 36, ../sass/_eat.scss */
 .eat-nav span:nth-child(2) {
   margin-right: 38px;
 }
-/* line 36, ../sass/_eat.scss */
+/* line 40, ../sass/_eat.scss */
 .eat-nav span.active {
   color: #f44d4d;
   border-color: #f44d4d;
 }
 
-/* line 42, ../sass/_eat.scss */
+/* line 46, ../sass/_eat.scss */
 .no-filter .count-operation {
   background-color: rgba(54, 55, 55, 0.78);
 }
 
-/* line 45, ../sass/_eat.scss */
+/* line 49, ../sass/_eat.scss */
 .food-list {
-  width: 95%;
   margin: 0 auto;
 }
-/* line 49, ../sass/_eat.scss */
+/* line 52, ../sass/_eat.scss */
 .food-list li {
   background-color: white;
   margin-bottom: 17px;
-  box-shadow: #DEDEDE 0 1px 1px;
 }
-/* line 53, ../sass/_eat.scss */
+/* line 55, ../sass/_eat.scss */
 .food-list li:last-child {
   margin-bottom: 60px;
 }
-/* line 57, ../sass/_eat.scss */
+/* line 59, ../sass/_eat.scss */
 .food-list .img-group {
   background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
   position: relative;
   overflow: hidden;
 }
-/* line 61, ../sass/_eat.scss */
+/* line 63, ../sass/_eat.scss */
 .food-list .img-group .count-operation {
   font-size: 0;
   font-weight: 100;
@@ -291,7 +299,7 @@ label {
   width: 100%;
   color: white;
 }
-/* line 69, ../sass/_eat.scss */
+/* line 71, ../sass/_eat.scss */
 .food-list .img-group .count-operation > div {
   height: 100%;
   display: inline-block;
@@ -299,7 +307,7 @@ label {
   font-size: 50px;
   position: relative;
 }
-/* line 75, ../sass/_eat.scss */
+/* line 77, ../sass/_eat.scss */
 .food-list .img-group .count-operation > div .vertical-center {
   font-weight: 100;
   left: 0;
@@ -311,39 +319,39 @@ label {
   top: 0;
   bottom: 0;
 }
-/* line 87, ../sass/_eat.scss */
+/* line 89, ../sass/_eat.scss */
 .food-list .img-group .count-operation .subtract {
   width: 20%;
 }
-/* line 90, ../sass/_eat.scss */
+/* line 92, ../sass/_eat.scss */
 .food-list .img-group .count-operation .count {
   width: 60%;
 }
-/* line 93, ../sass/_eat.scss */
+/* line 95, ../sass/_eat.scss */
 .food-list .img-group .count-operation .add {
   width: 20%;
 }
-/* line 98, ../sass/_eat.scss */
+/* line 100, ../sass/_eat.scss */
 .food-list .img-group.blur img {
   /*    -webkit-filter: blur(10px);
       -moz-filter: blur(10px);
       filter: blur(10px);*/
 }
-/* line 103, ../sass/_eat.scss */
+/* line 105, ../sass/_eat.scss */
 .food-list .detail {
   padding: 0 10px 10px;
   position: relative;
 }
-/* line 106, ../sass/_eat.scss */
+/* line 108, ../sass/_eat.scss */
 .food-list .detail .title {
   margin: 12px 0 16px;
   font-size: 18px;
 }
-/* line 111, ../sass/_eat.scss */
+/* line 113, ../sass/_eat.scss */
 .food-list .detail .user-actions .like-icon {
   margin-top: 7px;
 }
-/* line 115, ../sass/_eat.scss */
+/* line 117, ../sass/_eat.scss */
 .food-list .detail .buy {
   line-height: 30px;
   height: 30px;
@@ -354,26 +362,26 @@ label {
   font-size: 0;
   box-shadow: #C3C0C0 0 1px 1px;
 }
-/* line 124, ../sass/_eat.scss */
+/* line 126, ../sass/_eat.scss */
 .food-list .detail .buy .price {
   background-color: #ede2d0;
   font-size: 18px;
 }
-/* line 127, ../sass/_eat.scss */
+/* line 129, ../sass/_eat.scss */
 .food-list .detail .buy .price::before {
   content: "¥ ";
 }
-/* line 131, ../sass/_eat.scss */
+/* line 133, ../sass/_eat.scss */
 .food-list .detail .buy .button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 135, ../sass/_eat.scss */
+/* line 137, ../sass/_eat.scss */
 .food-list .detail .buy .button.out-of-stock {
   background-color: #75A3B7;
 }
-/* line 139, ../sass/_eat.scss */
+/* line 141, ../sass/_eat.scss */
 .food-list .detail .buy span {
   height: 30px;
   text-align: center;
@@ -381,7 +389,7 @@ label {
   display: inline-block;
 }
 
-/* line 151, ../sass/_eat.scss */
+/* line 153, ../sass/_eat.scss */
 .selection-cover {
   background-color: rgba(88, 88, 88, 0.48);
   top: 0;
@@ -391,7 +399,7 @@ label {
 }
 
 /** 多属性选择面板 **/
-/* line 165, ../sass/_eat.scss */
+/* line 167, ../sass/_eat.scss */
 .selections-container {
   position: fixed;
   bottom: 0;
@@ -400,11 +408,11 @@ label {
   z-index: 10;
   box-shadow: #9C9999 0 0 1px;
 }
-/* line 173, ../sass/_eat.scss */
+/* line 175, ../sass/_eat.scss */
 .selections-container h4, .selections-container h5 {
   font-weight: 100;
 }
-/* line 177, ../sass/_eat.scss */
+/* line 179, ../sass/_eat.scss */
 .selections-container h4 {
   position: relative;
   margin: 0;
@@ -412,7 +420,7 @@ label {
   line-height: 64px;
   font-weight: 100;
 }
-/* line 185, ../sass/_eat.scss */
+/* line 187, ../sass/_eat.scss */
 .selections-container .close-button {
   background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
   width: 1.1em;
@@ -422,26 +430,26 @@ label {
   opacity: 0.5;
   top: 0;
 }
-/* line 195, ../sass/_eat.scss */
+/* line 197, ../sass/_eat.scss */
 .selections-container .properties {
   margin-bottom: 0;
 }
-/* line 197, ../sass/_eat.scss */
+/* line 199, ../sass/_eat.scss */
 .selections-container .properties > li {
   border-top: 1px solid #DEDEDE;
   padding-left: 15px;
   padding-bottom: 14px;
 }
-/* line 204, ../sass/_eat.scss */
+/* line 206, ../sass/_eat.scss */
 .selections-container .properties > li h5 {
   font-size: 15px;
   padding: 8px 0;
 }
-/* line 211, ../sass/_eat.scss */
+/* line 213, ../sass/_eat.scss */
 .selections-container .selections {
   font-size: 16px;
 }
-/* line 213, ../sass/_eat.scss */
+/* line 215, ../sass/_eat.scss */
 .selections-container .selections li {
   color: #f44d4d;
   display: inline-block;
@@ -452,33 +460,33 @@ label {
   border-radius: 6px;
   margin-bottom: 8px;
 }
-/* line 222, ../sass/_eat.scss */
+/* line 224, ../sass/_eat.scss */
 .selections-container .selections li:not(:last-child) {
   margin-right: 0.7em;
 }
-/* line 225, ../sass/_eat.scss */
+/* line 227, ../sass/_eat.scss */
 .selections-container .selections li.selected {
   color: white;
   background-color: #f44d4d;
 }
-/* line 229, ../sass/_eat.scss */
+/* line 231, ../sass/_eat.scss */
 .selections-container .selections li.no-stock {
   color: #CCCCCC;
   border-color: #CCCCCC;
 }
-/* line 236, ../sass/_eat.scss */
+/* line 238, ../sass/_eat.scss */
 .selections-container .counter-wrapper {
   border-top: 1px solid #DEDEDE;
   padding: 13px 0 15px 15px;
   position: relative;
 }
-/* line 240, ../sass/_eat.scss */
+/* line 242, ../sass/_eat.scss */
 .selections-container .counter-wrapper i {
   line-height: 34px;
   font-style: normal;
   font-size: 15px;
 }
-/* line 245, ../sass/_eat.scss */
+/* line 247, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter {
   display: inline-block;
   position: absolute;
@@ -490,21 +498,21 @@ label {
   font-size: 0;
   color: #f44d4d;
 }
-/* line 255, ../sass/_eat.scss */
+/* line 257, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span {
   display: inline-block;
   width: 40px;
   font-size: 18px;
 }
-/* line 260, ../sass/_eat.scss */
+/* line 262, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter span:not(:last-child) {
   border-right: 1px solid #DEDEDE;
 }
-/* line 263, ../sass/_eat.scss */
+/* line 265, ../sass/_eat.scss */
 .selections-container .counter-wrapper .counter .number {
   width: 60px;
 }
-/* line 269, ../sass/_eat.scss */
+/* line 271, ../sass/_eat.scss */
 .selections-container .add-to-cart-button {
   position: relative;
   height: 53px;
@@ -514,148 +522,83 @@ label {
   background-color: #f44d4d;
   color: white;
 }
-/* line 277, ../sass/_eat.scss */
+/* line 279, ../sass/_eat.scss */
 .selections-container .add-to-cart-button .rmb-char {
   position: absolute;
   left: 15px;
 }
-/* line 281, ../sass/_eat.scss */
+/* line 283, ../sass/_eat.scss */
 .selections-container .add-to-cart-button.invalid {
   background-color: #C7C7C7;
 }
 
-/* line 289, ../sass/_eat.scss */
-.address-cover {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  background-color: rgba(206, 208, 165, 0.7);
-}
-
-/* line 297, ../sass/_eat.scss */
-.eat-address {
-  background-color: rgba(232, 232, 232, 0.7);
-  box-shadow: #9C9999 0 0 1px;
-  position: relative;
-  height: 53px;
-  width: 100%;
-  position: relative;
-  padding: 9px 0 9px 40px;
-}
-/* line 87, ../sass/_base.scss */
-.eat-address .cart {
-  background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
-  background-size: 48%;
-  position: absolute;
-  top: 16px;
-  right: -10px;
-  left: auto;
-  width: 48px;
-  height: 40px;
-}
-/* line 96, ../sass/_base.scss */
-.eat-address .cart .total-count {
-  font-size: 10px;
-  text-align: center;
-  color: white;
-  position: absolute;
-  left: 17px;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  top: -4px;
-  background: red;
-  border-radius: 50%;
-}
-/* line 302, ../sass/_eat.scss */
-.eat-address .address-icon {
-  position: absolute;
-  height: 40px;
-  width: 35px;
-  left: 12px;
-  bottom: -2px;
-  background: url(../img/icons/LocationPinIcon.png) no-repeat;
-  background-size: 48%;
-}
-/* line 312, ../sass/_eat.scss */
-.eat-address .address-content .address-title {
-  font-size: 10px;
-}
-/* line 315, ../sass/_eat.scss */
-.eat-address .address-content .address-detail {
-  font-size: 13px;
-}
-
-/* line 321, ../sass/_eat.scss */
-.address-group {
-  background-color: rgba(241, 241, 241, 0.78);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-/* line 326, ../sass/_eat.scss */
-.address-group .address-list {
-  font-size: 13px;
-  padding: 0 7px;
-  margin-bottom: 0;
-}
-/* line 330, ../sass/_eat.scss */
-.address-group .address-list li {
-  background-color: white;
-  margin-top: 6px;
-  padding: 17px 20px;
-}
-/* line 334, ../sass/_eat.scss */
-.address-group .address-list li.active {
-  border-left: #f44d4d 4px solid;
-  padding-left: 16px;
-}
-/* line 340, ../sass/_eat.scss */
-.address-group .address-button-wrapper {
-  text-align: center;
-  padding: 20px 26px;
-}
-/* line 343, ../sass/_eat.scss */
-.address-group .address-button-wrapper span {
-  border-radius: 3px;
-  background-color: #8C8C8C;
-  color: white;
-  padding: 10px 33px;
-}
-/* line 349, ../sass/_eat.scss */
-.address-group .address-button-wrapper > span {
-  margin-right: 42px;
-}
-
 @media (max-width: 414px) {
-  /* line 356, ../sass/_eat.scss */
+  /* line 290, ../sass/_eat.scss */
   .detail .title {
     max-width: 262px;
   }
 }
 @media (max-width: 375px) {
-  /* line 362, ../sass/_eat.scss */
+  /* line 296, ../sass/_eat.scss */
   .detail .title {
     max-width: 218px;
   }
 
-  /* line 365, ../sass/_eat.scss */
+  /* line 299, ../sass/_eat.scss */
   .selections-container .block h4 {
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  /* line 371, ../sass/_eat.scss */
+  /* line 305, ../sass/_eat.scss */
   .detail .title {
     max-width: 163px;
   }
 
-  /* line 374, ../sass/_eat.scss */
+  /* line 308, ../sass/_eat.scss */
   .selections-container .block h4 {
     font-size: 14px;
   }
 }
+/* line 314, ../sass/_eat.scss */
+.menu-nav {
+  font-size: 16px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  font-weight: 100;
+  background-color: #262626;
+  height: 52px;
+  line-height: 52px;
+}
+/* line 325, ../sass/_eat.scss */
+.menu-nav > div {
+  display: inline-block;
+  text-align: center;
+  width: 21%;
+}
+/* line 329, ../sass/_eat.scss */
+.menu-nav > div.active {
+  font-weight: 900;
+}
+/* line 331, ../sass/_eat.scss */
+.menu-nav > div.active span {
+  border-top: 7px solid;
+  padding: 9px 7px;
+}
+/* line 338, ../sass/_eat.scss */
+.menu-nav .go-to-cart {
+  position: absolute;
+  right: 0;
+  width: 100px;
+  background-color: #f44d4d;
+}
+/* line 341, ../sass/_eat.scss */
+.menu-nav .go-to-cart .bag-icon {
+  position: absolute;
+}
+
 /* line 3, ../sass/_order.scss */
 .form-block {
   padding: 3px 15px 3px 12px;
@@ -1238,7 +1181,7 @@ label {
   bottom: 0;
   margin: 0;
 }
-/* line 87, ../sass/_base.scss */
+/* line 90, ../sass/_base.scss */
 .cook-footer .cart {
   background: url(../img/icons/ToolbarCartIcon.png) no-repeat;
   background-size: 48%;
@@ -1249,7 +1192,7 @@ label {
   width: 48px;
   height: 40px;
 }
-/* line 96, ../sass/_base.scss */
+/* line 99, ../sass/_base.scss */
 .cook-footer .cart .total-count {
   font-size: 10px;
   text-align: center;

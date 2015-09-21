@@ -11,6 +11,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                 if (user) {
                     unwatcher();
                     $scope.cart = user.shoppingCart;
+                    $scope.totalPrice();
                 }
             });
 
@@ -101,7 +102,9 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                             }
                         })
                     }
-                }))
+                }));
+
+                $scope.totalPrice();
             };
 
             $scope.totalPrice = function () {
@@ -112,6 +115,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                     }
                     return total;
                 }, 0);
+                $scope.cart.price = p;
                 if (!$scope.dish) return p;
                 return p + $scope.dish.count *
                     ($scope.dish.priceOriginal +

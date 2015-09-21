@@ -1,5 +1,4 @@
 @import "compass/utilities/sprites";
-@import "icons/*.png";
 @import "compass/css3";
 
 // variables
@@ -44,6 +43,10 @@ input, textarea, select, option {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+i {
+  font-style: normal;
 }
 
 ::-moz-placeholder {
