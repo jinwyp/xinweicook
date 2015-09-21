@@ -94,7 +94,6 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
         }).then(function (res) {
             $scope.order = res.data;
             var wxInfo = res.data.paymentWeixinpay.mobileSign;
-            alert(JSON.stringify(wxInfo));
             // todo: weixin h5 pay https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
             function onBridgeReady() {
                 WeixinJSBridge.invoke(
