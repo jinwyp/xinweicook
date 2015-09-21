@@ -397,6 +397,7 @@ exports.chargeAccount = (req, res, next) ->
 
             resultTemp = resultAccountDetail.toJSON()
             resultTemp.weixinPayUnifiedOrder = resultPaymentDetail
+            resultTemp.wxPay_nativeSign = weixinpayNativeSign
 
             res.json resultTemp
 
