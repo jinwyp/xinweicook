@@ -134,6 +134,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                 return valid;
             },
 
+            '无效电话号码': function () {
+                return /^\d{11}$/.test($scope.address.mobile || '')
+            },
+
             '联系人姓名不能少于2个字符': function () {
                 return !$scope.address.contactPerson || $scope.address.contactPerson.length >= 2
             },
@@ -315,9 +319,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
             isInRange4KM: $localStorage.isInRange4KM || false
         }).then(function (res) {
             $scope.eatTime = res.data;
-            // todo: 暂时去掉默认时间,
-            // 见https://worktile.com/share/tasks/8927b6f28d704b8ca29017396f7dd529
-            //$scope.eatTime.selectTime = res.data[0];
+            $scope.eatTime.selectTime = res.data[0];
         });
 
         $scope.dishList.cookList.length && Orders.deliveryTime({
@@ -351,7 +353,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                     })[0];
                 }
             }
-            //$scope.address.mobile = $scope.user.mobile;
+            $scope.address.mobile = $scope.address.mobile || $scope.user.mobile;
             //$scope.address.contactPerson = $scope.user.username;
         })
     }
