@@ -179,6 +179,7 @@ exports.userInfo = (req, res, next) ->
 exports.getUserMessages = (req, res, next) ->
 
   models.message.find({user:req.u._id})
+  .sort("-createdAt")
   .execAsync()
   .then (resultMessages) ->
     res.json resultMessages
@@ -282,7 +283,7 @@ exports.userAccountDetail = (req, res, next) ->
     { user : req.u._id.toString(), isPlus:true, chargeType: models.accountdetail.constantChargeType().chargecode },
     { user : req.u._id.toString(), isPaid:false, isPlus:false }
   ] })
-  .sort "-createdAt"
+  .sort("-createdAt")
   .skip(req.query.skip)
   .limit(req.query.skip)
   .execAsync()
