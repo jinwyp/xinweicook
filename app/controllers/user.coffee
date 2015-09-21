@@ -415,6 +415,7 @@ exports.chargeAccount = (req, res, next) ->
       alipayOrder =
         totalPrice : resultAccountDetail.amount
         orderNumber : resultAccountDetail._id.toString()
+        _id : resultAccountDetail._id
         dishHistory : []
 
       alipayOrder.dishHistory.push(subject)
