@@ -314,7 +314,7 @@ exports.chargeAccount = (req, res, next) ->
     if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
       # 微信支付生成统一订单
 
-      if req.body.trade_type is "NATIVE"
+      if req.body.trade_type is "APP"
         weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
