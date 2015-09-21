@@ -22,7 +22,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
             }
         }
 
-        if (orderId = 'CHARGEBALANCE') {
+        if (orderId == 'CHARGEBALANCE') {
             if ($localStorage.wxInfo) {
                 var wxInfo = $localStorage.wxInfo;
                 delete $localStorage.wxInfo;
