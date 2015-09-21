@@ -415,11 +415,12 @@ exports.chargeAccount = (req, res, next) ->
       alipayOrder =
         totalPrice : resultAccountDetail.amount
         orderNumber : resultAccountDetail._id.toString()
+        _id : resultAccountDetail._id
         dishHistory : []
 
       alipayOrder.dishHistory.push(subject)
 
-      if req.u.mobile is '15900719671'
+      if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         alipayOrder.totalPrice = 0.01
 
       aliPaySign = alipay.generateWapCreateDirectPayUrl(alipayOrder)
