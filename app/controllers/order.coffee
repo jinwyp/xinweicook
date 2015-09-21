@@ -583,11 +583,11 @@ exports.addNewOrder = (req, res, next) ->
 
 
     # 优惠码已使用后处理
-    if req.body.promotionCode
+    if req.body.promotionCode and resultOrder.promotionDiscount > 0
       promotionCode.used(req.u)
 
     # 优惠券已使用后处理
-    if req.body.coupon
+    if req.body.coupon and resultOrder.couponDiscount > 0
       coupon.used(req.u)
 
 

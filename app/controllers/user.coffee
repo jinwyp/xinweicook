@@ -278,6 +278,7 @@ exports.userAccountDetail = (req, res, next) ->
 
   models.accountdetail.find({ $or: [
     { user : req.u._id.toString(), isPaid:true, isPlus:true, chargeType: models.accountdetail.constantChargeType().alipaydirect },
+    { user : req.u._id.toString(), isPaid:true, isPlus:true, chargeType: models.accountdetail.constantChargeType().weixinpay },
     { user : req.u._id.toString(), isPlus:true, chargeType: models.accountdetail.constantChargeType().chargecode },
     { user : req.u._id.toString(), isPaid:false, isPlus:false }
   ] })
@@ -313,13 +314,13 @@ exports.chargeAccount = (req, res, next) ->
     if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
       # 微信支付生成统一订单
 
-      if req.body.trade_type is "NATIVE"
+      if req.body.trade_type is "APP"
         weixinpay = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultAccountDetail._id.toString()
         total_fee: Math.ceil(resultAccountDetail.amount * 100)
-        spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+        spbill_create_ip: req.ip  # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         notify_url: "http://m.xinweicook.com/mobile/wxpay/notifyaccountdetail"
         trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
@@ -329,13 +330,15 @@ exports.chargeAccount = (req, res, next) ->
         body:  resultAccountDetail.name.zh
         detail:  resultAccountDetail.name.zh
 
-#        attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-#        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+        attach: resultAccountDetail._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+        goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 
-      if req.u.weixinId and req.u.weixinId.openid and req.body.trade_type is "JSAPI"
-        weixinpayOrder.openid = req.u.weixinId.openid
-      else
-        throw new Err "Field validation error,  need weixin pay user open id for charge account", 400
+
+      if req.body.trade_type is "JSAPI"
+        if req.u.weixinId and req.u.weixinId.openid
+          weixinpayOrder.openid = req.u.weixinId.openid
+        else
+          throw new Err "Field validation error,  need weixin pay user open id for charge account", 400
 
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         weixinpayOrder.total_fee = 1

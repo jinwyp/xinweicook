@@ -152,6 +152,21 @@ exports.addNewCouponBatch = (req, res, next) ->
   .catch next
 
 
+
+exports.modifyCouponStartDate = (req, res, next) ->
+
+  models.coupon.findAsync({"name.en" : "TLC Gift Card"}).then (resultCoupon) ->
+    if resultCoupon.length > 0
+      length = resultCoupon.length - 1
+      for i in [0..length]
+        console.log(resultCoupon[i])
+        resultCoupon[i].startDate = moment()
+        resultCoupon[i].saveAsync()
+
+    res.send resultCoupon
+
+
+
 exports.assignCouponToUser = (req, res, next) ->
 
   dataUser = {}

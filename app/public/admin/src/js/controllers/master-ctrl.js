@@ -88,6 +88,11 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
         $http.get('/api/administrator/initremovesetting');
     };
 
+
+    $scope.changeCouponStartDate = function () {
+        $http.post('/api/administrator/coupons/date');
+    };
+
     $scope.addcoupons = function () {
         $http.post('/api/administrator/coupons').then(function(result){
             console.log (result.data);
