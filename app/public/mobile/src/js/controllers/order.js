@@ -153,7 +153,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                 return true;
             },
 
-            '获取配送时间失败,请稍后重试': function () {
+            '请选择配送时间': function () {
                 try {
                     if ($scope.eatTime) {
                         var time = $scope.eatTime.selectTime.hour;
@@ -315,7 +315,9 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
             isInRange4KM: $localStorage.isInRange4KM || false
         }).then(function (res) {
             $scope.eatTime = res.data;
-            $scope.eatTime.selectTime = res.data[0];
+            // todo: 暂时去掉默认时间,
+            // 见https://worktile.com/share/tasks/8927b6f28d704b8ca29017396f7dd529
+            //$scope.eatTime.selectTime = res.data[0];
         });
 
         $scope.dishList.cookList.length && Orders.deliveryTime({
