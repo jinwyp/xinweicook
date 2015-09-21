@@ -278,6 +278,7 @@ exports.userAccountDetail = (req, res, next) ->
 
   models.accountdetail.find({ $or: [
     { user : req.u._id.toString(), isPaid:true, isPlus:true, chargeType: models.accountdetail.constantChargeType().alipaydirect },
+    { user : req.u._id.toString(), isPaid:true, isPlus:true, chargeType: models.accountdetail.constantChargeType().weixinpay },
     { user : req.u._id.toString(), isPlus:true, chargeType: models.accountdetail.constantChargeType().chargecode },
     { user : req.u._id.toString(), isPaid:false, isPlus:false }
   ] })
