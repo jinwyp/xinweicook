@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope, Alipay, Debug, Orders) {
+angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope, Alipay, Debug, Orders, $localStorage) {
 
     init();
 
@@ -19,12 +19,13 @@ angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope
             var orderId = $scope.searches['out_trade_no'];
 
 
-            if (orderId.length == 24) {
+            if (!$localStorage.alipayOrder) {
                 //充值
                 setTimeout(function () {
                     location.href = '/mobile/balance';
                 }, 2500);
             } else {
+                delete $localStorage.alipayOrder;
                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function () {
                     Debug.alert('更新订单状态成功');
                     setTimeout(function () {

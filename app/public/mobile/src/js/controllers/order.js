@@ -221,7 +221,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                     var selector = '#weixinPay';
                     if (!$scope.isWeixin) {
                         selector = '#alipayPay';
-                        document.querySelector(selector).click();
+                        $localStorage.alipayOrder = true;
+                        setTimeout(function () {
+                            document.querySelector(selector).click();
+                        }, 200)
                         return;
                     }
                     location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
