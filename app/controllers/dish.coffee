@@ -69,7 +69,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
 
     resultDish.saveAsync()
   .spread (resultDish2, numberAffected) ->
-    resultDish2.populateAsync("statisticLikeUserList", models.user.fieldsLess())
+    models.dish.find1({_id: resultDish2._id})
   .then (resultDish3) ->
     res.json resultDish3
   .catch next
