@@ -64,7 +64,7 @@
                     <label for="inputCouponPrice" class="col-lg-2 control-label" >优惠金额</label>
 
                     <div class="col-lg-8">
-                        <input type="number" class="form-control" id="inputCouponPrice" placeholder="优惠金额 元" name="couponPrice" ng-model="data.coupon.price" required min="0" max="200">
+                        <input type="number" class="form-control" id="inputCouponPrice" placeholder="优惠金额 元" name="couponPrice" ng-model="data.coupon.price" required min="0" max="10000">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="couponForm.couponPrice.$dirty&&couponForm.couponPrice.$invalid"></span>
                     </div>
