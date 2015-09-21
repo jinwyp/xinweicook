@@ -207,6 +207,10 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                 $scope.wxstate = res.data._id;
                 $scope.alipayLink = res.data.aliPaySign.fullurl;
 
+                if (!$scope.isWeixin) {
+                    $localStorage.alipayOrder = true;
+                }
+
                 setTimeout(function () {
                     //var weixinId = $scope.user.weixinId;
                     //if (weixinId && weixinId.openid) {
@@ -221,10 +225,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
                     var selector = '#weixinPay';
                     if (!$scope.isWeixin) {
                         selector = '#alipayPay';
-                        $localStorage.alipayOrder = true;
-                        setTimeout(function () {
-                            document.querySelector(selector).click();
-                        }, 200)
+                        document.querySelector(selector).click();
                         return;
                     }
                     location.href = '/api/orders/payment/weixinpay/oauthcode?orderid=' + $scope.wxstate;
