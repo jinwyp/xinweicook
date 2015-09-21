@@ -305,6 +305,9 @@ module.exports =
         models.user.findOneAsync({_id:user.invitationFromUser}).then (fromUser) ->
 
           if fromUser
+
+            fromUser.invitedUserNumberHaveOrder = fromUser.invitedUserNumberHaveOrder + 1
+
             newCoupon =
               name :
                 zh : "邀请的好友首次下单返利优惠券"
@@ -314,8 +317,26 @@ module.exports =
               usedTime : 1
               user : fromUser._id.toString()
 
-            models.coupon.createAsync(newCoupon).then (resultCoupon)->
-              fromUser.couponList.push(resultCoupon._id.toString())
+            # 邀请5人下单了送一张35元的优惠券
+            newCoupon2 =
+              name :
+                zh : "邀请5名好友并下单返利优惠券"
+                en : "5 Friends Order Rebate Coupon"
+              price : 35
+              couponType : models.coupon.constantCouponType().coupon
+              usedTime : 1
+              user : fromUser._id.toString()
+
+            newCouponList = []
+            newCouponList.push(newCoupon)
+
+            if fromUser.invitedUserNumberHaveOrder > 4
+              newCouponList.push(newCoupon2)
+
+            models.coupon.createAsync(newCouponList).then (resultCouponList)->
+              for coupon, couponIndex in resultCouponList
+                fromUser.couponList.push(coupon._id.toString())
+
               fromUser.saveAsync()
               user.isHaveFirstOrderCoupon = true
 

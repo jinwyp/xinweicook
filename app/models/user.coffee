@@ -64,6 +64,9 @@ module.exports =
     isSharedInvitationSendCode: type: Boolean, default: false
     sharedInvitationSendCodeUsedTime: type: Number, default: 0
     sharedInvitationSendCodeTotalCount: type: Number, default: 1
+
+    invitedUserNumberHaveOrder: type: Number, default: 0
+
     isUsedInvitationSendCode: type: Boolean, default: false
     isHaveFirstOrderCoupon: type: Boolean, default: false
 
