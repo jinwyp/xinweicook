@@ -51,9 +51,9 @@
 <add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
 <nav class="menu-nav">
-    <div class=""><span>帐号</span></div>
-    <div class=""><span>便当</span></div>
-    <div class="active"><span>食材包</span></div>
+    <div><a href="me"><span>帐号</span></a></div>
+    <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
+    <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
 
     <div class="go-to-cart" ng-click="goToCart()">
         <div class="icon bag-icon">

@@ -115,15 +115,15 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                     }
                     return total;
                 }, 0);
-                $scope.cart.price = p;
-                if (!$scope.dish) return p;
-                return p + $scope.dish.count *
-                    ($scope.dish.priceOriginal +
-                        (!$scope.dish.curSelection ? 0 :
-                            Object.keys($scope.dish.curSelection).reduce(function (_p, name) {
-                                return _p + $scope.dish.curSelection[name].priceOriginal
-                            }, 0))
-                    )
+                return $scope.cart.price = p;
+                //if (!$scope.dish) return p;
+                //return p + $scope.dish.count *
+                //    ($scope.dish.priceOriginal +
+                //        (!$scope.dish.curSelection ? 0 :
+                //            Object.keys($scope.dish.curSelection).reduce(function (_p, name) {
+                //                return _p + $scope.dish.curSelection[name].priceOriginal
+                //            }, 0))
+                //    )
             };
 
             $scope.hide = function () {
