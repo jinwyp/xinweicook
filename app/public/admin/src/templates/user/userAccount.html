@@ -1,0 +1,93 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 User 用户新味币账户</span>
+                <span ng-hide="css.isAddNewStatus">修改 User 用户新味币账户 - {{data.userAccount._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.updateUser({ id: data.userAccount.user })" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="userForm" role="form" novalidate ng-cloak>
+
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userBalance.$dirty&&userForm.userBalance.$valid, 'has-error':userForm.userBalance.$dirty&&userForm.userBalance.$invalid}">
+                    <label for="inputUserAccount" class="col-lg-2 control-label" >新味币余额</label>
+
+                    <div class="col-lg-8" >
+                        <input type="number" class="form-control" id="inputUserAccount" placeholder="手机" name="userBalance" ng-model="data.userAccount.balance" required min="0" max="5000" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$error.min || userForm.userBalance.$dirty&&userForm.userBalance.$error.max">数字0-5000！</span>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+                <hr/>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="addNewUser(userForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="updateAccount(userForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

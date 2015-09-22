@@ -121,6 +121,25 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'UserController'
             })
 
+            .state('menu.accountDetails', {
+                url: '/accountdetails',
+                templateUrl: 'templates/user/accountDetailList.html',
+                data: {
+                    title: '账户余额明细管理',
+                    type : 'list'
+                },
+                controller: 'UserAccountDetailController'
+            })
+
+            .state('menu.updateAccount', {
+                url: '/account/:id',
+                templateUrl: 'templates/user/userAccount.html',
+                data: {
+                    title: '账户余额管理',
+                    type : 'update'
+                },
+                controller: 'UserAccountController'
+            })
 
 
 
@@ -230,15 +249,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'CouponController'
             })
 
-            .state('menu.accountDetails', {
-                url: '/accountdetails',
-                templateUrl: 'templates/user/accountDetailList.html',
-                data: {
-                    title: '账户余额明细管理',
-                    type : 'list'
-                },
-                controller: 'UserAccountDetailController'
-            })
+
 
             .state('menu.deviceTokens', {
                 url: '/devicetokens',
