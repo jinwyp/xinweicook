@@ -695,6 +695,71 @@ exports.orderPrintShippingList = function(req, res, next) {
 
 
 
+
+
+
+
+
+exports.dishDailySales = function(req, res, next) {
+
+    var pipelinePerDay = [];
+    var pipelinePerWeek = [];
+
+    pipelinePerDay.push (
+        { "$match":{
+            "isPlus" : false
+        }},
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            order: 1,
+            dish : 1,
+            quantity : 1,
+            isPlus : 1,
+            remark : 1,
+
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+            hour: { $hour: "$createdAt" },
+            minutes: { $minute: "$createdAt" },
+            dayOfYear: { $dayOfYear: "$createdAt" },
+            dayOfWeek: { $dayOfWeek: "$createdAt" },
+            week: { $week: "$createdAt" }
+        }},
+
+        { "$group": {
+            "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
+
+            "dishSaleQuantity": { "$sum": "$quantity" },
+            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "dish" : "$_id.dish",
+            "day" : "$_id.day",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "dishSaleQuantity": 1,
+            "dishList": 1
+
+        }},
+
+        { "$sort": { "year" : -1, "month": -1, "day": -1 } },
+        { "$limit": 1000 }
+    );
+
+};
+
+
+
+
+
+
+
 exports.dishStatisticByStock = function(req, res, next) {
 
     var query = {};
