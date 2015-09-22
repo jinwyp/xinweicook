@@ -17,7 +17,7 @@ function userDeviceController($scope, $timeout, $state, $stateParams, Notificati
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 1000,
+            limit : 200,
             deviceToken : '',
             user : ''
         },

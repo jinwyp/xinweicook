@@ -17,7 +17,7 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 1000,
+            limit : 200,
             isPlus : '',
             chargeType : '',
             user : '',

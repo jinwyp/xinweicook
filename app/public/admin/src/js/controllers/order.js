@@ -18,7 +18,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 500,
+            limit : 200,
             createdAt :'',
             status : '',
             orderNumber : '',
