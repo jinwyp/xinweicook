@@ -817,7 +817,7 @@ exports.dishDailySales = function(req, res, next) {
     var dishHash = {};
 
     var promiseList = [
-        models.dish.find(query).lean().execAsync(),
+        models.dish.find().lean().execAsync(),
         models.inventory.aggregateAsync( pipelinePerDay)
     ];
 
@@ -841,7 +841,6 @@ exports.dishDailySales = function(req, res, next) {
                 }else{
                     console.log ("------------dish daily : ", inventroy.dish)
                 }
-
 
             })
 
