@@ -702,6 +702,23 @@ exports.orderPrintShippingList = function(req, res, next) {
 
 exports.dishDailySales = function(req, res, next) {
 
+    var query = {};
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        query.createdAt = { $gte: new Date(req.query.createdAt)}
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        query.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
+        query.sideDishType = req.query.sideDishType
+    }
+
+    if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
+        query.isPublished = req.query.isPublished
+    }
+
     var pipelinePerDay = [];
     var pipelinePerWeek = [];
 
@@ -751,6 +768,81 @@ exports.dishDailySales = function(req, res, next) {
         { "$sort": { "year" : -1, "month": -1, "day": -1 } },
         { "$limit": 1000 }
     );
+
+
+    pipelinePerWeek.push (
+        { "$match":{
+            "isPlus" : false
+        }},
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            order: 1,
+            dish : 1,
+            quantity : 1,
+            isPlus : 1,
+            remark : 1,
+
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+            hour: { $hour: "$createdAt" },
+            minutes: { $minute: "$createdAt" },
+            dayOfYear: { $dayOfYear: "$createdAt" },
+            dayOfWeek: { $dayOfWeek: "$createdAt" },
+            week: { $week: "$createdAt" }
+        }},
+
+        { "$group": {
+            "_id": {dish:'$dish', week : "$week"},
+
+            "dishSaleQuantity": { "$sum": "$quantity" },
+            "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "dish" : "$_id.dish",
+            "week" : "$_id.week",
+            "dishSaleQuantity": 1,
+            "dishList": 1
+        }},
+
+        { "$sort": { "week": -1 } },
+        { "$limit": 1000 }
+    );
+
+    var dishHash = {};
+
+    var promiseList = [
+        models.dish.find(query).lean().execAsync(),
+        models.inventory.aggregateAsync( pipelinePerDay)
+    ];
+
+    Promise.all(promiseList).spread(function(resultDish, resultInventroyPerDay) {
+
+        if (resultDish && resultDish.length > 0 && resultInventroyPerDay.length > 0 ) {
+
+            resultDish.forEach(function(dish){
+                dishHash[dish._id.toString()] = dish
+            });
+
+            resultInventroyPerDay.forEach(function(inventroy){
+                inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
+                inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
+                inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
+                inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
+                inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+
+            })
+
+        }
+
+        res.status(200).json(resultInventroyPerDay)
+    })
+
 
 };
 
@@ -815,7 +907,7 @@ exports.dishStatisticByStock = function(req, res, next) {
         "_id": '$dish',
         "dishSaleQuantity": { "$sum": "$quantity" },
         "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark" } }
-    }}
+    }};
 
     // Sorting pipeline
     var sort =  { "$sort": { "dishSaleQuantity": 1 } };

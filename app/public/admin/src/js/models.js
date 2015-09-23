@@ -114,6 +114,13 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             })
         },
 
+        getDishStatisticByDaily: function (params) {
+            return $http.get('/api/admin/statistic/dish/daily', {
+                params: params
+            })
+        },
+
+
         getUserStatisticOfNewComers: function (params) {
             return $http.get('/api/admin/statistic/user/newcomer', {
                 params: params

@@ -31,6 +31,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         dishList : [],
         inventoryList : [],
         dishStatisticByStock : [],
+        dishStatisticByDaily : [],
 
         currentTagFilter : '',
         currentPreferenceCategory : '',
@@ -337,6 +338,28 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
             });
         }
+
+
+    };
+
+
+    $scope.searchDishStatisticByDaily = function (form, sortBy) {
+        $scope.css.showTable = 'statisticDaily';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        //if ($scope.data.searchDateFrom !==''){
+        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        //}
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getDishStatisticByDaily($scope.data.searchOptions).then(function (result) {
+            $scope.data.dishStatisticByDaily = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
 
 
     };
