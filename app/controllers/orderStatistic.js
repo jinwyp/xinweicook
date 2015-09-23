@@ -760,6 +760,7 @@ exports.dishDailySales = function(req, res, next) {
             "day" : "$_id.day",
             "month" : "$_id.month",
             "year" : "$_id.year",
+
             "dishSaleQuantity": 1,
             "dishList": 1
 
@@ -838,6 +839,7 @@ exports.dishDailySales = function(req, res, next) {
                     inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
                     inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
                     inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day
                 }else{
                     console.log ("------------dish daily : ", inventroy.dish)
                 }
