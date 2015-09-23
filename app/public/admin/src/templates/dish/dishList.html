@@ -212,7 +212,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in data.dishStatisticByDaily | filter: data.searchFilter | orderBy:css.searchDishStatisticSortBy ">
+        <tr ng-repeat="dish in data.dishStatisticByDaily | filter: data.searchFilter  ">
             <td>{{dish.year}}－{{dish.month}}－{{dish.day}}</td>
             <td><a ui-sref="menu.updateDish({ id: dish.dish })">{{dish.dish}}</a> <br/> {{dish.dishname}}</td>
             <td>{{dish.cookingType}}</td>
