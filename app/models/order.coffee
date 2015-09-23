@@ -311,7 +311,7 @@ module.exports =
 #        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
 
     validationAlipayNotify : (order) ->
-      unless libs.validator.isLength order.out_trade_no, 21, 22
+      unless libs.validator.isLength order.out_trade_no, 24, 24
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
