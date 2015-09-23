@@ -830,7 +830,9 @@ exports.dishDailySales = function(req, res, next) {
             });
 
             resultInventroyPerDay.forEach(function(inventroy){
+
                 if (typeof dishHash[inventroy.dish.toString()] !== "undefined"){
+
                     inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
                     inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
                     inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
