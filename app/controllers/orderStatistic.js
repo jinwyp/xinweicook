@@ -830,11 +830,16 @@ exports.dishDailySales = function(req, res, next) {
             });
 
             resultInventroyPerDay.forEach(function(inventroy){
-                inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
-                inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
-                inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
-                inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
-                inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+                if (typeof dishHash[inventroy.dish.toString()].title !== "undefined"){
+                    inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
+                    inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
+                    inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
+                    inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
+                    inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+                }else{
+                    console.log ("------------dish daily : ", inventroy.dish.toString())
+                }
+
 
             })
 
