@@ -700,6 +700,17 @@ exports.orderPrintShippingList = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 exports.dishDailySales = function(req, res, next) {
 
     var query = {};
@@ -724,7 +735,8 @@ exports.dishDailySales = function(req, res, next) {
 
     pipelinePerDay.push (
         { "$match":{
-            "isPlus" : false
+            "isPlus" : false,
+            "remark" : models.inventory.constantRemark().userOrder
         }},
 
         { $project :{
@@ -773,7 +785,8 @@ exports.dishDailySales = function(req, res, next) {
 
     pipelinePerWeek.push (
         { "$match":{
-            "isPlus" : false
+            "isPlus" : false,
+            "remark" : models.inventory.constantRemark().userOrder
         }},
 
         { $project :{
@@ -841,7 +854,7 @@ exports.dishDailySales = function(req, res, next) {
                     inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
                     inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day
                 }else{
-                    console.log ("------------dish daily : ", inventroy.dish)
+                    //console.log ("------------dish daily : ", inventroy.dish)
                 }
 
             })
@@ -853,6 +866,14 @@ exports.dishDailySales = function(req, res, next) {
 
 
 };
+
+
+
+
+
+
+
+
 
 
 
@@ -1021,7 +1042,8 @@ exports.dishStatisticByStock = function(req, res, next) {
 
     pipelinePerDay.push (
         { "$match":{
-            "isPlus" : false
+            "isPlus" : false,
+            "remark" : models.inventory.constantRemark().userOrder
         }},
 
         { $project :{
@@ -1069,7 +1091,8 @@ exports.dishStatisticByStock = function(req, res, next) {
 
     pipelinePerWeek.push (
         { "$match":{
-            "isPlus" : false
+            "isPlus" : false,
+            "remark" : models.inventory.constantRemark().userOrder
         }},
 
         { $project :{
