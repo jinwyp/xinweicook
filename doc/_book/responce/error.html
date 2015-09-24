@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="2.3" data-basepath=".." data-revision="Sat Sep 19 2015 18:13:26 GMT+0800 (CST)">
+    <div class="book" data-level="2.3" data-basepath=".." data-revision="Wed Sep 23 2015 18:02:40 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1025,7 +1025,11 @@
 <tbody>
 <tr>
 <td style="text-align:left">message</td>
-<td style="text-align:left">&#x9519;&#x8BEF;&#x4FE1;&#x606F;</td>
+<td style="text-align:left">&#x9519;&#x8BEF;&#x4FE1;&#x606F;       &#x73B0;&#x5728;&#x6240;&#x6709;&#x7684;&#x9519;&#x8BEF;&#x90FD;&#x6709;&#x6587;&#x5B57;&#x9519;&#x8BEF;&#x63CF;&#x8FF0;&#xFF0C;&#x6240;&#x6709;&#x5B57;&#x6BB5;&#x9A8C;&#x8BC1;&#x9519;&#x8BEF;&#x7B49;&#x5176;&#x4ED6; &#x90FD;&#x4EE5; &#x201C;Field validation error&#x201D; &#x5B57;&#x6837;&#x5F00;&#x5934;</td>
+</tr>
+<tr>
+<td style="text-align:left">validationStatus</td>
+<td style="text-align:left">&#x9519;&#x8BEF;&#x4EE3;&#x7801; &#x4E13;&#x95E8;&#x7528;&#x4E8E;&#x524D;&#x6BB5;&#x7684;&#x53CB;&#x597D;&#x7684;&#x9519;&#x8BEF;&#x663E;&#x793A;</td>
 </tr>
 <tr>
 <td style="text-align:left">_id</td>
@@ -1044,7 +1048,39 @@ Content-Type: application/json
 {
   <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;55590bad7428a36ffb293061&quot;</span>,
   <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;&#x9519;&#x8BEF;&#x7684;&#x8BF7;&#x6C42;&quot;</span>
+  <span class="hljs-string">&quot;validationStatus&quot;</span>: <span class="hljs-number">1111</span>
 }
+</code></pre>
+<h2 id="%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%9A%84%E9%94%99%E8%AF%AF%E7%A0%81-%E8%AF%B7ios%E5%92%8C%E7%BD%91%E9%A1%B5%E7%AB%AF%E5%8D%8F%E4%BD%9C%E6%9B%B4%E6%96%B0%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E5%89%8D%E6%AE%B5%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF%E6%9B%B4%E4%BA%BA%E6%80%A7%E5%8C%96">&#x76EE;&#x524D;&#x5DF2;&#x6709;&#x7684;&#x9519;&#x8BEF;&#x7801;, &#x8BF7;iOS&#x548C;&#x7F51;&#x9875;&#x7AEF;&#x534F;&#x4F5C;&#x66F4;&#x65B0;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x524D;&#x6BB5;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x66F4;&#x4EBA;&#x6027;&#x5316;</h2>
+<pre><code class="lang-js">{
+    user: {
+        <span class="hljs-comment">// todo: &#x7B2C;&#x4E8C;&#x7B2C;&#x4E09;&#x4F4D;&#x7684;1 &#x662F;&#x4EC0;&#x4E48;&#x610F;&#x601D;, sms&#x72EC;&#x7ACB;&#x51FA;&#x6765;??</span>
+        wrongMobile: <span class="hljs-number">1110</span>,
+        wrongPassword: <span class="hljs-number">1111</span>,
+        alreadyExist: <span class="hljs-number">1112</span>,
+        notFound: <span class="hljs-number">1113</span>
+    },
+    order: {
+        wrongMobile: <span class="hljs-number">2110</span>
+    },
+    sms: {
+        wrongCode: <span class="hljs-number">3110</span>,
+        expired: <span class="hljs-number">3111</span>,
+        invalidCode: <span class="hljs-number">3112</span>,
+        wrongType: <span class="hljs-number">3113</span>,
+        tooManyTries: <span class="hljs-number">3114</span>,
+        sendFailed: <span class="hljs-number">3115</span>,
+        reachSendLimitation: <span class="hljs-number">3116</span>
+    },
+    dish: {
+        outOfStock: <span class="hljs-number">4110</span>
+    },
+    coupon: {
+        notStart: <span class="hljs-number">5110</span>,
+        expired: <span class="hljs-number">5111</span>,
+        used: <span class="hljs-number">5112</span>,
+        outOfCount: <span class="hljs-number">5113</span>
+    }
 </code></pre>
 
                     

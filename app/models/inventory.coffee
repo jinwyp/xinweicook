@@ -9,6 +9,10 @@ module.exports =
     quantity : type:Number   # 该数量可以为正负, 正数即为加库存,负数为减库存,不受到isPlus状态干扰
     remark : type:String
 
-  statics: {}
+  statics:
+    constantRemark : () ->
+      type =
+        userOrder : "userOrder"
+        adminOperation : "adminOperation"
   methods: {}
   rest:{}

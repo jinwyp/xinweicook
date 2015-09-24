@@ -18,7 +18,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 500,
+            limit : 200,
             createdAt :'',
             status : '',
             orderNumber : '',
@@ -331,6 +331,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     if ($state.current.data.type === 'list'){
         if ($localStorage.orderSearchOptions){
             $scope.data.searchOptions = $localStorage.orderSearchOptions;
+            $scope.data.searchOptions.limit = 200;
         }
         if ($scope.data.searchOptions.createdAt){
             $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);

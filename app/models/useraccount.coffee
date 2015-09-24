@@ -90,7 +90,7 @@ module.exports =
         user : @user
         isPlus : true
 
-        amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
+        amountXinwei : Number(amount)
         name :
           zh : "使用充值码充值"
           en : "Code Recharge"

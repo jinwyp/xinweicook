@@ -8,35 +8,33 @@
 
 angular
     .module('RDash')
-    .controller('UserAccountDetailController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Devices', userAccountDetailController]);
+    .controller('UserAccountController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'Devices', userAccountController]);
 
 
-function userAccountDetailController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Devices) {
+function userAccountController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, Devices) {
 
     $scope.data = {
         searchFilter : '',
         searchOptions : {
             skip : 0,
             limit : 200,
-            isPlus : '',
-            chargeType : '',
-            user : '',
-            order : ''
+            user : ''
         },
 
         searchSort : {
             sort : '-createdAt'
         },
 
-        accountDetailListCount : 0,
-        accountDetailListCurrentPage : 1,
-        accountDetailListTotalPages : 1,
-        accountDetailListPagesArray : [],
+        AccountListCount : 0,
+        AccountListCurrentPage : 1,
+        AccountListTotalPages : 1,
+        AccountListPagesArray : [],
 
         currentDeleteIndex : -1,
 
 
-        accountDetailList     : [],
+        AccountList     : [],
+        userAccount : {},
 
         isPlusList : [
             {
@@ -76,30 +74,30 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
 
-    $scope.searchAccountDetailCount = function (){
+    $scope.searchAccountCount = function (){
         Util.delProperty($scope.data.searchOptions);
 
-        UserAccountDetails.one('count').get($scope.data.searchOptions).then(function (users) {
-            $scope.data.accountDetailListCount = users.count;
-            $scope.data.accountDetailListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
+        UserAccounts.one('count').get($scope.data.searchOptions).then(function (users) {
+            $scope.data.AccountListCount = users.count;
+            $scope.data.AccountListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
 
-            $scope.data.accountDetailListPagesArray= [];
-            for (var i = 1; i <= $scope.data.accountDetailListTotalPages; i++){
-                $scope.data.accountDetailListPagesArray.push( {value : i} )
+            $scope.data.AccountListPagesArray= [];
+            for (var i = 1; i <= $scope.data.AccountListTotalPages; i++){
+                $scope.data.AccountListPagesArray.push( {value : i} )
             }
 
-            $scope.searchAccountDetail();
+            $scope.searchAccount();
 
         });
     };
 
-    $scope.searchAccountDetail = function (form) {
+    $scope.searchAccount = function (form) {
         Util.delProperty($scope.data.searchOptions);
 
         var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
 
-        UserAccountDetails.getList(options).then(function (result) {
-            $scope.data.accountDetailList = result;
+        UserAccounts.getList(options).then(function (result) {
+            $scope.data.AccountList = result;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){
@@ -109,17 +107,17 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
     };
 
     $scope.changePagination = function (currentPageNo) {
-        $scope.data.accountDetailListCurrentPage = currentPageNo;
-        $scope.data.searchOptions.skip = ($scope.data.accountDetailListCurrentPage-1) * $scope.data.searchOptions.limit;
-        $scope.searchAccountDetail();
+        $scope.data.AccountListCurrentPage = currentPageNo;
+        $scope.data.searchOptions.skip = ($scope.data.AccountListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.searchAccount();
     };
 
 
-    $scope.delAccountDetail = function (user) {
+    $scope.delAccount = function (user) {
 
-        var index = $scope.data.accountDetailList.indexOf(user);
-        $scope.data.accountDetailList[index].remove().then(function (resultDevice) {
-            $scope.searchAccountDetailCount();
+        var index = $scope.data.AccountList.indexOf(user);
+        $scope.data.AccountList[index].remove().then(function (resultDevice) {
+            $scope.searchAccountCount();
 
             Notification.success({message : 'Delete Success', delay : 8000});
 
@@ -137,15 +135,15 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
     if ($state.current.data.type === 'list') {
 
-        $scope.searchAccountDetailCount();
+        $scope.searchAccountCount();
     }
 
     if ($state.current.data.type === 'update') {
         $scope.css.isAddNewStatus = false;
 
-        UserAccountDetails.one($stateParams.id).get().then(function (resultAccountDetail) {
-            $scope.data.user = resultAccountDetail;
-
+        UserAccounts.one($stateParams.id).get().then(function (resultAccount) {
+            $scope.data.userAccount = resultAccount;
+            console.log (resultAccount);
             //编辑user时， 处理user group 显示
             //angular.forEach($scope.data.userGroup, function (user) {
             //    if (user.zh === $scope.data.user.group.zh) {
@@ -154,19 +152,17 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
             //});
         });
 
-
     }
 
 
 
 
-    $scope.updateAccountDetail = function (form) {
+    $scope.updateAccount = function (form) {
         if (form.$invalid) {
             return;
         }
 
-
-        $scope.data.user.put().then(function (resultAccountDetail) {
+        $scope.data.userAccount.put().then(function (resultAccount) {
             Notification.success({message : 'Update Success', delay : 8000});
         }).catch(function (err) {
             console.log(err);

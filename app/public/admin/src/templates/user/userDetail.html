@@ -340,8 +340,10 @@
             <div class="panel-heading">
 
                 <h3 class="panel-title">
-                    用户余额 :  {{data.userAccount.balance}}
-                    <button class="btn btn-info" ng-click="showUserAccountDetails()">查看用户余额明细</button>
+                    用户新味币余额 :  {{data.userAccount.balance}}
+
+                    <button class="btn btn-info" ng-click="showUserAccountDetails()">查看用户新味币余额明细</button>
+                    <a class="btn btn-success" ui-sref="menu.updateAccount({ id: data.userAccount._id })" role="button">修改用户新味币余额</a>
                 </h3>
             </div>
 

@@ -18,7 +18,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         searchFilter : '',
         searchOptions : {
             skip : 0,
-            limit : 1000,
+            limit : 200,
             usedTime : '',
             isUsedCount : '',
             isUsed : '',

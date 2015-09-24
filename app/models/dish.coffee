@@ -169,7 +169,7 @@ module.exports =
         dish : @_id
         isPlus : false
         quantity : -Number(stockNumber)
-        remark : "userOrder"
+        remark : models.inventory.constantRemark().userOrder
 
       newInventoryChange.remark = remark if remark
       newInventoryChange.order = orderId if orderId
@@ -184,7 +184,7 @@ module.exports =
         dish : @_id
         isPlus : true
         quantity : Number(stockNumber)
-        remark : "adminOperation"
+        remark : models.inventory.constantRemark().adminOperation
 
       newInventoryChange.remark = remark if remark
 
@@ -199,13 +199,13 @@ module.exports =
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.addStock(req.body.addInventory, req.u, "adminOperation")
+              resultDish.addStock(req.body.addInventory, req.u, models.inventory.constantRemark().adminOperation)
 
         if req.body.reduceInventory > 0
           models.dish.findOneAsync({_id:req.params.id})
           .then (resultDish) ->
             if resultDish
-              resultDish.reduceStock(req.body.reduceInventory, req.u, "adminOperation" )
+              resultDish.reduceStock(req.body.reduceInventory, req.u, models.inventory.constantRemark().adminOperation )
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->

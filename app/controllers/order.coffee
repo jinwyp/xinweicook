@@ -903,22 +903,13 @@ exports.updateOrder = (req, res, next) ->
 
 exports.updateOrderAlipayNotify = (req, res, next) ->
   console.log "========================OrderAlipayNotify :: ", req.body
-#  #todo: 服务器body是这个: {"{\"out_trade_no\":\"201509201228272565209\"}": ""} 但本地却是{ "out_trade_no" : "201509201228272565209"}
-#  Object.keys(req.body).some (key) ->
-#    unless key.indexOf("out_trade_no") is -1
-#      unless key is "out_trade_no"
-#        try
-#          req.body["out_trade_no"] = JSON.parse(key)["out_trade_no"]
-#        catch err
-#          next err
-#      true
 
   models.order.validationAlipayNotify(req.body)
 
   if req.body.trade_status is "TRADE_SUCCESS" or req.body.trade_status is "TRADE_FINISHED"
 
 #    models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
-    models.order.findOne({orderNumber : req.body.out_trade_no})
+    models.order.findOne({_id : req.body.out_trade_no})
     .populate "childOrderList"
     .execAsync()
     .then (resultOrder) ->

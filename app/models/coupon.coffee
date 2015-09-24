@@ -375,6 +375,19 @@ module.exports =
           user : user._id.toString()
         newCouponList.push(newCoupon10)
 
+      if user.sharedInvitationSendCodeTotalCount %% 10 is 0 and user.sharedInvitationSendCodeTotalCount < 101 and user.sharedInvitationSendCodeTotalCount >18
+        newCoupon20 =
+          name :
+            zh : "满" + user.sharedInvitationSendCodeTotalCount.toString() + "单优惠券"
+            en : "Achieve" + user.sharedInvitationSendCodeTotalCount.toString()  + " orders Coupon"
+          price : 20
+          couponType : models.coupon.constantCouponType().coupon
+          usedTime : 1
+          user : user._id.toString()
+      newCouponList.push(newCoupon20)
+
+
+
       if newCouponList.length > 0
         models.coupon.createAsync(newCouponList).then (resultCouponList)->
           for coupon, couponIndex in resultCouponList

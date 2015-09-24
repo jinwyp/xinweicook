@@ -63,8 +63,8 @@ conf =
     secret_key : "ktbOSuZrHbGbFl-Zdo06SEAhRC4DLT9oQ2eqv-QR"
 
   code:
-    trys: 5
-    sends: 20
+    trys: 3
+    sends: 9
     expire: 30 # mins
 
   token:
