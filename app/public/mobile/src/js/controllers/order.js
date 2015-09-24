@@ -1,7 +1,7 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
 function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) {
-    var eatDeliveryFee = 5;
+    var eatDeliveryFee = 6;
 
     $scope.cart = null;
     $scope.subDishCart = null;
