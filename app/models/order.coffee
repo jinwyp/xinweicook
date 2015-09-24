@@ -427,7 +427,7 @@ module.exports =
       if isInRange4KM is true
         timeNow = moment()
 
-        today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11"));
+        today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:30"));
         today20PM = moment(timeNow.clone().format("YYYY-MM-DD 20:01"));
 
         tomorrow11AM = today11AM.clone().add(1, 'days');
