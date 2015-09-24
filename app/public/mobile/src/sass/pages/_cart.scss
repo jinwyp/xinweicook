@@ -1,0 +1,138 @@
+@import "../base";
+@import "favlist";
+
+.cart-body {
+  background-color: white;
+}
+
+
+$select-btn-width: 100px;
+.cart-main {
+  margin-bottom: 60px;
+  padding:12px 12px 0;
+}
+
+
+.cart-block {
+  h4, h5 {
+    margin: 0;
+  }
+  h4 {
+    font-size: 14px;
+    line-height: 2.4;
+    font-weight: 100;
+    border-bottom: 2px solid black;
+    position: relative;
+
+    .total {
+      font-size: 13px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+
+.cart-list {
+  overflow: hidden;
+  background-color: white;
+  position: relative;
+  margin-bottom: 15px;
+  li {
+    position: relative;
+  }
+  .dish-wrapper {
+    border-bottom: 1px solid rgba(188, 188, 188, 0.2);
+    border-top: 0;
+    padding: 10px 0;
+  }
+  li:last-child .dish-wrapper {
+    border-bottom: 0;
+  }
+  .select {
+    background: url(../../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
+    width: 24px;
+    height: 100%;
+    position: absolute;
+    &.active {
+      background-image: url(../../img/icons/ForkIconHighlighted.png);
+    }
+  }
+  .dish-img {
+    left: 38px;
+    position: absolute;
+    width: $dish-img-height;
+    height: $dish-img-height;
+    background: 50% / cover no-repeat;
+  }
+  .dish-detail {
+    margin-left: 132px;
+    height: $dish-img-height;
+    h5 {
+      font-size: 15px;
+      font-weight: 100;
+    }
+    span {
+      display: block;
+    }
+    .sub-name {
+      display: inline;
+    }
+    .stock {
+      font-size: 14px;
+      &.out-of-stock {
+        color: $primary-color;
+      }
+    }
+    .rmb-char {
+      color: $body-color;
+      font-weight: 200;
+    }
+    > * {
+      margin-bottom: 7px;
+    }
+  }
+  .counter {
+    position: absolute;
+    height: 26px;
+    line-height: 24px;
+    text-align: center;
+    right: -14px;
+    top: 50px;
+    span {
+      display: inline-block;
+      width: 40px;
+      height: 26px;
+      font-size: 18px;
+      color: #A5A5A5;
+    }
+    .number {
+      width: 45px;
+      height: 26px;
+      background-color: #E2E2E2;
+      color: inherit;
+      border-radius: 5px;
+    }
+  }
+}
+
+
+.no-delivery-tip {
+  color: white;
+  background-color: $primary-color;
+  height: 50px;
+  line-height: 50px;
+  text-indent: 2em;
+}
+
+
+.empty-cart {
+  .icon {
+    height: 183px;
+    background: url(../../img/icons/EmptyCart.png) no-repeat 50%/32%;
+  }
+  .text {
+    color:#969696;
+  }
+}

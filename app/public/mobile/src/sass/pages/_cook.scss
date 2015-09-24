@@ -1,4 +1,4 @@
-@import "base";
+@import "../base";
 
 $cook-font-lighter-color: #646464;
 
@@ -76,27 +76,5 @@ $cook-font-lighter-color: #646464;
   }
   .feature:not(last-child) {
     margin-bottom: 10px;
-  }
-}
-
-.cook-footer {
-  padding-right: 0;
-  @include cart-bar(auto, 17px);
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.94);
-  bottom: 0;
-  margin: 0;
-
-  .add-to-cart-container {
-    width: 104px;
-    height: $cart-bar-height;
-    line-height: $cart-bar-height;
-    text-align: center;
-    background-color: $primary-color;
-    color: white;
-  }
-  .like-icon {
-    margin-top: 17px;
-    margin-left: 10px;
   }
 }

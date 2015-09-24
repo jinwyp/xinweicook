@@ -1,6 +1,6 @@
 @import "compass/utilities/sprites";
 @import "icons/*.png";
-@import "base";
+@import "../base";
 
 $buy-height: 30px;
 $out-of-stock-bg-color: #75A3B7;
@@ -22,7 +22,7 @@ $out-of-stock-bg-color: #75A3B7;
   font-size: 18px;
   color: #C1BEBE;
   .profile-icon {
-    background: url(../img/icons/NavBarProfileIcon.png) no-repeat;
+    background: url(../../img/icons/NavBarProfileIcon.png) no-repeat;
     height: 46px;
     position: absolute;
     width: 46px;
@@ -57,7 +57,7 @@ $out-of-stock-bg-color: #75A3B7;
     }
   }
   .img-group {
-    background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
+    background: white url(../../img/ImagePlaceholder.png) 50%/cover no-repeat;
     position: relative;
     overflow: hidden;
     .count-operation {
@@ -96,11 +96,6 @@ $out-of-stock-bg-color: #75A3B7;
         width: 20%;
       }
     }
-  }
-  .img-group.blur img{
-/*    -webkit-filter: blur(10px);
-    -moz-filter: blur(10px);
-    filter: blur(10px);*/
   }
   .detail {
     padding: 0 10px 10px;
@@ -185,7 +180,7 @@ $sc-h5-font-size: 15px;
   }
 
   .close-button {
-    background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
+    background: url(../../img/icons/CloseIcon.png) 50%/contain no-repeat;
     width: 1.1em;
     height: 100%;
     position: absolute;
@@ -310,7 +305,6 @@ $sc-h5-font-size: 15px;
   }
 }
 
-$menu-nav-bg-color: #262626;
 .menu-nav {
   font-size: 16px;
   color: white;

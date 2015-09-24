@@ -99,13 +99,15 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         });
     };
 
+    $scope.selectedDishLength = 0;
     $scope.totalPrice = function () {
-        var price = 0;
+        var price = 0, length = 0;
         var keys = ['cookList', 'eatList'];
         $scope.dishList && keys.forEach(function (key) {
             var list = $scope.dishList[key];
             list && list.forEach(function (el) {
                 if (!el.selected) return;
+                length++;
                 if (el.subDish) {
                     price += el.subDish.number * el.dish.priceOriginal + el.subDish.priceOriginal
                 } else {
@@ -113,6 +115,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 }
             })
         });
+        $scope.selectedDishLength = length;
         return price;
     };
 
@@ -189,7 +192,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     function init() {
 
-        if (typeof $localStorage.isInRange4KM == 'undefined') location.href='/mobile/';
+        //if (typeof $localStorage.isInRange4KM == 'undefined') location.href='/mobile/';
         $scope.isInRange = $localStorage.isInRange4KM;
 
         User.getUserInfo().then(function (res) {

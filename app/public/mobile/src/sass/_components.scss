@@ -1,0 +1,81 @@
+@import "base";
+
+.shopping-progress-bar {
+  padding-top: 4px;
+
+  .states {
+    line-height: 2.3;
+    font-size: 0;
+    span {
+      display: inline-block;
+      width: 33%;
+      text-align: center;
+      font-size: 15px;
+    }
+  }
+
+  $state-bar-height: 8px;
+  .state-bar-container {
+    height: $state-bar-height;
+    background-color: #DBDCDD;
+
+    .indicator {
+      height: 100%;
+      background-color: black;
+      position: relative;
+
+      &.state1 {
+        width: 33%;
+      }
+      &.state2 {
+        width: 66%;
+      }
+      &.state3 {
+        width: 99%;
+      }
+
+      &::after {
+        content: '';
+        border: $state-bar-height/2 solid transparent;
+        border-left-color: black;
+        position: absolute;
+        right: -$state-bar-height;
+      }
+    }
+  }
+}
+
+
+// 作为新购物流程的footer
+.cart-bar2 {
+  font-size: 0;
+  margin: 0;
+  height: $cart-bar-height;
+  line-height: $cart-bar-height;
+  box-shadow: #9C9999 0 0 1px;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+
+  & > * {
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .back-to-menu {
+    width: 38.2%;
+    color: #C7C7C7;
+    background-color: $menu-nav-bg-color;
+  }
+
+  .next {
+    width: 61.8%;
+    background-color: $primary-color;
+    color: white;
+    &.invalid {
+      background-color: #B3B3B3;
+    }
+  }
+}

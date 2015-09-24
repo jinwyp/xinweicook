@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>新味 / 地址</title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+</head>
+<body class="white-body" ng-app="xw" ng-controller="orderAddressCtrl">
+
+<shopping-progress-bar></shopping-progress-bar>
+
+<div class="order-address-main" ng-cloak>
+    <ul class="address-list">
+        <li class="cur deliverable">
+            <span class="deliverable-tag">便当可送达</span>
+            <div>黎明号</div>
+            <div>18888888888</div>
+            <div>上海市 徐汇区</div>
+            <div>中山南二路 510 号</div>
+            <div>枫林创意园 3 楼 新味</div>
+        </li>
+        <!-- 下面这项不可能与上面的同时出现 -->
+        <li class="cur deliverable edit">
+            <span class="deliverable-tag">便当可送达</span>
+            <div>黎明号</div>
+            <div>18888888888</div>
+            <div>上海市 徐汇区</div>
+            <div>中山南二路 510 号</div>
+            <div>枫林创意园 3 楼 新味</div>
+            <form>
+                <div>
+                    <input type="text" placeholder="收货人"/><span></span>
+                </div>
+                <div>
+                    <input type="text" placeholder="手机号"/><span></span>
+                </div>
+                <div>
+                    <input type="text" placeholder="省、市、区"/><span></span>
+                </div>
+                <div>中山南二路 510 号</div>
+                <div>
+                    <input type="text" placeholder="楼层、门牌号"/><span></span>
+                </div>
+            </form>
+        </li>
+        <li class="deliverable">
+            <span class="deliverable-tag">便当可送达</span>
+            <div>黎明号</div>
+            <div>中山南二路 510 号</div>
+        </li>
+        <li class="new">
+            <div>新增收货人</div>
+            <div>手机号</div>
+            <div>省、市、区</div>
+            <div>街道</div>
+            <div>楼层、门牌号</div>
+        </li>
+    </ul>
+</div>
+
+<footer ng-cloak class="cart-bar2 row">
+    <span class="back-to-menu">返回菜单</span>
+    <span class="next">下一步</span>
+</footer>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/directives/shopping-progress-bar.js"></script>
+<script src="/mobile/src/js/templates.js"></script>
+<script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/controllers/order-address.js"></script>
+</html>

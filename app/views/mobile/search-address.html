@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>新味 / 地址</title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+</head>
+<body class="white-body" ng-app="xw" ng-controller="searchAddressCtrl">
+
+<div class="search-address-main">
+    <form id="address-form">
+        <span class="confirm">确定</span>
+        <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"/></div>
+    </form>
+
+    <ul class="results">
+        <li>
+            <h4>东安一村</h4>
+            <p>上海市徐汇区东安路100号</p>
+        </li>
+        <li>
+            <h4>东安二村</h4>
+            <p>上海市东安区徐汇路001号</p>
+        </li>
+        <li>
+            <h4>东安三村</h4>
+            <p>东安市上海区徐汇路010号</p>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/src/js/modules.js"></script>
+<script src="/mobile/src/js/models.js"></script>
+<script src="/mobile/src/js/config.js"></script>
+<script src="/mobile/src/js/filters.js"></script>
+<script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/controllers/searchAddress.js"></script>
+</html>
