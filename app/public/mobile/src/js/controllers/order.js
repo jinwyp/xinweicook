@@ -1,6 +1,8 @@
 angular.module('xw.controllers').controller('orderCtrl', orderCtrl);
 
 function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) {
+    var eatDeliveryFee = 6;
+
     $scope.cart = null;
     $scope.subDishCart = null;
     $scope.address = {
@@ -10,7 +12,7 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
     $scope.coupon = {};
     $scope.couponPrice = 0;
     $scope.couponLimitPrice = 0;
-    $scope.deliveryFee = 5;
+    $scope.deliveryFee = eatDeliveryFee;
     $scope.isWeixin = /MicroMessenger/i.test(navigator.userAgent);
 
     $scope.back = function () {
@@ -296,14 +298,14 @@ function orderCtrl($scope, $localStorage, Orders, User, Coupon, Alert, Balance) 
 
             $scope.deliveryFee = 0;
             if ($scope.dishList.cookList.length) {
-                if (isCityShanghai) $scope.deliveryFee = 5;
+                if (isCityShanghai) $scope.deliveryFee = eatDeliveryFee;
                 else if (/浙江|江苏|安徽/.test($scope.address.province)) {
                     $scope.deliveryFee = 12;
                 } else $scope.deliveryFee = 24;
             }
 
             if ($scope.dishList.eatList.length) {
-                $scope.deliveryFee += 5;
+                $scope.deliveryFee += eatDeliveryFee;
             }
         }
 
