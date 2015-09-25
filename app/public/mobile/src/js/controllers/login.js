@@ -108,7 +108,6 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
             var s = document.createElement('script');
             s.src = 'http://api.geetest.com/get.php?gt=' + '745d959dec1191e086febd11aa684c9d' +
                 '&challenge=' + result.challenge;
-            s.async = true;
             //$scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId;
 
             var fatherDom = angular.element(document.getElementById('geetestContainer'));
