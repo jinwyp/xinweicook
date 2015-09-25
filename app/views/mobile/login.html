@@ -11,9 +11,8 @@
 </head>
 <body ng-app="xw" ng-controller="loginCtrl">
 <nav class="login-nav nav">
-    <a href="#/login"><span ng-if="path !== '/resetpwd'" ng-class="{active: path == '/login'}">登录</span></a>
-    <a href="#/signup"><span ng-if="path !== '/resetpwd'" ng-class="{active: path == '/signup'}">注册</span></a>
-    <a href="#/resetpwd" ng-cloak><span ng-if="path == '/resetpwd'" style="border-color: transparent" class="no-bottom-border" ng-class="{active: path == '/resetpwd'}">重置密码</span></a>
+    <a href="#/login"><span ng-class="{active: path == '/login'}">登录</span></a>
+    <a href="#/signup"><span ng-class="{active: path == '/signup'}">注册</span></a>
 </nav>
 
 <!-- login form -->
@@ -30,7 +29,7 @@
         </div>
 
         <div class="forget-pwd-container">
-            <!--<a class="forget-pwd" href="#/resetpwd">忘记密码了?</a>-->
+            <a class="forget-pwd" href="/mobile/resetpwd">忘记密码了?</a>
         </div>
 
         <button class="form-control login-button"
