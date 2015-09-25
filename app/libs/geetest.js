@@ -19,7 +19,7 @@ var config = {
 
 var geetest = require("geetest")(config.PRIVATE_KEY, config.PUBLIC_KEY);
 
-
+// https://github.com/GeeTeam/gt-node-sdk
 
 
 

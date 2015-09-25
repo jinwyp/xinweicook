@@ -4,12 +4,15 @@ geetest = require("geetest")("ab95acaebd61c6ef7dc6e8a5493f4899", '745d959dec1191
 
 
 exports.getGeeTestRegisterChallenge = (req, res, next) ->
+  # https://github.com/GeeTeam/gt-node-sdk
   geetest.register( (err, challenge) ->
     if err
       next(err)
 
     if challenge
       res.json({challenge: challenge})
+    else
+      res.json({challenge: 'geetest_server_error'})
   )
 
 
