@@ -14,12 +14,43 @@
 <shopping-progress-bar></shopping-progress-bar>
 
 <div class="order-pay-main" ng-cloak>
-    <div>
-        <h4>食材包</h4>
-    </div>
-    <div>
-        <h4>优惠 & 支付</h4>
-    </div>
+    <form>
+        <div class="block">
+            <h4>食材包</h4>
+            <div>七夕情人节套餐 <span class="rmb-char fee">83</span></div>
+            <div class="border select">
+                <select name="time" id="time">
+                    <option value="hehe">今天下午5点送达</option>
+                    <option value="huhu">hiha</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="block">
+            <h4>优惠 & 支付</h4>
+            <div class="border">
+                <input type="text" placeholder="优惠码"/>
+                <span></span>
+            </div>
+            <div class="border select">
+                <select name="couponCard" id="couponCard">
+                    <option value="hehe">haha</option>
+                    <option value="huhu">hiha</option>
+                </select>
+            </div>
+            <div class="border has-icon">
+                <span class="select icon"></span>
+                使用新味币抵扣¥83 (抵扣后剩余¥83)
+            </div>
+        </div>
+
+        <div class="block">
+            <div>订单金额:<span class="rmb-char fee">84</span></div>
+            <div>运费:<span class="rmb-char fee">8</span></div>
+            <div>新味币:<span class="rmb-char fee negative">4</span></div>
+            <div class="total">应付总额<span class="rmb-char fee">84</span></div>
+        </div>
+    </form>
 </div>
 
 <footer ng-cloak class="cart-bar2 row">

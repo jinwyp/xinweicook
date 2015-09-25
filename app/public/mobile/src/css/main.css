@@ -96,6 +96,15 @@ label {
 
 /* line 129, ../sass/_base.scss */
 .back-icon {
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s55106d4b52.png');
+  background-position: 0 -385px;
+  height: 20px;
+  width: 44px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
   position: absolute;
   left: 0;
   top: 12px;
@@ -149,7 +158,7 @@ label {
 
 /* line 152, icons/*.png */
 .icons-sprite {
-  background-image: url('../img/icons-s34c97195b6.png');
+  background-image: url('../img/icons-s0be291a0a1.png');
   background-repeat: no-repeat;
 }
 
@@ -1526,6 +1535,18 @@ label {
   padding-top: 24px;
   padding-bottom: 2px;
 }
+/* line 10, ../sass/pages/_balance.scss */
+.balance-main .wrapper .balance-big-icon {
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s55106d4b52.png');
+  background-position: 0 0;
+  height: 98px;
+  width: 98px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
+}
 /* line 13, ../sass/pages/_balance.scss */
 .balance-main .wrapper .title {
   font-weight: 100;
@@ -1789,6 +1810,105 @@ label {
 .search-address-main .results p {
   font-size: 12px;
   margin-bottom: 14px;
+}
+
+/* line 3, ../sass/pages/_order-pay.scss */
+.order-pay-main {
+  padding: 2px 14px 8px;
+  margin-bottom: 51px;
+}
+/* line 7, ../sass/pages/_order-pay.scss */
+.order-pay-main .block {
+  margin-bottom: 7px;
+  overflow: hidden;
+}
+/* line 11, ../sass/pages/_order-pay.scss */
+.order-pay-main .block input, .order-pay-main .block select {
+  width: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 17, ../sass/pages/_order-pay.scss */
+.order-pay-main .block select {
+  -webkit-appearance: none;
+  background-color: white;
+}
+/* line 22, ../sass/pages/_order-pay.scss */
+.order-pay-main .block h4 {
+  text-align: center;
+  font-weight: 300;
+  font-size: 14px;
+  margin-bottom: 1em;
+}
+/* line 27, ../sass/pages/_order-pay.scss */
+.order-pay-main .block h4::before, .order-pay-main .block h4::after {
+  content: ' — ';
+}
+/* line 32, ../sass/pages/_order-pay.scss */
+.order-pay-main .block h4 + div:not(.border) {
+  margin-top: -10px;
+}
+/* line 36, ../sass/pages/_order-pay.scss */
+.order-pay-main .block div:not(.border) + div.border {
+  margin-top: 5px;
+}
+/* line 40, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div {
+  font-size: 15px;
+  position: relative;
+  line-height: 2.55;
+}
+/* line 45, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div .fee {
+  position: absolute;
+  right: 0;
+}
+/* line 50, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border {
+  border: 1px solid black;
+  padding: 0 3px 0 8px;
+  margin: 11px 0;
+}
+/* line 54, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border .select.icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  left: 7px;
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s55106d4b52.png');
+  background-position: 0 -240px;
+  height: 24px;
+  width: 24px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
+}
+/* line 62, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border .select.icon.inactive {
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s55106d4b52.png');
+  background-position: 0 -215px;
+  height: 24px;
+  width: 24px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
+}
+/* line 67, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.has-icon {
+  padding-left: 37px;
+}
+/* line 71, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.select::after {
+  font-weight: 700;
+  content: '···';
+  position: absolute;
+  right: 8px;
+  top: 0;
 }
 
 /* line 3, ../sass/_components.scss */

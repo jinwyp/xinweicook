@@ -86,15 +86,15 @@ $cart-bar-height: 51px;
 // 基于 http://themestent.github.io/retina-icon-sprites/ 修改
 $retina: sprite-map("icons/*.png");
 @mixin retina-sprite-background($name){
-  //background-repeat: no-repeat;
-  //background-image: sprite-url($retina);
-  //background-position: 0 round(nth(sprite-position($retina, $name), 2) / 3);
-  //height:round(image-height(sprite-file($retina, $name)) / 3);
-  //width: round(image-width(sprite-file($retina, $name)) / 3);
-  //
-  //// treat the @2x retina sprite sheet as 50% wide for double resolution upon display
-  //$double-width:ceil(image-width(sprite-path($retina)) / 3);
-  //@include background-size($double-width auto);
+  background-repeat: no-repeat;
+  background-image: sprite-url($retina);
+  background-position: 0 round(nth(sprite-position($retina, $name), 2) / 3);
+  height:round(image-height(sprite-file($retina, $name)) / 3);
+  width: round(image-width(sprite-file($retina, $name)) / 3);
+
+  // treat the @2x retina sprite sheet as 50% wide for double resolution upon display
+  $double-width:ceil(image-width(sprite-path($retina)) / 3);
+  @include background-size($double-width auto);
 }
 
 
