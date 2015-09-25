@@ -43,6 +43,12 @@ module.exports =
       else
         "【新味Cook】客服后台通知 库存不足 #{dishTitle}"
 
+    constantTemplateSystemErrorNotify: (message, lang) ->
+      if lang is "en-US"
+        "【新味Cook】系统错误通知 #{message}."
+      else
+        "【新味Cook】系统错误通知 #{message}。"
+
     validationSMSType : (type) ->
       unless libs.validator.isIn(type, @constantSMSType())
         return throw new Err "Field validation error, 短信类型不对 SMS type must be signUp or resetPassword or verifyMobile", 400, Err.code.sms.wrongType
