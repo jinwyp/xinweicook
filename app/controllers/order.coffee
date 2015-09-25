@@ -923,8 +923,11 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
     .then (resultOrder) ->
       models.order.checkNotFound(resultOrder)
 
-      resultOrder.isPaymentPaid = true
-      resultOrder.status = models.order.constantStatus().paid
+
+      if resultOrder.isPaymentPaid isnt true
+        resultOrder.status = models.order.constantStatus().paid
+        resultOrder.isPaymentPaid = true
+
 
       resultOrder.paymentAlipay =
         notify_time : req.body.notify_time
@@ -983,8 +986,14 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
   .then (resultOrder) ->
     models.order.checkNotFound(resultOrder)
 
-    resultOrder.isPaymentPaid = true
-    resultOrder.status = models.order.constantStatus().paid
+
+
+    if resultOrder.isPaymentPaid isnt true
+      resultOrder.status = models.order.constantStatus().paid
+      resultOrder.isPaymentPaid = true
+
+
+
 
     resultOrder.paymentWeixinpay =
       out_trade_no : req.body.out_trade_no

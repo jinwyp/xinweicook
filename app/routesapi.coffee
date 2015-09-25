@@ -43,9 +43,9 @@ expressRoutes = (app) ->
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
   app.post("/mobile/wxpay/notifyaccountdetail", weixinPay.parserNotifyMiddleware, userController.chargeAccountWeixinPayNotify)
 
-
-  app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
   app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
+  app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
+
 
 #  app.use libs.secure.middleware
 
@@ -63,6 +63,8 @@ expressRoutes = (app) ->
 
   app.post("/api/qiniu/token/upload", userController.getUploadQiniuToken)
 
+  app.get("/api/user/weixin/oauthcode", userController.getWeixinUserOauthCode)
+  app.get("/api/user/weixin/openid", userController.getWeixinUserOpenId)
 
   app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)
