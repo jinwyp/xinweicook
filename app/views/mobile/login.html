@@ -30,7 +30,7 @@
         </div>
 
         <div class="forget-pwd-container">
-            <a class="forget-pwd" href="#/resetpwd">忘记密码了?</a>
+            <!--<a class="forget-pwd" href="#/resetpwd">忘记密码了?</a>-->
         </div>
 
         <button class="form-control login-button"
@@ -70,29 +70,29 @@
     </form>
 </div>
 
-<div class="signup-form" ng-if="path == '/resetpwd'" ng-cloak>
-    <form class="form-horizontal" name="resetPwdForm">
-        <div class="login-form-group">
-            <input type="tel" class="form-control" placeholder="手机号" name="mobile"
-                   ng-minlength="11" required maxlength="11"
-                   ng-model="resetPwdData.mobile"/>
-            <hr class="form-line"/>
-            <input type="number" class="form-control" placeholder="验证码" name="code"
-                   required
-                   ng-model="resetPwdData.code"/>
-            <sms-button type="resetPassword" mobile="{{resetPwdData.mobile}}" valid="{{resetPwdForm.$valid}}" ></sms-button>
-            <hr class="form-line"/>
-            <input type="password" class="form-control" placeholder="密码" name="pwd"
-                   required ng-minlength="6"
-                   ng-model="resetPwdData.pwd"/>
-        </div>
+<!--<div class="signup-form" ng-if="path == '/resetpwd'" ng-cloak>-->
+    <!--<form class="form-horizontal" name="resetPwdForm">-->
+        <!--<div class="login-form-group">-->
+            <!--<input type="tel" class="form-control" placeholder="手机号" name="mobile"-->
+                   <!--ng-minlength="11" required maxlength="11"-->
+                   <!--ng-model="resetPwdData.mobile"/>-->
+            <!--<hr class="form-line"/>-->
+            <!--<input type="number" class="form-control" placeholder="验证码" name="code"-->
+                   <!--required-->
+                   <!--ng-model="resetPwdData.code"/>-->
+            <!--<sms-button type="resetPassword" mobile="{{resetPwdData.mobile}}" valid="{{resetPwdForm.$valid}}" ></sms-button>-->
+            <!--<hr class="form-line"/>-->
+            <!--<input type="password" class="form-control" placeholder="密码" name="pwd"-->
+                   <!--required ng-minlength="6"-->
+                   <!--ng-model="resetPwdData.pwd"/>-->
+        <!--</div>-->
 
-        <button class="form-control login-button"
-                ng-class="{invalid: !resetPwdForm.$valid}"
-                ng-disabled="!resetPwdForm.$valid"
-                ng-click="resetPwd()">重置密码</button>
-    </form>
-</div>
+        <!--<button class="form-control login-button"-->
+                <!--ng-class="{invalid: !resetPwdForm.$valid}"-->
+                <!--ng-disabled="!resetPwdForm.$valid"-->
+                <!--ng-click="resetPwd()">重置密码</button>-->
+    <!--</form>-->
+<!--</div>-->
 
 </body>
 
