@@ -6,11 +6,18 @@ POST `/api/user/sms`
 |:-------|:-------|:---------------------------------------------|
 | mobile | string | 手机号                                       |
 | type   | string | `signUp`注册 `verifyMobile`验证手机号, `resetPassword`重置密码 |
+| geetest_challenge     | string | 极验 geetest 参数 |
+| eetest_validatee      | string | 极验 geetest 参数 |
+| geetest_seccode       | string | 极验 geetest 参数 |
+
 
 ```js
 {
-  "mobile": "18600000000",
-  "type": "signUp"
+  "mobile": "13564568304",
+  "type": "signUp",
+  "geetest_challenge": "8f9cc50c273ec9d0833cb92255c61b53k4",
+  "geetest_validate": "73aee1a506ffe6d6a4db12ecfd95aacf",
+  "geetest_seccode": "73aee1a506ffe6d6a4db12ecfd95aacf|jordan"
 }
 ```
 

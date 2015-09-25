@@ -15,6 +15,7 @@
    * [Revoke Access Token 撤销令牌 登出](authorization/revoke_access_token.md)
 * [用户](user/README.md)
    * [上传图片获取七牛上传凭证](user/get_qiniu_upload_token.md)
+   * [获取极验口令](user/get_geetest_register_challenge.md)
    * [通过短信发送验证码](user/send_verification_code_via_sms.md)
    * [注册](user/sign_up.md)
    * [提交DeviceID](user/add_device.md)
