@@ -63,6 +63,7 @@ expressRoutes = (app) ->
   app.post("/api/user/token", tokenController.tokenSignIn)
   app.post("/api/user/logout", tokenController.tokenRevoke)
 
+  app.get("/api/user/signup/geetest/register", smsController.getGeeTestRegisterChallenge)
   app.post("/api/user/signup", userController.userSignUp)
   app.post("/api/user/sms", smsController.sendSMS)
 

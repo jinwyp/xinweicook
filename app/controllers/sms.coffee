@@ -1,5 +1,16 @@
 # 短信
 
+geetest = require("geetest")("ab95acaebd61c6ef7dc6e8a5493f4899", '745d959dec1191e086febd11aa684c9d');
+
+
+exports.getGeeTestRegisterChallenge = (req, res, next) ->
+  geetest.register( (err, challenge) ->
+    if err
+      next(err)
+
+    if challenge
+      res.json({challenge: challenge})
+  )
 
 
 exports.sendSMS = (req, res, next) ->
