@@ -82,7 +82,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
   userId = req.query.userId
 
   unless libs.validator.isLength userId, 24, 24
-    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Pay Oauth, Field validation error,  user _id length must be 24-24") + encodeURIComponent(userId) )
+    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, Field validation error,  user _id length must be 24-24") + encodeURIComponent(userId) )
 
   models.user.findOneAsync({"_id": userId}).then (resultUser) ->
     if resultUser
@@ -90,12 +90,12 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
       if resultUser.weixinId.openid?
         return res.redirect("/mobile/")
       else
-        return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/orders/payment/weixinpay/openid", resultUser._id.toString()))
+        return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/user/weixin/openid", resultUser._id.toString()))
     else
-      return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Pay Oauth Error, cannot found this userId"))
+      return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, cannot found this userId"))
 
   .catch (err)->
-    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Pay Oauth Error") + encodeURIComponent(JSON.stringify(err)) )
+    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, Found user 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
 
@@ -106,7 +106,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("-------- OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("----- User OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   state = req.query.state
 
@@ -155,7 +155,7 @@ exports.getWeixinUserOpenId = (req, res, next) ->
       return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Error, can not found user"))
 
   .catch (err)->
-    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
+    return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Found user 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
 
