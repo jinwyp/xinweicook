@@ -30,6 +30,9 @@ expressRoutes = function(app) {
     app.get("/mobile/login", function (req, res) {
         res.render('mobile/login.html', {title: 'XinWeiCook'})
     });
+    app.get("/mobile/resetpwd", function (req, res) {
+        res.render('mobile/reset-password.html', {title: 'XinWeiCook'})
+    });
     app.get("/mobile/me", function (req, res) {
         res.render('mobile/me.html', {title: 'XinWeiCook'})
     });

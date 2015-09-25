@@ -60,7 +60,7 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
             $scope.resetPwdData.code
         ).then(function (res) {
             alert('密码重置成功,请重新登录!');
-            $location.path('/login');
+            location.href = '/mobile/login'
         }).catch(function (res) {
             Alert.show(res.data.validationStatus, '重置密码失败, 请稍后重置');
         })
@@ -122,8 +122,8 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
                         "geetest_challenge":value[0].value,
                         "geetest_validate":value[1].value,
                         "geetest_seccode":value[2].value,
-                        "type" : 'signUp',
-                        "mobile" : $scope.signupData.mobile
+                        "type" : location.pathname == '/mobile/login' ? 'signUp' : 'resetPassword',
+                        "mobile" : $scope.resetPwdData.mobile
                     };
 
                     $http.post('/api/user/sms', data).success(function(result) {
