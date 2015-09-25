@@ -1,4 +1,6 @@
 weixinPay = require "./libs/weixinpay.js"
+geetest = require("./libs/geetest.js");
+
 
 
 initController = require "./controllers/initproject.coffee"
@@ -18,6 +20,9 @@ userStatController = require "./controllers/userStatistic.js"
 
 
 cronJobController = require "./controllers/cronjob.coffee"
+
+
+
 
 
 
@@ -65,7 +70,7 @@ expressRoutes = (app) ->
 
   app.get("/api/user/signup/geetest/register", smsController.getGeeTestRegisterChallenge)
   app.post("/api/user/signup", userController.userSignUp)
-  app.post("/api/user/sms", smsController.sendSMS)
+  app.post("/api/user/sms", geetest.middleware, smsController.sendSMS)
 
   app.post("/api/user/resetpassword", userController.resetPassword)
 
