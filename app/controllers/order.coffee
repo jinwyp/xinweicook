@@ -909,7 +909,15 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
   if req.body.trade_status is "TRADE_SUCCESS" or req.body.trade_status is "TRADE_FINISHED"
 
 #    models.order.findOne {orderNumber : req.body.out_trade_no, status : models.order.constantStatus().notpaid}
-    models.order.findOne({_id : req.body.out_trade_no})
+
+
+
+    if libs.validator.isLength req.body.out_trade_no, 24, 24
+      query = {_id : req.body.out_trade_no}
+    else
+      query = {orderNumber : req.body.out_trade_no}
+
+    models.order.findOne( query )
     .populate "childOrderList"
     .execAsync()
     .then (resultOrder) ->
