@@ -68,7 +68,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
-                controller: function ($scope, User, $http, $location) {
+                controller: function ($scope, User, $http, $location, $document) {
                     $scope.css = false;
                     $scope.login = function () {
                         User.login($scope.username, $scope.password).then(function () {
@@ -78,6 +78,27 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                         })
 
                     };
+
+                    $scope.data = {
+                        geetestId : '745d959dec1191e086febd11aa684c9d',
+                        challenge : '',
+                        src : ''
+                    };
+                    $http.get('/api/user/signup/geetest/register').success(function(result) {
+                        console.log(result);
+                        $scope.data.challenge = result.challenge;
+                        $scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId + '&challenge=' + $scope.data.challenge;
+                        //$scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId;
+
+                        console.log($scope.data.src);
+                        var s = document.createElement('script');
+                        s.src = $scope.data.src;
+                        s.async = true;
+
+                        var fatherDom = angular.element(document.getElementsByClassName('geetest'));
+
+                        fatherDom.append(s);//append the script where ever you want
+                    })
                 }
             })
             .state('menu', {
