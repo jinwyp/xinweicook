@@ -74,7 +74,7 @@ module.exports =
 #        logger.error("短信发送成功: " + mobile, body)
         result = JSON.parse(body)
         if result.code isnt 0
-          logger.error("短信发送失败: " + mobile, body)
+#          logger.error("短信发送失败: " + mobile, body)
           throw new Err "短信发送失败 " + result.msg, 400, Err.code.sms.sendFailed
         else
           result

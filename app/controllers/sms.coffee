@@ -41,6 +41,8 @@ exports.sendSMS = (req, res, next) ->
 
     if type is "signUp"
       text = models.sms.constantTemplateVerifyCodeSignUp(code)
+    else
+      text = models.sms.constantTemplateVerifyCode(code)
 
     models.sms.sendSmsVia3rd(mobile, text)
   .then (result) ->
