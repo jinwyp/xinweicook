@@ -46,10 +46,12 @@ exports.sendSMS = (req, res, next) ->
 
       tempCode = ""
       models.sms.logCode(type, mobile)
-
       .then (code) ->
         tempCode = code
-        text = models.sms.constantTemplateVerifyCode(code)
+
+        if type is "signUp"
+          text = models.sms.constantTemplateVerifyCodeSignUp(code)
+
         models.sms.sendSmsVia3rd(mobile, text)
       .then (result) ->
         console.log(tempCode)

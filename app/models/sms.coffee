@@ -15,15 +15,21 @@ module.exports =
 
     constantTemplateVerifyCode: (code, lang) ->
       if lang is "en-US"
-        "【新味食材包】Your verification code is #{code}."
+        "【新味Cook】Your verification code is #{code}."
       else
-        "【新味食材包】您的验证码为 #{code}。"
+        "【新味Cook】您的验证码为 #{code}。请不要告诉他人！"
+
+    constantTemplateVerifyCodeSignUp: (code, lang) ->
+      if lang is "en-US"
+        "【新味Cook】Your signup verification code is #{code}."
+      else
+        "【新味Cook】您注册的验证码为 #{code}。请不要告诉他人！"
 
     constantTemplateOrderShipped: (orderNo, lang) ->
       if lang is "en-US"
-        "【新味食材包】Your order #{orderNo} is shipping now."
+        "【新味Cook】Your order #{orderNo} is shipping now."
       else
-        "【新味食材包】您的订单 #{orderNo} 已经开始发货，美味即将到家。"
+        "【新味Cook】您的订单 #{orderNo} 已经开始发货，美味即将到家。"
 
     constantTemplateCustomerNewOrderNotify: (orderNumber, lang) ->
       if lang is "en-US"
