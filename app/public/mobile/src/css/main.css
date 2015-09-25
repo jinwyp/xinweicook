@@ -202,6 +202,15 @@ label {
 }
 
 /* line 56, ../sass/_login.scss */
+.test-wrapper {
+  padding-left: 12px;
+}
+/* line 59, ../sass/_login.scss */
+.test-wrapper label {
+  padding: 10px 0 5px;
+}
+
+/* line 64, ../sass/_login.scss */
 .sms-button {
   position: absolute;
   border: 1px #f44d4d solid;
@@ -213,7 +222,7 @@ label {
   top: 46px;
   right: 11px;
 }
-/* line 57, ../sass/_login.scss */
+/* line 65, ../sass/_login.scss */
 .sms-button.invalid {
   color: #A7A7A7;
 }

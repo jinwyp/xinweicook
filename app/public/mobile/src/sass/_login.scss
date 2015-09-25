@@ -53,6 +53,14 @@
   color: #71736F;
 }
 
+.test-wrapper {
+  padding-left: 12px;
+
+  label {
+    padding: 10px 0 5px;
+  }
+}
+
 .sms-button {
   &.invalid {
     color: #A7A7A7;

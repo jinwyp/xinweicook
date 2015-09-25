@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, $timeout, Alert) {
+function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.resetPwdData = {};
@@ -102,7 +102,37 @@ function loginCtrl($scope, User, $location, $timeout, Alert) {
             setTimeout(function () {
                 location.href = '/mobile/';
             }, 120);
-        })
+        });
+
+        $http.get('/api/user/signup/geetest/register').success(function(result) {
+            var s = document.createElement('script');
+            s.src = 'http://api.geetest.com/get.php?gt=' + '745d959dec1191e086febd11aa684c9d' +
+                '&challenge=' + result.challenge;
+            s.async = true;
+            //$scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId;
+
+            var fatherDom = angular.element(document.getElementById('geetestContainer'));
+
+            fatherDom.append(s);//append the script where ever you want
+
+            $window.gt_custom_ajax = function(result, id, message) {
+                if(result) {
+                    var value = angular.element(document.getElementsByClassName('gt_input')).find('input');
+
+                    var data = {
+                        "geetest_challenge":value[0].value,
+                        "geetest_validate":value[1].value,
+                        "geetest_seccode":value[2].value,
+                        "type" : 'signUp',
+                        "mobile" : $scope.signupData.mobile
+                    };
+
+                    $http.post('/api/user/sms', data).success(function(result) {
+                        console.log("success")
+                    });
+                }
+            }
+        });
     }
 
     init();

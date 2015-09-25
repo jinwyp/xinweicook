@@ -48,10 +48,15 @@
                    ng-minlength="11" required maxlength="11"
                    ng-model="signupData.mobile"/>
             <hr class="form-line"/>
+
+            <div class="test-wrapper">
+                <label>滑动获取验证码</label>
+                <div id="geetestContainer"></div>
+            </div>
             <input type="number" class="form-control" placeholder="验证码" name="code"
                    required
                    ng-model="signupData.code"/>
-            <sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.$valid}}" ></sms-button>
+            <!--<sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.$valid}}" ></sms-button>-->
             <hr class="form-line"/>
             <input type="password" class="form-control" placeholder="密码" name="pwd"
                    required ng-minlength="6"
