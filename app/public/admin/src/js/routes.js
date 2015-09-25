@@ -68,7 +68,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
-                controller: function ($scope, User, $http, $location, $document) {
+                controller: function ($scope, User, $http, $location, $document, $window) {
                     $scope.css = false;
                     $scope.login = function () {
                         User.login($scope.username, $scope.password).then(function () {
@@ -85,12 +85,10 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                         src : ''
                     };
                     $http.get('/api/user/signup/geetest/register').success(function(result) {
-                        console.log(result);
                         $scope.data.challenge = result.challenge;
                         $scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId + '&challenge=' + $scope.data.challenge;
                         //$scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId;
 
-                        console.log($scope.data.src);
                         var s = document.createElement('script');
                         s.src = $scope.data.src;
                         s.async = true;
@@ -98,7 +96,44 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                         var fatherDom = angular.element(document.getElementsByClassName('geetest'));
 
                         fatherDom.append(s);//append the script where ever you want
-                    })
+                    });
+
+
+
+                    $window.gt_custom_ajax = function(result, id, message) {
+                        if(result) {
+                            console.log("++++", id);
+                            var value = angular.element(document.getElementsByClassName('gt_input')).find('input');
+
+                            var data = {
+                                "geetest_challenge":value[0].value,
+                                "geetest_validate":value[1].value,
+                                "geetest_seccode":value[2].value,
+                                "type" : 'signUp',
+                                "mobile" : '13564568304'
+                            };
+
+                            console.log("------", value);
+
+                            //$.ajax({
+                            //    type:'POST',
+                            //    url:'./validate.php',
+                            //    data:'data='+JSON.stringify(data),
+                            //    success:function(result){
+                            //        console.log(result);
+                            //        alert(result);
+                            //    }
+                            //})
+
+
+                            $http.post('/api/user/sms', data).success(function(result) {
+                                console.log("success")
+                            });
+                        }
+                    }
+
+
+
                 }
             })
             .state('menu', {
