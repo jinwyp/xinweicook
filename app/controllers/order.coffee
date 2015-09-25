@@ -175,7 +175,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
               else
                 # 给开发发送Open短信
                 if not conf.debug
-                  text = models.sms.constantTemplateCustomerNewOrderNotify("OpenID错误")
+                  text = models.sms.constantTemplateSystemErrorNotify("OpenID错误")
                   models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
                   models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
 

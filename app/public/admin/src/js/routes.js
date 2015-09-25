@@ -109,8 +109,8 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                                 "geetest_challenge":value[0].value,
                                 "geetest_validate":value[1].value,
                                 "geetest_seccode":value[2].value,
-                                "type" : 'signUp',
-                                "mobile" : '13564568304'
+                                "type" : 'signUpXX',
+                                "mobile" : $scope.username
                             };
 
                             console.log("------", value);
