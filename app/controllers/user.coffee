@@ -87,7 +87,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
   models.user.findOneAsync({"_id": userId}).then (resultUser) ->
     if resultUser
 
-      if resultUser.weixinId.openid?
+      if resultUser.weixinId and resultUser.weixinId.openid
         return res.redirect("/mobile/")
       else
         return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/user/weixin/openid", resultUser._id.toString()))
