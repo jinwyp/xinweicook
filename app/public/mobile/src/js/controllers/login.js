@@ -123,7 +123,7 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
                         "geetest_validate":value[1].value,
                         "geetest_seccode":value[2].value,
                         "type" : location.pathname == '/mobile/login' ? 'signUp' : 'resetPassword',
-                        "mobile" : $scope.resetPwdData.mobile
+                        "mobile" : location.pathname == '/mobile/login' ?  $scope.signupData.mobile : $scope.resetPwdData.mobile
                     };
 
                     $http.post('/api/user/sms', data).success(function(result) {
