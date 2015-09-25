@@ -17,6 +17,8 @@ exports.sendSMS = (req, res, next) ->
   # 发送短信验证码
   { type, mobile , geetest_challenge, geetest_validate, geetest_seccode} = req.body
 
+  models.user.validationMobile(mobile)
+  models.sms.validationSMSType(type)
 
   geetestCode =
     challenge: geetest_challenge
@@ -30,8 +32,6 @@ exports.sendSMS = (req, res, next) ->
 
     if result
 
-      models.user.validationMobile(mobile)
-      models.sms.validationSMSType(type)
       if type is "signUp"
         logger.error("----发短信请求 注册", JSON.stringify(req.body))
 
