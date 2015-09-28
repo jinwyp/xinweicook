@@ -44,6 +44,18 @@ exports.removeOrder = (req, res, next) ->
   .catch next
 
 
+exports.removeCoupon = (req, res, next) ->
+
+#  models.coupon.findAsync({price: { $exists: false }}).then (result) ->
+#    res.send result
+#  .catch next
+
+  models.coupon.removeAsync({price: { $exists: false }}).then (result) ->
+    res.send result
+  .catch next
+
+
+
 exports.removeUser = (req, res, next) ->
 
   models.user.removeAsync({}).then () ->
