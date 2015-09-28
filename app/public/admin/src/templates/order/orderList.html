@@ -90,6 +90,19 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
+                    <label for="inputUserId" class="col-lg-2 control-label" >订单所属用户_ID</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.user" ng-minlength="23">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.userId.$dirty&&searchForm.userId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.userId.$dirty&&searchForm.userId.$error.minlength || searchForm.userId.$dirty&&searchForm.userId.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$valid, 'has-error':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$invalid}">
                     <label for="inputOrderContactPerson" class="col-lg-2 control-label" >该订单联系人</label>
                     <div class="col-lg-4">
@@ -232,8 +245,8 @@
                 <!--<td>{{order.isChildOrder}}</td>-->
                 <td>{{order.clientFrom}}</td>
 
-                <td> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a>  {{order.address.mobile}} </td>
-                <td>{{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / {{order.address.address}} /  距离{{order.address.distanceFrom}}米</td>
+                <td> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a> {{order.address.mobile}} </td>
+                <td><a ui-sref="menu.updateUser({ id: order.user })" target="_blank">{{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / {{order.address.address}} /  距离{{order.address.distanceFrom}}米 </a> </td>
 
                 <td>{{order.userComment}}</td>
                 <td>{{order.csComment}}</td>
