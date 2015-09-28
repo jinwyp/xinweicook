@@ -219,6 +219,12 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
         credits: {
             enabled: true
         },
+        xAxis: {
+            categories: ['Apples', 'Pears', 'Oranges', 'Bananas', 'Carrots']
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
         loading: false,
         size: {}
     }
