@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>481</integer>
+                    <integer>526</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1997,7 +1997,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z311 z314 z312 z313 z317 z315 z316"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 3B5:YadP0nzuOKr/7uWRpDQz56VWv3Kot1n4</attribute>
+        <attribute name="value" type="string">Bearer 2Cd:ev7FXbvukEksAP7LovIjJ4cKqg8bzOW9</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
