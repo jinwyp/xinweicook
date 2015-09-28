@@ -161,11 +161,11 @@ ksuDi.prototype.createOrder = function (item, callback){
     var opts = {
         url: this.config.url_createOrder,
         method: 'POST',
-        headers: {
-            "content-type": "application/json"
-        },
+        //headers: {
+        //    "content-type": "application/json"
+        //},
         //body: JSON.stringify(newOrder),
-        timeout: 10000,
+        //timeout: 10000,
         json : newOrder
     };
 
