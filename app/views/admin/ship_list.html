@@ -9,31 +9,28 @@
   margin: 0;
   padding: 0;
   font-size: 15px;
-  font-family: 'PingFang SC';
+  font-family: 'PingFang SC', 'Helvetica';
   font-weight: 400;
 }
 
 .page {
-  height: 297mm;
-  width: 210mm;
-  page-break-before: always;
-}
-
-.ad {
-  margin: 5mm auto;
-  width: 50%;
-  display: block;
-}
-
-.sign {
-  margin: 5mm auto;
-  width: 70%;
-  display: block;
+  height: 210mm;
+  width: 148mm;
+  page-break-after: always;
 }
 
 .container {
-  width: 70%;
+  width: 88%;
+  height: 80%;
   margin: auto;
+}
+
+.sign {
+  /*margin: auto auto 10mm auto;*/
+  width: 90%;
+  display: block;
+  position: relative;
+  bottom: 0;
 }
 
 .header {
@@ -42,21 +39,21 @@
 }
 
 .autoIncrementId {
-  font-weight: 600;
-  font-family: "Arial";
+  font-weight: bold;
+  font-family: "Helvetica";
   font-size: 48px;
-  padding: 8px;
+  padding: 5px;
   text-align: center;
-  height: 100px;
-  float: left;
+  height: 25mm;
   border: 6px solid #000;
-  margin: 80px 8px 20px 0;
+  margin: 0 5mm 10mm 0;
+  width: 25mm;
+  float: left;
 }
 
 .info {
-  float: left;
-  margin: 20mm 0 0 5mm;
-  width: 87mm;
+  margin: 20mm 0 20mm 38mm;
+  width: 95mm;
 }
 
   .info .contactPerson {
@@ -71,13 +68,25 @@
     display: inline;
   }
 
-  .info .orderNumber {
-    font-size: 12px;
-    color: #999;
+  .info .deliveryDateTime {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .info .textField {
+    width: 70%;
+    display: inline-block;
+    font-weight: bold;
+    padding-bottom: 2px;
+    border-bottom: 1px dotted #000;
   }
 
   .info p {
     padding-bottom: 2.5mm
+  }
+
+  .info .userComment, .info .csComment {
+    font-weight: lighter;
   }
 
     .address .province, .address .city {
@@ -87,6 +96,12 @@
       font-weight: bold;
       font-size: 16px;
     }
+
+.cookingType {
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 5mm;
+}
 
 .items {
   width: 100%;
@@ -99,19 +114,26 @@
 }
 
   .items dt {
-    font-size: 18px;
+    font-size: 17px;
+    -webkit-min-font-size: 12px;
+    -webkit-text-size-adjust: 100%;
     line-height: 40px;
+    width: 90%;
+    font-weight: bold;
   }
 
   .items dd {
     text-align: right;
     float: right;
     margin-top: -32px;
+    font-weight: lighter;
   }
 
 .price_info {
   width: 100%;
+  font-size: 14px;
   line-height: 25px;
+  font-weight: lighter;
 }
 
 @page {
@@ -129,22 +151,45 @@
 <div class="page">
     <div class="container">
         <div class="header">
-            <div class="autoIncrementId"><%= orderList[m].autoIncrementId %></div>
+            <div class="autoIncrementId"><%= orderList[m].autoIncrementId.toString().substring(2) %></div>
             <div class="info">
                 <p class="contactPerson"><%= orderList[m].address.contactPerson %></p>
-                <p class="mobile"><%= orderList[m].address.mobile %></p>
+                <p class="mobile">
+                  <%= orderList[m].address.mobile.substring(0, 3) %>
+                  <%= orderList[m].address.mobile.substring(3, 7) %>
+                  <%= orderList[m].address.mobile.substring(7, 11) %>
+                </p>
                 <p class="address">
                   <span class="province"><%= orderList[m].address.province %></span>
-                  <span class="city"><%= orderList[m].address.city %></span>
+                  <span class="city"><%= orderList[m].address.city %></span><br/>
                   <span class="district"><%= orderList[m].address.district %></span>
                   <span class="street"><%= orderList[m].address.street %></span>
                   <span class="address"><%= orderList[m].address.address %></span>
                 </p>
-                <p class="deliveryDateTime"><%= orderList[m].deliveryDateTime %></p>
-                <p class="orderNumber"><%= orderList[m].orderNumber %></p>
+                <p class="deliveryDateTime">
+                  <%= orderList[m].deliveryTime %> 送达
+                  <small>(<%= orderList[m].deliveryDate.substring(5) %>)</small>
+                </p>
+                <p class="userComment">用户备注:
+                  <span class="textField">
+                    <%= orderList[m].userComment %>　
+                  </span>
+                </p>
+                <p class="csComment">客服备注:
+                  <span class="textField">
+                    <%= orderList[m].csComment %>　
+                  </span>
+                </p>
             </div>
         </div>
 
+        <h3 class="cookingType">
+          <% if (orderList[m].dishList[0].dish.cookingType == "ready to cook") { %>
+            食材包
+          <% } else { %>
+            便当 / 汤 / 饮料 / 茶
+          <% } %>
+        </h3>
         <dl class="items">
           <% for(var i=0; i<orderList[m].dishList.length; i++) { %>
             <dt>
@@ -166,16 +211,23 @@
         </dl>
 
         <div class="price_info">
-          <p>运　　费: ¥<%= orderList[m].freight %></p>
-          <p>商品总额: ¥<%= orderList[m].dishesPrice %></p>
-          <p>优惠　券: - ¥<%= orderList[m].couponDiscount||0 %></p>
-          <p>优惠　码: - ¥<%= orderList[m].promotionDiscount||0 %></p>
-          <p>新味　币: - ¥<%= orderList[m].accountUsedDiscount||0 %></p>
-          <p>订单总额: ¥<%= orderList[m].totalPrice %></p>
+          订单总额: <strong>¥<%= orderList[m].totalPrice %></strong> =
+          ¥<%= orderList[m].dishesPrice %>(商品总额)
+          + ¥<%= orderList[m].freight %>(运费)
+          <% if (orderList[m].couponDiscount) { %>
+            - ¥<%= orderList[m].couponDiscount||0 %>(优惠券)
+          <% } %>
+          <% if (orderList[m].promotionDiscount) { %>
+            - ¥<%= orderList[m].promotionDiscount||0 %>(优惠码)
+          <% } %>
+          <% if (orderList[m].accountUsedDiscount) { %>
+            - ¥<%= orderList[m].accountUsedDiscount||0 %>(新味币)
+          <% } %>
+
         </div>
 
+        <img src="/sign.png" class="sign"/>
     </div>
-    <img src="/sign.png" class="sign"/>
 </div>
 
 <% } %>
