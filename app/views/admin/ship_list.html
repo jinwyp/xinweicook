@@ -50,7 +50,7 @@
   height: 100px;
   float: left;
   border: 6px solid #000;
-  margin: 0 8px 8px 0;
+  margin: 80px 8px 20px 0;
 }
 
 .info {
@@ -62,20 +62,31 @@
   .info .contactPerson {
     font-size: 24px;
     font-weight: 600;
+    display: inline;
   }
 
   .info .mobile {
     font-size: 24px;
     font-weight: 600;
+    display: inline;
+  }
+
+  .info .orderNumber {
+    font-size: 12px;
+    color: #999;
   }
 
   .info p {
     padding-bottom: 2.5mm
   }
 
-.order_info td {
-  text-align: center;
-}
+    .address .province, .address .city {
+      font-size: 13px;
+    }
+    .address .district, .address .street, .address .address {
+      font-weight: bold;
+      font-size: 16px;
+    }
 
 .items {
   width: 100%;
@@ -87,17 +98,20 @@
   clear: both;
 }
 
-.items dd {
-  text-align: right;
-  float: right;
-}
+  .items dt {
+    font-size: 18px;
+    line-height: 40px;
+  }
+
+  .items dd {
+    text-align: right;
+    float: right;
+    margin-top: -32px;
+  }
 
 .price_info {
   width: 100%;
-}
-
-td {
-  padding: 2mm
+  line-height: 25px;
 }
 
 @page {
