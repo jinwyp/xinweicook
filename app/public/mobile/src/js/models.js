@@ -104,12 +104,13 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
             var now = Date.now();
             if (now - cartDate > timeSpan) {
                 clearTimeout(timer);
-                $http.post('/api/user/shoppingcart', {shoppingCart: cart});
+                return $http.post('/api/user/shoppingcart', {shoppingCart: cart});
             } else {
                 clearTimeout(timer);
                 timer = setTimeout(this.postCart.bind(this, cart), timeSpan + 100)
             }
             cartDate = now;
+            return {'catch': angular.noop}
         },
         applyInvitationCode: function (code) {
             return $http.get('/api/user/coupon/invitation/' + code)

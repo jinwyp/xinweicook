@@ -5,10 +5,6 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
     $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
-    $scope.css = {
-        showAllAddress: false,
-        showLocationFailed: false
-    };
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -60,11 +56,11 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
 
 
     function init() {
-        // 初始化选择的地址
-        if ($localStorage.selectedAddress) {
-            $scope.chooseAddress($localStorage.selectedAddress);
-            delete $localStorage.selectedAddress;
-        }
+        //// 初始化选择的地址
+        //if ($localStorage.selectedAddress) {
+        //    $scope.chooseAddress($localStorage.selectedAddress);
+        //    delete $localStorage.selectedAddress;
+        //}
 
         // 初始化nav
         var path = $location.path() || '/eat';
@@ -72,51 +68,51 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
         $location.path(path);
         $scope.path = path;
 
-        $scope.address || Weixin.getJsconfig().then(function (res) {
-            if ($scope.address) return;
-
-            Weixin.config({
-                nonceStr :res.data.noncestr,
-                timestamp: res.data.timestamp,
-                signature: res.data.signature
-            });
-
-            // 1.通过微信jssdk获取坐标,然后通过百度地图获取与坐标相关的详细信息.
-            Weixin.ready(function () {
-                if ($scope.address) return;
-
-                Weixin.getLocation(function (res_) {
-                    if ($scope.address) return;
-
-                    Debug.alert(res_);
-                    Weixin.getLocationName(res_.latitude, res_.longitude).then(function (res) {
-                        if ($scope.address) return;
-
-                        var result = res.data.result;
-
-                        $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
-                        $localStorage.address.geoLatitude = res_.latitude;
-                        $localStorage.address.geoLongitude = res_.longitude;
-
-                        $scope.chooseAddress($localStorage.address);
-
-                    }).catch(function (res) {
-                        Debug.alert('根据坐标获取用户位置失败');
-                        Debug.alert(res);
-                        $scope.css.showLocationFailed = true;
-                    })
-                }, function (res) {
-                    Debug.alert('获取用户位置失败');
-                    Debug.alert(res);
-                    $scope.css.showLocationFailed = true;
-                    $scope.$apply();
-                })
-            })
-        }).catch(function (res) {
-            Debug.alert('获取jsconfig失败');
-            Debug.alert(res);
-            $scope.css.showLocationFailed = true;
-        });
+        //$scope.address || Weixin.getJsconfig().then(function (res) {
+        //    if ($scope.address) return;
+        //
+        //    Weixin.config({
+        //        nonceStr :res.data.noncestr,
+        //        timestamp: res.data.timestamp,
+        //        signature: res.data.signature
+        //    });
+        //
+        //    // 1.通过微信jssdk获取坐标,然后通过百度地图获取与坐标相关的详细信息.
+        //    Weixin.ready(function () {
+        //        if ($scope.address) return;
+        //
+        //        Weixin.getLocation(function (res_) {
+        //            if ($scope.address) return;
+        //
+        //            Debug.alert(res_);
+        //            Weixin.getLocationName(res_.latitude, res_.longitude).then(function (res) {
+        //                if ($scope.address) return;
+        //
+        //                var result = res.data.result;
+        //
+        //                $localStorage.address = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
+        //                $localStorage.address.geoLatitude = res_.latitude;
+        //                $localStorage.address.geoLongitude = res_.longitude;
+        //
+        //                $scope.chooseAddress($localStorage.address);
+        //
+        //            }).catch(function (res) {
+        //                Debug.alert('根据坐标获取用户位置失败');
+        //                Debug.alert(res);
+        //                $scope.css.showLocationFailed = true;
+        //            })
+        //        }, function (res) {
+        //            Debug.alert('获取用户位置失败');
+        //            Debug.alert(res);
+        //            $scope.css.showLocationFailed = true;
+        //            $scope.$apply();
+        //        })
+        //    })
+        //}).catch(function (res) {
+        //    Debug.alert('获取jsconfig失败');
+        //    Debug.alert(res);
+        //    $scope.css.showLocationFailed = true;
+        //});
 
         $q.all([
             Dishes.getList().then(function (res) {

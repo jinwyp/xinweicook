@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
+angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage) {
     return {
         scope: {
             dish: '=',
@@ -32,6 +32,10 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                     $scope.dish.curSelection = curSelection;
                 }
             });
+
+            if ($localStorage.addDishCart) {
+                $scope.cart = $localStorage.addDishCart;
+            }
 
             /**
              * @param dish 此dish同$scope.dish
@@ -102,7 +106,9 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                             }
                         })
                     }
-                }));
+                })).catch(function () {
+                    $localStorage.addDishCart = $scope.cart;
+                });
 
                 $scope.totalPrice();
             };
@@ -125,6 +131,8 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User) {
                 //            }, 0))
                 //    )
             };
+
+            $scope.totalPrice();
 
             $scope.hide = function () {
                 $scope.dish = null;

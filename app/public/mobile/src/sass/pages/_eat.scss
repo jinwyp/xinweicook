@@ -21,14 +21,6 @@ $out-of-stock-bg-color: #75A3B7;
   margin-bottom: 10px;
   font-size: 18px;
   color: #C1BEBE;
-  .profile-icon {
-    background: url(../../img/icons/NavBarProfileIcon.png) no-repeat;
-    height: 46px;
-    position: absolute;
-    width: 46px;
-    background-size: contain;
-    right: 0;
-  }
   span {
     border-bottom: solid 1px transparent;
     padding: 0 15px 11px;
@@ -57,7 +49,7 @@ $out-of-stock-bg-color: #75A3B7;
     }
   }
   .img-group {
-    background: white url(../../img/ImagePlaceholder.png) 50%/cover no-repeat;
+    background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
     position: relative;
     overflow: hidden;
     .count-operation {
@@ -180,7 +172,7 @@ $sc-h5-font-size: 15px;
   }
 
   .close-button {
-    background: url(../../img/icons/CloseIcon.png) 50%/contain no-repeat;
+    background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
     width: 1.1em;
     height: 100%;
     position: absolute;

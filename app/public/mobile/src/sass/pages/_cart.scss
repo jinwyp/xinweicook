@@ -51,12 +51,10 @@ $select-btn-width: 100px;
     border-bottom: 0;
   }
   .select {
-    background: url(../../img/icons/ForkIcon.png) no-repeat 50% 50%/contain;
-    width: 24px;
-    height: 100%;
+    @include retina-sprite-background(ForkIcon);
     position: absolute;
     &.active {
-      background-image: url(../../img/icons/ForkIconHighlighted.png);
+      @include retina-sprite-background(ForkIconHighlighted)
     }
   }
   .dish-img {
@@ -129,8 +127,7 @@ $select-btn-width: 100px;
 
 .empty-cart {
   .icon {
-    height: 183px;
-    background: url(../../img/icons/EmptyCart.png) no-repeat 50%/32%;
+    @include retina-sprite-background(EmptyCart)
   }
   .text {
     color:#969696;
