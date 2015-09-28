@@ -5663,16 +5663,16 @@
     </object>
     <object type="LMREQUEST" id="z728">
         <attribute name="uuid" type="string">2EA73969-AFA6-408F-BC2C-377EC59EC52A</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"3C75BB5C-A7EC-4A5B-A4C5-6554CEA11E74"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/order\\/delivery\\/ksudi\\/5608b93b0566fa35134ea333"]</attribute>
+        <attribute name="url" type="string">http://www.ksudi.org/shop/order/save/1</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"username\\":\\"13761339935\\",\\"password\\":\\"xwcook789\\",\\"charset\\":\\"utf-8\\",\\"signtype\\":\\"MD5\\",\\"rec_addrs\\":\\"王宇鹏xx\\/13564568304\\/shanghai\\/shanghai\\/shanghai\\/shanghai\\/xxxxx\\",\\"sender\\":\\"王宇鹏xx\\",\\"sendtelephone\\":\\"13564568304\\",\\"send_time\\":\\"1443429964\\",\\"receive_time\\":\\"1434168000\\",\\"goodsInfo\\":\\"照烧鸡腿\\",\\"actualcost\\":\\"\\",\\"weight\\":\\"\\",\\"order_remark\\":\\"\\",\\"cityname\\":\\"item.address.city\\",\\"citycode\\":\\"SHS\\",\\"isadvance\\":0,\\"backurl\\":\\"http:\\/\\/m.xinweicook.com\\/api\\/orders\\/delivery\\/ksudi\\/notify\\",\\"sign\\":\\"33d04075c5973b41e5325d8304f157c2\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">3</attribute>
-        <attribute name="name" type="string">order-deliveryKSuDi</attribute>
+        <attribute name="name" type="string">order-deliveryKSuDiDirect</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z726 z727 z729"></relationship>
@@ -5706,7 +5706,7 @@
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">4</attribute>
-        <attribute name="name" type="string">order-deliveryKSuDi Duplicate</attribute>
+        <attribute name="name" type="string">order-deliveryKSuDi</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z732 z730 z733"></relationship>

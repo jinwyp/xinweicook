@@ -27,7 +27,7 @@ var configKsuDi = {
     key: "",
 
 
-    url_createOrder : "http://www.ksudi.org/shop/shop/order/save/1"
+    url_createOrder : "http://www.ksudi.org/shop/order/save/1"
 
 
 };
@@ -130,8 +130,10 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         //expressnumber : item.expressnumber,
         sendtelephone : item.address.mobile,
-        sendtime : moment().format("YYYY-MM-DD HH:mm:ss"),
-        receivetime : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"),
+        //sendtime : moment().format("YYYY-MM-DD HH:mm:ss"),
+        send_time : moment().unix(),
+        //receivetime : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"),
+        receive_time : moment(item.deliveryDateTime).unix(),
 
 
         goodsInfo : item.dishHistory[0].dish.title.zh,
@@ -139,7 +141,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         weight : '',
         order_remark : '',
 
-        cityname : 'item.address.city',
+        cityname : item.address.city,
         citycode : 'SHS',  //上海市 SHS 杭州市 HZS
 
         isadvance : 0,  //是否需要垫付
@@ -159,12 +161,15 @@ ksuDi.prototype.createOrder = function (item, callback){
     var opts = {
         url: this.config.url_createOrder,
         method: 'POST',
-        ok: newOrder,
+        headers: {
+            "content-type": "application/json"
+        },
+        //body: JSON.stringify(newOrder),
         timeout: 10000,
-        json : true
+        json : newOrder
     };
 
-    console.log(opts);
+    //console.log(opts);
 
     requestC(opts, function(err, response, body){
         console.log('========== KSudi', err);
@@ -193,5 +198,3 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     })
 };
-
-
