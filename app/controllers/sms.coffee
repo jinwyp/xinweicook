@@ -21,16 +21,16 @@ exports.sendSMS = (req, res, next) ->
   { type, mobile , geetest_challenge, geetest_validate, geetest_seccode} = req.body
 
 #  if type is "signUp"
-#    logger.error("----发短信请求 注册", JSON.stringify(req.body))
+#    logger.error("---- Send SMS: Registration", JSON.stringify(req.body))
 #
 #  if type is "resetPassword"
-#    logger.error("----发短信请求 重置密码", JSON.stringify(req.body))
+#    logger.error("---- Send SMS: Reset Password", JSON.stringify(req.body))
 #
 #  if type is "verifyMobile"
-#    logger.error("----发短信请求 验证手机号", JSON.stringify(req.body))
+#    logger.error("---- Send SMS: Verify Mobile", JSON.stringify(req.body))
 #
 #  if type is "orderShipped"
-#    logger.error("----发短信请求 订单已发货通知", JSON.stringify(req.body))
+#    logger.error("---- Send SMS: Order delivery notification 已发货通知", JSON.stringify(req.body))
 
 
   models.user.validationMobile(mobile)

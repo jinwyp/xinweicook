@@ -115,14 +115,14 @@ module.exports =
           if resultDevice and  resultDevice.deviceToken and resultDevice.deviceToken isnt ""
             models.message.sendMessageXinge(resultDevice.deviceToken, contentType, additionalContent, (err, resultPush) ->
               if err
-                logger.error("信鸽推送发送失败: "+ contentType, JSON.stringify(err))
+                logger.error("Send iOS push notification failed: "+ contentType, JSON.stringify(err))
               else
-                logger.error("信鸽推送发送: "+ contentType, resultPush) # ret_code 71	APNS服务器繁忙 73	消息字符数超限 http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
+                logger.error("Send iOS push notification: "+ contentType, resultPush) # ret_code 71	APNS服务器繁忙 73	消息字符数超限 http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
                 try
                   tempResult = JSON.parse(resultPush)
                 catch err
                 # http://developer.xg.qq.com/index.php/%E8%BF%94%E5%9B%9E%E7%A0%81%E6%8F%8F%E8%BF%B0
-                  logger.error("信鸽推送发送失败 JSON非法: " + contentType, JSON.stringify(err))
+                  logger.error("Send iOS push notification failed: JSON error: " + contentType, JSON.stringify(err))
             )
 
       if pushOptions.isPushSMS and additionalContent.smsText

@@ -27,7 +27,7 @@ var configKsuDi = {
     key: "",
 
 
-    url_createOrder : "http://www.ksudi.org/shop/order/save/1"
+    url_createOrder : "http://www.ksudi.org/shop/shop/order/save/1"
 
 
 };

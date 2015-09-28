@@ -44,8 +44,11 @@ exports.runCronJob = (req, res, next) ->
 
 
 exports.getNoOrderUserLast7DayTest = (req, res, next) ->
-  logger.error("Cron 测试 每周三10d点发送iOS推送: " )
+  logger.error("Cron Test Every Wednesday 10 o'clock send iOS push notification: " )
   res.send("ok")
+
+
+
 
 exports.getNoOrderUserLast7Day = (req, res, next) ->
   # 当周还未下单的但有优惠券 每周三上午10点推送
@@ -95,7 +98,7 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 
         models.message.sendMessageToUser(sendUser, models.message.constantContentType().cronjob, additionalContent, pushOptions)
 
-      logger.error("Cron 每周三10d点发送iOS推送: ", JSON.stringify(sendUserIdList) )
+      logger.error("Cron Every Wednesday 10 o'clock send iOS push notification: ", JSON.stringify(sendUserIdList) )
       res.send("ok")
     .catch next
 

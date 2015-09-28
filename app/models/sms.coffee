@@ -75,11 +75,11 @@ module.exports =
         result = JSON.parse(body)
         if result.code isnt 0
 #          logger.error("短信发送失败: " + mobile, body)
-          throw new Err "短信发送失败 " + result.msg, 400, Err.code.sms.sendFailed
+          throw new Err "Send SMS failed " + result.msg, 400, Err.code.sms.sendFailed
         else
           result
       .catch( (err)->
-        logger.error("短信发送失败: " + mobile, JSON.stringify(err))
+        logger.error("Send SMS failed: " + mobile, JSON.stringify(err))
       )
 
 
