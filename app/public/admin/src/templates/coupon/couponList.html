@@ -94,6 +94,22 @@
                 </div>
 
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponId.$dirty&&searchForm.couponId.$valid, 'has-error':searchForm.couponId.$dirty&&searchForm.couponId.$invalid}">
+                    <label for="inputCouponId" class="col-lg-2 control-label" >优惠券或优惠码ID</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputCouponId" placeholder="优惠券ID" name="couponId" ng-model="data.searchOptions._id" ng-minlength="23">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.couponId.$dirty&&searchForm.couponId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.couponId.$dirty&&searchForm.couponId.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.couponId.$dirty&&searchForm.couponId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.couponId.$dirty&&searchForm.couponId.$error.minlength || searchForm.couponId.$dirty&&searchForm.couponId.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >优惠券所属用户ID</label>
                     <div class="col-lg-4">
@@ -168,7 +184,7 @@
 
                 <th>已使用次数</th>
                 <th>是否已用</th>
-                <th>操作</th>
+                <!--<th>操作</th>-->
             </tr>
         </thead>
         <tbody>
@@ -194,13 +210,13 @@
 
                 <td>{{coupon.isUsedCount}}</td>
                 <td>{{coupon.isUsed}}</td>
-                <td>
-                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===coupon._id">确认真的删除吗？
-                        <button class="btn btn-danger" ng-click="delCoupon(coupon)">立即删除</button>
-                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
-                    </div>
-                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==coupon._id" ng-click="data.currentDeleteIndex=coupon._id">删除</button>
-                </td>
+                <!--<td>-->
+                    <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===coupon._id">确认真的删除吗？-->
+                        <!--<button class="btn btn-danger" ng-click="delCoupon(coupon)">立即删除</button>-->
+                        <!--<button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>-->
+                    <!--</div>-->
+                    <!--<button class="btn btn-danger" ng-show="data.currentDeleteIndex!==coupon._id" ng-click="data.currentDeleteIndex=coupon._id">删除</button>-->
+                <!--</td>-->
             </tr>
         </tbody>
     </table>
