@@ -6,9 +6,6 @@ ENV["SHEEL"] = "/bin/sh"
 desc 'Initialize DEV environment'
 task :init do
   system 'brew install mongodb nginx redis nodejs ansible'
-  system 'brew install cask'
-  system 'brew cask install virtualbox'
-  system 'brew cask install vagrant'
 end
 
 # Dev ##########################################################################
@@ -64,24 +61,6 @@ end
 desc "Deploy with PM2"
 task :pm2_deploy do
   system 'pm2 deploy ecosystem.json development'
-end
-
-desc "Deploy to Ucloud Development server"
-task :deploy do
-  system 'ansible-playbook 010_ucloud.yml'
-end
-
-desc "Deploy to Ucloud Production server"
-task :deploy_pro do
-  system 'ansible-playbook 010_ucloud.yml -e PRODUCTION=true'
-end
-
-# Vagrant related ##############################################################
-
-desc 'Start server in Vagrant'
-task :vagrant do
-  system 'vagrant up --no-provision'
-  system 'vagrant provision'
 end
 
 # Default ######################################################################

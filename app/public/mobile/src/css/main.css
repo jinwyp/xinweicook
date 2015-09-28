@@ -1595,7 +1595,7 @@ label {
   width: 100%;
 }
 /* line 21, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay {
+.wxpay-main .qr-pay, .wxpay-main .pay-success {
   width: 95%;
   border: 1px solid #DADADA;
   border-radius: 3px;
@@ -1604,25 +1604,36 @@ label {
   padding: 0 7px;
 }
 /* line 29, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay .title {
+.wxpay-main .qr-pay a, .wxpay-main .pay-success a {
+  padding: 7px;
+  color: white;
+  display: block;
+  background-color: #44b549;
+  width: 68%;
+  margin: 14px auto;
+  font-size: 16px;
+  border-radius: 2px;
+}
+/* line 40, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay .title, .wxpay-main .pay-success .title {
   font-size: 12px;
   margin: 7px 0;
 }
-/* line 33, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay .guide {
+/* line 44, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay .guide, .wxpay-main .pay-success .guide {
   font-size: 14px;
 }
-/* line 37, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay h5 {
+/* line 48, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay h5, .wxpay-main .pay-success h5 {
   font-weight: 100;
 }
-/* line 40, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay img {
+/* line 51, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay img, .wxpay-main .pay-success img {
   width: 45%;
   margin-bottom: 15px;
 }
-/* line 44, ../sass/_wxpay.scss */
-.wxpay-main .qr-pay hr {
+/* line 55, ../sass/_wxpay.scss */
+.wxpay-main .qr-pay hr, .wxpay-main .pay-success hr {
   margin: 0;
 }
 

@@ -1,14 +1,12 @@
 # 新味服务端
 
-## 本地开发环境
-
-### Mac 物理机开发环境
+## Mac 本地开发环境
 
 0. [Homebrew]
 1. [nodejs]
 2. [mongodb]
 3. [redis]
-4. [nginx]
+4. [nginx] (可选)
 
 装完 [Homebrew] 后可以用以下命令按装这些依赖：
 
@@ -18,10 +16,10 @@ brew install nodejs mongodb redis nginx
 
 [mongodb], [redis] 和 [nginx] 的启动方法可以用 `brew info mongodb redis nginx` 查看。
 
-为了方便启动服务，可以用 `gem install lunchy` 安装 [lunchy]。
+为了方便启动这些系统服务，可以用 `gem install lunchy` 安装 [lunchy]。
 
 
-#### 使用 Nodejs 下的Nodemon 工具启动服务器
+#### 使用 Nodejs 下的 Nodemon 工具启动服务器
 
 然后 `nodemon index.coffee` 启动服务。 注意 nodemon 配置文件为 nodemon.json
 
@@ -54,7 +52,7 @@ brew install nodejs mongodb redis nginx
 
 ## 文档
 
-`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。
+`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。[可以在这里在线阅读](http://新味.com/api-test/doc/)。
 
 
 [Homebrew]: https://brew.sh
@@ -63,3 +61,4 @@ brew install nodejs mongodb redis nginx
 [redis]: http://redis.io
 [nginx]: http://nginx.org
 [GitBook]: https://gitbook.com
+[lunchy]: https://github.com/eddiezane/lunchy

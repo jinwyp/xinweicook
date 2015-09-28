@@ -18,13 +18,24 @@
     }
   }
 
-  .qr-pay {
+  .qr-pay, .pay-success {
     width: 95%;
     border: 1px solid #DADADA;
     border-radius: 3px;
     margin: 0 auto;
     background-color: white;
     padding: 0 7px;
+
+    a {
+      padding: 7px;
+      color: white;
+      display: block;
+      background-color: #44b549;
+      width: 68%;
+      margin: 14px auto;
+      font-size: 16px;
+      border-radius: 2px;
+    }
 
     .title {
       font-size: 12px;

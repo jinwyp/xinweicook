@@ -5,6 +5,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
 
     // fail1 订单号异常, fail2 支付失败, fail3 支付失败之跨号支付
     $scope.state = 'processing';
+    $scope.showShareInfo = true;
 
 
     function init() {
@@ -24,6 +25,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
 
         if (orderId == 'CHARGEBALANCE') {
             if ($localStorage.wxInfo) {
+                $scope.showShareInfo = false;
                 var wxInfo = $localStorage.wxInfo;
                 delete $localStorage.wxInfo;
 
@@ -110,9 +112,9 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
                             if (/\bok\b/.test(res.err_msg)) {
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
                                     Debug.alert('更新订单状态成功');
-                                    setTimeout(function () {
-                                        location.href = '/mobile/invite'
-                                    }, 2000);
+                                    //setTimeout(function () {
+                                    //    location.href = '/mobile/invite'
+                                    //}, 2000);
                                 }).catch(function (res) {
                                     Debug.alert('订单状态更新失败');
                                     Debug.alert(res);
