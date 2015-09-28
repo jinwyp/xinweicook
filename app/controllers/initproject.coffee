@@ -65,6 +65,15 @@ exports.removeUser = (req, res, next) ->
     res.send "Remove OK"
   .catch next
 
+
+exports.removeAccountDetails = (req, res, next) ->
+
+  models.accountdetail.removeAsync({isPlus: true, isPaid:false ,chargeType:{$in:["alipaydirect", "weixinpay"]}  }).then (result) ->
+    res.send result
+  .catch next
+
+
+
 exports.removeLog = (req, res, next) ->
   models.log.removeAsync({}).then () ->
     res.send "Remove OK"

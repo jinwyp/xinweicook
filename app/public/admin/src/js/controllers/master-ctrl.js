@@ -85,6 +85,11 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.removecoupon = function () {
         $http.get('/api/administrator/initremovecoupon');
     };
+
+    $scope.removeaccountdetail = function () {
+        $http.get('/api/administrator/initremoveaccountdetail');
+    };
+
     $scope.removelog = function () {
         $http.get('/api/administrator/initremovelog');
     };

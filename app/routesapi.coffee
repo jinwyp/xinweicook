@@ -143,6 +143,7 @@ expressRoutes = (app) ->
 #  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
 #  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
   app.get("/api/administrator/initremovecoupon", libs.auth("admin"), initController.removeCoupon)
+  app.get("/api/administrator/initremoveaccountdetail", libs.auth("admin"), initController.removeAccountDetails)
   app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
