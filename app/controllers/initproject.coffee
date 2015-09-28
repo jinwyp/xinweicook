@@ -31,7 +31,7 @@ exports.removeDish = (req, res, next) ->
 
 exports.removeInventory = (req, res, next) ->
   # 删除岳可诚 和 李凯 的测试订单库存记录
-  models.inventory.removeAsync({user:{$in:["55b8ce8f2fa6bd84740ebb79", "55b1d724ca15939a23b7bb81"]}}).then () ->
+  models.inventory.removeAsync({user:{$in:["55f6aa1bb66fd7da117d6450", "55dd2beff8a6195e11cd6abf", "55c81e4149439fde562d1180"]}}).then () ->
     res.send "Remove OK"
   .catch next
 
