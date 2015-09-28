@@ -114,6 +114,7 @@ expressRoutes = (app) ->
 #  app.post("/api/administrator/coupon", couponController.addNewCoupon)
 #  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
   app.post("/api/administrator/coupons/date", couponController.modifyCouponStartDate)
+
 #  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
@@ -130,6 +131,7 @@ expressRoutes = (app) ->
   app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
   app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
 
+  app.post("/api/administrator/order/delivery/ksudi/:_id", orderController.createDeliveryKSuDi)
 
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 

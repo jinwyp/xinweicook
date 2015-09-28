@@ -1,5 +1,6 @@
 # 订单
-WXPay = require "../libs/weixinpay"
+KSuDi = require "../libs/ksudi.js"
+WXPay = require "../libs/weixinpay.js"
 
 AliPay = require "../libs/alipay.js"
 
@@ -17,6 +18,7 @@ configWeiXinAppPay =
   key: conf.weixinAppPay.key
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
+kuaiSuDi = KSuDi()
 
 weixinpay = WXPay(configWeiXinPay)
 
@@ -1031,4 +1033,17 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
+exports.createDeliveryKSuDi = (req, res, next) ->
+  models.order.validationOrderId req.params._id
 
+  models.order.findById(req.params._id).execAsync()
+  .then (resultOrder)->
+    if resultOrder
+      kuaiSuDi.createOrder(resultOrder, (err, result)->
+        if err
+          next(err)
+
+        res.send(result)
+      )
+
+  .catch(next)

@@ -104,7 +104,7 @@ function createApplication() {
 function weiXinPay(config) {
 
     //default config
-    this.config = {};
+    this.config =  _.assign ({}, configWeiXinPay);
     if (typeof config === "object"){
         this.config = _.assign ({}, configWeiXinPay, config)
     }
