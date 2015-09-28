@@ -843,12 +843,14 @@ exports.updateOrder = (req, res, next) ->
       if req.u.sharedInvitationSendCodeTotalCount > req.u.sharedInvitationSendCodeUsedTime
         req.u.isSharedInvitationSendCode = false
 
+
       # 避免重复的req.u.save
       if req.u.invitationFromUser and not req.u.isHaveFirstOrderCoupon
         # 该用户首次下单给邀请的人添加优惠券
         models.coupon.addCouponForInvitationRebate(req.u)
       else
         # 用户订单超过5单和10单赠送优惠券
+
         models.coupon.addCouponPaidManyOrder(req.u)
 
 

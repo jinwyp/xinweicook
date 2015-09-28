@@ -384,9 +384,7 @@ module.exports =
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
-      newCouponList.push(newCoupon20)
-
-
+        newCouponList.push(newCoupon20)
 
       if newCouponList.length > 0
         models.coupon.createAsync(newCouponList).then (resultCouponList)->
