@@ -23,6 +23,27 @@ var geetest = require("geetest")(config.PRIVATE_KEY, config.PUBLIC_KEY);
 
 
 
+
+exports.getGeeTestRegisterChallenge = function(req, res, next){
+    // https://github.com/GeeTeam/gt-node-sdk
+
+    geetest.register(function(err, challenge){
+        if (err) {
+            next(err)
+        }
+
+        if (challenge) {
+            res.json({challenge : challenge})
+        } else {
+            res.json({challenge : 'geetest_server_error'})
+        }
+    })
+
+};
+
+
+
+
 exports.middleware = function (req, res, next) {
 
     if (req.get("user-agent") === "Xinwei Cook"){

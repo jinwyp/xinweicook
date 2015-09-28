@@ -43,9 +43,9 @@ expressRoutes = (app) ->
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
   app.post("/mobile/wxpay/notifyaccountdetail", weixinPay.parserNotifyMiddleware, userController.chargeAccountWeixinPayNotify)
 
-
-  app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
   app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
+  app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
+
 
 #  app.use libs.secure.middleware
 
@@ -63,14 +63,16 @@ expressRoutes = (app) ->
 
   app.post("/api/qiniu/token/upload", userController.getUploadQiniuToken)
 
+  app.get("/api/user/weixin/oauthcode", userController.getWeixinUserOauthCode)
+  app.get("/api/user/weixin/openid", userController.getWeixinUserOpenId)
 
   app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)
   app.post("/api/user/logout", tokenController.tokenRevoke)
 
-  app.get("/api/user/signup/geetest/register", smsController.getGeeTestRegisterChallenge)
-  app.post("/api/user/signup", userController.userSignUp)
+  app.get("/api/user/signup/geetest/register", geetest.getGeeTestRegisterChallenge)
   app.post("/api/user/sms", geetest.middleware, smsController.sendSMS)
+  app.post("/api/user/signup", userController.userSignUp)
 
   app.post("/api/user/resetpassword", userController.resetPassword)
 

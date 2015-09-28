@@ -1,206 +1,169 @@
+<!DOCTYPE html>
 <html>
-<style>* {
-    margin: 0;
-    padding: 0;
-    color: rgba(0, 0, 0, .64);
-    font-size: 14px;
-/ / - border : 1 px solid red
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=800">
+<title>新味</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  font-family: 'PingFang SC';
+  font-weight: 400;
 }
 
 .page {
-    height: 297mm;
-    width: 210mm;
-    page-break-before: always
-}
-
-.logo {
-    float: left;
-    height: 22mm;
-    margin: 17mm 0 0 0mm
+  height: 297mm;
+  width: 210mm;
+  page-break-before: always;
 }
 
 .ad {
-    margin: 5mm auto;
-    width: 50%;
-    display: block
+  margin: 5mm auto;
+  width: 50%;
+  display: block;
 }
 
 .sign {
-    margin: 5mm auto;
-    width: 70%;
-    display: block
+  margin: 5mm auto;
+  width: 70%;
+  display: block;
 }
 
 .container {
-    width: 70%;
-    margin: auto
+  width: 70%;
+  margin: auto;
 }
 
 .header {
-    width: 100%;
-    height: 41.7mm
+  width: 100%;
+  height: 50mm;
+}
+
+.autoIncrementId {
+  font-weight: 600;
+  font-family: "Arial";
+  font-size: 48px;
+  padding: 8px;
+  text-align: center;
+  height: 100px;
+  float: left;
+  border: 6px solid #000;
+  margin: 0 8px 8px 0;
 }
 
 .info {
-    float: left;
-    margin: 20mm 0 0 5mm;
-    width: 87mm
+  float: left;
+  margin: 20mm 0 0 5mm;
+  width: 87mm;
 }
 
-.info p {
+  .info .contactPerson {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .info .mobile {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .info p {
     padding-bottom: 2.5mm
-}
-
-.order_info {
-    width: 100%;
-    border: none;
-
-}
+  }
 
 .order_info td {
-    text-align: center
+  text-align: center;
 }
 
 .items {
-    width: 100%;
-    border: none;
-    border-top: 2px solid #000
+  width: 100%;
+  border: none;
+  border-top: 2px dashed #000;
+  border-bottom: 2px dashed #000;
+  margin: 1em 0;
+  padding: 1em 0;
+  clear: both;
 }
 
-.items td {
-    text-align: center
+.items dd {
+  text-align: right;
+  float: right;
 }
 
 .price_info {
-    width: 100%;
-    border: none;
-    border-top: 2px solid #000
-}
-
-.price_info td {
-    text-align: center
+  width: 100%;
 }
 
 td {
-    padding: 2mm
+  padding: 2mm
 }
 
 @page {
-    size: A4;
-    margin: 0;
-    padding: 0;
-}</style>
+  size: A5;
+  margin: 0;
+  padding: 0;
+}
+</style>
+</head>
 
+<body>
 
-<% for(var m=0; m<orderList.length; m++) { %>
-
-
-
-
+<% for(var m = 0; m < orderList.length; m++) { %>
 
 <div class="page">
     <div class="container">
         <div class="header">
-            <img src="/logo.png" class="logo" >
-
+            <div class="autoIncrementId"><%= orderList[m].autoIncrementId %></div>
             <div class="info">
-                <p>姓名: <%= orderList[m].address.contactPerson %></p>
-                <p>电话: <%= orderList[m].address.mobile %> </p>
-                <p>地址: <%= orderList[m].address.province %>, <%= orderList[m].address.city %>, <%= orderList[m].address.district %>, <%= orderList[m].address.street %>, <%= orderList[m].address.address %></p>
+                <p class="contactPerson"><%= orderList[m].address.contactPerson %></p>
+                <p class="mobile"><%= orderList[m].address.mobile %></p>
+                <p class="address">
+                  <span class="province"><%= orderList[m].address.province %></span>
+                  <span class="city"><%= orderList[m].address.city %></span>
+                  <span class="district"><%= orderList[m].address.district %></span>
+                  <span class="street"><%= orderList[m].address.street %></span>
+                  <span class="address"><%= orderList[m].address.address %></span>
+                </p>
+                <p class="deliveryDateTime"><%= orderList[m].deliveryDateTime %></p>
+                <p class="orderNumber"><%= orderList[m].orderNumber %></p>
             </div>
         </div>
 
-        <table class="order_info">
-            <tbody>
-            <tr>
-                <td ></td>
-                <td ></td>
-            </tr>
-            <tr>
-                <td >订单单号: <%= orderList[m].orderNumber %></td>
-                <td >下单时间: <%= orderList[m].createdAtNew %></td>
-            </tr>
-            <tr>
-                <td ></td>
-                <td ></td>
-            </tr>
-            </tbody>
-        </table>
+        <dl class="items">
+          <% for(var i=0; i<orderList[m].dishList.length; i++) { %>
+            <dt>
+              <%= orderList[m].dishList[i].number %> x <%= orderList[m].dishList[i].dish.title.zh %>
+              <% if (orderList[m].dishList[i].subDish.length > 0) { %>
+                (
+                  <% for(var j=0; j<orderList[m].dishList[i].subDish.length; j++) { %>
+                    <%= orderList[m].dishList[i].subDish[j].dish.title.zh %>
+                  <% } %>
+                )
+              <% } %>
+            </dt>
+            <dd>
+              <%= orderList[m].dishList[i].dish.priceOriginal %>
+              * <%= orderList[m].dishList[i].number %>
+              = <%= Number(orderList[m].dishList[i].dish.priceOriginal) * Number(orderList[m].dishList[i].number) %>
+            </dd>
+          <% } %>
+        </dl>
 
-
-        <table class="items">
-            <tbody>
-            <tr>
-                <td>产品</td>
-                <td>数量</td>
-                <td>单价(元)</td>
-                <td>总价(元)</td>
-            </tr>
-
-
-            <% for(var i=0; i<orderList[m].dishList.length; i++) { %>
-            <tr>
-                <td><%= orderList[m].dishList[i].dish.title.zh %></td>
-                <td><%= orderList[m].dishList[i].number %></td>
-                <td><%= orderList[m].dishList[i].dish.priceOriginal %></td>
-                <td><%= Number(orderList[m].dishList[i].dish.priceOriginal) * Number(orderList[m].dishList[i].number) %></td>
-            </tr>
-
-            <% for(var j=0; j<orderList[m].dishList[i].subDish.length; j++) { %>
-            <tr>
-                <td> --> <%= orderList[m].dishList[i].subDish[j].dish.title.zh %></td>
-                <td><%= orderList[m].dishList[i].subDish[j].number %></td>
-                <td><%= orderList[m].dishList[i].subDish[j].dish.priceOriginal %></td>
-                <td><%= Number(orderList[m].dishList[i].subDish[j].dish.priceOriginal) * Number(orderList[m].dishList[i].subDish[j].number) %></td>
-            </tr>
-            <% } %>
-
-            <% } %>
-
-            </tbody>
-        </table>
-
-        <table class="price_info">
-            <tbody>
-            <tr>
-                <td colspan="2"></td>
-                <td>运费(元): <%= orderList[m].freight %></td>
-                <td>商品总额(元): <%= orderList[m].dishesPrice %></td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td >优惠券(元): <%= -orderList[m].couponDiscount||0 %> + 优惠码(元): <%= -orderList[m].promotionDiscount||0 %></td>
-            </tr>
-
-            <tr>
-                <td colspan="3"></td>
-                <td >新味币支付(元): <%= -orderList[m].accountUsedDiscount||0 %></td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td >订单总额(元): <%= orderList[m].totalPrice %></td>
-
-            </tr>
-            <!--<tr>-->
-                <!--<td>&nbsp;</td>-->
-                <!--<td>&nbsp;</td>-->
-                <!--<td>应付款(元): 0</td>-->
-                <!--<td>已付款(元): 59</td>-->
-            <!--</tr>-->
-
-
-            </tbody>
-        </table>
-
-
+        <div class="price_info">
+          <p>运　　费: ¥<%= orderList[m].freight %></p>
+          <p>商品总额: ¥<%= orderList[m].dishesPrice %></p>
+          <p>优惠　券: - ¥<%= orderList[m].couponDiscount||0 %></p>
+          <p>优惠　码: - ¥<%= orderList[m].promotionDiscount||0 %></p>
+          <p>新味　币: - ¥<%= orderList[m].accountUsedDiscount||0 %></p>
+          <p>订单总额: ¥<%= orderList[m].totalPrice %></p>
+        </div>
 
     </div>
-    <!--<img src="/images/ship/ad.jpg" class="ad" >-->
-    <img src="/sign.png" class="sign" >
+    <img src="/sign.png" class="sign"/>
 </div>
 
-
 <% } %>
-
 
 </html>
