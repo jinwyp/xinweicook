@@ -120,6 +120,9 @@ module.exports =
       displayName: zh:String, en:String
       info: zh:String, en:String
 
+    expressPersonName: type: String
+    expressPersonMobile: type: String
+
     deliveryDateTime: Date   # 送达时间
     deliveryDate : String  #一周时间
     deliveryTime : String  #10-12  #12-17 #17-20
@@ -485,10 +488,16 @@ module.exports =
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
           if resultOrder and resultOrder.status is models.order.constantStatus().shipped
             # 给用户发送短信通知, 订单已发货
+
+            if resultOrder.expressPersonName and  resultOrder.expressPersonMobile
+              expressText = "配送员 " + resultOrder.expressPersonName + " 手机" + resultOrder.expressPersonMobile
+            else
+              expressText = ""
+
             additionalContent =
               userId : resultOrder.user
               orderId : resultOrder._id
-              smsText : models.sms.constantTemplateOrderShipped(resultOrder.orderNumber)
+              smsText : models.sms.constantTemplateOrderShipped(resultOrder.orderNumber, expressText)
             pushOptions =
               isPushSMS : true
             models.message.sendMessageToUser(resultOrder.user, models.message.constantContentType().orderAdd, additionalContent, pushOptions)

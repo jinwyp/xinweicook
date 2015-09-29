@@ -25,11 +25,11 @@ module.exports =
       else
         "【新味Cook】您用于注册的验证码为 #{code}。请不要告诉他人！"
 
-    constantTemplateOrderShipped: (orderNo, lang) ->
+    constantTemplateOrderShipped: (orderNo, expressText, lang) ->
       if lang is "en-US"
-        "【新味Cook】Your order #{orderNo} is shipping now."
+        "【新味Cook】Your order #{orderNo} is shipping now. #{expressText}"
       else
-        "【新味Cook】您的订单 #{orderNo} 已经开始发货，美味即将到家。"
+        "【新味Cook】您的订单 #{orderNo} 已经开始发货，美味即将到家。#{expressText}"
 
     constantTemplateCustomerNewOrderNotify: (orderNumber, lang) ->
       if lang is "en-US"
@@ -137,7 +137,7 @@ module.exports =
         text = models.sms.constantTemplateCustomerNewOrderNotify(orderNumber)
         today = moment().second()
 
-        if today < 10
+        if today < 5
           models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 索晶电话
           models.sms.sendSmsVia3rd("15907090405", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 李晓雪电话
           models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 赵梦菲电话

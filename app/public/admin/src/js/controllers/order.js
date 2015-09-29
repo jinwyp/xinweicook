@@ -74,9 +74,52 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 value : 'paid'
             },
             {
-                name : '菜品制作中',
-                value : 'making dish'
+                name : '已确认',
+                value : 'confirmed'
             },
+            {
+                name : '菜品已制作完成',
+                value : 'dish finished'
+            },
+            {
+                name : '已打包',
+                value : 'packaged'
+            },
+            {
+                name : '已发货',
+                value : 'shipped'
+            },
+            {
+                name : '已完成',
+                value : 'finished'
+            },
+            {
+                name : '已取消',
+                value : 'canceled'
+            }
+        ],
+        orderStatusListDetail : [
+
+            {
+                name : '未支付',
+                value : 'not paid'
+            },
+            {
+                name : '已支付',
+                value : 'paid'
+            },
+            //{
+            //    name : '已确认',
+            //    value : 'confirmed'
+            //},
+            //{
+            //    name : '菜品已制作完成',
+            //    value : 'dish finished'
+            //},
+            //{
+            //    name : '已打包',
+            //    value : 'packaged'
+            //},
             {
                 name : '已发货',
                 value : 'shipped'

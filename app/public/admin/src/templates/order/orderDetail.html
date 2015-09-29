@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="col-lg-9">
-                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} (<a ui-sref="menu.updateCoupon({ id: data.order.coupon })">{{data.order.coupon}}</a>) - 余额:{{data.order.accountUsedDiscount}}</span>
+                        <span class="help-block" >菜品价格:{{data.order.dishesPrice}} + 运费:{{data.order.freight}} - 优惠码:{{data.order.promotionDiscount}} ({{data.order.promotionCode}}) - 优惠券:{{data.order.couponDiscount}} (<a ui-sref="menu.updateCoupon({ id: data.order.coupon })">{{data.order.coupon}}</a>) - 新味币余额:{{data.order.accountUsedDiscount}}</span>
                     </div>
                 </div>
 
@@ -137,6 +137,23 @@
 
                     <div class="col-lg-10">
                         <span class="help-block">{{data.order.clientFrom}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >订单菜品类型:</label>
+
+                    <div class="col-lg-10">
+                        <span class="help-block">{{data.order.cookingType}}</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >订单所属用户ID:</label>
+
+                    <div class="col-lg-10">
+                        <span class="help-block"><a ui-sref="menu.updateUser({ id: data.order.user })">{{data.order.user}}</a></span>
                     </div>
                 </div>
 
@@ -249,6 +266,32 @@
                 </div>
 
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderExpressPersonMobile.$dirty&&orderForm.orderExpressPersonMobile.$valid||orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$valid, 'has-error':orderForm.orderExpressPersonMobile.$dirty&&orderForm.orderExpressPersonMobile.$invalid||orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$invalid}">
+                    <label class="col-lg-2 control-label" >配送人员姓名:</label>
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" placeholder="配送人员姓名" name="orderExpressPersonName" ng-model="data.order.expressPersonName"  ng-minlength="2" ng-maxlength="10">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$invalid"></span>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" placeholder="配送人员手机" name="orderExpressPersonMobile" ng-model="data.order.expressPersonMobile"  ng-minlength="11" ng-maxlength="16">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class= help-block" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$error.required">请填入姓名！</span>
+                        <span class= help-block" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$error.minlength || orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$error.maxlength">姓名字符长度错误！</span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class= help-block" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.required">请填入手机！</span>
+                        <span class= help-block" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.minlength || orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.maxlength">手机字符长度错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >预计送货时间:</label>
 
@@ -288,7 +331,7 @@
                     <label class="col-lg-2 control-label" >订单状态:</label>
 
                     <div class="col-lg-2">
-                        <select class="form-control" name="orderStatus" ng-model="data.order.status" ng-options="status.value as status.name for status in data.orderStatusList">
+                        <select class="form-control" name="orderStatus" ng-model="data.order.status" ng-options="status.value as status.name for status in data.orderStatusListDetail">
                         </select>
                     </div>
 
