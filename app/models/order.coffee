@@ -180,7 +180,9 @@ module.exports =
       status =
         notpaid : "not paid"
         paid : "paid"
-        makingdish : "making dish"
+        confirmed : "confirmed"
+        dishFinished : "dish finished"
+        packaged : "packaged"
         shipped : "shipped"
         finished : "finished"
         canceled : "canceled"
