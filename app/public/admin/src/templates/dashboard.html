@@ -9,7 +9,7 @@
 		<!--<button class="btn btn-info" ng-click="inittag()">初始化Tag数据</button>-->
 		<!--<button class="btn btn-info" ng-click="initolddish()">初始化菜品数据</button>-->
 		<!--<button class="btn btn-info" ng-click="initdishtopping()">初始化菜品测试数据带属性和浇头参数</button>-->
-		<button class="btn btn-info" ng-click="initAdmin()">init admin user</button>
+		<!--<button class="btn btn-info" ng-click="initAdmin()">init admin user</button>-->
 	</div>
 	<div class="col-lg-12">
 		<!--<button class="btn btn-danger" ng-click="removetag()">删除所有Tag</button>-->
@@ -17,18 +17,74 @@
 		<button class="btn btn-danger" ng-click="removeinventory()">删除所有测试库存记录</button>
 		<!--<button class="btn btn-danger" ng-click="removeorder()">删除所有订单</button>-->
 		<!--<button class="btn btn-danger" ng-click="removeuser()">删除所有用户</button>-->
+		<button class="btn btn-danger" ng-click="removecoupon()">删除所有错误的优惠券</button>
+		<button class="btn btn-danger" ng-click="removeaccountdetail()">删除所有未完成支付的在线充值记录</button>
 		<button class="btn btn-danger" ng-click="removelog()">删除所有日志</button>
 		<button class="btn btn-danger" ng-click="removesetting()">删除所有微信缓存设置</button>
-		<button class="btn btn-danger" ng-click="changeCouponStartDate()">修改108张TLC日期</button>
+		<!--<button class="btn btn-danger" ng-click="changeCouponStartDate()">修改108张TLC日期</button>-->
 		<!--<button class="btn btn-danger" ng-click="addcoupons()">生成108张TLC 兑换券</button>-->
 	</div>
 
 </div>
 
+
+
+
 <div class="row">
-    <div class="col-lg-12">
-        <span ng-repeat="coupon in couponList">{{coupon}}, </span>
-    </div>
+	<div class="span9">
+		<div class="row">
+			<highchart id="chart1" config="chartConfig" class="span9" ></highchart>
+		</div>
+		<div class="row-fluid">
+			<label for="prettyJSON"><input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON</label>
+		</div>
+		<div class="row-fluid">
+                    <pre ng-show="prettyJSON">
+{{ chartConfig | json }}
+                    </pre>
+                    <pre ng-show="!prettyJSON">
+{{ chartConfig }}
+                    </pre>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="row-fluid">Title <input ng-model="chartConfig.title.text"></div>
+		<div class="row-fluid">Subtitle <input ng-model="chartConfig.subtitle.text"></div>
+		<div class="row-fluid">Width <input ng-model="chartConfig.size.width"></div>
+		<div class="row-fluid">Height <input ng-model="chartConfig.size.height"></div>
+		<div class="row-fluid"><button ng-click="reflow()">reflow</button></div>
+		<div class="row-fluid">Default Type <select ng-model="chartConfig.options.chart.type" ng-options="t.id as t.title for t in chartTypes"></select></div>
+		<div class="row-fluid">Stack <select ng-model="chartConfig.options.plotOptions.series.stacking" ng-options="t.id as t.title for t in chartStack"></select></div>
+		<div class="row-fluid"><label><input type="checkbox" ng-model="chartConfig.loading"> is loading</label></div>
+		<div class="row-fluid"><label><input type="checkbox" ng-model="chartConfig.credits.enabled"> credits</label></div>
+		<h4>Series</h4>
+		<div class="row-fluid" ng-repeat="ser in chartSeries">
+			<div class="span12 well">
+				<div class="row-fluid">Title <input ng-model="ser.name"></div>
+				<div class="row-fluid">Type <select ng-model="ser.type" ng-options="t.id as t.title for t in chartTypes"></select></div>
+				<div class="row-fluid">Color <input ng-model="ser.color"></div>
+				<div class="row-fluid">Width <input ng-model="ser.lineWidth"></div>
+				<div class="row-fluid">Dash Style <select ng-model="ser.dashStyle" ng-options="ds.id as ds.title for ds in dashStyles"></select></div>
+				<div class="row-fluid"><label><input type="checkbox" ng-model="ser.connectNulls"> interpolate</label></div>
+				<div class="row-fluid"><button ng-click="removeSeries($index)">Delete</button></div>
+			</div>
+		</div>
+		<div class="row-fluid"><button ng-click="addSeries()">Add Series</button></div>
+		<div class="row-fluid"><button ng-click="addPoints()">Add Points to Random Series</button></div>
+		<div class="row-fluid"><button ng-click="removeRandomSeries()">Remove Random Series</button></div>
+		<div class="row-fluid"><button ng-click="toggleHighCharts()">HighChart/HighStock</button></div>
+		<div class="row-fluid"><button ng-click="replaceAllSeries()">Replace all series</button></div>
+		<div class="row-fluid">Min: <input type="number" ng-model="chartConfig.xAxis.currentMin"></div>
+		<div class="row-fluid">Max: <input type="number" ng-model="chartConfig.xAxis.currentMax"></div>
+	</div>
+</div>
+
+
+<div class="row">
+
+	<!--<div class="col-lg-12">-->
+        <!--<span ng-repeat="coupon in couponList">{{coupon}}, </span>-->
+    <!--</div>-->
 
 </div>
 

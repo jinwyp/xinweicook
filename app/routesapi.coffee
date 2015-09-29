@@ -114,6 +114,7 @@ expressRoutes = (app) ->
 #  app.post("/api/administrator/coupon", couponController.addNewCoupon)
 #  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
   app.post("/api/administrator/coupons/date", couponController.modifyCouponStartDate)
+
 #  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
 
   app.post("/api/administrator/dishes", dishController.addNewDish)
@@ -130,6 +131,7 @@ expressRoutes = (app) ->
   app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
   app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
 
+  app.post("/api/administrator/order/delivery/ksudi/:_id", orderController.createDeliveryKSuDi)
 
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
@@ -142,6 +144,8 @@ expressRoutes = (app) ->
 #  app.get("/api/administrator/initremovedish", libs.auth("admin"), initController.removeDish)
 #  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
 #  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
+  app.get("/api/administrator/initremovecoupon", libs.auth("admin"), initController.removeCoupon)
+  app.get("/api/administrator/initremoveaccountdetail", libs.auth("admin"), initController.removeAccountDetails)
   app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)

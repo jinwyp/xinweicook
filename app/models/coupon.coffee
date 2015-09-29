@@ -384,9 +384,7 @@ module.exports =
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
-      newCouponList.push(newCoupon20)
-
-
+        newCouponList.push(newCoupon20)
 
       if newCouponList.length > 0
         models.coupon.createAsync(newCouponList).then (resultCouponList)->
@@ -456,5 +454,5 @@ module.exports =
                       resultUser.couponList.push(resultCoupons[i]._id.toString())
 
                   resultUser.saveAsync().catch( (err)->
-                    logger.error("创建优惠券失败:", err)
+                    logger.error("Create Coupon failed:", err)
                   )

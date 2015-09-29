@@ -4,10 +4,9 @@
 
 
 var Promise  = require ("bluebird");
-var request = require('request');
+var requestC = require('request');
 var _       = require('lodash');
 
-var requestP = Promise.promisify(request);
 
 
 
@@ -53,9 +52,9 @@ function createApplication() {
 function yunpianSMS(config) {
 
     //default config
-    this.config = configYunpain;
+    this.config = _.assign ({}, configYunpain);
     if (typeof config === "object"){
-        this.config = _.assign (configYunpain, config)
+        this.config = _.assign ({}, configYunpain, config)
     }
 
 }
@@ -84,7 +83,7 @@ yunpianSMS.prototype.sendSMS = function (item, callback){
         timeout: 5000
     };
 
-    request(opts, function(err, response, body){
+    requestC(opts, function(err, response, body){
         //console.log("========== yunpianSMS sendSMS error:", err);
 
         if (err) {

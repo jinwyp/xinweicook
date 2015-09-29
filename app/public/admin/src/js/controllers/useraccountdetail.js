@@ -63,8 +63,27 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
                 value : 'chargecode'
             },
             {
-                name : '在线充值',
+                name : '支付宝在线充值',
                 value : 'alipaydirect'
+            },
+            {
+                name : '微信支付在线充值',
+                value : 'weixinpay'
+            }
+        ],
+
+        isPaidTypeList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '完成支付',
+                value : 'true'
+            },
+            {
+                name : '未完成支付',
+                value : 'false'
             }
         ]
 

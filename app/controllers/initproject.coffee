@@ -31,7 +31,7 @@ exports.removeDish = (req, res, next) ->
 
 exports.removeInventory = (req, res, next) ->
   # 删除岳可诚 和 李凯 的测试订单库存记录
-  models.inventory.removeAsync({user:{$in:["55b8ce8f2fa6bd84740ebb79", "55b1d724ca15939a23b7bb81"]}}).then () ->
+  models.inventory.removeAsync({user:{$in:["55f6aa1bb66fd7da117d6450", "55dd2beff8a6195e11cd6abf", "55c81e4149439fde562d1180"]}}).then () ->
     res.send "Remove OK"
   .catch next
 
@@ -44,6 +44,18 @@ exports.removeOrder = (req, res, next) ->
   .catch next
 
 
+exports.removeCoupon = (req, res, next) ->
+
+#  models.coupon.findAsync({price: { $exists: false }}).then (result) ->
+#    res.send result
+#  .catch next
+
+  models.coupon.removeAsync({price: { $exists: false }}).then (result) ->
+    res.send result
+  .catch next
+
+
+
 exports.removeUser = (req, res, next) ->
 
   models.user.removeAsync({}).then () ->
@@ -52,6 +64,15 @@ exports.removeUser = (req, res, next) ->
 #    models.token.removeAsync({})
     res.send "Remove OK"
   .catch next
+
+
+exports.removeAccountDetails = (req, res, next) ->
+
+  models.accountdetail.removeAsync({isPlus: true, isPaid:false ,chargeType:{$in:["alipaydirect", "weixinpay"]}  }).then (result) ->
+    res.send result
+  .catch next
+
+
 
 exports.removeLog = (req, res, next) ->
   models.log.removeAsync({}).then () ->

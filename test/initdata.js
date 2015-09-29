@@ -8,8 +8,15 @@ var userAdmin = [
     {
         username : "jinwang@xinweicook.com",
         pwd : "xwcook789",
-        mobile : "13564568303",
+        mobile : "13564568304",
         email : "jinwang@xinweicook.com",
+        group : "admin"
+    },
+    {
+        username : "yuekec@xinweicook.com",
+        pwd : "xwcook789",
+        mobile : "15900719671",
+        email : "yuekec@xinweicook.com",
         group : "admin"
     },
     {
@@ -24,6 +31,13 @@ var userAdmin = [
         pwd : "xwcook789",
         mobile : "13564568302",
         email : "x@x2.com",
+        group : "admin"
+    },
+    {
+        username : "x@x3.com",
+        pwd : "xwcook789",
+        mobile : "13564568303",
+        email : "x@x3.com",
         group : "admin"
     },
     {

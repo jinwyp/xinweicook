@@ -53,6 +53,17 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isPlus.$dirty&&searchForm.isPlus.$valid, 'has-error':searchForm.isPlus.$dirty&&searchForm.isPlus.$invalid}">
+                    <label class="col-lg-2 control-label" >充值或消费</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="group in data.isPlusList">
+                            <input type="radio" name="isPlus"  ng-value="group.value" ng-model="data.searchOptions.isPlus">{{group.name}}
+                        </label>
+
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.chargeType.$dirty&&searchForm.chargeType.$valid, 'has-error':searchForm.chargeType.$dirty&&searchForm.chargeType.$invalid}">
                     <label class="col-lg-2 control-label" >充值类型</label>
                     <div class="col-lg-8">
@@ -64,11 +75,12 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isPlus.$dirty&&searchForm.isPlus.$valid, 'has-error':searchForm.isPlus.$dirty&&searchForm.isPlus.$invalid}">
-                    <label class="col-lg-2 control-label" >充值或消费</label>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.isPaid.$dirty&&searchForm.isPaid.$valid, 'has-error':searchForm.isPaid.$dirty&&searchForm.isPaid.$invalid}">
+                    <label class="col-lg-2 control-label" >在线充值是否完成支付</label>
                     <div class="col-lg-8">
-                        <label class="radio-inline" ng-repeat="group in data.isPlusList">
-                            <input type="radio" name="isPlus"  ng-value="group.value" ng-model="data.searchOptions.isPlus">{{group.name}}
+                        <label class="radio-inline" ng-repeat="group in data.isPaidTypeList">
+                            <input type="radio" name="isPaid"  ng-value="group.value" ng-model="data.searchOptions.isPaid">{{group.name}}
                         </label>
 
                     </div>
