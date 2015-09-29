@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserAccountDetailController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Devices', userAccountDetailController]);
+    .controller('UserAccountDetailController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'PaymentDetails', userAccountDetailController]);
 
 
-function userAccountDetailController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Devices) {
+function userAccountDetailController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, PaymentDetails) {
 
     $scope.data = {
         searchFilter : '',
@@ -198,6 +198,16 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
 
+    $scope.showAccountPayment = function(accountdetailId){
+
+        PaymentDetails.getList({accountDetail:accountdetailId}).then(function (result) {
+            console.log(result);
+            Notification.success({message: 'Search Success! ', delay: 8000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
 
 
 

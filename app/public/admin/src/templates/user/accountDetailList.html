@@ -135,7 +135,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="account in data.accountDetailList | filter: data.searchFilter">
-                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} <br/> <button class="btn btn-info" ng-click="showAccountPayment(account._id)">查看支付状态</button></td>
                 <td><a ui-sref="menu.updateUser({ id: account.user })">{{account.user}}</a> </td>
                 <td>{{account.name.zh}}</td>
                 <td>{{account.remark}}</td>
