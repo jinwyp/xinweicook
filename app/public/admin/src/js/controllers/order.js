@@ -174,7 +174,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 value : 'ready to cook'
             },
             {
-                name : '既食包',
+                name : '便当',
                 value : 'ready to eat'
             }
         ],
