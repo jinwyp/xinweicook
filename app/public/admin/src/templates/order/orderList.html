@@ -210,10 +210,10 @@
         <thead>
             <tr>
                 <th>订单号 / 创建时间</th>
-                <th>订单状态</th>
+                <th>状态</th>
                 <!--<th>拆分订单</th>暂时隐藏掉,S要求-->
                 <!--<th>子订单</th>-->
-                <th>订单来源</th>
+                <th>来源</th>
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
@@ -223,8 +223,8 @@
                 <th>是否付款</th>
                 <!--<th>货到付款现金支付</th>-->
                 <th>预计配送时间</th>
-                <th>订单菜品类型</th>
-                <th>菜品价格</th>
+                <th>类型</th>
+                <th>货品价</th>
                 <!--<th>积分</th>-->
                 <th>优惠码 </th>
                 <th>优惠券 </th>
@@ -237,25 +237,27 @@
         </thead>
         <tbody>
             <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss'}} <br/>
-                <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)">
-            </td>
-                <td>{{order.status}}</td>
+                <td><a ui-sref="menu.updateOrder({ id: order._id })" style="font-size:18px;margin-right:.5em;">{{order.autoIncrementId.toString().substring(2)}}</a>
+                    <small>{{order.createdAt | date:'MM-dd HH:mm:ss'}}</small><br/>
+                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)" id="check{{order.orderNumber}}">
+                    <label for="check{{order.orderNumber}}" style="font-size:10px">{{order.orderNumber}}</label>
+                </td>
+                <td>{{order.status == 'paid' ? '已支付' : (order.status == 'not paid' ? '未支付' : (order.status == 'canceled' ? '已取消' : (order.status == 'finished' ? '已完成' : order.status) ) )}}</td>
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
                 <!--<td>{{order.isChildOrder}}</td>-->
-                <td>{{order.clientFrom}}</td>
+                <td>{{order.clientFrom == 'ios' ? 'iOS' : (order.clientFrom == 'wechat' ? '微信' : order.clientFrom)}}</td>
 
-                <td> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a> {{order.address.mobile}} </td>
-                <td><a ui-sref="menu.updateUser({ id: order.user })" target="_blank">{{order.address.city}}  / {{order.address.district}} / {{order.address.street}} / {{order.address.address}} /  距离{{order.address.distanceFrom}}米 </a> </td>
+                <td><a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a><br/>{{order.address.mobile}}</td>
+                <td><a ui-sref="menu.updateUser({ id: order.user })" target="_blank">{{order.address.city}} {{order.address.district}}<br/>{{order.address.street}} / {{order.address.address}} / {{order.address.distanceFrom}}米</a> </td>
 
                 <td>{{order.userComment}}</td>
                 <td>{{order.csComment}}</td>
 
-                <td>{{order.payment}}</td>
-                <td>{{order.isPaymentPaid}}</td>
+                <td>{{order.payment == 'alipay direct' ? '支付宝' : (order.payment == 'wechatpay' ? '微信' : order.payment)}}</td>
+                <td>{{order.isPaymentPaid ? '是' : '否'}}</td>
                 <!--<td>{{order.paymentUsedCash}}</td>-->
-                <td>{{order.deliveryDateTime | date:'yyyy-MM-dd HH:mm'}}</td>
-                <td>{{order.cookingType}}</td>
+                <td>{{order.deliveryDateTime | date:'MM-dd HH:mm'}}</td>
+                <td>{{order.cookingType == 'ready to cook' ? '食材' : '便当'}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
                 <td>{{order.promotionDiscount? ( -order.promotionDiscount ):''}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
@@ -360,8 +362,3 @@
     </table>
 
 </div>
-
-
-
-
-
