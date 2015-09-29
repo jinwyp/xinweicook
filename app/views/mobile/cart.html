@@ -21,10 +21,11 @@
 <div class="cart-main" ng-cloak>
 
     <div ng-repeat="(listName, list) in dishList" class="cart-block" ng-if="list.length">
-        <div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">
-            您当前的配送地址不在便当的配送范围内
-        </div>
-        <h4>{{listName == 'cookList' ? '食材包' : '便当'}} <span class="total">已选中 {{selectedDishLength}}份便当, 小记 ¥{{totalPrice()|number:1}}</span></h4>
+        <!--<div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">-->
+            <!--您当前的配送地址不在便当的配送范围内-->
+        <!--</div>-->
+        <h4><span class="icon select" ng-class="{active: list.selectedAll}" ng-click="selectAll(listName)"></span> {{listName == 'cookList' ? '食材包' : '便当'}}
+            <span class="total">已选中 {{list.selectedLength}}份{{listName == 'cookList' ? '食材包' : '便当'}}, 小计 ¥{{totalPrice(listName)|number:1}}</span></h4>
         <ul class="cart-list">
             <li ng-repeat="item in list">
                 <div class="select" ng-class="{active: item.selected}" ng-click="select(item)"></div>
@@ -60,7 +61,7 @@
 
 <footer ng-cloak class="cart-bar2 row">
     <span class="back-to-menu">返回菜单</span>
-    <span class="next" ng-class="{invalid: !selectedDishLength}">下一步</span>
+    <span class="next" ng-click="next()">下一步</span>
 </footer>
 
 </body>

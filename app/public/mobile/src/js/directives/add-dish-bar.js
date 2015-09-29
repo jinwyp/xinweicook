@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage) {
+angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage, $filter) {
     return {
         scope: {
             dish: '=',
@@ -95,23 +95,14 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
 
                 $scope.hide();
 
-                User.postCart($scope.cart.map(function (item) {
-                    return {
-                        dish: item.dish._id,
-                        number: item.number,
-                        subDish: item.subDish.map(function (el) {
-                            return {
-                                dish: el.dish._id,
-                                number: el.number
-                            }
-                        })
-                    }
-                })).catch(function () {
+                User.postCart($scope.cart.map(postDishFilter)).catch(function () {
                     $localStorage.addDishCart = $scope.cart;
                 });
 
                 $scope.totalPrice();
             };
+
+            var postDishFilter = $filter('postDish');
 
             $scope.totalPrice = function () {
                 var p = $scope.cart.reduce(function price(total, cur) {
@@ -122,14 +113,6 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                     return total;
                 }, 0);
                 return $scope.cart.price = p;
-                //if (!$scope.dish) return p;
-                //return p + $scope.dish.count *
-                //    ($scope.dish.priceOriginal +
-                //        (!$scope.dish.curSelection ? 0 :
-                //            Object.keys($scope.dish.curSelection).reduce(function (_p, name) {
-                //                return _p + $scope.dish.curSelection[name].priceOriginal
-                //            }, 0))
-                //    )
             };
 
             $scope.totalPrice();

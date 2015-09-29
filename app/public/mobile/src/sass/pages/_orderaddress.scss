@@ -1,5 +1,13 @@
 @import "../base";
 
+html.order-address-html {
+  // 为了整个屏幕空白区域的点击事件
+  height: 100%;
+  body {
+    height: 100%;
+  }
+}
+
 .order-address-main {
   padding: 12px;
 
@@ -37,6 +45,20 @@
       form>div, &>div {
         line-height: 34px;
         padding-left: 10px;
+        height: 40px;
+        position: relative;
+      }
+
+      form>div {
+        .err-tip {
+          color: $primary-color;
+          position: absolute;
+          top: 0;
+          right: 1em;
+        }
+        &.with-tag .err-tip {
+          right: 83px;
+        }
       }
 
       input{
@@ -44,6 +66,10 @@
         height: 37px;
         //padding: 6px 0;
         line-height: 1.428;
+      }
+
+      .cur-show {
+        display: none;
       }
 
       &.cur {
@@ -58,6 +84,10 @@
 
         .deliverable-tag {
           background-color: black;
+        }
+
+        .cur-show {
+          display: block;
         }
       }
     }
