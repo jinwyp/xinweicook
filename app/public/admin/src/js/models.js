@@ -39,6 +39,61 @@ angular.module('RDash.models').factory('Util', function ($http) {
                 }
             }
             return obj
+        },
+
+        chartDataFormat : function(chartData){
+
+            var simpleChartSeries = [
+                {"name": "Some data", "data": [1, 2, 4, 7, 3]},
+                {"name": "Some data 3", "data": [3, 1, null, 5, 2], connectNulls: true},
+                {"name": "Some data 2", "data": [5, 2, 2, 3, 5], type: "column"},
+                {"name": "My Super Column", "data": [1, 1, 2, 3, 2], type: "column"}
+            ];
+
+            var result = [
+                { name : "Daily", type:"column", showInLegend: false, data : [] }
+            ];
+
+            if (angular.isArray(chartData)){
+                angular.forEach(chartData, function(value, key) {
+                    this.push(Math.abs(value.dishSaleQuantity));
+                }, result[0].data);
+            }
+
+            return result;
+        },
+
+        chartxAxisFormat : function(chartData){
+
+            var simpleChartxAxis = {
+
+                title: {
+                    text: 'Fruit Number'
+                },
+                tickInterval: 1,
+                categories: ['Apples', 'Pears', 'Oranges', 'Bananas', 'Carrots']
+                //labels: {
+                //    enabled: i === 0
+                //}
+            };
+
+            var simpleChartyAxis = {
+                title: {
+                    text: 'Fruit eaten'
+                },
+                tickInterval: 1
+            };
+
+
+            var result = [] ;
+
+            if (angular.isArray(chartData)){
+                angular.forEach(chartData, function(value, key) {
+                    this.push(value.date);
+                }, result);
+            }
+
+            return result;
         }
 
     }
@@ -119,6 +174,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
 
         getDishStatisticByDaily: function (params) {
             return $http.get('/api/admin/statistic/dish/daily', {
+                params: params
+            })
+        },
+
+        getDishStatisticChartByDaily: function (params) {
+            return $http.get('/api/admin/statistic/dish/daily/chart', {
                 params: params
             })
         },

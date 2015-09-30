@@ -43,6 +43,11 @@ exports.runCronJob = (req, res, next) ->
 
 
 
+
+
+
+
+
 exports.getNoOrderUserLast7DayTest = (req, res, next) ->
   logger.error("Cron Test Every Wednesday 10 o'clock send iOS push notification: " )
   res.send("ok")

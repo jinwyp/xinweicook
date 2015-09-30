@@ -79,6 +79,7 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchDish(searchForm)">搜索菜品</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchDishStatisticChartByDaily(searchForm, 'year')">图表</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByDaily(searchForm, 'year')">日销量历史</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatistic(searchForm, 'salesTotal')">总销量</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatistic(searchForm, 'salesToday')">今日销量</button>
@@ -213,7 +214,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="dish in data.dishStatisticByDaily | filter: data.searchFilter  ">
-            <td>{{dish.year}}－{{dish.month}}－{{dish.day}}</td>
+            <td>{{dish.year}}-{{dish.month}}-{{dish.day}}</td>
             <td><a ui-sref="menu.updateDish({ id: dish.dish })">{{dish.dish}}</a> <br/> {{dish.dishname}}</td>
             <td>{{dish.cookingType}}</td>
             <td>{{dish.sideDishType}}</td>
@@ -228,6 +229,28 @@
         </tr>
         </tbody>
     </table>
+
+
+
+
+    <div class="row" ng-if="css.showTable === 'statisticChart'">
+        <div class="col-lg-12">
+            <highchart id="chartInventory" config="chartInventoryConfig" class="span9" ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label for="prettyJSON">
+                <input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON
+            </label>
+        </div>
+
+        <div class="col-lg-12">
+            <pre ng-show="prettyJSON">{{ chartInventoryConfig | json }}</pre>
+            <pre ng-show="!prettyJSON">{{ chartInventoryConfig }}</pre>
+        </div>
+
+    </div>
+
 
 </div>
 

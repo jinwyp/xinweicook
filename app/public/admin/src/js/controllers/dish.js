@@ -32,6 +32,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         inventoryList : [],
         dishStatisticByStock : [],
         dishStatisticByDaily : [],
+        dishStatisticChartByDaily : [],
+        dishStatisticChartByWeek : [],
 
         currentTagFilter : '',
         currentPreferenceCategory : '',
@@ -271,6 +273,46 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
+    $scope.chartInventoryConfig = {
+        options: {
+            chart: {
+                type: 'column'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '菜品日销量'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '日期'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
+            }
+        },
+        loading: false,
+        size: {}
+    };
 
 
 
@@ -364,6 +406,30 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     };
 
+
+
+
+    $scope.searchDishStatisticChartByDaily = function (form, sortBy) {
+        $scope.css.showTable = 'statisticChart';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getDishStatisticChartByDaily($scope.data.searchOptions).then(function (result) {
+            $scope.data.dishStatisticChartByDaily = result.data.byDaily;
+            $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
+
+            $scope.chartInventoryConfig.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
+            $scope.chartInventoryConfig.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+
+    };
 
 
 
@@ -570,5 +636,4 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
 
-
-}
+};
