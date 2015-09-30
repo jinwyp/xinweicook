@@ -271,7 +271,11 @@
                 <td>{{order.userComment}}</td>
                 <td>{{order.csComment}}</td>
 
-                <td>{{order.payment === 'alipay direct' ? '支付宝' : (order.payment === 'wechatpay' ? '微信' : order.payment)}}</td>
+                <td>
+                    <span ng-if="order.payment === 'alipay direct'">支付宝</span>
+                    <span ng-if="order.payment === 'weixinpay'">微信支付</span>
+                    <span ng-if="order.payment === 'account balance'">新味币</span>
+                </td>
                 <td>{{order.isPaymentPaid ? '是' : '否'}}</td>
                 <!--<td>{{order.paymentUsedCash}}</td>-->
                 <td>{{order.deliveryDateTime | date:'MM-dd HH:mm'}}</td>
