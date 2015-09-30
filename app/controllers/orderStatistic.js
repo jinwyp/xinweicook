@@ -792,7 +792,7 @@ exports.dishDailySales = function(req, res, next) {
 
             }},
 
-            { "$sort": { "year" : -1, "month": -1, "day": -1 } },
+            { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":-1 } },
             { "$limit": 1000 }
         );
 
