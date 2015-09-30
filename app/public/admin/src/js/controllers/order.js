@@ -57,6 +57,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         orderStatisticByAddressList : [],
         orderStatisticByDailySalesList : [],
+        orderStatisticChartByDaily : [],
+
         orderList : [],
         order : {},
 
@@ -293,12 +295,60 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.css = {
         isAddNewStatus : false,
-        showTable : 'orders'
+        showTable : 'orders',
+        searchOrderStatisticSortBy : 'date'
     };
+
+
+
+    $scope.chartDaily = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '订单每日总金额'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '日期'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '总金额'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
 
     $scope.datePickerOpen = function($event) {
         $scope.data.datePickerIsOpen = true;
     };
+
+
+
 
 
     $scope.searchOrderCount = function (){
@@ -378,7 +428,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.data.searchOptions.limit = 200;
         }
         if ($scope.data.searchOptions.createdAt){
-            $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
+            if ($scope.data.searchOptions.createdAt.indexOf('>') > -1){
+                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
+            }else{
+                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
+            }
+
         }else{
             $scope.data.searchDateFrom = '';
         }
@@ -493,8 +548,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
-    $scope.searchOrderStatisticByDailySales = function () {
+    $scope.searchOrderStatisticByDailySales = function (form, sortBy) {
         $scope.css.showTable = 'statisticByDailySales';
+        $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
             $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
@@ -510,6 +566,34 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 console.log(err);
                 Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
             });
+    };
+
+
+
+    $scope.searchOrderStatisticChartByDaily = function (form, sortBy) {
+        $scope.css.showTable = 'statisticChart';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (result) {
+            $scope.data.orderStatisticChartByDaily = result.data;
+
+            $scope.chartDaily.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily);
+            $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
+
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
+
     };
 
 
