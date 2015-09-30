@@ -60,8 +60,34 @@ angular.module('xw.filters').filter('postDish', function () {
 angular.module('xw.filters').filter('beautifyMobile', function () {
     return function (mobile) {
         if (!/^\d{11}$/.test(mobile)) return mobile;
-        return mobile.replace(/^(\d{3})(\d{4})(\d{4})$/, function (_, m1, m2, m3) {
-            return m1 + ' ' + m2 + ' ' + m3;
-        })
+        return mobile.replace(/^(\d{3})(\d{4})(\d{4})$/,
+            function (_, m1, m2, m3) {
+                return m1 + ' ' + m2 + ' ' + m3;
+            })
     }
 });
+
+/**
+ * 使title变成 '/土豆泥' 这样的形式
+ */
+angular.module('xw.filters').filter('subDishTitle', function () {
+    return function (title) {
+        if (typeof title != 'string') return title;
+        return '/' + title;
+    }
+});
+
+angular.module('xw.filters').filter('orderTime', function () {
+    return function (time, type) {
+        if (type == 'eat') {
+            return {
+                deliveryDateEat: time.substr(0, 10),
+                deliveryTimeEat: time.substr(11, 5)
+            }
+        } else if (type == 'cook') {
+            var ret = {deliveryDateCook: time.day.day};
+            ret.deliveryTimeCook = time.time ? time.time.name+':00' : '12:00';
+            return ret;
+        }
+    }
+})

@@ -14,42 +14,65 @@
 <shopping-progress-bar></shopping-progress-bar>
 
 <div class="order-pay-main" ng-cloak>
-    <form>
-        <div class="block">
-            <h4>食材包</h4>
-            <div>七夕情人节套餐 <span class="rmb-char fee">83</span></div>
-            <div class="border select">
-                <select name="time" id="time">
-                    <option value="hehe">今天下午5点送达</option>
-                    <option value="huhu">hiha</option>
-                </select>
+    <form name="form">
+
+        <div class="block" ng-repeat="(name, list) in data.cart">
+            <h4>{{name == 'cookList' ? '食材包' : '便当'}}</h4>
+            <div ng-repeat="dish in list">
+                <span class="dish-title">{{dish.dish.title.zh}}{{dish.subDish.title.zh | subDishTitle}}</span>
+                <span class="rmb-char fee">
+                    {{(dish.dish.priceOriginal + dish.subDish.priceOriginal) * dish.dish.number | number:1}}
+                </span>
+            </div>
+
+            <div class="border select" ng-if="name == 'eatList'">
+                <select ng-model="model.time.eat" ng-options="(date.hour + ' 送达') for date in data.time.eat"></select>
+            </div>
+
+            <div class="select-group" ng-if="name == 'cookList'">
+                <div class="border select">
+                    <select ng-model="model.time.cook.day"
+                            ng-options="day.day for day in data.time.cook"></select>
+                </div>
+                {{data.time.cook[0].segment ? '' : '送达'}}
+                <div class="border select" ng-if="data.time.cook[0].segment">
+                    <select ng-model="model.time.cook.time"
+                            ng-options="(time.text+ ' 送达') for time in model.time.cook.day.segment | filter: {status: true}">
+                    </select>
+                </div>
             </div>
         </div>
 
         <div class="block">
             <h4>优惠 & 支付</h4>
             <div class="border">
-                <input type="text" placeholder="优惠码"/>
-                <span></span>
+                <input type="text" placeholder="优惠码" name="couponcode"
+                       coupon-code="data.coupon.codePrice"
+                       ng-model="model.coupon.code"
+                       pattern="^1a\w{6}$|^\w{10}$" />
+                <span class="err-tip" ng-if="form.couponcode.$error.pattern">优惠码格式不正确</span>
+                <span class="err-tip" ng-if="form.$error.couponCode">优惠码无效</span>
             </div>
-            <div class="border select">
-                <select name="couponCard" id="couponCard">
-                    <option value="hehe">haha</option>
-                    <option value="huhu">hiha</option>
+            <div class="border select" ng-if="data.coupon.cardList.length">
+                <select name="couponCard" id="couponCard"
+                        ng-model="model.coupon.card"
+                        ng-options="(item.name.zh + '(¥' + item.price + ')') for item in data.coupon.cardList">
                 </select>
             </div>
             <div class="border has-icon">
-                <span class="select icon"></span>
+                <span class="checkbox icon" ng-click="data.coupon.enabled = !data.coupon.enabled"></span>
                 使用新味币抵扣¥83 (抵扣后剩余¥83)
             </div>
         </div>
 
         <div class="block">
             <div>订单金额:<span class="rmb-char fee">84</span></div>
+            <div>优惠金额:<span class="rmb-char fee">{{0 + data.coupon.codePrice}}</span></div>
             <div>运费:<span class="rmb-char fee">8</span></div>
             <div>新味币:<span class="rmb-char fee negative">4</span></div>
             <div class="total">应付总额<span class="rmb-char fee">84</span></div>
         </div>
+
     </form>
 </div>
 
@@ -68,6 +91,7 @@
 <script src="/mobile/src/js/config.js"></script>
 <script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/directives/shopping-progress-bar.js"></script>
+<script src="/mobile/src/js/directives/coupon-code.js"></script>
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
 <script src="/mobile/src/js/controllers/order-pay.js"></script>

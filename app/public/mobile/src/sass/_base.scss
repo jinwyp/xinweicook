@@ -166,6 +166,16 @@ $retina: sprite-map("icons/*.png");
   padding-left: 0;
 }
 
+//表单中的错误提示
+form {
+  .err-tip {
+    color: $primary-color;
+    position: absolute;
+    top: 0;
+    right: 1em;
+  }
+}
+
 // like-icon
 
 

@@ -151,7 +151,15 @@ label {
   padding-left: 0;
 }
 
-/* line 173, ../sass/_base.scss */
+/* line 171, ../sass/_base.scss */
+form .err-tip {
+  color: #f44d4d;
+  position: absolute;
+  top: 0;
+  right: 1em;
+}
+
+/* line 183, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
@@ -849,8 +857,9 @@ label {
   margin: 52px;
   font-size: 16px;
 }
-/* line 58, ../sass/pages/_addresslist.scss */
-.address-main .icon-add {
+
+/* line 59, ../sass/pages/_addresslist.scss */
+.icon-add {
   position: absolute;
   top: 0;
   width: 45px;
@@ -859,8 +868,8 @@ label {
   right: 0;
   font-size: 34px;
 }
-/* line 66, ../sass/pages/_addresslist.scss */
-.address-main .icon-add::before {
+/* line 67, ../sass/pages/_addresslist.scss */
+.icon-add::before {
   content: "+";
 }
 
@@ -1786,46 +1795,61 @@ html.order-address-html body {
   height: 40px;
   position: relative;
 }
-/* line 53, ../sass/pages/_orderaddress.scss */
-.order-address-main .address-list li form > div .err-tip {
-  color: #f44d4d;
-  position: absolute;
-  top: 0;
-  right: 1em;
-}
-/* line 59, ../sass/pages/_orderaddress.scss */
+/* line 54, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li form > div.with-tag .err-tip {
   right: 83px;
 }
-/* line 64, ../sass/pages/_orderaddress.scss */
+/* line 58, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li form > div.selects {
+  width: 100%;
+}
+/* line 60, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li form > div.selects select {
+  background-color: white;
+  width: 31%;
+}
+/* line 67, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li .location {
+  position: absolute;
+  right: 13px;
+  border: 1px solid;
+  top: 0;
+  margin: auto;
+  bottom: 0;
+  line-height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+  height: 27px;
+}
+/* line 80, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li input {
   width: 100%;
   height: 37px;
   line-height: 1.428;
 }
-/* line 71, ../sass/pages/_orderaddress.scss */
+/* line 87, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li .cur-show {
   display: none;
 }
-/* line 75, ../sass/pages/_orderaddress.scss */
+/* line 91, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur {
   padding: 0;
   border-color: black;
   color: black;
 }
-/* line 80, ../sass/pages/_orderaddress.scss */
+/* line 96, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur form > div, .order-address-main .address-list li.cur > div {
   line-height: 38px;
 }
-/* line 81, ../sass/pages/_orderaddress.scss */
+/* line 97, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur form > div:not(:last-of-type), .order-address-main .address-list li.cur > div:not(:last-of-type) {
   border-bottom: 2px dotted #EAE9E9;
 }
-/* line 85, ../sass/pages/_orderaddress.scss */
+/* line 101, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur .deliverable-tag {
   background-color: black;
 }
-/* line 89, ../sass/pages/_orderaddress.scss */
+/* line 105, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur .cur-show {
   display: block;
 }
@@ -1909,24 +1933,46 @@ html.order-address-html body {
   margin-top: 5px;
 }
 /* line 40, ../sass/pages/_order-pay.scss */
+.order-pay-main .block .select-group {
+  text-align: center;
+}
+/* line 42, ../sass/pages/_order-pay.scss */
+.order-pay-main .block .select-group .select {
+  position: relative;
+  display: inline-block;
+}
+/* line 45, ../sass/pages/_order-pay.scss */
+.order-pay-main .block .select-group .select:first-child {
+  width: 44%;
+}
+/* line 48, ../sass/pages/_order-pay.scss */
+.order-pay-main .block .select-group .select:last-child {
+  width: 53%;
+}
+/* line 54, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div {
   font-size: 15px;
   position: relative;
   line-height: 2.55;
 }
-/* line 45, ../sass/pages/_order-pay.scss */
+/* line 59, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div .dish-title {
+  display: inline-block;
+  max-width: 85%;
+}
+/* line 64, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div .fee {
   position: absolute;
   right: 0;
 }
-/* line 50, ../sass/pages/_order-pay.scss */
-.order-pay-main .block > div.border {
+/* line 69, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border, .order-pay-main .block > div .border {
   border: 1px solid black;
   padding: 0 3px 0 8px;
   margin: 11px 0;
 }
-/* line 54, ../sass/pages/_order-pay.scss */
-.order-pay-main .block > div.border .select.icon {
+/* line 73, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border .checkbox.icon, .order-pay-main .block > div .border .checkbox.icon {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1942,8 +1988,8 @@ html.order-address-html body {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 62, ../sass/pages/_order-pay.scss */
-.order-pay-main .block > div.border .select.icon.inactive {
+/* line 81, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.border .checkbox.icon.inactive, .order-pay-main .block > div .border .checkbox.icon.inactive {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s55106d4b52.png');
   background-position: 0 -215px;
@@ -1954,12 +2000,12 @@ html.order-address-html body {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 67, ../sass/pages/_order-pay.scss */
+/* line 86, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.has-icon {
   padding-left: 37px;
 }
-/* line 71, ../sass/pages/_order-pay.scss */
-.order-pay-main .block > div.select::after {
+/* line 90, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div.select::after, .order-pay-main .block > div .select::after {
   font-weight: 700;
   content: '···';
   position: absolute;

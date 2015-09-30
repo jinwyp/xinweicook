@@ -42,7 +42,7 @@ html.order-address-html {
         width: 100%;
       }
 
-      form>div, &>div {
+      form>div, &>div{
         line-height: 34px;
         padding-left: 10px;
         height: 40px;
@@ -50,15 +50,31 @@ html.order-address-html {
       }
 
       form>div {
-        .err-tip {
-          color: $primary-color;
-          position: absolute;
-          top: 0;
-          right: 1em;
-        }
+        //.err-tip的另外一部分见base
         &.with-tag .err-tip {
           right: 83px;
         }
+
+        &.selects {
+          width: 100%;
+          select {
+            background-color: white;
+            width: 31%;
+          }
+        }
+      }
+
+      .location {
+        position: absolute;
+        right: 13px;
+        border: 1px solid;
+        top: 0;
+        margin: auto;
+        bottom: 0;
+        line-height: 26px;
+        padding: 0 10px;
+        font-size: 12px;
+        height: 27px;
       }
 
       input{

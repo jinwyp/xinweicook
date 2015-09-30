@@ -17,6 +17,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
     };
 
     return {
+        isWeixin: /MicroMessenger/i.test(navigator.userAgent),
 
         readyState: false,
 

@@ -1,4 +1,6 @@
 angular.module('xw.models').factory('Dishes', function ($http) {
+
+
     return {
         getList: function () {
             return $http.get('/api/dishes')
@@ -8,6 +10,17 @@ angular.module('xw.models').factory('Dishes', function ($http) {
         },
         getOne: function (id) {
             return $http.get('/api/dishes/' + id);
+        },
+
+        /**
+         * 将传入的dish转换成另外一种预定义的形式.todo:filter更合适??但是filter似乎不适合做过多的数据处理,会影响速度
+         * @param iDish - 输入的dish,对象或数组
+         * @param tType - 目标类型
+         * @param sType - 原类型
+         * @returns {Object|Array} 返回dish对象或dish数组,视输入的dish类型而定
+         */
+        transform: function (iDish, tType, sType) {
+
         }
     }
 });
