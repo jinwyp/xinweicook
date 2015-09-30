@@ -89,7 +89,13 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
             if (angular.isArray(chartData)){
                 angular.forEach(chartData, function(value, key) {
-                    this.push(value.date);
+
+                    if(typeof value.date !== 'undefined'){
+                        this.push(value.date);
+                    }else{
+                        this.push('第' + value.week + '周('+ value.dishList[0].createdAt.substr(5,5) + ')');
+                    }
+
                 }, result);
             }
 

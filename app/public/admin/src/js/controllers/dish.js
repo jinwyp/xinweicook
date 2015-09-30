@@ -273,7 +273,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
-    $scope.chartInventoryConfig = {
+    $scope.chartDaily = {
         options: {
             chart: {
                 type: 'column'
@@ -314,7 +314,41 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         size: {}
     };
 
+    $scope.chartWeek = {
+        options: {
+            chart: {
+                type: 'column'
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '菜品周销量'
+        },
+        credits: {
+            enabled: true
+        },
 
+        xAxis: {
+            title: {
+                text: '周'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
+            }
+        },
+        loading: false,
+        size: {}
+    };
 
 
 
@@ -419,8 +453,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             $scope.data.dishStatisticChartByDaily = result.data.byDaily;
             $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
 
-            $scope.chartInventoryConfig.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
-            $scope.chartInventoryConfig.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+            $scope.chartDaily.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
+            $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+
+            $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
+            $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
 
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
