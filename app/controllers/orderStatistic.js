@@ -714,6 +714,11 @@ exports.orderPrintShippingList = function(req, res, next) {
 exports.dishDailySales = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
+        query._id = req.query._id;
+    }
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         query.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -792,7 +797,7 @@ exports.dishDailySales = function(req, res, next) {
 
             }},
 
-            { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":-1 } },
+            { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
             { "$limit": 1000 }
         );
 
@@ -833,6 +838,11 @@ exports.dishDailySales = function(req, res, next) {
 exports.dishDailySalesChart = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
+        query._id = req.query._id;
+    }
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         query.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -998,20 +1008,25 @@ exports.dishDailySalesChart = function(req, res, next) {
 exports.dishStatisticByStock = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
+        query._id = req.query._id;
+    }
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.createdAt = { $gte: new Date(req.query.createdAt)}
+        query.createdAt = { $gte: new Date(req.query.createdAt)};
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
-        query.cookingType = req.query.cookingType
+        query.cookingType = req.query.cookingType;
     }
 
     if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
-        query.sideDishType = req.query.sideDishType
+        query.sideDishType = req.query.sideDishType;
     }
 
     if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
-        query.isPublished = req.query.isPublished
+        query.isPublished = req.query.isPublished;
     }
 
 

@@ -21,6 +21,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             cookingType : '',
             sideDishType : '',
             isPublished : '',
+            _id : '',
             title : {
                 zh : ''
             }
@@ -667,7 +668,12 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
 
+    $scope.showChart = function(dishId){
+        $scope.data.searchOptions._id = dishId;
 
+        $scope.searchDishStatisticChartByDaily();
+
+    };
 
 
 
