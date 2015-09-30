@@ -428,7 +428,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.data.searchOptions.limit = 200;
         }
         if ($scope.data.searchOptions.createdAt){
-            if ($scope.data.searchOptions.createdAt.indexOf('>') > -1){
+            if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
                 $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
             }else{
                 $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
