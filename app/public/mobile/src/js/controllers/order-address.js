@@ -107,7 +107,9 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         }
     };
 
-    $scope.locate = function () {
+    $scope.locate = function (event) {
+        event.stopPropagation();
+
         Weixin.getLocation(function (res) {
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
                 var result = data.data.result;
@@ -116,7 +118,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 result.geoLatitude = res.latitude;
                 result.geoLongitude = res.longitude;
 
-                newAddr = $scope.newAddr = result;
+                angular.extend(newAddr, result);
 
                 Map.distance(res.latitude, res.longitude).then(function (res) {
                     newAddr.isInRange = res.isInRange;

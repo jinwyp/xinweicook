@@ -36,10 +36,17 @@
                     <div class="user-actions">
                         <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
                     </div>
-                    <div class="buy">
-                        <span class="price">{{::dish.priceOriginal}}</span>
-                        <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
-                        <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                    <!--<div class="buy">-->
+                        <!--<span class="price">{{::dish.priceOriginal}}</span>-->
+                        <!--<span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>-->
+                        <!--<span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>-->
+                    <!--</div>-->
+                    <div class="buy-button"
+                         ng-class="{'out-of-stock': dish.outOfStock}"
+                         ng-click="!dish.outOfStock && addDish(dish)">
+                        <div class="price"><span>{{dish.priceOriginal}}</span></div>
+                        <div class="text" ng-if="!dish.outOfStock">购买</div>
+                        <div class="text" ng-if="dish.outOfStock">售罄</div>
                     </div>
                 </div>
             </div>
@@ -59,7 +66,7 @@
         <div class="icon bag-icon">
             <i class="number">{{cart.length}}</i>
         </div>
-        <span>{{cart.price || 0}}</span>
+        <span class="price">{{cart.price || 0}}</span>
     </div>
 </nav>
 

@@ -65,8 +65,10 @@
                         ng-options="(item.name.zh + '(¥' + item.price + ')') for item in data.coupon.cardList">
                 </select>
             </div>
-            <div class="border has-icon" ng-if="data.balance.total">
-                <span class="checkbox icon" ng-click="data.balance.enabled = !data.balance.enabled"></span>
+            <div class="border has-icon coupon-group" ng-if="data.balance.total">
+                <span class="checkbox icon"
+                      ng-click="data.balance.enabled = !data.balance.enabled"
+                      ng-class="{inactive: !data.balance.enabled}"></span>
                 <span ng-if="!data.balance.enabled">使用新味币(剩余 ¥{{data.balance.total}})支付此订单</span>
                 <span ng-if="data.balance.enabled">使用新味币抵扣¥{{usedBalance()}} (抵扣后剩余 ¥{{data.balance.total - usedBalance()}})</span>
             </div>
@@ -84,8 +86,8 @@
 </div>
 
 <footer ng-cloak class="cart-bar2 row">
-    <span class="back-to-menu">返回菜单</span>
-    <span class="next" ng-click="order(data.form)">{{payment(true)}} <i class="rmb-char">{{payPrice()}}</i></span>
+    <a href="/mobile" class="back-to-menu"><span class="back-to-menu">返回菜单</span></a>
+    <span class="next" ng-click="order(data.form)">{{payment(true)}} <i class="rmb-char">{{(payment() == 'account balance') ? usedBalance() : payPrice()}}</i></span>
 </footer>
 
 </body>
@@ -102,6 +104,7 @@
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
 <script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/service/alert.js"></script>
 <script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/controllers/order-pay.js"></script>
 </html>

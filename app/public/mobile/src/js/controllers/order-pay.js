@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $localStorage, Orders, User, Balance, Weixin, $filter) {
+angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $scope, $localStorage, Orders, User, Balance, Weixin, $filter) {
     // 此类变量在被重新赋予新值较为麻烦,需要cart = data.cart = ..
     var cart, address, time, coupon;
     var data = $scope.data = {
@@ -113,6 +113,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $l
         if (!balance.total || !balance.enabled) return 0;
 
         var remainPrice = data.totalPrice - $scope.couponPrice();
+        remainPrice = balance.total <= remainPrice ? balance.total : remainPrice;
         return remainPrice < 0 ? 0 : remainPrice;
     };
 
@@ -179,6 +180,19 @@ angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $l
                 if (payment == 'alipay direct')
                     location.href = res.data.aliPaySign.fullurl;
             })
+        }).catch(function (res) {
+            var tip = Alert.message(res.data.validationStatus);
+            var message = res.data.message;
+            if (res.data.validationStatus == 4110) {
+                if (/Dish Out Of Stock ! \w+ ([\w\u4E00-\u9FA5]+)/.
+                        test(message)) {
+                    alert(RegExp.$1 + tip);
+                    return;
+                }
+                alert(tip);
+                return;
+            }
+            alert('生成订单失败,请稍后再试');
         })
 
     };

@@ -115,7 +115,7 @@
                     {{newAddr.street}}
                     <input ng-if="!newAddr.street" type="text" placeholder="街道" name="street" ng-model="newAddr.street" required/>
                     <span class="err-tip" ng-if="newForm.street.$dirty && newForm.street.$error.required">必填</span>
-                    <span ng-if="::isWeixin" ng-click="locate()" class="location">定位</span>
+                    <span ng-if="::isWeixin" ng-click="locate($event)" class="location">定位</span>
                 </div>
                 <div>
                     <input name="address" type="text" placeholder="楼层、门牌号" required ng-model="newAddr.address">

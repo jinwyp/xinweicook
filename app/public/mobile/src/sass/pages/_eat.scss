@@ -1,5 +1,4 @@
 @import "compass/utilities/sprites";
-@import "icons/*.png";
 @import "../base";
 
 $buy-height: 30px;
@@ -90,10 +89,10 @@ $out-of-stock-bg-color: #75A3B7;
     }
   }
   .detail {
-    padding: 0 10px 10px;
+    padding: 10px;
     position: relative;
     .title {
-      margin: 12px 0 16px;
+      margin: 9px 0 16px;
       font-size: 18px;
     }
     .user-actions {
@@ -275,13 +274,13 @@ $sc-h5-font-size: 15px;
 
 @media (max-width: 414px) {
   .detail .title{
-    max-width: 262px;
+    max-width: 330px;
   }
 }
 
 @media (max-width: 375px) {
   .detail .title {
-    max-width: 218px;
+    max-width: 290px;
   }
   .selections-container .block h4 {
     font-size: 16px;
@@ -290,7 +289,7 @@ $sc-h5-font-size: 15px;
 
 @media (max-width: 320px) {
   .detail .title {
-    max-width: 163px;
+    max-width: 250px;
   }
   .selections-container .block h4 {
     font-size: 14px;
@@ -324,10 +323,38 @@ $sc-h5-font-size: 15px;
   .go-to-cart {
     position: absolute;
     right: 0;
-    .bag-icon {
-      position: absolute;
-    }
     width: 100px;
     background-color: $primary-color;
+
+    .bag-icon {
+      position: absolute;
+      left: 23px;
+      top: 0;
+      bottom: 4px;
+      margin: auto;
+      @include retina-sprite-background(ShoppingBagIcon);
+
+      i {
+        position: absolute;
+        bottom: 1px;
+        right: 0;
+        left: 0;
+        font-size: 12px;
+        line-height: normal;
+      }
+    }
+
+    .price {
+      position: relative;
+      right: -15px;
+      &::before {
+        content: '¥';
+        position: absolute;
+        top: 1px;
+        left: -0.6em;
+        line-height: normal;
+        font-size: 10px;
+      }
+    }
   }
 }

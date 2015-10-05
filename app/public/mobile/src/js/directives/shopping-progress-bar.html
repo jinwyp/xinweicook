@@ -1,10 +1,10 @@
 <div class="shopping-progress-bar">
     <div class="states">
-        <span class="state1">筛选购物袋</span>
-        <span class="state2">确认送货地址</span>
-        <span class="state3">支付</span>
+        <span ng-class="{cur: state == 'state1'}" class="state1">筛选购物袋</span>
+        <span ng-class="{cur: state == 'state2'}" class="state2">确认送货地址</span>
+        <span ng-class="{cur: state == 'state3'}" class="state3">支付</span>
     </div>
     <div class="state-bar-container">
-        <div class="indicator state1"></div>
+        <div class="indicator" ng-class="state"></div>
     </div>
 </div>

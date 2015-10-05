@@ -34,7 +34,7 @@ return {
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/cart/];
     var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart'];
-    var loginRedirectPath = ['/mobile/me', '/mobile/addresslist',
+    var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress',
         '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline'];
 
     return {

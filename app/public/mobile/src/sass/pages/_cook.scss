@@ -11,6 +11,7 @@ $cook-font-lighter-color: #646464;
     min-height: 200px; // adapt to iphone 5s width
   }
   .detail {
+    position:relative;
     padding: 10px;
     h5 {
       font-size: 16px;
@@ -23,11 +24,6 @@ $cook-font-lighter-color: #646464;
     .brief {
       font-size: 13px;
       margin-bottom: 7px;
-    }
-    .price {
-      font-size: 18px;
-      font-weight: 200;
-      margin-bottom: 0;
     }
   }
 }
