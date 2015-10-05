@@ -82,9 +82,9 @@
 
     <div class="go-to-cart" ng-click="goToCart()">
         <div class="icon bag-icon">
-            <i class="number">{{cart.length}}</i>
+            <i class="number" ng-bind="cart.length"></i>
         </div>
-        <span class="price">{{cart.price || 0}}</span>
+        <span class="price" ng-bind="cart.price || 0"></span>
     </div>
 </nav>
 
