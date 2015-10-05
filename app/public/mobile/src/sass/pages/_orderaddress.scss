@@ -1,0 +1,111 @@
+@import "../base";
+
+html.order-address-html {
+  // 为了整个屏幕空白区域的点击事件
+  height: 100%;
+  body {
+    height: 100%;
+  }
+}
+
+.order-address-main {
+  padding: 12px;
+
+  .address-list {
+    margin-bottom: $cart-bar-height;
+
+    li {
+      border: 2px solid #DCDFDE;
+      padding: 5px 0;
+      color: #777;
+      position: relative;
+      &:not(:first-child) {
+        margin: 12px 0;
+      }
+
+      .deliverable-tag {
+        font-size: 12px;
+        position: absolute;
+        z-index: 10;
+        right: 0;
+        top: 6px;
+        color: white;
+        background-color: #E2E2E2;
+        line-height: 2;
+        padding: 0 .9em;
+      }
+
+      form {
+        position: absolute;
+        background-color: white;
+        top: 0;
+        width: 100%;
+      }
+
+      form>div, &>div{
+        line-height: 34px;
+        padding-left: 10px;
+        height: 40px;
+        position: relative;
+      }
+
+      form>div {
+        //.err-tip的另外一部分见base
+        &.with-tag .err-tip {
+          right: 83px;
+        }
+
+        &.selects {
+          width: 100%;
+          select {
+            background-color: white;
+            width: 31%;
+          }
+        }
+      }
+
+      .location {
+        position: absolute;
+        right: 13px;
+        border: 1px solid;
+        top: 0;
+        margin: auto;
+        bottom: 0;
+        line-height: 26px;
+        padding: 0 10px;
+        font-size: 12px;
+        height: 27px;
+      }
+
+      input{
+        width: 100%;
+        height: 37px;
+        //padding: 6px 0;
+        line-height: 1.428;
+      }
+
+      .cur-show {
+        display: none;
+      }
+
+      &.cur {
+        padding: 0;
+        border-color: black;
+        color: black;
+
+        form>div, &>div {line-height: 38px}
+        form>div:not(:last-of-type), &>div:not(:last-of-type) {
+          border-bottom: 2px dotted #EAE9E9;
+        }
+
+        .deliverable-tag {
+          background-color: black;
+        }
+
+        .cur-show {
+          display: block;
+        }
+      }
+    }
+  }
+}

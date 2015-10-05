@@ -1659,9 +1659,9 @@ angular.module('xw.services').constant('Address', [
             },
             {
                 "Name": "东莞",
-                "Region": {
+                "Region": [{
                     "Name": "东莞市"
-                }
+                }]
             },
             {
                 "Name": "深圳",

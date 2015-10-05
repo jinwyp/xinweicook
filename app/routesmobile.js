@@ -93,6 +93,16 @@ expressRoutes = function(app) {
     app.get("/mobile/balancerecords", function (req, res) {
         res.render('mobile/balance-records.html');
     });
+    app.get("/mobile/orderaddress", function (req, res) {
+        res.render('mobile/order-address.html');
+    });
+    app.get("/mobile/orderpay", function (req, res) {
+        res.render('mobile/order-pay.html');
+    });
+    app.get("/mobile/searchaddress", function (req, res) {
+        res.render('mobile/search-address.html');
+    });
+
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求
@@ -122,19 +132,18 @@ expressRoutes = function(app) {
 
     app.get('/mobile/distance', function (req, res, next) {
             // 使用gcj02坐标.
-            var lat = req.query.lat;
-            var lng = req.query.lng;
+            var destinations = req.query.destinations || '';
             var xwLat = 31.189426;
             var xwLng = 121.460625;
             var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
 
             var params = 'origins=' + encodeURIComponent(xwLat + ',' + xwLng) +
-                '&destinations=' + encodeURIComponent(lat + ',' + lng) +
+                '&destinations=' + encodeURIComponent(destinations) +
                 '&ak=' + ak +
                 '&output=json&mode=walking&coord_type=gcj02&tactics=12';
             var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
 
-            console.log('url:', url);
+            console.log('####:::', url);
 
             request(url, function(err, response, body) {
                 if (err) {

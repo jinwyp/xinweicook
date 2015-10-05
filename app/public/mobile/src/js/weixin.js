@@ -13,10 +13,15 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
             latitude: 31.189426
         },
 
-        ak: 'xnKgWtGYXf4gkLgreox7xpjI'
+        ak: 'xnKgWtGYXf4gkLgreox7xpjI',
+
+        oauthUrl: '/api/orders/payment/weixinpay/oauthcode?orderid='
     };
 
     return {
+        isWeixin: /MicroMessenger/i.test(navigator.userAgent),
+
+        oauthUrl: defaults.oauthUrl,
 
         readyState: false,
 

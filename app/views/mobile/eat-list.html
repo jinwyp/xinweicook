@@ -9,13 +9,13 @@
     <title ng-bind="path == '/eat' ? '新味便当' : '新味食材包'"></title>
     <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
-<body class="no-filter">
+<body class="menu-body">
 
-<nav class="eat-nav nav">
-    <a href="#/eat"><span ng-class="{active: path == '/eat'}">便当</span></a>
-    <a href="#/cook"><span ng-class="{active: path == '/cook'}">食材包</span></a>
-    <a href="me"><span class="profile-icon icon"></span></a>
-</nav>
+<!--<nav class="eat-nav nav">-->
+    <!--<a href="#/eat"><span ng-class="{active: path == '/eat'}">便当</span></a>-->
+    <!--<a href="#/cook"><span ng-class="{active: path == '/cook'}">食材包</span></a>-->
+    <!--<a href="me"><span class="profile-icon icon"></span></a>-->
+<!--</nav>-->
 
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
@@ -36,10 +36,17 @@
                     <div class="user-actions">
                         <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
                     </div>
-                    <div class="buy">
-                        <span class="price">{{::dish.priceOriginal}}</span>
-                        <span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>
-                        <span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>
+                    <!--<div class="buy">-->
+                        <!--<span class="price">{{::dish.priceOriginal}}</span>-->
+                        <!--<span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>-->
+                        <!--<span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>-->
+                    <!--</div>-->
+                    <div class="buy-button"
+                         ng-class="{'out-of-stock': dish.outOfStock}"
+                         ng-click="!dish.outOfStock && addDish(dish)">
+                        <div class="price"><span>{{dish.priceOriginal}}</span></div>
+                        <div class="text" ng-if="!dish.outOfStock">购买</div>
+                        <div class="text" ng-if="dish.outOfStock">售罄</div>
                     </div>
                 </div>
             </div>
@@ -50,39 +57,23 @@
 
 <add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
-<div class="address-wrapper" ng-cloak>
-    <div class="address-cover" ng-if="css.showAllAddress" ng-click="css.showAllAddress=false"></div>
-    <div class="address-group">
-        <div class="eat-address">
-            <span class="address-icon icon"></span>
-            <div class="address-content" ng-click="css.showAllAddress=true">
-                <div class="address-title">送至地址:</div>
-                <div class="address-detail" ng-if="address">
-                    {{address.city + address.district + address.street + address.address}}
-                </div>
-                <div class="address-detail" ng-if="!address && !css.showLocationFailed">定位中...</div>
-                <div class="address-detail" ng-if="!address && css.showLocationFailed">定位失败,请点击此处,手动选择地址.</div>
-            </div>
-            <div class="cart" ng-click="goToCart()">
-                <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
-            </div>
+<nav class="menu-nav">
+    <div><a href="me"><span>帐号</span></a></div>
+    <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
+    <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
+
+    <div class="go-to-cart" ng-click="goToCart()">
+        <div class="icon bag-icon">
+            <i class="number">{{cart.length}}</i>
         </div>
-        <ul class="address-list" ng-if="css.showAllAddress">
-            <li ng-click="chooseAddress(addr)" ng-repeat="addr in allAddresses | limitTo: 3" ng-class="{active: address == addr}">
-                {{addr.city + addr.district + addr.street + addr.address}}
-            </li>
-        </ul>
-        <div class="address-button-wrapper" ng-if="css.showAllAddress">
-            <span style="display:none;">新建地址</span>
-            <a href="addresslist"><span>管理地址</span></a>
-        </div>
+        <span class="price">{{cart.price || 0}}</span>
     </div>
-</div>
+</nav>
+
 </body>
 
 <script src="/components/angular/angular.min.js?v=11"></script>
 <script src="/components/ngstorage/ngStorage.min.js?v=11"></script>
-<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 <script src="/mobile/src/js/modules.js?v=11"></script>
 

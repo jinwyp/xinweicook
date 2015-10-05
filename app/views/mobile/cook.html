@@ -22,8 +22,17 @@
         <img ng-src="{{dish.cover[0].zh | adapt}}"/>
         <div class="detail">
             <h5>{{dish.title.zh}}</h5>
+            <div class="tips">
+                <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
+            </div>
+            <div class="buy-button"
+                 ng-class="{'out-of-stock': dish.outOfStock}"
+                 ng-click="!dish.outOfStock && addDish(dish)">
+                <div class="price"><span>{{dish.priceOriginal}}</span></div>
+                <div class="text" ng-if="!dish.outOfStock">购买</div>
+                <div class="text" ng-if="dish.outOfStock">售罄</div>
+            </div>
             <p class="brief">{{dish.brief.zh}}</p>
-            <p class="price rmb-char">{{dish.priceOriginal}}</p>
         </div>
     </div>
 
@@ -66,22 +75,35 @@
 
 <add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
-<footer class="cook-footer row">
-    <div class="col-xs-2">
-        <div class="cart" ng-click="goToCart()">
-            <span class="total-count" ng-if="cart.length">{{cart.length}}</span>
+<nav class="menu-nav">
+    <div><a href="/me"><span>帐号</span></a></div>
+    <div><a href="/mobile#/eat"><span>便当</span></a></div>
+    <div class="active"><a href="#/cook"><span>食材包</span></a></div>
+
+    <div class="go-to-cart" ng-click="goToCart()">
+        <div class="icon bag-icon">
+            <i class="number">{{cart.length}}</i>
         </div>
+        <span class="price">{{cart.price || 0}}</span>
     </div>
+</nav>
 
-    <div class="col-xs-4 text-center">
-        <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
-    </div>
+<!--<footer class="cook-footer row">-->
+    <!--<div class="col-xs-2">-->
+        <!--<div class="cart" ng-click="goToCart()">-->
+            <!--<span class="total-count" ng-if="cart.length">{{cart.length}}</span>-->
+        <!--</div>-->
+    <!--</div>-->
 
-    <div class="col-xs-5 pull-right add-to-cart-container" ng-click="addDish(dish)">
-        加入购物袋
-    </div>
+    <!--<div class="col-xs-4 text-center">-->
+        <!--<span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>-->
+    <!--</div>-->
 
-</footer>
+    <!--<div class="col-xs-5 pull-right add-to-cart-container" ng-click="addDish(dish)">-->
+        <!--加入购物袋-->
+    <!--</div>-->
+
+<!--</footer>-->
 
 </body>
 

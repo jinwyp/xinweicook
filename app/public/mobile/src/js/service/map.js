@@ -1,4 +1,7 @@
 angular.module('xw.services').factory('Map', function ($http, Debug) {
+    // 如果有必要修改则需要改成provider
+    var topDistance = 6000;
+
     return {
         suggestion: function (query, region) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
@@ -50,31 +53,57 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
 
         /**
          * 对百度地图routematrix api的后端包装,此处原样返回百度的数据
-         * @param lat gcj02坐标
+         * @param lat gcj02坐标 | [sval, obj, ..]
          * @param lng
          * @returns {HttpPromise}
          */
         walkingDistance: function (lat, lng) {
-            return $http.get('/mobile/distance', {
-                params: {
-                    lat: lat,
-                    lng: lng
+            var args;
+            if (Array.isArray(arguments[0])) {
+                args = arguments[0];
+            } else {
+                args = [{lat: lat, lng: lng}];
+            }
+
+            var sval = '';
+            args.forEach(function (arg, i) {
+                if (i >= 5) return; //百度限制
+                var prefix = i == 0 ? '' : '|';
+                if (typeof arg == 'string') {
+                    sval += prefix + arg;
+                } else {
+                    sval += prefix + arg.lat + ',' + arg.lng;
                 }
-            })
+            });
+
+            return $http.get('/mobile/distance?destinations=' +
+                encodeURIComponent(sval))
         },
 
         distance: function (lat, lng) {
             return this.walkingDistance(lat, lng).then(function (res) {
-                var distance = res.data.result.elements[0].distance.value;
-                var topDistance = 6000;
+                var d = res.data.result.elements[0].distance.value;
                 return {
-                    distance: distance,
+                    distance: d,
                     // 百度有时候返回的是null, 此时就当作1000公里
-                    isInRange: (distance === null ? 999999 : distance) <= topDistance
+                    isInRange: (d === null ? 999999 : d) <= topDistance
                 }
             }).catch(function (res) {
                 Debug.alert('获取步行距离失败');
                 Debug.alert(res);
+            })
+        },
+
+        distances: function (dests) {
+            dests = Array.isArray(dests) ? dests : [dests];
+            return this.walkingDistance(dests).then(function (res) {
+                return res.data.result.elements.map(function (el) {
+                    var d = el.distance.value;
+                    return {
+                        distance: d,
+                        isInRange: (d === null ? 999999 : d) <= topDistance
+                    }
+                })
             })
         }
     }
