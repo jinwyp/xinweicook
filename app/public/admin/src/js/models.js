@@ -56,7 +56,16 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
             if (angular.isArray(chartData)){
                 angular.forEach(chartData, function(value, key) {
-                    this.push(Math.abs(value.dishSaleQuantity));
+
+                    if(typeof value.dishSaleQuantity !== 'undefined'){
+                        // dish
+                        result[0].data.push(Math.abs(value.dishSaleQuantity));
+                    }else{
+                        // order
+                        result[0].data.push(Math.abs(value.saleTotalPrice));
+                        result[0].type = 'line';
+                    }
+
                 }, result[0].data);
             }
 
@@ -91,8 +100,8 @@ angular.module('RDash.models').factory('Util', function ($http) {
                 angular.forEach(chartData, function(value, key) {
 
                     if(typeof value.date !== 'undefined'){
-                        this.push(value.date);
-                    }else{
+                        this.push(value.date.substr(5,5));
+                    }else if (typeof value.week !== 'undefined') {
                         this.push('第' + value.week + '周('+ value.dishList[0].createdAt.substr(5,5) + ')');
                     }
 
