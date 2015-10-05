@@ -8,10 +8,14 @@
     margin-bottom: 7px;
     overflow: hidden;
 
-    input, select {
+    input, select, textarea {
       width: 100%;
       padding-top: 0;
       padding-bottom: 0;
+    }
+
+    textarea.border {
+      border: 1px solid black !important;
     }
 
     select {
@@ -35,6 +39,15 @@
 
     div:not(.border) + div.border {
       margin-top: 5px;
+    }
+
+    &.price-group {
+      div {
+        line-height: 2.2;
+      }
+      .total {
+        font-size: 16px;
+      }
     }
 
     .select-group {

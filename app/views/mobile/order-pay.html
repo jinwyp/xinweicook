@@ -43,6 +43,12 @@
             </div>
         </div>
 
+        <div class="block" ng-init="data.form = form">
+            <h4>备注</h4>
+            <!-- todo: 有没有至少2个字符的限制-->
+            <textarea ng-model="model.userComment" class="border" name="userComment" rows="2"></textarea>
+        </div>
+
         <div class="block">
             <h4>优惠 & 支付</h4>
             <div class="border">
@@ -50,7 +56,7 @@
                        coupon-code="data.coupon.codePrice"
                        ng-model="model.coupon.code"
                        pattern="^1a\w{6}$|^\w{10}$" />
-                <span class="err-tip" ng-if="form.couponcode.$error.pattern">优惠码格式不正确</span>
+                <span class="err-tip" ng-if="form.couponcode.$error.pattern">优惠码长度为8-10位</span>
                 <span class="err-tip" ng-if="form.$error.couponCode">优惠码无效</span>
             </div>
             <div class="border select" ng-if="data.coupon.cardList.length">
@@ -59,18 +65,19 @@
                         ng-options="(item.name.zh + '(¥' + item.price + ')') for item in data.coupon.cardList">
                 </select>
             </div>
-            <div class="border has-icon">
-                <span class="checkbox icon" ng-click="data.coupon.enabled = !data.coupon.enabled"></span>
-                使用新味币抵扣¥83 (抵扣后剩余¥83)
+            <div class="border has-icon" ng-if="data.balance.total">
+                <span class="checkbox icon" ng-click="data.balance.enabled = !data.balance.enabled"></span>
+                <span ng-if="!data.balance.enabled">使用新味币(剩余 ¥{{data.balance.total}})支付此订单</span>
+                <span ng-if="data.balance.enabled">使用新味币抵扣¥{{usedBalance()}} (抵扣后剩余 ¥{{data.balance.total - usedBalance()}})</span>
             </div>
         </div>
 
-        <div class="block">
-            <div>订单金额:<span class="rmb-char fee">84</span></div>
-            <div>优惠金额:<span class="rmb-char fee">{{0 + data.coupon.codePrice}}</span></div>
-            <div>运费:<span class="rmb-char fee">8</span></div>
-            <div>新味币:<span class="rmb-char fee negative">4</span></div>
-            <div class="total">应付总额<span class="rmb-char fee">84</span></div>
+        <div class="block price-group">
+            <div>订单金额:<span class="rmb-char fee">{{data.orderPrice}}</span></div>
+            <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()}}</span></div>
+            <div>运费:<span class="rmb-char fee">{{data.deliveryFee}}</span></div>
+            <div>新味币:<span class="rmb-char fee negative">{{usedBalance()}}</span></div>
+            <div class="total">应付总额<span class="rmb-char fee">{{payPrice()}}</span></div>
         </div>
 
     </form>
@@ -78,7 +85,7 @@
 
 <footer ng-cloak class="cart-bar2 row">
     <span class="back-to-menu">返回菜单</span>
-    <span class="next">微信支付</span>
+    <span class="next" ng-click="order(data.form)">{{payment(true)}} <i class="rmb-char">{{payPrice()}}</i></span>
 </footer>
 
 </body>
@@ -94,5 +101,7 @@
 <script src="/mobile/src/js/directives/coupon-code.js"></script>
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/service/debug.js"></script>
+<script src="/mobile/src/js/weixin.js"></script>
 <script src="/mobile/src/js/controllers/order-pay.js"></script>
 </html>

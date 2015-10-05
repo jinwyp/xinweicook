@@ -11,6 +11,8 @@ angular.module('xw.directives').directive('couponCode', function (Coupon, $q) {
 
                 if (!value) return $q.resolve(1);
 
+                value = value.length == 8 ? 'zz' + value : value;
+
                 return Coupon.getCouponInfo(value).then(function (res) {
                     var coupon = res.data;
                     var now = new Date(res.headers('date'));

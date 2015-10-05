@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $localStorage, Orders, User, Balance) {
+angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $localStorage, Orders, User, Balance, Weixin, $filter) {
     // 此类变量在被重新赋予新值较为麻烦,需要cart = data.cart = ..
     var cart, address, time, coupon;
     var data = $scope.data = {
@@ -6,16 +6,26 @@ angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $l
         address: null,
         time: {},
         coupon: {},
-        balance: {}
+        balance: {},
+        deliveryFee: 0,
+        orderPrice: 0,
+        payment: {
+            weixinpay: '微信支付',
+            'alipay direct': '支付宝支付',
+            'account balance': '余额支付'
+        }
     };
 
     var model = $scope.model = {
         time: {},
-        coupon: {}
+        coupon: {},
+        userComment: ''
     };
+    
+    var isWeixin = $scope.isWeixin = Weixin.isWeixin;
 
     function init() {
-        var isCityShanghai;
+        var isCityShanghai, isNearAddress;
 
         // 购物车
         cart = data.cart = $localStorage.confirmedCart;
@@ -24,6 +34,13 @@ angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $l
         // 地址
         address = data.address = $localStorage.orderAddress;
         isCityShanghai = address.province.indexOf('上海') != -1;
+        isNearAddress = /浙江|江苏|安徽/.test(address.province);
+        address.distanceFrom = +address.distance;
+
+        // 配送费用
+        if (cart.cookList && cart.cookList.length)
+            data.deliveryFee = isCityShanghai ? 6 : isNearAddress ? 12 : 24;
+        if (cart.eatList && cart.eatList.length) data.deliveryFee += 6;
 
         // 配送时间
         time = data.time;
@@ -68,14 +85,107 @@ angular.module('xw.controllers').controller('orderPayCtrl', function ($scope, $l
         // 余额
         Balance.balance().then(function (res) {
             data.balance.total = res.data.balance;
-            data.balance.enabled = true;
+            data.balance.enabled = !!res.data.balance;
         });
 
+        // 订单金额(不含运费) 应该独立出去
+        for (var name in cart) {
+            var list = cart[name];
+            data.orderPrice += list.reduce(function (total, cur) {
+                var subDishPrice = cur.subDish ? cur.subDish.priceOriginal : 0;
+                return total + (cur.dish.priceOriginal + subDishPrice)
+                    * cur.dish.number;
+            }, 0)
+        }
+
+        // 未减优惠余额前的总金额
+        data.totalPrice = data.orderPrice + data.deliveryFee;
     }
+
+    $scope.couponPrice = function () {
+        var price = 0;
+        price += model.coupon.card ? model.coupon.card.price : 0;
+        return price + (data.coupon.codePrice || 0); // codePrice由异步校验指令赋值
+    };
+
+    $scope.usedBalance = function () {
+        var balance = data.balance;
+        if (!balance.total || !balance.enabled) return 0;
+
+        var remainPrice = data.totalPrice - $scope.couponPrice();
+        return remainPrice < 0 ? 0 : remainPrice;
+    };
+
+    $scope.payPrice = function () {
+        var usedBalance = $scope.usedBalance();
+        var payPrice = data.totalPrice - $scope.couponPrice() - usedBalance;
+        if (payPrice <= 0) {
+            // 当价格小于等于0时, 如果计算出的使用余额为0(即优惠券已够用无需用余额), 则需要用户支付0.1
+            payPrice = usedBalance ? 0 : 0.1
+        }
+        return payPrice;
+    };
+
+    $scope.payment = function (isHtml) {
+        var payment = $scope.isWeixin ? 'weixinpay' : 'alipay direct';
+        payment = $scope.payPrice() == 0 ? 'account balance' : payment;
+        payment = isHtml ? data.payment[payment] : payment;
+        return payment
+    };
+    
+    $scope.order = function (form) {
+        if (form.$invalid) return;
+
+        // 设置order对象参数
+        var clientFrom = isWeixin && $scope.payPrice() > 0 ? 'wechat' : 'mobileweb';
+        var payment = $scope.payment();
+        var cookingType = cart.cookList && cart.cookList.length ?
+            'ready to cook' : 'ready to eat';
+
+        // 设置order对象
+        var order = {
+            cookingType: cookingType,
+            clientFrom: clientFrom,
+            freight: data.deliveryFee,
+            payment: payment,
+            device_info: 'WEB',
+            trade_type: 'JSAPI',
+            usedAccountBalance: !!$scope.usedBalance(),
+            credit: 0,
+            spbill_create_ip: '8.8.8.8',
+            paymentUsedCash: false,
+            userComment: model.userComment
+        };
+
+        angular.extend(order, {address: address},
+            $filter('dishes')(cart, 'order', 'displayCart'),
+            $filter('orderTime')(model.time, 'all'),
+            $filter('coupon')(model.coupon)
+        );
+
+        Orders.postOrder(order).then(function (res) {
+            // todo: clear some locals to prevent from reordering.
+
+            // use setTimeout for clearing locals
+            setTimeout(function () {
+                if (payment == 'account balance') {
+                    alert('支付成功');
+                    location.href = '/mobile/invite';
+                }
+
+                if (payment == 'weixinpay')
+                    location.href = Weixin.oauthUrl + res.data._id;
+
+                if (payment == 'alipay direct')
+                    location.href = res.data.aliPaySign.fullurl;
+            })
+        })
+
+    };
 
     init();
 
     function clear() {
 
     }
-})
+});
