@@ -302,7 +302,6 @@ $sc-h5-font-size: 15px;
   position: fixed;
   width: 100%;
   bottom: 0;
-  font-weight: 100;
   background-color: $menu-nav-bg-color;
   height: 52px;
   line-height: 52px;
@@ -328,7 +327,7 @@ $sc-h5-font-size: 15px;
 
     .bag-icon {
       position: absolute;
-      left: 23px;
+      left: 22px;
       top: 0;
       bottom: 4px;
       margin: auto;
@@ -346,7 +345,7 @@ $sc-h5-font-size: 15px;
 
     .price {
       position: relative;
-      right: -15px;
+      right: -16px;
       &::before {
         content: '¥';
         position: absolute;

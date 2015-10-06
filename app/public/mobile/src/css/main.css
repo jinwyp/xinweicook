@@ -576,37 +576,36 @@ form .err-tip {
   position: fixed;
   width: 100%;
   bottom: 0;
-  font-weight: 100;
   background-color: #262626;
   height: 52px;
   line-height: 52px;
 }
-/* line 310, ../sass/pages/_eat.scss */
+/* line 309, ../sass/pages/_eat.scss */
 .menu-nav > div {
   display: inline-block;
   text-align: center;
   width: 21%;
 }
-/* line 314, ../sass/pages/_eat.scss */
+/* line 313, ../sass/pages/_eat.scss */
 .menu-nav > div.active {
   font-weight: 900;
 }
-/* line 316, ../sass/pages/_eat.scss */
+/* line 315, ../sass/pages/_eat.scss */
 .menu-nav > div.active span {
   border-top: 7px solid;
   padding: 9px 7px;
 }
-/* line 323, ../sass/pages/_eat.scss */
+/* line 322, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart {
   position: absolute;
   right: 0;
   width: 100px;
   background-color: #f44d4d;
 }
-/* line 329, ../sass/pages/_eat.scss */
+/* line 328, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .bag-icon {
   position: absolute;
-  left: 23px;
+  left: 22px;
   top: 0;
   bottom: 4px;
   margin: auto;
@@ -620,7 +619,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 337, ../sass/pages/_eat.scss */
+/* line 336, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .bag-icon i {
   position: absolute;
   bottom: 1px;
@@ -629,12 +628,12 @@ form .err-tip {
   font-size: 12px;
   line-height: normal;
 }
-/* line 347, ../sass/pages/_eat.scss */
+/* line 346, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .price {
   position: relative;
-  right: -15px;
+  right: -16px;
 }
-/* line 350, ../sass/pages/_eat.scss */
+/* line 349, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .price::before {
   content: '¥';
   position: absolute;
@@ -1259,7 +1258,7 @@ form .err-tip {
 .cart-block h4 {
   font-size: 14px;
   line-height: 2.4;
-  font-weight: 100;
+  font-weight: normal;
   border-bottom: 2px solid black;
   position: relative;
   padding-left: 36px;
@@ -1313,7 +1312,7 @@ form .err-tip {
 /* line 79, ../sass/pages/_cart.scss */
 .cart-list .dish-detail h5 {
   font-size: 15px;
-  font-weight: 100;
+  font-weight: normal;
 }
 /* line 83, ../sass/pages/_cart.scss */
 .cart-list .dish-detail span {

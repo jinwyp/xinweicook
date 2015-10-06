@@ -31,7 +31,7 @@ $select-btn-width: 100px;
   h4 {
     font-size: 14px;
     line-height: 2.4;
-    font-weight: 100;
+    font-weight: normal;
     border-bottom: 2px solid black;
     position: relative;
     padding-left: 36px;
@@ -78,7 +78,7 @@ $select-btn-width: 100px;
     height: $dish-img-height;
     h5 {
       font-size: 15px;
-      font-weight: 100;
+      font-weight: normal;
     }
     span {
       display: block;
