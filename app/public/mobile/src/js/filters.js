@@ -179,3 +179,35 @@ angular.module('xw.filters').filter('coupon', function () {
     }
 });
 
+/**
+ * 便当配送时间选项补充上请选择时间
+ */
+angular.module('xw.filters').filter('eatTimeOptions', function () {
+    return function (times) {
+        if (!times || !times.length) return times;
+        times.unshift({hour: '请选择配送时间'});
+        return times;
+    }
+});
+
+angular.module('xw.filters').filter('eatTimeDisplay', function () {
+    return function (time) {
+        return time.hour != '请选择配送时间' ? time.hour + ' 送达' : time.hour;
+    }
+});
+
+angular.module('xw.filters').filter('cookTimeOptions', function () {
+    return function (times) {
+        if (!times || !times.length) return times;
+        times.unshift({day: '请选择配送时间'});
+        return times
+    }
+});
+
+angular.module('xw.filters').filter('cookTimeDisplay', function () {
+    return function (time) {
+        return time.day == '请选择配送时间' || time.segment ?
+            time.day : time.day + ' 送达'
+    }
+})
+

@@ -26,17 +26,16 @@
             </div>
 
             <div class="border select" ng-if="name == 'eatList'">
-                <select ng-model="model.time.eat" ng-options="(date.hour + ' 送达') for date in data.time.eat"></select>
+                <select ng-model="model.time.eat" required ng-options="date|eatTimeDisplay for date in data.time.eat"></select>
             </div>
 
-            <div class="select-group" ng-if="name == 'cookList'">
+            <div class="select-group" ng-if="name == 'cookList'" ng-class="{'one-time': !data.time.cook[1].segment}">
                 <div class="border select">
-                    <select ng-model="model.time.cook.day"
-                            ng-options="day.day for day in data.time.cook"></select>
+                    <select ng-model="model.time.cook.day" required
+                            ng-options="day|cookTimeDisplay for day in data.time.cook"></select>
                 </div>
-                {{data.time.cook[0].segment ? '' : '送达'}}
-                <div class="border select" ng-if="data.time.cook[0].segment">
-                    <select ng-model="model.time.cook.time"
+                <div class="border select" ng-if="data.time.cook[1].segment">
+                    <select ng-model="model.time.cook.time" required
                             ng-options="(time.text+ ' 送达') for time in model.time.cook.day.segment | filter: {status: true}">
                     </select>
                 </div>
@@ -69,8 +68,8 @@
                 <span class="checkbox icon"
                       ng-click="data.balance.enabled = !data.balance.enabled"
                       ng-class="{inactive: !data.balance.enabled}"></span>
-                <span ng-if="!data.balance.enabled">使用新味币(剩余 ¥{{data.balance.total}})支付此订单</span>
-                <span ng-if="data.balance.enabled">使用新味币抵扣¥{{usedBalance()}} (抵扣后剩余 ¥{{data.balance.total - usedBalance()}})</span>
+                <span ng-if="!data.balance.enabled">使用新味币(剩余 ¥{{data.balance.total|number:1}})支付此订单</span>
+                <span ng-if="data.balance.enabled">使用新味币抵扣¥{{usedBalance()|number:1}} (抵扣后剩余 ¥{{data.balance.total - usedBalance()|number:1}})</span>
             </div>
         </div>
 
@@ -78,8 +77,8 @@
             <div>订单金额:<span class="rmb-char fee">{{data.orderPrice}}</span></div>
             <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()}}</span></div>
             <div>运费:<span class="rmb-char fee">{{data.deliveryFee}}</span></div>
-            <div>新味币:<span class="rmb-char fee negative">{{usedBalance()}}</span></div>
-            <div class="total">应付总额<span class="rmb-char fee">{{payPrice()}}</span></div>
+            <div>新味币:<span class="rmb-char fee negative">{{usedBalance()|number:1}}</span></div>
+            <div class="total">应付总额<span class="rmb-char fee">{{payPrice()|number:1}}</span></div>
         </div>
 
     </form>

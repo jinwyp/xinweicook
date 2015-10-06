@@ -49,19 +49,16 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             isCityShanghai: isCityShanghai,
             isInRange4KM: address.isInRange || false
         }).then(function (res) {
-            time.eat = res.data;
-            model.time.eat = res.data[0];
+            time.eat = $filter('eatTimeOptions')(res.data);
+            model.time.eat = time.eat[0];
         });
         cart.cookList && cart.cookList.length && Orders.deliveryTime({
             cookingType: "ready to cook",
             isCityShanghai: isCityShanghai,
             isInRange4KM: address.isInRange || false
         }).then(function (res) {
-            time.cook = res.data;
-            model.time.cook = {day: res.data[0]};
-            if (model.time.cook.day.segment) {
-                model.time.cook.time = model.time.cook.day.segment[0];
-            }
+            time.cook = $filter('cookTimeOptions')(res.data);
+            model.time.cook = {day: time.cook[0]};
         });
 
         // 购物车处理
@@ -135,7 +132,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     };
     
     $scope.order = function (form) {
-        if (form.$invalid) return;
+        if (form.$invalid || !isTimeValid()) return;
 
         // 设置order对象参数
         var clientFrom = isWeixin && $scope.payPrice() > 0 ? 'wechat' : 'mobileweb';
@@ -198,6 +195,18 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     };
 
     init();
+
+    function isTimeValid() {
+        var valid = true;
+        if (time.eat && (model.time.eat == time.eat[0])) {
+            valid = false;
+        }
+        if (time.cook && model.time.cook.day == time.cook[0].day) {
+            valid = false;
+        }
+        if (!valid) alert('请选择配送时间');
+        return valid;
+    }
 
     function clear() {
 

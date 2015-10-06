@@ -61,6 +61,13 @@
         &:last-child {
           width: 53%;
         }
+        &:first-child:last-child {
+          width: 100%;
+        }
+      }
+
+      &.one-time {
+        text-align: left;
       }
     }
 
@@ -113,6 +120,9 @@
 
 @media (max-width: 320px) {
   .order-pay-main .coupon-group span {
-    font-size: 14px;
+    font-size: 13px;
+  }
+  .select-group:not(.one-time) select {
+    font-size: 12px;
   }
 }
