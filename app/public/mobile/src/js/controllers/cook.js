@@ -21,15 +21,8 @@ angular.module('xw.controllers').controller('cookCtrl', function ($scope, Dishes
             alert('请先添加一份食材包到购物袋');
             return;
         }
-        var url = '';
-        if (typeof $localStorage.address == 'undefined') {
-            alert('请选择收货地址');
-            url = '/mobile/';
-        } else {
-            url = '/mobile/cart';
-        }
         setTimeout(function () {
-            location.href = url;// todo: replace with route
+            location.href = '/mobile/cart';// todo: replace with route
         }, 100); // let $localStorage sync. but
     };
 

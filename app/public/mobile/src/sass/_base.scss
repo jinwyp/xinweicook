@@ -97,6 +97,13 @@ $retina: sprite-map("icons/*.png");
   @include background-size($double-width auto);
 }
 
+// 这里的$name 是相对/img/目录的文件名,例如"icons/ForkIconHighlighted.png"(其实也就是为了这一张图)
+@mixin retina-background($name) {
+  height:round(image-height($name) / 3);
+  width: round(image-width($name) / 3);
+  background: image-url($name) 50%/cover no-repeat;
+}
+
 
 // commons
 .nav {
