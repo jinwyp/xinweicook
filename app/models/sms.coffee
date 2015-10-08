@@ -92,7 +92,7 @@ module.exports =
       code = chance.natural(min: 100000, max: 999999)
       expiredAt = moment().add(conf.code.expire, "m")
 
-      logger.debug "----------Send SMS :", "#{type}, #{code}, \
+#      logger.debug "----------Send SMS :", "#{mobile}, #{type}, #{code}, \
       #{moment(expiredAt).format("YYYY-MM-DD hh:mm:ss")}"
 
       @findOneAsync(type: type, mobile: mobile).then((resultLog)->
