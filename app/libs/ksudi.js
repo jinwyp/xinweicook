@@ -14,12 +14,13 @@ var requestC = require('request');
 
 
 
-
+// 状态: 待抢单(notify) 待取件(notify) 送件中 已完成(notify) 已取消(notify)
 
 
 var configKsuDi = {
-    username: '13761339935',  //公众账号ID
-    password: 'xwcook789', //商户号
+    username: '13761339935',  //账号ID
+    //password: 'xwcook789', //密码
+    password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
 
     charset : 'utf-8',
 
@@ -27,7 +28,18 @@ var configKsuDi = {
     key: "",
 
 
-    url_createOrder : "http://www.ksudi.org/shop/order/save/1"
+    //url_notify : "http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify",
+    url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
+
+
+    url_createOrder : "http://web.ksudi.com/shop/order/save/1",
+    url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
+
+    //url_createOrder : "http://www.ksudi.org/shop/order/save/1",
+
+    //url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
+    //url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
+
 
 
 };
@@ -106,7 +118,7 @@ ksuDi.prototype.sign = function(obj){
         })
         .join("&");
 
-    //querystring = querystring + "&key=" + this.config.key ;
+    //console.log(querystring);
     return md5( querystring );
 };
 
@@ -124,12 +136,14 @@ ksuDi.prototype.createOrder = function (item, callback){
         signtype : 'MD5',
         //sign     : '',
 
-        rec_addrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + '/' + item.address.city + '/' +  item.address.district + '/' + item.address.street + '/' + item.address.address,
-        sender : item.address.contactPerson,
-        sendtelephone : item.address.mobile,
+        //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
+        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.street + item.address.address,
+        sender : '新味',
+        sendtelephone : '13761339935', // 客服电话
+        sendaddress : '徐汇区中山南二路510号3楼',
 
-        //expressnumber : item.expressnumber,
-        sendtelephone : item.address.mobile,
+        expressnumber : item.orderNumber,
+
         //sendtime : moment().format("YYYY-MM-DD HH:mm:ss"),
         send_time : moment().unix(),
         //receivetime : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"),
@@ -137,9 +151,9 @@ ksuDi.prototype.createOrder = function (item, callback){
 
 
         goodsInfo : item.dishHistory[0].dish.title.zh,
-        actualcost : '', //实际支付金额
-        weight : '',
-        order_remark : '',
+        actualcost : 0, //实际支付金额
+        //weight : '',
+        //order_remark : '',
 
         cityname : item.address.city,
         citycode : 'SHS',  //上海市 SHS 杭州市 HZS
@@ -147,8 +161,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         isadvance : 0,  //是否需要垫付
         //advancecost : 0,  // 垫付金额
 
-        backurl : 'http://m.xinweicook.com/api/orders/delivery/ksudi/notify'  // 回调url
-
+        backurl : this.config.url_notify  // 回调url
 
 
     };
@@ -156,45 +169,60 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
         method: 'POST',
+        form: newOrder
         //headers: {
         //    "content-type": "application/json"
         //},
         //body: JSON.stringify(newOrder),
+
         //timeout: 10000,
-        json : newOrder
+        //json : newOrder
     };
 
     //console.log(opts);
 
     requestC(opts, function(err, response, body){
-        console.log('========== KSudi', err);
+        //console.log('========== KSudi', err);
         if (err) {
             //logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
             return callback(err);
         }
 
-        console.log('========== KSudi', body);
         //console.log('========== KSudi', response);
-        if(body.code === 200 ){
-            return callback(null, body);
-        }else{
+        //console.log('========== KSudi', body);
 
-            // 201 用户名或密码错误
-            // 202 用户名或密码不能为空
-            // 203 密钥错误
-            // 204 该快递信息不存在
-            // 205 发件地址不能解析！
-            // 206 其他错误
+        var result = {};
 
-            return  callback(body.code);
+        try{
+            result = JSON.parse(body);
+
+            if(result.code === 200 ){
+
+                // 300 接受订单成功
+                // 400 确认收货成功
+                // 500 订单完成
+
+                return callback(null, result);
+            }else{
+                // 200 成功
+                // 201 用户名或密码错误
+                // 202 用户名或密码不能为空
+                // 203 密钥错误
+                // 204 该快递信息不存在
+                // 205 发件地址不能解析！
+                // 206 其他错误
+
+                return  callback(result);
+            }
+
+        }catch (err){
+            return  callback(err);
         }
-
-
 
     })
 };

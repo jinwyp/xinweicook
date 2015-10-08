@@ -222,6 +222,10 @@ module.exports =
       unless libs.validator.isLength _id, 24, 24
         return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
 
+    validationOrderNumber : (orderNumber) ->
+      unless libs.validator.isLength orderNumber, 21, 22
+        return throw new Err "Field validation error,  order Number must be 21-22", 400
+
     validationGetOrderList : (query) ->
       if query.skip
         unless libs.validator.isInt query.skip, {min: 0}

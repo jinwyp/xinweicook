@@ -230,10 +230,11 @@ exports.middleware = function (req, res, next) {
 
     if ( req.get('content-type') != 'application/x-www-form-urlencoded'){
 
-        if (req.url == '/api/orders/payment/alipay/mobile' || req.url == '/api/orders/payment/alipay/notify/account') {
+        if (req.url == '/api/orders/payment/alipay/mobile' || req.url == '/api/orders/payment/alipay/notify/account' || req.url == '/api/administrator/order/delivery/ksudi/notify') {
             console.log("-------------------- Alipay Body Parser ------------------------", req.headers['content-type']); // 打印 application/x-www-form-urlencoded; text/html; charset=utf-8
             req.headers['content-type'] = 'application/x-www-form-urlencoded';
         }
+
 
     }
     next();

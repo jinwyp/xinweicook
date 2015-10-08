@@ -41,10 +41,13 @@ expressRoutes = (app) ->
   app.post("/api/orders/payment/alipay/notify/account", userController.chargeAccountAlipayNotify)
 
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
+
   app.post("/mobile/wxpay/notifyaccountdetail", weixinPay.parserNotifyMiddleware, userController.chargeAccountWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
   app.get("/api/orders/payment/weixinpay/openid", orderController.getWeixinPayUserOpenId)
+
+
 
 
 #  app.use libs.secure.middleware
@@ -131,7 +134,8 @@ expressRoutes = (app) ->
   app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
   app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
 
-  app.post("/api/administrator/order/delivery/ksudi/:_id", orderController.createDeliveryKSuDi)
+  app.post("/api/administrator/order/delivery/ksudi/order/:_id", orderController.createDeliveryKSuDi)
+  app.post("/api/administrator/order/delivery/ksudi/notify", orderController.deliveryKSuDiNotify)
 
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
