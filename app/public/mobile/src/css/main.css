@@ -1135,7 +1135,7 @@ form .err-tip {
 /* line 16, ../sass/pages/_cook.scss */
 .dish-brief .detail h5 {
   font-size: 16px;
-  font-weight: 100;
+  font-weight: normal;
   margin-top: 5px;
 }
 /* line 21, ../sass/pages/_cook.scss */
@@ -1147,38 +1147,44 @@ form .err-tip {
   font-size: 13px;
   margin-bottom: 7px;
 }
+/* line 28, ../sass/pages/_cook.scss */
+.dish-brief .detail .buy-button {
+  position: fixed;
+  top: 221px;
+  z-index: 1;
+}
 
-/* line 31, ../sass/pages/_cook.scss */
+/* line 36, ../sass/pages/_cook.scss */
 .info {
   padding: 0 10px;
   margin: 0 8px 60px;
   background-color: white;
 }
-/* line 32, ../sass/pages/_cook.scss */
+/* line 37, ../sass/pages/_cook.scss */
 .info img {
   width: 100%;
   min-height: 180px;
 }
 
-/* line 41, ../sass/pages/_cook.scss */
+/* line 46, ../sass/pages/_cook.scss */
 .ingredients .img {
   width: 100% !important;
 }
 
-/* line 45, ../sass/pages/_cook.scss */
+/* line 50, ../sass/pages/_cook.scss */
 .info-block {
   color: #646464;
 }
-/* line 47, ../sass/pages/_cook.scss */
+/* line 52, ../sass/pages/_cook.scss */
 .info-block p, .info-block span {
   font-size: 12px;
 }
-/* line 50, ../sass/pages/_cook.scss */
+/* line 55, ../sass/pages/_cook.scss */
 .info-block h6 {
   color: #646464;
   font-size: 13px;
 }
-/* line 54, ../sass/pages/_cook.scss */
+/* line 59, ../sass/pages/_cook.scss */
 .info-block h5 {
   color: #4b4b4c;
   margin-top: 20px;
@@ -1187,25 +1193,25 @@ form .err-tip {
   border-top: 1px solid rgba(195, 195, 195, 0.33);
   border-bottom: 1px solid rgba(195, 195, 195, 0.33);
 }
-/* line 61, ../sass/pages/_cook.scss */
+/* line 66, ../sass/pages/_cook.scss */
 .info-block h5::before, .info-block h5::after {
   content: " - ";
 }
-/* line 65, ../sass/pages/_cook.scss */
+/* line 70, ../sass/pages/_cook.scss */
 .info-block.feature-block h5 {
   border-top: 0;
   margin-top: 10px;
 }
-/* line 69, ../sass/pages/_cook.scss */
+/* line 74, ../sass/pages/_cook.scss */
 .info-block .row {
   margin-right: 0;
   margin-left: 0;
 }
-/* line 73, ../sass/pages/_cook.scss */
+/* line 78, ../sass/pages/_cook.scss */
 .info-block .txt-info {
   overflow: hidden;
 }
-/* line 76, ../sass/pages/_cook.scss */
+/* line 81, ../sass/pages/_cook.scss */
 .info-block .feature:not(last-child) {
   margin-bottom: 10px;
 }
