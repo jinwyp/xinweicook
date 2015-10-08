@@ -137,13 +137,14 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     var last15Day = today.clone().subtract(15, 'days');
 
 
-    var query = {};
+    var queryUser = {};
+    var queryOrder = {};
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
 
-        query = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
     }else{
-        query = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
     }
 
 
@@ -151,14 +152,23 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     var orderStatus = [];
     orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
 
-    models.user.find(query).execAsync()
+    models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
         userIdList = resultUserList.map(function(user){
             return user._id.toString()
         });
         //console.log(userIdList);
 
-        return models.order.find({user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus} }).sort({user:1, createdAt:1}).execAsync();
+        if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+            //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+
+            queryOrder = { createdAt:{"$lt": today }, user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus}};
+        }else{
+            queryOrder = {user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus} };
+        }
+
+
+        return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
     }).then(function(resultOrderList){
 
 
