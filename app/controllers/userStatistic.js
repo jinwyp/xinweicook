@@ -26,18 +26,52 @@ exports.userNewComerRate = function(req, res, next) {
     var last15Day = today.clone().subtract(15, 'days');
 
 
+    var queryAll = {};
+    var queryLast7Day = {};
+    var queryLast7DayOrderGte1 = {};
+    var queryLast7DayOrderGte2 = {};
+    var queryLast7DayOrderGte3 = {};
+    var queryLast7DayOrder1 = {};
+    var queryLast7DayOrder2 = {};
+
+
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        queryAll = {  createdAt: {"$gte": new Date(req.query.createdAt)} };
+        queryLast7Day = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day } };
+        queryLast7DayOrderGte1 = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+
+        queryLast7DayOrder1 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
+        queryLast7DayOrder2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+
+        queryLast7DayOrderGte2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte3 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+
+    }else{
+        queryAll = {};
+        queryLast7Day = { createdAt:{"$lt": last7Day } };
+        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+
+        queryLast7DayOrder1 = {  sharedInvitationSendCodeTotalCount:{"$eq": 1} };
+        queryLast7DayOrder2 = {  sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+
+        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+
+    }
+
 
     var promiseList = [
-        models.user.count().execAsync(),
-        models.user.count({ createdAt:{"$lt": last7Day } }).execAsync(),
+        models.user.count(queryAll).execAsync(),
+        models.user.count(queryLast7Day).execAsync(),
 
-        models.user.count({ createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} }).execAsync(),
+        models.user.count(queryLast7DayOrderGte1).execAsync(),
 
-        models.user.count({ sharedInvitationSendCodeTotalCount:{"$eq": 1} }).execAsync(),
-        models.user.count({ sharedInvitationSendCodeTotalCount:{"$eq": 2} }).execAsync(),
+        models.user.count(queryLast7DayOrder1).execAsync(),
+        models.user.count(queryLast7DayOrder2).execAsync(),
 
-        models.user.count({ sharedInvitationSendCodeTotalCount:{"$gte": 2} }).execAsync(),
-        models.user.count({ sharedInvitationSendCodeTotalCount:{"$gte": 3} }).execAsync()
+        models.user.count(queryLast7DayOrderGte2).execAsync(),
+        models.user.count(queryLast7DayOrderGte3).execAsync()
     ];
 
     Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased1TimeUserCount, resultPurchased2TimeUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount){
@@ -82,12 +116,20 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     var last15Day = today.clone().subtract(15, 'days');
 
 
+    var query = {};
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+
+    }else{
+        query = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+    }
+
 
 
     var orderStatus = [];
     orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
 
-    models.user.find({ createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} }).execAsync()
+    models.user.find(query).execAsync()
     .then(function(resultUserList){
         userIdList = resultUserList.map(function(user){
             return user._id.toString()
@@ -122,8 +164,8 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                                 orderList : []
                             };
                         }else{
-                            userDataHash[resultOrderList[i].user.toString()].totalTime = userDataHash[resultOrderList[i].user.toString()].totalTime + first.secondOrderInterval
-                            userDataHash[resultOrderList[i].user.toString()].totalOrderNumber = userDataHash[resultOrderList[i].user.toString()].totalOrderNumber + 1
+                            userDataHash[resultOrderList[i].user.toString()].totalTime = userDataHash[resultOrderList[i].user.toString()].totalTime + first.secondOrderInterval;
+                            userDataHash[resultOrderList[i].user.toString()].totalOrderNumber = userDataHash[resultOrderList[i].user.toString()].totalOrderNumber + 1;
                             //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
                         }
 
