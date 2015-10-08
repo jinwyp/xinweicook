@@ -96,7 +96,7 @@
           bottom: 0;
           margin: auto 0;
           left: 7px;
-          @include retina-sprite-background(ForkIconHighlighted);
+          @include retina-background("icons/ForkIconHighlighted.png");
 
           &.inactive {
             @include retina-sprite-background(ForkIcon);

@@ -18,7 +18,8 @@ $select-btn-width: 100px;
     left: 0;
     margin: auto;
     &.active {
-      @include retina-sprite-background(ForkIconHighlighted)
+      @include retina-background("icons/ForkIconHighlighted.png");
+      //@include retina-sprite-background(ForkIconHighlighted)
     }
   }
 }

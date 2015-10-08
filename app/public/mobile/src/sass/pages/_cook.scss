@@ -27,7 +27,8 @@ $cook-font-lighter-color: #646464;
     }
     .buy-button {
       position: fixed;
-      top: 221px;
+      top: 39%;
+      top: calc(66.66vw + 14px);
       z-index: 1;
     }
   }

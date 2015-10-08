@@ -51,42 +51,6 @@ $out-of-stock-bg-color: #75A3B7;
     background: white url(../img/ImagePlaceholder.png) 50%/cover no-repeat;
     position: relative;
     overflow: hidden;
-    .count-operation {
-      font-size: 0;
-      font-weight: 100;
-      top: 0;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      color: white;
-      > div {
-        height: 100%;
-        display: inline-block;
-        text-align: center;
-        font-size: 50px;
-        position: relative;
-        .vertical-center {
-          font-weight: 100;
-          left: 0;
-          height: 50px;
-          line-height: 45px;
-          width: 100%;
-          position: absolute;
-          margin: auto;
-          top: 0;
-          bottom: 0;
-        }
-      }
-      .subtract {
-        width: 20%;
-      }
-      .count {
-        width: 60%;
-      }
-      .add {
-        width: 20%;
-      }
-    }
   }
   .detail {
     padding: 10px;
@@ -159,7 +123,7 @@ $sc-h5-font-size: 15px;
   box-shadow: #9C9999 0 0 1px;
 
   h4, h5 {
-    font-weight: 100;
+    font-weight: normal;
   }
 
   h4 {
@@ -167,7 +131,6 @@ $sc-h5-font-size: 15px;
     margin: 0;
     height: 64px;
     line-height: 64px;
-    font-weight: 100;
   }
 
   .close-button {

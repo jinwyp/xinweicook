@@ -176,7 +176,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
                 if (payment == 'alipay direct')
                     location.href = res.data.aliPaySign.fullurl;
-            })
+            }, 150)
         }).catch(function (res) {
             var tip = Alert.message(res.data.validationStatus);
             var message = res.data.message;
