@@ -18,9 +18,9 @@ var requestC = require('request');
 
 
 var configKsuDi = {
-    username: '13761339935',  //公众账号ID
-    //password: 'xwcook789', //商户号
-    password: 'e9a6a3f282d3b49e1a0061b06ace2296', //商户号
+    username: '13761339935',  //账号ID
+    //password: 'xwcook789', //密码
+    password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
 
     charset : 'utf-8',
 
@@ -28,17 +28,17 @@ var configKsuDi = {
     key: "",
 
 
-    url_notify : "http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify",
-    //url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
+    //url_notify : "http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify",
+    url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
 
 
-    //url_createOrder : "http://web.ksudi.com/shop/order/save/1",
-    //url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
+    url_createOrder : "http://web.ksudi.com/shop/order/save/1",
+    url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
 
     //url_createOrder : "http://www.ksudi.org/shop/order/save/1",
 
-    url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
-    url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
+    //url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
+    //url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
 
 
 
