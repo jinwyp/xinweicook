@@ -41,7 +41,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         datePickerIsOpen : false,
 
-
         searchDateFrom : '',
         searchDateTo : '',
 
