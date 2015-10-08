@@ -112,16 +112,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.searchUserCount = function (){
 
-        if ($scope.data.searchDateFrom){
-            //console.log (new Date($scope.data.searchDateFrom));
-            $scope.data.searchOptions.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateTo){
+            $scope.data.searchOptions.createdAt = '<' + new Date($scope.data.searchDateTo);
         }else{
             $scope.data.searchOptions.createdAt = '';
         }
 
 
         if ($scope.data.sharedInvitationSendCodeUsedTimeNumber){
-            //console.log (new Date($scope.data.searchDateFrom));
             $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
         }else{
             $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '';
@@ -129,7 +127,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
         if ($scope.data.sharedInvitationSendCodeTotalCountNumber){
-            //console.log (new Date($scope.data.searchDateFrom));
             $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
         }else{
             $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '';
@@ -197,8 +194,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.showUserStatistic = function () {
         $scope.css.showTable = 'stat';
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateTo !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
         }
 
         $scope.searchUserStatisticOfNewComers();

@@ -20,10 +20,15 @@ exports.userNewComerRate = function(req, res, next) {
     };
 
 
-    var timeNow = moment();
     var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
+
     var last7Day = today.clone().subtract(7, 'days');
     var last15Day = today.clone().subtract(15, 'days');
+
 
 
     var queryAll = {};
@@ -37,15 +42,27 @@ exports.userNewComerRate = function(req, res, next) {
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        queryAll = {  createdAt: {"$gte": new Date(req.query.createdAt)} };
-        queryLast7Day = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+        //queryAll = {  createdAt: {"$gte": new Date(req.query.createdAt)} };
+        //queryLast7Day = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day } };
+        //queryLast7DayOrderGte1 = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+        //
+        //queryLast7DayOrder1 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
+        //queryLast7DayOrder2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+        //
+        //queryLast7DayOrderGte2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        //queryLast7DayOrderGte3 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
-        queryLast7DayOrder1 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
 
-        queryLast7DayOrderGte2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+
+        queryAll = {  createdAt:{"$lt": today } };
+        queryLast7Day = { createdAt:{ "$lt": last7Day } };
+        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+
+        queryLast7DayOrder1 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
+        queryLast7DayOrder2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+
+        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     }else{
         queryAll = {};
@@ -110,16 +127,21 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     var userDataHash = {};
 
 
-    var timeNow = moment();
     var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
+
     var last7Day = today.clone().subtract(7, 'days');
     var last15Day = today.clone().subtract(15, 'days');
 
 
     var query = {};
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
 
+        query = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
     }else{
         query = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
     }
