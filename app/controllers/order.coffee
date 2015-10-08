@@ -1056,6 +1056,6 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 
   models.order.findById(req.params._id).execAsync()
   .then (resultOrder)->
-    res.send(req.body)
+    res.send({code : 200})
 
   .catch(next)
