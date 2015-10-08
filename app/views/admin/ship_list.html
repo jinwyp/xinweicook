@@ -230,7 +230,7 @@
               <%= orderList[m].address.mobile.substring(7, 11) %>
             </p>
             <p class="delivery">
-              <small><%= moment(orderList[m].deliveryDateTime).locale('zh-CN').format("dddA h") %> 点</small>
+              <small><%= moment(orderList[m].deliveryDateTime).locale('zh-CN').format("dddA h:mm") %></small>
               <small>送至 <%= orderList[m].address.province %> <%= orderList[m].address.city %></small>
             </p>
             <p class="address">

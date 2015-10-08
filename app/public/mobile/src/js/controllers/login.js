@@ -7,6 +7,13 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
     $scope.path = '';
     //$scope.remains = 60;
 
+    window.onerror = function (err) {
+        setTimeout(function () {
+            location.href = oldUrl1;
+            location.reload();
+        },100);
+    };
+
     var pwdErrTimes = 0;
     $scope.login = function (form) {
         User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(function (res) {
@@ -70,7 +77,19 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
         history.back();
     };
 
-    $scope.$on('$locationChangeStart', function () {
+    var _times = 0;
+    var oldUrl1 = '';
+    var oldUrl2 = '';
+    $scope.$on('$locationChangeStart', function (e, url1, url2) {
+        if (oldUrl1 == url1 && oldUrl2 == url2) {
+            //alert('same:' + _times);
+            if (_times < 3) {
+                _times++
+            }
+        } else {
+            oldUrl1 = url1;
+            oldUrl2 = url2;
+        }
         $scope.path = $location.path();
     });
 
