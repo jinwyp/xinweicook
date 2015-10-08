@@ -139,8 +139,8 @@ ksuDi.prototype.createOrder = function (item, callback){
         //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
         recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.street + item.address.address,
         sender : '新味',
-        sendtelephone : '18140031310', // 索晶电话
-        sendaddress : '中山南二路510号3楼',
+        sendtelephone : '13761339935', // 客服电话
+        sendaddress : '徐汇区中山南二路510号3楼',
 
         expressnumber : item.orderNumber,
 
