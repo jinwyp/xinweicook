@@ -49,7 +49,7 @@ exports.sendSMS = (req, res, next) ->
 
     models.sms.sendSmsVia3rd(mobile, text)
   .then (result) ->
-    console.log(tempCode)
+
     if conf.debug
       res.json code: tempCode
     else

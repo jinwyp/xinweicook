@@ -804,6 +804,11 @@ exports.dishDailySales = function(req, res, next) {
             { "$limit": 1000 }
         );
 
+
+        if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+            pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)}
+        }
+
         models.inventory.aggregateAsync( pipelinePerDay).then(function(resultInventroyPerDay){
 
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
@@ -922,6 +927,7 @@ exports.dishDailySalesChart = function(req, res, next) {
         );
 
 
+
         pipelinePerWeek.push (
             { "$match":{
                 "dish" : {$in:dishIdList},
@@ -968,6 +974,10 @@ exports.dishDailySalesChart = function(req, res, next) {
         );
 
 
+        if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+            pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+            pipelinePerWeek[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+        }
 
         var promiseList = [
             models.inventory.aggregateAsync( pipelinePerDay),
@@ -1266,6 +1276,10 @@ exports.dishStatisticByStock = function(req, res, next) {
         { "$limit": 1000 }
     );
 
+    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+        pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+        pipelinePerWeek[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+    }
 
     var dishHashListTotal = {};
     var dishHashListToday = {};

@@ -22,10 +22,17 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             sideDishType : '',
             isPublished : '',
             _id : '',
+
+            searchDateFrom : '',
+            searchDateTo : '',
+
             title : {
                 zh : ''
             }
         },
+
+        datePickerIsOpen : false,
+
 
         tagList : [],
         dishAllList : [],
@@ -352,6 +359,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
+    $scope.datePickerOpen = function($event) {
+        $scope.data.datePickerIsOpen = true;
+    };
+
 
     function deleteProperty (obj){
 
@@ -400,9 +411,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statistic';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        //if ($scope.data.searchDateFrom !==''){
-        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
-        //}
 
         if ($scope.css.searchDishStatisticSortBy === 'salesToday' || $scope.data.dishStatisticByStock.length === 0){
             Util.delProperty($scope.data.searchOptions);
@@ -424,10 +432,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticDaily';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        //if ($scope.data.searchDateFrom !==''){
-        //    $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
-        //}
-
         Util.delProperty($scope.data.searchOptions);
 
         Statistic.getDishStatisticByDaily($scope.data.searchOptions).then(function (result) {
@@ -437,7 +441,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
-
 
     };
 
@@ -478,7 +481,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         $scope.css.showTable = 'dishes';
 
+        $scope.data.searchOptions.searchDateFrom = '';
+
         deleteProperty($scope.data.searchOptions);
+
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
             $localStorage.dishSearchOptions = $scope.data.searchOptions;

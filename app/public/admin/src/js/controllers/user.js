@@ -18,6 +18,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         searchOptions : {
             skip : 0,
             limit : 200,
+            createdAt :'',
             group : '',
             lang : '',
             _id : '',
@@ -33,6 +34,13 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         searchSort : {
             sort : '-createdAt'
         },
+
+
+        datePickerIsOpen : false,
+
+        searchDateFrom : '',
+        searchDateTo : '',
+
 
         userListCount : 0,
         userListCurrentPage : 1,
@@ -96,10 +104,22 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+    $scope.datePickerOpen = function($event) {
+        $scope.data.datePickerIsOpen = true;
+    };
+
+
 
     $scope.searchUserCount = function (){
+
+        if ($scope.data.searchDateTo){
+            $scope.data.searchOptions.createdAt = '<' + new Date($scope.data.searchDateTo);
+        }else{
+            $scope.data.searchOptions.createdAt = '';
+        }
+
+
         if ($scope.data.sharedInvitationSendCodeUsedTimeNumber){
-            //console.log (new Date($scope.data.searchDateFrom));
             $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
         }else{
             $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '';
@@ -107,7 +127,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
         if ($scope.data.sharedInvitationSendCodeTotalCountNumber){
-            //console.log (new Date($scope.data.searchDateFrom));
             $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
         }else{
             $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '';
@@ -174,9 +193,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.showUserStatistic = function () {
         $scope.css.showTable = 'stat';
+
+        if ($scope.data.searchDateTo !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
+        }
+
         $scope.searchUserStatisticOfNewComers();
         $scope.searchUserStatisticLoyalPurchaseFrequency();
-    }
+    };
 
 
 
