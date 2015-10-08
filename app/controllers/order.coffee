@@ -1043,6 +1043,12 @@ exports.createDeliveryKSuDi = (req, res, next) ->
         if err
           next(err)
 
+
+        resultOrder.express.displayName.zh = "快速递"
+        resultOrder.express.displayName.en = "快速递"
+        resultOrder.express.number = result.runningnumber
+
+        resultOrder.saveAsync();
         res.send(result)
       )
 
@@ -1051,11 +1057,25 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 
 
 exports.deliveryKSuDiNotify = (req, res, next) ->
-  console.log("=========kushudi:",req.body);
-#  models.order.validationOrderId req.params._id
 
-  models.order.findById(req.params._id).execAsync()
+  console.log("=========kushudi:",req.body);
+
+  models.order.validationOrderNumber req.body.expressnumber
+
+  simpleDate =
+    sign: 'e5fee55f8339207036f95016cc4e1830',
+    state: '600',
+    charset: 'utf-8',
+    code: '200',
+    runningnumber: '444292490708486',
+    expressnumber: '201509281151233585526',
+    msg: '保存订单成功!',
+    signtype: 'MD5'
+
+
+  models.order.findOne({orderNumber:req.body.expressnumber}).execAsync()
   .then (resultOrder)->
+#    console.log(resultOrder._id);
     res.send({code : 200})
 
   .catch(next)

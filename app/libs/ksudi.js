@@ -14,7 +14,7 @@ var requestC = require('request');
 
 
 
-
+// 状态: 待抢单(notify) 待取件(notify) 送件中 已完成(notify) 已取消(notify)
 
 
 var configKsuDi = {
@@ -28,8 +28,18 @@ var configKsuDi = {
     key: "",
 
 
-    //url_createOrder : "http://www.ksudi.org/shop/order/save/1"
-    url_createOrder : "http://192.168.1.72/shop/shop/order/save/1"
+    url_notify : "http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify",
+    //url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
+
+
+    //url_createOrder : "http://web.ksudi.com/shop/order/save/1",
+    //url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
+
+    //url_createOrder : "http://www.ksudi.org/shop/order/save/1",
+
+    url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
+    url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
+
 
 
 };
@@ -127,9 +137,9 @@ ksuDi.prototype.createOrder = function (item, callback){
         //sign     : '',
 
         //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
-        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.address,
+        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.street + item.address.address,
         sender : '新味',
-        sendtelephone : '13564568304',
+        sendtelephone : '18140031310', // 索晶电话
         sendaddress : '中山南二路510号3楼',
 
         expressnumber : item.orderNumber,
@@ -151,9 +161,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         isadvance : 0,  //是否需要垫付
         //advancecost : 0,  // 垫付金额
 
-        //backurl : 'http://m.xinweicook.com/api/orders/delivery/ksudi/notify'  // 回调url
-        backurl : 'http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify'  // 回调url
-
+        backurl : this.config.url_notify  // 回调url
 
 
     };
@@ -185,25 +193,36 @@ ksuDi.prototype.createOrder = function (item, callback){
             return callback(err);
         }
 
+        //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        var result = JSON.parse(body);
-        //console.log('========== KSudi', response);
-        if(result.code === 200 ){
-            return callback(null, result);
-        }else{
+        var result = {};
 
-            // 201 用户名或密码错误
-            // 202 用户名或密码不能为空
-            // 203 密钥错误
-            // 204 该快递信息不存在
-            // 205 发件地址不能解析！
-            // 206 其他错误
+        try{
+            result = JSON.parse(body);
 
-            return  callback(body.code);
+            if(result.code === 200 ){
+
+                // 300 接受订单成功
+                // 400 确认收货成功
+                // 500 订单完成
+
+                return callback(null, result);
+            }else{
+                // 200 成功
+                // 201 用户名或密码错误
+                // 202 用户名或密码不能为空
+                // 203 密钥错误
+                // 204 该快递信息不存在
+                // 205 发件地址不能解析！
+                // 206 其他错误
+
+                return  callback(result);
+            }
+
+        }catch (err){
+            return  callback(err);
         }
-
-
 
     })
 };
