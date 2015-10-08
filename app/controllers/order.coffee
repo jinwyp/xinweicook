@@ -1047,3 +1047,15 @@ exports.createDeliveryKSuDi = (req, res, next) ->
       )
 
   .catch(next)
+
+
+
+exports.deliveryKSuDiNotify = (req, res, next) ->
+  console.log("=========kushudi:",req.body);
+#  models.order.validationOrderId req.params._id
+
+  models.order.findById(req.params._id).execAsync()
+  .then (resultOrder)->
+    res.send(req.body)
+
+  .catch(next)
