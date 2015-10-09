@@ -1077,6 +1077,20 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
   models.order.findOne({orderNumber:req.body.expressnumber}).execAsync()
   .then (resultOrder)->
 #    console.log(resultOrder._id);
+
+
+    if req.body.state is 300
+      resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+
+    if req.body.state is 400
+      resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+
+    if req.body.state is 400
+      resultOrder.expressStatus = models.order.constantExpressStatus().finished
+
+    if req.body.code is 200
+      resultOrder.saveAsync();
+
     res.send({code : 200})
 
   .catch(next)
