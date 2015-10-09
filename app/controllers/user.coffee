@@ -89,7 +89,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
     if resultUser
 
       if resultUser.weixinId and resultUser.weixinId.openid
-        return res.redirect("/mobile/")
+        return res.redirect("/mobile/" + redirectUrl)
       else
         return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/user/weixin/openid?redirectUrl="+redirectUrl, resultUser._id.toString()))
     else

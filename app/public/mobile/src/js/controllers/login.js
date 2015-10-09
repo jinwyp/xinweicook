@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
+function loginCtrl($scope, User, $location, Alert, $http, $window) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.resetPwdData = {};
@@ -16,18 +16,8 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
 
     var pwdErrTimes = 0;
     $scope.login = function (form) {
-        User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(function (res) {
-            var redirect = location.search.substring(1).split('=');
-            if (redirect.length > 1) {
-                redirect = redirect[1];
-                if (!/(\/\w*)+/.test(redirect)) {
-                    redirect = '';
-                }
-            }
-            $timeout(function () {
-                location.href = redirect || '/mobile';
-            },120);
-        }).catch(function (res) {
+        User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(redirect)
+            .catch(function (res) {
             // todo:
             if (res.data) {
                 if (res.data.validationStatus == 1111) {
@@ -52,9 +42,7 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
         ).then(function (res) {
             // todo: redirect
             alert('注册成功!');
-            $timeout(function () {
-                location.href = '/mobile';
-            }, 120)
+            redirect();
         }).catch(function (res) {
             Alert.show(res.data.validationStatus, '注册失败,请稍后重试');
         })
@@ -150,6 +138,31 @@ function loginCtrl($scope, User, $location, $timeout, Alert, $http, $window) {
                     });
                 }
             }
+        });
+    }
+
+    function redirect() {
+        var redirect = location.search.substring(1).split('=');
+        if (redirect.length > 1) {
+            redirect = redirect[1];
+            if (!/(\/\w*)+/.test(redirect)) {
+                redirect = '/mobile/';
+            }
+        }
+
+        User.getUserInfo().then(function (res) {
+            var user = res.data;
+
+            // 未授权
+            if (!user.weixinId || !user.weixinId.openid) {
+                redirect = '/api/user/weixin/oauthcode?redirectUrl=' +
+                    encodeURIComponent(redirect.replace('/mobile/', '')) +
+                    '&userId=' + user._id ;
+            }
+
+            setTimeout(function () {
+                location.replace(redirect);
+            }, 150);
         });
     }
 
