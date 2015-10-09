@@ -335,7 +335,12 @@
             <td>{{order.orderTotalDishesPrice}}</td>
             <td>{{order.orderTotalFreightPrice}}</td>
             <td>{{order.orderTotalPrice}} </td>
-            <td> <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span></td>
+            <td> <button class="btn btn-info" ng-click="data.currentDailySalesIndex=order._id"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order._id">
+                     <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/> </span>
+                </span>
+
+            </td>
 
         </tr>
         </tbody>
