@@ -343,9 +343,12 @@
 
 
                 <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-1">
+                    <div class="col-lg-offset-2 col-lg-2">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="addNewTag(orderForm)">Save</button>
                         <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrder(orderForm)">Save</button>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="submit" class="btn btn-info" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrderDeliveryKSuDi(orderForm)">生成快速递发货单</button>
                     </div>
                 </div>
             </form>

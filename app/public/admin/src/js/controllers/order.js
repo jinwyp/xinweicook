@@ -507,6 +507,22 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
+
+    $scope.updateOrderDeliveryKSuDi = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        Statistic.orderDeliveryKSuDi($scope.data.order._id).then(function (result) {
+            console.log(result);
+            Notification.success({message: 'Update Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
     $scope.clickExpressRadio = function (express) {
         $scope.data.order.express.name = express.name;
         $scope.data.order.express.displayName = express.displayName;

@@ -169,6 +169,11 @@ angular.module('RDash.models').factory('Crons', function (Restangular) {
 
 angular.module('RDash.models').factory('Statistic', function ($http) {
     return {
+        orderDeliveryKSuDi: function (orderId) {
+            var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
+            return $http.post(url )
+        },
+
         getOrderStatisticByAddress: function (params) {
             return $http.get('/api/admin/statistic/order/address', {
                 params: params
