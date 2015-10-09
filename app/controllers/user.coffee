@@ -80,6 +80,7 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
   userId = req.query.userId
+  redirectUrl = req.query.redirectUrl
 
   unless libs.validator.isLength userId, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, Field validation error,  user _id length must be 24-24") + encodeURIComponent(userId) )
@@ -90,7 +91,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
       if resultUser.weixinId and resultUser.weixinId.openid
         return res.redirect("/mobile/")
       else
-        return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/user/weixin/openid", resultUser._id.toString()))
+        return res.redirect(weixinpay.getUserOauthUrl("http://m.xinweicook.com/api/user/weixin/openid?redirectUrl="+redirectUrl, resultUser._id.toString()))
     else
       return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, cannot found this userId"))
 
@@ -109,7 +110,9 @@ exports.getWeixinUserOpenId = (req, res, next) ->
   logger.error("----- User OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   state = req.query.state
+  redirectUrl = req.query.redirectUrl
 
+  console.log("--------------",redirectUrl);
   unless libs.validator.isLength state, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )
 
@@ -122,7 +125,7 @@ exports.getWeixinUserOpenId = (req, res, next) ->
     if resultUser
 
       if resultUser.weixinId and resultUser.weixinId.openid
-        return res.redirect("/mobile/")
+        return res.redirect("/mobile/" + redirectUrl)
 
       else
 
@@ -137,7 +140,7 @@ exports.getWeixinUserOpenId = (req, res, next) ->
             resultUser.weixinId.refresh_token = result.refresh_token
 
             resultUser.saveAsync().then (resultUser2) ->
-              return res.redirect("/mobile/")
+              return res.redirect("/mobile/" + redirectUrl)
             .catch (err)->
               logger.error("Weixin OpenId, OpenID Failed Save User error:", JSON.stringify(err))
 

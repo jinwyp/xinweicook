@@ -200,7 +200,7 @@ weiXinPay.prototype.getUserOauthUrl = function(redirectUrl, state){
     var url = configWeiXinPay.url_getUserOauthCode + 'appid=' + this.config.appid + '&redirect_uri=' + encodeURIComponent(redirectUrl) + '&response_type=code' + '&scope=snsapi_base' + '&state=' + encodeURIComponent(state) + '#wechat_redirect';
     logger.error('Get User Oauth Code: ', url);
     return url
-}
+};
 
 
 
