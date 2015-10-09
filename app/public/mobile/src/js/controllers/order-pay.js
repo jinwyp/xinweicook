@@ -130,10 +130,13 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         payment = isHtml ? data.payment[payment] : payment;
         return payment
     };
-    
+
+    var isSubmitting = false;
     $scope.order = function (form) {
         if (form.$invalid || !isTimeValid()) return;
+        if (isSubmitting) return;
 
+        isSubmitting = true;
         // 设置order对象参数
         var clientFrom = isWeixin && $scope.payPrice() > 0 ? 'wechat' : 'mobileweb';
         var payment = $scope.payment();
@@ -178,6 +181,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                     location.href = res.data.aliPaySign.fullurl;
             }, 150)
         }).catch(function (res) {
+            isSubmitting = false;
             var tip = Alert.message(res.data.validationStatus);
             var message = res.data.message;
             if (res.data.validationStatus == 4110) {
