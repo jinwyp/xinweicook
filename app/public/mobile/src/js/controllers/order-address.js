@@ -130,7 +130,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
     $scope.next = function () {
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
-        if (css.edit != -1 && !save()) return;
+        if (css.edit != -1 && !save(true)) return;
 
         var eatList = $localStorage.confirmedCart.eatList;
         if (!addr.isInRange && eatList && eatList.length) {
@@ -160,17 +160,18 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             }
         });
         addr.district = street.district;
-
+        addr.isInRange = false;
+        addr.distance = Map.bentoNoReach;
         Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (res) {
             addr.isInRange = res.isInRange;
             addr.distance = res.distance;
         })
     };
 
-    function save() {
+    function save(isNext) {
         if (!css.refForm) return true;
         if (css.refForm.$invalid) {
-            return css.cur == -2
+            return !isNext && css.cur == -2
         }
 
         if (css.cur == -2) { //是新增地址
@@ -248,11 +249,12 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                     return true;
                 }
             });
-            if (!hasDefault) {
-                $scope.address[0].isDefault = true;
-            }
 
             if ($scope.address.length) {
+                if (!hasDefault) {
+                    $scope.address[0].isDefault = true;
+                }
+
                 return Map.distances($scope.address.map(function (addr) {
                     return {
                         lat: addr.geoLatitude,
