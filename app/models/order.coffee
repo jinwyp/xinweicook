@@ -116,12 +116,19 @@ module.exports =
 
     express: # 快递
       name: String
-      number: String
+      number: String # 快递号
       displayName: zh:String, en:String
       info: zh:String, en:String
 
+    expressStatus: type: String
+
+    expressPersonId: type: Schema.ObjectId, ref: "user"
     expressPersonName: type: String
     expressPersonMobile: type: String
+    expressComment: type: String
+
+
+
 
     deliveryDateTime: Date   # 送达时间
     deliveryDate : String  #一周时间
@@ -189,6 +196,13 @@ module.exports =
         shipped : "shipped"
         finished : "finished"
         canceled : "canceled"
+    constantExpressStatus : () ->
+      status =
+        waitForConfirm : "waitForConfirm"
+        waitForPick : "waitForPick"
+        shipping : "shipping"
+        finished : "finished"
+        canceled : "canceled"
     constantPayment : () ->
       payment =
         alipaydirect : "alipay direct"
@@ -217,6 +231,10 @@ module.exports =
           name : "20"
           text : "17:00 - 20:00 PM"
           status : true
+
+    constantDeliveryName : () ->
+      deliveryName =
+        ksudi : "快速递"
 
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
@@ -316,8 +334,8 @@ module.exports =
         return throw new Err "Field validation error,  detail address must be 2-1000", 400
       unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
         return throw new Err "Field validation error,  contactPerson must be 2-99", 400
-#      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
-#        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
+        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
 
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 24

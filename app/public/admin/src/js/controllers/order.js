@@ -515,6 +515,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.orderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
+            $scope.data.order.expressStatus = 'waitForConfirm';
             Notification.success({message: 'Update Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);

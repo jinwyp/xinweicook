@@ -1,5 +1,6 @@
-module.exports = (allowGroupResource="guest") ->
+module.exports = (allowGroupResource="guest", options) ->
   (req, res, next) ->
+
     models.user.findUserByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then( (user)->
       req.u = user
 
@@ -27,4 +28,9 @@ module.exports = (allowGroupResource="guest") ->
 #          req.u.saveAsync().catch (e)->
 #            logger.error "user", e
 
-    ).catch(next)
+    ).catch( (err)->
+      if options.redirectUrl
+        res.redirect(options.redirectUrl)
+      else
+        next(err)
+    )

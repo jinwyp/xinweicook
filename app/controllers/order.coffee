@@ -1043,7 +1043,8 @@ exports.createDeliveryKSuDi = (req, res, next) ->
         if err
           next(err)
 
-
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+        resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
         resultOrder.express.number = result.runningnumber
@@ -1058,7 +1059,7 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 
 exports.deliveryKSuDiNotify = (req, res, next) ->
 
-  console.log("=========kushudi:",req.body);
+  logger.error("=========kushudi:", JSON.stringify(req.body));
 
   models.order.validationOrderNumber req.body.expressnumber
 
