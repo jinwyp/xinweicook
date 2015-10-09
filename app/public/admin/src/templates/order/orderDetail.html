@@ -157,16 +157,54 @@
                     </div>
                 </div>
 
-                <div class="form-group has-feedback" >
+                <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$valid, 'has-error':orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$invalid}">
                     <label class="col-lg-2 control-label" >收货地址:</label>
 
                     <div class="col-lg-10">
                         <span class="help-block" >经度: {{data.order.address.geoLongitude}} / 纬度: {{data.order.address.geoLatitude}} / 距离: {{data.order.address.distanceFrom}}米</span>
                         <span class="help-block" > {{data.order.address.country}} / {{data.order.address.province}}  / {{data.order.address.city}}  / {{data.order.address.district}} / {{data.order.address.street}}</span>
-                        <span class="help-block" >详细地址: {{data.order.address.address}} </span>
-                        <span class="help-block" >联系人: {{data.order.address.contactPerson}} / {{data.order.address.mobile}} / {{data.order.address.remark}} </span>
-                        <span class="help-block" > 客服验证该地址是否有效: {{data.order.address.isValid}} </span>
+                        <span class="help-block" > 客服验证该地址是否有效: {{data.order.address.isValid}}  / 地址备注: {{data.order.address.remark}}</span>
                     </div>
+
+                    <div class="col-lg-offset-2 col-lg-8" >
+                        <input type="text" class="form-control" placeholder="详细地址:" name="orderAddressAddress" ng-model="data.order.address.address" required ng-minlength="4" ng-maxlength="800">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class=" help-block" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.minlength || orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.maxlength">字符长度错误4-800！</span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$valid||orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$valid, 'has-error':orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$invalid||orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$invalid}">
+                    <label class="col-lg-2 control-label" >收货联系人:</label>
+
+                    <div class="col-lg-2" >
+                        <input type="text" class="form-control" placeholder="联系人: " name="orderAddressContactPerson" ng-model="data.order.address.contactPerson" required  ng-minlength="2" ng-maxlength="20">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <input type="text" class="form-control" placeholder="联系人手机: " name="orderAddressContactMobile" ng-model="data.order.address.mobile" required  ng-minlength="11" ng-maxlength="14">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$invalid"></span>
+                    </div>
+
+
+                    <div class="col-lg-5">
+                        <span class=" help-block" ng-if="orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$error.minlength || orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$error.maxlength">字符长度错误2-20！</span>
+
+                        <span class=" help-block" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.minlength || orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.maxlength">字符长度错误11-14！</span>
+                    </div>
+
+
                 </div>
 
 
@@ -223,7 +261,7 @@
 
                     <div class="col-lg-10">
                         <label class="radio-inline" ng-repeat="express in data.expressList">
-                            <input type="radio" name="orderExpress"  ng-value="express.name" ng-click="clickExpressRadio(express)">{{express.displayName.zh}}
+                            <input type="radio" name="orderExpress"  ng-value="express.name" ng-model="data.order.express.name" ng-click="clickExpressRadio(express)">{{express.displayName.zh}}
                         </label>
                     </div>
 
@@ -274,8 +312,8 @@
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressPersonName.$dirty&&orderForm.orderExpressPersonName.$invalid"></span>
                     </div>
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control" placeholder="配送人员手机" name="orderExpressPersonMobile" ng-model="data.order.expressPersonMobile"  ng-minlength="11" ng-maxlength="16">
+                    <div class="col-lg-2">
+                        <input type="text" class="form-control" placeholder="配送人员手机" name="orderExpressPersonMobile" ng-model="data.order.expressPersonMobile"  ng-minlength="11" ng-maxlength="14">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$invalid"></span>
                     </div>
@@ -324,6 +362,20 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$valid, 'has-error':orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$invalid}">
+                    <label class="col-lg-2 control-label" for="inputOrderExpressComment" >快递备注:</label>
+
+                    <div class="col-lg-8">
+                        <textarea class="form-control" row="3" id="inputOrderExpressComment" placeholder="快递备注 输入备注后请先保存订单再生成快递单" name="orderExpressComment" ng-model="data.order.expressComment" ng-minlength="2" ng-maxlength="500"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class=" help-block" ng-if="orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$error.required">请填入信息！</span>
+                        <span class=" help-block" ng-if="orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$error.minlength || orderForm.orderExpressComment.$dirty&&orderForm.orderExpressComment.$error.maxlength">字符长度错误！</span>
+                    </div>
+                </div>
 
 
 
@@ -347,9 +399,18 @@
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="addNewTag(orderForm)">Save</button>
                         <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrder(orderForm)">Save</button>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         <button type="submit" class="btn btn-info" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrderDeliveryKSuDi(orderForm)">生成快速递发货单</button>
                     </div>
+
+                    <div class="col-lg-2">
+                        <p class="bg-danger admin-text-Info" ng-show="data.order.expressStatus=='waitForConfirm'">等待抢单</p>
+                        <p class="bg-danger admin-text-Info" ng-show="data.order.expressStatus=='waitForPick'">已发单等待取件</p>
+                        <p class="bg-danger admin-text-Info" ng-show="data.order.expressStatus=='shipping'">送货中</p>
+                        <p class="bg-danger admin-text-Info" ng-show="data.order.expressStatus=='finished'">已送达</p>
+                        <p class="bg-danger admin-text-Info" ng-show="data.order.expressStatus=='canceled'">已取消</p>
+                    </div>
+
                 </div>
             </form>
 

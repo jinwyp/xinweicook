@@ -1043,7 +1043,8 @@ exports.createDeliveryKSuDi = (req, res, next) ->
         if err
           next(err)
 
-
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+        resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
         resultOrder.express.number = result.runningnumber
@@ -1058,7 +1059,7 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 
 exports.deliveryKSuDiNotify = (req, res, next) ->
 
-  console.log("=========kushudi:",req.body);
+  logger.error("=========kushudi:", JSON.stringify(req.body));
 
   models.order.validationOrderNumber req.body.expressnumber
 
@@ -1076,6 +1077,20 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
   models.order.findOne({orderNumber:req.body.expressnumber}).execAsync()
   .then (resultOrder)->
 #    console.log(resultOrder._id);
+
+
+    if req.body.state is 300
+      resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+
+    if req.body.state is 400
+      resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+
+    if req.body.state is 400
+      resultOrder.expressStatus = models.order.constantExpressStatus().finished
+
+    if req.body.code is 200
+      resultOrder.saveAsync();
+
     res.send({code : 200})
 
   .catch(next)

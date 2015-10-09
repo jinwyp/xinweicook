@@ -14,7 +14,7 @@ var requestC = require('request');
 
 
 
-// 状态: 待抢单(notify) 待取件(notify) 送件中 已完成(notify) 已取消(notify)
+// 状态: 待抢单(waitForConfirm) 待取件(waitForPick) 送件中(shipping) 已完成(finished) 已取消(canceled)
 
 
 var configKsuDi = {
@@ -144,10 +144,10 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         expressnumber : item.orderNumber,
 
-        //sendtime : moment().format("YYYY-MM-DD HH:mm:ss"),
-        send_time : moment().unix(),
+        //sendtime : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"), //预约寄件时间
+        //send_time : moment().unix(),
         //receivetime : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"),
-        receive_time : moment(item.deliveryDateTime).unix(),
+        //receive_time : moment().unix(),  //预约送件时间
 
 
         goodsInfo : item.dishHistory[0].dish.title.zh,
@@ -166,10 +166,13 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     };
 
+    if (typeof item.expressComment !== 'undefined' && item.expressComment != ''){
+        newOrder.order_remark = item.expressComment
+    }
 
     newOrder.sign = this.sign(newOrder) ;
 
-    //console.log(newOrder);
+    console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
