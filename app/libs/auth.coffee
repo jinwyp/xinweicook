@@ -29,7 +29,7 @@ module.exports = (allowGroupResource="guest", options) ->
 #            logger.error "user", e
 
     ).catch( (err)->
-      if options.redirectUrl
+      if options and options.redirectUrl
         res.redirect(options.redirectUrl)
       else
         next(err)
