@@ -213,6 +213,7 @@
             <tr>
                 <th>订单号 / 创建时间</th>
                 <th>状态</th>
+                <th>快递</th>
                 <!--<th>拆分订单</th>暂时隐藏掉,S要求-->
                 <!--<th>子订单</th>-->
                 <th>来源</th>
@@ -228,8 +229,7 @@
                 <th>类型</th>
                 <th>菜品价</th>
                 <!--<th>积分</th>-->
-                <th>优惠码 </th>
-                <th>优惠券 </th>
+                <th>优惠码/券 </th>
                 <th>余额支付</th>
                 <th>运费</th>
                 <th>总价</th>
@@ -255,6 +255,15 @@
                     <span ng-if="order.status === 'finished'">已完成</span>
                     <span ng-if="order.status === 'canceled'">已取消</span>
                 </td>
+                <td>
+                    <span ng-if="order.expressStatus==='waitForConfirm'">待抢单</span>
+                    <span ng-if="order.expressStatus==='waitForPick'">待取件</span>
+                    <span ng-if="order.expressStatus==='shipping'">送货中</span>
+                    <span ng-if="order.expressStatus==='finished'">已送达</span>
+                    <span ng-if="order.expressStatus==='canceled'">已取消</span>
+
+                </td>
+
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
                 <!--<td>{{order.isChildOrder}}</td>-->
                 <td>
@@ -282,8 +291,9 @@
                 <td>{{order.cookingType == 'ready to cook' ? '食材包' : '便当'}}</td>
                 <td>{{order.dishesPrice}}</td>
                 <!--<td>{{order.credit}}</td>-->
-                <td>{{order.promotionDiscount? ( -order.promotionDiscount ):''}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} </td>
-                <td> <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount ? ( -order.couponDiscount ):''}}</a> </td>
+
+                <td>{{order.promotionDiscount? ( -order.promotionDiscount ):''}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} / <a ui-sref="menu.updateCoupon({ id: order.coupon })">{{order.couponDiscount ? ( -order.couponDiscount ):''}}</a></td>
+
                 <td>{{order.accountUsedDiscount}} </td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
