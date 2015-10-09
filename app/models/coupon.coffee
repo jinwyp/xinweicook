@@ -352,7 +352,7 @@ module.exports =
     addCouponPaidManyOrder : (user) ->
       # 用户订单超过5单和10单赠送优惠券
       newCouponList = []
-      if user.sharedInvitationSendCodeTotalCount >=5 and not user.isPaid5Orders
+      if user.sharedInvitationSendCodeTotalCount >=6 and not user.isPaid5Orders
         newCoupon5 =
           name :
             zh : "满5单优惠券"
@@ -364,7 +364,7 @@ module.exports =
 
         newCouponList.push(newCoupon5)
 
-      if user.sharedInvitationSendCodeTotalCount >=10 and not user.isPaid10Orders
+      if user.sharedInvitationSendCodeTotalCount >=11 and not user.isPaid10Orders
         newCoupon10 =
           name :
             zh : "满10单优惠券"
@@ -375,7 +375,7 @@ module.exports =
           user : user._id.toString()
         newCouponList.push(newCoupon10)
 
-      if user.sharedInvitationSendCodeTotalCount %% 10 is 0 and user.sharedInvitationSendCodeTotalCount < 101 and user.sharedInvitationSendCodeTotalCount >18
+      if (user.sharedInvitationSendCodeTotalCount-1) %% 10 is 0 and user.sharedInvitationSendCodeTotalCount <= 101 and user.sharedInvitationSendCodeTotalCount >18
         newCoupon20 =
           name :
             zh : "满" + user.sharedInvitationSendCodeTotalCount.toString() + "单优惠券"
