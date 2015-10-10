@@ -873,9 +873,6 @@ exports.deliveryAddressForCook = function(req, res, next) {
     ];
 
 
-    data.forEach(function(state){
-
-    });
 
 
     res.send(data);

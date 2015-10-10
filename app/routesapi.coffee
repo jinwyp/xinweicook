@@ -14,6 +14,7 @@ cookController = require "./controllers/cook.coffee"
 couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
+deliveryController = require "./controllers/delivery.js"
 couponController = require "./controllers/coupon.coffee"
 orderStatController = require "./controllers/orderStatistic.js"
 userStatController = require "./controllers/userStatistic.js"
@@ -105,6 +106,7 @@ expressRoutes = (app) ->
 
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)
+  app.get("/api/orders/delivery/range", libs.auth("member"), deliveryController.deliveryAddressForCook)
 
 
   app.get("/api/order/push", libs.auth("member"), orderController.pushMobileMessage)
