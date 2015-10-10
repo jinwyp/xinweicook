@@ -1081,17 +1081,18 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
     logger.error("=========kushudi2:", req.body.state)
     logger.error("=========kushudiorder:", resultOrder._id, resultOrder.orderNumber)
 
-    if req.body.state is "300"
-      resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
-      resultOrder.saveAsync();
+    if resultOrder
+      if req.body.state is "300"
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+        resultOrder.saveAsync();
 
-    if req.body.state is "400"
-      resultOrder.expressStatus = models.order.constantExpressStatus().shipping
-      resultOrder.saveAsync();
+      if req.body.state is "400"
+        resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+        resultOrder.saveAsync();
 
-    if req.body.state is "500"
-      resultOrder.expressStatus = models.order.constantExpressStatus().finished
-      resultOrder.saveAsync();
+      if req.body.state is "500"
+        resultOrder.expressStatus = models.order.constantExpressStatus().finished
+        resultOrder.saveAsync();
 
     res.send({code : 200})
 
