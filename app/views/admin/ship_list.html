@@ -26,11 +26,12 @@
     margin: 0;
   }
   .pageBreak {
-	page-break-before: always;
+	page-break-after: always;
   }
   .container {
     width: 90%;
-    margin: 0 10mm;
+    margin: 0 auto;
+    padding: 10mm 0;
   }
 }
 
@@ -204,7 +205,7 @@
 
 <% for(var m = 0; m < orderList.length; m++) { %>
 
-<div class="page<%= m %2 == 0 ? " pageBreak" : "" %>">
+<div class="page<%= m %2 == 1 && m != orderList.length - 1 ? " pageBreak" : "" %>">
     <div class="container">
         <div class="ad">
           <div>非常感谢您购买新味的产品，希望您能有愉快的用餐体验!</div>
