@@ -58,6 +58,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         orderStatisticByDailySalesList : [],
         orderStatisticChartByDaily : [],
 
+        orderStatisticByHourSalesList : [],
+        orderStatisticChartByHour : [],
+
         orderList : [],
         order : {},
 
@@ -342,6 +345,48 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
+    $scope.chartHour = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '订单每小时总金额'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '小时'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '总金额'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+
     $scope.datePickerOpen = function($event) {
         $scope.data.datePickerIsOpen = true;
     };
@@ -577,28 +622,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (resultOrder) {
             $scope.data.orderStatisticByDailySalesList = resultOrder.data;
-            Notification.success({message: 'Search Success! ', delay: 8000});
-        }).catch(function(err){
-                console.log(err);
-                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-            });
-    };
 
-
-
-    $scope.searchOrderStatisticChartByDaily = function (form, sortBy) {
-        $scope.css.showTable = 'statisticChart';
-        $scope.css.searchDishStatisticSortBy = sortBy;
-
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
-        }
-
-
-        Util.delProperty($scope.data.searchOptions);
-
-        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (result) {
-            $scope.data.orderStatisticChartByDaily = result.data;
+            $scope.data.orderStatisticChartByDaily = resultOrder.data;
 
             $scope.chartDaily.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily);
             $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
@@ -609,6 +634,34 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
+    };
+
+
+
+    $scope.searchOrderStatisticByHourSales = function (form, sortBy) {
+        $scope.css.showTable = 'statisticByHourSales';
+        $scope.css.searchDishStatisticSortBy = sortBy;
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getOrderStatisticByHourSales($scope.data.searchOptions).then(function (resultOrder) {
+            $scope.data.orderStatisticByHourSalesList = resultOrder.data;
+
+            $scope.data.orderStatisticChartByHour = resultOrder.data;
+
+            $scope.chartHour.series = Util.chartDataFormat($scope.data.orderStatisticChartByHour);
+            $scope.chartHour.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByHour);
+
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
 
     };
 

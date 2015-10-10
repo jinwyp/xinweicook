@@ -101,6 +101,8 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                     if(typeof value.date !== 'undefined'){
                         this.push(value.date.substr(5,5));
+                    }else if (typeof value.hour !== 'undefined') {
+                        this.push(value.hour);
                     }else if (typeof value.week !== 'undefined') {
                         this.push('第' + value.week + '周('+ value.dishList[0].createdAt.substr(5,5) + ')');
                     }
@@ -182,6 +184,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
 
         getOrderStatisticByDailySales: function (params) {
             return $http.get('/api/admin/statistic/order/daily', {
+                params: params
+            })
+        },
+
+        getOrderStatisticByHourSales: function (params) {
+            return $http.get('/api/admin/statistic/order/hour', {
                 params: params
             })
         },
