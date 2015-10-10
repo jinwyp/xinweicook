@@ -129,6 +129,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">Search</button>
                         <button type="submit" class="btn btn-default" ng-click="showUserStatistic(searchForm)">统计</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchUserStatisticNewFirstOrderUserDaily(searchForm)">每日新用户</button>
                     </div>
                 </div>
             </form>
@@ -176,7 +177,7 @@
 
 
 
-    <nav>
+    <nav ng-if="css.showTable==='users'">
         <ul class="pagination">
             <li>
                 <span aria-hidden="true"> 共{{data.userListCount}}条记录 </span>
@@ -196,7 +197,7 @@
 
 
 
-    <table class="table table-striped table-bordered table-hover table-responsive">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable==='users'">
         <thead>
             <tr>
                 <th>_id / 注册时间</th>
@@ -248,6 +249,37 @@
             </tr>
         </tbody>
     </table>
+
+
+
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable==='statNewFirstOrderUserDaily'">
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>新用户数</th>
+                <th>用户详细</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="onedate in data.userStatisticNewFirstOrderUserDaily ">
+                <td> {{onedate._id | date:'yyyy-MM-dd'}}</td>
+                <td>{{onedate.userQuantity}}</td>
+                <td>
+                    <span ng-repeat="user in onedate.userList">
+                        <a ui-sref="menu.updateUser({ id: user.user })">{{user.user}}</a> / {{user.orderContactPerson}}/{{user.orderContactMobile}} <br/>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+
 
 </div>
 

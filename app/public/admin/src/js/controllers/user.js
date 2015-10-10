@@ -66,6 +66,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
+        userStatisticNewFirstOrderUserDaily : [],
 
         userGroupList: [
             {
@@ -100,7 +101,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.css = {
         isAddNewStatus : true,
-        showTable : ''
+        showTable : 'users'
     };
 
 
@@ -111,6 +112,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
     $scope.searchUserCount = function (){
+
+        $scope.css.showTable = 'users';
 
         if ($scope.data.searchDateTo){
             $scope.data.searchOptions.createdAt = '<' + new Date($scope.data.searchDateTo);
@@ -229,6 +232,27 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
     };
+
+
+    $scope.searchUserStatisticNewFirstOrderUserDaily = function () {
+
+        $scope.css.showTable = 'statNewFirstOrderUserDaily';
+
+        if ($scope.data.searchDateTo !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
+        }
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticNewFirstOrderUserDaily($scope.data.searchOptions).then(function (result) {
+            $scope.data.userStatisticNewFirstOrderUserDaily = result.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
 
 
     if ($state.current.data.type === 'list') {

@@ -216,5 +216,11 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
                 params: params
             })
         },
+
+        getUserStatisticNewFirstOrderUserDaily: function (params) {
+            return $http.get('/api/admin/statistic/user/firstorder/daily', {
+                params: params
+            })
+        }
     };
 });

@@ -616,12 +616,12 @@ exports.orderDailySales = function(req, res, next) {
             "millisecond" : 1,
 
             saleDate : {"$subtract" : [ "$createdAt",
-                        {"$add" : [ "$millisecond",
-                            {"$multiply" : ["$second", 1000]},
-                            {"$multiply" : ["$minute",60,1000]},
-                            {"$multiply" : ["$hour", 60, 60,1000]}
-                        ]}
-                    ]}
+                {"$add" : [ "$millisecond",
+                    {"$multiply" : ["$second", 1000]},
+                    {"$multiply" : ["$minute",60,1000]},
+                    {"$multiply" : ["$hour", 60, 60,1000]}
+                ]}
+            ]}
 
         }}
     );

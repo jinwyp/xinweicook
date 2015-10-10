@@ -165,6 +165,7 @@ expressRoutes = (app) ->
 
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
   app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
+  app.get("/api/admin/statistic/user/firstorder/daily", userStatController.userGetFirstOrderDaily)
 
 
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)

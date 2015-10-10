@@ -127,25 +127,26 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     var userDataHash = {};
 
 
+    var queryUser = {};
+    var queryOrder = {};
+
+
     var today = moment().startOf('day');
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
+
+        //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+
+    }else{
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
     }
 
     var last7Day = today.clone().subtract(7, 'days');
     var last15Day = today.clone().subtract(15, 'days');
 
 
-    var queryUser = {};
-    var queryOrder = {};
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-    }else{
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-    }
 
 
 
@@ -242,3 +243,139 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 };
+
+
+
+
+
+exports.userGetFirstOrderDaily = function(req, res, next) {
+
+    var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+
+
+        { $project :{
+            _id : 1,
+            firstOrderDate : 1,
+            firstOrderId : 1,
+            firstOrderNumber: 1,
+            "firstOrderTotalPrice": 1,
+            "firstOrderContactPerson": 1,
+            "firstOrderContactMobile": 1,
+            orderList : 1,
+
+            year: { $year: "$firstOrderDate" },
+            month: { $month: "$firstOrderDate" },
+            day: { $dayOfMonth: "$firstOrderDate" },
+            hour: { $hour: "$firstOrderDate" },
+            minutes: { $minute: "$firstOrderDate" },
+            dayOfYear: { $dayOfYear: "$firstOrderDate" },
+            dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
+            week: { $week: "$firstOrderDate" },
+
+            "hour" : {  "$hour" : "$firstOrderDate" },
+            "minute" : {"$minute" : "$firstOrderDate"},
+            "second" : { "$second" : "$firstOrderDate"},
+            "millisecond" : {"$millisecond" : "$firstOrderDate"}
+        }},
+
+
+        { $project :{
+            _id : 1,
+            firstOrderDate : 1,
+            firstOrderId : 1,
+            firstOrderNumber: 1,
+            "firstOrderTotalPrice": 1,
+            "firstOrderContactPerson": 1,
+            "firstOrderContactMobile": 1,
+            orderList : 1,
+
+            year: 1,
+            month: 1,
+            day: 1,
+            hour: 1,
+            minutes: 1,
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1,
+
+            "hour" : 1,
+            "minute" : 1,
+            "second" : 1,
+            "millisecond" : 1,
+
+            date : {"$subtract" : [ "$firstOrderDate",
+                {"$add" : [ "$millisecond",
+                    {"$multiply" : ["$second", 1000]},
+                    {"$multiply" : ["$minute",60,1000]},
+                    {"$multiply" : ["$hour", 60, 60,1000]}
+                ]}
+            ]}
+        }},
+
+
+        { "$group": {
+            "_id":  "$date",
+
+            "userQuantity": { "$sum": 1 },
+
+            "userList": { "$push": { "_id": "$firstOrderId", "orderCreatedAt": "$firstOrderDate", "user": "$_id", "orderNumber": "$firstOrderNumber",  "orderContactPerson": "$firstOrderContactPerson", "orderContactMobile": "$firstOrderContactMobile", "totalPrice": "$firstOrderTotalPrice"   } }
+        }},
+
+
+        { "$limit": 1000 }
+    );
+
+
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //
+    //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
+    //
+    //}
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+
+        res.send(resultOrderList)
+    }).catch(next);
+
+};
+
