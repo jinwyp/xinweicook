@@ -1,8 +1,9 @@
 angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
     var topDistance = 6000;
+    var map = {
+        bentoNoReach: 999999,
 
-    return {
         suggestion: function (query, region) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
         },
@@ -51,6 +52,12 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             return alpha * earthR;
         },
 
+        fixZero: function (d, lat, lng) {
+            if (d !== 0) return d;
+            var lineD = this.lineDistance(lat, lng, 31.189426, 121.460625);
+            return lineD > 1500 ? 999999 : d;
+        },
+
         /**
          * 对百度地图routematrix api的后端包装,此处原样返回百度的数据
          * @param lat gcj02坐标 | [sval, obj, ..]
@@ -83,6 +90,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         distance: function (lat, lng) {
             return this.walkingDistance(lat, lng).then(function (res) {
                 var d = res.data.result.elements[0].distance.value;
+                d = map.fixZero(d, lat, lng);
                 return {
                     distance: d,
                     // 百度有时候返回的是null, 此时就当作1000公里
@@ -97,8 +105,8 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         distances: function (dests) {
             dests = Array.isArray(dests) ? dests : [dests];
             return this.walkingDistance(dests).then(function (res) {
-                return res.data.result.elements.map(function (el) {
-                    var d = el.distance.value;
+                return res.data.result.elements.map(function (el, i) {
+                    var d = map.fixZero(el.distance.value, dests[i].lat, dests[i].lng);
                     return {
                         distance: d,
                         isInRange: (d === null ? 999999 : d) <= topDistance
@@ -106,5 +114,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                 })
             })
         }
-    }
+    };
+
+    return map;
 });
