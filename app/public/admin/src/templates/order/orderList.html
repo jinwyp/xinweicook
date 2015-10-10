@@ -500,8 +500,8 @@
             <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
             <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
 
-            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
-                <span ng-if="data.currentDailySalesIndex === order.date">
+            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.hour"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order.hour">
                     <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
                 </span>
 
