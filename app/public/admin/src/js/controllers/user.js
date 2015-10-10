@@ -49,6 +49,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         currentDeleteIndex : -1,
 
+        currentDailyUserIndex : '',
 
         userList     : [],
         user         : {
