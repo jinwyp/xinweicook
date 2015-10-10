@@ -152,7 +152,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         goodsInfo : item.dishHistory[0].dish.title.zh,
         actualcost : 0, //实际支付金额
-        //weight : '',
+        weight : 5,
         //order_remark : '',
 
         cityname : item.address.city,

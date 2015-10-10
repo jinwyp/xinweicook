@@ -1073,13 +1073,11 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 #    msg: '保存订单成功!',
 #    signtype: 'MD5'
 
-  logger.error("=========kushudi orderNumber:", req.body.expressnumber)
   models.order.findOneAsync({orderNumber:req.body.expressnumber})
   .then (resultOrder)->
 #    console.log(resultOrder._id);
     logger.error("=========kushudi:", JSON.stringify(req.body))
-    logger.error("=========kushudi2:", req.body.state)
-    logger.error("=========kushudiorder:", resultOrder._id, resultOrder.orderNumber)
+#    logger.error("=========kushudiorder:", resultOrder._id, resultOrder.orderNumber)
 
     if resultOrder
       if req.body.state is "300"
