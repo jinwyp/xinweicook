@@ -470,6 +470,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         if ($localStorage.orderSearchOptions){
             $scope.data.searchOptions = $localStorage.orderSearchOptions;
             $scope.data.searchOptions.limit = 200;
+            $scope.data.searchOptions.skip = 0;
         }
         if ($scope.data.searchOptions.createdAt){
             if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
