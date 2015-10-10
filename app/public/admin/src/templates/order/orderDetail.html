@@ -167,14 +167,14 @@
                     </div>
 
                     <div class="col-lg-offset-2 col-lg-8" >
-                        <input type="text" class="form-control" placeholder="详细地址:" name="orderAddressAddress" ng-model="data.order.address.address" required ng-minlength="4" ng-maxlength="800">
+                        <input type="text" class="form-control" placeholder="详细地址:" name="orderAddressAddress" ng-model="data.order.address.address" required ng-minlength="2" ng-maxlength="800">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
                         <span class=" help-block" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.required">请填入信息！</span>
-                        <span class=" help-block" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.minlength || orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.maxlength">字符长度错误4-800！</span>
+                        <span class=" help-block" ng-if="orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.minlength || orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$error.maxlength">字符长度错误2-800！</span>
                     </div>
 
                 </div>
