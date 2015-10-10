@@ -1059,31 +1059,30 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 
 exports.deliveryKSuDiNotify = (req, res, next) ->
 
-  logger.error("=========kushudi:", JSON.stringify(req.body));
-  logger.error("=========kushudi:", JSON.stringify(req.body));
+
 
   models.order.validationOrderNumber req.body.expressnumber
 
-  simpleDate =
-    sign: 'e5fee55f8339207036f95016cc4e1830',
-    state: '600',
-    charset: 'utf-8',
-    code: '200',
-    runningnumber: '444292490708486',
-    expressnumber: '201509281151233585526',
-    msg: '保存订单成功!',
-    signtype: 'MD5'
+#  simpleDate =
+#    sign: 'e5fee55f8339207036f95016cc4e1830',
+#    state: '600',
+#    charset: 'utf-8',
+#    code: '200',
+#    runningnumber: '444292490708486',
+#    expressnumber: '201509281151233585526',
+#    msg: '保存订单成功!',
+#    signtype: 'MD5'
 
 
   models.order.findOne({orderNumber:req.body.expressnumber}).execAsync()
   .then (resultOrder)->
 #    console.log(resultOrder._id);
-
+    logger.error("=========kushudi:", JSON.stringify(req.body));
     logger.error("=========kushudi2:", req.body.state);
 
 
     if req.body.state is "300"
-      logger.error("=========kushudi2:", resultOrder._id);
+      logger.error("=========kushudi3:", resultOrder._id);
       resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
       resultOrder.saveAsync();
 
