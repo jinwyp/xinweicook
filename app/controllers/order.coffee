@@ -1060,6 +1060,7 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 exports.deliveryKSuDiNotify = (req, res, next) ->
 
   logger.error("=========kushudi:", JSON.stringify(req.body));
+  logger.error("=========kushudi:", JSON.stringify(req.body));
 
   models.order.validationOrderNumber req.body.expressnumber
 
@@ -1078,17 +1079,20 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
   .then (resultOrder)->
 #    console.log(resultOrder._id);
 
+    logger.error("=========kushudi2:", req.body.state);
 
-    if req.body.state is 300
+
+    if req.body.state is "300"
+      logger.error("=========kushudi2:", resultOrder._id);
       resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+      resultOrder.saveAsync();
 
-    if req.body.state is 400
+    if req.body.state is "400"
       resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+      resultOrder.saveAsync();
 
-    if req.body.state is 400
+    if req.body.state is "500"
       resultOrder.expressStatus = models.order.constantExpressStatus().finished
-
-    if req.body.code is 200
       resultOrder.saveAsync();
 
     res.send({code : 200})
