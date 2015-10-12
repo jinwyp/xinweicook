@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, Alert, $http, $window) {
+function loginCtrl($scope, User, $location, Alert) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.resetPwdData = {};
@@ -110,35 +110,6 @@ function loginCtrl($scope, User, $location, Alert, $http, $window) {
                 location.href = '/mobile/';
             }, 120);
         });
-
-        $http.get('/api/user/signup/geetest/register').success(function(result) {
-            var s = document.createElement('script');
-            s.src = 'http://api.geetest.com/get.php?gt=' + '745d959dec1191e086febd11aa684c9d' +
-                '&challenge=' + result.challenge;
-            //$scope.data.src = 'http://api.geetest.com/get.php?gt=' + $scope.data.geetestId;
-
-            var fatherDom = angular.element(document.getElementById('geetestContainer'));
-
-            fatherDom.append(s);//append the script where ever you want
-
-            $window.gt_custom_ajax = function(result, id, message) {
-                if(result) {
-                    var value = angular.element(document.getElementsByClassName('gt_input')).find('input');
-
-                    var data = {
-                        "geetest_challenge":value[0].value,
-                        "geetest_validate":value[1].value,
-                        "geetest_seccode":value[2].value,
-                        "type" : location.pathname == '/mobile/login' ? 'signUp' : 'resetPassword',
-                        "mobile" : location.pathname == '/mobile/login' ?  $scope.signupData.mobile : $scope.resetPwdData.mobile
-                    };
-
-                    $http.post('/api/user/sms', data).success(function(result) {
-                        console.log("success")
-                    });
-                }
-            }
-        });
     }
 
     function redirect() {
@@ -148,7 +119,7 @@ function loginCtrl($scope, User, $location, Alert, $http, $window) {
             if (!/(\/\w*)+/.test(redirect)) {
                 redirect = '/mobile/';
             }
-        }
+        } else redirect = '/mobile/';
 
         User.getUserInfo().then(function (res) {
             var user = res.data;
