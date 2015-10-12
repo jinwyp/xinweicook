@@ -18,7 +18,7 @@ exports.getGeeTestRegisterChallenge = (req, res, next) ->
 
 exports.sendSMS = (req, res, next) ->
   # 发送短信验证码
-  { type, mobile , geetest_challenge, geetest_validate, geetest_seccode} = req.body
+  { type, mobile} = req.body
 
 #  if type is "signUp"
 #    logger.error("---- Send SMS: Registration", JSON.stringify(req.body))
