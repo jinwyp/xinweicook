@@ -510,6 +510,21 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
+
+        var totalAllPrice = 0;
+
+        if (resultOrder.length > 0){
+            totalAllPrice = resultOrder.reduce(function(previous, order) {
+                return previous + order.saleTotalPrice;
+            }, 0);
+        }
+
+        resultOrder[0].totalAllPrice = totalAllPrice;
+
+        resultOrder.forEach(function(order){
+            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+        });
+
         res.status(200).json(resultOrder)
     }).catch(next)
 
@@ -590,6 +605,22 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
+
+        var totalAllPrice = 0;
+
+        if (resultOrder.length > 0){
+            totalAllPrice = resultOrder.reduce(function(previous, order) {
+                console.log(previous, order.saleTotalPrice);
+                return previous + order.saleTotalPrice;
+            }, 0);
+        }
+
+        resultOrder[0].totalAllPrice = totalAllPrice;
+
+        resultOrder.forEach(function(order){
+            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+        });
+
         res.status(200).json(resultOrder)
     }).catch(next)
 

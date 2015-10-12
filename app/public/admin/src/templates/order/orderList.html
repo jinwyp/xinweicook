@@ -343,7 +343,7 @@
             <td>{{order._id}}</td>
 
             <td>{{order.saleQuantity}}</td>
-            <td>{{order.saleTotalPrice | number : 2}}</td>
+            <td>{{order.saleTotalPrice | number : 2}} / {{order.totalPricePercent * 100 | number : 2}}%</td>
             <td>{{order.saleAvgTotalPrice | number : 2}}</td>
 
             <td>{{order.saleDishesPrice | number : 2}}</td>
@@ -373,7 +373,7 @@
             <th>订单地址</th>
 
             <th>订单数量</th>
-            <th>订单总金额</th>
+            <th>订单总金额 / 百分比</th>
             <th>订单客单价</th>
 
             <th>菜品总金额</th>
@@ -395,7 +395,7 @@
             <td>{{order._id}}</td>
 
             <td>{{order.saleQuantity}}</td>
-            <td>{{order.saleTotalPrice | number : 2}}</td>
+            <td>{{order.saleTotalPrice | number : 2}} / {{order.totalPricePercent * 100 | number : 2}}%</td>
             <td>{{order.saleAvgTotalPrice | number : 2}}</td>
 
             <td>{{order.saleDishesPrice | number : 2}}</td>
