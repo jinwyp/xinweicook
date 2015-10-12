@@ -1075,9 +1075,7 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 
   models.order.findOneAsync({orderNumber:req.body.expressnumber})
   .then (resultOrder)->
-#    console.log(resultOrder._id);
-    logger.error("=========kushudi:", JSON.stringify(req.body))
-#    logger.error("=========kushudiorder:", resultOrder._id, resultOrder.orderNumber)
+#    logger.error("=========kushudi:", JSON.stringify(req.body))
 
     if resultOrder
       if req.body.state is "300"

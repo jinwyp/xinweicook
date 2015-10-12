@@ -103,7 +103,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
             if (angular.isArray(chartData)){
                 angular.forEach(chartData, function(value, key) {
                     //console.log(value);
-                    
+
                     if(typeof value.date !== 'undefined'){
                         // order by date and dish by date and new user by date
                         this.push(value.date.substr(5,5));
