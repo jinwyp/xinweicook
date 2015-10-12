@@ -38,8 +38,6 @@ app.use methodOverride("X-HTTP-Method-Override")
 
 app.use libs.logger.middleware()
 
-app.use libs.lang.middleware
-
 app.use libs.cache.lastModified
 
 app.use models.Router
@@ -50,7 +48,8 @@ require("./routesapi")(app)
 require("./test")() if conf.debug
 
 app.use (req, res, next) ->
-  next new Err l("Page Not Found"), 404
+  next new Err("Page Not Found", 404)
+
 
 app.use libs.err.middleware()
 

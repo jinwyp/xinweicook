@@ -1,6 +1,5 @@
 Error.stackTraceLimit = 1
-GLOBAL.requireLocalizations = require "./localizations/output/all.js"
-GLOBAL.l = requireLocalizations "zh-CN"
+
 GLOBAL.chai     = require "chai"
 chaiAsPromised  = require "chai-as-promised"
 chai.use chaiAsPromised
