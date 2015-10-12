@@ -283,14 +283,29 @@ exports.orderExportList = function(req, res, next) {
 
 
 
+exports.orderList = function(req, res, next) {
+
+
+    models.order.find({}).sort("-createdAt").populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
+
+        res.send(resultOrderList)
+
+    })
+    .catch(next)
+
+};
+
+
+
 
 
 
 
 exports.orderPrintShippingList = function(req, res, next) {
 
-    orderIdList = [];
-    console.log(req.query.idList);
+    var orderIdList = [];
+    //console.log(req.query.idList);
+
     if (req.query.idList){
         orderIdList = JSON.parse(req.query.idList)
     }
@@ -314,8 +329,8 @@ exports.orderPrintShippingList = function(req, res, next) {
         })
         .catch(next)
 
-
 };
+
 
 
 
