@@ -1075,7 +1075,7 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 
   models.order.findOneAsync({orderNumber:req.body.expressnumber})
   .then (resultOrder)->
-#    logger.error("=========kushudi:", JSON.stringify(req.body))
+
 
     if resultOrder
       if req.body.state is "300"
@@ -1089,6 +1089,9 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
       if req.body.state is "500"
         resultOrder.expressStatus = models.order.constantExpressStatus().finished
         resultOrder.saveAsync();
+
+      if req.body.state isnt "300" and req.body.state isnt "400" and req.body.state isnt "500" and req.body.state isnt "600"
+        logger.error("=========kushudi:", JSON.stringify(req.body))
 
     res.send({code : 200})
 
