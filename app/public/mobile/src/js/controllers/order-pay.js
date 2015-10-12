@@ -166,6 +166,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         Orders.postOrder(order).then(function (res) {
             // todo: clear some locals to prevent from reordering.
+            clear();
 
             // use setTimeout for clearing locals
             setTimeout(function () {
@@ -213,6 +214,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     }
 
     function clear() {
-
+        //delete $localStorage.confirmedCart;
+        delete $localStorage.addDishCart;
     }
 });
