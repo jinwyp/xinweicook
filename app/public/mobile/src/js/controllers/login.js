@@ -119,10 +119,7 @@ function loginCtrl($scope, User, $location, Alert) {
             if (!/(\/\w*)+/.test(redirect)) {
                 redirect = '/mobile/';
             }
-        } else {
-            location.href = '/mobile';
-            return;
-        }
+        } else redirect = '/mobile/';
 
         User.getUserInfo().then(function (res) {
             var user = res.data;
