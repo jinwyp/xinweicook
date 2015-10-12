@@ -259,12 +259,13 @@
               <span class="number"><%= orderList[m].dishList[i].number %> ×</span>
               <%= orderList[m].dishList[i].dish.title.zh %>
               <% if (orderList[m].dishList[i].subDish.length > 0) { %>
-                -
-                  <% for(var j=0; j<orderList[m].dishList[i].subDish.length; j++) { %>
+                =
+                  <% for(var j=0; j < orderList[m].dishList[i].subDish.length; j++) { %>
                     <% if (orderList[m].dishList[i].subDish[j].number > 1) { %>
-                       <%= orderList[m].dishList[i].subDish[j].number %>×
+                       <span class="number"><%= orderList[m].dishList[i].subDish[j].number %> ×</span>
                     <% } %>
                     <%= orderList[m].dishList[i].subDish[j].dish.title.zh %>
+                    <% if (j != orderList[m].dishList[i].subDish.length - 1) { %> + <% } %>
                   <% } %>
               <% } %>
             </dt>
