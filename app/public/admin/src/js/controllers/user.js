@@ -68,6 +68,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
         userStatisticNewFirstOrderUserDaily : [],
+        userStatisticChartNewFirstOrderUserDaily : [],
 
         userGroupList: [
             {
@@ -102,8 +103,53 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.css = {
         isAddNewStatus : true,
-        showTable : 'users'
+        showTable : 'users',
+        searchUserStatisticSortBy : '-date'
     };
+
+
+
+    $scope.chartNewFirstOrderUserDaily = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每日有下单新用户'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '日期'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '用户数'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
 
 
     $scope.datePickerOpen = function($event) {
@@ -235,9 +281,11 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
-    $scope.searchUserStatisticNewFirstOrderUserDaily = function () {
+    $scope.searchUserStatisticNewFirstOrderUserDaily = function (form, sortBy) {
 
         $scope.css.showTable = 'statNewFirstOrderUserDaily';
+        $scope.css.searchUserStatisticSortBy = sortBy;
+
 
         if ($scope.data.searchDateTo !==''){
             $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
@@ -247,6 +295,13 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticNewFirstOrderUserDaily($scope.data.searchOptions).then(function (result) {
             $scope.data.userStatisticNewFirstOrderUserDaily = result.data;
+
+            $scope.data.userStatisticChartNewFirstOrderUserDaily = result.data;
+
+            $scope.chartNewFirstOrderUserDaily.series = Util.chartDataFormat($scope.data.userStatisticChartNewFirstOrderUserDaily);
+            $scope.chartNewFirstOrderUserDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartNewFirstOrderUserDaily);
+
+
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);

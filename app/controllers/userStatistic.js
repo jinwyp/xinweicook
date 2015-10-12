@@ -355,13 +355,20 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
         { "$group": {
             "_id":  "$date",
-
             "userQuantity": { "$sum": 1 },
-
             "userList": { "$push": { "_id": "$firstOrderId", "orderCreatedAt": "$firstOrderDate", "user": "$_id", "orderNumber": "$firstOrderNumber",  "orderContactPerson": "$firstOrderContactPerson", "orderContactMobile": "$firstOrderContactMobile", "totalPrice": "$firstOrderTotalPrice"   } }
         }},
 
 
+        { $project :{
+            _id : 0,
+            "date" : "$_id",
+            "userQuantity": 1,
+            "userList": 1
+
+        }},
+
+        { "$sort": { "date" : 1} },
         { "$limit": 1000 }
     );
 

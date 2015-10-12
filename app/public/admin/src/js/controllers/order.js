@@ -298,7 +298,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.css = {
         isAddNewStatus : false,
         showTable : 'orders',
-        searchOrderStatisticSortBy : 'date'
+        searchOrderStatisticSortBy : '-date'
     };
 
 
@@ -641,7 +641,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.searchOrderStatisticByHourSales = function (form, sortBy) {
         $scope.css.showTable = 'statisticByHourSales';
-        $scope.css.searchDishStatisticSortBy = sortBy;
+        $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
             $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
