@@ -190,6 +190,13 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             })
         },
 
+        getOrderStatisticByAddressAuto: function (params) {
+            return $http.get('/api/admin/statistic/order/addressauto', {
+                params: params
+            })
+        },
+
+
         getOrderStatisticByDailySales: function (params) {
             return $http.get('/api/admin/statistic/order/daily', {
                 params: params

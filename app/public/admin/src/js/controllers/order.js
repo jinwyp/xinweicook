@@ -55,6 +55,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         orderStatisticByAddressList : [],
+        orderStatisticByAddressListAuto : [],
         orderStatisticByDailySalesList : [],
         orderStatisticChartByDaily : [],
 
@@ -602,6 +603,25 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressList = resultOrder.data;
+            Notification.success({message: 'Search Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+
+    $scope.searchOrderStatisticByAddressAuto = function () {
+        $scope.css.showTable = 'statisticByAddressAuto';
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions).then(function (resultOrder) {
+            $scope.data.orderStatisticByAddressListAuto = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);

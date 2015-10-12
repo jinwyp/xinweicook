@@ -458,23 +458,39 @@ exports.orderStatisticByAddress = function(req, res, next) {
     pipeline.push (
         { "$group": {
             "_id": '$address.address',
-            "orderQuantity": { "$sum": 1 },
-            "orderTotalDishesPrice": { "$sum": "$dishesPrice" },
-            "orderTotalFreightPrice": { "$sum": "$freight" },
-            "orderTotalPrice": { "$sum": "$totalPrice" },
-            "orderAveragePrice": { "$avg": "$totalPrice" },
-            "orderList": { "$push": { "_id": "$_id", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" } }
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+
         }}
     );
 
     // Sorting pipeline
     pipeline.push (
-        { "$sort": { "orderTotalPrice": -1 } }
+        { "$sort": { "saleTotalPrice": -1 } }
     );
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 300 }
+        { "$limit": 200 }
     );
 
     //console.log (pipeline);
@@ -484,11 +500,6 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
 
 };
-
-
-
-
-
 
 
 
@@ -559,7 +570,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 300 }
+        { "$limit": 200 }
     );
 
     //console.log (pipeline);
@@ -569,6 +580,8 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
 
 };
+
+
 
 
 
