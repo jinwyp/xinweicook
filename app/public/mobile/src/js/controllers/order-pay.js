@@ -89,9 +89,13 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         for (var name in cart) {
             var list = cart[name];
             data.orderPrice += list.reduce(function (total, cur) {
-                var subDishPrice = cur.subDish ? cur.subDish.priceOriginal : 0;
-                return total + (cur.dish.priceOriginal + subDishPrice)
-                    * cur.dish.number;
+                var number = cur.dish.number;
+                var subDishPrice = 0;
+                if (cur.subDish) {
+                    subDishPrice = cur.subDish.priceOriginal;
+                    number = cur.subDish.number;
+                }
+                return total + (cur.dish.priceOriginal + subDishPrice) * number
             }, 0)
         }
 

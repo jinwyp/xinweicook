@@ -119,7 +119,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 if (!el.selected) return;
                 list.selectedLength++;
                 if (el.subDish) {
-                    price += el.subDish.number * el.dish.priceOriginal + el.subDish.priceOriginal
+                    price += el.subDish.number * (el.dish.priceOriginal + el.subDish.priceOriginal)
                 } else {
                     price += el.dish.number * el.dish.priceOriginal;
                 }
