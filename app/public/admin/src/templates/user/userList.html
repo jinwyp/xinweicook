@@ -129,7 +129,7 @@
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">Search</button>
                         <button type="submit" class="btn btn-default" ng-click="showUserStatistic(searchForm)">统计</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchUserStatisticNewFirstOrderUserDaily(searchForm)">每日新用户</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchUserStatisticNewFirstOrderUserDaily(searchForm, '-date')">每日新用户</button>
                     </div>
                 </div>
             </form>
@@ -253,9 +253,35 @@
 
 
 
-    <div class="row" ng-if="css.showTable==='statNewFirstOrderUserDaily'">
-        <img src="https://wt-prj.oss.aliyuncs.com/70e13804847f4e2b8f0c8ba956c4b0d6/8eef3a50-c0d0-429f-80fd-fb058df9834b.png" alt=""/>
+
+    <div class="row" ng-if="css.showTable === 'statNewFirstOrderUserDaily'">
+        <div class="col-lg-12">
+            <highchart id="chartNewFirstOrderUserDaily" config="chartNewFirstOrderUserDaily"  ></highchart>
+        </div>
+
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartType"  ng-value="'column'" ng-model="chartNewFirstOrderUserDaily.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartType"  ng-value="'line'" ng-model="chartNewFirstOrderUserDaily.series[0].type">折线图
+            </label>
+        </div>
+
+        <div class="col-lg-12">
+            <label for="prettyJSON">
+                <input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON
+            </label>
+        </div>
+
+        <div class="col-lg-12">
+            <pre ng-show="prettyJSON">{{ chartNewFirstOrderUserDaily | json }}</pre>
+            <pre ng-show="!prettyJSON">{{ chartNewFirstOrderUserDaily }}</pre>
+        </div>
+
     </div>
+
 
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable==='statNewFirstOrderUserDaily'">
         <thead>
@@ -266,8 +292,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="onedate in data.userStatisticNewFirstOrderUserDaily ">
-                <td> {{onedate._id | date:'yyyy-MM-dd'}}</td>
+            <tr ng-repeat="onedate in data.userStatisticNewFirstOrderUserDaily | orderBy:css.searchUserStatisticSortBy">
+                <td> {{onedate.date | date:'yyyy-MM-dd'}}</td>
                 <td>{{onedate.userQuantity}}</td>
                 <td><button class="btn btn-info" ng-click="data.currentDailyUserIndex=onedate._id"> 显示详细</button> <br/>
                     <span ng-if="data.currentDailyUserIndex === onedate._id">

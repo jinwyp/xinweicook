@@ -84,3 +84,10 @@ li.sidebar-list > a.active .menu-icon {
     padding: 8px;
 }
 
+
+
+
+#baidumap{
+    height:2000px;
+    border: 1px solid red;
+}

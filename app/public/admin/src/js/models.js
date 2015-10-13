@@ -60,9 +60,13 @@ angular.module('RDash.models').factory('Util', function ($http) {
                     if(typeof value.dishSaleQuantity !== 'undefined'){
                         // dish
                         result[0].data.push(Math.abs(value.dishSaleQuantity));
-                    }else{
+                    }else if (typeof value.saleTotalPrice !== 'undefined'){
                         // order
                         result[0].data.push(Math.abs(value.saleTotalPrice));
+                        result[0].type = 'line';
+                    }else{
+                        // user
+                        result[0].data.push(Math.abs(value.userQuantity));
                         result[0].type = 'line';
                     }
 
@@ -98,12 +102,16 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
             if (angular.isArray(chartData)){
                 angular.forEach(chartData, function(value, key) {
+                    //console.log(value);
 
                     if(typeof value.date !== 'undefined'){
+                        // order by date and dish by date and new user by date
                         this.push(value.date.substr(5,5));
                     }else if (typeof value.hour !== 'undefined') {
+                        // order by hour
                         this.push( (value.hour < 16) ? (value.hour + 8 ):(value.hour - 16 ) );
                     }else if (typeof value.week !== 'undefined') {
+                        // dish by week
                         this.push('第' + value.week + '周('+ value.dishList[0].createdAt.substr(5,5) + ')');
                     }
 
@@ -181,6 +189,13 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
                 params: params
             })
         },
+
+        getOrderStatisticByAddressAuto: function (params) {
+            return $http.get('/api/admin/statistic/order/addressauto', {
+                params: params
+            })
+        },
+
 
         getOrderStatisticByDailySales: function (params) {
             return $http.get('/api/admin/statistic/order/daily', {

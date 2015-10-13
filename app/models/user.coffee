@@ -27,6 +27,7 @@ module.exports =
       city: String
       district: String
       street : String
+      street_number : String
       address: String
 
       isTemporary : type: Boolean, default: false  #临时地址 下单后变为false

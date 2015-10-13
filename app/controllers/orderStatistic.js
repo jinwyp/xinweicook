@@ -283,14 +283,29 @@ exports.orderExportList = function(req, res, next) {
 
 
 
+exports.orderList = function(req, res, next) {
+
+
+    models.order.find({}).sort("-createdAt").limit (500).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
+
+        res.send(resultOrderList)
+
+    })
+    .catch(next)
+
+};
+
+
+
 
 
 
 
 exports.orderPrintShippingList = function(req, res, next) {
 
-    orderIdList = [];
-    console.log(req.query.idList);
+    var orderIdList = [];
+    //console.log(req.query.idList);
+
     if (req.query.idList){
         orderIdList = JSON.parse(req.query.idList)
     }
@@ -314,8 +329,8 @@ exports.orderPrintShippingList = function(req, res, next) {
         })
         .catch(next)
 
-
 };
+
 
 
 
@@ -458,37 +473,63 @@ exports.orderStatisticByAddress = function(req, res, next) {
     pipeline.push (
         { "$group": {
             "_id": '$address.address',
-            "orderQuantity": { "$sum": 1 },
-            "orderTotalDishesPrice": { "$sum": "$dishesPrice" },
-            "orderTotalFreightPrice": { "$sum": "$freight" },
-            "orderTotalPrice": { "$sum": "$totalPrice" },
-            "orderAveragePrice": { "$avg": "$totalPrice" },
-            "orderList": { "$push": { "_id": "$_id", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" } }
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" , "addressContactPerson": "$address.contactPerson", "addressContactMobile": "$address.mobile", "addressStreet": "$address.street", "addressAddress": "$address.address", "addressDistanceFrom": "$address.distanceFrom", "addressLatitude": "$address.geoLatitude", "addressLongitude": "$address.geoLongitude" } }
+
         }}
     );
 
     // Sorting pipeline
     pipeline.push (
-        { "$sort": { "orderTotalPrice": -1 } }
+        { "$sort": { "saleTotalPrice": -1 } }
     );
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 300 }
+        { "$limit": 200 }
     );
 
     //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
+
+        var totalAllPrice = 0;
+
+        if (resultOrder.length > 0){
+            totalAllPrice = resultOrder.reduce(function(previous, order) {
+                return previous + order.saleTotalPrice;
+            }, 0);
+        }
+
+        resultOrder[0].totalAllPrice = totalAllPrice;
+
+        resultOrder.forEach(function(order){
+            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+        });
+
         res.status(200).json(resultOrder)
     }).catch(next)
 
 
 };
-
-
-
-
-
 
 
 
@@ -548,7 +589,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
             "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
             "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
 
-            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" , "addressContactPerson": "$address.contactPerson", "addressContactMobile": "$address.mobile", "addressStreet": "$address.street", "addressAddress": "$address.address", "addressDistanceFrom": "$address.distanceFrom", "addressLatitude": "$address.geoLatitude", "addressLongitude": "$address.geoLongitude" } }
         }}
     );
 
@@ -559,16 +600,34 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 300 }
+        { "$limit": 200 }
     );
 
     //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
+
+        var totalAllPrice = 0;
+
+        if (resultOrder.length > 0){
+            totalAllPrice = resultOrder.reduce(function(previous, order) {
+                console.log(previous, order.saleTotalPrice);
+                return previous + order.saleTotalPrice;
+            }, 0);
+        }
+
+        resultOrder[0].totalAllPrice = totalAllPrice;
+
+        resultOrder.forEach(function(order){
+            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+        });
+
         res.status(200).json(resultOrder)
     }).catch(next)
 
 
 };
+
+
 
 
 
