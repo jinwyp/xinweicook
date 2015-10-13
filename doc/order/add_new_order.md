@@ -28,6 +28,7 @@ Group `member`
 |   -> city          | String   | 城市       |
 |   -> district      | String   | 区         |
 |   -> street        | String   | 街或路      |
+|   -> street_number | String   | baidu map 的街道号      |
 |   -> address       | String   | 详细地址    |
 |   -> contactPerson | String   | 联系人      |
 |   -> mobile        | String   | 手机       |
