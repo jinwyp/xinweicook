@@ -143,8 +143,6 @@ expressRoutes = function(app) {
                 '&output=json&mode=walking&coord_type=gcj02&tactics=12';
             var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
 
-            console.log('####:::', url);
-
             request(url, function(err, response, body) {
                 if (err) {
                     next(err)
