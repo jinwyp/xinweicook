@@ -1990,23 +1990,29 @@ html.order-address-html body {
   display: inline-block;
   max-width: 85%;
 }
-/* line 84, ../sass/pages/_order-pay.scss */
+@media (max-width: 320px) {
+  /* line 79, ../sass/pages/_order-pay.scss */
+  .order-pay-main .block > div .dish-title {
+    font-size: 14px;
+  }
+}
+/* line 87, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div .quantity {
   font-style: italic;
   font-size: 13px;
 }
-/* line 89, ../sass/pages/_order-pay.scss */
+/* line 92, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div .fee {
   position: absolute;
   right: 0;
 }
-/* line 94, ../sass/pages/_order-pay.scss */
+/* line 97, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border, .order-pay-main .block > div .border {
   border: 1px solid black;
   padding: 0 3px 0 8px;
   margin: 11px 0;
 }
-/* line 98, ../sass/pages/_order-pay.scss */
+/* line 101, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon, .order-pay-main .block > div .border .checkbox.icon {
   position: absolute;
   top: 0;
@@ -2017,7 +2023,7 @@ html.order-address-html body {
   width: 24px;
   background: url('../img/icons/ForkIconHighlighted.png?1444051628') 50%/cover no-repeat;
 }
-/* line 106, ../sass/pages/_order-pay.scss */
+/* line 109, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon.inactive, .order-pay-main .block > div .border .checkbox.icon.inactive {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s7e495a6a66.png');
@@ -2029,11 +2035,11 @@ html.order-address-html body {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 111, ../sass/pages/_order-pay.scss */
+/* line 114, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.has-icon {
   padding-left: 37px;
 }
-/* line 115, ../sass/pages/_order-pay.scss */
+/* line 118, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.select::after, .order-pay-main .block > div .select::after {
   font-weight: 700;
   content: '···';
@@ -2043,12 +2049,12 @@ html.order-address-html body {
 }
 
 @media (max-width: 320px) {
-  /* line 127, ../sass/pages/_order-pay.scss */
+  /* line 130, ../sass/pages/_order-pay.scss */
   .order-pay-main .coupon-group span {
     font-size: 13px;
   }
 
-  /* line 130, ../sass/pages/_order-pay.scss */
+  /* line 133, ../sass/pages/_order-pay.scss */
   .select-group:not(.one-time) select {
     font-size: 12px;
   }
