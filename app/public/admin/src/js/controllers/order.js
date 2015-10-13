@@ -785,7 +785,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             marker.addEventListener("click", function(event){
                 console.log(event.target);
                 console.log(event.target.getTitle());
-                console.log(marker.getTitle());
 
                 var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
 
