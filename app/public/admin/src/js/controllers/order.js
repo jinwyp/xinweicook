@@ -772,7 +772,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
 
                 var infoWindowOpts = {
-                    width : 250,     // 信息窗口宽度
+                    width : 300,     // 信息窗口宽度
                     height: 100,     // 信息窗口高度
                     title : title  // 信息窗口标题
                 };
