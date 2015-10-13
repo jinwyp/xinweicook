@@ -749,8 +749,24 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         // 创建图标对象
-        function addMarker(point, title, content){
-            var myIcon = new BMap.Icon("http://api.map.baidu.com/images/marker_red_hd.png", new BMap.Size(25, 30), {
+        function addMarker(point, title, content, percentage){
+
+
+            var iconUrl = '';
+
+            if (percentage > 4){
+                iconUrl = '/admin/src/img/marker_red_hd100.png';
+            }else if (percentage > 2){
+                iconUrl = '/admin/src/img/marker_red_hd80.png';
+            }else if (percentage > 1.5){
+                iconUrl = '/admin/src/img/marker_red_hd50.png';
+            }else if (percentage > 1){
+                iconUrl = '/admin/src/img/marker_red_hd30.png';
+            }else{
+                iconUrl = '/admin/src/img/marker_red_hd10.png';
+            }
+
+            var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
 
                 anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
 
@@ -800,7 +816,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
             var title = "销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
             var content = '地址:' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人:" + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号:" + address.orderList[0].orderNumber + "<br/> 该地址销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
-            addMarker(pointOrder, title, content);
+            addMarker(pointOrder, title, content, address.totalPricePercent*100);
 
         });
 
