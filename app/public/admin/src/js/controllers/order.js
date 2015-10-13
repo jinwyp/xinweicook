@@ -762,7 +762,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 iconUrl = '/admin/src/img/marker_red_hd50.png';
             }else if (percentage > 1.0){
                 iconUrl = '/admin/src/img/marker_red_hd30.png';
-            }else if (percentage > 0.8){{
+            }else if (percentage > 0.6){
                 iconUrl = '/admin/src/img/marker_red_hd10.png';
             }
 
