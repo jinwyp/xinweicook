@@ -23,6 +23,7 @@
   .state-bar-container {
     height: $state-bar-height;
     background-color: #DBDCDD;
+    overflow: hidden;
 
     .indicator {
       height: 100%;

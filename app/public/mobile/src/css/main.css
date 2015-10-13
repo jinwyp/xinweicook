@@ -2006,13 +2006,20 @@ html.order-address-html body {
   position: absolute;
   right: 0;
 }
-/* line 97, ../sass/pages/_order-pay.scss */
+@media (max-width: 320px) {
+  /* line 92, ../sass/pages/_order-pay.scss */
+  .order-pay-main .block > div .fee {
+    font-size: 14px;
+    top: 2px;
+  }
+}
+/* line 101, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border, .order-pay-main .block > div .border {
   border: 1px solid black;
   padding: 0 3px 0 8px;
   margin: 11px 0;
 }
-/* line 101, ../sass/pages/_order-pay.scss */
+/* line 105, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon, .order-pay-main .block > div .border .checkbox.icon {
   position: absolute;
   top: 0;
@@ -2023,7 +2030,7 @@ html.order-address-html body {
   width: 24px;
   background: url('../img/icons/ForkIconHighlighted.png?1444051628') 50%/cover no-repeat;
 }
-/* line 109, ../sass/pages/_order-pay.scss */
+/* line 113, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon.inactive, .order-pay-main .block > div .border .checkbox.icon.inactive {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s7e495a6a66.png');
@@ -2035,11 +2042,11 @@ html.order-address-html body {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 114, ../sass/pages/_order-pay.scss */
+/* line 118, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.has-icon {
   padding-left: 37px;
 }
-/* line 118, ../sass/pages/_order-pay.scss */
+/* line 122, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.select::after, .order-pay-main .block > div .select::after {
   font-weight: 700;
   content: '···';
@@ -2049,12 +2056,12 @@ html.order-address-html body {
 }
 
 @media (max-width: 320px) {
-  /* line 130, ../sass/pages/_order-pay.scss */
+  /* line 134, ../sass/pages/_order-pay.scss */
   .order-pay-main .coupon-group span {
     font-size: 13px;
   }
 
-  /* line 133, ../sass/pages/_order-pay.scss */
+  /* line 137, ../sass/pages/_order-pay.scss */
   .select-group:not(.one-time) select {
     font-size: 12px;
   }
@@ -2084,26 +2091,27 @@ html.order-address-html body {
 .shopping-progress-bar .state-bar-container {
   height: 8px;
   background-color: #DBDCDD;
+  overflow: hidden;
 }
-/* line 27, ../sass/_components.scss */
+/* line 28, ../sass/_components.scss */
 .shopping-progress-bar .state-bar-container .indicator {
   height: 100%;
   background-color: black;
   position: relative;
 }
-/* line 32, ../sass/_components.scss */
+/* line 33, ../sass/_components.scss */
 .shopping-progress-bar .state-bar-container .indicator.state1 {
   width: 33%;
 }
-/* line 35, ../sass/_components.scss */
+/* line 36, ../sass/_components.scss */
 .shopping-progress-bar .state-bar-container .indicator.state2 {
   width: 66%;
 }
-/* line 38, ../sass/_components.scss */
+/* line 39, ../sass/_components.scss */
 .shopping-progress-bar .state-bar-container .indicator.state3 {
   width: 99%;
 }
-/* line 42, ../sass/_components.scss */
+/* line 43, ../sass/_components.scss */
 .shopping-progress-bar .state-bar-container .indicator::after {
   content: '';
   border: 4px solid transparent;
@@ -2112,7 +2120,7 @@ html.order-address-html body {
   right: -8px;
 }
 
-/* line 55, ../sass/_components.scss */
+/* line 56, ../sass/_components.scss */
 .cart-bar2 {
   font-size: 0;
   margin: 0;
@@ -2124,30 +2132,30 @@ html.order-address-html body {
   z-index: 10;
   bottom: 0;
 }
-/* line 66, ../sass/_components.scss */
+/* line 67, ../sass/_components.scss */
 .cart-bar2 > * {
   display: inline-block;
   font-size: 16px;
   text-align: center;
 }
-/* line 72, ../sass/_components.scss */
+/* line 73, ../sass/_components.scss */
 .cart-bar2 .back-to-menu {
   width: 38.2%;
   color: #C7C7C7;
   background-color: #262626;
 }
-/* line 78, ../sass/_components.scss */
+/* line 79, ../sass/_components.scss */
 .cart-bar2 .next {
   width: 61.8%;
   background-color: #f44d4d;
   color: white;
 }
-/* line 82, ../sass/_components.scss */
+/* line 83, ../sass/_components.scss */
 .cart-bar2 .next.invalid {
   background-color: #B3B3B3;
 }
 
-/* line 88, ../sass/_components.scss */
+/* line 89, ../sass/_components.scss */
 .buy-button {
   position: absolute;
   background-color: #f44d4d;
@@ -2158,21 +2166,21 @@ html.order-address-html body {
   color: white;
   width: 63px;
 }
-/* line 97, ../sass/_components.scss */
+/* line 98, ../sass/_components.scss */
 .buy-button .text {
   font-size: 12px;
   margin: -4px 0 1px;
 }
-/* line 101, ../sass/_components.scss */
+/* line 102, ../sass/_components.scss */
 .buy-button .price {
   font-size: 18px;
   margin-right: -2px;
 }
-/* line 104, ../sass/_components.scss */
+/* line 105, ../sass/_components.scss */
 .buy-button .price span {
   position: relative;
 }
-/* line 106, ../sass/_components.scss */
+/* line 107, ../sass/_components.scss */
 .buy-button .price span::before {
   content: '¥';
   position: absolute;
@@ -2181,7 +2189,7 @@ html.order-address-html body {
   line-height: normal;
   font-size: 10px;
 }
-/* line 117, ../sass/_components.scss */
+/* line 118, ../sass/_components.scss */
 .buy-button.out-of-stock {
   background-color: #B9B9B9;
 }
