@@ -754,54 +754,58 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
             var iconUrl = '';
 
-            if (percentage > 4){
+            if (percentage > 1.6){
                 iconUrl = '/admin/src/img/marker_red_hd100.png';
-            }else if (percentage > 1.5){
+            }else if (percentage > 1.3){
                 iconUrl = '/admin/src/img/marker_red_hd80.png';
-            }else if (percentage > 1.2){
-                iconUrl = '/admin/src/img/marker_red_hd50.png';
             }else if (percentage > 1.0){
+                iconUrl = '/admin/src/img/marker_red_hd50.png';
+            }else if (percentage > 0.5){
                 iconUrl = '/admin/src/img/marker_red_hd30.png';
-            }else if (percentage > 0.6){
+            }else if (percentage > 0.3){
+                iconUrl = '/admin/src/img/marker_red_hd10.png';
+            }else{
                 iconUrl = '/admin/src/img/marker_red_hd10.png';
             }
 
 
 
-            var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
+            if (percentage > 0.2){
 
-                anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
+                var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
 
-                imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
-                imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
-            });
+                    anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
 
-
-            // 创建标注对象并添加到地图
-            var marker = new BMap.Marker(point, {icon: myIcon, title:title});
+                    imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
+                    imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
+                });
 
 
-
-            marker.addEventListener("click", function(event){
-                console.log(event.target);
-                console.log(event.target.getTitle());
-
-                var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
-
-                var infoWindowOpts = {
-                    width : 300,     // 信息窗口宽度
-                    height: 100,     // 信息窗口高度
-                    title : title  // 信息窗口标题
-                };
-
-                var infoWindow = new BMap.InfoWindow(content, infoWindowOpts);  // 创建信息窗口对象 窗口内容
-
-                marker.openInfoWindow(infoWindow, pointInfoWindows);      // 打开信息窗口
-            });
+                // 创建标注对象并添加到地图
+                var marker = new BMap.Marker(point, {icon: myIcon, title:title});
 
 
 
-            map.addOverlay(marker);
+                marker.addEventListener("click", function(event){
+                    console.log(event.target);
+                    console.log(event.target.getTitle());
+
+                    var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
+
+                    var infoWindowOpts = {
+                        width : 300,     // 信息窗口宽度
+                        height: 100,     // 信息窗口高度
+                        title : title  // 信息窗口标题
+                    };
+
+                    var infoWindow = new BMap.InfoWindow(content, infoWindowOpts);  // 创建信息窗口对象 窗口内容
+
+                    marker.openInfoWindow(infoWindow, pointInfoWindows);      // 打开信息窗口
+                });
+
+                map.addOverlay(marker);
+            }
+
         }
 
         addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
@@ -811,9 +815,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         angular.forEach($scope.data.orderStatisticByAddressListAuto, function(address, addressIndex){
-            console.log(address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);
 
             if (address.orderList[0].addressLongitude && address.orderList[0].addressLatitude){
+                console.log(address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);
+
                 var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
                 var title = "销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
