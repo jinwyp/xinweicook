@@ -787,7 +787,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             map.addOverlay(marker);
         }
 
-        //addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼');
+        addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼');
 
 
 
@@ -795,10 +795,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         angular.forEach($scope.data.orderStatisticByAddressListAuto, function(address, addressIndex){
             console.log(address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);
+
             var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
-            var content = '地址:' + address.orderList[0].addressStreet + " - " + address.orderList[0].addressAddress + "<br/> 订单号:" + address.orderList[0].orderNumber;
-            addMarker(pointOrder, address.orderList[0].addressContactPerson + ' - ' + address.orderList[0].addressContactMobile, content);
+            var title = "销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
+            var content = '地址:' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人:" + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号:" + address.orderList[0].orderNumber + "<br/> 该地址销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
+            addMarker(pointOrder, title, content);
 
         });
 
