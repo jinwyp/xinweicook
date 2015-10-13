@@ -743,8 +743,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         // 覆盖物
-//    var marker = new BMap.Marker(pointXinWeiOffice);        // 创建标注
-//    map.addOverlay(marker);                     // 将标注添加到地图中
+    //var marker = new BMap.Marker(pointXinWeiOffice);        // 创建标注
+    //map.addOverlay(marker);                     // 将标注添加到地图中
 
 
 
@@ -760,11 +760,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 iconUrl = '/admin/src/img/marker_red_hd80.png';
             }else if (percentage > 1.5){
                 iconUrl = '/admin/src/img/marker_red_hd50.png';
-            }else if (percentage > 1){
+            }else if (percentage > 1.2){
                 iconUrl = '/admin/src/img/marker_red_hd30.png';
-            }else{
+            }else if (percentage > 0.8){{
                 iconUrl = '/admin/src/img/marker_red_hd10.png';
             }
+
+
 
             var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
 
@@ -803,7 +805,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             map.addOverlay(marker);
         }
 
-        addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼');
+        addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
 
 
 
