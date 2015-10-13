@@ -301,6 +301,7 @@ exports.updateUserInfo = (req, res, next) ->
         req.u.address[addressIndex].city = address.city if address.city
         req.u.address[addressIndex].district = address.district if address.district
         req.u.address[addressIndex].street = address.street if address.street
+        req.u.address[addressIndex].street_number = address.street_number if address.street_number
         req.u.address[addressIndex].address = address.address if address.address
 
         req.u.address[addressIndex].isDefault = address.isDefault if address.isDefault

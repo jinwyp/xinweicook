@@ -22,6 +22,7 @@ module.exports =
       city: String
       district: String
       street : String
+      street_number : String
       address: String
 
       isValid: type: Boolean, default: false

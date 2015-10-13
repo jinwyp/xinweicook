@@ -616,6 +616,7 @@ exports.addNewOrder = (req, res, next) ->
     newAddress.city = req.body.address.city if req.body.address.city
     newAddress.district = req.body.address.district if req.body.address.district
     newAddress.street = req.body.address.street if req.body.address.street
+    newAddress.street_number = req.body.address.street_number if req.body.address.street_number
     newAddress.address = req.body.address.address if req.body.address.address
 
     newAddress.isDefault = false
