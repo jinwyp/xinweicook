@@ -493,7 +493,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
             "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
             "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
 
-            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" , "addressContactPerson": "$address.contactPerson", "addressContactMobile": "$address.mobile", "addressStreet": "$address.street", "addressAddress": "$address.address", "addressDistanceFrom": "$address.distanceFrom", "addressLatitude": "$address.geoLatitude", "addressLongitude": "$address.geoLongitude" } }
 
         }}
     );
@@ -589,7 +589,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
             "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
             "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
 
-            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice" , "addressContactPerson": "$address.contactPerson", "addressContactMobile": "$address.mobile", "addressStreet": "$address.street", "addressAddress": "$address.address", "addressDistanceFrom": "$address.distanceFrom", "addressLatitude": "$address.geoLatitude", "addressLongitude": "$address.geoLongitude" } }
         }}
     );
 

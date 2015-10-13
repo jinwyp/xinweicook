@@ -182,6 +182,8 @@
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByDailySales(searchForm, '-date')">日销量</button>
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByHourSales(searchForm, '')">小时销量</button>
 
+
+
                         <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.createdAt}}&status={{data.searchOptions.status}}&cookingType={{data.searchOptions.cookingType}}&clientFrom={{data.searchOptions.clientFrom}}&deliveryDateType={{data.searchOptions.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中内部制作单</a>
                         <a class="btn btn-default"  href="/api/administrator/shiplist/orders?idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中出货单</a>
                         <a class="btn btn-default"  href="/api/administrator/export/orders" target="_blank">导出所有订单</a>
@@ -366,6 +368,9 @@
     </table>
 
 
+    <div id="baidumap" class="row" ng-if="css.showTable === 'statisticByAddressAuto'">
+
+    </div>
 
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByAddressAuto'">
         <thead>

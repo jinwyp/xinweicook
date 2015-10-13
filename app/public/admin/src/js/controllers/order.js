@@ -622,6 +622,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressListAuto = resultOrder.data;
+
+            $scope.showBaiduMap();
+
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
             console.log(err);
@@ -706,6 +709,105 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.arrayToUrl = function (array) {
         return JSON.stringify(array)
     };
+
+
+
+
+
+
+
+
+
+
+
+    $scope.showBaiduMap = function (array) {
+
+        $scope.css.showTable = 'statisticByAddressAuto';
+        var map = new BMap.Map("baidumap");          // 创建地图实例
+
+        var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
+        var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
+        var pointXinWeiOffice2 = new BMap.Point( 121.462155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
+
+        map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
+
+
+
+        map.addControl(new BMap.NavigationControl());   // 平移缩放控件
+        map.addControl(new BMap.ScaleControl());   // 比例尺控件
+        map.addControl(new BMap.OverviewMapControl()); // 缩略图控件
+
+        map.addControl(new BMap.MapTypeControl());
+        map.setCurrentCity("上海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+
+
+
+        // 覆盖物
+//    var marker = new BMap.Marker(pointXinWeiOffice);        // 创建标注
+//    map.addOverlay(marker);                     // 将标注添加到地图中
+
+
+
+        // 创建图标对象
+        function addMarker(point, title, content){
+            var myIcon = new BMap.Icon("http://api.map.baidu.com/images/marker_red_hd.png", new BMap.Size(25, 30), {
+
+                anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
+
+                imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
+                imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
+            });
+
+
+            // 创建标注对象并添加到地图
+            var marker = new BMap.Marker(point, {icon: myIcon, title:title});
+
+
+
+            marker.addEventListener("click", function(event){
+                console.log(event.target);
+                console.log(event.target.getTitle());
+                console.log(marker.getTitle());
+
+                var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
+
+                var infoWindowOpts = {
+                    width : 250,     // 信息窗口宽度
+                    height: 100,     // 信息窗口高度
+                    title : title  // 信息窗口标题
+                };
+
+                var infoWindow = new BMap.InfoWindow(content, infoWindowOpts);  // 创建信息窗口对象 窗口内容
+
+                marker.openInfoWindow(infoWindow, pointInfoWindows);      // 打开信息窗口
+            });
+
+
+
+            map.addOverlay(marker);
+        }
+
+        //addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼');
+
+
+
+
+
+        angular.forEach($scope.data.orderStatisticByAddressListAuto, function(address, addressIndex){
+            console.log(address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);
+            var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
+
+            var content = '地址:' + address.orderList[0].addressStreet + " - " + address.orderList[0].addressAddress + "<br/> 订单号:" + address.orderList[0].orderNumber;
+            addMarker(pointOrder, address.orderList[0].addressContactPerson + ' - ' + address.orderList[0].addressContactMobile, content);
+
+        });
+
+
+
+    };
+
+
+
 
 
 }
