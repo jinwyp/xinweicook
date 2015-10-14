@@ -305,7 +305,7 @@ module.exports =
         models.user.findOneAsync({_id:user.invitationFromUser}).then (fromUser) ->
 
           if fromUser
-
+            console.log(fromUser.invitedUserNumberHaveOrder)
             fromUser.invitedUserNumberHaveOrder = fromUser.invitedUserNumberHaveOrder + 1
 
             newCoupon =
@@ -318,7 +318,7 @@ module.exports =
               user : fromUser._id.toString()
 
             # 邀请5人下单了送一张35元的优惠券
-            newCoupon5Persion =
+            newCoupon5Person =
               name :
                 zh : "邀请5名好友并下单返利优惠券"
                 en : "5 Friends Order Rebate Coupon"
@@ -350,14 +350,14 @@ module.exports =
             newCouponList = []
             newCouponList.push(newCoupon)
 
-            if fromUser.invitedUserNumberHaveOrder = 5
-              newCouponList.push(newCoupon5Persion)
+            if fromUser.invitedUserNumberHaveOrder is 5
+              newCouponList.push(newCoupon5Person)
 
-            if fromUser.invitedUserNumberHaveOrder = 10
-              newCouponList.push(newCoupon10Persion)
+            if fromUser.invitedUserNumberHaveOrder is 10
+              newCouponList.push(newCoupon10Person)
 
-            if fromUser.invitedUserNumberHaveOrder = 20
-              newCouponList.push(newCoupon20Persion)
+            if fromUser.invitedUserNumberHaveOrder is 20
+              newCouponList.push(newCoupon20Person)
 
             models.coupon.createAsync(newCouponList).then (resultCouponList)->
               for coupon, couponIndex in resultCouponList

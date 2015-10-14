@@ -237,7 +237,7 @@
                 </td>
                 <td>{{user.sharedInvitationSendCodeTotalCount - 1}}</td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
-                <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}}</td>
+                <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}} / {{user.sharedInvitationSendCodeUsedTime}}个朋友有下单</td>
 
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？-->
