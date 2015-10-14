@@ -318,7 +318,7 @@ module.exports =
               user : fromUser._id.toString()
 
             # 邀请5人下单了送一张35元的优惠券
-            newCoupon2 =
+            newCoupon5Persion =
               name :
                 zh : "邀请5名好友并下单返利优惠券"
                 en : "5 Friends Order Rebate Coupon"
@@ -327,11 +327,37 @@ module.exports =
               usedTime : 1
               user : fromUser._id.toString()
 
+            # 邀请了10个好友下单得50元优惠券一张
+            newCoupon10Person =
+              name :
+                zh : "邀请10名好友并下单返利优惠券"
+                en : "10 Friends Order Rebate Coupon"
+              price : 50
+              couponType : models.coupon.constantCouponType().coupon
+              usedTime : 1
+              user : fromUser._id.toString()
+
+            # 邀请了20个好友下单得100元优惠券
+            newCoupon20Person =
+              name :
+                zh : "邀请20名好友并下单返利优惠券"
+                en : "20 Friends Order Rebate Coupon"
+              price : 100
+              couponType : models.coupon.constantCouponType().coupon
+              usedTime : 1
+              user : fromUser._id.toString()
+
             newCouponList = []
             newCouponList.push(newCoupon)
 
-            if fromUser.invitedUserNumberHaveOrder > 4
-              newCouponList.push(newCoupon2)
+            if fromUser.invitedUserNumberHaveOrder = 5
+              newCouponList.push(newCoupon5Persion)
+
+            if fromUser.invitedUserNumberHaveOrder = 10
+              newCouponList.push(newCoupon10Persion)
+
+            if fromUser.invitedUserNumberHaveOrder = 20
+              newCouponList.push(newCoupon20Persion)
 
             models.coupon.createAsync(newCouponList).then (resultCouponList)->
               for coupon, couponIndex in resultCouponList
