@@ -754,18 +754,20 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
             var iconUrl = '';
 
-            if (percentage >= 1.6){
-                iconUrl = '/admin/src/img/marker_red_hd100.png';
+            if (percentage >= 2){
+                iconUrl = '/admin/src/img/marker100.png';
+            }else if (percentage >= 1.6){
+                iconUrl = '/admin/src/img/marker80.png';
             }else if (percentage >= 1.1){
-                iconUrl = '/admin/src/img/marker_red_hd80.png';
+                iconUrl = '/admin/src/img/marker70.png';
             }else if (percentage >= 0.8){
-                iconUrl = '/admin/src/img/marker_red_hd50.png';
-            }else if (percentage >= 0.5){
-                iconUrl = '/admin/src/img/marker_red_hd30.png';
-            }else if (percentage > 0.3){
-                iconUrl = '/admin/src/img/marker_red_hd10.png';
+                iconUrl = '/admin/src/img/marker40.png';
+            }else if (percentage >= 0.6){
+                iconUrl = '/admin/src/img/marker30.png';
+            }else if (percentage >= 0.4){
+                iconUrl = '/admin/src/img/marker20.png';
             }else{
-                iconUrl = '/admin/src/img/marker_red_hd10.png';
+                iconUrl = '/admin/src/img/marker10.png';
             }
 
 
