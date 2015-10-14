@@ -305,7 +305,6 @@ module.exports =
         models.user.findOneAsync({_id:user.invitationFromUser}).then (fromUser) ->
 
           if fromUser
-            console.log(fromUser.invitedUserNumberHaveOrder)
             fromUser.invitedUserNumberHaveOrder = fromUser.invitedUserNumberHaveOrder + 1
 
             newCoupon =
