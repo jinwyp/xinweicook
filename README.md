@@ -33,9 +33,13 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
 安装好 Gulp 和 CoffeeScript 后 命令行运行 `gulp` 即可启动服务器
 
 
-## 文档工具
 
-运行 `gulp doc` 启动生成 GitBook 文档的工具
+## 文档
+`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。[可以在这里在线阅读](http://新味.com/api-test/doc/)。
+
+#### 文档生成工具
+编辑好文档后，运行 `gulp doc` 生成 GitBook 文档
+
 
 
 ## 初始化数据
@@ -58,10 +62,6 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
 更新服务器开发分支代码并重启 `pm2 deploy ecosystem.json dev`
 
 
-
-## 文档
-
-`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。[可以在这里在线阅读](http://新味.com/api-test/doc/)。
 
 
 
