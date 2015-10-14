@@ -787,7 +787,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 var marker = new BMap.Marker(point, {icon: myIcon, title:title});
 
 
-
                 marker.addEventListener("click", function(event){
                     console.log(event.target);
                     console.log(event.target.getTitle());

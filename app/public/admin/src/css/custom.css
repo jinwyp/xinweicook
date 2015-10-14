@@ -91,3 +91,7 @@ li.sidebar-list > a.active .menu-icon {
     height:900px;
     border: 1px solid red;
 }
+
+.mapmarker{
+    max-width:25px
+}
