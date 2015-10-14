@@ -80,6 +80,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 value : 'member'
             },
             {
+                name : '快递员',
+                value : 'courier'
+            },
+            {
+                name : '客服',
+                value : 'cs'
+            },
+            {
                 name : '管理员',
                 value : 'admin'
             }

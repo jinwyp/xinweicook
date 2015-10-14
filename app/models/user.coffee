@@ -101,8 +101,10 @@ module.exports =
     constantUserRole : () ->
       type =
         admin : "admin"
-        member : "member"
+        cs : "cs"
         partner : "partner"
+        member : "member"
+        courier : "courier"
         guest : "guest"
 
     validationMobile : (mobileNumber) ->
@@ -173,6 +175,21 @@ module.exports =
       else
         throw new Err("密码错误", 401, Err.code.user.wrongPassword)
 
+    authRolePermission: (permission, userRole)->
+      roles =
+        admin : ["admin", "cs", "member", "courier", "partner", "guest" ]
+        cs : ["admin", "cs", "member", "courier", "partner", "guest" ]
+        member : ["member", "courier", "partner", "guest" ]
+        courier : ["member", "courier", "partner", "guest" ]
+        partner : ["member", "courier", "partner", "guest" ]
+        guest : ["guest" ]
+
+      if permission and userRole
+        if roles[userRole].indexOf(permission) > -1
+          return true
+
+      return false
+
     signUp: (mobile, pwd, code) ->
       models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
         if smscode[1] isnt 1
@@ -209,12 +226,7 @@ module.exports =
         Promise.reject(new Err "用户 _id 错误", 400)
       else
         @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
-    findUserByAccessToken: (access_token) ->
-      models.token.findTokenByAccessToken(access_token).then( (user)->
-        models.user.checkNotFound(user)
-        models.user.checkNotSpam(user)
-        user
-      )
+
     find1 : (options) ->
       @findOne(options)
       .select(models.user.fields())
