@@ -754,18 +754,20 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
             var iconUrl = '';
 
-            if (percentage >= 1.6){
-                iconUrl = '/admin/src/img/marker_red_hd100.png';
+            if (percentage >= 2){
+                iconUrl = '/admin/src/img/marker100.png';
+            }else if (percentage >= 1.5){
+                iconUrl = '/admin/src/img/marker80.png';
             }else if (percentage >= 1.1){
-                iconUrl = '/admin/src/img/marker_red_hd80.png';
+                iconUrl = '/admin/src/img/marker70.png';
             }else if (percentage >= 0.8){
-                iconUrl = '/admin/src/img/marker_red_hd50.png';
-            }else if (percentage >= 0.5){
-                iconUrl = '/admin/src/img/marker_red_hd30.png';
-            }else if (percentage > 0.3){
-                iconUrl = '/admin/src/img/marker_red_hd10.png';
+                iconUrl = '/admin/src/img/marker60.png';
+            }else if (percentage >= 0.6){
+                iconUrl = '/admin/src/img/marker40.png';
+            }else if (percentage >= 0.4){
+                iconUrl = '/admin/src/img/marker30.png';
             }else{
-                iconUrl = '/admin/src/img/marker_red_hd10.png';
+                iconUrl = '/admin/src/img/marker20.png';
             }
 
 
@@ -783,7 +785,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 // 创建标注对象并添加到地图
                 var marker = new BMap.Marker(point, {icon: myIcon, title:title});
-
 
 
                 marker.addEventListener("click", function(event){
@@ -813,7 +814,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
-
         angular.forEach($scope.data.orderStatisticByAddressListAuto, function(address, addressIndex){
 
             if (address.orderList[0].addressLongitude && address.orderList[0].addressLatitude){
@@ -821,7 +821,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
-                var title = "销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
+                var title = "金额:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
                 var content = '地址:' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人:" + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号:" + address.orderList[0].orderNumber + "<br/> 该地址销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
                 addMarker(pointOrder, title, content, address.totalPricePercent*100);
 
