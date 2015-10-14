@@ -2,17 +2,36 @@
 
 ## Mac 本地开发环境
 
+
+
+## 安装 Homebrew
 ``` bash
-# 安装 Homebrew
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-# 安装 nodejs 和 mongodb
-brew install nodejs mongodb
-# 启动 mongodb
+```
+
+## 安装 nodejs 和 mongodb
+``` bash
+brew install nodejs mongodb redis
+```
+
+[mongodb], [redis] 和 [nginx] 的启动方法可以用 `brew info mongodb redis` 查看。为了方便启动这些系统服务，可以用 `gem install lunchy` 安装 [lunchy]。
+
+
+
+## 启动 mongodb
+``` bash
 ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
-# 更新 node 包然后启动服务，启动服务也可以用 nodemon index.coffee 或 gulp
-rake update && rake server
 ```
+
+## 更新npm包然后启动nodejs服务器，注意 coffeescript 需要全局安装
+
+### 使用 Nodejs 下的 Nodemon 工具启动服务器
+使用 `nodemon index.coffee` 启动服务。 注意 nodemon 配置文件为 nodemon.json
+
+### 使用 Gulp 启动服务器
+安装好 Gulp 和 CoffeeScript 后 命令行运行 `gulp` 即可启动服务器
+
 
 ## 文档工具
 
@@ -49,6 +68,8 @@ rake update && rake server
 [Homebrew]: https://brew.sh
 [nodejs]: https://nodejs.org
 [mongodb]: https://www.mongodb.org
+[redis]: http://redis.io
+[nginx]: http://nginx.org
 [GitBook]: https://gitbook.com
 [lunchy]: https://github.com/eddiezane/lunchy
 [paw]: https://luckymarmot.com/paw
