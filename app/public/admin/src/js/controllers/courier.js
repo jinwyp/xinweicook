@@ -240,7 +240,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
             $scope.searchUser();
 
-        }, 5000);
+        }, 20000);
     };
 
 
