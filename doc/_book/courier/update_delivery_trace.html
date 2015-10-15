@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>生成微信支付统一订单 | 新味 API 文档</title>
+        <title>更新快递员路径信息 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.2.0">
@@ -25,10 +25,8 @@
         
     
     
-    <link rel="next" href="../order/get_weixin_jssdk_ticket.html" />
     
-    
-    <link rel="prev" href="../order/add_new_order.html" />
+    <link rel="prev" href="../courier/index.html" />
     
 
         
@@ -36,7 +34,7 @@
     <body>
         
         
-    <div class="book" data-level="6.4" data-basepath=".." data-revision="Thu Oct 15 2015 12:00:24 GMT+0800 (CST)">
+    <div class="book" data-level="9.1" data-basepath=".." data-revision="Thu Oct 15 2015 12:00:24 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -667,7 +665,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.4" data-path="order/add_new_weixinpay_unified_order.html">
+        <li class="chapter " data-level="6.4" data-path="order/add_new_weixinpay_unified_order.html">
             
                 
                     <a href="../order/add_new_weixinpay_unified_order.html">
@@ -970,7 +968,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="9.1" data-path="courier/update_delivery_trace.html">
+        <li class="chapter active" data-level="9.1" data-path="courier/update_delivery_trace.html">
             
                 
                     <a href="../courier/update_delivery_trace.html">
@@ -1096,8 +1094,9 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>POST <code>/api/orders/payment/weixinpay/unifiedorder</code></p>
-<p>Group <code>member</code></p>
+<p>PUT <code>/api/courier/trace</code></p>
+<p>Group <code>courier</code></p>
+<h3 id="body">Body</h3>
 <table>
 <thead>
 <tr>
@@ -1108,52 +1107,50 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">_id</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x8BA2;&#x5355;ID 24&#x4F4D;ID 5590d256103f46d9ac31e3ee</td>
+<td style="text-align:left">geoLatitude</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x7EAC;&#x5EA6;</td>
 </tr>
 <tr>
-<td style="text-align:left">device_info</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x975E;&#x5FC5;&#x586B; &#x7EC8;&#x7AEF;&#x8BBE;&#x5907;&#x53F7;(&#x95E8;&#x5E97;&#x53F7;&#x6216;&#x6536;&#x94F6;&#x8BBE;&#x5907;ID)&#xFF0C;&#x6CE8;&#x610F;&#xFF1A;PC&#x7F51;&#x9875;&#x6216;&#x516C;&#x4F17;&#x53F7;&#x5185;&#x652F;&#x4ED8;&#x8BF7;&#x4F20;&quot;WEB&quot;</td>
+<td style="text-align:left">geoLongitude</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x7ECF;&#x5EA6;</td>
 </tr>
 <tr>
-<td style="text-align:left">spbill_create_ip</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; APP&#x548C;&#x7F51;&#x9875;&#x652F;&#x4ED8;&#x63D0;&#x4EA4;&#x7528;&#x6237;&#x7AEF;ip&#xFF0C;Native&#x652F;&#x4ED8;&#x586B;&#x8C03;&#x7528;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8;API&#x7684;&#x673A;&#x5668;IP&#x3002;</td>
+<td style="text-align:left">distanceFrom</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x4E0E;&#x65B0;&#x5473;&#x529E;&#x516C;&#x53F8;&#x8DDD;&#x79BB;&#xFF08;&#x7C73;&#xFF09;</td>
 </tr>
 <tr>
-<td style="text-align:left">trade_type</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x53D6;&#x503C;&#x5982;&#x4E0B;&#xFF1A;JSAPI&#xFF0C;NATIVE&#xFF0C;APP&#xFF0C;WAP,&#x8BE6;&#x7EC6;&#x8BF4;&#x660E;&#x89C1;&#x53C2;&#x6570;&#x89C4;&#x5B9A;</td>
+<td style="text-align:left">timeLeft</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x4E0E;&#x65B0;&#x5473;&#x529E;&#x516C;&#x53F8; &#x65F6;&#x95F4;  &#xFF08;&#x5355;&#x4F4D;&#xFF1F;&#xFF1F;&#x5206;&#x949F;&#xFF09;</td>
 </tr>
 <tr>
-<td style="text-align:left">url</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; JSAPI&#x65F6;  &#x751F;&#x6210;&#x7B7E;&#x540D; &#x5176;&#x5B9E;&#x4E0D;&#x9700;&#x8981;&#x8BE5;&#x5B57;&#x6BB5;</td>
-</tr>
-<tr>
-<td style="text-align:left">openid</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left">&#x7528;&#x4E8E;&#x5FAE;&#x4FE1;&#x652F;&#x4ED8; &#x975E;&#x5FC5;&#x586B; trade_type=JSAPI&#x65F6;&#xFF0C;&#x6B64;&#x53C2;&#x6570;&#x5FC5;&#x4F20;&#xFF0C;&#x7528;&#x6237;&#x5728;&#x5546;&#x6237;appid&#x4E0B;&#x7684;&#x552F;&#x4E00;&#x6807;&#x8BC6;&#x3002;&#x4E0B;&#x5355;&#x524D;&#x9700;&#x8981;&#x8C03;&#x7528;&#x3010;&#x7F51;&#x9875;&#x6388;&#x6743;&#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;&#x3011;&#x63A5;&#x53E3;&#x83B7;&#x53D6;&#x5230;&#x7528;&#x6237;&#x7684;Openid</td>
+<td style="text-align:left">speed</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x5FEB;&#x9012;&#x5458;&#x884C;&#x9A76;&#x901F;&#x5EA6; &#xFF08;&#x5355;&#x4F4D;&#xFF1F;&#xFF1F; &#x7C73;/&#x5C0F;&#x65F6;&#xFF09;</td>
 </tr>
 </tbody>
 </table>
-<h3 id="">#</h3>
-<p>&#x5FAE;&#x4FE1;&#x6587;&#x6863; <a href="http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E6.AD.A5.E9.AA.A4.E4.B8.80.EF.BC.9A.E7.BB.91.E5.AE.9A.E5.9F.9F.E5.90.8D" target="_blank">http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E6.AD.A5.E9.AA.A4.E4.B8.80.EF.BC.9A.E7.BB.91.E5.AE.9A.E5.9F.9F.E5.90.8D</a></p>
 <pre><code class="lang-js">{
-    <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-string">&quot;5590d256103f46d9ac31e3ee&quot;</span>,
-
-    <span class="hljs-string">&quot;device_info&quot;</span> : <span class="hljs-string">&quot;weixinpay&quot;</span>,
-    <span class="hljs-string">&quot;spbill_create_ip&quot;</span> : <span class="hljs-string">&quot;192.168.1.1&quot;</span>,
-    <span class="hljs-string">&quot;trade_type&quot;</span> : <span class="hljs-string">&quot;NATIVE&quot;</span>,
-    <span class="hljs-string">&quot;openid&quot;</span> : <span class="hljs-string">&quot;&quot;</span>
-
+  <span class="hljs-string">&quot;geoLongitude&quot;</span>: <span class="hljs-number">116.3410850154413</span>,
+  <span class="hljs-string">&quot;geoLatitude&quot;</span>: <span class="hljs-number">39.94414620822088</span>,
+  <span class="hljs-string">&quot;distanceFrom&quot;</span>: <span class="hljs-string">&quot;30&quot;</span>,
+  <span class="hljs-string">&quot;timeLeft&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+  <span class="hljs-string">&quot;speed&quot;</span>: <span class="hljs-string">&quot;10&quot;</span>
 }
 </code></pre>
 <h2 id="res">Res</h2>
 <h3 id="body">Body</h3>
-<p><a href="../Order">Orders</a></p>
+<blockquote>
+<p>&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x4E2D; pwd &#x5BC6;&#x7801;&#x5B57;&#x6BB5;&#x4F1A;&#x6392;&#x9664;&#x6389;</p>
+</blockquote>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;200&quot;</span>
+}
+</code></pre>
+<p><a href="../User">User</a></p>
 
                     
                     </section>
@@ -1164,10 +1161,8 @@
         </div>
 
         
-        <a href="../order/add_new_order.html" class="navigation navigation-prev " aria-label="Previous page: 生成新订单"><i class="fa fa-angle-left"></i></a>
+        <a href="../courier/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 快递员"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../order/get_weixin_jssdk_ticket.html" class="navigation navigation-next " aria-label="Next page: 获取微信支付JSSDK初始化配置"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
