@@ -24,7 +24,15 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
             $scope.couponList = res.data.couponList;
-        })
+        });
+
+        var invitationCode = location.search.substring(1).split('=');
+        if (invitationCode.length > 1) {
+            invitationCode = invitationCode[1];
+            if (/^\w{8}$/.test(invitationCode)) {
+                $scope.invitationCode = invitationCode;
+            }
+        }
     }
 
     init();
