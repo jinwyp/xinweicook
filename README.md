@@ -2,35 +2,43 @@
 
 ## Mac 本地开发环境
 
-装完 [Homebrew] 后可以用以下命令按装依赖：
 
+
+## 安装 Homebrew
+``` bash
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+## 安装 nodejs 和 mongodb
 ``` bash
 brew install nodejs mongodb redis
 ```
 
-[mongodb], [redis] 和 [nginx] 的启动方法可以用 `brew info mongodb redis` 查看。
-
-为了方便启动这些系统服务，可以用 `gem install lunchy` 安装 [lunchy]。
+[mongodb], [redis] 和 [nginx] 的启动方法可以用 `brew info mongodb redis` 查看。为了方便启动这些系统服务，可以用 `gem install lunchy` 安装 [lunchy]。
 
 
 
-#### 使用 Nodejs 下的 Nodemon 工具启动服务器
+## 启动 mongodb
+``` bash
+ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+```
 
-然后 `nodemon index.coffee` 启动服务。 注意 nodemon 配置文件为 nodemon.json
+## 更新npm包然后启动nodejs服务器，注意 coffeescript 需要全局安装
 
-#### 使用 Gulp 启动服务器
+### 使用 Nodejs 下的 Nodemon 工具启动服务器
+使用 `nodemon index.coffee` 启动服务。 注意 nodemon 配置文件为 nodemon.json
 
+### 使用 Gulp 启动服务器
 安装好 Gulp 和 CoffeeScript 后 命令行运行 `gulp` 即可启动服务器
 
-#### 使用 Gulp 启动 Gitbook 文档工具
 
-运行 gulp doc 启动生成 Gitbook 文档的工具
 
-#### 使用 Ruby 的 Rake 任务工具启动服务器
+## 文档
+`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。[可以在这里在线阅读](http://新味.com/api-test/doc/)。
 
-服务都启动后，用 `rake update_node` 更新 npm 依赖。
-
-然后 `rake server` 启动服务。
+#### 文档生成工具
+编辑好文档后，运行 `gulp doc` 生成 GitBook 文档
 
 
 
@@ -54,10 +62,6 @@ brew install nodejs mongodb redis
 更新服务器开发分支代码并重启 `pm2 deploy ecosystem.json dev`
 
 
-
-## 文档
-
-`doc` 下的文档使用 [GitBook] 编写，每隔十分钟自动同步到测试服务器。[可以在这里在线阅读](http://新味.com/api-test/doc/)。
 
 
 

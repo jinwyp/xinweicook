@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>获取极验口令 | 新味 API 文档</title>
+        <title>更新快递员路径信息 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.2.0">
@@ -25,10 +25,8 @@
         
     
     
-    <link rel="next" href="../user/send_verification_code_via_sms.html" />
     
-    
-    <link rel="prev" href="../user/get_qiniu_upload_token.html" />
+    <link rel="prev" href="../courier/index.html" />
     
 
         
@@ -36,7 +34,7 @@
     <body>
         
         
-    <div class="book" data-level="4.2" data-basepath=".." data-revision="Thu Oct 15 2015 12:02:09 GMT+0800 (CST)">
+    <div class="book" data-level="9.1" data-basepath=".." data-revision="Thu Oct 15 2015 12:02:09 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -295,7 +293,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="4.2" data-path="user/get_geetest_register_challenge.html">
+        <li class="chapter " data-level="4.2" data-path="user/get_geetest_register_challenge.html">
             
                 
                     <a href="../user/get_geetest_register_challenge.html">
@@ -970,7 +968,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="9.1" data-path="courier/update_delivery_trace.html">
+        <li class="chapter active" data-level="9.1" data-path="courier/update_delivery_trace.html">
             
                 
                     <a href="../courier/update_delivery_trace.html">
@@ -1096,14 +1094,60 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>GET <code>/api/user/signup/geetest/register</code></p>
+<p>PUT <code>/api/courier/trace</code></p>
+<p>Group <code>courier</code></p>
 <h3 id="body">Body</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">geoLatitude</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x7EAC;&#x5EA6;</td>
+</tr>
+<tr>
+<td style="text-align:left">geoLongitude</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x7ECF;&#x5EA6;</td>
+</tr>
+<tr>
+<td style="text-align:left">distanceFrom</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x4E0E;&#x65B0;&#x5473;&#x529E;&#x516C;&#x53F8;&#x8DDD;&#x79BB;&#xFF08;&#x7C73;&#xFF09;</td>
+</tr>
+<tr>
+<td style="text-align:left">timeLeft</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x4E0E;&#x65B0;&#x5473;&#x529E;&#x516C;&#x53F8; &#x65F6;&#x95F4;  &#xFF08;&#x5355;&#x4F4D;&#xFF1F;&#xFF1F;&#x5206;&#x949F;&#xFF09;</td>
+</tr>
+<tr>
+<td style="text-align:left">speed</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left">&#x5FEB;&#x9012;&#x5458;&#x884C;&#x9A76;&#x901F;&#x5EA6; &#xFF08;&#x5355;&#x4F4D;&#xFF1F;&#xFF1F; &#x7C73;/&#x5C0F;&#x65F6;&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;geoLongitude&quot;</span>: <span class="hljs-number">116.3410850154413</span>,
+  <span class="hljs-string">&quot;geoLatitude&quot;</span>: <span class="hljs-number">39.94414620822088</span>,
+  <span class="hljs-string">&quot;distanceFrom&quot;</span>: <span class="hljs-string">&quot;30&quot;</span>,
+  <span class="hljs-string">&quot;timeLeft&quot;</span>: <span class="hljs-string">&quot;20&quot;</span>,
+  <span class="hljs-string">&quot;speed&quot;</span>: <span class="hljs-string">&quot;10&quot;</span>
+}
+</code></pre>
 <h2 id="res">Res</h2>
 <h3 id="body">Body</h3>
 <pre><code class="lang-js">{
-  <span class="hljs-string">&quot;challenge&quot;</span>: <span class="hljs-string">&quot;9f2e3944b3d7092984b0f545b33dcb89&quot;</span>
+  <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;200&quot;</span>
 }
 </code></pre>
+<p><a href="../User">User</a></p>
 
                     
                     </section>
@@ -1114,10 +1158,8 @@
         </div>
 
         
-        <a href="../user/get_qiniu_upload_token.html" class="navigation navigation-prev " aria-label="Previous page: 上传图片获取七牛上传凭证"><i class="fa fa-angle-left"></i></a>
+        <a href="../courier/index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 快递员"><i class="fa fa-angle-left"></i></a>
         
-        
-        <a href="../user/send_verification_code_via_sms.html" class="navigation navigation-next " aria-label="Next page: 通过短信发送验证码"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

@@ -1,26 +1,19 @@
 module.exports = (allowGroupResource="guest", options) ->
   (req, res, next) ->
 
-    models.user.findUserByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then( (user)->
-      req.u = user
+    models.token.findTokenByAccessToken(models.token.getAccessTokenFromReqHeaders(req)).then((user)->
+      models.user.checkNotFound(user)
+      models.user.checkNotSpam(user)
 
-      switch allowGroupResource
-        when "admin"
-          authorizedGroup = ["admin"]
-        when "member"
-          authorizedGroup = ["member", "admin"]
-        when "partner"
-          authorizedGroup = ["partner", "admin"]
+      if user
+        req.u = user
+
+        if models.user.authRolePermission(allowGroupResource, user.group)
+          next() # TODO BUG
         else
-          authorizedGroup = ["guest", "member", "admin", "partner"]
-
-      # logger.debug groups
-      # logger.debug req.u
-
-      if req.u.group in authorizedGroup
-        next() # TODO BUG
+          throw new Err "该用户组没有权限", 403
       else
-        next (new Err "该用户组没有权限", 403)
+        throw new Err "找不到该用户", 401, Err.code.user.notFound
 
 #      hooker.hook res, "end", ()->
 #        if req.u._id

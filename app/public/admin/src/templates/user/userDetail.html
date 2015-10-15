@@ -127,6 +127,12 @@
                             <input type="radio" name="userGroup" ng-value="'member'" ng-model="data.user.group">普通会员
                         </label>
                         <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'courier'" ng-model="data.user.group">快递员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'cs'" ng-model="data.user.group">客服
+                        </label>
+                        <label class="radio-inline">
                             <input type="radio" name="userGroup" ng-value="'admin'" ng-model="data.user.group">管理员
                         </label>
                     </div>
@@ -195,11 +201,20 @@
                 </div>
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >邀请的有下单朋友数量</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" ng-model="data.user.invitedUserNumberHaveOrder"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >被朋友邀请的朋友ID</label>
                     <div class="col-lg-8" >
                         <input type="text" class="form-control" disabled ng-model="data.user.invitationFromUser"  >
                     </div>
                 </div>
+
+
 
 
                 <hr/>
