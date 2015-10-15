@@ -4,6 +4,7 @@ geetest = require("./libs/geetest.js");
 
 
 initController = require "./controllers/initproject.coffee"
+deliveryTraceController = require "./controllers/deliveryTrace.coffee"
 userController = require "./controllers/user.coffee"
 deviceController = require "./controllers/device.coffee"
 tokenController = require "./controllers/token.coffee"
@@ -89,6 +90,7 @@ expressRoutes = (app) ->
   app.put("/api/user", libs.auth("member"), userController.updateUserInfo)
   app.post("/api/user/shoppingcart", libs.auth("member"), userController.updateShoppingCart)
 
+
   app.get("/api/user/account", libs.auth("member"), userController.userInfoAccount)
   app.get("/api/user/account/details", libs.auth("member"), userController.userAccountDetail)
   app.post("/api/user/account/details", libs.auth("member"), userController.chargeAccount)
@@ -113,6 +115,10 @@ expressRoutes = (app) ->
 
 
 
+
+
+
+  app.put("/api/courier/trace", libs.auth("courier"), deliveryTraceController.updateTrace)
 
 
 
