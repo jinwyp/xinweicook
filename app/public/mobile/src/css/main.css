@@ -2014,12 +2014,20 @@ html.order-address-html body {
   }
 }
 /* line 101, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div .exchange-invite-code {
+  right: 0.5em;
+}
+/* line 103, ../sass/pages/_order-pay.scss */
+.order-pay-main .block > div .exchange-invite-code a {
+  color: #428bca;
+}
+/* line 108, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border, .order-pay-main .block > div .border {
   border: 1px solid black;
   padding: 0 3px 0 8px;
   margin: 11px 0;
 }
-/* line 105, ../sass/pages/_order-pay.scss */
+/* line 112, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon, .order-pay-main .block > div .border .checkbox.icon {
   position: absolute;
   top: 0;
@@ -2030,7 +2038,7 @@ html.order-address-html body {
   width: 24px;
   background: url('../img/icons/ForkIconHighlighted.png?1444051628') 50%/cover no-repeat;
 }
-/* line 113, ../sass/pages/_order-pay.scss */
+/* line 120, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.border .checkbox.icon.inactive, .order-pay-main .block > div .border .checkbox.icon.inactive {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s7e495a6a66.png');
@@ -2042,11 +2050,11 @@ html.order-address-html body {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 118, ../sass/pages/_order-pay.scss */
+/* line 125, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.has-icon {
   padding-left: 37px;
 }
-/* line 122, ../sass/pages/_order-pay.scss */
+/* line 129, ../sass/pages/_order-pay.scss */
 .order-pay-main .block > div.select::after, .order-pay-main .block > div .select::after {
   font-weight: 700;
   content: '···';
@@ -2056,12 +2064,12 @@ html.order-address-html body {
 }
 
 @media (max-width: 320px) {
-  /* line 134, ../sass/pages/_order-pay.scss */
+  /* line 141, ../sass/pages/_order-pay.scss */
   .order-pay-main .coupon-group span {
     font-size: 13px;
   }
 
-  /* line 137, ../sass/pages/_order-pay.scss */
+  /* line 144, ../sass/pages/_order-pay.scss */
   .select-group:not(.one-time) select {
     font-size: 12px;
   }

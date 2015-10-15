@@ -98,6 +98,13 @@
         }
       }
 
+      .exchange-invite-code {
+        right: 0.5em;
+        a {
+          color: #428bca;
+        }
+      }
+
       &.border, .border {
         border: 1px solid black;
         padding: 0 3px 0 8px;

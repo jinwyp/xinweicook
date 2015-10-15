@@ -56,7 +56,8 @@
                        coupon-code="data.coupon.codePrice"
                        ng-model="model.coupon.code"
                        pattern="^1a\w{6}$|^\w{10}$" />
-                <span class="err-tip" ng-if="form.couponcode.$error.pattern">优惠码长度为8-10位</span>
+                <span class="err-tip" ng-if="form.couponcode.$viewValue.length < 10 && form.couponcode.$viewValue.length !=8 && form.couponcode.$error.pattern">优惠码长度为8或10位</span>
+                <span class="err-tip exchange-invite-code" ng-if="form.couponcode.$viewValue.length == 8 && form.couponcode.$error.pattern">优惠码无效<a ng-href="/mobile/coupons?code={{form.couponcode.$viewValue}}">(兑换邀请码?)</a></span>
                 <span class="err-tip" ng-if="form.$error.couponCode">优惠码无效</span>
             </div>
             <div class="border select" ng-if="data.coupon.cardList.length">
