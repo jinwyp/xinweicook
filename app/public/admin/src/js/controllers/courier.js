@@ -147,6 +147,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                     user.geoLatitude = tempUser[user._id].geoLatitude;
                     user.geoLongitude = tempUser[user._id].geoLongitude;
                     user.distanceFrom = tempUser[user._id].distanceFrom;
+                    user.isBack = tempUser[user._id].isBack;
 
                     if (tempUser[user._id].speed) {
                         user.speed = tempUser[user._id].speed;
@@ -240,7 +241,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
             $scope.searchUser();
 
-        }, 20000);
+        }, 2000);
     };
 
 
@@ -291,43 +292,47 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
         }
 
 
-
-        if (percentage > 0.2){
-
-            var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
-
-                anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
-
-                imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
-                imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
-            });
-
-
-            // 创建标注对象并添加到地图
-            var marker = new BMap.Marker(point, {icon: myIcon, title:title});
-
-
-            marker.addEventListener("click", function(event){
-                console.log(event.target);
-                console.log(event.target.getTitle());
-
-                var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
-
-                var infoWindowOpts = {
-                    width : 300,     // 信息窗口宽度
-                    height: 100,     // 信息窗口高度
-                    title : title  // 信息窗口标题
-                };
-
-                var infoWindow = new BMap.InfoWindow(content, infoWindowOpts);  // 创建信息窗口对象 窗口内容
-
-                marker.openInfoWindow(infoWindow, pointInfoWindows);      // 打开信息窗口
-            });
-
-            map.addOverlay(marker);
+        if (percentage === true){
+            iconUrl = '/admin/src/img/marker20.png';
+        }else{
+            iconUrl = '/admin/src/img/marker100.png';
         }
 
+
+        var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
+
+            anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
+
+            imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
+            imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
+        });
+
+
+        // 创建标注对象并添加到地图
+        var marker = new BMap.Marker(point, {icon: myIcon, title:title});
+
+
+        marker.addEventListener("click", function(event){
+            console.log(event.target);
+            console.log(event.target.getTitle());
+
+            var pointInfoWindows = new BMap.Point(event.target.getPosition().lng, event.target.getPosition().lat);
+
+            var infoWindowOpts = {
+                width : 300,     // 信息窗口宽度
+                height: 100,     // 信息窗口高度
+                title : title  // 信息窗口标题
+            };
+
+            var infoWindow = new BMap.InfoWindow(content, infoWindowOpts);  // 创建信息窗口对象 窗口内容
+
+            marker.openInfoWindow(infoWindow, pointInfoWindows);      // 打开信息窗口
+        });
+
+        map.addOverlay(marker);
     }
+
+
 
 
 
@@ -335,7 +340,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
         map.clearOverlays();
 
-        addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
+        addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', false);
 
         angular.forEach($scope.data.userList, function(user, userIndex){
 
@@ -351,7 +356,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                 var title = user.fullName + ' - ' + user.mobile + ' - ' + user.timeLeft + '分钟到';
                 var content = '快递员: ' + user.fullName + ' ' + user.mobile + "<br/> 距离新味办公室: " + user.distanceFrom + '米' + "<br/> 还有几分钟到达: " + user.timeLeft + '分钟';
 
-                addMarker(pointCourier, title, content, 0.3);
+                addMarker(pointCourier, title, content, user.isBack);
 
             }
 
