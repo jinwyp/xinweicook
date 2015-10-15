@@ -13,6 +13,7 @@ Group `courier`
 | distanceFrom          | Number | 与新味办公司距离（米）      |
 | timeLeft              | Number | 与新味办公司 时间  （单位？？分钟）   |
 | speed                 | Number | 快递员行驶速度 （单位？？ 米/小时）      |
+| isBack                | Boolean |  如果是 true 表明已回到办公室      |
 
 
 
