@@ -266,6 +266,8 @@
                     <span ng-if="order.expressStatus==='finished'">已送达</span>
                     <span ng-if="order.expressStatus==='canceled'">已取消</span>
 
+                    <br/>{{order.expressPersonName}} <a ui-sref="menu.updateUser({ id: order.expressPersonId })"> {{order.expressPersonMobile}}</a>
+
                 </td>
 
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->

@@ -327,6 +327,12 @@
                         <span class= help-block" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.required">请填入手机！</span>
                         <span class= help-block" ng-if="orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.minlength || orderForm.expressPersonMobile.$dirty&&orderForm.expressPersonMobile.$error.maxlength">手机字符长度错误！</span>
                     </div>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" name="orderStatus" ng-model="data.currentCourier" ng-options="courier as courier.mobile + ' - ' + courier.fullName for courier in data.couriersList" ng-change="updateOrderCourier()">
+                        </select>
+                    </div>
+
                 </div>
 
 

@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Users', 'Orders', 'Statistic', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Orders, Statistic) {
+function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Users, Orders, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -62,8 +62,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         orderStatisticByHourSalesList : [],
         orderStatisticChartByHour : [],
 
+
         orderList : [],
         order : {},
+
+        couriersList : [],
+        currentCourier : {},
 
         orderStatusList : [
             {
@@ -534,6 +538,14 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             }
 
         });
+
+
+        Users.getList({group : 'courier'}).then(function (resultUsers) {
+            $scope.data.couriersList = resultUsers;
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
     }
 
 
@@ -543,6 +555,20 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         if (form.$invalid) {
             return;
         }
+
+        $scope.data.order.put().then(function (resultOrder) {
+            console.log(resultOrder);
+            Notification.success({message: 'Update Success! ', delay: 8000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+    };
+
+    $scope.updateOrderCourier = function () {
+        $scope.data.order.expressPersonId = $scope.data.currentCourier._id;
+        $scope.data.order.expressPersonName = $scope.data.currentCourier.fullName;
+        $scope.data.order.expressPersonMobile = $scope.data.currentCourier.mobile;
 
         $scope.data.order.put().then(function (resultOrder) {
             console.log(resultOrder);
