@@ -570,13 +570,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.data.order.expressPersonName = $scope.data.currentCourier.fullName;
         $scope.data.order.expressPersonMobile = $scope.data.currentCourier.mobile;
 
-        $scope.data.order.put().then(function (resultOrder) {
-            console.log(resultOrder);
-            Notification.success({message: 'Update Success! ', delay: 8000});
-        }).catch(function(err){
-            console.log(err);
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
+        //$scope.data.order.put().then(function (resultOrder) {
+        //    console.log(resultOrder);
+        //    Notification.success({message: 'Update Success! ', delay: 8000});
+        //}).catch(function(err){
+        //    console.log(err);
+        //    Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        //});
     };
 
 
