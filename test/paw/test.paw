@@ -6120,7 +6120,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">PUT</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"mobile\\": \\"18629641521\\",\\n  \\"contactPerson\\": \\"孙悟空\\",\\n  \\"geoLongitude\\": 116.3410850154413,\\n  \\"geoLatitude\\": 39.94414620822088,\\n  \\"distanceFrom\\": \\"30\\",\\n  \\"timeLeft\\": \\"20\\",\\n  \\"speed\\": \\"10\\"\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"geoLongitude\\": 121.462155,\\n  \\"geoLatitude\\": 31.195693,\\n  \\"distanceFrom\\": \\"30\\",\\n  \\"timeLeft\\": \\"20\\",\\n  \\"speed\\": \\"10\\"\\n}"]</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">courier-updateTrace</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z773"></relationship>

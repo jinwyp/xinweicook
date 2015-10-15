@@ -727,7 +727,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
         var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
-        var pointXinWeiOffice2 = new BMap.Point( 121.462155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
 
         map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
@@ -821,8 +820,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
-                var title = "金额:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
-                var content = '地址:' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人:" + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号:" + address.orderList[0].orderNumber + "<br/> 该地址销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
+                var title =  address.saleTotalPrice.toFixed(0) + '元/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
+                var content = '地址: ' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人: " + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号: " + address.orderList[0].orderNumber + "<br/> 该地址销售额: " + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
                 addMarker(pointOrder, title, content, address.totalPricePercent*100);
 
             }
