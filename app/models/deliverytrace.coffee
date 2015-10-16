@@ -9,7 +9,9 @@ module.exports =
     geoLongitude: Number # 经度
     distanceFrom : Number   # 距离新味办公室发货 单位米 3公里还是4公里 快递不一样
     timeLeft : String   # 距离新味办公室到达时间
-    speed : Number  # 速度
+    speed : Number  # 速度 百度API 单位 公里/小时
+
+    isBack: type: Boolean, default:false   # 当true 时 为已回到办公室
 
   statics:
     constantRemark : () ->

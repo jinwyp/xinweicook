@@ -266,6 +266,8 @@
                     <span ng-if="order.expressStatus==='finished'">已送达</span>
                     <span ng-if="order.expressStatus==='canceled'">已取消</span>
 
+                    <br/>{{order.expressPersonName}} <a ui-sref="menu.updateUser({ id: order.expressPersonId })"> {{order.expressPersonMobile}}</a>
+
                 </td>
 
                 <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
@@ -367,7 +369,8 @@
         </tbody>
     </table>
 
-    <div class="row">
+
+    <div class="row" ng-if="css.showTable === 'statisticByAddressAuto'">
         <div class="col-lg-2">图标颜色占金额比重依次为: </div>
         <div class="col-lg-1"><img class="mapmarker" src="/admin/src/img/marker100.png" alt=""/> >2%</div>
         <div class="col-lg-1"><img class="mapmarker" src="/admin/src/img/marker80.png" alt=""/> >1.5%</div>
@@ -377,7 +380,7 @@
         <div class="col-lg-1"><img class="mapmarker" src="/admin/src/img/marker30.png" alt=""/> >0.4%</div>
         <div class="col-lg-1"><img class="mapmarker" src="/admin/src/img/marker20.png" alt=""/> >0.2%</div>
     </div>
-    <div id="baidumap" class="row" ng-if="css.showTable === 'statisticByAddressAuto'">
+    <div id="baidumap" class="row baidumap" ng-if="css.showTable === 'statisticByAddressAuto'">
 
     </div>
 

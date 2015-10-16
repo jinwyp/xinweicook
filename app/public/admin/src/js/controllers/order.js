@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Orders', 'Statistic', orderController ]);
+    .controller('OrderController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Users', 'Orders', 'Statistic', orderController ]);
 
 
 
-function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Orders, Statistic) {
+function orderController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Users, Orders, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -62,8 +62,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         orderStatisticByHourSalesList : [],
         orderStatisticChartByHour : [],
 
+
         orderList : [],
         order : {},
+
+        couriersList : [],
+        currentCourier : {},
 
         orderStatusList : [
             {
@@ -534,6 +538,14 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             }
 
         });
+
+
+        Users.getList({group : 'courier'}).then(function (resultUsers) {
+            $scope.data.couriersList = resultUsers;
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        });
+
     }
 
 
@@ -551,6 +563,20 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             console.log(err);
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
+    };
+
+    $scope.updateOrderCourier = function () {
+        $scope.data.order.expressPersonId = $scope.data.currentCourier._id;
+        $scope.data.order.expressPersonName = $scope.data.currentCourier.fullName;
+        $scope.data.order.expressPersonMobile = $scope.data.currentCourier.mobile;
+
+        //$scope.data.order.put().then(function (resultOrder) {
+        //    console.log(resultOrder);
+        //    Notification.success({message: 'Update Success! ', delay: 8000});
+        //}).catch(function(err){
+        //    console.log(err);
+        //    Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        //});
     };
 
 
@@ -727,7 +753,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
         var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
-        var pointXinWeiOffice2 = new BMap.Point( 121.462155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
 
         map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
@@ -776,7 +801,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
 
-                    anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
+                    anchor: new BMap.Size(25, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
 
                     imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
                     imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
@@ -821,8 +846,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 var pointOrder = new BMap.Point( address.orderList[0].addressLongitude, address.orderList[0].addressLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
-                var title = "金额:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
-                var content = '地址:' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人:" + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号:" + address.orderList[0].orderNumber + "<br/> 该地址销量:" + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
+                var title =  address.saleTotalPrice.toFixed(0) + '元/' + (address.totalPricePercent * 100).toFixed(1) + '% - ' + address.orderList[0].addressAddress + ' - ' + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile;
+                var content = '地址: ' + address.orderList[0].addressStreet + " " + address.orderList[0].addressAddress + "<br/> 联系人: " + address.orderList[0].addressContactPerson + ' ' + address.orderList[0].addressContactMobile + "<br/> 订单号: " + address.orderList[0].orderNumber + "<br/> 该地址销售额: " + address.saleTotalPrice.toFixed(0) + '/' + (address.totalPricePercent * 100).toFixed(1) + '%' ;
                 addMarker(pointOrder, title, content, address.totalPricePercent*100);
 
             }

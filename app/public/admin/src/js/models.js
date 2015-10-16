@@ -129,6 +129,9 @@ angular.module('RDash.models').factory('Util', function ($http) {
 angular.module('RDash.models').factory('Devices', function (Restangular) {
     return Restangular.service('devices');
 });
+angular.module('RDash.models').factory('Couriers', function (Restangular) {
+    return Restangular.service('deliverytraces');
+});
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });

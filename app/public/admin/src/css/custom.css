@@ -87,7 +87,7 @@ li.sidebar-list > a.active .menu-icon {
 
 
 
-#baidumap{
+.baidumap{
     height:900px;
     border: 1px solid red;
 }

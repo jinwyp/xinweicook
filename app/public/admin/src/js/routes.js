@@ -149,6 +149,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 templateUrl: 'templates/tables.html'
             })
 
+            .state('menu.couriers', {
+                url: '/couriers',
+                templateUrl: 'templates/user/courierList.html',
+                data: {
+                    title: '快递员管理',
+                    type : 'list'
+                },
+                controller: 'CourierController'
+            })
+
             .state('menu.users', {
                 url: '/users',
                 templateUrl: 'templates/user/userList.html',
