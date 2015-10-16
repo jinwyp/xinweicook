@@ -62,6 +62,41 @@ exports.sendSMS = (req, res, next) ->
 
 
 
+exports.sendSMSFromCSToUser = (req, res, next) ->
+  # 客服给用户发送通知短信
+  { orderId, type} = req.body
+
+  models.order.validationOrderId(orderId)
+  models.sms.validationSMSType(type)
+
+
+
+  models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
+
+    models.order.checkNotFound(resultOrder)
+
+    if resultOrder
+
+      if type is "orderShipped2"
+        text = models.sms.constantTemplateOrderShipped2(resultOrder.orderNumber, resultOrder.express.displayName.zh, resultOrder.express.number)
+
+      if type is "moneyRefund"
+        text = models.sms.constantTemplateMoneyRefund()
+
+      models.sms.sendSmsVia3rd(resultOrder.address.mobile, text).then (result) ->
+
+        res.json {status:"ok", message:result}
+
+  .catch(next)
+
+
+
+
+
+
+
+
+
 
 
 

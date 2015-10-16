@@ -195,6 +195,12 @@
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$invalid"></span>
                     </div>
 
+                    <div class="col-lg-1" >
+                        <button type="submit" class="btn btn-info" ng-click="sendOrderSMS('moneyRefund')">发退款短信</button>
+                    </div>
+                    <div class="col-lg-1" >
+                        <button type="submit" class="btn btn-info" ng-click="sendOrderSMS('orderShipped2')">发货通知强调短信</button>
+                    </div>
 
                     <div class="col-lg-5">
                         <span class=" help-block" ng-if="orderForm.orderAddressContactPerson.$dirty&&orderForm.orderAddressContactPerson.$error.required">请填入信息！</span>
@@ -203,6 +209,7 @@
                         <span class=" help-block" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.required">请填入信息！</span>
                         <span class=" help-block" ng-if="orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.minlength || orderForm.orderAddressContactMobile.$dirty&&orderForm.orderAddressContactMobile.$error.maxlength">字符长度错误11-14！</span>
                     </div>
+
 
 
                 </div>
@@ -406,7 +413,7 @@
                         <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrder(orderForm)">Save</button>
                     </div>
                     <div class="col-lg-2">
-                        <button type="submit" class="btn btn-info" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="updateOrderDeliveryKSuDi(orderForm)">生成快速递发货单</button>
+                        <button type="submit" class="btn btn-info" ng-hide="css.isAddNewStatus" ng-disabled="orderForm.$invalid" ng-click="createOrderDeliveryKSuDi(orderForm)">生成快速递发货单</button>
                     </div>
 
                     <div class="col-lg-2">

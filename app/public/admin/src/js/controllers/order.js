@@ -436,10 +436,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
         Orders.getList(options).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -457,12 +457,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.data.orderList[index].remove().then(function (resultOrder) {
             $scope.searchOrderCount();
 
-            Notification.success({message : 'Delete Success', delay : 8000});
+            Notification.success({message : 'Delete Success', delay : 4000});
 
         }).catch(function (err) {
             Notification.error({
                 message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
+                delay   : 7000
             });
         });
 
@@ -543,7 +543,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Users.getList({group : 'courier'}).then(function (resultUsers) {
             $scope.data.couriersList = resultUsers;
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     }
@@ -558,10 +558,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         $scope.data.order.put().then(function (resultOrder) {
             console.log(resultOrder);
-            Notification.success({message: 'Update Success! ', delay: 8000});
+            Notification.success({message: 'Update Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -572,16 +572,16 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         //$scope.data.order.put().then(function (resultOrder) {
         //    console.log(resultOrder);
-        //    Notification.success({message: 'Update Success! ', delay: 8000});
+        //    Notification.success({message: 'Update Success! ', delay: 4000});
         //}).catch(function(err){
         //    console.log(err);
-        //    Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+        //    Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         //});
     };
 
 
 
-    $scope.updateOrderDeliveryKSuDi = function (form) {
+    $scope.createOrderDeliveryKSuDi = function (form) {
         if (form.$invalid) {
             return;
         }
@@ -589,10 +589,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Statistic.orderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
             $scope.data.order.expressStatus = 'waitForConfirm';
-            Notification.success({message: 'Update Success! ', delay: 8000});
+            Notification.success({message: 'Update Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -629,10 +629,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressList = resultOrder.data;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -651,10 +651,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
             $scope.showBaiduMap();
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -678,10 +678,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.chartDaily.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily);
             $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -707,10 +707,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.chartHour.series = Util.chartDataFormat($scope.data.orderStatisticChartByHour);
             $scope.chartHour.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByHour);
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -734,6 +734,31 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.arrayToUrl = function (array) {
         return JSON.stringify(array)
+    };
+
+
+    $scope.sendOrderSMS = function (smsType) {
+
+        var postData = {
+            orderId : $scope.data.order._id,
+            type : smsType
+        };
+
+        if(smsType === 'orderShipped2' && ($scope.data.order.express.name == '' || $scope.data.order.express.number == '') ){
+            Notification.error({message: "快递名称 和 快递单号 未填写!! 填写后请先保存订单.", delay: 7000});
+        }else{
+            Statistic.orderSendSMS(postData).then(function (result) {
+
+                Notification.success({message: 'Search Success! ', delay: 4000});
+            }).catch(function(err){
+                console.log(err);
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+            });
+        }
+
+
+
+
     };
 
 
