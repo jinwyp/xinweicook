@@ -586,7 +586,22 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             return;
         }
 
-        Statistic.orderDeliveryKSuDi($scope.data.order._id).then(function (result) {
+        Statistic.createOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
+            console.log(result);
+            $scope.data.order.expressStatus = 'waitForConfirm';
+            Notification.success({message: 'Update Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
+
+    $scope.searchOrderDeliveryKSuDi = function (form) {
+        if (form.$invalid) {
+            return;
+        }
+
+        Statistic.searchOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
             $scope.data.order.expressStatus = 'waitForConfirm';
             Notification.success({message: 'Update Success! ', delay: 4000});

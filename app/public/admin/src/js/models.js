@@ -186,7 +186,11 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             return $http.post('/api/administrator/orders/sms', postdata)
         },
 
-        orderDeliveryKSuDi: function (orderId) {
+        searchOrderDeliveryKSuDi: function (orderId) {
+            var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
+            return $http.get(url)
+        },
+        createOrderDeliveryKSuDi: function (orderId) {
             var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
             return $http.post(url)
         },

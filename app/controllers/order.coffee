@@ -1034,6 +1034,9 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
 
 
 
+
+
+
 exports.createDeliveryKSuDi = (req, res, next) ->
   models.order.validationOrderId req.params._id
 
@@ -1058,9 +1061,9 @@ exports.createDeliveryKSuDi = (req, res, next) ->
 
 
 
+
+
 exports.deliveryKSuDiNotify = (req, res, next) ->
-
-
 
   models.order.validationOrderNumber req.body.expressnumber
 
@@ -1095,5 +1098,38 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
       logger.error("=========kushudi:", JSON.stringify(req.body))
 
     res.send({code : 200})
+
+  .catch(next)
+
+
+
+
+
+
+
+exports.searchDeliveryKSuDi = (req, res, next) ->
+  models.order.validationOrderId req.params._id
+
+  models.order.findById(req.params._id).execAsync()
+  .then (resultOrder)->
+    if resultOrder
+
+      kuaiSuDi.searchOrder(resultOrder, (err, result)->
+
+        if err
+          next(err)
+
+        console.log(result)
+
+        resultOrder.express.name = models.order.constantDeliveryName().ksudi
+        resultOrder.express.displayName.zh = "快速递"
+        resultOrder.express.displayName.en = "快速递"
+#        resultOrder.express.number = result.id
+
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+
+        #        resultOrder.saveAsync();
+        res.send(result)
+      )
 
   .catch(next)

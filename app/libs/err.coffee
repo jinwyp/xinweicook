@@ -17,8 +17,8 @@ module.exports =
     (err, req, res, next) ->
 
       error =
-        message: err.message or "服务器内部错误"
-        stack: err.stack or err.message
+        message: err.message or err.msg or "服务器内部错误"
+        stack: err.stack or err.message or err.msg
         status: err.status or 500
         validationStatus: err.validationStatus or 1000
         _id: req._id
