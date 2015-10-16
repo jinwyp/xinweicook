@@ -1,0 +1,2001 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>获取订单配送范围 | 新味 API 文档</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.1.0">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../order/update_order.html" />
+    
+    
+    <link rel="prev" href="../order/get_delivery_time.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book" data-level="6.7" data-basepath=".." data-revision="Fri Oct 16 2015 15:45:43 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        
+
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        引言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="request/index.html">
+            
+                
+                    <a href="../request/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        Request 请求
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="request/url.html">
+            
+                
+                    <a href="../request/url.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        URL
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="request/method.html">
+            
+                
+                    <a href="../request/method.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Method 请求方法
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="request/header.html">
+            
+                
+                    <a href="../request/header.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.</b>
+                        
+                        Header 请求头
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="responce/index.html">
+            
+                
+                    <a href="../responce/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Responce 响应
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="responce/status.html">
+            
+                
+                    <a href="../responce/status.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        Status 状态码
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="responce/header.html">
+            
+                
+                    <a href="../responce/header.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                        Header 响应头
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="responce/error.html">
+            
+                
+                    <a href="../responce/error.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.</b>
+                        
+                        Error 报错
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="authorization/index.html">
+            
+                
+                    <a href="../authorization/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Authorization 验证
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="authorization/obtain_access_token.html">
+            
+                
+                    <a href="../authorization/obtain_access_token.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Obtain Access Token 获取令牌 登陆
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="authorization/refresh_access_token.html">
+            
+                
+                    <a href="../authorization/refresh_access_token.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Refresh Access Token 刷新令牌
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="authorization/revoke_access_token.html">
+            
+                
+                    <a href="../authorization/revoke_access_token.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        Revoke Access Token 撤销令牌 登出
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="user/index.html">
+            
+                
+                    <a href="../user/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        用户
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="user/get_qiniu_upload_token.html">
+            
+                
+                    <a href="../user/get_qiniu_upload_token.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        上传图片获取七牛上传凭证
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="user/get_geetest_register_challenge.html">
+            
+                
+                    <a href="../user/get_geetest_register_challenge.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        获取极验口令
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="user/send_verification_code_via_sms.html">
+            
+                
+                    <a href="../user/send_verification_code_via_sms.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.3.</b>
+                        
+                        通过短信发送验证码
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="user/sign_up.html">
+            
+                
+                    <a href="../user/sign_up.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.4.</b>
+                        
+                        注册
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="user/add_device.html">
+            
+                
+                    <a href="../user/add_device.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.5.</b>
+                        
+                        提交DeviceID
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="user/get_user_weixin_code.html">
+            
+                
+                    <a href="../user/get_user_weixin_code.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.6.</b>
+                        
+                        获取用户微信Code与OpenID
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="user/reset_password.html">
+            
+                
+                    <a href="../user/reset_password.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.7.</b>
+                        
+                        重设密码
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" data-path="user/get_user_info.html">
+            
+                
+                    <a href="../user/get_user_info.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.8.</b>
+                        
+                        用户信息收货地址购物车
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="user/get_messages.html">
+            
+                
+                    <a href="../user/get_messages.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.9.</b>
+                        
+                        获取用户通知消息
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="user/update_userinfo.html">
+            
+                
+                    <a href="../user/update_userinfo.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.10.</b>
+                        
+                        更新用户信息和收货地址
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.11" data-path="user/update_shoppingcart.html">
+            
+                
+                    <a href="../user/update_shoppingcart.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.11.</b>
+                        
+                        更新购物车
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.12" data-path="user/coupon_share_invitation_code.html">
+            
+                
+                    <a href="../user/coupon_share_invitation_code.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.12.</b>
+                        
+                        用户成功分享邀请码获得优惠券
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.13" data-path="user/coupon_used_invitation_code.html">
+            
+                
+                    <a href="../user/coupon_used_invitation_code.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.13.</b>
+                        
+                        用户使用他人邀请码获得优惠券
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.14" data-path="user/get_account.html">
+            
+                
+                    <a href="../user/get_account.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.14.</b>
+                        
+                        获取用户账户余额
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.15" data-path="user/get_account_details.html">
+            
+                
+                    <a href="../user/get_account_details.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.15.</b>
+                        
+                        获取用户账户余额明细
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.16" data-path="user/charge_account.html">
+            
+                
+                    <a href="../user/charge_account.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.16.</b>
+                        
+                        用户账户余额在线充值
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.17" data-path="user/charge_account_notify_alipaydirect.html">
+            
+                
+                    <a href="../user/charge_account_notify_alipaydirect.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.17.</b>
+                        
+                        支付状态通知支付宝即时到账
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.18" data-path="user/charge_account_notify_weixinpay.html">
+            
+                
+                    <a href="../user/charge_account_notify_weixinpay.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.18.</b>
+                        
+                        支付状态通知微信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.19" data-path="user/charge_account_code.html">
+            
+                
+                    <a href="../user/charge_account_code.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.19.</b>
+                        
+                        用户账户余额充值码充值
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="coupon/index.html">
+            
+                
+                    <a href="../coupon/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        优惠码与优惠券
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="coupon/get_single_coupon.html">
+            
+                
+                    <a href="../coupon/get_single_coupon.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        获取单一优惠码信息
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="order/index.html">
+            
+                
+                    <a href="../order/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        Order 订单
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="order/get_orders.html">
+            
+                
+                    <a href="../order/get_orders.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        获取该用户的所有订单
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="order/get_single_order.html">
+            
+                
+                    <a href="../order/get_single_order.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.2.</b>
+                        
+                        获取单一订单
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="order/add_new_order.html">
+            
+                
+                    <a href="../order/add_new_order.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.3.</b>
+                        
+                        生成新订单
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="order/add_new_weixinpay_unified_order.html">
+            
+                
+                    <a href="../order/add_new_weixinpay_unified_order.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.4.</b>
+                        
+                        生成微信支付统一订单
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="order/get_weixin_jssdk_ticket.html">
+            
+                
+                    <a href="../order/get_weixin_jssdk_ticket.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.5.</b>
+                        
+                        获取微信支付JSSDK初始化配置
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="order/get_delivery_time.html">
+            
+                
+                    <a href="../order/get_delivery_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.6.</b>
+                        
+                        获取订单预计的配送时间
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="6.7" data-path="order/get_delivery_range.html">
+            
+                
+                    <a href="../order/get_delivery_range.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.7.</b>
+                        
+                        获取订单配送范围
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="order/update_order.html">
+            
+                
+                    <a href="../order/update_order.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.8.</b>
+                        
+                        更新订单与支付状态
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.9" data-path="order/payment_notify_alipaydirect.html">
+            
+                
+                    <a href="../order/payment_notify_alipaydirect.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.9.</b>
+                        
+                        支付状态通知支付宝即时到账
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.10" data-path="order/payment_notify_weixinpay.html">
+            
+                
+                    <a href="../order/payment_notify_weixinpay.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.10.</b>
+                        
+                        支付状态通知微信
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.11" data-path="order/info_deliver_time.html">
+            
+                
+                    <a href="../order/info_deliver_time.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.11.</b>
+                        
+                        配送时间计算
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.12" data-path="order/info_freight.html">
+            
+                
+                    <a href="../order/info_freight.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.12.</b>
+                        
+                        运费计算
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.13" data-path="order/push_message.html">
+            
+                
+                    <a href="../order/push_message.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.13.</b>
+                        
+                        发送推送通知
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="dish/index.html">
+            
+                
+                    <a href="../dish/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        Dish 菜品
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="dish/get_tag_filters.html">
+            
+                
+                    <a href="../dish/get_tag_filters.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        获取菜品筛选项
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="dish/get_dishes.html">
+            
+                
+                    <a href="../dish/get_dishes.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        获取所有菜品
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="dish/get_single_dish.html">
+            
+                
+                    <a href="../dish/get_single_dish.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        获取单一菜品
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="dish/like_single_dish.html">
+            
+                
+                    <a href="../dish/like_single_dish.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        点赞和取消点赞单一菜品
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="article/index.html">
+            
+                
+                    <a href="../article/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        Article 文章
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="article/get_articles.html">
+            
+                
+                    <a href="../article/get_articles.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        获取所有文章
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="article/get_single_article.html">
+            
+                
+                    <a href="../article/get_single_article.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        获取单一文章
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="courier/index.html">
+            
+                
+                    <a href="../courier/index.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        快递员
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="courier/update_delivery_trace.html">
+            
+                
+                    <a href="../courier/update_delivery_trace.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        更新快递员路径信息
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    
+
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >新味 API 文档</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h2 id="req">Req</h2>
+<p>GET <code>/api/orders/delivery/range</code></p>
+<p>Group <code>member</code></p>
+<h2 id="res">Res</h2>
+<h3 id="body">Body</h3>
+<p>&#x98DF;&#x6750;&#x5305;&#x914D;&#x9001;&#x8303;&#x56F4;</p>
+<p>&#x98DF;&#x6750;&#x5305;</p>
+<pre><code class="lang-js">[
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x901A;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x623F;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x660C;&#x5E73;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x987A;&#x4E49;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6000;&#x67D4;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5927;&#x5174;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BC6;&#x4E91;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x8C37;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5EF6;&#x5E86;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D07;&#x6587;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x897F;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x671D;&#x9633;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BA3;&#x6B66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x77F3;&#x666F;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E30;&#x53F0;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x95E8;&#x5934;&#x6C9F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x6DC0;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5317;&#x4EAC;&#x5E02;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x5317;&#x4EAC;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x666E;&#x9640;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x95F8;&#x5317;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8679;&#x53E3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6768;&#x6D66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5362;&#x6E7E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5F90;&#x6C47;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x5B81;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9759;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9EC4;&#x6D66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D66;&#x4E1C;&#x65B0;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5609;&#x5B9A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x95F5;&#x884C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9D;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x6D66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x677E;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5949;&#x8D24;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D07;&#x660E;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x4E0A;&#x6D77;&#x5E02;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x4E0A;&#x6D77;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x83B2;&#x90FD;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x7530;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7F19;&#x4E91;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x6CC9;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x666F;&#x5B81;&#x7572;&#x65CF;&#x81EA;&#x6CBB;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E86;&#x5143;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E91;&#x548C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9042;&#x660C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x677E;&#x9633;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x4E3D;&#x6C34;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x666E;&#x9640;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9A;&#x6D77;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D4A;&#x6CD7;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5CB1;&#x5C71;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x821F;&#x5C71;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x911E;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8C61;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5317;&#x4ED1;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9547;&#x6D77;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6148;&#x6EAA;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5949;&#x5316;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B81;&#x6D77;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x66D9;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x4E1C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x5317;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4F59;&#x59DA;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5B81;&#x6CE2;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5E38;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5F00;&#x5316;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x67EF;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8862;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x5C71;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x6E38;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x8862;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9E7F;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x6E7E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E50;&#x6E05;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6587;&#x6210;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x82CD;&#x5357;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x745E;&#x5B89;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CF0;&#x987A;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D1E;&#x5934;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x74EF;&#x6D77;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C38;&#x5609;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6E29;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x8427;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4F59;&#x676D;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6850;&#x5E90;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6DF3;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x62F1;&#x5885;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x5E72;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E0B;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E0A;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E34;&#x5B89;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6EE8;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x897F;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5EFA;&#x5FB7;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BCC;&#x9633;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x676D;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x7389;&#x73AF;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8DEF;&#x6865;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E09;&#x95E8;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5929;&#x53F0;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4ED9;&#x5C45;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E29;&#x5CAD;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9EC4;&#x5CA9;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6912;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E34;&#x6D77;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x53F0;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x79C0;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x79C0;&#x6D32;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5609;&#x5584;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x76D0;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x5B81;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x6E56;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6850;&#x4E61;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5609;&#x5174;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x65B0;&#x660C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7ECD;&#x5174;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8D8A;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D4A;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E0A;&#x865E;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8BF8;&#x66A8;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x7ECD;&#x5174;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x4E1C;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C38;&#x5EB7;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5170;&#x6EAA;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E49;&#x4E4C;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D66;&#x6C5F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x78D0;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6B66;&#x4E49;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x4E1C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5A7A;&#x57CE;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x91D1;&#x534E;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5FB7;&#x6E05;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x5174;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B89;&#x5409;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5434;&#x5174;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x6D54;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6E56;&#x5DDE;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x6D59;&#x6C5F;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5357;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9D;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x5C97;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x76D0;&#x7530;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x798F;&#x7530;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7F57;&#x6E56;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6DF1;&#x5733;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9F99;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F6E;&#x9633;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5E73;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F6E;&#x5357;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6FE0;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x6FB3;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F84;&#x6D77;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6C55;&#x5934;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x5E7F;&#x4E1C;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x8FDE;&#x4E91;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x6D66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x704C;&#x4E91;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x6D77;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8D63;&#x6986;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x704C;&#x5357;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x8FDE;&#x4E91;&#x6E2F;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6EE8;&#x6D77;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x961C;&#x5B81;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5C04;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5EFA;&#x6E56;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4EAD;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x76D0;&#x90FD;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x54CD;&#x6C34;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x53F0;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5927;&#x4E30;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x76D0;&#x57CE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6C5F;&#x9634;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6EE8;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x60E0;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9521;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5317;&#x5858;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x957F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D07;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9C;&#x5174;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x65E0;&#x9521;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6CD7;&#x6D2A;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CD7;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CAD;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BBF;&#x8C6B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BBF;&#x57CE;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5BBF;&#x8FC1;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9097;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E7F;&#x9675;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9D;&#x5E94;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7EF4;&#x626C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9AD8;&#x90AE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4EEA;&#x5F81;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x90FD;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x626C;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x4E39;&#x5F92;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6DA6;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x53E5;&#x5BB9;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E39;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x626C;&#x4E2D;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4EAC;&#x53E3;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x9547;&#x6C5F;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6D66;&#x53E3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6816;&#x971E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x96E8;&#x82B1;&#x53F0;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x5B81;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x79E6;&#x6DEE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5EFA;&#x90BA;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F13;&#x697C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E0B;&#x5173;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x516D;&#x5408;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9AD8;&#x6DF3;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x767D;&#x4E0B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7384;&#x6B66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6EA7;&#x6C34;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5357;&#x4EAC;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9F13;&#x697C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x90B3;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x6C82;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CC9;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8D3E;&#x6C6A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E5D;&#x91CC;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E91;&#x9F99;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7762;&#x5B81;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x94DC;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C9B;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E30;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5F90;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x59DC;&#x5830;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9756;&#x6C5F;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CF0;&#x5174;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9AD8;&#x6E2F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5174;&#x5316;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x9675;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6CF0;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x542F;&#x4E1C;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5982;&#x768B;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5982;&#x4E1C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x901A;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x95E8;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E2F;&#x95F8;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D07;&#x5DDD;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5357;&#x901A;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5929;&#x5B81;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x949F;&#x697C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x621A;&#x5885;&#x5830;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x5317;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6B66;&#x8FDB;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6EA7;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x575B;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5E38;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6D9F;&#x6C34;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E05;&#x6D66;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6DEE;&#x9634;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x695A;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E05;&#x6CB3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x76F1;&#x7719;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D2A;&#x6CFD;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x6E56;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6DEE;&#x5B89;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5434;&#x6C5F;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x960A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6606;&#x5C71;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5F20;&#x5BB6;&#x6E2F;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x592A;&#x4ED3;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CA7;&#x6D6A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5434;&#x4E2D;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x864E;&#x4E18;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E38;&#x719F;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x76F8;&#x57CE;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x82CF;&#x5DDE;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x6C5F;&#x82CF;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x829D;&#x7F58;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x798F;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x725F;&#x5E73;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x83B1;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x62DB;&#x8FDC;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x84EC;&#x83B1;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x83B1;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x83B1;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x5C9B;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x53E3;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6816;&#x971E;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x70DF;&#x53F0;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5E73;&#x9634;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x6E05;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5386;&#x4E0B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5546;&#x6CB3;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7AE0;&#x4E18;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5386;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5929;&#x6865;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x69D0;&#x836B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E02;&#x4E2D;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D4E;&#x9633;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6D4E;&#x5357;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x674E;&#x6CA7;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x57CE;&#x9633;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5373;&#x58A8;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x80F6;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x80F6;&#x5357;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x5EA6;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E02;&#x5357;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E02;&#x5317;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x56DB;&#x65B9;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9EC4;&#x5C9B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D02;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x83B1;&#x897F;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x9752;&#x5C9B;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x8363;&#x6210;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E73;&#x5C71;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x73AF;&#x7FE0;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6587;&#x767B;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5A01;&#x6D77;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x5C71;&#x4E1C;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6E56;&#x91CC;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x96C6;&#x7F8E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x540C;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7FD4;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x601D;&#x660E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D77;&#x6CA7;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x53A6;&#x95E8;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x95FD;&#x6E05;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7F57;&#x6E90;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8FDE;&#x6C5F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x95FD;&#x4FAF;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x664B;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9A6C;&#x5C3E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4ED3;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x53F0;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F13;&#x697C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x6F6D;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C38;&#x6CF0;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x798F;&#x6E05;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x4E50;&#x5E02;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x798F;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9F99;&#x6587;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E91;&#x9704;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x6CF0;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8BCF;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F33;&#x6D66;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x6D77;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x534E;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E73;&#x548C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8297;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x9756;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6F33;&#x5DDE;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x798F;&#x5EFA;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5927;&#x901A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8C22;&#x5BB6;&#x96C6;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7530;&#x5BB6;&#x5EB5;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F58;&#x96C6;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x516B;&#x516C;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x51E4;&#x53F0;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6DEE;&#x5357;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9EC4;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5C6F;&#x6EAA;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6B59;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5FBD;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9EDF;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4F11;&#x5B81;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7941;&#x95E8;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x9EC4;&#x5C71;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x56FA;&#x9547;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x5B50;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x868C;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6DEE;&#x4E0A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x79B9;&#x4F1A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E94;&#x6CB3;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6000;&#x8FDC;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x868C;&#x57E0;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5305;&#x6CB3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8700;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E90;&#x9633;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7476;&#x6D77;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x80A5;&#x897F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x80A5;&#x4E1C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x4E30;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5408;&#x80A5;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x7075;&#x74A7;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CD7;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8427;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7800;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x57C7;&#x6865;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5BBF;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x91D1;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x88D5;&#x5B89;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BFF;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x970D;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5BE8;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8212;&#x57CE;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x970D;&#x90B1;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x516D;&#x5B89;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x4E1C;&#x81F3;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8D35;&#x6C60;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x77F3;&#x53F0;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x9633;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6C60;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5F0B;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9E20;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x955C;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7E41;&#x660C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x9675;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E09;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x829C;&#x6E56;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x829C;&#x6E56;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5B81;&#x56FD;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7EE9;&#x6EAA;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65CC;&#x5FB7;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E7F;&#x5FB7;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6CFE;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BA3;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x90CE;&#x6EAA;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5BA3;&#x57CE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5C45;&#x5DE2;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5E90;&#x6C5F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65E0;&#x4E3A;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x542B;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x548C;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5DE2;&#x6E56;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6DA1;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8C2F;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5229;&#x8F9B;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8499;&#x57CE;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x4EB3;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x592A;&#x548C;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E34;&#x6CC9;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x988D;&#x6CC9;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x988D;&#x4E1C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x754C;&#x9996;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x988D;&#x4E0A;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x961C;&#x5357;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x988D;&#x5DDE;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x961C;&#x9633;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x72EE;&#x5B50;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x90CA;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x94DC;&#x5B98;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x94DC;&#x9675;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x94DC;&#x9675;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x70C8;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x76F8;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x675C;&#x96C6;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6FC9;&#x6EAA;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6DEE;&#x5317;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x660E;&#x5149;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x8C2F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6765;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7405;&#x740A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x51E4;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5929;&#x957F;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5168;&#x6912;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9A;&#x8FDC;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6EC1;&#x5DDE;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5F53;&#x6D82;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x96E8;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x82B1;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5BB6;&#x5E84;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x9A6C;&#x978D;&#x5C71;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x671B;&#x6C5F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5BBF;&#x677E;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6850;&#x57CE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5CB3;&#x897F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6F5C;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x592A;&#x6E56;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5927;&#x89C2;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B9C;&#x79C0;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6000;&#x5B81;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x679E;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8FCE;&#x6C5F;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5B89;&#x5E86;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x5B89;&#x5FBD;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x6210;&#x534E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9F99;&#x6CC9;&#x9A7F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x725B;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6B66;&#x4FAF;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9526;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x7F8A;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x90FD;&#x6C5F;&#x5830;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E29;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x909B;&#x5D03;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5F6D;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x6D25;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x90EB;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x767D;&#x6C5F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x90FD;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x53CC;&#x6D41;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5927;&#x9091;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D07;&#x5DDE;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x84B2;&#x6C5F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5802;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6210;&#x90FD;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x9752;&#x795E;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D2A;&#x96C5;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E39;&#x68F1;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4EC1;&#x5BFF;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5F6D;&#x5C71;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x5761;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x7709;&#x5C71;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x56DB;&#x5DDD;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x8521;&#x7538;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C49;&#x5357;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D2A;&#x5C71;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E1C;&#x897F;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x6D32;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9EC4;&#x9642;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x590F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x5CB8;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5F;&#x6C49;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x785A;&#x53E3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C49;&#x9633;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6B66;&#x660C;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x5C71;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6B66;&#x6C49;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x6E56;&#x5317;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5E84;&#x6CB3;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x74E6;&#x623F;&#x5E97;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x666E;&#x5170;&#x5E97;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x5DDE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x957F;&#x6D77;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7518;&#x4E95;&#x5B50;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65C5;&#x987A;&#x53E3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x897F;&#x5C97;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C99;&#x6CB3;&#x53E3;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E2D;&#x5C71;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5927;&#x8FDE;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x8FBD;&#x5B81;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x5B9C;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D1B;&#x5B81;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5D69;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6C5D;&#x9633;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8001;&#x57CE;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5EDB;&#x6CB3;&#x56DE;&#x65CF;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6D1B;&#x9F99;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x897F;&#x5DE5;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5409;&#x5229;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6DA7;&#x897F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B5F;&#x6D25;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4F0A;&#x5DDD;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5043;&#x5E08;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x5B89;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x683E;&#x5DDD;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x6D1B;&#x9633;&quot;</span>
+      },
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x767B;&#x5C01;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5DE9;&#x4E49;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E2D;&#x725F;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x60E0;&#x6D4E;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E2D;&#x539F;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8365;&#x9633;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x5BC6;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x90D1;&#x5E02;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E0A;&#x8857;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x91D1;&#x6C34;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x7BA1;&#x57CE;&#x56DE;&#x65CF;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x4E8C;&#x4E03;&#x533A;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x90D1;&#x5DDE;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x6CB3;&#x5357;&quot;</span>
+  },
+  {
+    <span class="hljs-string">&quot;cities&quot;</span>: [
+      {
+        <span class="hljs-string">&quot;areas&quot;</span>: [
+          <span class="hljs-string">&quot;&#x4E1C;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x897F;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x4E91;&#x8C31;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x6E7E;&#x91CC;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x8FDB;&#x8D24;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5B89;&#x4E49;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x65B0;&#x5EFA;&#x53BF;&quot;</span>,
+          <span class="hljs-string">&quot;&#x9752;&#x5C71;&#x6E56;&#x533A;&quot;</span>,
+          <span class="hljs-string">&quot;&#x5357;&#x660C;&#x53BF;&quot;</span>
+        ],
+        <span class="hljs-string">&quot;city&quot;</span>: <span class="hljs-string">&quot;&#x5357;&#x660C;&quot;</span>
+      }
+    ],
+    <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-string">&quot;&#x6C5F;&#x897F;&quot;</span>
+  }
+]
+</code></pre>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../order/get_delivery_time.html" class="navigation navigation-prev " aria-label="Previous page: 获取订单预计的配送时间"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../order/update_order.html" class="navigation navigation-next " aria-label="Next page: 更新订单与支付状态"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
