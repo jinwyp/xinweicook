@@ -801,7 +801,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
                 var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
 
-                    anchor: new BMap.Size(13, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
+                    anchor: new BMap.Size(25, 30), //图标的定位点相对于图标左上角的偏移值。 角各偏移10像素和25像素。您可以看到在本例中该位置即是。  图标中央下端的尖角位置。
 
                     imageOffset: new BMap.Size(0, 0),   // 设置图片偏移 当您需要从一幅较大的图片中截取某部分作为标注图标时，您需要指定大图的偏移位置，此做法与css sprites技术类似。
                     imageSize : new BMap.Size(25, 30)   //设置图片缩放 图标所用的图片的大小，此功能的作用等同于CSS中的background-size属性。可用于实现高清屏的高清效果。
