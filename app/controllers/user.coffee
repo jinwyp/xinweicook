@@ -247,12 +247,23 @@ exports.userInfo = (req, res, next) ->
       tempcode.push(libs.crypto.gencode())
       tempcode.push(libs.crypto.gencode())
 
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+      tempcode.push(libs.crypto.gencode())
+
       promiseList = [
         models.user.findOneAsync({invitationSendCode : tempcode[0]}),
         models.user.findOneAsync({invitationSendCode : tempcode[1]}),
         models.user.findOneAsync({invitationSendCode : tempcode[2]}),
         models.user.findOneAsync({invitationSendCode : tempcode[3]}),
-        models.user.findOneAsync({invitationSendCode : tempcode[4]})
+        models.user.findOneAsync({invitationSendCode : tempcode[4]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[5]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[6]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[7]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[8]}),
+        models.user.findOneAsync({invitationSendCode : tempcode[9]})
       ]
       Promise.all(promiseList).then (resultUserList)->
 
@@ -263,7 +274,12 @@ exports.userInfo = (req, res, next) ->
         resultUser.saveAsync()
         res.json resultUser
     else
-      res.json resultUser
+
+      models.user.find({invitationFromUser : req.u._id}).then (resultUserList)->
+
+        tempResult = resultUser.toObject()
+        tempResult.invitationUserList = resultUserList
+        res.json tempResult
 
   .catch next
 
