@@ -76,8 +76,8 @@ expressRoutes = (app) ->
   app.post("/api/user/logout", tokenController.tokenRevoke)
 
   app.get("/api/user/signup/geetest/register", geetest.getGeeTestRegisterChallenge)
-#  app.post("/api/user/sms", smsController.sendSMS)
-  app.post("/api/user/sms", geetest.middleware, smsController.sendSMS)
+  app.post("/api/user/sms", smsController.sendSMS)
+  #app.post("/api/user/sms", geetest.middleware, smsController.sendSMS)
   app.post("/api/user/signup", userController.userSignUp)
 
   app.post("/api/user/resetpassword", userController.resetPassword)
