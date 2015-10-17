@@ -20,6 +20,7 @@
 |:-------            |:-------|:-------|
 | avatarPic          | String | 头像字段 |
 | invitationSendCode | String | 该用户可以发送给朋友的邀请码 |
+| invitationUserList | Array  | 该用户已邀请的朋友列表 |
 
 
 
@@ -27,21 +28,29 @@
 ```js
 
 {
-  "_id": "559e28764fa0f11b1d26eacc",
-  "modifiedAt": "2015-07-10T09:14:26.781Z",
-  "createdAt": "2015-07-09T07:53:26.966Z",
-  "autoIncrementId": 10002,
+  "_id": "55f7b37c81dc2fc37c588d9c",
+  "modifiedAt": "2015-10-16T07:22:55.227Z",
+  "createdAt": "2015-09-15T05:58:20.345Z",
+  "autoIncrementId": 10057,
   "mobile": "13564568304",
-  "invitationSendCode": "AWDZNVZK",
+  "__v": 11,
+  "lastOrderDate": "2015-10-10T06:23:08.000Z",
+  "invitationSendCode": "HNCJWGTD",
+  "isPaid10Orders": true,
+  "isPaid5Orders": true,
+  "firstTimeRegFromApp": true,
+  "isHaveFirstOrderCoupon": false,
   "isUsedInvitationSendCode": false,
-  "isSharedInvitationSendCode": true,
-
+  "invitedUserNumberHaveOrder": 5,
+  "sharedInvitationSendCodeTotalCount": 10,
+  "sharedInvitationSendCodeUsedTime": 0,
+  "isSharedInvitationSendCode": false,
   "dishLikeList": [
     {
       "_id": "558a602a3eba152266ff2b8c",
-      "modifiedAt": "2015-07-09T10:20:28.264Z",
-      "createdAt": "2015-07-09T10:16:21.595Z",
-      "autoIncrementId": 10007,
+      "modifiedAt": "2015-09-21T09:45:15.564Z",
+      "createdAt": "2015-07-26T06:38:48.714Z",
+      "autoIncrementId": 10549,
       "sortId": 100,
       "cookingType": "ready to cook",
       "sideDishType": "main",
@@ -51,12 +60,13 @@
       "servings": 1,
       "priceOriginal": 48,
       "__v": 2,
+      "stock": 1856,
       "recommendSet": [],
       "priceWholesale": [
         {
           "quantity": 4,
           "price": 42,
-          "_id": "559e49f51d9b9ef438566718"
+          "_id": "55b480785ed3f7e58375ff83"
         }
       ],
       "cook": {
@@ -66,15 +76,13 @@
           "en": "not bad"
         }
       },
-      "tagFilter": [
-        "5590d256103f46d9ac31e3ee",
-        "5590d256103f46d9ac31e3f2"
-      ],
+      "tagFilter": [],
       "region": [],
       "infoCookingStep": [
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671a",
+          "_id": "55b480785ed3f7e58375ff85",
+          "sortId": 10,
           "value": {
             "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
             "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
@@ -86,7 +94,8 @@
         },
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef438566719",
+          "_id": "55b480785ed3f7e58375ff84",
+          "sortId": 10,
           "value": {
             "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
             "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
@@ -100,7 +109,8 @@
       "infoIngredient": [
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671c",
+          "_id": "55b480785ed3f7e58375ff87",
+          "sortId": 10,
           "value": {
             "zh": "1/2个",
             "en": "1/2"
@@ -112,7 +122,8 @@
         },
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671b",
+          "_id": "55b480785ed3f7e58375ff86",
+          "sortId": 10,
           "value": {
             "zh": "1/4个",
             "en": "1/4"
@@ -126,7 +137,8 @@
       "infoUniqueFeature": [
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671e",
+          "_id": "55b480785ed3f7e58375ff89",
+          "sortId": 10,
           "value": {
             "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
             "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -138,7 +150,8 @@
         },
         {
           "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671d",
+          "_id": "55b480785ed3f7e58375ff88",
+          "sortId": 10,
           "value": {
             "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
             "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
@@ -153,10 +166,21 @@
         {
           "zh": "pan",
           "en": "pan",
-          "_id": "559e49f51d9b9ef43856671f"
+          "_id": "55b480785ed3f7e58375ff8a"
         }
       ],
-      "cover": [],
+      "cover": [
+        {
+          "zh": "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg",
+          "en": "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7089.jpg",
+          "_id": "55b480785ed3f7e58375ff8c"
+        },
+        {
+          "zh": "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg",
+          "en": "https://dn-xinweicook.qbox.me/香煎银鳕鱼配豆豉汁s-_MG_7103.jpg",
+          "_id": "55b480785ed3f7e58375ff8b"
+        }
+      ],
       "brief": {
         "zh": "优质澳洲M7和牛，摒弃任何额外调料及预处理，真材实料的本味质感，搭配满满一大捧新鲜山野的茶树菇，热力激荡下，茶树菇吸饱了牛肉的精华，更显肉感十足，咬上一口，丰沛的汁水瞬间爆破开来，口口生香，自在于心。",
         "en": "The high quality of Australian M7 Wagyu beef requires no marination in advance, fried with fresh poplar mushrooms to sear the flavor and aroma in a perfect way.  Stir-frying makes the cooking easy and quick. Finishing with the chef’s special sauce flavored with cumin gives an extra kick to the whole dish."
@@ -165,713 +189,136 @@
         "zh": "干煸茶树菇孜然雪花牛柳",
         "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
       },
+      "isFromAdminPanel": false,
       "isPublished": true,
-      "publishedAt": "2015-07-09T10:16:21.571Z"
-    },
-    {
-      "_id": "558a602a3eba152266ff2b8c",
-      "modifiedAt": "2015-07-09T10:20:28.264Z",
-      "createdAt": "2015-07-09T10:16:21.595Z",
-      "autoIncrementId": 10007,
-      "sortId": 100,
-      "cookingType": "ready to cook",
-      "sideDishType": "main",
-      "setType": "single",
-      "difficulty": 2,
-      "time": 15,
-      "servings": 1,
-      "priceOriginal": 48,
-      "__v": 2,
-      "recommendSet": [],
-      "priceWholesale": [
-        {
-          "quantity": 4,
-          "price": 42,
-          "_id": "559e49f51d9b9ef438566718"
-        }
-      ],
-      "cook": {
-        "user": "5583c96c7313f6c849c3aeb1",
-        "tips": {
-          "zh": "一般般",
-          "en": "not bad"
-        }
-      },
-      "tagFilter": [
-        "5590d256103f46d9ac31e3ee",
-        "5590d256103f46d9ac31e3f2"
-      ],
-      "region": [],
-      "infoCookingStep": [
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671a",
-          "value": {
-            "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
-            "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
-          },
-          "title": {
-            "zh": "准备工作",
-            "en": "Preparation work"
-          }
-        },
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef438566719",
-          "value": {
-            "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
-            "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
-          },
-          "title": {
-            "zh": "干煸茶树菇",
-            "en": "Dry-fry the poplar mushroom"
-          }
-        }
-      ],
-      "infoIngredient": [
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671c",
-          "value": {
-            "zh": "1/2个",
-            "en": "1/2"
-          },
-          "title": {
-            "zh": "彩椒",
-            "en": "Bell Pepper"
-          }
-        },
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671b",
-          "value": {
-            "zh": "1/4个",
-            "en": "1/4"
-          },
-          "title": {
-            "zh": "洋葱",
-            "en": "Onion"
-          }
-        }
-      ],
-      "infoUniqueFeature": [
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671e",
-          "value": {
-            "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-            "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-          },
-          "title": {
-            "zh": "你知道吗？",
-            "en": "Did you know?"
-          }
-        },
-        {
-          "contentType": "txt",
-          "_id": "559e49f51d9b9ef43856671d",
-          "value": {
-            "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-            "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-          },
-          "title": {
-            "zh": "特点",
-            "en": "Unique Feature"
-          }
-        }
-      ],
-      "kitchenware": [
-        {
-          "zh": "pan",
-          "en": "pan",
-          "_id": "559e49f51d9b9ef43856671f"
-        }
-      ],
-      "cover": [],
-      "brief": {
-        "zh": "优质澳洲M7和牛，摒弃任何额外调料及预处理，真材实料的本味质感，搭配满满一大捧新鲜山野的茶树菇，热力激荡下，茶树菇吸饱了牛肉的精华，更显肉感十足，咬上一口，丰沛的汁水瞬间爆破开来，口口生香，自在于心。",
-        "en": "The high quality of Australian M7 Wagyu beef requires no marination in advance, fried with fresh poplar mushrooms to sear the flavor and aroma in a perfect way.  Stir-frying makes the cooking easy and quick. Finishing with the chef’s special sauce flavored with cumin gives an extra kick to the whole dish."
-      },
-      "title": {
-        "zh": "干煸茶树菇孜然雪花牛柳",
-        "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
-      },
-      "isPublished": true,
-      "publishedAt": "2015-07-09T10:16:21.571Z"
+      "publishedAt": "2015-07-26T06:38:48.691Z"
     }
   ],
-
   "couponList": [
-     {
-       "_id": "55d452425a9bbacc2ad5ac26",
-       "modifiedAt": "2015-08-19T09:54:10.152Z",
-       "createdAt": "2015-08-19T09:54:10.152Z",
-       "price": 5,
-       "couponType": "coupon",
-       "user": "55d452425a9bbacc2ad5ac25",
-       "__v": 0,
-       "usedUserList": [],
-       "isUsedCount": 0,
-       "isUsed": false,
-       "isExpired": false,
-       "endDate": "2015-11-17T09:41:09.000Z",
-       "startDate": "2015-08-19T09:41:09.000Z",
-       "usedCountLimitOfOneUser": 1,
-       "usedTime": 1,
-       "priceLimit": 10,
-       "name": {
-         "zh": "新注册用户优惠券",
-         "en": "NewUserCoupon"
-       }
-     },
-     {
-       "_id": "55d452425a9bbacc2ad5ac27",
-       "modifiedAt": "2015-08-19T09:54:10.153Z",
-       "createdAt": "2015-08-19T09:54:10.153Z",
-       "price": 5,
-       "couponType": "coupon",
-       "user": "55d452425a9bbacc2ad5ac25",
-       "__v": 0,
-       "usedUserList": [],
-       "isUsedCount": 0,
-       "isUsed": false,
-       "isExpired": false,
-       "endDate": "2015-11-17T09:41:09.000Z",
-       "startDate": "2015-08-19T09:41:09.000Z",
-       "usedCountLimitOfOneUser": 1,
-       "usedTime": 1,
-       "priceLimit": 10,
-       "name": {
-         "zh": "新注册用户优惠券",
-         "en": "NewUserCoupon"
-       }
-     },
-     {
-       "_id": "55d452645a9bbacc2ad5ac2b",
-       "modifiedAt": "2015-08-19T09:54:44.485Z",
-       "createdAt": "2015-08-19T09:54:44.485Z",
-       "price": 5,
-       "couponType": "coupon",
-       "user": "55d452425a9bbacc2ad5ac25",
-       "__v": 0,
-       "usedUserList": [],
-       "isUsedCount": 0,
-       "isUsed": false,
-       "isExpired": false,
-       "endDate": "2015-11-17T09:41:09.000Z",
-       "startDate": "2015-08-19T09:41:09.000Z",
-       "usedCountLimitOfOneUser": 1,
-       "usedTime": 1,
-       "priceLimit": 10,
-       "name": {
-         "zh": "分享朋友圈优惠券",
-         "en": "Share To Friends Coupon"
-       }
-     },
-     {
-       "_id": "55d452645a9bbacc2ad5ac2c",
-       "modifiedAt": "2015-08-19T09:54:44.491Z",
-       "createdAt": "2015-08-19T09:54:44.491Z",
-       "price": 5,
-       "couponType": "coupon",
-       "user": "55d452425a9bbacc2ad5ac25",
-       "__v": 0,
-       "usedUserList": [],
-       "isUsedCount": 0,
-       "isUsed": false,
-       "isExpired": false,
-       "endDate": "2015-11-17T09:41:09.000Z",
-       "startDate": "2015-08-19T09:41:09.000Z",
-       "usedCountLimitOfOneUser": 1,
-       "usedTime": 1,
-       "priceLimit": 10,
-       "name": {
-         "zh": "分享朋友圈优惠券",
-         "en": "Share To Friends Coupon"
-       }
-     }
-   ],
-  "shoppingCart": [
     {
-      "dish": {
-        "_id": "558a602a3eba152266ff2b8c",
-        "modifiedAt": "2015-07-09T10:20:28.264Z",
-        "createdAt": "2015-07-09T10:16:21.595Z",
-        "autoIncrementId": 10007,
-        "sortId": 100,
-        "cookingType": "ready to cook",
-        "sideDishType": "main",
-        "setType": "single",
-        "difficulty": 2,
-        "time": 15,
-        "servings": 1,
-        "priceOriginal": 48,
-        "__v": 2,
-        "recommendSet": [],
-        "priceWholesale": [
-          {
-            "quantity": 4,
-            "price": 42,
-            "_id": "559e49f51d9b9ef438566718"
-          }
-        ],
-        "cook": {
-          "user": "5583c96c7313f6c849c3aeb1",
-          "tips": {
-            "zh": "一般般",
-            "en": "not bad"
-          }
-        },
-        "tagFilter": [
-          "5590d256103f46d9ac31e3ee",
-          "5590d256103f46d9ac31e3f2"
-        ],
-        "region": [],
-        "infoCookingStep": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671a",
-            "value": {
-              "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
-              "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
-            },
-            "title": {
-              "zh": "准备工作",
-              "en": "Preparation work"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef438566719",
-            "value": {
-              "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
-              "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
-            },
-            "title": {
-              "zh": "干煸茶树菇",
-              "en": "Dry-fry the poplar mushroom"
-            }
-          }
-        ],
-        "infoIngredient": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671c",
-            "value": {
-              "zh": "1/2个",
-              "en": "1/2"
-            },
-            "title": {
-              "zh": "彩椒",
-              "en": "Bell Pepper"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671b",
-            "value": {
-              "zh": "1/4个",
-              "en": "1/4"
-            },
-            "title": {
-              "zh": "洋葱",
-              "en": "Onion"
-            }
-          }
-        ],
-        "infoUniqueFeature": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671e",
-            "value": {
-              "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-              "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-            },
-            "title": {
-              "zh": "你知道吗？",
-              "en": "Did you know?"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671d",
-            "value": {
-              "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-              "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-            },
-            "title": {
-              "zh": "特点",
-              "en": "Unique Feature"
-            }
-          }
-        ],
-        "kitchenware": [
-          {
-            "zh": "pan",
-            "en": "pan",
-            "_id": "559e49f51d9b9ef43856671f"
-          }
-        ],
-        "cover": [],
-        "brief": {
-          "zh": "优质澳洲M7和牛，摒弃任何额外调料及预处理，真材实料的本味质感，搭配满满一大捧新鲜山野的茶树菇，热力激荡下，茶树菇吸饱了牛肉的精华，更显肉感十足，咬上一口，丰沛的汁水瞬间爆破开来，口口生香，自在于心。",
-          "en": "The high quality of Australian M7 Wagyu beef requires no marination in advance, fried with fresh poplar mushrooms to sear the flavor and aroma in a perfect way.  Stir-frying makes the cooking easy and quick. Finishing with the chef’s special sauce flavored with cumin gives an extra kick to the whole dish."
-        },
-        "title": {
-          "zh": "干煸茶树菇孜然雪花牛柳",
-          "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
-        },
-        "isPublished": true,
-        "publishedAt": "2015-07-09T10:16:21.571Z"
-      },
-      "number": 1,
-      "_id": "559f8cf26058e60f78b288fe",
-      "subDish": [
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b92",
-            "modifiedAt": "2015-07-09T10:16:21.545Z",
-            "createdAt": "2015-07-09T10:16:21.545Z",
-            "autoIncrementId": 10000,
-            "sortId": 100,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 20,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "澳牛",
-              "en": "aoniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.526Z"
-          },
-          "number": 1,
-          "_id": "559f8cf26058e60f78b28901"
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b95",
-            "modifiedAt": "2015-07-09T10:16:21.560Z",
-            "createdAt": "2015-07-09T10:16:21.560Z",
-            "autoIncrementId": 10003,
-            "sortId": 202,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 15,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "香菇",
-              "en": "xiaogu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.532Z"
-          },
-          "number": 1,
-          "_id": "559f8cf26058e60f78b28900"
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b97",
-            "modifiedAt": "2015-07-09T10:16:21.545Z",
-            "createdAt": "2015-07-09T10:16:21.545Z",
-            "autoIncrementId": 10005,
-            "sortId": 501,
-            "cookingType": "ready to cook",
-            "sideDishType": "topping",
-            "priceOriginal": 20,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "澳牛",
-              "en": "aoniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.534Z"
-          },
-          "number": 2,
-          "_id": "559f8cf26058e60f78b288ff"
-        }
-      ]
+      "_id": "5608bc98f75ca0521d7948da",
+      "modifiedAt": "2015-09-28T04:05:44.444Z",
+      "createdAt": "2015-09-28T04:05:44.444Z",
+      "price": 10,
+      "couponType": "coupon",
+      "user": "55f7b37c81dc2fc37c588d9c",
+      "__v": 0,
+      "usedUserList": [],
+      "isUsedCount": 0,
+      "isUsed": false,
+      "isExpired": false,
+      "endDate": "2015-12-27T04:05:37.000Z",
+      "startDate": "2015-09-28T04:05:37.000Z",
+      "usedCountLimitOfOneUser": 1,
+      "usedTime": 1,
+      "priceLimit": 10,
+      "name": {
+        "zh": "满5单优惠券",
+        "en": "Achieve 5 orders Coupon"
+      }
     },
     {
-      "dish": {
-        "_id": "558a602a3eba152266ff2b8c",
-        "modifiedAt": "2015-07-09T10:20:28.264Z",
-        "createdAt": "2015-07-09T10:16:21.595Z",
-        "autoIncrementId": 10007,
-        "sortId": 100,
-        "cookingType": "ready to cook",
-        "sideDishType": "main",
-        "setType": "single",
-        "difficulty": 2,
-        "time": 15,
-        "servings": 1,
-        "priceOriginal": 48,
-        "__v": 2,
-        "recommendSet": [],
-        "priceWholesale": [
-          {
-            "quantity": 4,
-            "price": 42,
-            "_id": "559e49f51d9b9ef438566718"
-          }
-        ],
-        "cook": {
-          "user": "5583c96c7313f6c849c3aeb1",
-          "tips": {
-            "zh": "一般般",
-            "en": "not bad"
-          }
-        },
-        "tagFilter": [
-          "5590d256103f46d9ac31e3ee",
-          "5590d256103f46d9ac31e3f2"
-        ],
-        "region": [],
-        "infoCookingStep": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671a",
-            "value": {
-              "zh": "彩椒、洋葱切丝， 香菜切段，香料包中的大蒜切片，干辣椒切小段。",
-              "en": "Shred the bell pepper and onion, cut coriander and chilies into chunks, slice the garlic."
-            },
-            "title": {
-              "zh": "准备工作",
-              "en": "Preparation work"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef438566719",
-            "value": {
-              "zh": "大火烧热锅，倒入2/3的色拉油，加热至冒青烟。放入茶树菇，干煸至表面起皱，呈金黄色。将茶树菇捞出控油，锅中的油留取待用。",
-              "en": "Heat the pan over high heat; pour in 2/3 of the cooking oil, heat up till smoke slightly comes out. Put in poplar mushroom, dry-fry till surface wrinkling and golden. Take out and drain, reserve remaining oil in the pan."
-            },
-            "title": {
-              "zh": "干煸茶树菇",
-              "en": "Dry-fry the poplar mushroom"
-            }
-          }
-        ],
-        "infoIngredient": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671c",
-            "value": {
-              "zh": "1/2个",
-              "en": "1/2"
-            },
-            "title": {
-              "zh": "彩椒",
-              "en": "Bell Pepper"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671b",
-            "value": {
-              "zh": "1/4个",
-              "en": "1/4"
-            },
-            "title": {
-              "zh": "洋葱",
-              "en": "Onion"
-            }
-          }
-        ],
-        "infoUniqueFeature": [
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671e",
-            "value": {
-              "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-              "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-            },
-            "title": {
-              "zh": "你知道吗？",
-              "en": "Did you know?"
-            }
-          },
-          {
-            "contentType": "txt",
-            "_id": "559e49f51d9b9ef43856671d",
-            "value": {
-              "zh": "澳洲雪花和牛 我们严格选用澳洲进口M7草饲牛肉，挑选和牛脖颈后方上脑部位最里层、肉质最嫩的部分，油花分布均匀，鲜嫩多汁、脂香四溢，富含不饱和脂肪酸，胆固醇含量相对较低，味道与谷饲牛肉相比更为香甜，让每一位品尝者都能获得顶级享受。",
-              "en": "Australian Wagyu Beef We source the best quality Wagyu Beef from Australia’s accredited meat supplier and expert Top Cut Foods operating under the highest industry certifications to ensure the safety, taste and health of the product."
-            },
-            "title": {
-              "zh": "特点",
-              "en": "Unique Feature"
-            }
-          }
-        ],
-        "kitchenware": [
-          {
-            "zh": "pan",
-            "en": "pan",
-            "_id": "559e49f51d9b9ef43856671f"
-          }
-        ],
-        "cover": [],
-        "brief": {
-          "zh": "优质澳洲M7和牛，摒弃任何额外调料及预处理，真材实料的本味质感，搭配满满一大捧新鲜山野的茶树菇，热力激荡下，茶树菇吸饱了牛肉的精华，更显肉感十足，咬上一口，丰沛的汁水瞬间爆破开来，口口生香，自在于心。",
-          "en": "The high quality of Australian M7 Wagyu beef requires no marination in advance, fried with fresh poplar mushrooms to sear the flavor and aroma in a perfect way.  Stir-frying makes the cooking easy and quick. Finishing with the chef’s special sauce flavored with cumin gives an extra kick to the whole dish."
-        },
-        "title": {
-          "zh": "干煸茶树菇孜然雪花牛柳",
-          "en": "Stir-fried Marbled Beef with Poplar Mushroom and Cumin Sauce"
-        },
-        "isPublished": true,
-        "publishedAt": "2015-07-09T10:16:21.571Z"
-      },
-      "number": 1,
-      "_id": "559f8cf26058e60f78b288fa",
-      "subDish": [
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b92",
-            "modifiedAt": "2015-07-09T10:16:21.545Z",
-            "createdAt": "2015-07-09T10:16:21.545Z",
-            "autoIncrementId": 10000,
-            "sortId": 100,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 20,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "澳牛",
-              "en": "aoniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.526Z"
-          },
-          "number": 1,
-          "_id": "559f8cf26058e60f78b288fd"
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b95",
-            "modifiedAt": "2015-07-09T10:16:21.560Z",
-            "createdAt": "2015-07-09T10:16:21.560Z",
-            "autoIncrementId": 10003,
-            "sortId": 202,
-            "cookingType": "ready to cook",
-            "sideDishType": "preferences",
-            "priceOriginal": 15,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "香菇",
-              "en": "xiaogu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.532Z"
-          },
-          "number": 1,
-          "_id": "559f8cf26058e60f78b288fc"
-        },
-        {
-          "dish": {
-            "_id": "5583b7faa2845dec35276b97",
-            "modifiedAt": "2015-07-09T10:16:21.545Z",
-            "createdAt": "2015-07-09T10:16:21.545Z",
-            "autoIncrementId": 10005,
-            "sortId": 501,
-            "cookingType": "ready to cook",
-            "sideDishType": "topping",
-            "priceOriginal": 20,
-            "__v": 0,
-            "recommendSet": [],
-            "priceWholesale": [],
-            "tagFilter": [],
-            "region": [],
-            "infoCookingStep": [],
-            "infoIngredient": [],
-            "infoUniqueFeature": [],
-            "kitchenware": [],
-            "cover": [],
-            "title": {
-              "zh": "澳牛",
-              "en": "aoniu"
-            },
-            "isPublished": true,
-            "publishedAt": "2015-07-09T10:16:21.534Z"
-          },
-          "number": 2,
-          "_id": "559f8cf26058e60f78b288fb"
-        }
-      ]
+      "_id": "5608bd83520644b71da825c8",
+      "modifiedAt": "2015-09-28T04:09:39.913Z",
+      "createdAt": "2015-09-28T04:09:39.913Z",
+      "price": 20,
+      "couponType": "coupon",
+      "user": "55f7b37c81dc2fc37c588d9c",
+      "__v": 0,
+      "usedUserList": [],
+      "isUsedCount": 0,
+      "isUsed": false,
+      "isExpired": false,
+      "endDate": "2015-12-27T04:07:08.000Z",
+      "startDate": "2015-09-28T04:07:08.000Z",
+      "usedCountLimitOfOneUser": 1,
+      "usedTime": 1,
+      "priceLimit": 10,
+      "name": {
+        "zh": "满10单优惠券",
+        "en": "Achieve 10 orders Coupon"
+      }
     }
   ],
+  "shoppingCart": [],
   "isPromoOn": true,
   "isSpam": false,
   "credit": 0,
   "address": [
     {
-      "geoLatitude": 20,
-      "geoLongitude": 20,
-      "country": "china",
+      "geoLatitude": 30,
+      "geoLongitude": 30,
       "province": "shanghai",
       "city": "shanghai",
       "district": "shanghai",
-      "street": "枫林路",
-      "address": "510号",
-      "contactPerson": "xinwei",
+      "street": "shanghai",
+      "address": "xxxxx",
+      "contactPerson": "王宇鹏",
       "mobile": "13564568304",
-      "alias": "",
-      "remark": "",
-      "_id": "559f8cef6058e60f78b288f8",
+      "_id": "55f7c2c1d2b401eb06ad8e90",
       "sortOrder": 0,
-      "isDefault": false,
+      "isDefault": true,
       "isValid": false,
       "isTemporary": false
     }
   ],
-  "group": "member"
+  "group": "member",
+  "invitationUserList": [
+    {
+      "_id": "55d2f6224466939461404df6",
+      "modifiedAt": "2015-09-21T09:52:28.675Z",
+      "createdAt": "2015-08-18T09:08:50.299Z",
+      "autoIncrementId": 10046,
+      "mobile": "18629641521",
+      "pwd": "$2a$04$E59jsZ.xWhS1q0omnWrZoeHU6a1DR9x1psOoNQGwsHNL6BxC3Bfvu",
+      "invitationSendCode": "XWUQDTNT",
+      "__v": 217,
+      "invitationFromCode": "ZWNAAPCD",
+      "invitationFromUser": "55f7b37c81dc2fc37c588d9c",
+      "lastOrderDate": "2015-09-21T09:07:46.000Z",
+      "isPaid10Orders": false,
+      "isPaid5Orders": true,
+      "firstTimeRegFromApp": true,
+      "isHaveFirstOrderCoupon": true,
+      "isUsedInvitationSendCode": true,
+      "invitedUserNumberHaveOrder": 0,
+      "sharedInvitationSendCodeTotalCount": 9,
+      "sharedInvitationSendCodeUsedTime": 1,
+      "isSharedInvitationSendCode": false,
+      "dishLikeList": [
+        "55b0a37a181e6a7007c0371a"
+      ],
+      "couponList": [
+        "55ffc8553dcc982d719ca4db"
+      ],
+      "shoppingCart": [],
+      "isPromoOn": true,
+      "isSpam": false,
+      "credit": 0,
+      "address": [
+        {
+          "mobile": "18629641521",
+          "contactPerson": "在于我们",
+          "geoLongitude": 121.4669486656077,
+          "province": "上海",
+          "street": "中山南二路",
+          "address": "520-1-临",
+          "alias": "",
+          "city": "上海市",
+          "geoLatitude": 31.19551081112586,
+          "district": "徐汇区",
+          "country": "china",
+          "remark": "",
+          "_id": "55ebe6f279236d7a3619bb05",
+          "sortOrder": 0,
+          "isDefault": true,
+          "isValid": true,
+          "isTemporary": false
+        }
+      ],
+      "group": "member"
+    }
+  ]
 }
 
 ```

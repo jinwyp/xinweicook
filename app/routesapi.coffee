@@ -145,6 +145,10 @@ expressRoutes = (app) ->
   app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
   app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
 
+  app.post("/api/administrator/orders/sms", smsController.sendSMSFromCSToUser)
+
+
+  app.get("/api/administrator/order/delivery/ksudi/order/:_id", orderController.searchDeliveryKSuDi)
   app.post("/api/administrator/order/delivery/ksudi/order/:_id", orderController.createDeliveryKSuDi)
   app.post("/api/administrator/order/delivery/ksudi/notify", orderController.deliveryKSuDiNotify)
 

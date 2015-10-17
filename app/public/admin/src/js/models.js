@@ -182,9 +182,17 @@ angular.module('RDash.models').factory('Crons', function (Restangular) {
 
 angular.module('RDash.models').factory('Statistic', function ($http) {
     return {
-        orderDeliveryKSuDi: function (orderId) {
+        orderSendSMS: function (postdata) {
+            return $http.post('/api/administrator/orders/sms', postdata)
+        },
+
+        searchOrderDeliveryKSuDi: function (orderId) {
             var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
-            return $http.post(url )
+            return $http.get(url)
+        },
+        createOrderDeliveryKSuDi: function (orderId) {
+            var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
+            return $http.post(url)
         },
 
         getOrderStatisticByAddress: function (params) {

@@ -92,6 +92,7 @@ ksuDi.prototype.sign = function(obj){
         'charset',
 
         'expressnumber',
+        'flag',
         'goodsInfo',
         'signtype',
         'actualcost',
@@ -137,7 +138,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         //sign     : '',
 
         //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
-        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.street + item.address.address,
+        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.district + item.address.street + item.address.address,
         sender : '新味',
         sendtelephone : '13761339935', // 客服电话
         sendaddress : '徐汇区中山南二路510号3楼',
@@ -172,7 +173,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
@@ -199,12 +200,14 @@ ksuDi.prototype.createOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
+        logger.error('========== KSudi createOrder: ', body);
         var result = {};
 
         try{
             result = JSON.parse(body);
 
-            if(result.code === 200 ){
+
+            if(result.code === 200 || result.code === '200'){
 
                 // 300 接受订单成功
                 // 400 确认收货成功
@@ -219,6 +222,90 @@ ksuDi.prototype.createOrder = function (item, callback){
                 // 204 该快递信息不存在
                 // 205 发件地址不能解析！
                 // 206 其他错误
+
+                return  callback(result);
+            }
+
+        }catch (err){
+            return  callback(err);
+        }
+
+    })
+};
+
+
+
+
+
+
+ksuDi.prototype.searchOrder = function (item, callback){
+    var newOrder = {
+        username : this.config.username,
+        password : this.config.password,
+        charset  : this.config.charset,
+        signtype : 'MD5',
+        //sign     : '',
+        flag : 0,
+        expressnumber : item.orderNumber
+        //expressnumber : '201510161302552851687'
+
+    };
+
+    //if (typeof item.express !== 'undefined' && item.express.number != ''){
+    //    newOrder.runningnumber = item.express.number
+    //}
+
+    newOrder.sign = this.sign(newOrder) ;
+
+    //console.log(newOrder);
+
+    var opts = {
+        url: this.config.url_searchOrder,
+        method: 'POST',
+        form: newOrder
+        //headers: {
+        //    "content-type": "application/json"
+        //},
+        //body: JSON.stringify(newOrder),
+
+        //timeout: 10000,
+        //json : newOrder
+    };
+
+    //console.log(opts);
+
+    requestC(opts, function(err, response, body){
+        //console.log('========== KSudi', err);
+        if (err) {
+            return callback(err);
+        }
+
+        //console.log('========== KSudi', response);
+        //console.log('========== KSudi', body);
+
+        logger.error('========== KSudi searchOrder: ', body);
+
+        var result = {};
+
+        try{
+            result = JSON.parse(body);
+
+            if(result.code === 200 || result.code === '200' ){
+
+                // 300 接受订单成功
+                // 400 确认收货成功
+                // 500 订单完成
+
+                return callback(null, result);
+            }else{
+                // 200 成功
+                // 201 用户名或密码错误
+                // 202 用户名或密码不能为空
+                // 203 密钥错误
+                // 204 该快递信息不存在
+                // 205 快递信息不存在
+                // 206 参数不能为空
+                // 207 密钥错误
 
                 return  callback(result);
             }

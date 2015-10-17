@@ -11,7 +11,7 @@ module.exports =
   statics:
 
     constantSMSType : () ->
-      type = ["signUp", "resetPassword", "verifyMobile", "orderShipped"]
+      type = ["signUp", "resetPassword", "verifyMobile", "orderShipped", "orderShipped2", "moneyRefund"]
 
     constantTemplateVerifyCode: (code, lang) ->
       if lang is "en-US"
@@ -31,11 +31,23 @@ module.exports =
       else
         "【新味Cook】您的订单 #{orderNo} 已经开始发货，美味即将到家。#{expressText}"
 
+    constantTemplateMoneyRefund: (lang) ->
+      if lang is "en-US"
+        "【新味Cook】您好，您的款项已经退回原账户，请查收。如有疑问，请及时联系我们021-51534950"
+      else
+        "【新味Cook】您好，您的款项已经退回原账户，请查收。如有疑问，请及时联系我们021-51534950"
+
+    constantTemplateOrderShipped2: (orderNo, expressName, expressNumber, lang) ->
+      if lang is "en-US"
+        "【新味Cook】您的订单#{orderNo}已发出，配送公司为#{expressName}，快递单号#{expressNumber}。若超出预计配送时间请当着快递员仔细检查，如有变质问题请当场拒收并联系我们021 51534950"
+      else
+        "【新味Cook】您的订单#{orderNo}已发出，配送公司为#{expressName}，快递单号#{expressNumber}。若超出预计配送时间请当着快递员仔细检查，如有变质问题请当场拒收并联系我们021 51534950"
+
     constantTemplateCustomerNewOrderNotify: (orderNumber, lang) ->
       if lang is "en-US"
-        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}."
+        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}"
       else
-        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}。"
+        "【新味Cook】客服后台通知 有已支付新订单 #{orderNumber}"
 
     constantTemplateCustomerOutOfStockNotify: (dishTitle, lang) ->
       if lang is "en-US"
@@ -45,9 +57,11 @@ module.exports =
 
     constantTemplateSystemErrorNotify: (message, lang) ->
       if lang is "en-US"
-        "【新味Cook】系统错误通知 #{message}."
+        "【新味Cook】系统错误通知 #{message}"
       else
-        "【新味Cook】系统错误通知 #{message}。"
+        "【新味Cook】系统错误通知 #{message}"
+
+
 
     validationSMSType : (type) ->
       unless libs.validator.isIn(type, @constantSMSType())
