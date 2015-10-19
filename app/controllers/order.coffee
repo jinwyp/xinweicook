@@ -1175,7 +1175,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
           resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
           resultOrder.saveAsync();
 
-        if result.express.statusclientcode is "送件中"
+        if result.express.statusclientcode is "派送中"
           resultOrder.expressStatus = models.order.constantExpressStatus().shipping
           resultOrder.saveAsync();
 
