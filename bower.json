@@ -25,6 +25,10 @@
     "normalize.css": "~3.0.3",
     "angular-ui-notification": "~0.0.11",
     "highcharts-ng": "~0.0.11",
-    "highcharts": "~4.1.8"
+    "highcharts": "~4.1.8",
+    "qrcode-xw": "~3.0.4"
+  },
+  "devDependencies": {
+    "qrcode-xw": "~3.0.4"
   }
 }

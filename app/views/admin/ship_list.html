@@ -3,6 +3,7 @@
 <head>
 <meta charset='utf-8'>
 <title>新味 / 打印订单</title>
+<script type="text/javascript" src="/components/qrcode-xw/dist/arale-qrcode/3.0.4/index.js"></script>
 <style>
 * {
   margin: 0;
@@ -119,6 +120,12 @@
       font-weight: bold;
       font-size: 16px;
     }
+
+.ksd {
+  width: 60px;
+  height: 60px;
+  float: right;
+}
 
 .ad {
   width: 130px;
@@ -278,6 +285,19 @@
           <% } %>
         </dl>
 
+        <% if (orderList[m].express.number && orderList[m].express.number != 0) { %>
+        <div class="ksd" id="order<%= orderList[m].id %>">
+          <script>
+            var qrcode = new AraleQRCode({
+              size: 60,
+              render: 'svg',
+              text:'<%= orderList[m].express.number %>'
+            });
+            document.getElementById("order<%= orderList[m].id %>").appendChild(qrcode);
+          </script>
+        </div>
+        <% } %>
+
         <div class="price_info">
           订单总额: <strong class="price_tag"><span class="currency">¥</span><%= orderList[m].totalPrice %></strong> =
           <span class="price_tag"><i class="currency">¥</i><%= orderList[m].dishesPrice %></span>(商品总额)
@@ -292,6 +312,8 @@
             - <span class="price_tag"><i class="currency">¥</i><%= orderList[m].accountUsedDiscount||0 %></span>(新味币)
           <% } %>
         </div>
+
+
     </div>
 </div>
 
