@@ -121,15 +121,13 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         today = moment(req.query.createdAt).startOf('day');
 
         //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     }else{
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
-
 
 
 
@@ -324,10 +322,6 @@ exports.userLoyalUserPurchaseFrequency2 = function(req, res, next) {
                 userIdList3.push(user._id);
             }
         });
-
-        console.log("---1:", userIdList1);
-        console.log("---2:", userIdList2);
-        console.log("---3:", userIdList3);
 
         result.purchased1MoreTimeUserCount = userIdList1.length;
         result.purchased2MoreTimeUserCount = userIdList2.length;
