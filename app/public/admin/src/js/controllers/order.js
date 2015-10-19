@@ -607,7 +607,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Statistic.searchOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
             $scope.getOrderById();
-
+            Notification.success({message: 'Update Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
@@ -773,8 +773,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
             });
         }
-
-
 
 
     };
