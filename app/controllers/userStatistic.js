@@ -347,6 +347,7 @@ exports.userLoyalUserPurchaseFrequency2 = function(req, res, next) {
         result.purchased1MoreTimeUserCount = userIdList1.length;
         result.purchased2MoreTimeUserCount = userIdList2.length;
         result.purchased3MoreTimeUserCount = userIdList3.length;
+        result.totalPurchasedUserCount = resultOrderList;
 
         res.send(result)
     }).catch(next);
