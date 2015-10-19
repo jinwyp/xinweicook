@@ -1167,6 +1167,14 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
         resultOrder.express.number = result.express.runningnumber
 
 
+        if result.record.length > 1
+          patternPerson = /^【([\u4e00-\u9fa5]+)，/
+          patternMobile = /：(1[0-9]{10})/
+          resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1]
+          resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
+
+
+
         if result.express.statusclientcode is "待抢单"
           resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
           resultOrder.saveAsync();
