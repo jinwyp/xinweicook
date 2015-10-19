@@ -1047,11 +1047,12 @@ exports.createDeliveryKSuDi = (req, res, next) ->
         if err
           next(err)
 
-        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
         resultOrder.express.number = result.runningnumber
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
 
         resultOrder.saveAsync();
         res.send(result)
@@ -1112,6 +1113,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
   models.order.findById(req.params._id).execAsync()
   .then (resultOrder)->
+
     if resultOrder
 
       kuaiSuDi.searchOrder(resultOrder, (err, result)->
@@ -1119,16 +1121,66 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
         if err
           next(err)
 
-        console.log(result)
+#        console.log(result)
+
+#        a = { record:
+#          [ { content: '【个人客户】下单成功，等待确认。',
+#            isdisplay: true,
+#            ct: 1444971863000 },
+#            { content: '【臧志民，短号：】即将收件，请准备好快件,操作人【杨阳】',
+#              isdisplay: true,
+#              ct: 1444971926000 },
+#            { content: '【臧志民，短号：】已完成收件。',
+#              isdisplay: true,
+#              ct: 1444971984000 },
+#            { content: '【臧志民，短号：】即将送件，请准备好收件。',
+#              isdisplay: true,
+#              ct: 1444971984000 },
+#            { content: '快递员【臧志民，短号：】已送达【上海武康路高邮路5弄23号里面小花园】，APP【手写】已签收，配送完毕。',
+#              isdisplay: true,
+#              ct: 1444973751000 } ],
+#        addressee:
+#          [ { receiveaddress: '上海武康路高邮路5弄23号里面小花园',
+#            receivetelephone: '18817319586',
+#            receivename: '叶晶晶' } ],
+#        code: '200',
+#        express:
+#        { cargocode: '物品',
+#          weight: 5,
+#          sendaddress: '徐汇区中山南二路510号3楼',
+#          statusclientcode: '已签收',
+#          sendtelephone: '13761339935',
+#          ct: 1444971863000,
+#          sender: '新味',
+#          expresscode: '单程件',
+#          paycode: '月结',
+#          runningnumber: '444971863436465',
+#          expressnumber: '055',
+#          servicecode: '普通' },
+#        msg: '信息查询成功！' }
+#
+
 
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
-#        resultOrder.express.number = result.id
+        resultOrder.express.number = result.express.runningnumber
 
-        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
 
-        #        resultOrder.saveAsync();
+        if result.express.statusclientcode is "待抢单"
+          resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+
+        if result.express.statusclientcode is "待取件"
+          resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+
+        if result.express.statusclientcode is "送件中"
+          resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+
+        if result.express.statusclientcode is "已签收"
+          resultOrder.expressStatus = models.order.constantExpressStatus().finished
+
+        resultOrder.saveAsync();
+
         res.send(result)
       )
 

@@ -246,8 +246,8 @@ ksuDi.prototype.searchOrder = function (item, callback){
         signtype : 'MD5',
         //sign     : '',
         flag : 0,
-        expressnumber : item.orderNumber
-        //expressnumber : '201510161302552851687'
+        //expressnumber : item.orderNumber
+        expressnumber : '201510191123322463939'
 
     };
 

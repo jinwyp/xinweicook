@@ -144,22 +144,26 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                 });
 
                 angular.forEach($scope.data.userList, function(user, userIndex){
-                    user.geoLatitude = tempUser[user._id].geoLatitude;
-                    user.geoLongitude = tempUser[user._id].geoLongitude;
-                    user.distanceFrom = tempUser[user._id].distanceFrom;
-                    user.isBack = tempUser[user._id].isBack;
 
-                    if (tempUser[user._id].speed) {
-                        user.speed = tempUser[user._id].speed;
-                    }else{
-                        user.speed = 20;  // 公里/小时
+                    if (typeof tempUser[user._id] !== 'undefined'){
+                        user.geoLatitude = tempUser[user._id].geoLatitude;
+                        user.geoLongitude = tempUser[user._id].geoLongitude;
+                        user.distanceFrom = tempUser[user._id].distanceFrom;
+                        user.isBack = tempUser[user._id].isBack;
+
+                        if (tempUser[user._id].speed) {
+                            user.speed = tempUser[user._id].speed;
+                        }else{
+                            user.speed = 20;  // 公里/小时
+                        }
+
+                        if (tempUser[user._id].timeLeft) {
+                            user.timeLeft = tempUser[user._id].timeLeft;
+                        }else{
+                            user.timeLeft = user.distanceFrom / 1000 / user.speed * 60;
+                        }
                     }
 
-                    if (tempUser[user._id].timeLeft) {
-                        user.timeLeft = tempUser[user._id].timeLeft;
-                    }else{
-                        user.timeLeft = user.distanceFrom / 1000 / user.speed * 60;
-                    }
 
                 });
 
