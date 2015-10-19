@@ -29,7 +29,10 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         // 购物车
         cart = data.cart = $localStorage.confirmedCart;
-        if (!cart) return;
+        if (!cart) {
+            location.href = '/mobile';
+            return;
+        }
 
         // 地址
         address = data.address = $localStorage.orderAddress;
@@ -180,7 +183,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                 }
 
                 if (payment == 'weixinpay')
-                    location.href = Weixin.oauthUrl + res.data._id;
+                    location.href = '/mobile/wxpay/' + res.data._id;
 
                 if (payment == 'alipay direct')
                     location.href = res.data.aliPaySign.fullurl;

@@ -110,6 +110,7 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
                     function (res) {
                         try {
                             if (/\bok\b/.test(res.err_msg)) {
+                                delete $localStorage.confirmedCart;
                                 Orders.updateOrder(orderId, {isPaymentPaid: 'true'}).then(function (res) {
                                     Debug.alert('更新订单状态成功');
                                     //setTimeout(function () {
