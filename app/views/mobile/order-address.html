@@ -28,7 +28,7 @@
             <form ng-if="css.edit == $index" name="form">
                 <div ng-init="initForm(form, addr)" ng-class="{'with-tag': addr.isInRange}">
                     <input name="contactPerson" type="text" placeholder="收货人"
-                           ng-model="addr.contactPerson"
+                           ng-model="addr.contactPerson" auto-focus
                            minlength="2" required/>
                     <span class="err-tip" ng-if="form.contactPerson.$error.required">必填</span>
                     <span class="err-tip" ng-if="form.contactPerson.$error.minlength">联系人姓名至少2个字</span>
@@ -159,6 +159,7 @@
 <script src="/mobile/src/js/config.js"></script>
 <script src="/mobile/src/js/filters.js"></script>
 <script src="/mobile/src/js/directives/shopping-progress-bar.js"></script>
+<script src="/mobile/src/js/directives/auto-focus.js"></script>
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
 <script src="/mobile/src/js/service/map.js"></script>
