@@ -27,7 +27,6 @@ exports.userNewComerRate = function(req, res, next) {
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
 
 
 
@@ -56,24 +55,24 @@ exports.userNewComerRate = function(req, res, next) {
 
         queryAll = {  createdAt:{"$lt": today } };
         queryLast7Day = { createdAt:{ "$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
 
-        queryLast7DayOrder1 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+        queryLast7DayOrder1 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+        queryLast7DayOrder2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 3} };
 
-        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 4} };
 
     }else{
         queryAll = {};
         queryLast7Day = { createdAt:{"$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
+        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
 
-        queryLast7DayOrder1 = {  sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = {  sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+        queryLast7DayOrder1 = {  sharedInvitationSendCodeTotalCount:{"$eq": 2} };
+        queryLast7DayOrder2 = {  sharedInvitationSendCodeTotalCount:{"$eq": 3} };
 
-        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 4} };
 
     }
 
@@ -248,6 +247,118 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
+
+
+
+
+
+exports.userLoyalUserPurchaseFrequency2 = function(req, res, next) {
+
+
+    var result = {
+        totalUserCount : 0,
+        totalUserLast7dayCount : 0,
+        totalPurchasedUserCount : 0,
+
+        purchased1MoreTimeUserCount : 0,
+        purchased2MoreTimeUserCount : 0,
+        purchased3MoreTimeUserCount : 0,
+
+        totalTime : 0,
+        totalOrderNumber : 0,
+        avgTime : 0
+    };
+
+    var userIdList1 = [];
+    var userIdList2 = [];
+    var userIdList3 = [];
+
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //    today = moment(req.query.createdAt).startOf('day');
+    //}
+
+
+    var today = moment().startOf('day');
+    var last7Day = today.clone().subtract(7, 'days');
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 1000 }
+    );
+
+
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //
+    //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
+    //
+    //}
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+
+        resultOrderList.forEach(function(user){
+            if (user.orderList.length >= 1){
+                userIdList1.push(user._id);
+            }
+            if (user.orderList.length >= 2){
+                userIdList2.push(user._id);
+            }
+            if (user.orderList.length >= 3){
+                userIdList3.push(user._id);
+            }
+        });
+
+        console.log("---1:", userIdList1);
+        console.log("---2:", userIdList2);
+        console.log("---3:", userIdList3);
+
+        result.purchased1MoreTimeUserCount = userIdList1.length;
+        result.purchased2MoreTimeUserCount = userIdList2.length;
+        result.purchased3MoreTimeUserCount = userIdList3.length;
+
+        res.send(result)
+    }).catch(next);
+
+};
+
+
+
+
+
+
+
 exports.userGetFirstOrderDaily = function(req, res, next) {
 
     var today = moment().startOf('day');
@@ -257,7 +368,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     }
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     var cookingType = [];
     cookingType.push( models.dish.constantCookingType().eat);
