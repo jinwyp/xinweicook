@@ -1,0 +1,15 @@
+{
+  "name": "qrcode-xw",
+  "homepage": "https://github.com/mountainmoon/qrcode",
+  "version": "3.0.4",
+  "_release": "3.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.4",
+    "commit": "5e964ee1f66ec5e98cf69d52fc3c526ae1f0285a"
+  },
+  "_source": "git://github.com/mountainmoon/qrcode.git",
+  "_target": "~3.0.4",
+  "_originalSource": "qrcode-xw",
+  "_direct": true
+}
