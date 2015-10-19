@@ -469,30 +469,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
-
-
-    if ($state.current.data.type === 'list'){
-        if ($localStorage.orderSearchOptions){
-            $scope.data.searchOptions = $localStorage.orderSearchOptions;
-            $scope.data.searchOptions.limit = 200;
-            $scope.data.searchOptions.skip = 0;
-        }
-        if ($scope.data.searchOptions.createdAt){
-            if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
-            }else{
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
-            }
-
-        }else{
-            $scope.data.searchDateFrom = '';
-        }
-
-        $scope.searchOrderCount();
-
-    }
-
-    if ($state.current.data.type === 'update'){
+    $scope.getOrderById = function () {
         $scope.css.isAddNewStatus = false;
 
         Orders.one($stateParams.id).get().then(function (resutlOrder) {
@@ -538,6 +515,32 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             }
 
         });
+    };
+
+
+    if ($state.current.data.type === 'list'){
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions = $localStorage.orderSearchOptions;
+            $scope.data.searchOptions.limit = 200;
+            $scope.data.searchOptions.skip = 0;
+        }
+        if ($scope.data.searchOptions.createdAt){
+            if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
+                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
+            }else{
+                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
+            }
+
+        }else{
+            $scope.data.searchDateFrom = '';
+        }
+
+        $scope.searchOrderCount();
+
+    }
+
+    if ($state.current.data.type === 'update'){
+        $scope.getOrderById()
 
 
         Users.getList({group : 'courier'}).then(function (resultUsers) {
@@ -603,8 +606,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.searchOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
-            $scope.data.order.expressStatus = 'waitForConfirm';
-            Notification.success({message: 'Update Success! ', delay: 4000});
+            $scope.getOrderById();
+
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
