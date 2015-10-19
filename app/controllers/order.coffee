@@ -1169,17 +1169,19 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
         if result.express.statusclientcode is "待抢单"
           resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+          resultOrder.saveAsync();
 
         if result.express.statusclientcode is "待取件"
           resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+          resultOrder.saveAsync();
 
         if result.express.statusclientcode is "送件中"
           resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+          resultOrder.saveAsync();
 
         if result.express.statusclientcode is "已签收"
           resultOrder.expressStatus = models.order.constantExpressStatus().finished
-
-        resultOrder.saveAsync();
+          resultOrder.saveAsync();
 
         res.send(result)
       )
