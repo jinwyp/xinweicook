@@ -146,24 +146,26 @@
                 <span class="label label-info">七天前注册总用户数: {{data.userStatisticOfNewComers.totalUserLast7dayCount}} </span>
             </h3>
             <h3>
-                <span class="label label-info">七天前注册并购买过用户数: {{data.userStatisticOfNewComers.totalPurchasedUserCount}}  </span>
-                <span class="label label-info">占七天前注册总用户: {{data.userStatisticOfNewComers.totalPurchasedUserCount / data.userStatisticOfNewComers.totalUserLast7dayCount * 100 | number :2 }}% </span>
+                <span class="label label-info">注册并购买过用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount}}  </span>
+                <span class="label label-info">占七天前注册总用户: {{data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount / data.userStatisticOfNewComers.totalUserLast7dayCount * 100 | number :2 }}% </span>
             </h3>
             <!--<h3>-->
                 <!--<span class="label label-info">只有1单用户数: {{data.userStatisticOfNewComers.purchased1TimeUserCount}}  </span>-->
                 <!--<span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased1TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>-->
             <!--</h3>-->
+            <!--<h3>-->
+                <!--<span class="label label-info">只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>-->
+                <!--<span class="label label-info">占注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased2TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>-->
+            <!--</h3>-->
+
+
             <h3>
-                <span class="label label-info">只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased2TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>
+                <span class="label label-info">两单及以上用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased2MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased2MoreTimeUserCount / data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount * 100 | number :2 }}%</span>
             </h3>
             <h3>
-                <span class="label label-info">两单及以上用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
-            </h3>
-            <h3>
-                <span class="label label-info">三单及以上用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+                <span class="label label-info">三单及以上用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased3MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased3MoreTimeUserCount / data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount * 100 | number :2 }}%</span>
             </h3>
 
             <h3>
@@ -173,12 +175,6 @@
             </h3>
 
 
-            <h3>
-                <span class="label label-info">一单及以上用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount}}</span>
-                <span class="label label-info">两单及以上用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased2MoreTimeUserCount}}</span>
-                <span class="label label-info">三单及以上用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased3MoreTimeUserCount}}</span>
-                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticLoyalPurchaseFrequency2.purchased2MoreTimeUserCount / data.userStatisticLoyalPurchaseFrequency2.purchased1MoreTimeUserCount * 100 | number :2 }}%</span>
-            </h3>
         </div>
 
     </div>
