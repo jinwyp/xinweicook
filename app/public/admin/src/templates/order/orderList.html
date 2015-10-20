@@ -281,7 +281,12 @@
                 </td>
 
                 <td><a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a><br/>{{order.address.mobile}}</td>
-                <td><a ui-sref="menu.updateUser({ id: order.user })" target="_blank">{{order.address.city}} {{order.address.district}}<br/>{{order.address.street}} / {{order.address.address}} / {{order.address.distanceFrom}}米</a> </td>
+                <td>
+                    <a ui-sref="menu.updateUser({ id: order.user })" target="_blank">
+                    {{order.address.city}} {{order.address.district}}<br/>
+                    {{order.address.street}} / {{order.address.address}}</a>
+                    <a target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.195693,121.467155|name:新味&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味|定位&amp;destination_region={{order.address.city}}"><i class="fa fa-search-plus"></i>{{order.address.distanceFrom}}米</a>
+                </td>
 
                 <td>{{order.userComment}}</td>
                 <td>{{order.csComment}}</td>
