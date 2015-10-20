@@ -1046,8 +1046,7 @@ exports.createDeliveryKSuDi = (req, res, next) ->
     if resultOrder
       kuaiSuDi.createOrder(resultOrder, (err, result)->
         if err
-          next(err)
-
+          return next(new Err err.msg, 400)
 
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"

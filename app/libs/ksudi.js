@@ -205,30 +205,27 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         try{
             result = JSON.parse(body);
-
-
-            if(result.code === 200 || result.code === '200'){
-
-                // 300 接受订单成功
-                // 400 确认收货成功
-                // 500 订单完成
-
-                return callback(null, result);
-            }else{
-                // 200 成功
-                // 201 用户名或密码错误
-                // 202 用户名或密码不能为空
-                // 203 密钥错误
-                // 204 该快递信息不存在
-                // 205 发件地址不能解析！
-                // 206 其他错误
-
-                return  callback(result);
-            }
-
         }catch (err){
             return  callback(err);
         }
+
+        if(result.code === 200 || result.code === '200'){
+
+            // 300 接受订单成功
+            // 400 确认收货成功
+            // 500 订单完成
+            return callback(null, result);
+        }else{
+            // 200 成功
+            // 201 用户名或密码错误
+            // 202 用户名或密码不能为空
+            // 203 密钥错误
+            // 204 该快递信息不存在
+            // 205 发件地址不能解析！
+            // 206 其他错误
+            return  callback(result);
+        }
+
 
     })
 };
