@@ -107,18 +107,16 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("----- User OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   state = req.query.state
   redirectUrl = req.query.redirectUrl
 
-  console.log("--------------",redirectUrl);
   unless libs.validator.isLength state, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )
 
   if not code or code.length is 0
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error, Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
-
 
 
   models.user.findOneAsync({"_id": state}).then (resultUser) ->

@@ -250,11 +250,7 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
                 params: params
             })
         },
-        getUserStatisticLoyalPurchaseFrequency2: function (params) {
-            return $http.get('/api/admin/statistic/user/frequency2', {
-                params: params
-            })
-        },
+
 
         getUserStatisticNewFirstOrderUserDaily: function (params) {
             return $http.get('/api/admin/statistic/user/firstorder/daily', {

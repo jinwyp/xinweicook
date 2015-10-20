@@ -69,7 +69,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userStatisticLoyalPurchaseFrequency : {},
         userStatisticNewFirstOrderUserDaily : [],
         userStatisticChartNewFirstOrderUserDaily : [],
-        userStatisticLoyalPurchaseFrequency2 : {},
 
         userGroupList: [
             {
@@ -288,13 +287,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
 
-        Statistic.getUserStatisticLoyalPurchaseFrequency2($scope.data.searchOptions).then(function (result) {
-            $scope.data.userStatisticLoyalPurchaseFrequency2 = result.data;
-            //Notification.success({message: 'Search Success! ', delay: 8000});
-        }).catch(function(err){
-            console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
-        });
     };
 
 

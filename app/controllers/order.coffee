@@ -130,12 +130,12 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-  logger.error("-------- OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   order_number_state = req.query.state
 
   if not req.query.code?
-    logger.error("OpenID Failed code not found: "+JSON.stringify(req.query) )
+    logger.error("Order OpenID Failed code not found: "+JSON.stringify(req.query) )
 
 #  models.order.validationOrderId order_number_state
 
@@ -173,7 +173,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
                 resultUser.saveAsync().then (resultUser2) ->
                   return res.redirect("/mobile/wxpay/" + order_number_state)
                 .catch (err)->
-                    logger.error("OpenID Failed Save User error:", JSON.stringify(err))
+                    logger.error("Order OpenID Failed Save User error:", JSON.stringify(err))
               else
                 # 给开发发送Open短信
                 if not conf.debug
@@ -187,12 +187,12 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
         else
           return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found user of this order"))
       .catch (err)->
-          logger.error("OpenID Failed Search User error:", JSON.stringify(err))
+          logger.error("Order OpenID Failed Search User error:", JSON.stringify(err))
     else
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
 
   .catch (err)->
-      logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
+      logger.error("Order OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
