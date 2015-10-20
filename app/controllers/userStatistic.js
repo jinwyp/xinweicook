@@ -108,7 +108,7 @@ exports.userNewComerRate = function(req, res, next) {
 
         { "$sort": { "firstOrderDate" : 1 } },
 
-        { "$limit": 1000 }
+        { "$limit": 100000 }
     );
 
 
