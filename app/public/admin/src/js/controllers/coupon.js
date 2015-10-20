@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', couponController ]);
+    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', 'Statistic', couponController ]);
 
 
 
-function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons) {
+function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -40,6 +40,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         currentDeleteIndex : -1,
 
+        couponStatisticByName : [],
 
         couponList : [],
         coupon : {
@@ -65,12 +66,15 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : 'coupons'
     };
 
 
 
     $scope.searchCouponCount = function (){
+
+        $scope.css.showTable = 'coupons';
 
         Util.delProperty($scope.data.searchOptions);
 
@@ -107,6 +111,25 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         $scope.data.couponListCurrentPage = currentPageNo;
         $scope.data.searchOptions.skip = ($scope.data.couponListCurrentPage-1) * $scope.data.searchOptions.limit;
         $scope.searchCoupon();
+    };
+
+
+
+
+    $scope.searchCouponStatisticByName = function () {
+
+        $scope.css.showTable = 'statisticByName';
+
+        Util.delProperty($scope.data.searchOptions);
+
+        Statistic.getUserStatisticCouponByName($scope.data.searchOptions).then(function (resultCoupon) {
+            $scope.data.couponStatisticByName = resultCoupon.data;
+
+            //Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
     };
 
 
@@ -184,6 +207,11 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
     };
+
+
+
+
+
 
 
 }

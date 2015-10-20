@@ -315,7 +315,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
     }).then(function(resultOrderList){
 
-
+        console.log(resultOrderList.length);
 
         if (resultOrderList.length > 0){
 
@@ -541,3 +541,61 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
 };
 
+
+
+
+
+exports.couponByNameRate = function(req, res, next) {
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "couponType" : models.coupon.constantCouponType().coupon
+            }
+        },
+
+        { $sort: { createdAt: 1 } },
+
+        { "$group": {
+            "_id": {name : "$name.zh", isUsed : "$isUsed"},
+            "quantity": { "$sum": 1 },
+            "couponList": { "$push": { "_id": "$_id", "user": "$user",  "name": "$name", "createdAt": "$createdAt", "couponType": "$couponType", "price": "$price", "isUsedCount": "$isUsedCount", "isUsed": "$isUsed"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "name" : "$_id.name",
+            "isUsed" : "$_id.isUsed",
+
+            "quantity": 1,
+            "couponList": 1
+
+        }},
+
+        { "$sort": { "name" : 1} },
+        { "$limit": 100000 }
+    );
+
+    models.coupon.aggregateAsync( pipeline).then(function(resultCouponList){
+
+        var totalQuantity = 0;
+
+        if (resultCouponList.length > 0){
+            totalQuantity = resultCouponList.reduce(function(previous, order) {
+                return previous + order.quantity;
+            }, 0);
+        }
+
+        resultCouponList[0].totalQuantity = totalQuantity;
+
+        resultCouponList.forEach(function(order){
+            order.quantityPercent = order.quantity / totalQuantity
+        });
+
+        res.send(resultCouponList)
+    }).catch(next);
+};

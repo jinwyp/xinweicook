@@ -22,9 +22,9 @@ module.exports =
 
     usedUserList : [type: Schema.Types.ObjectId, ref: 'user']  # 记录哪些用户使用过
 
-    user : type: Schema.Types.ObjectId, ref: 'user'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    user : type: Schema.Types.ObjectId, ref: 'user'  # 当usedTime使用次数为1 时 绑定某个用户，只能某个用户使用
 
-    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 该优惠券是从哪个优惠券兑换码而来的
 
 
   statics :
