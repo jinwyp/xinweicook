@@ -403,8 +403,8 @@ module.exports =
       if (user.sharedInvitationSendCodeTotalCount-1) %% 10 is 0 and user.sharedInvitationSendCodeTotalCount <= 101 and user.sharedInvitationSendCodeTotalCount >18
         newCoupon20 =
           name :
-            zh : "满" + user.sharedInvitationSendCodeTotalCount.toString() + "单优惠券"
-            en : "Achieve" + user.sharedInvitationSendCodeTotalCount.toString()  + " orders Coupon"
+            zh : "满" + (user.sharedInvitationSendCodeTotalCount-1).toString() + "单优惠券"
+            en : "Achieve" + (user.sharedInvitationSendCodeTotalCount-1).toString()  + " orders Coupon"
           price : 20
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
