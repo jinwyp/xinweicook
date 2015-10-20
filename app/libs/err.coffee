@@ -38,7 +38,7 @@ module.exports =
         tempError = error
 
       if error.status < 500
-        if error.status isnt 401 and error.status isnt 200
+        if error.status isnt 401 and error.status isnt 200 and req.url isnt "/api/user/sms"
           logger.warn("4XX Error: ", tempError, error.req)
       else
         logger.error("5XX Error: ", tempError, error.req)

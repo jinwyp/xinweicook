@@ -199,7 +199,7 @@ exports.userNewComerRate = function(req, res, next) {
 
 
         twoMoreTimeUserListWithOrder.forEach(function(user){
-
+            console.log(user._id);
             var first,second;
 
             var orderLength = user.orderList.length;
@@ -210,9 +210,9 @@ exports.userNewComerRate = function(req, res, next) {
                 if (i < orderLength - 1 ){
                     second = user.orderList[i+1];
 
-                    first.secondOrderCreateDate = second.createdAt;
                     first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
+                    console.log(first.secondOrderInterval);
                     if (typeof user.totalTime === 'undefined'){
                         user.totalTime = 0;
                         user.totalOrderNumber = 0;
@@ -240,9 +240,9 @@ exports.userNewComerRate = function(req, res, next) {
         for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
 
             result.totalTime = result.totalTime + twoMoreTimeUserListWithOrder[j].totalTime;
-            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber
+            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber;
 
-        };
+        }
 
         result.avgTime = result.totalTime / result.totalOrderNumber;
 
@@ -332,7 +332,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         first.secondOrderCreateDate = second.createdAt;
                         first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
-
+                        console.log(first.secondOrderInterval);
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
                                 totalTime : 0,
@@ -345,6 +345,8 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                             //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
                         }
 
+                    }else{
+                        console.log(nextUserId);
                     }
 
 
