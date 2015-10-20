@@ -415,33 +415,21 @@ exports.orderExportInternalList = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 exports.orderStatisticByAddress = function(req, res, next) {
 
     var pipeline = [];
-
-    var pipelineExample = [
-
-        { "$match":{
-            "createdAt": { $gte: req.query.createdAt }
-        }},
-
-        { "$group": {
-            "_id": '$address.address',
-            "orderQuantity": { "$sum": 1 },
-            "orderTotalDishesPrice": { "$sum": "$dishesPrice" },
-            "orderTotalFreightPrice": { "$sum": "$freight" },
-            "orderTotalPrice": { "$sum": "$totalPrice" }
-        }},
-
-
-        // Sorting pipeline
-        { "$sort": { "orderTotalPrice": -1 } },
-
-
-        // Optionally limit results
-        { "$limit": 100 }
-
-    ];
 
     var matchList = {};
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
@@ -505,7 +493,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 200 }
+        { "$limit": 500 }
     );
 
     //console.log (pipeline);
@@ -600,7 +588,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 200 }
+        { "$limit": 500 }
     );
 
     //console.log (pipeline);
@@ -822,7 +810,7 @@ exports.orderDailySales = function(req, res, next) {
         }},
 
         { "$sort": { "date" : 1} },
-        { "$limit": 1000 }
+        { "$limit": 3000 }
     );
 
 
@@ -1032,7 +1020,7 @@ exports.orderHourSales = function(req, res, next) {
         }},
 
         { "$sort": { "hour" : 1} },
-        { "$limit": 1000 }
+        { "$limit": 3000 }
     );
 
 
@@ -1162,7 +1150,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
-            { "$limit": 1000 }
+            { "$limit": 3000 }
         );
 
 
@@ -1284,7 +1272,7 @@ exports.dishDailySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1, "day": 1 } },
-            { "$limit": 1000 }
+            { "$limit": 3000 }
         );
 
 
@@ -1445,7 +1433,7 @@ exports.dishStatisticByStock = function(req, res, next) {
     var sort =  { "$sort": { "dishSaleQuantity": 1 } };
 
     // Optionally limit results
-    var limit =  { "$limit": 1000 };
+    var limit =  { "$limit": 3000 };
 
 /*
 
