@@ -81,11 +81,13 @@ exports.userNewComerRate = function(req, res, next) {
 
 
     var pipeline = [];
+    var pipelineLast7Day = [];
 
     // Grouping pipeline
     pipeline.push(
         {
             "$match" : {
+                "createdAt" : {"$lt": today.toDate() },
                 "isChildOrder" : false,
                 "cookingType"  : {$in : cookingType},
                 "status"       : {$in : orderStatus}
@@ -111,6 +113,34 @@ exports.userNewComerRate = function(req, res, next) {
         { "$limit": 100000 }
     );
 
+    pipelineLast7Day.push(
+        {
+            "$match" : {
+                "createdAt" : {"$lt": last7Day.toDate() },
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 100000 }
+    );
 
     //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
     //
@@ -127,10 +157,11 @@ exports.userNewComerRate = function(req, res, next) {
         models.user.count(queryLast7DayOrderGte2).execAsync(),
         models.user.count(queryLast7DayOrderGte3).execAsync(),
 
-        models.order.aggregateAsync( pipeline)
+        models.order.aggregateAsync( pipeline),
+        models.order.aggregateAsync( pipelineLast7Day)
     ];
 
-    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultOrderList){
+    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
 
         result.totalUserCount = resultTotalUserCount;
         result.totalUserLast7dayCount = resultUserLast7dayCount;
@@ -141,10 +172,14 @@ exports.userNewComerRate = function(req, res, next) {
         //result.purchased3MoreTimeUserCount = resultPurchased3MoreTimeUserCount;
 
 
-        resultOrderList.forEach(function(user){
+        resultOrderListLast7Day.forEach(function(user){
             if (user.orderList.length >= 1){
                 purchasedUserIdList.oneMoreTime.push(user._id);
             }
+        });
+
+        resultOrderList.forEach(function(user){
+
             if (user.orderList.length >= 2){
                 purchasedUserIdList.twoMoreTime.push(user._id);
             }
