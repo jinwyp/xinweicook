@@ -198,7 +198,7 @@ weiXinPay.prototype.getUserOauthUrl = function(redirectUrl, state){
 
     // URL范例 https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
     var url = configWeiXinPay.url_getUserOauthCode + 'appid=' + this.config.appid + '&redirect_uri=' + encodeURIComponent(redirectUrl) + '&response_type=code' + '&scope=snsapi_base' + '&state=' + encodeURIComponent(state) + '#wechat_redirect';
-    logger.error('Get User Oauth Code: ', url);
+    logger.error('Get User Oauth Code Url: ', url);
     return url
 };
 
@@ -223,7 +223,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     //文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
     requestC(opts, function(err, response, body){
         if (err){
-            logger.error("OpenID Failed Network error:", JSON.stringify(err))
+            logger.error("OpenID Failed Network error:", JSON.stringify(err));
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
@@ -232,10 +232,10 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
             try {
                 result = JSON.parse(body) ;
                 if (typeof result.errcode === 'undefined'){
-                    logger.error("OpenID Success: " + body )
+                    logger.error("OpenID Success: " + body );
                     callback(null, result)
                 }else{
-                    logger.error("OpenID Failed errcode: " + body )
+                    logger.error("OpenID Failed, get errcode : " + body );
                     callback(null, result)
                 }
 

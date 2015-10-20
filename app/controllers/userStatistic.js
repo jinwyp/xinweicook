@@ -13,21 +13,37 @@ exports.userNewComerRate = function(req, res, next) {
         totalUserLast7dayCount : 0,
         totalPurchasedUserCount : 0,
 
-        purchased1TimeUserCount : 0,
-        purchased2TimeUserCount : 0,
         purchased2MoreTimeUserCount : 0,
-        purchased3MoreTimeUserCount : 0
+        purchased3MoreTimeUserCount : 0,
+
+        totalTime : 0,
+        totalOrderNumber : 0,
+        avgTime : 0,
+        twoMoreTimeUserListWithOrder : []
+    };
+
+    var purchasedUserIdList = {
+        oneMoreTime : [],
+        twoMoreTime : [],
+        threeMoreTime : []
     };
 
 
     var today = moment().startOf('day');
+    //console.log(today.format("YYYY-MM-DD hh:mm:ss"));
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
 
 
 
@@ -36,8 +52,6 @@ exports.userNewComerRate = function(req, res, next) {
     var queryLast7DayOrderGte1 = {};
     var queryLast7DayOrderGte2 = {};
     var queryLast7DayOrderGte3 = {};
-    var queryLast7DayOrder1 = {};
-    var queryLast7DayOrder2 = {};
 
 
 
@@ -52,30 +66,93 @@ exports.userNewComerRate = function(req, res, next) {
         //queryLast7DayOrderGte2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
         //queryLast7DayOrderGte3 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
-
-
         queryAll = {  createdAt:{"$lt": today } };
         queryLast7Day = { createdAt:{ "$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
 
-        queryLast7DayOrder1 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
-
-        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 4} };
 
     }else{
         queryAll = {};
         queryLast7Day = { createdAt:{"$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
 
-        queryLast7DayOrder1 = {  sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = {  sharedInvitationSendCodeTotalCount:{"$eq": 2} };
-
-        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 4} };
 
     }
+
+
+
+
+    var pipeline = [];
+    var pipelineLast7Day = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "createdAt" : {"$lt": today.toDate() },
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 100000 }
+    );
+
+    pipelineLast7Day.push(
+        {
+            "$match" : {
+                "createdAt" : {"$lt": last7Day.toDate() },
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 100000 }
+    );
+
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //
+    //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
+    //
+    //}
 
 
     var promiseList = [
@@ -83,28 +160,96 @@ exports.userNewComerRate = function(req, res, next) {
         models.user.count(queryLast7Day).execAsync(),
 
         models.user.count(queryLast7DayOrderGte1).execAsync(),
-
-        models.user.count(queryLast7DayOrder1).execAsync(),
-        models.user.count(queryLast7DayOrder2).execAsync(),
-
         models.user.count(queryLast7DayOrderGte2).execAsync(),
-        models.user.count(queryLast7DayOrderGte3).execAsync()
+        models.user.count(queryLast7DayOrderGte3).execAsync(),
+
+        models.order.aggregateAsync( pipeline),
+        models.order.aggregateAsync( pipelineLast7Day)
     ];
 
-    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased1TimeUserCount, resultPurchased2TimeUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount){
+    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
+
+        var twoMoreTimeUserListWithOrder = [];
 
         result.totalUserCount = resultTotalUserCount;
         result.totalUserLast7dayCount = resultUserLast7dayCount;
-        result.totalPurchasedUserCount = resultTotalPurchasedUserCount;
 
-        result.purchased1TimeUserCount = resultPurchased1TimeUserCount;
-        result.purchased2TimeUserCount = resultPurchased2TimeUserCount;
-        result.purchased2MoreTimeUserCount = resultPurchased2MoreTimeUserCount;
-        result.purchased3MoreTimeUserCount = resultPurchased3MoreTimeUserCount;
+        //result.totalPurchasedUserCount = resultTotalPurchasedUserCount;
+
+        //result.purchased2MoreTimeUserCount = resultPurchased2MoreTimeUserCount;
+        //result.purchased3MoreTimeUserCount = resultPurchased3MoreTimeUserCount;
+
+
+        resultOrderListLast7Day.forEach(function(user){
+            if (user.orderList.length >= 1){
+                purchasedUserIdList.oneMoreTime.push(user._id);
+            }
+        });
+
+        resultOrderList.forEach(function(user){
+
+            if (user.orderList.length >= 2){
+                purchasedUserIdList.twoMoreTime.push(user._id);
+                twoMoreTimeUserListWithOrder.push(user);
+            }
+            if (user.orderList.length >= 3){
+                purchasedUserIdList.threeMoreTime.push(user._id);
+            }
+        });
+
+
+        twoMoreTimeUserListWithOrder.forEach(function(user){
+
+            var first,second;
+
+            var orderLength = user.orderList.length;
+
+            for(var i=0; i<orderLength ; i++) {
+                first = user.orderList[i];
+
+                if (i < orderLength - 1 ){
+                    second = user.orderList[i+1];
+
+                    first.secondOrderCreateDate = second.createdAt;
+                    first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
+
+                    if (typeof user.totalTime === 'undefined'){
+                        user.totalTime = 0;
+                        user.totalOrderNumber = 0;
+                    }
+
+                    user.totalTime = user.totalTime + first.secondOrderInterval;
+                    user.totalOrderNumber = user.totalOrderNumber + 1;
+
+                }
+
+            }
+
+        });
+
+
+
+        result.totalPurchasedUserCount = purchasedUserIdList.oneMoreTime.length;
+        result.purchased2MoreTimeUserCount = purchasedUserIdList.twoMoreTime.length;
+        result.purchased3MoreTimeUserCount = purchasedUserIdList.threeMoreTime.length;
+
+
+        result.twoMoreTimeUserListWithOrder = twoMoreTimeUserListWithOrder;
+
+
+        for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
+
+            result.totalTime = result.totalTime + twoMoreTimeUserListWithOrder[j].totalTime;
+            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber
+
+        };
+
+        result.avgTime = result.totalTime / result.totalOrderNumber;
 
         res.send(result)
     })
     .catch(next);
+
 
 
 };
@@ -137,21 +282,19 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         today = moment(req.query.createdAt).startOf('day');
 
         //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     }else{
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
-
 
 
 
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
@@ -248,6 +391,16 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 exports.userGetFirstOrderDaily = function(req, res, next) {
 
     var today = moment().startOf('day');
@@ -257,7 +410,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     }
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     var cookingType = [];
     cookingType.push( models.dish.constantCookingType().eat);
