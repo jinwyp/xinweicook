@@ -14,7 +14,12 @@ exports.userNewComerRate = function(req, res, next) {
         totalPurchasedUserCount : 0,
 
         purchased2MoreTimeUserCount : 0,
-        purchased3MoreTimeUserCount : 0
+        purchased3MoreTimeUserCount : 0,
+
+        totalTime : 0,
+        totalOrderNumber : 0,
+        avgTime : 0,
+        twoMoreTimeUserListWithOrder : []
     };
 
     var purchasedUserIdList = {
@@ -25,6 +30,7 @@ exports.userNewComerRate = function(req, res, next) {
 
 
     var today = moment().startOf('day');
+    //console.log(today.format("YYYY-MM-DD hh:mm:ss"));
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
@@ -163,6 +169,8 @@ exports.userNewComerRate = function(req, res, next) {
 
     Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
 
+        var twoMoreTimeUserListWithOrder = [];
+
         result.totalUserCount = resultTotalUserCount;
         result.totalUserLast7dayCount = resultUserLast7dayCount;
 
@@ -182,16 +190,61 @@ exports.userNewComerRate = function(req, res, next) {
 
             if (user.orderList.length >= 2){
                 purchasedUserIdList.twoMoreTime.push(user._id);
+                twoMoreTimeUserListWithOrder.push(user);
             }
             if (user.orderList.length >= 3){
                 purchasedUserIdList.threeMoreTime.push(user._id);
             }
         });
 
+
+        twoMoreTimeUserListWithOrder.forEach(function(user){
+
+            var first,second;
+
+            var orderLength = user.orderList.length;
+
+            for(var i=0; i<orderLength ; i++) {
+                first = user.orderList[i];
+
+                if (i < orderLength - 1 ){
+                    second = user.orderList[i+1];
+
+                    first.secondOrderCreateDate = second.createdAt;
+                    first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
+
+                    if (typeof user.totalTime === 'undefined'){
+                        user.totalTime = 0;
+                        user.totalOrderNumber = 0;
+                    }
+
+                    user.totalTime = user.totalTime + first.secondOrderInterval;
+                    user.totalOrderNumber = user.totalOrderNumber + 1;
+
+                }
+
+            }
+
+        });
+
+
+
         result.totalPurchasedUserCount = purchasedUserIdList.oneMoreTime.length;
         result.purchased2MoreTimeUserCount = purchasedUserIdList.twoMoreTime.length;
         result.purchased3MoreTimeUserCount = purchasedUserIdList.threeMoreTime.length;
 
+
+        result.twoMoreTimeUserListWithOrder = twoMoreTimeUserListWithOrder;
+
+
+        for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
+
+            result.totalTime = result.totalTime + twoMoreTimeUserListWithOrder[j].totalTime;
+            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber
+
+        };
+
+        result.avgTime = result.totalTime / result.totalOrderNumber;
 
         res.send(result)
     })
@@ -241,7 +294,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
