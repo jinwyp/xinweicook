@@ -711,7 +711,7 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
-  logger.error("-------- UnifiedOrder: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) + " ----- " + JSON.stringify(req.body))
+  logger.error("-------- UnifiedOrder: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.body))
 
   models.order.validationOrderId req.body._id
   models.order.validationWeixinPayUnifiedOrder req.body
