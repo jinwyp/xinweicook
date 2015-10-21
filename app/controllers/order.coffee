@@ -1121,6 +1121,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
         if err
           return next(new Err(err.msg, 400))
 
+        console.log(result);
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
@@ -1130,8 +1131,10 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
         if result.record.length > 1
           patternPerson = /^【([\u4e00-\u9fa5]+)，/
           patternMobile = /：(1[0-9]{10})/
-          resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1]
-          resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
+
+          if result.record[1].content.match(patternPerson) and result.record[1].content.match(patternMobile)
+            resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1] #  content: '【陈飞，手机号：13761114427】即将收件，请准备好快件,操作人【杨阳】'
+            resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
 
 
         if result.express.statusclientcode is "待抢单"
