@@ -2,8 +2,8 @@ ENV = process.env
 port = ENV.PORT or 3003
 host = ENV.HOST or "127.0.0.1"
 
-console.log(ENV.DB)
-console.log(ENV.NODE_ENV);
+console.log("Database: ", ENV.DB)
+console.log("NODE_ENV: ", ENV.NODE_ENV);
 
 conf =
   debug: true
@@ -93,6 +93,3 @@ production =
 
 
 module.exports = if ENV.NODE_ENV is "production" then _.assign(conf, production) else conf
-
-
-console.log(_.assign(conf, production));
