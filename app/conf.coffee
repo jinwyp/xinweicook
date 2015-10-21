@@ -2,6 +2,7 @@ ENV = process.env
 port = ENV.PORT or 3003
 host = ENV.HOST or "127.0.0.1"
 
+
 conf =
   debug: true
   level:
@@ -87,5 +88,7 @@ production =
   ]
   url:
     base: ENV.BASE or "https://xinweicook.com"
+
+console.log(ENV.NODE_ENV);
 
 module.exports = if ENV.NODE_ENV is "production" then _.assign(conf, production) else conf

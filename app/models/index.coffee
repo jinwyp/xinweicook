@@ -8,6 +8,7 @@ errs = []
 connection = mongoose.connection
 
 connect = () ->
+  logger.error(conf);
   dbConnection = mongoose.connect conf.db,
     server:
       auto_reconnect: true
