@@ -19,8 +19,8 @@ var requestC = require('request');
 
 var configKsuDi = {
     username: '13761339935',  //账号ID
-    password: 'xwcook789', //密码
-    //password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
+    //password: 'xwcook789', //密码
+    password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
 
     charset : 'utf-8',
 
