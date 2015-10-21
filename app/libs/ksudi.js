@@ -173,7 +173,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
@@ -200,7 +200,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        logger.error('========== KSudi createOrder: ', body);
+        //logger.error('========== KSudi createOrder: ', body);
         var result = {};
 
         try{
@@ -244,7 +244,7 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //sign     : '',
         flag : 0,
         expressnumber : item.orderNumber
-        //expressnumber : '201510211253151621060'
+        //expressnumber : '201510211430126337709'
 
     };
 
@@ -280,7 +280,7 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        logger.error('========== KSudi searchOrder: ', body);
+        //logger.error('========== KSudi searchOrder: ', body);
 
         var result = {};
 

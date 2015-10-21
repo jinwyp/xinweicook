@@ -1153,6 +1153,10 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
           resultOrder.expressStatus = models.order.constantExpressStatus().finished
           resultOrder.saveAsync();
 
+        if result.express.statusclientcode is "取消"
+          resultOrder.expressStatus = models.order.constantExpressStatus().canceled
+          resultOrder.saveAsync();
+
         res.send(result)
       )
 
