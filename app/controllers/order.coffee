@@ -1121,7 +1121,6 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
         if err
           return next(new Err(err.msg, 400))
 
-        console.log(result);
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"

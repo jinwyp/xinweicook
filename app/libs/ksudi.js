@@ -294,9 +294,24 @@ ksuDi.prototype.searchOrder = function (item, callback){
 
         if(result.code === 200 || result.code === '200' ){
 
+            // 兼职系统状态
             // 300 接受订单成功
             // 400 确认收货成功
             // 500 订单完成
+
+            // 300 待取件
+            // 400 待签收
+            // 500 已完成
+
+
+            // 专职系统状态
+            // 1401	待取件
+            // 1402	派送中
+            // 1403	已签收
+            // 1404	取消
+            // 1405	关单
+            // 1406	待抢单
+            // 1407	支付中
 
             return callback(null, result);
         }else{
