@@ -1119,47 +1119,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
       kuaiSuDi.searchOrder(resultOrder, (err, result)->
 
         if err
-          next(err)
-
-#        console.log(result)
-
-#        a = { record:
-#          [ { content: '【个人客户】下单成功，等待确认。',
-#            isdisplay: true,
-#            ct: 1444971863000 },
-#            { content: '【臧志民，短号：】即将收件，请准备好快件,操作人【杨阳】',
-#              isdisplay: true,
-#              ct: 1444971926000 },
-#            { content: '【臧志民，短号：】已完成收件。',
-#              isdisplay: true,
-#              ct: 1444971984000 },
-#            { content: '【臧志民，短号：】即将送件，请准备好收件。',
-#              isdisplay: true,
-#              ct: 1444971984000 },
-#            { content: '快递员【臧志民，短号：】已送达【上海武康路高邮路5弄23号里面小花园】，APP【手写】已签收，配送完毕。',
-#              isdisplay: true,
-#              ct: 1444973751000 } ],
-#        addressee:
-#          [ { receiveaddress: '上海武康路高邮路5弄23号里面小花园',
-#            receivetelephone: '18817319586',
-#            receivename: '叶晶晶' } ],
-#        code: '200',
-#        express:
-#        { cargocode: '物品',
-#          weight: 5,
-#          sendaddress: '徐汇区中山南二路510号3楼',
-#          statusclientcode: '已签收',
-#          sendtelephone: '13761339935',
-#          ct: 1444971863000,
-#          sender: '新味',
-#          expresscode: '单程件',
-#          paycode: '月结',
-#          runningnumber: '444971863436465',
-#          expressnumber: '055',
-#          servicecode: '普通' },
-#        msg: '信息查询成功！' }
-#
-
+          return next(new Err(err.msg, 400))
 
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
@@ -1172,7 +1132,6 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
           patternMobile = /：(1[0-9]{10})/
           resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1]
           resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
-
 
 
         if result.express.statusclientcode is "待抢单"

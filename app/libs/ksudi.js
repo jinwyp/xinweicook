@@ -173,7 +173,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    //console.log(newOrder);
+    console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
@@ -287,28 +287,29 @@ ksuDi.prototype.searchOrder = function (item, callback){
         try{
             result = JSON.parse(body);
 
-            if(result.code === 200 || result.code === '200' ){
-
-                // 300 接受订单成功
-                // 400 确认收货成功
-                // 500 订单完成
-
-                return callback(null, result);
-            }else{
-                // 200 成功
-                // 201 用户名或密码错误
-                // 202 用户名或密码不能为空
-                // 203 密钥错误
-                // 204 该快递信息不存在
-                // 205 快递信息不存在
-                // 206 参数不能为空
-                // 207 密钥错误
-
-                return  callback(result);
-            }
-
         }catch (err){
             return  callback(err);
+        }
+
+
+        if(result.code === 200 || result.code === '200' ){
+
+            // 300 接受订单成功
+            // 400 确认收货成功
+            // 500 订单完成
+
+            return callback(null, result);
+        }else{
+            // 200 成功
+            // 201 用户名或密码错误
+            // 202 用户名或密码不能为空
+            // 203 密钥错误
+            // 204 该快递信息不存在
+            // 205 快递信息不存在
+            // 206 参数不能为空
+            // 207 密钥错误
+
+            return  callback(result);
         }
 
     })
