@@ -15,6 +15,7 @@ module.exports =
     gender: Number # 1 male 2 female
 
     fullName : String
+    nickname : String
 
     avatarPic: String
 

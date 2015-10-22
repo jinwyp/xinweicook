@@ -284,6 +284,112 @@ exports.userInfo = (req, res, next) ->
 
 
 
+
+
+# 获取用户收货地址
+exports.getUserAddress = (req, res, next) ->
+
+  models.useraddress.find({user : req.u._id}).then (resultUserAddressList)->
+
+    if resultUserAddressList.length is 0 and req.u.address.length > 0
+
+      tempAddressList = []
+
+      for address,addressIndex in req.u.address
+
+        tempAddress = {}
+
+        tempAddress.user = req.u._id
+        tempAddress.geoLongitude = req.u.address[addressIndex].geoLongitude if req.u.address[addressIndex].geoLongitude
+        tempAddress.geoLatitude = req.u.address[addressIndex].geoLatitude if req.u.address[addressIndex].geoLatitude
+
+        tempAddress.country = req.u.address[addressIndex].country if req.u.address[addressIndex].country
+        tempAddress.province = req.u.address[addressIndex].province if req.u.address[addressIndex].province
+        tempAddress.city = req.u.address[addressIndex].city if req.u.address[addressIndex].city
+        tempAddress.district = req.u.address[addressIndex].district if req.u.address[addressIndex].district
+        tempAddress.street = req.u.address[addressIndex].street if req.u.address[addressIndex].street
+        tempAddress.street_number = req.u.address[addressIndex].street_number if req.u.address[addressIndex].street_number
+        tempAddress.address = req.u.address[addressIndex].address if address.address
+
+        tempAddress.contactPerson = req.u.address[addressIndex].contactPerson if req.u.address[addressIndex].contactPerson
+        tempAddress.mobile = req.u.address[addressIndex].mobile if req.u.address[addressIndex].mobile
+
+#        tempAddress.isDefault = req.u.address[addressIndex].isDefault if req.u.address[addressIndex].isDefault
+
+        tempAddressList.push(tempAddress)
+
+
+      models.useraddress.createAsync(tempAddressList).then (result)->
+
+        req.u.address = []
+        req.u.saveAsync();
+
+        res.json result
+      .catch next
+
+    else
+      res.json resultUserAddressList
+
+  .catch next
+
+
+
+
+
+# 新增用户收货地址
+exports.addNewUserAddress = (req, res, next) ->
+
+  models.useraddress.validationSingle(req.body)
+
+
+  tempAddress = {}
+
+  tempAddress.user = req.u._id
+  tempAddress.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
+  tempAddress.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+
+  tempAddress.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
+
+  tempAddress.country = req.body.country if req.body.country
+  tempAddress.province = req.body.province if req.body.province
+  tempAddress.city = req.body.city if req.body.city
+  tempAddress.district = req.body.district if req.body.district
+  tempAddress.street = req.body.street if req.body.street
+  tempAddress.street_number = req.body.street_number if req.body.street_number
+  tempAddress.address = req.body.address if req.body.address
+
+  tempAddress.contactPerson = req.body.contactPerson if req.body.contactPerson
+  tempAddress.mobile = req.body.mobile if req.body.mobile
+
+  tempAddress.isDefault = req.body.isDefault if req.body.isDefault
+  tempAddress.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+
+  if req.body.isDefault
+
+    models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
+
+      # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
+
+      models.useraddress.createAsync(tempAddress)
+
+    .then (result)->
+      res.json result
+    .catch next
+
+  else
+    models.useraddress.createAsync(tempAddress).then (result)->
+
+      res.json result
+
+    .catch next
+
+
+
+
+
+
+
 # 获取用户消息通知 iOS
 exports.getUserMessages = (req, res, next) ->
 
@@ -337,6 +443,8 @@ exports.updateUserInfo = (req, res, next) ->
     req.u.address = req.body.address
 
   req.u.gender = req.body.gender if req.body.gender
+  req.u.fullName = req.body.fullName if req.body.fullName
+  req.u.nickname = req.body.nickname if req.body.nickname
   req.u.lang = req.body.language if req.body.language
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 

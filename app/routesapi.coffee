@@ -43,7 +43,6 @@ expressRoutes = (app) ->
   app.post("/api/orders/payment/alipay/notify/account", userController.chargeAccountAlipayNotify)
 
   app.post("/mobile/wxpay/notify", weixinPay.parserNotifyMiddleware, orderController.updateOrderWeixinPayNotify)
-
   app.post("/mobile/wxpay/notifyaccountdetail", weixinPay.parserNotifyMiddleware, userController.chargeAccountWeixinPayNotify)
 
   app.get("/api/orders/payment/weixinpay/oauthcode", orderController.getWeixinPayUserOauthCode)
@@ -84,6 +83,13 @@ expressRoutes = (app) ->
 
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
+  app.get("/api/user/address", libs.auth("member"), userController.getUserAddress)
+  app.post("/api/user/address", libs.auth("member"), userController.addNewUserAddress)
+  app.put("/api/user/address/:_id", libs.auth("member"), userController.userInfo)
+  app.delete("/api/user/address/:_id", libs.auth("member"), userController.userInfo)
+
+
+
   app.get("/api/user/coupon/friends", libs.auth("member"), couponController.getCouponForUserShare)
   app.get("/api/user/coupon/invitation/:invitationCode", libs.auth("member"), couponController.getCouponForUserInvitationSendCode)
 
