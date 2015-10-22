@@ -251,12 +251,20 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 en : 'Starch'
             },
             {
+                zh : '加量主食',
+                en : 'Additional Starch'
+            },
+            {
                 zh : '配汤',
                 en : 'Soup'
             },
             {
                 zh : '酱汁',
                 en : 'Sauce'
+            },
+            {
+                zh : '酱料包',
+                en : 'Extra Sauce'
             },
             {
                 zh : '口味',

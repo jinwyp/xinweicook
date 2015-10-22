@@ -9,6 +9,8 @@ Group `member`
 | Name                  | Type   | Desc    |
 |:-------               |:-------|:------- |
 | gender                | Number |  性别 1 male 2 female    |
+| fullName              | String |  姓名    |
+| nickname              | String |  昵称    |
 | avatarPic             | String |  头像地址 用于七牛储存    |
 | language              | String |  用户语言 "zh" 或 "en"   |
 | address               | Array  | 收货地址  |
