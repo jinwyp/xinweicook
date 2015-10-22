@@ -1,0 +1,112 @@
+header {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  height: 67px;
+  background: $white;
+  overflow: hidden;
+  border-bottom: 1px solid $color_pumice_approx;
+  font-size: 14px;
+  .header-main {
+    width: 1200px;
+    height: 67px;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -600px;
+    .city {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 470px;
+      color: $color_sunset_orange_approx;
+    }
+    .nav {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 560px;
+      border-left: 2px solid $color_mine_shaft_approx;
+      border-right: 2px solid $color_mine_shaft_approx;
+      color: $color_sunset_orange_approx;
+      li {
+        float: left;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0 15px;
+        text-align: center;
+        cursor: pointer;
+        a:hover {
+          display: block;
+          color: $color_sunset_orange_approx;
+        }
+      }
+    }
+    .sign {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 1070px;
+    }
+    .cart {
+      display: block;
+      position: absolute;
+      width: 24px;
+      height: 22px;
+      top: 25px;
+      right: 20px;
+      background: url(../images/carticon.png) center center no-repeat;
+      background-size: cover;
+    }
+    a.logo {
+      display: block;
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 107px;
+      height: 39px;
+      background: url(../images/logo.png) center center no-repeat;
+      background-size: cover;
+      text-indent: -9999px;
+    }
+  }
+  &.indexhd {
+    background: none;
+    border-bottom: 0 none;
+    color: $white;
+    position: absolute;
+    .nav {
+      border-color: $white;
+      color: $white;
+      a {
+        color: $white;
+      }
+    }
+    .sign {
+      color: $white;
+      a {
+        color: $white;
+      }
+    }
+    .city {
+      color: $white !important;
+      span {
+        color: $white !important;
+      }
+    }
+    a {
+      &.logo {
+        background: url(../images/indexlogo.png) center center no-repeat;
+        background-size: cover;
+      }
+      &.cart {
+        background: url(../images/indexcart.png) center center no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+}
+.headeremp {
+  height: 68px;
+}

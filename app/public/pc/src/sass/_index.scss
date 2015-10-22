@@ -1,0 +1,233 @@
+.hidevideo {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  display: none;
+  video {
+    width: 100%;
+  }
+  a.close {
+    position: fixed;
+    z-index: 999999;
+    width: 30px;
+    height: 30px;
+    color: $white;
+    top: 100px;
+    right: 100px;
+    font-size: 20px;
+  }
+}
+.video {
+  width: 100%;
+  height: 668px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  .vdtitle {
+    display: block;
+    width: 242px;
+    height: 235px;
+    margin: 200px auto;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    margin-left: -121px;
+    background: url(../images/vdtitle.png) 100%/cover;
+  }
+  video.indexvd {
+    width: 100%;
+  }
+}
+.index {
+  width: 100%;
+  background: url(../images/indexbg.jpg) center center;
+  background-size: 2000px;
+  margin-top: 668px;
+  .menulinks {
+    width: 1024px;
+    height: 300px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .app {
+    width: 1024px;
+    height: 314px;
+    margin: 20px auto;
+    .applink {
+      float: right;
+      display: inline;
+      background: $white;
+      width: 328px;
+      height: 312px;
+      border: 1px solid $color_mine_shaft_approx;
+      .app-main {
+        width: 308px;
+        height: 292px;
+        margin: 5px;
+        border: 5px solid $color_mine_shaft_approx;
+        h6 {
+          text-align: center;
+          font-size: 40px;
+          margin-top: 40px;
+        }
+        img {
+          display: block;
+          width: 100px;
+          height: 100px;
+          margin: 20px auto;
+        }
+        p {
+          width: 140px;
+          margin: 0 auto;
+          text-align: center;
+          font-size: 18px;
+          color: $color_storm_dust_approx;
+          line-height: 24px;
+        }
+      }
+    }
+    a.banner {
+      float: left;
+      display: inline;
+      width: 680px;
+      height: 314px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .videolink {
+    width: 100%;
+    height: 521px;
+    background: url(https://dn-xinweicook.qbox.me/%E5%84%BF%E7%AB%A5%E8%8A%822015.5.28.%E5%84%BF%E7%AB%A5%E8%8A%82-cn.jpg) center center no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    h4 {
+      text-align: center;
+      color: $white;
+      font-size: 45px;
+      margin-top: 80px;
+      font-weight: bold;
+    }
+    p {
+      text-align: center;
+      width: 600px;
+      margin: 50px auto;
+      color: $white;
+      line-height: 30px;
+    }
+    a.play {
+      display: block;
+      width: 91px;
+      height: 91px;
+      background: url(../images/play.png) center center;
+      background-size: 100% 100%;
+      margin: 40px auto;
+    }
+  }
+  ul.menus {
+    margin: 60px auto 20px;
+    width: 1024px;
+    overflow: hidden;
+    font-size: 14px;
+    li {
+      float: left;
+      display: inline;
+      width: 330px;
+      height: 280px;
+      overflow: hidden;
+      margin-right: 17px;
+      margin-bottom: 30px;
+      position: relative;
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+      a {
+        display: block;
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .info {
+        height: 65px;
+        padding: 5px 0;
+        overflow: hidden;
+        .name-price {
+          float: left;
+          display: inline;
+          width: 270px;
+          .name {
+            width: 100%;
+            height: 25px;
+            border-bottom: 1px solid $color_masala_approx;
+            line-height: 20px;
+            span.person {
+              float: left;
+              display: inline;
+              height: 18px;
+              background: $color_sunset_orange_approx;
+              padding: 0 5px;
+              font-size: 13px;
+              line-height: 18px;
+              margin-right: 5px;
+              color: $white;
+            }
+            a.menuname {
+              float: left;
+              display: inline;
+              width: 200px;
+              height: 20px;
+              cursor: pointer;
+              color: $color_storm_dust_approx;
+              &:hover {
+                color: $color_sunset_orange_approx;
+              }
+            }
+          }
+          .price {
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: .1em;
+          }
+        }
+        .btns {
+          float: right;
+          display: inline;
+          width: 49px;
+          height: 65px;
+          margin-top: 15px;
+          a {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            background: $color_mine_shaft_approx;
+            width: 22px;
+            height: 22px;
+            color: $white;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center;
+          }
+        }
+      }
+      .plusok {
+        display: block;
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -42px;
+        background: url(../images/plusok.png) 100%/cover;
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+.usersign {
+  width: 1000px;
+  height: 500px;
+  margin: 10px auto;
+  font-size: 14px;
+  .login {
+    width: 37%;
+    padding: 40px 60px;
+    float: left;
+    display: inline;
+    height: 80%;
+    border-right: 1px solid $color_alto_approx;
+  }
+  input {
+    display: block;
+    width: 80%;
+    padding: 0 2%;
+    line-height: 35px;
+    height: 35px;
+    border: 1px solid $color_mine_shaft_approx;
+    color: $color_mine_shaft_approx;
+  }
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .lab {
+    margin-top: 16px;
+    font-size: 14px;
+    display: block;
+    line-height: 25px;
+    color: $color_mine_shaft_approx;
+  }
+  .btn-login {
+    display: block;
+    width: 80px;
+    text-align: center;
+    color: $white;
+    background-color: $color_sunset_orange_approx;
+    margin-top: 30px;
+    line-height: 40px;
+    font-size: 15px;
+  }
+  .forgot {
+    line-height: 30px;
+    cursor: pointer;
+    color: $color_sunset_orange_approx !important;
+    font-size: 14px;
+  }
+  .getcode {
+    float: right;
+    display: inline;
+    width: 30%;
+    background-color: $color_silver_chalice_approx;
+    color: $white;
+    line-height: 35px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: -36px;
+    margin-right: 20px;
+  }
+  .signup {
+    width: 37%;
+    padding: 40px 60px;
+    height: 80%;
+    float: left;
+    display: inline;
+    #signup_btn {
+      background-color: $color_mine_shaft_approx;
+      color: $white;
+    }
+  }
+  .dy {
+    width: 20px;
+    height: 20px;
+    line-height: 25px;
+    padding: 0;
+    float: left;
+    display: inline;
+    margin-top: 5px;
+  }
+  span.dylb {
+    float: left;
+    display: inline;
+    line-height: 25px;
+  }
+}

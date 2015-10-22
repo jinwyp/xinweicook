@@ -1,0 +1,1376 @@
+@charset "UTF-8";
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: 300;
+  font-style: inherit;
+  font-family: 'Helvetica Neue', Tahoma, Arial, "华文细黑", "微软雅黑", 'Hiragino Sans GB', 'STHeiti', sans-serif;
+  font-size: 100%;
+  vertical-align: baseline;
+  transition: 0.4s; }
+
+body {
+  line-height: 1;
+  color: #000;
+  background: #fff; }
+
+ol, ul {
+  list-style: none; }
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle; }
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+a img {
+  border: none; }
+
+input {
+  outline: 0 none; }
+
+a {
+  text-decoration: none;
+  color: #000; }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: 300;
+  font-style: inherit;
+  font-family: 'Helvetica Neue', Tahoma, Arial, "华文细黑", "微软雅黑", 'Hiragino Sans GB', 'STHeiti', sans-serif;
+  font-size: 100%;
+  vertical-align: baseline;
+  transition: 0.4s; }
+
+body {
+  line-height: 1;
+  color: #000;
+  background: #fff; }
+
+ol, ul {
+  list-style: none; }
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle; }
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+a img {
+  border: none; }
+
+input {
+  outline: 0 none; }
+
+a {
+  text-decoration: none;
+  color: #000; }
+
+body {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fff; }
+
+.clearfix {
+  zoom: 1; }
+  .clearfix:after {
+    content: ".";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+    font-size: 0; }
+
+.btn {
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 0 15px;
+  transition: 0.4s;
+  text-align: center; }
+  .btn:hover {
+    background-color: #009ae7;
+    border-color: #009ae7;
+    color: #fff; }
+
+header {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  height: 67px;
+  background: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #c9caca;
+  font-size: 14px; }
+  header .header-main {
+    width: 1200px;
+    height: 67px;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -600px; }
+    header .header-main .city {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 470px;
+      color: #f44d4d; }
+    header .header-main .nav {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 560px;
+      border-left: 2px solid #333;
+      border-right: 2px solid #333;
+      color: #f44d4d; }
+      header .header-main .nav li {
+        float: left;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0 15px;
+        text-align: center;
+        cursor: pointer; }
+        header .header-main .nav li a:hover {
+          display: block;
+          color: #f44d4d; }
+    header .header-main .sign {
+      display: block;
+      position: absolute;
+      top: 30px;
+      left: 1070px; }
+    header .header-main .cart {
+      display: block;
+      position: absolute;
+      width: 24px;
+      height: 22px;
+      top: 25px;
+      right: 20px;
+      background: url(../images/carticon.png) center center no-repeat;
+      background-size: cover; }
+    header .header-main a.logo {
+      display: block;
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 107px;
+      height: 39px;
+      background: url(../images/logo.png) center center no-repeat;
+      background-size: cover;
+      text-indent: -9999px; }
+  header.indexhd {
+    background: none;
+    border-bottom: 0 none;
+    color: #fff;
+    position: absolute; }
+    header.indexhd .nav {
+      border-color: #fff;
+      color: #fff; }
+      header.indexhd .nav a {
+        color: #fff; }
+    header.indexhd .sign {
+      color: #fff; }
+      header.indexhd .sign a {
+        color: #fff; }
+    header.indexhd .city {
+      color: #fff !important; }
+      header.indexhd .city span {
+        color: #fff !important; }
+    header.indexhd a.logo {
+      background: url(../images/indexlogo.png) center center no-repeat;
+      background-size: cover; }
+    header.indexhd a.cart {
+      background: url(../images/indexcart.png) center center no-repeat;
+      background-size: cover; }
+
+.headeremp {
+  height: 68px; }
+
+.hidevideo {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  display: none; }
+  .hidevideo video {
+    width: 100%; }
+  .hidevideo a.close {
+    position: fixed;
+    z-index: 999999;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    top: 100px;
+    right: 100px;
+    font-size: 20px; }
+
+.video {
+  width: 100%;
+  height: 668px;
+  overflow: hidden;
+  position: absolute;
+  top: 0; }
+  .video .vdtitle {
+    display: block;
+    width: 242px;
+    height: 235px;
+    margin: 200px auto;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    margin-left: -121px;
+    background: url(../images/vdtitle.png) 100%/cover; }
+  .video video.indexvd {
+    width: 100%; }
+
+.index {
+  width: 100%;
+  background: url(../images/indexbg.jpg) center center;
+  background-size: 2000px;
+  margin-top: 668px; }
+  .index .menulinks {
+    width: 1024px;
+    height: 300px;
+    overflow: hidden;
+    margin: 0 auto; }
+  .index .app {
+    width: 1024px;
+    height: 314px;
+    margin: 20px auto; }
+    .index .app .applink {
+      float: right;
+      display: inline;
+      background: #fff;
+      width: 328px;
+      height: 312px;
+      border: 1px solid #333; }
+      .index .app .applink .app-main {
+        width: 308px;
+        height: 292px;
+        margin: 5px;
+        border: 5px solid #333; }
+        .index .app .applink .app-main h6 {
+          text-align: center;
+          font-size: 40px;
+          margin-top: 40px; }
+        .index .app .applink .app-main img {
+          display: block;
+          width: 100px;
+          height: 100px;
+          margin: 20px auto; }
+        .index .app .applink .app-main p {
+          width: 140px;
+          margin: 0 auto;
+          text-align: center;
+          font-size: 18px;
+          color: #666;
+          line-height: 24px; }
+    .index .app a.banner {
+      float: left;
+      display: inline;
+      width: 680px;
+      height: 314px; }
+      .index .app a.banner img {
+        width: 100%;
+        height: 100%; }
+  .index .videolink {
+    width: 100%;
+    height: 521px;
+    background: url(https://dn-xinweicook.qbox.me/%E5%84%BF%E7%AB%A5%E8%8A%822015.5.28.%E5%84%BF%E7%AB%A5%E8%8A%82-cn.jpg) center center no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden; }
+    .index .videolink h4 {
+      text-align: center;
+      color: #fff;
+      font-size: 45px;
+      margin-top: 80px;
+      font-weight: bold; }
+    .index .videolink p {
+      text-align: center;
+      width: 600px;
+      margin: 50px auto;
+      color: #fff;
+      line-height: 30px; }
+    .index .videolink a.play {
+      display: block;
+      width: 91px;
+      height: 91px;
+      background: url(../images/play.png) center center;
+      background-size: 100% 100%;
+      margin: 40px auto; }
+  .index ul.menus {
+    margin: 60px auto 20px;
+    width: 1024px;
+    overflow: hidden;
+    font-size: 14px; }
+    .index ul.menus li {
+      float: left;
+      display: inline;
+      width: 330px;
+      height: 280px;
+      overflow: hidden;
+      margin-right: 17px;
+      margin-bottom: 30px;
+      position: relative; }
+      .index ul.menus li:nth-child(3n) {
+        margin-right: 0; }
+      .index ul.menus li a {
+        display: block;
+        width: 100%;
+        height: 220px;
+        overflow: hidden; }
+        .index ul.menus li a img {
+          width: 100%;
+          height: 100%; }
+      .index ul.menus li .info {
+        height: 65px;
+        padding: 5px 0;
+        overflow: hidden; }
+        .index ul.menus li .info .name-price {
+          float: left;
+          display: inline;
+          width: 270px; }
+          .index ul.menus li .info .name-price .name {
+            width: 100%;
+            height: 25px;
+            border-bottom: 1px solid #3c3c3c;
+            line-height: 20px; }
+            .index ul.menus li .info .name-price .name span.person {
+              float: left;
+              display: inline;
+              height: 18px;
+              background: #f44d4d;
+              padding: 0 5px;
+              font-size: 13px;
+              line-height: 18px;
+              margin-right: 5px;
+              color: #fff; }
+            .index ul.menus li .info .name-price .name a.menuname {
+              float: left;
+              display: inline;
+              width: 200px;
+              height: 20px;
+              cursor: pointer;
+              color: #666; }
+              .index ul.menus li .info .name-price .name a.menuname:hover {
+                color: #f44d4d; }
+          .index ul.menus li .info .name-price .price {
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: .1em; }
+        .index ul.menus li .info .btns {
+          float: right;
+          display: inline;
+          width: 49px;
+          height: 65px;
+          margin-top: 15px; }
+          .index ul.menus li .info .btns a {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            background: #333;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center; }
+      .index ul.menus li .plusok {
+        display: block;
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -42px;
+        background: url(../images/plusok.png) 100%/cover; }
+
+.menu {
+  width: 100%;
+  margin: 0 auto; }
+  .menu .tools {
+    width: 100%;
+    height: 58px;
+    border-bottom: 1px solid #c9caca;
+    position: fixed;
+    z-index: 100;
+    top: 68px;
+    background: #fff; }
+    .menu .tools .tools-main {
+      width: 1024px;
+      position: absolute;
+      left: 50%;
+      margin-left: -512px;
+      font-size: 14px; }
+      .menu .tools .tools-main div {
+        height: 38px;
+        overflow: hidden;
+        line-height: 38px;
+        float: left;
+        display: inline;
+        cursor: pointer;
+        text-indent: 2em;
+        margin-top: 10px; }
+      .menu .tools .tools-main .orders {
+        width: 220px;
+        border-right: 1px solid #c9caca; }
+      .menu .tools .tools-main .screen {
+        width: 580px;
+        border-right: 1px solid #c9caca; }
+      .menu .tools .tools-main .diy {
+        width: 220px; }
+        .menu .tools .tools-main .diy a:hover {
+          color: #f44d4d; }
+  .menu .banner {
+    display: block;
+    width: 1024px;
+    height: 348px;
+    overflow: hidden;
+    margin: 59px auto; }
+    .menu .banner img {
+      width: 100%;
+      height: 100%; }
+  .menu .menus {
+    margin: 60px auto 20px;
+    width: 1024px;
+    overflow: hidden;
+    font-size: 14px; }
+    .menu .menus li {
+      float: left;
+      display: inline;
+      width: 330px;
+      height: 280px;
+      overflow: hidden;
+      margin-right: 17px;
+      margin-bottom: 30px;
+      position: relative; }
+      .menu .menus li:nth-child(3n) {
+        margin-right: 0; }
+      .menu .menus li a {
+        display: block;
+        width: 100%;
+        height: 220px;
+        overflow: hidden; }
+        .menu .menus li a img {
+          width: 100%;
+          height: 100%; }
+      .menu .menus li .info {
+        height: 65px;
+        padding: 5px 0;
+        overflow: hidden; }
+        .menu .menus li .info .name-price {
+          float: left;
+          display: inline;
+          width: 270px; }
+          .menu .menus li .info .name-price .name {
+            width: 100%;
+            height: 25px;
+            border-bottom: 1px solid #3c3c3c;
+            line-height: 20px; }
+            .menu .menus li .info .name-price .name span.person {
+              float: left;
+              display: inline;
+              height: 18px;
+              background: #f44d4d;
+              padding: 0 5px;
+              font-size: 13px;
+              line-height: 18px;
+              margin-right: 5px;
+              color: #fff; }
+            .menu .menus li .info .name-price .name a.menuname {
+              float: left;
+              display: inline;
+              width: 200px;
+              height: 20px;
+              cursor: pointer;
+              color: #666; }
+              .menu .menus li .info .name-price .name a.menuname:hover {
+                color: #f44d4d; }
+          .menu .menus li .info .name-price .price {
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: .1em; }
+        .menu .menus li .info .btns {
+          float: right;
+          display: inline;
+          width: 49px;
+          height: 65px;
+          margin-top: 15px; }
+          .menu .menus li .info .btns a {
+            cursor: pointer;
+            float: left;
+            display: inline;
+            background: #f44d4d;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center; }
+            .menu .menus li .info .btns a.plus {
+              margin-left: 5px;
+              background: #3c3c3c; }
+      .menu .menus li img.plusok {
+        display: block;
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -42px;
+        display: none; }
+  .menu .hl-menu {
+    width: 1024px;
+    height: 458px;
+    margin: 0 auto; }
+    .menu .hl-menu img {
+      float: left;
+      display: inline;
+      width: 688px;
+      height: 458px; }
+    .menu .hl-menu .info {
+      float: right;
+      display: inline;
+      width: 300px;
+      height: 446px;
+      overflow: hidden;
+      border-top: 1px solid #231815;
+      border-bottom: 1px solid #231815;
+      padding: 5px 0; }
+      .menu .hl-menu .info .info-border {
+        width: 300px;
+        height: 440px;
+        overflow: hidden;
+        border-top: 3px solid #231815;
+        border-bottom: 3px solid #231815; }
+        .menu .hl-menu .info .info-border h3 {
+          text-align: center;
+          font-size: 19px;
+          margin-top: 30px; }
+        .menu .hl-menu .info .info-border .chef {
+          width: 130px;
+          height: 33px;
+          overflow: hidden;
+          margin: 30px auto; }
+          .menu .hl-menu .info .info-border .chef img {
+            float: left;
+            display: inline;
+            width: 33px;
+            height: 33px; }
+          .menu .hl-menu .info .info-border .chef h6 {
+            float: right;
+            display: inline;
+            line-height: 33px;
+            font-size: 14px; }
+        .menu .hl-menu .info .info-border p {
+          width: 100%;
+          height: 250px;
+          text-align: center;
+          overflow: hidden;
+          line-height: 25px;
+          font-size: 15px; }
+        .menu .hl-menu .info .info-border .buy {
+          width: 100%;
+          height: 50px;
+          border-top: 1px solid #ccc; }
+          .menu .hl-menu .info .info-border .buy .price {
+            float: left;
+            display: inline;
+            line-height: 50px; }
+          .menu .hl-menu .info .info-border .buy a.plus {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center;
+            margin-top: 15px;
+            background: #3c3c3c; }
+  .menu img.pcg {
+    display: block;
+    width: 1024px;
+    height: 355px;
+    margin: 10px auto; }
+
+.product {
+  margin: 0 auto; }
+  .product .product-info {
+    width: 1024px;
+    height: 458px;
+    margin: 40px auto; }
+    .product .product-info img {
+      float: left;
+      display: inline;
+      width: 688px;
+      height: 458px; }
+    .product .product-info .info {
+      float: right;
+      display: inline;
+      width: 300px;
+      height: 446px;
+      overflow: hidden;
+      border-top: 1px solid #231815;
+      border-bottom: 1px solid #231815;
+      padding: 5px 0; }
+      .product .product-info .info .info-border {
+        width: 300px;
+        height: 440px;
+        overflow: hidden;
+        border-top: 3px solid #231815;
+        border-bottom: 3px solid #231815; }
+        .product .product-info .info .info-border h3 {
+          text-align: center;
+          font-size: 19px;
+          margin-top: 20px; }
+        .product .product-info .info .info-border .chef {
+          width: 130px;
+          height: 33px;
+          overflow: hidden;
+          margin: 20px auto 10px; }
+          .product .product-info .info .info-border .chef img {
+            float: left;
+            display: inline;
+            width: 33px;
+            height: 33px; }
+          .product .product-info .info .info-border .chef h6 {
+            float: right;
+            display: inline;
+            line-height: 33px;
+            font-size: 14px; }
+        .product .product-info .info .info-border .tabbtn {
+          width: 100%; }
+          .product .product-info .info .info-border .tabbtn a {
+            float: left;
+            display: inline;
+            cursor: pointer;
+            width: 50%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 1px solid #999; }
+            .product .product-info .info .info-border .tabbtn a:hover {
+              color: #f44d4d;
+              border-bottom: 2px solid #f44d4d; }
+            .product .product-info .info .info-border .tabbtn a.act {
+              color: #f44d4d;
+              border-bottom: 2px solid #f44d4d; }
+        .product .product-info .info .info-border .tabs {
+          width: 100%;
+          height: 155px; }
+          .product .product-info .info .info-border .tabs .desc {
+            margin-top: 10px;
+            line-height: 20px;
+            width: 100%;
+            font-size: 15px;
+            height: 155px;
+            overflow: hidden;
+            display: none; }
+            .product .product-info .info .info-border .tabs .desc.act {
+              display: block; }
+          .product .product-info .info .info-border .tabs .ingre {
+            margin-top: 10px;
+            line-height: 20px;
+            width: 100%;
+            font-size: 15px;
+            height: 155px;
+            overflow-y: scroll;
+            display: none; }
+            .product .product-info .info .info-border .tabs .ingre li {
+              float: left;
+              display: inline;
+              width: 50%;
+              text-indent: 1em; }
+            .product .product-info .info .info-border .tabs .ingre.act {
+              display: block; }
+        .product .product-info .info .info-border .prop {
+          width: 100%;
+          margin-bottom: 10px; }
+          .product .product-info .info .info-border .prop a {
+            float: left;
+            display: inline;
+            width: 140px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 15px;
+            color: #999;
+            border: 1px solid #999;
+            text-align: center;
+            margin-right: 15px;
+            margin-top: 10px;
+            transition: 0s; }
+            .product .product-info .info .info-border .prop a:nth-child(2n) {
+              margin-right: 0; }
+            .product .product-info .info .info-border .prop a:hover, .product .product-info .info .info-border .prop a.act {
+              border: 0 none;
+              background: #f44d4d;
+              width: 142px;
+              height: 30px;
+              color: #fff; }
+        .product .product-info .info .info-border .buy {
+          width: 100%;
+          height: 50px;
+          border-top: 1px solid #ccc; }
+          .product .product-info .info .info-border .buy .price {
+            float: left;
+            display: inline;
+            line-height: 50px; }
+          .product .product-info .info .info-border .buy a.plus {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center;
+            margin-top: 15px;
+            background: #3c3c3c; }
+          .product .product-info .info .info-border .buy a.mius {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center;
+            margin-top: 15px;
+            margin-right: 7px;
+            background: #f44d4d; }
+  .product .dyn {
+    width: 1024px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #ccc; }
+    .product .dyn h3 {
+      margin-top: 40px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 60px;
+      border-bottom: 1px solid #ccc; }
+    .product .dyn img {
+      display: block;
+      width: 100%;
+      margin: 20px auto; }
+    .product .dyn p {
+      width: 700px;
+      line-height: 30px;
+      margin: 20px auto; }
+  .product .recipe {
+    width: 1024px;
+    margin: 0 auto;
+    padding-bottom: 40px; }
+    .product .recipe h3 {
+      margin-top: 30px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 40px; }
+    .product .recipe .chef {
+      width: 100%;
+      height: 80px;
+      border: 1px solid #333;
+      margin: 50px auto; }
+    .product .recipe ul.recips {
+      width: 1024px;
+      margin: 0 auto; }
+      .product .recipe ul.recips li {
+        float: left;
+        display: inline;
+        width: 400px; }
+        .product .recipe ul.recips li:nth-child(2n) {
+          float: right;
+          display: inline;
+          padding-left: 112px;
+          border-left: 1px solid #ccc; }
+        .product .recipe ul.recips li img {
+          width: 400px;
+          height: 265px; }
+        .product .recipe ul.recips li .text {
+          width: 100%;
+          padding-top: 25px;
+          padding-bottom: 40px; }
+          .product .recipe ul.recips li .text .string {
+            float: right;
+            display: inline;
+            width: 350px;
+            height: 70px;
+            overflow: hidden; }
+            .product .recipe ul.recips li .text .string h5 {
+              font-size: 15px;
+              line-height: 30px; }
+            .product .recipe ul.recips li .text .string p {
+              font-size: 14px;
+              line-height: 20px; }
+          .product .recipe ul.recips li .text span.num {
+            float: left;
+            display: inline;
+            width: 40px;
+            height: 40px;
+            font-size: 40px;
+            line-height: 40px;
+            text-align: center; }
+  .product .like {
+    width: 100%; }
+    .product .like img {
+      display: block;
+      width: 54px;
+      height: 54px;
+      margin: 40px auto 20px; }
+    .product .like .num {
+      text-align: center;
+      margin-bottom: 50px; }
+
+.eat {
+  width: 1000px;
+  margin: 20px auto; }
+  .eat .drinks {
+    width: 1000px; }
+    .eat .drinks h3 {
+      margin-top: 40px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 60px;
+      border-bottom: 1px solid #ccc; }
+    .eat .drinks ul.menus {
+      margin: 60px auto 20px;
+      width: 1024px;
+      overflow: hidden;
+      font-size: 14px; }
+      .eat .drinks ul.menus li {
+        float: left;
+        display: inline;
+        width: 330px;
+        height: 280px;
+        overflow: hidden;
+        margin-right: 17px;
+        margin-bottom: 30px;
+        position: relative; }
+        .eat .drinks ul.menus li:nth-child(3n) {
+          margin-right: 0; }
+        .eat .drinks ul.menus li a {
+          display: block;
+          width: 100%;
+          height: 220px;
+          overflow: hidden; }
+          .eat .drinks ul.menus li a img {
+            width: 100%;
+            height: 100%; }
+        .eat .drinks ul.menus li .info {
+          height: 65px;
+          padding: 5px 0;
+          overflow: hidden; }
+          .eat .drinks ul.menus li .info .name-price {
+            float: left;
+            display: inline;
+            width: 270px; }
+            .eat .drinks ul.menus li .info .name-price .name {
+              width: 100%;
+              height: 25px;
+              border-bottom: 1px solid #3c3c3c;
+              line-height: 20px; }
+              .eat .drinks ul.menus li .info .name-price .name a.menuname {
+                float: left;
+                display: inline;
+                width: 200px;
+                height: 20px;
+                cursor: pointer;
+                color: #666; }
+                .eat .drinks ul.menus li .info .name-price .name a.menuname:hover {
+                  color: #f44d4d; }
+            .eat .drinks ul.menus li .info .name-price .price {
+              font-size: 16px;
+              line-height: 24px;
+              letter-spacing: .1em; }
+          .eat .drinks ul.menus li .info .btns {
+            float: right;
+            display: inline;
+            width: 49px;
+            height: 65px;
+            margin-top: 15px; }
+            .eat .drinks ul.menus li .info .btns a {
+              cursor: pointer;
+              float: right;
+              display: inline;
+              background: #f44d4d;
+              width: 22px;
+              height: 22px;
+              color: #fff;
+              font-size: 22px;
+              line-height: 19px;
+              text-align: center; }
+              .eat .drinks ul.menus li .info .btns a.plus {
+                background: #3c3c3c; }
+        .eat .drinks ul.menus li img.plusok {
+          display: block;
+          width: 95px;
+          height: 95px;
+          position: absolute;
+          top: 60px;
+          left: 50%;
+          margin-left: -42px;
+          display: none; }
+  .eat .shopnow {
+    width: 100%;
+    margin: 40px auto 100px;
+    border-top: 1px solid #ccc; }
+    .eat .shopnow a.buy {
+      display: block;
+      width: 100px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #f44d4d;
+      margin: 40px auto;
+      color: #fff;
+      text-align: center; }
+  .eat ul.eatlist {
+    width: 1000px; }
+    .eat ul.eatlist li {
+      width: 1000px;
+      height: 430px;
+      overflow: hidden;
+      margin: 40px auto; }
+      .eat ul.eatlist li img {
+        width: 340px;
+        height: 430px;
+        float: left;
+        display: inline; }
+        .eat ul.eatlist li img.right {
+          float: right; }
+      .eat ul.eatlist li .info {
+        float: left;
+        display: inline;
+        width: 320px;
+        height: 430px;
+        background: #f2f2f2 url(../images/eatbg.png) center center;
+        background-size: cover; }
+        .eat ul.eatlist li .info img {
+          float: none;
+          display: block;
+          width: 130px;
+          height: 148px;
+          margin: 50px auto 30px; }
+        .eat ul.eatlist li .info h6 {
+          text-align: center;
+          line-height: 20px;
+          font-size: 15px; }
+        .eat ul.eatlist li .info .btns {
+          width: 300px;
+          margin: 0 auto;
+          border-top: 1px solid #ccc; }
+          .eat ul.eatlist li .info .btns a.gotobuy {
+            float: left;
+            display: inline;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+            background-color: #f44d4d;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px; }
+          .eat ul.eatlist li .info .btns a.plus {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 27px;
+            text-align: center;
+            margin-top: 15px;
+            background: #3c3c3c; }
+          .eat ul.eatlist li .info .btns a.mius {
+            cursor: pointer;
+            float: right;
+            display: inline;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 27px;
+            text-align: center;
+            margin-top: 15px;
+            margin-right: 7px;
+            background: #f44d4d; }
+        .eat ul.eatlist li .info p.price {
+          font-size: 30px;
+          text-align: center;
+          line-height: 80px; }
+  .eat img.pcg {
+    display: block;
+    width: 1000px;
+    height: 355px;
+    margin: 10px auto; }
+
+.usersign {
+  width: 1000px;
+  height: 500px;
+  margin: 10px auto;
+  font-size: 14px; }
+  .usersign .login {
+    width: 37%;
+    padding: 40px 60px;
+    float: left;
+    display: inline;
+    height: 80%;
+    border-right: 1px solid #ddd; }
+  .usersign input {
+    display: block;
+    width: 80%;
+    padding: 0 2%;
+    line-height: 35px;
+    height: 35px;
+    border: 1px solid #333;
+    color: #333; }
+  .usersign .title {
+    font-size: 20px;
+    margin-bottom: 20px; }
+  .usersign .lab {
+    margin-top: 16px;
+    font-size: 14px;
+    display: block;
+    line-height: 25px;
+    color: #333; }
+  .usersign .btn-login {
+    display: block;
+    width: 80px;
+    text-align: center;
+    color: #fff;
+    background-color: #f44d4d;
+    margin-top: 30px;
+    line-height: 40px;
+    font-size: 15px; }
+  .usersign .forgot {
+    line-height: 30px;
+    cursor: pointer;
+    color: #f44d4d !important;
+    font-size: 14px; }
+  .usersign .getcode {
+    float: right;
+    display: inline;
+    width: 30%;
+    background-color: #aaa;
+    color: #fff;
+    line-height: 35px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: -36px;
+    margin-right: 20px; }
+  .usersign .signup {
+    width: 37%;
+    padding: 40px 60px;
+    height: 80%;
+    float: left;
+    display: inline; }
+    .usersign .signup #signup_btn {
+      background-color: #333;
+      color: #fff; }
+  .usersign .dy {
+    width: 20px;
+    height: 20px;
+    line-height: 25px;
+    padding: 0;
+    float: left;
+    display: inline;
+    margin-top: 5px; }
+  .usersign span.dylb {
+    float: left;
+    display: inline;
+    line-height: 25px; }
+
+.custom {
+  width: 100%;
+  margin: 0 auto; }
+  .custom .tools {
+    width: 100%;
+    height: 58px;
+    border-bottom: 1px solid #c9caca;
+    position: fixed;
+    z-index: 100;
+    top: 68px;
+    background: #fff; }
+    .custom .tools .tools-main {
+      width: 1024px;
+      position: absolute;
+      left: 50%;
+      margin-left: -512px;
+      font-size: 14px; }
+      .custom .tools .tools-main div {
+        height: 38px;
+        overflow: hidden;
+        line-height: 38px;
+        float: left;
+        display: inline;
+        cursor: pointer;
+        text-indent: 2em;
+        margin-top: 10px; }
+      .custom .tools .tools-main .orders {
+        width: 220px;
+        border-right: 1px solid #c9caca; }
+      .custom .tools .tools-main .screen {
+        width: 580px;
+        border-right: 1px solid #c9caca; }
+      .custom .tools .tools-main .diy {
+        width: 220px; }
+        .custom .tools .tools-main .diy a:hover {
+          color: #f44d4d; }
+  .custom .description {
+    width: 800px;
+    margin: 120px auto 40px;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center; }
+  .custom .menus {
+    margin: 60px auto 20px;
+    width: 1024px;
+    overflow: hidden;
+    font-size: 14px; }
+    .custom .menus li {
+      float: left;
+      display: inline;
+      width: 330px;
+      height: 280px;
+      overflow: hidden;
+      margin-right: 17px;
+      margin-bottom: 30px;
+      position: relative; }
+      .custom .menus li:nth-child(3n) {
+        margin-right: 0; }
+      .custom .menus li a {
+        display: block;
+        width: 100%;
+        height: 220px;
+        overflow: hidden; }
+        .custom .menus li a img {
+          width: 100%;
+          height: 100%; }
+      .custom .menus li .info {
+        height: 65px;
+        padding: 5px 0;
+        overflow: hidden; }
+        .custom .menus li .info .name-price {
+          width: 330px; }
+          .custom .menus li .info .name-price .name {
+            width: 100%;
+            height: 25px;
+            border-bottom: 1px solid #3c3c3c;
+            line-height: 20px; }
+            .custom .menus li .info .name-price .name span.person {
+              float: left;
+              display: inline;
+              height: 18px;
+              background: #f44d4d;
+              padding: 0 5px;
+              font-size: 13px;
+              line-height: 18px;
+              margin-right: 5px;
+              color: #fff; }
+            .custom .menus li .info .name-price .name a.menuname {
+              float: left;
+              display: inline;
+              width: 200px;
+              height: 20px;
+              cursor: pointer;
+              color: #666; }
+              .custom .menus li .info .name-price .name a.menuname:hover {
+                color: #f44d4d; }
+          .custom .menus li .info .name-price .price {
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: .1em; }
+      .custom .menus li img.plusok {
+        display: block;
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -42px;
+        display: none; }
+  .custom .buyit {
+    width: 100%;
+    border-top: 1px solid #ccc;
+    margin: 50px auto; }
+    .custom .buyit p.price {
+      text-align: center;
+      line-height: 40px;
+      margin-top: 40px;
+      font-size: 18px;
+      font-weight: bold; }
+    .custom .buyit a.buy {
+      display: block;
+      width: 100px;
+      height: 35px;
+      line-height: 35px;
+      background: #f44d4d;
+      color: #fff;
+      text-align: center;
+      margin: 20px auto;
+      font-size: 14px; }
+
+.cart {
+  width: 100%; }
+  .cart h5 {
+    text-align: center;
+    line-height: 25px;
+    font-size: 15px; }
+  .cart .tabbtn {
+    width: 1000px;
+    margin: 0 auto;
+    height: 50px; }
+    .cart .tabbtn a {
+      float: left;
+      display: inline;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 2px solid #ccc;
+      color: #ccc;
+      width: 495px; }
+      .cart .tabbtn a.act {
+        color: #f44d4d;
+        border-bottom: 2px solid #f44d4d; }
+      .cart .tabbtn a.eatcart {
+        float: right;
+        display: inline; }
+  .cart .tabs {
+    width: 1000px;
+    overflow: hidden; }
+    .cart .tabs .cart-main {
+      width: 1000px;
+      display: none; }
+      .cart .tabs .cart-main.act {
+        display: block; }
+      .cart .tabs .cart-main .products {
+        width: 480px;
+        overflow: hidden; }
+  .cart img.carttitle {
+    display: block;
+    width: 91px;
+    height: 106px;
+    margin: 30px auto; }
+
+.blog {
+  width: 700px;
+  margin: 40px auto; }
+  .blog img {
+    display: block;
+    width: 100%;
+    margin: 20px auto; }
+  .blog p {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 25px; }
+  .blog h1.title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 80px; }
+  .blog h5.time {
+    text-align: center;
+    line-height: 40px;
+    color: #666; }
+
+.recommend {
+  width: 100%; }
+  .recommend h3 {
+    margin-top: 40px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px; }
+  .recommend .recommend-main {
+    width: 100%;
+    margin-top: 20px; }
+    .recommend .recommend-main a.recommend-product {
+      float: left;
+      display: inline;
+      width: 50%;
+      height: 200px;
+      position: relative; }
+      .recommend .recommend-main a.recommend-product img {
+        width: 100%;
+        height: 200px;
+        position: absolute; }
+      .recommend .recommend-main a.recommend-product .text-info {
+        width: 100%;
+        height: 200px;
+        background: rgba(0, 0, 0, 0.45);
+        position: absolute;
+        z-index: 10; }
+        .recommend .recommend-main a.recommend-product .text-info h5.name {
+          width: 100%;
+          text-align: center;
+          color: #fff;
+          font-size: 32px;
+          margin-top: 70px; }
+        .recommend .recommend-main a.recommend-product .text-info p.price {
+          width: 100%;
+          text-align: center;
+          font-size: 16px;
+          color: #fff;
+          margin-top: 10px; }
+
+.backblogs {
+  color: #f44d4d;
+  display: block;
+  text-align: center;
+  margin: 60px auto;
+  font-weight: bold;
+  font-size: 15px; }
+
+ul.bloglist {
+  width: 700px;
+  margin: 40px auto; }
+  ul.bloglist li {
+    width: 100%;
+    border-bottom: 1px solid #999;
+    margin-bottom: 40px; }
+    ul.bloglist li h1.title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 80px; }
+    ul.bloglist li h5.time {
+      text-align: center;
+      line-height: 40px;
+      color: #666; }
+    ul.bloglist li img.cover {
+      display: block;
+      width: 100%;
+      margin: 20px auto; }
+    ul.bloglist li p.desc {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 25px; }
+    ul.bloglist li a.read {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 40px auto;
+      font-weight: bold; }
+      ul.bloglist li a.read:hover {
+        color: #f44d4d; }
+
+/*# sourceMappingURL=maps/style.css.map */

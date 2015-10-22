@@ -18,13 +18,15 @@ app.disable "x-powered-by"
 
 app.set "views", path.join(__dirname, "views")
 app.set "view engine", "ejs"
+
 app.engine("ejs", require('ejs').renderFile);
+app.engine("nunj", nunjucks.render);
 app.engine("html", require('ejs').renderFile);
 app.engine("jade", require('jade').__express);
-app.set('views', path.join(__dirname, 'views'));
-nunjucks.configure('views', {
-  express: app,
-  watch: process.env.NODE_ENV == 'development'
+
+nunjucks.configure({
+#  watch: process.env.NODE_ENV == 'development' # caused 100% used of cpu.
+  noCache: process.env.NODE_ENV == 'development'
 });
 
 # i18n setup
@@ -65,6 +67,7 @@ app.use (req, res, next)->
   next()
 
 require("./routesmobile")(app)
+require("./routespc")(app)
 require("./routesapi")(app)
 
 require("./test")() if conf.debug

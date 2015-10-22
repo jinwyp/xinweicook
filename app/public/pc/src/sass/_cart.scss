@@ -1,0 +1,52 @@
+.cart {
+  width: 100%;
+  h5 {
+    text-align: center;
+    line-height: 25px;
+    font-size: 15px;
+  }
+  .tabbtn {
+    width: 1000px;
+    margin: 0 auto;
+    height: 50px;
+    a {
+      float: left;
+      display: inline;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 2px solid $color_celeste_approx;
+      color: $color_celeste_approx;
+      width: 495px;
+      &.act {
+        color: $color_sunset_orange_approx;
+        border-bottom: 2px solid $color_sunset_orange_approx;
+      }
+      &.eatcart {
+        float: right;
+        display: inline;
+      }
+    }
+  }
+  .tabs {
+    width: 1000px;
+    overflow: hidden;
+    .cart-main {
+      width: 1000px;
+      display: none;
+      &.act {
+        display: block;
+      }
+      .products {
+        width: 480px;
+        overflow: hidden;
+      }
+    }
+  }
+  img.carttitle {
+    display: block;
+    width: 91px;
+    height: 106px;
+    margin: 30px auto;
+  }
+}

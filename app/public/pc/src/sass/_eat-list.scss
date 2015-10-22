@@ -1,0 +1,217 @@
+.eat {
+  width: 1000px;
+  margin: 20px auto;
+  .drinks {
+    width: 1000px;
+    h3 {
+      margin-top: 40px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 60px;
+      border-bottom: 1px solid $color_celeste_approx;
+    }
+    ul.menus {
+      margin: 60px auto 20px;
+      width: 1024px;
+      overflow: hidden;
+      font-size: 14px;
+      li {
+        float: left;
+        display: inline;
+        width: 330px;
+        height: 280px;
+        overflow: hidden;
+        margin-right: 17px;
+        margin-bottom: 30px;
+        position: relative;
+        &:nth-child(3n) {
+          margin-right: 0;
+        }
+        a {
+          display: block;
+          width: 100%;
+          height: 220px;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .info {
+          height: 65px;
+          padding: 5px 0;
+          overflow: hidden;
+          .name-price {
+            float: left;
+            display: inline;
+            width: 270px;
+            .name {
+              width: 100%;
+              height: 25px;
+              border-bottom: 1px solid $color_masala_approx;
+              line-height: 20px;
+              a.menuname {
+                float: left;
+                display: inline;
+                width: 200px;
+                height: 20px;
+                cursor: pointer;
+                color: $color_storm_dust_approx;
+                &:hover {
+                  color: $color_sunset_orange_approx;
+                }
+              }
+            }
+            .price {
+              font-size: 16px;
+              line-height: 24px;
+              letter-spacing: .1em;
+            }
+          }
+          .btns {
+            float: right;
+            display: inline;
+            width: 49px;
+            height: 65px;
+            margin-top: 15px;
+            a {
+              cursor: pointer;
+              float: right;
+              display: inline;
+              background: $color_sunset_orange_approx;
+              width: 22px;
+              height: 22px;
+              color: $white;
+              font-size: 22px;
+              line-height: 19px;
+              text-align: center;
+              &.plus {
+                background: $color_masala_approx;
+              }
+            }
+          }
+        }
+        img.plusok {
+          display: block;
+          width: 95px;
+          height: 95px;
+          position: absolute;
+          top: 60px;
+          left: 50%;
+          margin-left: -42px;
+          display: none;
+        }
+      }
+    }
+  }
+  .shopnow {
+    width: 100%;
+    margin: 40px auto 100px;
+    border-top: 1px solid $color_celeste_approx;
+    a.buy {
+      display: block;
+      width: 100px;
+      height: 40px;
+      line-height: 40px;
+      background-color: $color_sunset_orange_approx;
+      margin: 40px auto;
+      color: $white;
+      text-align: center;
+    }
+  }
+  ul.eatlist {
+    width: 1000px;
+    li {
+      width: 1000px;
+      height: 430px;
+      overflow: hidden;
+      margin: 40px auto;
+      img {
+        width: 340px;
+        height: 430px;
+        float: left;
+        display: inline;
+        &.right {
+          float: right;
+        }
+      }
+      .info {
+        float: left;
+        display: inline;
+        width: 320px;
+        height: 430px;
+        background: $concrete url(../images/eatbg.png) center center;
+        background-size: cover;
+        img {
+          float: none;
+          display: block;
+          width: 130px;
+          height: 148px;
+          margin: 50px auto 30px;
+        }
+        h6 {
+          text-align: center;
+          line-height: 20px;
+          font-size: 15px;
+        }
+        .btns {
+          width: 300px;
+          margin: 0 auto;
+          border-top: 1px solid $color_celeste_approx;
+          a {
+            &.gotobuy {
+              float: left;
+              display: inline;
+              width: 80px;
+              height: 30px;
+              line-height: 30px;
+              color: $white;
+              background-color: $color_sunset_orange_approx;
+              text-align: center;
+              font-size: 14px;
+              margin-top: 15px;
+            }
+            &.plus {
+              cursor: pointer;
+              float: right;
+              display: inline;
+              width: 30px;
+              height: 30px;
+              color: $white;
+              font-size: 22px;
+              line-height: 27px;
+              text-align: center;
+              margin-top: 15px;
+              background: $color_masala_approx;
+            }
+            &.mius {
+              cursor: pointer;
+              float: right;
+              display: inline;
+              width: 30px;
+              height: 30px;
+              color: $white;
+              font-size: 22px;
+              line-height: 27px;
+              text-align: center;
+              margin-top: 15px;
+              margin-right: 7px;
+              background: $color_sunset_orange_approx;
+            }
+          }
+        }
+        p.price {
+          font-size: 30px;
+          text-align: center;
+          line-height: 80px;
+        }
+      }
+    }
+  }
+  img.pcg {
+    display: block;
+    width: 1000px;
+    height: 355px;
+    margin: 10px auto;
+  }
+}

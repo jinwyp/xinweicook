@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>xinwei</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/pc/src/css/style.css">
+    <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div class="hidevideo">
+    <a href="javascript:;" class="close">x</a>
+    <video id="video1" preload="auto">
+        <source src="https://a0.muscache.com/airbnb/static/Belong_p1_v2.mp4" type="video/mp4">
+        <source src="https://a0.muscache.com/airbnb/static/Belong_p1_v2.webm" type="video/webm">
+    </video>
+</div>
+<header class="indexhd">
+    <div class="header-main"><a class="logo"></a>
+
+        <div class="city">城市：<span>上海</span></div>
+        <ul class="nav">
+            <li><a href="javascript:;">食材包</a></li>
+            <li><a href="javascript:;">即食包</a></li>
+            <li><a href="javascript:;">为什么选择我们</a></li>
+            <li><a href="javascript:;">关于新味</a></li>
+            <li><a href="javascript:;">Q & A</a></li>
+            <li><a href="javascript:;">BLOG </a></li>
+        </ul>
+        <a href="javascript:;" class="sign">登陆</a><a href="javascript:;" class="cart"></a></div>
+</header>
+<div class="video">
+    <div class="vdtitle"></div>
+    <video loop="loop" autoplay="autoplay" class="indexvd">
+        <source src="https://a0.muscache.com/airbnb/static/Seoul-P1-4.mp4" type="video/mp4">
+        <source src="https://a0.muscache.com/airbnb/static/Seoul-P1-4.webm" type="video/webm">
+    </video>
+</div>
+<div class="index">
+    <div class="menulinks clearfix">菜单入口</div>
+    <ul class="menus clearfix">
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+    </ul>
+    <div class="app clearfix"><a href="javascript:;" class="banner"><img
+                    src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2%E6%98%8E%E6%98%9F%E5%9B%BE.jpg"></a>
+
+        <div class="applink">
+            <div class="app-main"><h6>APP</h6><img src="http://xinweicook.com/images/weixin-QR.jpg">
+
+                <p>想要便捷定制你的私人食谱？</p></div>
+        </div>
+    </div>
+    <ul class="menus clearfix">
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+        <li><div class="plusok"></div><a href="javascript:;"><img
+                        src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>
+
+            <div class="info clearfix">
+                <div class="name-price">
+                    <div class="name clearfix"><span class="person">3人</span><a href="javascript:;" class="menuname">大虾墨鱼面</a>
+                    </div>
+                    <div class="price">￥48.00</div>
+                </div>
+                <div class="btns clearfix"><a class="plus">+</a></div>
+            </div>
+        </li>
+    </ul>
+    <div class="videolink"><h4>我们定义urban饮食新方式</h4>
+
+        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p><a href="javascript:;" class="play"></a></div>
+</div>
+<script type="text/javascript" src="/pc/javascripts/main.js"></script>
+</body>
+</html>

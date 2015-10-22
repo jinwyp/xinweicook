@@ -4,8 +4,8 @@ var webpack = require("webpack");
 
 var BUILD_DEV = JSON.parse(process.env.BUILD_DEV || 'true');
 
-var jsSrcDir = path.join(__dirname, "./public/pc/src/js");
-var jsDevBuildDir = path.join(__dirname, "./public/pc/src/jsbuild");
+var jsSrcDir = path.join(__dirname, "./public/pc/src/js-es6");
+var jsDevBuildDir = path.join(__dirname, "./public/pc/src/js");
 var jsProBuildDir = path.join(__dirname, "./public/pc/dist/js");
 
 var jsBuildDir = jsProBuildDir;
@@ -17,7 +17,7 @@ if (BUILD_DEV) {
 // webpack.config.js
 module.exports = {
     context: jsSrcDir,
-    entry: './out.js',
+    entry: './main.js',
     output: {
         path: jsBuildDir,
         filename: 'bundle.js'
