@@ -213,7 +213,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         if (time.eat && (model.time.eat == time.eat[0])) {
             valid = false;
         }
-        if (time.cook && model.time.cook.day == time.cook[0].day) {
+        if (time.cook && model.time.cook.day == time.cook[0]) {
             valid = false;
         }
         if (!valid) alert('请选择配送时间');
