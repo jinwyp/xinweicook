@@ -210,9 +210,10 @@ form .err-tip {
 .login-button {
   width: 95%;
   margin: 20px auto 0;
+  border-radius: 0;
 }
 
-/* line 49, ../sass/pages/_login.scss */
+/* line 50, ../sass/pages/_login.scss */
 .forget-pwd-container {
   text-align: right;
   margin: 7px 7px -10px;
@@ -220,17 +221,17 @@ form .err-tip {
   color: #71736F;
 }
 
-/* line 56, ../sass/pages/_login.scss */
+/* line 57, ../sass/pages/_login.scss */
 .test-wrapper {
   padding-left: 12px;
   margin-bottom: 10px;
 }
-/* line 60, ../sass/pages/_login.scss */
+/* line 61, ../sass/pages/_login.scss */
 .test-wrapper label {
   padding: 10px 0 5px;
 }
 
-/* line 65, ../sass/pages/_login.scss */
+/* line 66, ../sass/pages/_login.scss */
 .sms-button {
   position: absolute;
   border: 1px #f44d4d solid;
@@ -242,7 +243,7 @@ form .err-tip {
   top: 46px;
   right: 11px;
 }
-/* line 66, ../sass/pages/_login.scss */
+/* line 67, ../sass/pages/_login.scss */
 .sms-button.invalid {
   color: #A7A7A7;
 }
@@ -2200,4 +2201,34 @@ html.order-address-html body {
 /* line 118, ../sass/_components.scss */
 .buy-button.out-of-stock {
   background-color: #B9B9B9;
+}
+
+/* line 123, ../sass/_components.scss */
+.geetest-sms-button-group {
+  position: relative;
+}
+/* line 125, ../sass/_components.scss */
+.geetest-sms-button-group .geetest-sms-button {
+  text-align: center;
+  height: 40px;
+  line-height: 38px;
+  color: #4b4b4c;
+  margin: 5px 12px;
+  border: 1px solid;
+}
+/* line 133, ../sass/_components.scss */
+.geetest-sms-button-group .geetest-sms-button.invalid {
+  color: #A7A7A7;
+}
+/* line 137, ../sass/_components.scss */
+.geetest-sms-button-group span {
+  display: block;
+}
+
+/* line 142, ../sass/_components.scss */
+#geetestContainer {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
 }
