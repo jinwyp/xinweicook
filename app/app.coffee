@@ -54,5 +54,5 @@ app.use (req, res, next) ->
 app.use libs.err.middleware()
 
 app.listen conf.port, ->
-  logger.debug "app" ,"listening on #{conf.host}:#{conf.port}"
+  logger.debug ("App listening on #{conf.host}:#{conf.port}")
 

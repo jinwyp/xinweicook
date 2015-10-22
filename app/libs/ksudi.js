@@ -132,7 +132,7 @@ ksuDi.prototype.sign = function(obj){
 ksuDi.prototype.createOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
-        password : this.config.password,
+        password : 'xwcook789',
         charset  : this.config.charset,
         signtype : 'MD5',
         //sign     : '',
@@ -173,7 +173,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    //console.log(newOrder);
+    console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,
@@ -198,7 +198,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         }
 
         //console.log('========== KSudi', response);
-        //console.log('========== KSudi', body);
+        console.log('========== KSudi', body);
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};

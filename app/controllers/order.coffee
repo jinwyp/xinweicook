@@ -858,7 +858,7 @@ exports.updateOrder = (req, res, next) ->
         models.coupon.addCouponPaidManyOrder(req.u)
 
 
-      if req.u.sharedInvitationSendCodeTotalCount is 6
+      if req.u.sharedInvitationSendCodeTotalCount is 7
         # 发送iOS 推送 满6单发新味币充值码
         additionalContent =
           userId : req.u._id

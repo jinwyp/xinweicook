@@ -19,7 +19,7 @@ connect()
 
 connection.on "open", ->
 #  mongoose.connection.db.dropDatabase()
-  logger.debug "Database", "connection opened"
+  logger.debug("Database", "connection opened, conneted url:", conf.db)
 
 
 connection.on "error", (err) ->

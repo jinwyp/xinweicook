@@ -2,8 +2,8 @@ ENV = process.env
 port = ENV.PORT or 3003
 host = ENV.HOST or "127.0.0.1"
 
-console.log("Database: ", ENV.DB)
-console.log("NODE_ENV: ", ENV.NODE_ENV);
+console.log("NODE_ENV:", ENV.NODE_ENV, " ", "Database Default Url:", ENV.DB)
+
 
 conf =
   debug: true
