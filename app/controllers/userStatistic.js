@@ -199,7 +199,7 @@ exports.userNewComerRate = function(req, res, next) {
 
 
         twoMoreTimeUserListWithOrder.forEach(function(user){
-
+            console.log(user._id);
             var first,second;
 
             var orderLength = user.orderList.length;
@@ -210,9 +210,9 @@ exports.userNewComerRate = function(req, res, next) {
                 if (i < orderLength - 1 ){
                     second = user.orderList[i+1];
 
-                    first.secondOrderCreateDate = second.createdAt;
                     first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
+                    console.log(first.secondOrderInterval);
                     if (typeof user.totalTime === 'undefined'){
                         user.totalTime = 0;
                         user.totalOrderNumber = 0;
@@ -240,9 +240,9 @@ exports.userNewComerRate = function(req, res, next) {
         for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
 
             result.totalTime = result.totalTime + twoMoreTimeUserListWithOrder[j].totalTime;
-            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber
+            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber;
 
-        };
+        }
 
         result.avgTime = result.totalTime / result.totalOrderNumber;
 
@@ -315,7 +315,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
     }).then(function(resultOrderList){
 
-
+        console.log(resultOrderList.length);
 
         if (resultOrderList.length > 0){
 
@@ -332,7 +332,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         first.secondOrderCreateDate = second.createdAt;
                         first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
-
+                        console.log(first.secondOrderInterval);
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
                                 totalTime : 0,
@@ -345,6 +345,8 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                             //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
                         }
 
+                    }else{
+                        console.log(nextUserId);
                     }
 
 
@@ -539,3 +541,61 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
 };
 
+
+
+
+
+exports.couponByNameRate = function(req, res, next) {
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "couponType" : models.coupon.constantCouponType().coupon
+            }
+        },
+
+        { $sort: { createdAt: 1 } },
+
+        { "$group": {
+            "_id": {name : "$name.zh", isUsed : "$isUsed"},
+            "quantity": { "$sum": 1 },
+            "couponList": { "$push": { "_id": "$_id", "user": "$user",  "name": "$name", "createdAt": "$createdAt", "couponType": "$couponType", "price": "$price", "isUsedCount": "$isUsedCount", "isUsed": "$isUsed"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "name" : "$_id.name",
+            "isUsed" : "$_id.isUsed",
+
+            "quantity": 1,
+            "couponList": 1
+
+        }},
+
+        { "$sort": { "name" : 1} },
+        { "$limit": 100000 }
+    );
+
+    models.coupon.aggregateAsync( pipeline).then(function(resultCouponList){
+
+        var totalQuantity = 0;
+
+        if (resultCouponList.length > 0){
+            totalQuantity = resultCouponList.reduce(function(previous, order) {
+                return previous + order.quantity;
+            }, 0);
+        }
+
+        resultCouponList[0].totalQuantity = totalQuantity;
+
+        resultCouponList.forEach(function(order){
+            order.quantityPercent = order.quantity / totalQuantity
+        });
+
+        res.send(resultCouponList)
+    }).catch(next);
+};

@@ -80,6 +80,13 @@ exports.removeLog = (req, res, next) ->
   .catch next
 
 
+
+exports.removeSMS = (req, res, next) ->
+  models.sms.removeAsync({}).then () ->
+    res.send "Remove OK"
+  .catch next
+
+
 exports.removeSetting = (req, res, next) ->
   models.setting.removeAsync({}).then () ->
     res.send "Remove OK"

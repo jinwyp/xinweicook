@@ -91,17 +91,18 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
     $scope.css = {
         isAddNewStatus : true,
-        searchUserSortBy : '-timeLeft'
+        searchUserSortBy : '-timeLeft',
+        showTable : ''
     };
 
 
 
 
-    var stopInterval;
+
 
     $scope.searchUserCount = function (){
 
-        $scope.css.showTable = 'users';
+        $scope.css.showTable = '';
 
 
         Util.delProperty($scope.data.searchOptions);
@@ -118,9 +119,6 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
             $scope.searchUser();
 
         });
-
-        $interval.cancel(stopInterval);
-        stopInterval = null;
 
     };
 
@@ -237,8 +235,8 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     };
 
 
-
-    $scope.showBaiduMapInterval = function(){
+    var stopInterval;
+    $scope.startBaiduMapInterval = function(){
         $scope.css.showTable = 'map';
 
         stopInterval = $interval(function() {
@@ -246,6 +244,14 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
             $scope.searchUser();
 
         }, 20000);
+    };
+
+
+    $scope.stopBaiduMapInterval = function(){
+        $scope.css.showTable = '';
+
+        $interval.cancel(stopInterval);
+        stopInterval = null;
     };
 
 

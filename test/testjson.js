@@ -496,3 +496,31 @@ var testOrder = {
 };
 
 
+var mongo = [{
+    "_id"         : "admin.ucloudbackup",
+    "user"        : "ucloudbackup",
+    "db"          : "admin",
+    "credentials" : {"MONGODB-CR" : "cfbf617772bd7619bb2ba84df15958c6"},
+    "roles"       : [{"role" : "superuser", "db" : "admin"}]
+},
+    {
+        "_id"         : "admin.root",
+        "user"        : "root",
+        "db"          : "admin",
+        "credentials" : {"MONGODB-CR" : "c48ecad7ff06b9fe53b5fa57d16bf997"},
+        "roles"       : [{"role" : "superuser", "db" : "admin"}]
+    },
+    {
+        "_id"         : "cook-api.cook-api",
+        "user"        : "cook-api",
+        "db"          : "cook-api",
+        "credentials" : {"MONGODB-CR" : "ee656e84ebf64ef4ea410dd9089b4a35"},
+        "roles"       : [{"role" : "dbOwner", "db" : "cook-api"}]
+    },
+    {
+        "_id"         : "cook-api-test.cook-api-test",
+        "user"        : "cook-api-test",
+        "db"          : "cook-api-test",
+        "credentials" : {"MONGODB-CR" : "c03d36ef87f944eb0bdb6e379568d94f"},
+        "roles"       : [{"role" : "dbOwner", "db" : "cook-api-test"}]
+    }]

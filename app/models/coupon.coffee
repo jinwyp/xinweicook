@@ -22,9 +22,9 @@ module.exports =
 
     usedUserList : [type: Schema.Types.ObjectId, ref: 'user']  # 记录哪些用户使用过
 
-    user : type: Schema.Types.ObjectId, ref: 'user'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    user : type: Schema.Types.ObjectId, ref: 'user'  # 当usedTime使用次数为1 时 绑定某个用户，只能某个用户使用
 
-    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 该优惠券是从哪个优惠券兑换码而来的
 
 
   statics :
@@ -403,8 +403,8 @@ module.exports =
       if (user.sharedInvitationSendCodeTotalCount-1) %% 10 is 0 and user.sharedInvitationSendCodeTotalCount <= 101 and user.sharedInvitationSendCodeTotalCount >18
         newCoupon20 =
           name :
-            zh : "满" + user.sharedInvitationSendCodeTotalCount.toString() + "单优惠券"
-            en : "Achieve" + user.sharedInvitationSendCodeTotalCount.toString()  + " orders Coupon"
+            zh : "满" + (user.sharedInvitationSendCodeTotalCount-1).toString() + "单优惠券"
+            en : "Achieve" + (user.sharedInvitationSendCodeTotalCount-1).toString()  + " orders Coupon"
           price : 20
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
