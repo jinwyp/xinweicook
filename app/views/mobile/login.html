@@ -49,8 +49,10 @@
             <hr class="form-line"/>
 
             <div class="test-wrapper">
-                <label>滑动获取验证码</label>
                 <div id="geetestContainer"></div>
+                <div class="get-code">获取验证码</div>
+                <div class="get-code pass-geetest" ng-if="">验证码发送成功</div>
+                <div class="get-code re-fetch">重新获取验证码</div>
             </div>
             <hr class="form-line"/>
 
@@ -100,6 +102,8 @@
 
 <script src="/components/angular/angular.min.js?v=8"></script>
 <script src="/components/ngstorage/ngStorage.min.js?v=8"></script>
+<script async=true src="http://api.geetest.com/get.php?callback=funcname"></script>
+
 
 <script src="/mobile/src/js/modules.js?v=8"></script>
 <script src="/mobile/src/js/directives/sms-button.js"></script>

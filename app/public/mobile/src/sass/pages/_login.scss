@@ -62,6 +62,12 @@
   }
 }
 
+#geetestContainer {
+  position:absolute;
+  top: 0;
+  left: 0;
+}
+
 .sms-button {
   &.invalid {
     color: #A7A7A7;

@@ -77,11 +77,8 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 return res;
             })
         },
-        getSmsCode: function (mobile, type) {
-            return $http.post('/api/user/sms', {
-                mobile: mobile,
-                type: type
-            })
+        getSmsCode: function (data) {
+            return $http.post('/api/user/sms', data)
         },
         logout: function () {
             return $http.post('/api/user/logout', {

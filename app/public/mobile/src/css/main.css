@@ -231,6 +231,13 @@ form .err-tip {
 }
 
 /* line 65, ../sass/pages/_login.scss */
+#geetestContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 71, ../sass/pages/_login.scss */
 .sms-button {
   position: absolute;
   border: 1px #f44d4d solid;
@@ -242,7 +249,7 @@ form .err-tip {
   top: 46px;
   right: 11px;
 }
-/* line 66, ../sass/pages/_login.scss */
+/* line 72, ../sass/pages/_login.scss */
 .sms-button.invalid {
   color: #A7A7A7;
 }
