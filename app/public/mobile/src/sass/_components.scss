@@ -119,3 +119,29 @@
     background-color:#B9B9B9;
   }
 }
+
+.geetest-sms-button-group {
+  position: relative;
+  .geetest-sms-button {
+    text-align: center;
+    height: 40px;
+    line-height: 38px;
+    color: $body-color;
+    margin: 5px 12px;
+    border: 1px solid;
+
+    &.invalid {
+      color: $invalid-text-color;
+    }
+  }
+  span {
+    display: block;
+  }
+}
+
+#geetestContainer {
+  position:absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+}

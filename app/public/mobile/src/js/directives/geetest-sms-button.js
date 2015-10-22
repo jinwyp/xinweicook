@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('geetest-sms-button', function (Debug, User, $interval, $window, Alert) {
+angular.module('xw.directives').directive('geetestSmsButton', function (Debug, User, $interval, $window, Alert, $http) {
     return {
         scope: {
             valid: '@',
@@ -26,7 +26,7 @@ angular.module('xw.directives').directive('geetest-sms-button', function (Debug,
 
                 $window.gt_custom_ajax = function(result, id, message) {
                     if(result) {
-                        var value = angular.element(document.getElementsByClassName('gt_input')).find('input');
+                        var value = angular.element(document.getElementById('geetestContainer')).find('input');
 
                         var data = {
                             "geetest_challenge":value[0].value,
