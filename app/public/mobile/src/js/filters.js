@@ -2,7 +2,7 @@
  * 图片自适应为屏幕宽度
  */
 angular.module('xw.filters').filter('adapt', function () {
-    var width = Math.floor(screen.width * window.devicePixelRatio);
+    var width = Math.floor(document.body.offsetWidth * window.devicePixelRatio);
     var height = Math.floor(width * 2 / 3);
     var prefix = '?imageView2/1/w/';
     var query = prefix + width + '/h/' + height;
