@@ -423,7 +423,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
-            $localStorage.orderSearchOptions = $scope.data.searchOptions.query;
+            $localStorage.orderSearchQuery = $scope.data.searchOptions.query;
 
             $scope.data.orderListCount = orders.count;
             $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchLimit.limit);
@@ -529,8 +529,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     if ($state.current.data.type === 'list'){
-        if ($localStorage.orderSearchOptions){
-            //$scope.data.searchOptions.query = $localStorage.orderSearchOptions;
+        if ($localStorage.orderSearchQuery){
+            $scope.data.searchOptions.query = $localStorage.orderSearchQuery;
             $scope.data.searchLimit.limit = 200;
             $scope.data.searchSkip.skip = 0;
         }
