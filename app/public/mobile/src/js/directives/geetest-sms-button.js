@@ -12,13 +12,15 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
                 var params = {
                     //'745d959dec1191e086febd11aa684c9d'
                     gt: 'd41d16df5b99010ec511ec10aaaafcb8',
-                    width: screen.width,
+                    width: document.body.offsetWidth,
                     challenge: result.challenge
                 };
 
                 s.src = 'http://api.geetest.com/get.php?' + Object.keys(params)
                         .map(function (key) {return key + '=' + params[key]})
                         .join('&');
+
+                alert(s.src);
 
                 var fatherDom = angular.element(document.getElementById('geetestContainer'));
 
