@@ -5,7 +5,7 @@ bodyParser = require "body-parser"
 cors = require "cors"
 favicon = require "serve-favicon";
 compression = require "compression"
-
+morgan = require('morgan')
 methodOverride = require "method-override"
 
 app = express()
@@ -36,7 +36,12 @@ app.use bodyParser.json({limit: '1mb'})
 app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")
 
-app.use libs.logger.middleware()
+#app.use libs.logger.middleware() if conf.debug
+app.use(morgan('dev'))
+
+#morgan('combined', {
+#  skip: function (req, res) { return res.statusCode < 400 }
+#})
 
 app.use libs.cache.lastModified
 
