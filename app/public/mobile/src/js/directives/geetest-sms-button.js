@@ -42,6 +42,9 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
                                 scope.remains = remains;
 
                                 stateMachine('show-refetch', scope.valid == 'true');
+                                try {
+                                    GeeTest[0].refresh()
+                                } catch (e) {}
                             }
                         }, 1000);
 
