@@ -193,7 +193,7 @@ header {
       background-size: cover; }
     header.indexhd a.cart {
       background: url(../images/indexcart.png) center center no-repeat;
-      background-size: cover; }
+      background-size: contain; }
 
 .headeremp {
   height: 68px; }
@@ -247,6 +247,13 @@ header {
     height: 300px;
     overflow: hidden;
     margin: 0 auto; }
+    .index .menulinks .entry {
+      display: inline-block;
+      width: 49%; }
+      .index .menulinks .entry:first-child {
+        border-right: 1px #3c3c3c solid; }
+      .index .menulinks .entry .img {
+        width: 40px; }
   .index .app {
     width: 1024px;
     height: 314px;

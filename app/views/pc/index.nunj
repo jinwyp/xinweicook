@@ -17,12 +17,12 @@
 <header class="indexhd">
     <div class="header-main"><a class="logo"></a>
 
-        <div class="city">城市：<span>上海</span></div>
+        <div class="city">{{ __('City:') }}：<span>上海</span></div>
         <ul class="nav">
-            <li><a href="javascript:;">食材包</a></li>
-            <li><a href="javascript:;">即食包</a></li>
-            <li><a href="javascript:;">为什么选择我们</a></li>
-            <li><a href="javascript:;">关于新味</a></li>
+            <li><a href="javascript:;">{{ __('Cook') }}</a></li>
+            <li><a href="javascript:;">{{ __('Bento') }}</a></li>
+            <li><a href="javascript:;">{{ __('Why us') }}</a></li>
+            <li><a href="javascript:;">{{ __('About Xinwei') }}</a></li>
             <li><a href="javascript:;">Q & A</a></li>
             <li><a href="javascript:;">BLOG </a></li>
         </ul>
@@ -36,7 +36,18 @@
     </video>
 </div>
 <div class="index">
-    <div class="menulinks clearfix">菜单入口</div>
+    <div class="menulinks clearfix">
+        <div class="entry">
+            <div class="img"></div>
+            <h3>Ready to Cook</h3>
+            <p>只愿享受烹炒的乐趣?选料买菜的一切麻烦让新味帮你解决.</p>
+        </div>
+        <div class="entry">
+            <div class="img"></div>
+            <h3>Ready to Eat</h3>
+            <p>在公司还想吃低温慢煮牛排?新味让你用微波炉就能轻松享受.</p>
+        </div>
+    </div>
     <ul class="menus clearfix">
         <li><div class="plusok"></div><a href="javascript:;"><img
                         src="https://dn-xinweicook.qbox.me/%E6%B3%95%E5%BC%8F%E8%9C%97%E7%89%9B%E9%85%8D%E7%BA%A2%E8%96%AF%E6%B3%A5s-_MG_2105.jpg"></a>

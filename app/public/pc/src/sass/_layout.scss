@@ -102,7 +102,7 @@ header {
       }
       &.cart {
         background: url(../images/indexcart.png) center center no-repeat;
-        background-size: cover;
+        background-size: contain;
       }
     }
   }
