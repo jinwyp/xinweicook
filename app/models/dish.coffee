@@ -192,8 +192,9 @@ module.exports =
       @saveAsync()
   }
   rest:
-    postProcess : (req, res, next) ->
+    postUpdate : (req, res, next) ->
       if req.method is "PUT"
+
         # 修改库存
         if req.body.addInventory > 0
           models.dish.findOneAsync({_id:req.params.id})

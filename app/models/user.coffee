@@ -240,7 +240,7 @@ module.exports =
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4
   rest:
-    middleware : (req, res, next) ->
+    preMiddleware : (req, res, next) ->
       if req.method is "POST"
         models.user.findOne({$or:[{username:req.body.username},{mobile:req.body.mobile}, {email:req.body.email} ]}, (err, result)->
           if result

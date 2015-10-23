@@ -453,7 +453,7 @@ module.exports =
 
 
   rest:
-    middleware : (req, res, next) ->
+    preMiddleware : (req, res, next) ->
       if req.method is "POST" and req.body.code
         models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
           console.log(result)
@@ -465,7 +465,8 @@ module.exports =
       else
         next()
 
-    postProcess : (req, res, next) ->
+    postCreate : (req, res, next) ->
+
       if req.method is "POST"
         # 给用户新增优惠券
         if req.body.user and req.body.user.length > 23

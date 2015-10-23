@@ -141,8 +141,7 @@ module.exports =
       @saveAsync()
 
   rest:
-    middleware : (req, res, next) ->
-
+    preMiddleware : (req, res, next) ->
       if req.method is "GET"
         if req.params.id
           models.useraccount.findOne( {user:req.params.id}, (err, result)->

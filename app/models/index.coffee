@@ -1,4 +1,4 @@
-erm = require "express-restify-mongoose"
+restify = require "express-restify-mongoose"
 createdModifiedPlugin = require "mongoose-hook-createdmodified"
 autoIncrement = require "mongoose-auto-increment"
 exports.Router = Router = express.Router()
@@ -38,14 +38,14 @@ connection.on "disconnected", ->
 
 exports.isConnected = mongoose.Connection.STATES.connected is mongoose.connection.readyState
 
-erm.defaults
+restify.defaults
   prefix: "/api/admin"
   version: ""
   lean: true
   findOneAndUpdate: false
   onError: (err, req, res, next) ->
     next err
-  middleware: libs.auth("admin")
+  preMiddleware: libs.auth("admin")
   # protected: "__v"
   # prereq: (req) ->
   #   true
@@ -73,10 +73,13 @@ libs.requireOthers __filename, (basename, pathname) ->
   model = mongoose.model basename, schema
   exports[basename] = model
 
-  if rest.middleware
-    tempMiddleware = rest.middleware
-    rest.middleware = []
-    rest.middleware.push(libs.auth("admin"))
-    rest.middleware.push(tempMiddleware)
+  if rest.preMiddleware
 
-  erm.serve Router, model, rest if rest
+    tempMiddleware = rest.preMiddleware
+    rest.preMiddleware = []
+    rest.preMiddleware.push(libs.auth("admin"))
+    rest.preMiddleware.push(tempMiddleware)
+
+
+
+  restify.serve(Router, model, rest) if rest
