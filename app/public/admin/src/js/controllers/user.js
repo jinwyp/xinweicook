@@ -18,14 +18,18 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         searchOptions : {
             skip : 0,
             limit : 200,
-            createdAt :'',
-            group : '',
-            lang : '',
-            _id : '',
-            mobile : '',
-            invitationSendCode : '',
-            sharedInvitationSendCodeTotalCount : 0,
-            sharedInvitationSendCodeUsedTime : 0
+
+            query : {
+                createdAt :'',
+                group : '',
+                lang : '',
+                _id : '',
+                mobile : '',
+                invitationSendCode : '',
+                sharedInvitationSendCodeTotalCount : 0,
+                sharedInvitationSendCodeUsedTime : 0
+            }
+
         },
 
         sharedInvitationSendCodeTotalCountNumber: 0,
@@ -171,27 +175,27 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.css.showTable = 'users';
 
         if ($scope.data.searchDateTo){
-            $scope.data.searchOptions.createdAt = '<' + new Date($scope.data.searchDateTo);
+            $scope.data.searchOptions.query.createdAt = '<' + new Date($scope.data.searchDateTo);
         }else{
-            $scope.data.searchOptions.createdAt = '';
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 
         if ($scope.data.sharedInvitationSendCodeUsedTimeNumber){
-            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
+            $scope.data.searchOptions.query.sharedInvitationSendCodeUsedTime = '>=' + $scope.data.sharedInvitationSendCodeUsedTimeNumber;
         }else{
-            $scope.data.searchOptions.sharedInvitationSendCodeUsedTime = '';
+            $scope.data.searchOptions.query.sharedInvitationSendCodeUsedTime = '';
         }
 
 
         if ($scope.data.sharedInvitationSendCodeTotalCountNumber){
-            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
+            $scope.data.searchOptions.query.sharedInvitationSendCodeTotalCount = '>=' + $scope.data.sharedInvitationSendCodeTotalCountNumber;
         }else{
-            $scope.data.searchOptions.sharedInvitationSendCodeTotalCount = '';
+            $scope.data.searchOptions.query.sharedInvitationSendCodeTotalCount = '';
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         Users.one('count').get($scope.data.searchOptions).then(function (users) {
             $scope.data.userListCount = users.count;
@@ -208,7 +212,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
     $scope.searchUser = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
 
@@ -253,7 +257,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.css.showTable = 'stat';
 
         if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
         }
 
         $scope.searchUserStatisticOfNewComers();
@@ -264,9 +268,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.searchUserStatisticOfNewComers = function () {
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getUserStatisticOfNewComers($scope.data.searchOptions).then(function (result) {
+        Statistic.getUserStatisticOfNewComers($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticOfNewComers = result.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
@@ -277,9 +281,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.searchUserStatisticLoyalPurchaseFrequency = function () {
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions).then(function (result) {
+        Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
             //Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
@@ -297,12 +301,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
         if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateTo);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
         }
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getUserStatisticNewFirstOrderUserDaily($scope.data.searchOptions).then(function (result) {
+        Statistic.getUserStatisticNewFirstOrderUserDaily($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticNewFirstOrderUserDaily = result.data;
 
             $scope.data.userStatisticChartNewFirstOrderUserDaily = result.data;

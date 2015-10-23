@@ -42,6 +42,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 deliveryDateType : '',
                 "addressContactPerson" : '',
                 "addressMobile" : ''
+
             }
         },
         exportOrderIdList : [],
@@ -419,6 +420,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.data.searchOptions.query.createdAt = '';
         }
 
+
+        if ($scope.data.searchOptions.query.addressMobile ){
+            $scope.data.searchOptions.query['address.mobile'] = $scope.data.searchOptions.query.addressMobile;
+            delete $scope.data.searchOptions.query.addressMobile;
+        }
+
+        if ($scope.data.searchOptions.query.addressContactPerson ){
+            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.searchOptions.query.addressContactPerson
+            delete $scope.data.searchOptions.query.addressContactPerson
+        }
+
+
+
         Util.delProperty($scope.data.searchOptions.query);
 
 
@@ -453,6 +467,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         });
 
     };
+
+
 
     $scope.changePagination = function (currentPageNo) {
         $scope.data.orderListCurrentPage = currentPageNo;
@@ -561,7 +577,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     }
 
-
+    console.log(decodeURIComponent('http://localhost:3003/api/admin/orders/count?query=%7B%22cookingType%22:%22ready+to+eat%22%7D'));
 
 
     $scope.updateOrder = function (form) {

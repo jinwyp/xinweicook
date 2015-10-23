@@ -18,10 +18,15 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
         searchOptions : {
             skip : 0,
             limit : 200,
-            isPlus : '',
-            chargeType : '',
-            user : '',
-            order : ''
+
+            query : {
+                isPlus : '',
+                isPaid : '',
+                chargeType : '',
+                user : '',
+                order : ''
+            }
+
         },
 
         searchSort : {
@@ -96,7 +101,7 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
     $scope.searchAccountDetailCount = function (){
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         UserAccountDetails.one('count').get($scope.data.searchOptions).then(function (users) {
             $scope.data.accountDetailListCount = users.count;
@@ -113,7 +118,7 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
     };
 
     $scope.searchAccountDetail = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
 

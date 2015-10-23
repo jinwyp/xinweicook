@@ -496,6 +496,7 @@ module.exports =
   rest:
     preMiddleware : (req, res, next) ->
 
+      console.log(req.query.query)
 
 #      if req.method is "GET"
 #

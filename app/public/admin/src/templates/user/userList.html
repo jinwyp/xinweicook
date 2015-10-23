@@ -28,7 +28,7 @@
                     <label for="inputLanguageGroup" class="col-lg-2 control-label" >用户语言</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.userLanguageList">
-                            <input type="radio" name="userLanguage" id="inputLanguageGroup" ng-value="group.value" ng-model="data.searchOptions.lang">{{group.name}}
+                            <input type="radio" name="userLanguage" id="inputLanguageGroup" ng-value="group.value" ng-model="data.searchOptions.query.lang">{{group.name}}
                         </label>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     <label for="inputUserGroup" class="col-lg-2 control-label" >用户组</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.userGroupList">
-                            <input type="radio" name="userGroup" id="inputUserGroup" ng-value="group.value" ng-model="data.searchOptions.group">{{group.name}}
+                            <input type="radio" name="userGroup" id="inputUserGroup" ng-value="group.value" ng-model="data.searchOptions.query.group">{{group.name}}
                         </label>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userMobile.$dirty&&searchForm.userMobile.$valid, 'has-error':searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid}">
                     <label for="inputUserMobile" class="col-lg-2 control-label" >手机</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.mobile" ng-minlength="11">
+                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.query.mobile" ng-minlength="11">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid"></span>
                     </div>
@@ -60,7 +60,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >用户_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions._id" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query._id" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid, 'has-error':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid}">
                     <label for="inputUserInvitationSendCode" class="col-lg-2 control-label" >该用户自己的邀请码</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserInvitationSendCode" placeholder="" name="userInvitationSendCode" ng-model="data.searchOptions.invitationSendCode" ng-minlength="8">
+                        <input type="text" class="form-control" id="inputUserInvitationSendCode" placeholder="" name="userInvitationSendCode" ng-model="data.searchOptions.query.invitationSendCode" ng-minlength="8">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid"></span>
                     </div>
