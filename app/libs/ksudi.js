@@ -214,6 +214,7 @@ ksuDi.prototype.createOrder = function (item, callback){
             // 300 接受订单成功
             // 400 确认收货成功
             // 500 订单完成
+            // 600 保存订单成功
             return callback(null, result);
         }else{
             // 200 成功

@@ -16,28 +16,36 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.data = {
         searchFilter : '',
-        searchOptions : {
-            skip : 0,
-            limit : 200,
-            createdAt :'',
-            status : '',
-            orderNumber : '',
-            _id : '',
-            user : '',
-            isSplitOrder : '',
-            isChildOrder : '',
-            cookingType : '',
-            clientFrom : '',
-            deliveryDateType : '',
-            "addressContactPerson" : '',
-            "addressMobile" : ''
-
-        },
-        exportOrderIdList : [],
 
         searchSort : {
             sort : '-createdAt'
         },
+
+        searchSkip : {
+            skip : 0
+        },
+        searchLimit : {
+            limit : 200
+        },
+
+        searchOptions : {
+            query : {
+                createdAt :'',
+                status : '',
+                orderNumber : '',
+                _id : '',
+                user : '',
+                isSplitOrder : '',
+                isChildOrder : '',
+                cookingType : 'ready to eat',
+                clientFrom : '',
+                deliveryDateType : '',
+                "addressContactPerson" : '',
+                "addressMobile" : ''
+            }
+        },
+        exportOrderIdList : [],
+
 
         datePickerIsOpen : false,
 
@@ -401,23 +409,24 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrderCount = function (){
-
+        console.log($scope.data.searchOptions.query);
         $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom){
             //console.log (new Date($scope.data.searchDateFrom));
-            $scope.data.searchOptions.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = '>=' + new Date($scope.data.searchDateFrom);
         }else{
-            $scope.data.searchOptions.createdAt = '';
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
+
 
         Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
-            $localStorage.orderSearchOptions = $scope.data.searchOptions;
+            $localStorage.orderSearchOptions = $scope.data.searchOptions.query;
 
             $scope.data.orderListCount = orders.count;
-            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
+            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchLimit.limit);
 
             $scope.data.orderListPagesArray= [];
             for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
@@ -431,9 +440,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrder = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
+        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort, $scope.data.searchSkip,  $scope.data.searchLimit);
+
         Orders.getList(options).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 4000});
@@ -446,7 +456,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.changePagination = function (currentPageNo) {
         $scope.data.orderListCurrentPage = currentPageNo;
-        $scope.data.searchOptions.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchOptions.limit;
+        $scope.data.searchSkip.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchLimit.limit;
         $scope.searchOrder();
     };
 
@@ -520,15 +530,15 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     if ($state.current.data.type === 'list'){
         if ($localStorage.orderSearchOptions){
-            $scope.data.searchOptions = $localStorage.orderSearchOptions;
-            $scope.data.searchOptions.limit = 200;
-            $scope.data.searchOptions.skip = 0;
+            //$scope.data.searchOptions.query = $localStorage.orderSearchOptions;
+            $scope.data.searchLimit.limit = 200;
+            $scope.data.searchSkip.skip = 0;
         }
-        if ($scope.data.searchOptions.createdAt){
-            if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
+        if ($scope.data.searchOptions.query.createdAt){
+            if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
+                $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
             }else{
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
+                $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
             }
 
         }else{
@@ -540,7 +550,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     }
 
     if ($state.current.data.type === 'update'){
-        $scope.getOrderById()
+        $scope.getOrderById();
 
 
         Users.getList({group : 'courier'}).then(function (resultUsers) {
@@ -639,13 +649,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByAddress';
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByAddress($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressList = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
@@ -659,12 +669,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByAddressAuto';
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressListAuto = resultOrder.data;
 
             $scope.showBaiduMap();
@@ -682,13 +692,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByDailySalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByDaily = resultOrder.data;
@@ -711,13 +721,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByHourSales($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByHourSales($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByHourSalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByHour = resultOrder.data;

@@ -1096,7 +1096,7 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
         resultOrder.saveAsync();
 
 #      if req.body.state isnt "300" and req.body.state isnt "400" and req.body.state isnt "500" and req.body.state isnt "600"
-      logger.error("=========kushudi:", JSON.stringify(req.body))
+      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
 
     res.send({code : 200})
 

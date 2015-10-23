@@ -41,6 +41,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
             return obj
         },
 
+
         chartDataFormat : function(chartData){
 
             var simpleChartSeries = [
