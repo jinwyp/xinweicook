@@ -18,17 +18,19 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         searchFilter : '',
         searchOptions : {
             sort : '-sortId',
-            cookingType : '',
-            sideDishType : '',
-            isPublished : '',
-            _id : '',
+
+            query : {
+                cookingType : '',
+                sideDishType : '',
+                isPublished : '',
+                _id : ''
+            },
+
 
             searchDateFrom : '',
-            searchDateTo : '',
+            searchDateTo : ''
 
-            title : {
-                zh : ''
-            }
+
         },
 
         datePickerIsOpen : false,
@@ -421,9 +423,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
         if ($scope.css.searchDishStatisticSortBy === 'salesToday' || $scope.data.dishStatisticByStock.length === 0){
-            Util.delProperty($scope.data.searchOptions);
+            Util.delProperty($scope.data.searchOptions.query);
 
-            Statistic.getDishStatisticByStock($scope.data.searchOptions).then(function (result) {
+            Statistic.getDishStatisticByStock($scope.data.searchOptions.query).then(function (result) {
                 $scope.data.dishStatisticByStock = result.data;
                 Notification.success({message: 'Search Success! ', delay: 8000});
             }).catch(function(err){
@@ -440,9 +442,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticDaily';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getDishStatisticByDaily($scope.data.searchOptions).then(function (result) {
+        Statistic.getDishStatisticByDaily($scope.data.searchOptions.query).then(function (result) {
             $scope.data.dishStatisticByDaily = result.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
@@ -459,9 +461,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticChart';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getDishStatisticChartByDaily($scope.data.searchOptions).then(function (result) {
+        Statistic.getDishStatisticChartByDaily($scope.data.searchOptions.query).then(function (result) {
             $scope.data.dishStatisticChartByDaily = result.data.byDaily;
             $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
 
@@ -483,19 +485,15 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.searchDish = function (form) {
-        if ($localStorage.dishSearchOptions){
-            $scope.data.searchOptions = $localStorage.dishSearchOptions
-        }
 
         $scope.css.showTable = 'dishes';
 
         $scope.data.searchOptions.searchDateFrom = '';
 
-        deleteProperty($scope.data.searchOptions);
+        deleteProperty($scope.data.searchOptions.query);
 
 
         Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
-            $localStorage.dishSearchOptions = $scope.data.searchOptions;
 
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 8000});
@@ -698,7 +696,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.showChart = function(dishId){
-        $scope.data.searchOptions._id = dishId;
+        $scope.data.searchOptions.query._id = dishId;
 
         $scope.searchDishStatisticChartByDaily();
 

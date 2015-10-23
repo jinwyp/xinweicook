@@ -27,7 +27,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userMobile.$dirty&&searchForm.userMobile.$valid, 'has-error':searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid}">
                     <label for="inputUserMobile" class="col-lg-2 control-label" >手机</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.mobile" ng-minlength="11">
+                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.query.mobile" ng-minlength="11">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid"></span>
                     </div>
@@ -41,7 +41,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >用户_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions._id" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query._id" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
                     </div>

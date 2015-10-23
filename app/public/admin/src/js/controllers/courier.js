@@ -18,10 +18,13 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
         searchOptions : {
             skip : 0,
             createdAt :'',
-            group : 'courier',
-            lang : '',
-            _id : '',
-            mobile : ''
+
+            query : {
+                group : 'courier',
+                _id : '',
+                mobile : ''
+            }
+
         },
 
         searchSort : {
@@ -105,7 +108,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
         $scope.css.showTable = '';
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         Users.one('count').get($scope.data.searchOptions).then(function (users) {
             $scope.data.userListCount = users.count;
@@ -124,7 +127,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
     $scope.searchUser = function (form) {
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
         var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
 

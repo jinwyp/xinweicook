@@ -27,7 +27,7 @@
                     <label for="inputCookingType" class="col-lg-2 control-label" >菜品分类</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="cookingType in data.dishCookingType">
-                            <input type="radio" name="cookingType" id="inputCookingType" ng-value="cookingType.value" ng-model="data.searchOptions.cookingType">{{cookingType.name}}
+                            <input type="radio" name="cookingType" id="inputCookingType" ng-value="cookingType.value" ng-model="data.searchOptions.query.cookingType">{{cookingType.name}}
                         </label>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <label for="inputSideDishType" class="col-lg-2 control-label" >主菜或配菜类型</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="status in data.sideDishTypeList">
-                            <input type="radio" name="sideDishType" id="inputSideDishType" ng-value="status.value" ng-model="data.searchOptions.sideDishType">{{status.name}}
+                            <input type="radio" name="sideDishType" id="inputSideDishType" ng-value="status.value" ng-model="data.searchOptions.query.sideDishType">{{status.name}}
                         </label>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <label for="inputIsPublished" class="col-lg-2 control-label" >是否上架</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="status in data.isPublishedList">
-                            <input type="radio" name="isPublished" id="inputIsPublished" ng-value="status.value" ng-model="data.searchOptions.isPublished">{{status.name}}
+                            <input type="radio" name="isPublished" id="inputIsPublished" ng-value="status.value" ng-model="data.searchOptions.query.isPublished">{{status.name}}
                         </label>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.dishId.$dirty&&searchForm.dishId.$valid, 'has-error':searchForm.dishId.$dirty&&searchForm.dishId.$invalid}">
                     <label for="inputDishId" class="col-lg-2 control-label" >菜品_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputDishId" placeholder="菜品_ID" name="dishId" ng-model="data.searchOptions._id" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputDishId" placeholder="菜品_ID" name="dishId" ng-model="data.searchOptions.query._id" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.dishId.$dirty&&searchForm.dishId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.dishId.$dirty&&searchForm.dishId.$invalid"></span>
                     </div>
