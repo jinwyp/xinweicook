@@ -20,7 +20,6 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
                         .map(function (key) {return key + '=' + params[key]})
                         .join('&');
 
-                alert(s.src);
 
                 var fatherDom = angular.element(document.getElementById('geetestContainer'));
 
