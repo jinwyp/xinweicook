@@ -251,7 +251,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 en : 'Starch'
             },
             {
-                zh : '加量主食',
+                zh : '额外加饭',
                 en : 'Additional Starch'
             },
             {
