@@ -83,7 +83,7 @@ production =
   level:
     console: ENV.LEVEL or "warn"
     db: "warn"
-  db: ENV.DB or "mongodb://cook-api:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api"
+  db: ENV.DB or "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
   redis: if ENV.REDIS then JSON.parse ENV.REDIS else [
     { host: "10.4.3.142", port: "6379" }
     { host: "10.4.3.101", port: "6379" }
