@@ -39,7 +39,7 @@ module.exports =
 #        console.log "------------- winston logger on logging :", level, msg, meta
     logger
 
-  middleware: ->
+  middleware: (req, res, next)->
     expressWinston.requestWhitelist.push "body"
     expressWinston.requestWhitelist.push "params"
 #    expressWinston.requestWhitelist.push "_id"
