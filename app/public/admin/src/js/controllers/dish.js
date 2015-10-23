@@ -20,6 +20,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             sort : '-sortId',
 
             query : {
+                createdAt : '',
                 cookingType : '',
                 sideDishType : '',
                 isPublished : '',
@@ -488,7 +489,12 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         $scope.css.showTable = 'dishes';
 
-        $scope.data.searchOptions.searchDateFrom = '';
+        console.log($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom){
+            $scope.data.searchOptions.query.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
+        }
 
         deleteProperty($scope.data.searchOptions.query);
 

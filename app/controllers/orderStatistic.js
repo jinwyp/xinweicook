@@ -1063,6 +1063,14 @@ exports.orderHourSales = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
 exports.dishDailySales = function(req, res, next) {
 
     var query = {};
