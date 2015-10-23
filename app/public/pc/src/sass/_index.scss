@@ -1,3 +1,5 @@
+$main-width: 1000px;
+
 .hidevideo {
   position: fixed;
   top: 0;
@@ -41,7 +43,7 @@
     width: 100%;
   }
 }
-.index {
+.index-main {
   width: 100%;
   background: url(../images/indexbg.jpg) center center;
   background-size: 2000px;
