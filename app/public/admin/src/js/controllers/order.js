@@ -29,9 +29,11 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 user : '',
                 isSplitOrder : '',
                 isChildOrder : '',
-                cookingType : 'ready to eat',
+                cookingType : '',
                 clientFrom : '',
-                deliveryDateType : ''
+                deliveryDateType : '',
+                "addressContactPerson" : '',
+                "addressMobile" : ''
 
             }
         },
@@ -43,8 +45,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         searchDateFrom : '',
         searchDateTo : '',
 
-        "addressContactPerson" : '',
-        "addressMobile" : '',
+
 
         orderListCount : 0,
         orderListCurrentPage : 1,
@@ -411,20 +412,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }else{
             $scope.data.searchOptions.query.createdAt = '';
         }
-
-
-        if ($scope.data.addressMobile ){
-            $scope.data.searchOptions.query['address.mobile'] = $scope.data.addressMobile;
-        }else{
-            $scope.data.searchOptions.query['address.mobile'] = '';
-        }
-
-        if ($scope.data.addressContactPerson ){
-            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.addressContactPerson;
-        }else{
-            $scope.data.searchOptions.query['address.contactPerson'] = '';
-        }
-
 
 
         Util.delProperty($scope.data.searchOptions.query);

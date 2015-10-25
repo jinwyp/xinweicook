@@ -494,28 +494,44 @@ module.exports =
 
   methods: {}
   rest:
-    preMiddleware : (req, res, next) ->
 
-      console.log(req.query.query)
+    postRead : (req, res, next) ->
+      if req.method is "GET"
 
-#      if req.method is "GET"
-#
-#        req.query.query = JSON.parse(req.query.query)
-#
-#        console.log(req.query.query.addressMobile)
-##        console.log(req.query.query.addressContactPerson)
-#
-#        if req.query.query.addressContactPerson
-#          req.query.query['address.contactPerson'] = req.query.query.addressContactPerson
-#          delete req.query.query.addressContactPerson
-#
-#        if req.query.query.addressMobile
-#          req.query.query['address.mobile'] = req.query.query.addressMobile
-#          delete req.query.query.addressMobile
-#          console.log(req.query.query)
+        if req.query.query
+
+          tempQuery = JSON.parse(req.query.query);
+
+          if tempQuery.addressMobile
+
+            models.order.find({'address.mobile' : tempQuery.addressMobile}).then (resultList) ->
+
+              if req.url.indexOf('count') > -1
+                req.erm.result = {count : resultList.length};
+              else
+                req.erm.result = resultList;
+
+              next()
+
+          else if tempQuery.addressContactPerson
+
+            models.order.find({'address.contactPerson' : tempQuery.addressContactPerson}).then (resultList) ->
+
+              if req.url.indexOf('count') > -1
+                req.erm.result = {count : resultList.length};
+              else
+                req.erm.result = resultList;
+
+              next()
+
+          else
+            next()
+
+        else
+          next()
 
 
-      next()
+
 
     postUpdate : (req, res, next) ->
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
