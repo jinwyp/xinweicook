@@ -17,21 +17,24 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
+
             skip : 0,
             limit : 200,
-            usedTime : '',
-            isUsedCount : '',
-            isUsed : '',
-            couponType : '',
-            _id : '',
-            fromCoupon : '',
-            user : ''
+            query : {
+                usedTime : '',
+                isUsedCount : '',
+                isUsed : '',
+                couponType : '',
+                _id : '',
+                user : '',
+                fromCoupon : '',
+                code : ''
+
+            }
 
         },
-        searchSort : {
-            sort : '-createdAt'
-//            sort : 'couponType'
-        },
+
 
         couponListCount : 0,
         couponListCurrentPage : 1,
@@ -76,9 +79,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         $scope.css.showTable = 'coupons';
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Coupons.one('count').get($scope.data.searchOptions).then(function (resultCoupons) {
+        Coupons.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (resultCoupons) {
 
             $scope.data.couponListCount = resultCoupons.count;
             $scope.data.couponListTotalPages = Math.ceil(resultCoupons.count / $scope.data.searchOptions.limit);
@@ -94,10 +97,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
     $scope.searchCoupon = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-        Coupons.getList(options).then(function (resultCoupon) {
+        Coupons.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultCoupon) {
             $scope.data.couponList = resultCoupon;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -120,9 +122,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         $scope.css.showTable = 'statisticByName';
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getUserStatisticCouponByName($scope.data.searchOptions).then(function (resultCoupon) {
+        Statistic.getUserStatisticCouponByName($scope.data.searchOptions.query).then(function (resultCoupon) {
             $scope.data.couponStatisticByName = resultCoupon.data;
 
             //Notification.success({message: 'Search Success! ', delay: 4000});

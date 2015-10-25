@@ -28,7 +28,7 @@
                     <label  class="col-lg-2 control-label" >是否启用</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="status in data.isActivatedStatusList">
-                            <input type="radio" name="cronIsActivated" id="inputCronIsActivated" ng-value="status.value" ng-model="data.searchOptions.isActivated">{{status.name}}
+                            <input type="radio" name="cronIsActivated" id="inputCronIsActivated" ng-value="status.value" ng-model="data.searchOptions.query.isActivated">{{status.name}}
                         </label>
                     </div>
                 </div>

@@ -17,9 +17,15 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
+
             skip : 0,
             limit : 500,
-            isActivated : ''
+
+            query : {
+                isActivated : ''
+            }
+
         },
         cronListCount : 0,
         cronListCurrentPage : 1,
@@ -102,9 +108,8 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     $scope.searchCronCount = function (){
 
-        Util.delProperty($scope.data.searchOptions);
-        //console.log ($scope.data.searchOptions);
-        Crons.one('count').get($scope.data.searchOptions).then(function (crons) {
+        Util.delProperty($scope.data.searchOptions.query);
+        Crons.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (crons) {
             $scope.data.cronListCount = crons.count;
             $scope.data.cronListTotalPages = Math.ceil(crons.count / $scope.data.searchOptions.limit);
 
@@ -119,9 +124,9 @@ function cronController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
     $scope.searchCron = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Crons.getList($scope.data.searchOptions).then(function (resultCron) {
+        Crons.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultCron) {
             $scope.data.cronList = resultCron;
             Notification.success({message: 'Search Success! ', delay: 8000});
 

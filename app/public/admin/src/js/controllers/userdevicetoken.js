@@ -16,15 +16,18 @@ function userDeviceController($scope, $timeout, $state, $stateParams, Notificati
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
+
             skip : 0,
             limit : 200,
-            deviceToken : '',
-            user : ''
+
+            query : {
+                deviceToken : '',
+                user : ''
+            }
+
         },
 
-        searchSort : {
-            sort : '-createdAt'
-        },
 
         deviceListCount : 0,
         deviceListCurrentPage : 1,
@@ -49,9 +52,9 @@ function userDeviceController($scope, $timeout, $state, $stateParams, Notificati
 
 
     $scope.searchDeviceCount = function (){
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Devices.one('count').get($scope.data.searchOptions).then(function (users) {
+        Devices.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (users) {
             $scope.data.deviceListCount = users.count;
             $scope.data.deviceListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
 
@@ -66,11 +69,9 @@ function userDeviceController($scope, $timeout, $state, $stateParams, Notificati
     };
 
     $scope.searchDevice = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        Devices.getList(options).then(function (resultDevices) {
+        Devices.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultDevices) {
             $scope.data.deviceList = resultDevices;
             Notification.success({message: 'Search Success! ', delay: 8000});
 

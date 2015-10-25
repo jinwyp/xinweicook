@@ -17,14 +17,15 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-timestamp',
             skip : 0,
             limit : 200,
-            level : 'error'
+            query : {
+                level : 'error'
+            }
+
         },
 
-        searchSort : {
-            sort : '-timestamp'
-        },
 
         logListCount : 0,
         logListCurrentPage : 1,
@@ -45,9 +46,9 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
 
     $scope.searchLogCount = function (){
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Logs.one('count').get($scope.data.searchOptions).then(function (logs) {
+        Logs.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (logs) {
             $scope.data.logListCount = logs.count;
             $scope.data.logListTotalPages = Math.ceil(logs.count / $scope.data.searchOptions.limit);
 
@@ -62,11 +63,9 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
     };
 
     $scope.searchLog = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        Logs.getList(options).then(function (resultLog) {
+        Logs.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultLog) {
             $scope.data.logList = resultLog;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -98,12 +97,6 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
         Logs.one($stateParams.id).get().then(function (resutlLog) {
             $scope.data.log = resutlLog;
 
-            //编辑log时， 处理log group 显示
-            //angular.forEach($scope.data.logGroup, function(log) {
-            //    if (log.zh === $scope.data.log.group.zh){
-            //        $scope.data.log.group = log;
-            //    }
-            //});
         });
     }
 

@@ -16,19 +16,11 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.data = {
         searchFilter : '',
-
-        searchSort : {
-            sort : '-createdAt'
-        },
-
-        searchSkip : {
-            skip : 0
-        },
-        searchLimit : {
-            limit : 200
-        },
-
         searchOptions : {
+            sort : '-createdAt',
+            skip : 0,
+            limit : 200,
+
             query : {
                 createdAt :'',
                 status : '',
@@ -39,9 +31,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 isChildOrder : '',
                 cookingType : 'ready to eat',
                 clientFrom : '',
-                deliveryDateType : '',
-                "addressContactPerson" : '',
-                "addressMobile" : ''
+                deliveryDateType : ''
 
             }
         },
@@ -52,6 +42,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         searchDateFrom : '',
         searchDateTo : '',
+
+        "addressContactPerson" : '',
+        "addressMobile" : '',
 
         orderListCount : 0,
         orderListCurrentPage : 1,
@@ -410,7 +403,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrderCount = function (){
-        console.log($scope.data.searchOptions.query);
         $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom){
@@ -421,26 +413,27 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }
 
 
-        if ($scope.data.searchOptions.query.addressMobile ){
-            $scope.data.searchOptions.query['address.mobile'] = $scope.data.searchOptions.query.addressMobile;
-            delete $scope.data.searchOptions.query.addressMobile;
+        if ($scope.data.addressMobile ){
+            $scope.data.searchOptions.query['address.mobile'] = $scope.data.addressMobile;
+        }else{
+            $scope.data.searchOptions.query['address.mobile'] = '';
         }
 
-        if ($scope.data.searchOptions.query.addressContactPerson ){
-            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.searchOptions.query.addressContactPerson
-            delete $scope.data.searchOptions.query.addressContactPerson
+        if ($scope.data.addressContactPerson ){
+            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.addressContactPerson;
+        }else{
+            $scope.data.searchOptions.query['address.contactPerson'] = '';
         }
 
 
 
         Util.delProperty($scope.data.searchOptions.query);
 
-
-        Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
-            $localStorage.orderSearchQuery = $scope.data.searchOptions.query;
+        Orders.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (orders) {
+            $localStorage.orderSearchOptions = $scope.data.searchOptions.query;
 
             $scope.data.orderListCount = orders.count;
-            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchLimit.limit);
+            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
 
             $scope.data.orderListPagesArray= [];
             for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
@@ -456,9 +449,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.searchOrder = function (form) {
         Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort, $scope.data.searchSkip,  $scope.data.searchLimit);
-
-        Orders.getList(options).then(function (resultOrder) {
+        Orders.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 4000});
 
@@ -472,7 +463,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
     $scope.changePagination = function (currentPageNo) {
         $scope.data.orderListCurrentPage = currentPageNo;
-        $scope.data.searchSkip.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchLimit.limit;
+        $scope.data.searchOptions.skip = ($scope.data.orderListCurrentPage-1) * $scope.data.searchOptions.limit;
         $scope.searchOrder();
     };
 
@@ -545,11 +536,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     if ($state.current.data.type === 'list'){
-        if ($localStorage.orderSearchQuery){
-            $scope.data.searchOptions.query = $localStorage.orderSearchQuery;
-            $scope.data.searchLimit.limit = 200;
-            $scope.data.searchSkip.skip = 0;
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
+            $scope.data.searchOptions.query.skip = '';
+            $scope.data.searchOptions.query.limit = '';
         }
+
         if ($scope.data.searchOptions.query.createdAt){
             if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
                 $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
