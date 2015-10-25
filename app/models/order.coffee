@@ -568,6 +568,7 @@ module.exports =
               models.useraccount.findOneAsync({user : resultOrder.user._id.toString()}).then (resultAccount)->
                 if resultAccount
                   resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
+      next()
 
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "order", field: "autoIncrementId", startAt: 10000

@@ -1633,6 +1633,7 @@ exports.dishStatisticByStock = function(req, res, next) {
         { "$limit": 1000 }
     );
 
+
     if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
         pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
         pipelinePerWeek[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};

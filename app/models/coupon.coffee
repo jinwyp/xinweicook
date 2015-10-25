@@ -468,6 +468,7 @@ module.exports =
     postCreate : (req, res, next) ->
 
       if req.method is "POST"
+
         # 给用户新增优惠券
         if req.body.user and req.body.user.length > 23
           models.user.findOneAsync({_id:req.body.user}).then (resultUser) ->
@@ -482,3 +483,4 @@ module.exports =
                   resultUser.saveAsync().catch( (err)->
                     logger.error("Create Coupon failed:", err)
                   )
+      next()

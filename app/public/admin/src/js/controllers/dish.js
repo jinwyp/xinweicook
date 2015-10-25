@@ -20,21 +20,18 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             sort : '-sortId',
 
             query : {
-                createdAt : '',
                 cookingType : '',
                 sideDishType : '',
                 isPublished : '',
                 _id : ''
-            },
-
-
-            searchDateFrom : '',
-            searchDateTo : ''
-
+            }
 
         },
 
         datePickerIsOpen : false,
+
+        searchDateFrom : '',
+        searchDateTo : '',
 
 
         tagList : [],
@@ -375,58 +372,18 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
-    function deleteProperty (obj){
-
-        for(var p in obj) {
-            if (obj.hasOwnProperty(p)) {
-                if (obj[p] ===''){
-                    delete obj[p];
-                }
-                if (angular.isArray(obj[p]) ){
-
-                    if(obj[p].length === 0){
-                        delete obj[p];
-                    }else{
-                        angular.forEach(obj[p], function(subobj, index){
-                            if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
-                                obj[p].splice(index, 1)
-                            }
-
-                            if(!angular.isUndefined(subobj.title) && subobj.title.zh == '' && !angular.isUndefined(subobj.value) && subobj.value.zh == ''){
-                                obj[p].splice(index, 1)
-                            }
-                            if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
-                                obj[p].splice(index, 1)
-                            }
-
-                        })
-                    }
-                }else if (angular.isObject(obj[p])) {
-                    deleteProperty(obj[p]);
-
-                    var hasPro = false;
-                    for(var pchild in obj[p]) {
-                        hasPro = true;
-                    }
-                    if (!hasPro){
-                        delete obj[p];
-                    }
-                }
-            }
-        }
-    }
 
 
-
-    $scope.searchDishStatistic = function (form, sortBy) {
+    $scope.searchDishStatisticByStock = function (form, sortBy) {
         $scope.css.showTable = 'statistic';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
+        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
 
         if ($scope.css.searchDishStatisticSortBy === 'salesToday' || $scope.data.dishStatisticByStock.length === 0){
-            Util.delProperty($scope.data.searchOptions.query);
+            Util.delProperty(options);
 
-            Statistic.getDishStatisticByStock($scope.data.searchOptions.query).then(function (result) {
+            Statistic.getDishStatisticByStock(options).then(function (result) {
                 $scope.data.dishStatisticByStock = result.data;
                 Notification.success({message: 'Search Success! ', delay: 8000});
             }).catch(function(err){
@@ -443,9 +400,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticDaily';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        Util.delProperty($scope.data.searchOptions.query);
+        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
 
-        Statistic.getDishStatisticByDaily($scope.data.searchOptions.query).then(function (result) {
+        Util.delProperty(options);
+
+        Statistic.getDishStatisticByDaily(options).then(function (result) {
             $scope.data.dishStatisticByDaily = result.data;
             Notification.success({message: 'Search Success! ', delay: 8000});
         }).catch(function(err){
@@ -462,9 +421,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticChart';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        Util.delProperty($scope.data.searchOptions.query);
+        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
 
-        Statistic.getDishStatisticChartByDaily($scope.data.searchOptions.query).then(function (result) {
+        Util.delProperty(options);
+
+        Statistic.getDishStatisticChartByDaily(options).then(function (result) {
             $scope.data.dishStatisticChartByDaily = result.data.byDaily;
             $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
 
@@ -489,17 +450,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         $scope.css.showTable = 'dishes';
 
-        console.log($scope.data.searchDateFrom);
-        if ($scope.data.searchDateFrom){
-            $scope.data.searchOptions.query.createdAt = '>=' + new Date($scope.data.searchDateFrom);
-        }else{
-            $scope.data.searchOptions.query.createdAt = '';
-        }
+        Util.delProperty($scope.data.searchOptions.query);
 
-        deleteProperty($scope.data.searchOptions.query);
-
-
-        Dishes.getList($scope.data.searchOptions).then(function (resultDish) {
+        Dishes.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultDish) {
 
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 8000});
@@ -509,6 +462,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         });
 
     };
+
     $scope.delDish = function (dish) {
 
         var index = $scope.data.dishList.indexOf(dish);
@@ -527,23 +481,24 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
-    $scope.searchDish();
-
-    Tags.getList().then(function (tags) {
-        $scope.data.tagList = tags;
-    });
-
-    Dishes.getList().then(function (resultDish) {
-        $scope.data.dishAllList = resultDish;
-    });
 
     if ($state.current.data.type === 'list'){
-
+        $scope.searchDish();
     }
 
 
     if ($state.current.data.type === 'update'){
         $scope.css.isAddNewStatus = false;
+
+
+        Tags.getList().then(function (tags) {
+            $scope.data.tagList = tags;
+        });
+
+
+        Dishes.getList().then(function (resultDish) {
+            $scope.data.dishAllList = resultDish;
+        });
 
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
@@ -561,8 +516,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         }
 
         var newDish = angular.copy($scope.data.dish);
-        deleteProperty(newDish);
+        Util.delAllProperty(newDish);
         console.log (newDish);
+
         Dishes.post(newDish).then(function (resultDish) {
 
             console.log(resultDish);
@@ -575,12 +531,12 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.updateDish = function (form) {
-        console.log($scope.data.dish.preferences);
 
         if (form.$invalid) {
             return;
         }
-        deleteProperty($scope.data.dish);
+        Util.delAllProperty($scope.data.dish);
+
         $scope.data.dish.put().then(function (resultDish) {
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;
@@ -688,7 +644,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     $scope.showInventory = function () {
 
-        Inventories.getList({dish : $stateParams.id, sort : '-createdAt'}).then(function (result) {
+        Inventories.getList( { query : {dish : $stateParams.id}, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
             Notification.success({message: 'Search Success', delay: 8000});
 

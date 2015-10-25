@@ -16,8 +16,9 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-modifiedAt',
             skip : 0,
-            createdAt :'',
+            limit : 200,
 
             query : {
                 group : 'courier',
@@ -28,7 +29,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
         },
 
         searchSort : {
-            sort : '-modifiedAt'
+
         },
 
 
@@ -107,10 +108,9 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
         $scope.css.showTable = '';
 
-
         Util.delProperty($scope.data.searchOptions.query);
 
-        Users.one('count').get($scope.data.searchOptions).then(function (users) {
+        Users.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (users) {
             $scope.data.userListCount = users.count;
             $scope.data.userListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
 
@@ -129,9 +129,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
         Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        Users.getList(options).then(function (resultUsers) {
+        Users.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
             //Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -364,7 +362,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                 console.log(user.geoLongitude, user.geoLatitude , user.fullName);
 
                 if (!user.fullName){
-                    user.fullName = '暂无姓名';
+                    user.fullName = '暂无姓名'; // 修复在地图点上显示姓名
                 }
 
                 var pointCourier = new BMap.Point( user.geoLongitude, user.geoLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度

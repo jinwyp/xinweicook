@@ -193,6 +193,7 @@ module.exports =
   }
   rest:
     postUpdate : (req, res, next) ->
+
       if req.method is "PUT"
 
         # 修改库存
@@ -207,6 +208,8 @@ module.exports =
           .then (resultDish) ->
             if resultDish
               resultDish.reduceStock(req.body.reduceInventory, req.u, models.inventory.constantRemark().adminOperation )
+
+      next()
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->
