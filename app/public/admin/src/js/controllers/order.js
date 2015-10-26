@@ -31,10 +31,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 isChildOrder : '',
                 cookingType : '',
                 clientFrom : '',
-                deliveryDateType : '',
-                "addressContactPerson" : '',
-                "addressMobile" : ''
-
+                deliveryDateType : ''
             }
         },
         exportOrderIdList : [],
@@ -45,6 +42,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         searchDateFrom : '',
         searchDateTo : '',
 
+        "addressContactPerson" : '',
+        "addressMobile" : '',
 
 
         orderListCount : 0,
@@ -414,10 +413,38 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }
 
 
+        if($scope.data.addressMobile){
+            $scope.data.searchOptions.query['address.mobile'] = $scope.data.addressMobile;
+        }else{
+            delete $scope.data.searchOptions.query['address.mobile']
+        }
+
+
+        if($scope.data.addressContactPerson){
+            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.addressContactPerson;
+        }else{
+            delete $scope.data.searchOptions.query['address.contactPerson']
+        }
+
+
+
         Util.delProperty($scope.data.searchOptions.query);
 
         Orders.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (orders) {
-            $localStorage.orderSearchOptions = $scope.data.searchOptions.query;
+
+
+            $localStorage.orderSearchOptions = {
+
+                status : $scope.data.searchOptions.query.status,
+                isSplitOrder : $scope.data.searchOptions.query.isSplitOrder,
+                isChildOrder : $scope.data.searchOptions.query.isChildOrder,
+                cookingType : $scope.data.searchOptions.query.cookingType,
+                clientFrom : $scope.data.searchOptions.query.clientFrom,
+                deliveryDateType : $scope.data.searchOptions.query.deliveryDateType
+            };
+
+
+
 
             $scope.data.orderListCount = orders.count;
             $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
@@ -434,6 +461,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrder = function (form) {
+
         Util.delProperty($scope.data.searchOptions.query);
 
         Orders.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultOrder) {
@@ -525,20 +553,18 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     if ($state.current.data.type === 'list'){
         if ($localStorage.orderSearchOptions){
             $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
-            $scope.data.searchOptions.query.skip = '';
-            $scope.data.searchOptions.query.limit = '';
         }
 
-        if ($scope.data.searchOptions.query.createdAt){
-            if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
-                $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
-            }else{
-                $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
-            }
-
-        }else{
-            $scope.data.searchDateFrom = '';
-        }
+        //if ($scope.data.searchOptions.query.createdAt){
+        //    if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
+        //    }else{
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
+        //    }
+        //
+        //}else{
+        //    $scope.data.searchDateFrom = '';
+        //}
 
         $scope.searchOrderCount();
 

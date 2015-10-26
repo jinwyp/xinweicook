@@ -495,40 +495,40 @@ module.exports =
   methods: {}
   rest:
 
-    postRead : (req, res, next) ->
-      if req.method is "GET"
-
-        if req.query.query
-
-          tempQuery = JSON.parse(req.query.query);
-
-          if tempQuery.addressMobile
-
-            models.order.find({'address.mobile' : tempQuery.addressMobile}).then (resultList) ->
-
-              if req.url.indexOf('count') > -1
-                req.erm.result = {count : resultList.length};
-              else
-                req.erm.result = resultList;
-
-              next()
-
-          else if tempQuery.addressContactPerson
-
-            models.order.find({'address.contactPerson' : tempQuery.addressContactPerson}).then (resultList) ->
-
-              if req.url.indexOf('count') > -1
-                req.erm.result = {count : resultList.length};
-              else
-                req.erm.result = resultList;
-
-              next()
-
-          else
-            next()
-
-        else
-          next()
+#    postRead : (req, res, next) ->
+#      if req.method is "GET"
+#
+#        if req.query.query
+#
+#          tempQuery = JSON.parse(req.query.query);
+#
+#          if tempQuery.addressMobile
+#
+#            models.order.find({'address.mobile' : tempQuery.addressMobile}).then (resultList) ->
+#
+#              if req.url.indexOf('count') > -1
+#                req.erm.result = {count : resultList.length};
+#              else
+#                req.erm.result = resultList;
+#
+#              next()
+#
+#          else if tempQuery.addressContactPerson
+#
+#            models.order.find({'address.contactPerson' : tempQuery.addressContactPerson}).then (resultList) ->
+#
+#              if req.url.indexOf('count') > -1
+#                req.erm.result = {count : resultList.length};
+#              else
+#                req.erm.result = resultList;
+#
+#              next()
+#
+#          else
+#            next()
+#
+#        else
+#          next()
 
 
 
