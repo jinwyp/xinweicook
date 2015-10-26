@@ -84,9 +84,9 @@ expressRoutes = (app) ->
 
   app.get("/api/user", libs.auth("member"), userController.userInfo)
   app.get("/api/user/address", libs.auth("member"), userController.getUserAddress)
-  app.post("/api/user/address", libs.auth("member"), userController.addNewUserAddress)
-  app.put("/api/user/address/:_id", libs.auth("member"), userController.userInfo)
-  app.delete("/api/user/address/:_id", libs.auth("member"), userController.userInfo)
+  app.post("/api/user/address", libs.auth("member"), userController.addNewAddress)
+  app.put("/api/user/address/:_id", libs.auth("member"), userController.updateAddress)
+  app.delete("/api/user/address/:_id", libs.auth("member"), userController.deleteAddress)
 
 
 

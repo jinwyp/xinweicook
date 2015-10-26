@@ -290,7 +290,7 @@ exports.userInfo = (req, res, next) ->
 exports.getUserAddress = (req, res, next) ->
 
   models.useraddress.find({user : req.u._id}).then (resultUserAddressList)->
-
+    # 转换老地址
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 
       tempAddressList = []
@@ -337,7 +337,7 @@ exports.getUserAddress = (req, res, next) ->
 
 
 # 新增用户收货地址
-exports.addNewUserAddress = (req, res, next) ->
+exports.addNewAddress = (req, res, next) ->
 
   models.useraddress.validationSingle(req.body)
 
@@ -383,6 +383,70 @@ exports.addNewUserAddress = (req, res, next) ->
       res.json result
 
     .catch next
+
+
+
+
+
+# 编辑用户收货地址
+exports.updateAddress = (req, res, next) ->
+
+  models.useraddress.validationId(req.params._id)
+  models.useraddress.validationSingle(req.body)
+
+
+  models.useraddress.findOneAsync({_id:req.params._id}).then (result)->
+
+    models.useraddress.checkNotFound(result)
+
+    if result
+      result.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
+      result.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+
+      result.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
+
+      result.country = req.body.country if req.body.country
+      result.province = req.body.province if req.body.province
+      result.city = req.body.city if req.body.city
+      result.district = req.body.district if req.body.district
+      result.street = req.body.street if req.body.street
+      result.street_number = req.body.street_number if req.body.street_number
+      result.address = req.body.address if req.body.address
+
+      result.contactPerson = req.body.contactPerson if req.body.contactPerson
+      result.mobile = req.body.mobile if req.body.mobile
+
+      result.isDefault = req.body.isDefault if req.body.isDefault
+      result.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+      if req.body.isDefault
+        models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
+
+          result.saveAsync()
+      else
+        result.saveAsync()
+
+  .then (result)->
+    res.json result[0]
+  .catch next
+
+
+
+
+
+
+# 编辑用户收货地址
+exports.deleteAddress = (req, res, next) ->
+
+  models.useraddress.validationId(req.params._id)
+
+  models.useraddress.findOneAndRemoveAsync({_id:req.params._id}).then (result)->
+
+    res.json result
+  .catch next
+
+
+
 
 
 

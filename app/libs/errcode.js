@@ -4,10 +4,28 @@
 module.exports = {
     user: {
         // todo: 第二第三位的1 是什么意思, sms独立出来??
-        wrongMobile: 1110,
-        wrongPassword: 1111,
-        alreadyExist: 1112,
-        notFound: 1113
+        wrongMobile   : 1110,
+        wrongPassword : 1111,
+        alreadyExist  : 1112,
+        notFound      : 1113,
+
+        addressIdNotFound : 1210,
+        addressNotFound : 1212,
+
+        addressLatitudeWrong  : 1220,
+        addressLongitudeWrong : 1221,
+
+        addressProvinceWrong     : 1222,
+        addressCityWrong         : 1223,
+        addressDistrictWrong     : 1224,
+        addressStreetWrong       : 1225,
+        addressStreetNumberWrong : 1226,
+        addressAddressWrong      : 1227,
+
+        addressContactPersonWrong : 1228,
+        addressMobileWrong        : 1229,
+        addressSortOrderWrong     : 1230
+
     },
     order: {
         wrongMobile: 2110
