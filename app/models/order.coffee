@@ -13,6 +13,8 @@ module.exports =
 
     cookingType: String # ready to cook, ready to eat
 
+    addressId : type: Schema.ObjectId, ref: "useraddress"
+
     address: # 收货地址
       geoLatitude: Number # 纬度
       geoLongitude: Number # 经度
