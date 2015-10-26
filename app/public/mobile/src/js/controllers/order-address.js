@@ -132,7 +132,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
         if (css.edit != -1 && !save(true)) return;
 
-        var eatList = $localStorage.confirmedCart.eatList;
+        var eatList = $localStorage.confirmedBag.eatList;
         if (!addr.isInRange && eatList && eatList.length) {
             alert('当前地址不在便当的配送范围内');
             return;

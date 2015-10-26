@@ -1,5 +1,11 @@
-angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, ScopeDecorator, $localStorage, $timeout, $filter) {
-    ScopeDecorator.common($scope);
+angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes) {
+
+    // clear all `cart` in $localStorage
+    for (var key in $localStorage) {
+        if (/cart/i.test(key)) {
+            delete $localStorage.key;
+        }
+    }
 
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
@@ -25,7 +31,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         });
 
         User.postCart(postCart.map(postDishFilter)).catch(function () {
-            $localStorage.addDishCart = postCart;
+            $localStorage.localBag = postCart;
         })
     };
 
@@ -78,7 +84,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }
 
         User.postCart(postCart.map(postDishFilter)).catch(function () {
-            $localStorage.addDishCart = postCart;
+            $localStorage.localBag = postCart;
         })
     };
 
@@ -147,40 +153,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             }
         }
 
-        //var lists = {cookList: null, eatList: null};
-        //var orderLists = {cookList: null, eatList: null};
-        //
-        //Object.keys(lists).forEach(function (name) {
-        //    var list = lists[name] = $scope.dishList[name] && $scope.dishList[name]
-        //            .filter(function (el) {return !!el.selected});
-        //    var cookingType = name == 'cookList' ? 'ready to cook' : 'ready to eat';
-        //    var orderList = orderLists[name] = postCart.filter(function (el) {
-        //        return el.dish.cookingType == cookingType;
-        //    });
-        //
-        //    // 从orderList中删掉那些不在list中的子菜品
-        //    for (var i = 0; i < orderList.length;) {
-        //        var dish = orderList[i];
-        //        if (!list.some(function (el) {return el.dish._id == dish.dish;})) {
-        //            orderList.splice(i, 1);
-        //        } else if (dish.subDish) {
-        //            for (var j = 0; j < dish.subDish.length;) {
-        //                var sDish = dish.subDish[j];
-        //                if (!list.some(function (el) {
-        //                        if (!el.subDish) return false;
-        //                        return el.subDish._id == sDish.dish;
-        //                    })) {
-        //                    dish.subDish.splice(j, 1);
-        //                } else j++;
-        //            }
-        //            i++;
-        //        } else i++;
-        //    }
-        //});
-        //
-        //$localStorage.cart = orderLists;
-
-        $localStorage.confirmedCart = {
+        $localStorage.confirmedBag = {
             cookList: $scope.dishList.cookList.filter(function (d) {return d.selected}),
             eatList: $scope.dishList.eatList.filter(function (d) {return d.selected})
         };
@@ -205,11 +178,33 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     function init() {
         // 如果已登录,则用服务端购物车数据,否则使用本地数据
         User.getUserInfo().then(function (res) {
-            postCart = res.data.shoppingCart;
-            initDishList(postCart);
+            return postCart = res.data.shoppingCart;
         }).catch(function () {
-            postCart = $localStorage.addDishCart;
-            initDishList(postCart);
+            postCart = $localStorage.localBag;
+            return Dishes.getList().then(function (res) {
+                var dishes = res.data;
+                for (var i = 0; i < postCart.length; i++) {
+                    var postItem = postCart[i];
+                    updateSubDishStock(dishes, postItem);
+                    if (postItem.subDish) {
+                        postItem.subDish.forEach(function (el) {
+                            updateSubDishStock(dishes, el)
+                        })
+                    }
+                }
+                return postCart;
+            });
+        }).then(function (cart) {
+            initDishList(cart);
+        })
+    }
+
+    function updateSubDishStock(dishes, dish) {
+        return dishes.some(function (el) {
+            if (el._id == dish._id) {
+                dish.outOfStock = el.outOfStock;
+                dish.isPublished = el.isPublished;
+            }
         })
     }
 

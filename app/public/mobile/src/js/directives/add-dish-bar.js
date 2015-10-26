@@ -33,8 +33,8 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 }
             });
 
-            if ($localStorage.addDishCart) {
-                $scope.cart = $localStorage.addDishCart;
+            if ($localStorage.localBag) {
+                $scope.cart = $localStorage.localBag;
             }
 
             /**
@@ -42,6 +42,14 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
              */
             $scope.addToCart = function (dish) {
                 var selection = dish.curSelection;
+                var newEntry = {
+                    dish: dish,
+                    number: dish.count,
+                    sudDish: Object.keys(selection).map(function (key) {
+                        return selection[key];
+                    })
+                }
+
                 // 存在与cart中的与dish的id相同的dish wrapper - {dish: dish, number:number, subDish: []}
                 var entry;
 
@@ -96,7 +104,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 $scope.hide();
 
                 User.postCart($scope.cart.map(postDishFilter)).catch(function () {
-                    $localStorage.addDishCart = $scope.cart;
+                    $localStorage.localBag = $scope.cart;
                 });
 
                 $scope.totalPrice();

@@ -28,7 +28,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         var isCityShanghai, isNearAddress;
 
         // 购物车
-        cart = data.cart = $localStorage.confirmedCart;
+        cart = data.cart = $localStorage.confirmedBag;
         if (!cart) {
             location.href = '/mobile';
             return;
@@ -221,7 +221,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     }
 
     function clear() {
-        //delete $localStorage.confirmedCart;
-        delete $localStorage.addDishCart;
+        //delete $localStorage.confirmedBag;
+        delete $localStorage.localBag;
     }
 });
