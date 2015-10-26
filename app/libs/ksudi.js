@@ -138,7 +138,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         //sign     : '',
 
         //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
-        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.district + item.address.street + item.address.address,
+        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.district + item.address.street.replace(/\//, '') + item.address.address.replace(/\//, ''),
         sender : '新味',
         sendtelephone : '13761339935', // 客服电话
         sendaddress : '徐汇区中山南二路510号3楼',
@@ -173,7 +173,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     var opts = {
         url: this.config.url_createOrder,

@@ -493,7 +493,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if ($localStorage.dishSearchOptions){
             $scope.data.searchOptions.query = $localStorage.dishSearchOptions
         }
-        
+
         $scope.searchDish();
     }
 
