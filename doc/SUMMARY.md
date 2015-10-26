@@ -28,7 +28,7 @@
    * [获取用户收货地址](user/get_address.md)
    * [新增用户收货地址](user/add_address.md)
    * [修改用户收货地址](user/update_address.md)
-
+   * [删除用户收货地址](user/delete_address.md)
    * [用户成功分享邀请码获得优惠券](user/coupon_share_invitation_code.md)
    * [用户使用他人邀请码获得优惠券](user/coupon_used_invitation_code.md)
    * [获取用户账户余额](user/get_account.md)
