@@ -447,12 +447,21 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.searchDish = function (form) {
+        if ($localStorage.dishSearchOptions){
+            $scope.data.searchOptions.query = $localStorage.dishSearchOptions
+        }
 
         $scope.css.showTable = 'dishes';
 
         Util.delProperty($scope.data.searchOptions.query);
 
         Dishes.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultDish) {
+
+            $localStorage.dishSearchOptions = {
+                cookingType : $scope.data.searchOptions.query.cookingType,
+                sideDishType : $scope.data.searchOptions.query.sideDishType,
+                isPublished : $scope.data.searchOptions.query.isPublished
+            };
 
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 8000});
