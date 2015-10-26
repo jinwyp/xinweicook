@@ -274,12 +274,19 @@ exports.addNewOrder = (req, res, next) ->
   models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
+
+
+
   languageStr = req.acceptsLanguages()
 
   if languageStr[0] is "en"
     languageStr = "en"
   else
     languageStr = "zh"
+
+
+  if req.body.addressId
+    models.useraddress.validationId(req.body.addressId)
 
   if req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
