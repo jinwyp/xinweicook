@@ -447,9 +447,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.searchDish = function (form) {
-        if ($localStorage.dishSearchOptions){
-            $scope.data.searchOptions.query = $localStorage.dishSearchOptions
-        }
 
         $scope.css.showTable = 'dishes';
 
@@ -492,6 +489,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     if ($state.current.data.type === 'list'){
+
+        if ($localStorage.dishSearchOptions){
+            $scope.data.searchOptions.query = $localStorage.dishSearchOptions
+        }
+        
         $scope.searchDish();
     }
 
