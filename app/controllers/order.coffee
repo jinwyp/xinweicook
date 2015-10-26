@@ -285,11 +285,15 @@ exports.addNewOrder = (req, res, next) ->
     languageStr = "zh"
 
 
-  if req.body.addressId
-    models.useraddress.validationId(req.body.addressId)
 
   if req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
+
+  # 新增地址ID
+  if req.body.addressId
+    models.useraddress.validationId(req.body.addressId)
+
+
 
 
   dishIdList = []
@@ -320,6 +324,7 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType : req.body.cookingType
+    addressId : req.body.addressId
     address : req.body.address
     dishList : req.body.dishList
     userComment : req.body.userComment
@@ -362,6 +367,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
+    addressId : req.body.addressId
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
@@ -390,6 +396,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
+    addressId : req.body.addressId
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
@@ -454,6 +461,16 @@ exports.addNewOrder = (req, res, next) ->
       models.coupon.checkExpired resultCoupon
       models.coupon.checkUsed(resultCoupon, req.u)
       coupon = resultCoupon
+
+
+    models.useraddress.findOneAsync({_id:req.body.addressId})
+  .then (resultAddress) ->
+
+    if resultAddress
+      newOrder.address = resultAddress
+      newOrder.newOrderReadyToCook = resultAddress
+      newOrder.newOrderReadyToEat = resultAddress
+
 
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
