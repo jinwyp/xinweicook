@@ -4,6 +4,7 @@ PUT `/api/user`
 
 Group `member`
 
+> 不在包含更新用户收货地址功能
 
 ### Body
 | Name                  | Type   | Desc    |
@@ -13,48 +14,13 @@ Group `member`
 | nickname              | String |  昵称    |
 | avatarPic             | String |  头像地址 用于七牛储存    |
 | language              | String |  用户语言 "zh" 或 "en"   |
-| address               | Array  | 收货地址  |
-|   -> geoLatitude      | Number | 纬度     |
-|   -> geoLongitude     | Number | 经度     |
-|   -> country          | String | 国家     |
-|   -> province         | String | 省       |
-|   -> city             | String | 市       |
-|   -> district         | String | 区       |
-|   -> street           | String | 街道      |
-|   -> street_number    | String | baidu map 的街道号      |
-|   -> address          | String | 详细地    |
-|   -> contactPerson    | String | 联系人    |
-|   -> mobile           | String | 手机    |
-|   -> alias            | String | 别名    |
-|   -> remark           | String | 备注    |
-|   -> isTemporary      | Boolean | 是否是临时地址  |
-|   -> isDefault        | Boolean | 默认地址  |
-
 
 
 ```js
 {
-    "address":[
-        {
-            "geoLatitude" : 20,
-            "geoLongitude" : 20,
-
-            "country" : "china",
-            "province": "shanghai",
-            "city": "shanghai",
-            "district": "shanghai",
-            "street" : "枫林路",
-            "address": "510号",
-
-            "isTemporary" : false,
-            "isDefault":  false,
-
-            "contactPerson": "xinwei",
-            "mobile": "13564568304",
-            "alias": "",
-            "remark": ""
-        }
-    ]
+  "gender": 1,
+  "fullName": "王宇鹏",
+  "nickname": "Jin"
 }
 ```
 

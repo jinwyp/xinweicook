@@ -286,6 +286,86 @@ exports.userInfo = (req, res, next) ->
 
 
 
+
+# 修改用户信息
+exports.updateUserInfo = (req, res, next) ->
+
+  models.user.validationUserInfo req.body
+
+  if req.u.address and req.body.address.length > 0
+
+    for address,addressIndex in req.body.address
+
+      if req.u.address.length-1 >= addressIndex
+
+        req.u.address[addressIndex].geoLatitude = address.geoLatitude if address.geoLatitude
+        req.u.address[addressIndex].geoLongitude = address.geoLongitude if address.geoLongitude
+
+        req.u.address[addressIndex].country = address.country if address.country
+        req.u.address[addressIndex].province = address.province if address.province
+        req.u.address[addressIndex].city = address.city if address.city
+        req.u.address[addressIndex].district = address.district if address.district
+        req.u.address[addressIndex].street = address.street if address.street
+        req.u.address[addressIndex].street_number = address.street_number if address.street_number
+        req.u.address[addressIndex].address = address.address if address.address
+
+        req.u.address[addressIndex].isDefault = address.isDefault if address.isDefault
+
+        req.u.address[addressIndex].contactPerson = address.contactPerson if address.contactPerson
+        req.u.address[addressIndex].mobile = address.mobile if address.mobile
+        req.u.address[addressIndex].alias = address.alias if address.alias
+        req.u.address[addressIndex].remark = address.alias if address.remark
+
+      else
+        req.u.address.push(address)
+
+      req.u.address[addressIndex].sortOrder = addressIndex
+
+    if req.u.address.length > req.body.address.length
+      req.u.address.splice(req.body.address.length, req.u.address.length - req.body.address.length);
+
+  else
+    req.u.address = req.body.address
+
+  req.u.gender = req.body.gender if req.body.gender
+  req.u.fullName = req.body.fullName if req.body.fullName
+  req.u.nickname = req.body.nickname if req.body.nickname
+  req.u.lang = req.body.language if req.body.language
+  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
+
+  req.u.saveAsync().then (resultUser) ->
+    models.user.find1({_id : resultUser[0]._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+
+
+
+
+
+# 修改或加入 购物车商品
+exports.updateShoppingCart = (req, res, next) ->
+
+  models.user.validationShoppingCart req.body
+
+  req.u.shoppingCart = req.body.shoppingCart
+  req.u.saveAsync().spread (resultUser, numberAffected) ->
+    models.user.find1({_id : resultUser._id})
+  .then (user) ->
+    res.json user
+  .catch next
+
+
+
+
+
+
+
+
 # 获取用户收货地址
 exports.getUserAddress = (req, res, next) ->
 
@@ -435,15 +515,20 @@ exports.updateAddress = (req, res, next) ->
 
 
 
-# 编辑用户收货地址
+# 删除用户收货地址
 exports.deleteAddress = (req, res, next) ->
 
   models.useraddress.validationId(req.params._id)
 
   models.useraddress.findOneAndRemoveAsync({_id:req.params._id}).then (result)->
 
-    res.json result
+    models.useraddress.checkNotFound(result)
+
+    if result
+      res.json result
+
   .catch next
+
 
 
 
@@ -464,74 +549,6 @@ exports.getUserMessages = (req, res, next) ->
     res.json resultMessages
   .catch next
 
-
-
-# 修改用户信息 修改收货地址
-exports.updateUserInfo = (req, res, next) ->
-
-  models.user.validationUserInfo req.body
-
-  if req.u.address and req.body.address.length > 0
-
-    for address,addressIndex in req.body.address
-
-      if req.u.address.length-1 >= addressIndex
-
-        req.u.address[addressIndex].geoLatitude = address.geoLatitude if address.geoLatitude
-        req.u.address[addressIndex].geoLongitude = address.geoLongitude if address.geoLongitude
-
-        req.u.address[addressIndex].country = address.country if address.country
-        req.u.address[addressIndex].province = address.province if address.province
-        req.u.address[addressIndex].city = address.city if address.city
-        req.u.address[addressIndex].district = address.district if address.district
-        req.u.address[addressIndex].street = address.street if address.street
-        req.u.address[addressIndex].street_number = address.street_number if address.street_number
-        req.u.address[addressIndex].address = address.address if address.address
-
-        req.u.address[addressIndex].isDefault = address.isDefault if address.isDefault
-
-        req.u.address[addressIndex].contactPerson = address.contactPerson if address.contactPerson
-        req.u.address[addressIndex].mobile = address.mobile if address.mobile
-        req.u.address[addressIndex].alias = address.alias if address.alias
-        req.u.address[addressIndex].remark = address.alias if address.remark
-
-      else
-        req.u.address.push(address)
-
-      req.u.address[addressIndex].sortOrder = addressIndex
-
-    if req.u.address.length > req.body.address.length
-      req.u.address.splice(req.body.address.length, req.u.address.length - req.body.address.length);
-
-  else
-    req.u.address = req.body.address
-
-  req.u.gender = req.body.gender if req.body.gender
-  req.u.fullName = req.body.fullName if req.body.fullName
-  req.u.nickname = req.body.nickname if req.body.nickname
-  req.u.lang = req.body.language if req.body.language
-  req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
-
-  req.u.saveAsync().then (resultUser) ->
-    models.user.find1({_id : resultUser[0]._id})
-  .then (user) ->
-    res.json user
-  .catch next
-
-
-
-
-# 修改或加入 购物车商品
-exports.updateShoppingCart = (req, res, next) ->
-
-  models.user.validationShoppingCart req.body
-
-  req.u.shoppingCart = req.body.shoppingCart
-  req.u.saveAsync().spread (resultUser, numberAffected) ->
-    models.user.find1({_id : resultUser._id})
-  .then (user) ->
-    res.json user
-  .catch next
 
 
 
