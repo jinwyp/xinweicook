@@ -15,6 +15,7 @@ module.exports =
     sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性 / drink饮料
     setType: String # 餐食类型  单品single 或 套餐set
 
+    showForWarehouse: String # 针对仓库显示
 
     difficulty: Number # 难度
     time: Number # 烹饪时间 单位min? 不确定

@@ -8,7 +8,14 @@ exports.dishList = (req, res, next) ->
   if not req.query.sideDishType
     req.query.sideDishType = "main"
 
-  models.dish.find99({sideDishType : {$in: [req.query.sideDishType, "drink"]}, isPublished : true}).then (dishes) ->
+
+  if req.query.showForWarehouse
+    req.query.showForWarehouse = "caohejing"
+  else
+    req.query.showForWarehouse = {$ne:"caohejing"}
+
+
+  models.dish.find99({sideDishType : {$in: [req.query.sideDishType, "drink"]}, showForWarehouse:req.query.showForWarehouse, isPublished : true}).then (dishes) ->
     res.json dishes
   , next
 
