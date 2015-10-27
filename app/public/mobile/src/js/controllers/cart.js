@@ -1,33 +1,17 @@
-angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes) {
+angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
     // clear all `cart` in $localStorage
     for (var key in $localStorage) {
         if (/cart/i.test(key)) {
-            delete $localStorage.key;
+            delete $localStorage[key];
         }
     }
 
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
-        item.dish.number++;
-        if (item.subDish) {
-            item.subDish.number++;
-        }
-
-        // 再更新post数据上的数量
-        postCart.some(function (el) {
-            if (el.dish._id == item.dish._id) {
-                el.number++;
-                
-                if (item.subDish) {
-                    el.subDish.some(function (e) {
-                        if (e.dish._id == item.subDish._id) {
-                            e.number++;
-                            return true;
-                        }
-                    })
-                }
-            }
+        item.number++;
+        item.subDish.forEach(function (sDish) {
+            sDish.number = item.number;
         });
 
         User.postCart(postCart.map(postDishFilter)).catch(function () {
@@ -39,48 +23,19 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var cancel = false;
         var key = item.dish.cookingType == 'ready to cook' ? 'cookList' : 'eatList';
         var list = $scope.dishList[key];
-        if (item.subDish && item.subDish.number == 1) {
-            cancel = !confirm('确定删除该商品吗?');
-        } else if (item.dish.number == 1) {
+        if (item.number == 1) {
             cancel = !confirm('确定删除该商品吗?');
         }
         if (cancel) return;
 
-        // 先更新post数据上的数量
-        postCart.some(function (el, i) {
-            if (el.dish._id == item.dish._id) {
-                el.number--;
-
-                if (el.number == 0) {
-                    postCart.splice(i, 1);
-                    return true;
-                }
-
-                if (item.subDish) {
-                    el.subDish.some(function (e, j) {
-                        if (e.dish._id == item.subDish._id) {
-                            e.number--;
-                            if (e.number == 0) {
-                                el.subDish.splice(j, 1);
-                            }
-                            return true;
-                        }
-                    })
-                }
-            }
+        item.number--;
+        item.subDish.forEach(function (el) {
+            el.number--;
         });
 
-        // 再更新展示数据上的数量
-        if (item.subDish) {
-            item.subDish.number--;
-            item.dish.number--;
-
-            // 主菜品在其number为0时,也会被删掉
-            if (item.subDish.number == 0) {
-                list.splice(idx, 1);
-            }
-        } else if (!--item.dish.number) {
+        if (!item.number) {
             list.splice(idx, 1);
+            postCart.splice(postCart.indexOf(item), 1);
         }
 
         User.postCart(postCart.map(postDishFilter)).catch(function () {
@@ -89,7 +44,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.select = function (item) {
-        if (item.outOfStock) return;
+        if (item.dish.outOfStock) return;
         item.selected = !item.selected;
 
         var type = item.dish.cookingType == 'ready to cook'
@@ -110,10 +65,11 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var state = $scope.dishList[type].selectedAll =
             (outState !== undefined ? outState : !$scope.dishList[type].selectedAll);
         $scope.dishList[type].forEach(function (item) {
-            item.selected = state && !item.outOfStock;
+            item.selected = state && !item.dish.outOfStock;
         });
     };
 
+    var dishPrice = $filter('dishPrice');
     $scope.selectedDishLength = 0;
     $scope.totalPrice = function (listName) {
         var price = 0;
@@ -124,11 +80,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             list && list.forEach(function (el) {
                 if (!el.selected) return;
                 list.selectedLength++;
-                if (el.subDish) {
-                    price += el.subDish.number * (el.dish.priceOriginal + el.subDish.priceOriginal)
-                } else {
-                    price += el.dish.number * el.dish.priceOriginal;
-                }
+                price += dishPrice(el, true);
             })
         });
         return price;
@@ -176,27 +128,36 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     var postCart = null;
 
     function init() {
-        // 如果已登录,则用服务端购物车数据,否则使用本地数据
-        User.getUserInfo().then(function (res) {
-            return postCart = res.data.shoppingCart;
-        }).catch(function () {
-            postCart = $localStorage.localBag;
-            return Dishes.getList().then(function (res) {
-                var dishes = res.data;
-                for (var i = 0; i < postCart.length; i++) {
-                    var postItem = postCart[i];
-                    updateSubDishStock(dishes, postItem);
-                    if (postItem.subDish) {
-                        postItem.subDish.forEach(function (el) {
-                            updateSubDishStock(dishes, el)
-                        })
-                    }
-                }
-                return postCart;
-            });
-        }).then(function (cart) {
-            initDishList(cart);
-        })
+        // 如果已登录,则用合并服务器数据到本地
+        $q.all([
+            (function () {
+                var localBag = $localStorage.localBag;
+                if (localBag) { //本地数据需要更新库存信息
+                    return Dishes.getList().then(function (res) {
+                        var dishes = res.data;
+                        for (var i = 0; i < localBag.length; i++) {
+                            var postItem = localBag[i];
+                            updateSubDishStock(dishes, postItem.dish);
+                            if (postItem.subDish) {
+                                postItem.subDish.forEach(function (el) {
+                                    updateSubDishStock(dishes, el.dish)
+                                })
+                            }
+                        }
+                        return localBag
+                    });
+                } else return $q.resolve($localStorage.localBag = [])
+            })(),
+
+            User.getUserInfo().then(function (res) { // 服务器数据
+                return res.data.shoppingCart
+            }).catch(function () {
+                return []
+            })
+        ]).then(function (carts) {
+            postCart = Utils.mergeCarts(carts[0], carts[1]);
+            initDishList(postCart);
+        });
     }
 
     function updateSubDishStock(dishes, dish) {
@@ -204,12 +165,12 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             if (el._id == dish._id) {
                 dish.outOfStock = el.outOfStock;
                 dish.isPublished = el.isPublished;
+                return true;
             }
         })
     }
 
     function initDishList(cart) {
-        var push = [].push;
         $scope.dishList = {
             cookList: [],
             eatList: []
@@ -217,30 +178,15 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
         cart.forEach(function (el) {
             var dish = el.dish;
-            dish.number = el.number;
-            dish.outOfStock = outOfStock(dish);
+            dish.outOfStock = outOfStock(dish) || el.subDish.some(function (item) {
+                return outOfStock(item.dish);
+            });
 
-            var entries = [];
-
-            if (el.subDish && el.subDish.length) {
-                el.subDish.forEach(function (item) {
-                    item.dish.number = item.number;
-                    item.dish.outOfStock = outOfStock(dish) || outOfStock(item.dish);
-
-                    entries.push({
-                        dish: dish,
-                        subDish:item.dish,
-                        outOfStock: dish.outOfStock || item.dish.outOfStock
-                    });
-                })
-            } else {
-                entries.push({dish: dish, outOfStock: dish.outOfStock})
-            }
-
+            // postCart的dish和list上的引用的是同一个对象
             if (dish.cookingType == 'ready to cook') {
-                push.apply($scope.dishList.cookList, entries);
+                $scope.dishList.cookList.push(el);
             } else {
-                push.apply($scope.dishList.eatList, entries);
+                $scope.dishList.eatList.push(el);
             }
         });
     }
