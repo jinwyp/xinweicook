@@ -56,7 +56,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                             })
                         }
                     }else if (angular.isObject(obj[p])) {
-                        console.log(this);
+                        //console.log(this);
                         this.delAllProperty(obj[p]);
 
                         var hasPro = false;

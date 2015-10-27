@@ -542,7 +542,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.updateDish = function (form) {
-
         if (form.$invalid) {
             return;
         }
@@ -633,6 +632,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.removePreferenceAllDefault = function (preference, subdish) {
+
         var index = preference.foodMaterial.indexOf(subdish);
 
         angular.forEach(preference.foodMaterial, function(dish, dishIndex) {
@@ -645,7 +645,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
     $scope.removeEmptyPreference = function (preference, index) {
-        preference.foodMaterial.splice(preference, 1);
+
+        preference.foodMaterial.splice(index, 1);
         if (preference.foodMaterial.length === 0){
             var categoryIndex = $scope.data.dish.preferences.indexOf(preference);
             $scope.data.dish.preferences.splice(categoryIndex, 1);
