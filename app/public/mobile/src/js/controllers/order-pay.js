@@ -28,7 +28,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         var isCityShanghai, isNearAddress;
 
         // 购物车
-        cart = data.cart = $localStorage.confirmedCart;
+        cart = data.cart = $localStorage.confirmedBag;
         if (!cart) {
             location.href = '/mobile';
             return;
@@ -89,16 +89,11 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         });
 
         // 订单金额(不含运费) 应该独立出去
+        var dishPrice = $filter('dishPrice');
         for (var name in cart) {
             var list = cart[name];
             data.orderPrice += list.reduce(function (total, cur) {
-                var number = cur.dish.number;
-                var subDishPrice = 0;
-                if (cur.subDish) {
-                    subDishPrice = cur.subDish.priceOriginal;
-                    number = cur.subDish.number;
-                }
-                return total + (cur.dish.priceOriginal + subDishPrice) * number
+                return total + dishPrice(cur, true)
             }, 0)
         }
 
@@ -221,7 +216,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     }
 
     function clear() {
-        //delete $localStorage.confirmedCart;
-        delete $localStorage.addDishCart;
+        //delete $localStorage.confirmedBag;
+        delete $localStorage.localBag;
     }
 });
