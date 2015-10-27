@@ -80,12 +80,15 @@ $select-btn-width: 100px;
     h5 {
       font-size: 15px;
       font-weight: normal;
+      min-height: 32px;
     }
     span {
       display: block;
     }
     .sub-name {
       display: inline;
+      font-size: 12px;
+      color: gray;
     }
     .stock {
       font-size: 14px;
@@ -98,7 +101,7 @@ $select-btn-width: 100px;
       font-weight: 200;
     }
     > * {
-      margin-bottom: 7px;
+      margin-bottom: 4px;
     }
   }
   .counter {

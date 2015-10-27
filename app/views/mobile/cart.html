@@ -34,17 +34,19 @@
                         <span class="dish-img" ng-style="{'background-image': 'url('+ imgAdapt(item.dish.cover[0].zh) + ')'}"></span>
                     </a>
                     <div class="dish-detail">
-                        <h5>{{item.dish.title.zh}}<span class="sub-name" ng-if="item.subDish">({{item.subDish.title.zh}})</span></h5>
+                        <h5>{{item.dish.title.zh}}<br>
+                            <span class="sub-name" ng-repeat="el in item.subDish">{{el.dish.title.zh + ($last ? '': ' ')}}</span>
+                        </h5>
                         <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
-                            {{item.outOfStock ? '无货' : '有货'}}
+                            {{item.dish.outOfStock ? '无货' : '有货'}}
                         </span>
                         <span class="rmb-char">
-                            {{item.subDish ? (item.dish.priceOriginal + item.subDish.priceOriginal) : item.dish.priceOriginal}}
+                            {{item|dishPrice:true}}
                         </span>
                     </div>
                     <div class="counter">
                         <span ng-click="decrease(item, $index)">-</span>
-                        <span class="number">{{item.subDish ? item.subDish.number : item.dish.number}}</span><!-- todo: dish.number是否合适 -->
+                        <span class="number">{{item.number}}</span><!-- todo: dish.number是否合适 -->
                         <span ng-click="increase(item)">+</span>
                     </div>
                 </div>
@@ -76,5 +78,6 @@
 <script src="/mobile/src/js/directives/shopping-progress-bar.js"></script>
 <script src="/mobile/src/js/templates.js"></script>
 <script src="/mobile/src/js/service/scope-decorator.js"></script>
+<script src="/mobile/src/js/service/utils.js"></script>
 <script src="/mobile/src/js/controllers/cart.js"></script>
 </html>

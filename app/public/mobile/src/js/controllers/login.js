@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, Alert, $http, $window) {
+function loginCtrl($scope, User, $location, Alert, Weixin) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.resetPwdData = {};
@@ -121,7 +121,7 @@ function loginCtrl($scope, User, $location, Alert, $http, $window) {
             var user = res.data;
 
             // 未授权
-            if (!user.weixinId || !user.weixinId.openid) {
+            if (Weixin.isWeixin && (!user.weixinId || !user.weixinId.openid)) {
                 redirect = '/api/user/weixin/oauthcode?redirectUrl=' +
                     encodeURIComponent(redirect.replace('/mobile/', '')) +
                     '&userId=' + user._id ;

@@ -1272,33 +1272,36 @@ form .err-tip {
 .cart-list .dish-detail h5 {
   font-size: 15px;
   font-weight: normal;
+  min-height: 32px;
 }
-/* line 84, ../sass/pages/_cart.scss */
+/* line 85, ../sass/pages/_cart.scss */
 .cart-list .dish-detail span {
   display: block;
 }
-/* line 87, ../sass/pages/_cart.scss */
+/* line 88, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .sub-name {
   display: inline;
+  font-size: 12px;
+  color: gray;
 }
-/* line 90, ../sass/pages/_cart.scss */
+/* line 93, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock {
   font-size: 14px;
 }
-/* line 92, ../sass/pages/_cart.scss */
+/* line 95, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock.out-of-stock {
   color: #f44d4d;
 }
-/* line 96, ../sass/pages/_cart.scss */
+/* line 99, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .rmb-char {
   color: #4b4b4c;
   font-weight: 200;
 }
-/* line 100, ../sass/pages/_cart.scss */
+/* line 103, ../sass/pages/_cart.scss */
 .cart-list .dish-detail > * {
-  margin-bottom: 7px;
+  margin-bottom: 4px;
 }
-/* line 104, ../sass/pages/_cart.scss */
+/* line 107, ../sass/pages/_cart.scss */
 .cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1307,7 +1310,7 @@ form .err-tip {
   right: -14px;
   top: 50px;
 }
-/* line 111, ../sass/pages/_cart.scss */
+/* line 114, ../sass/pages/_cart.scss */
 .cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1315,7 +1318,7 @@ form .err-tip {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 118, ../sass/pages/_cart.scss */
+/* line 121, ../sass/pages/_cart.scss */
 .cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1324,7 +1327,7 @@ form .err-tip {
   border-radius: 5px;
 }
 
-/* line 129, ../sass/pages/_cart.scss */
+/* line 132, ../sass/pages/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1333,7 +1336,7 @@ form .err-tip {
   text-indent: 2em;
 }
 
-/* line 139, ../sass/pages/_cart.scss */
+/* line 142, ../sass/pages/_cart.scss */
 .empty-cart .icon {
   margin: 34px auto;
   background-repeat: no-repeat;
@@ -1346,7 +1349,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 143, ../sass/pages/_cart.scss */
+/* line 146, ../sass/pages/_cart.scss */
 .empty-cart .text {
   color: #969696;
 }
