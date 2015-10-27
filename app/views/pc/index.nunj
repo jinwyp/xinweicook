@@ -18,7 +18,7 @@
 <header class="indexhd">
     <div class="header-main"><a class="logo"></a>
 
-        <div class="city">{{ __('City:') }}：<span>上海</span></div>
+        <div class="city">{{ __('City:') }} <span>上海</span></div>
         <ul class="nav">
             <li><a href="javascript:;">{{ __('Cook') }}</a></li>
             <li><a href="javascript:;">{{ __('Bento') }}</a></li>
