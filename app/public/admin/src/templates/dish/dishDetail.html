@@ -75,6 +75,7 @@
 
 
 
+
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishCookingType.$dirty&&dishForm.dishCookingType.$valid, 'has-error':dishForm.dishCookingType.$dirty&&dishForm.dishCookingType.$invalid}">
                     <label class="col-lg-2 control-label" >菜品类别</label>
 
@@ -121,6 +122,18 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.showForWarehouse.$dirty&&dishForm.showForWarehouse.$valid, 'has-error':dishForm.showForWarehouse.$dirty&&dishForm.showForWarehouse.$invalid}">
+                    <label class="col-lg-2 control-label" >仓库</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="showForWarehouse" ng-value="''" ng-model="data.dish.showForWarehouse">新味办公室
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="showForWarehouse"  ng-value="'caohejing'" ng-model="data.dish.showForWarehouse">漕河泾
+                        </label>
+                    </div>
+                </div>
 
 
 
