@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $scope, $localStorage, Orders, User, Balance, Weixin, $filter) {
+angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $scope, $localStorage, Orders, User, Balance, Weixin, $filter, Utils) {
     // 此类变量在被重新赋予新值较为麻烦,需要cart = data.cart = ..
     var cart, address, time, coupon;
     var data = $scope.data = {
@@ -217,6 +217,17 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     function clear() {
         //delete $localStorage.confirmedBag;
-        delete $localStorage.localBag;
+        var localBag = $localStorage.localBag;
+        if (!localBag) return;
+        for (var key in cart) {
+            var list = cart[key];
+            list.forEach(function (item1) {
+                for (var i = 0; i < localBag.length; i++) {
+                    if (Utils.isSameItemInCart(item1, localBag[i])) {
+                        localBag.splice(i--, 1);
+                    }
+                }
+            })
+        }
     }
 });

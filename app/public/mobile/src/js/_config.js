@@ -31,7 +31,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
                 }
                 setTimeout(function () {
                     // todo:
-                    location.href = '/mobile/login' + redirectPath ;
+                    location.replace('/mobile/login' + redirectPath);
                 }, 120);
             }
             return $q.reject(response);

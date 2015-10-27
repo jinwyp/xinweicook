@@ -15,12 +15,7 @@ function meCtrl($scope, User, $localStorage, Debug) {
     };
 
     function init() {
-        if (!$localStorage.access_token) {
-            location.href = 'login'
-        }
-        User.getUserInfo().then(function (res) {
-            // todo: do nothing for now. But it will redirect to login if unauthorized.
-        })
+        User.getUserInfo();
     }
 
     init();
