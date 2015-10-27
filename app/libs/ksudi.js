@@ -18,7 +18,8 @@ var requestC = require('request');
 
 
 var configKsuDi = {
-    username: '13761339935',  //账号ID
+    //username: '13761339935',  //账号ID
+    username: '15900634317',  //新账号ID
     //password: 'xwcook789', //密码
     password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
 
@@ -163,7 +164,6 @@ ksuDi.prototype.createOrder = function (item, callback){
         //advancecost : 0,  // 垫付金额
 
         backurl : this.config.url_notify  // 回调url
-
 
     };
 
