@@ -38,7 +38,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                     }
                     if (angular.isArray(obj[p]) ){
 
-                        if(obj[p].length === 0){
+                        if(obj[p].length === 0 && p !== 'preferences'){
                             delete obj[p];
                         }else{
                             angular.forEach(obj[p], function(subobj, index){
