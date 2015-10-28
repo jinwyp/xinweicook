@@ -737,21 +737,18 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  result = [
-    {
-      _id : 1,
-      name : 'xinweioffice',
-      timeList : []
-    },
-    {
-      _id : 2,
-      name : 'caohejing',
-      timeList : []
-    }
-  ]
+  result =
+    _id : 1
+    name : 'xinweioffice'
+    timeList : []
 
-  result[0].timeList = models.order.deliveryTimeArithmeticForReadyToEat()
-  result[1].timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+  if req.params._id is "2"
+
+    result._id = 2
+    result.name = 'caohejing'
+    result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+  else
+    result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
 
   res.status(200).json(result)
 
