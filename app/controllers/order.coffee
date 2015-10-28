@@ -726,11 +726,34 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
     else
       result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
   else
-    if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
+    if req.body.isCityShanghai is true and req.body.isInRange4KM is true
+      result = models.order.deliveryTimeArithmeticForReadyToEat()
+    else
+      result = []
 
   res.status(200).json(result)
 
+
+
+exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
+
+  result = [
+    {
+      _id : 1,
+      name : 'xinweioffice',
+      timeList : []
+    },
+    {
+      _id : 2,
+      name : 'caohejing',
+      timeList : []
+    }
+  ]
+
+  result[0].timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+  result[1].timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+
+  res.status(200).json(result)
 
 
 
