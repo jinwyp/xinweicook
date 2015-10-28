@@ -1,11 +1,16 @@
 angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
     // clear all `cart` in $localStorage
-    for (var key in $localStorage) {
-        if (/cart/i.test(key)) {
-            delete $localStorage[key];
+    try {
+        for (var key in $localStorage) {
+            if (/cart/i.test(key)) {
+                delete $localStorage[key];
+            }
         }
+    } catch(e) {
+
     }
+
 
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
@@ -130,7 +135,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     function init() {
         // 如果已登录,则用合并服务器数据到本地
         $q.all([
-            (function () {
+            ((function () {
                 var localBag = $localStorage.localBag;
                 if (localBag) { //本地数据需要更新库存信息
                     return Dishes.getList().then(function (res) {
@@ -147,7 +152,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                         return localBag
                     });
                 } else return $q.resolve($localStorage.localBag = [])
-            })(),
+            })()),
 
             User.getUserInfo().then(function (res) { // 服务器数据
                 return res.data.shoppingCart
