@@ -738,13 +738,13 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
   result =
-    _id : 1
+    _id : "1"
     name : 'xinweioffice'
     timeList : []
 
-  if req.params._id is "2"
+  if req.body._id is "2"
 
-    result._id = 2
+    result._id = "2"
     result.name = 'caohejing'
     result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
   else

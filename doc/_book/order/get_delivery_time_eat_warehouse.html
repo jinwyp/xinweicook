@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Article 文章 | 新味 API 文档</title>
+        <title>获取便当不同仓库的配送时间 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../article/get_articles.html" />
+    <link rel="next" href="../order/get_delivery_range.html" />
     
     
-    <link rel="prev" href="../dish/like_single_dish.html" />
+    <link rel="prev" href="../order/get_delivery_time.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="8" data-basepath=".." data-revision="Wed Oct 28 2015 16:49:15 GMT+0800 (CST)">
+    <div class="book" data-level="6.7" data-basepath=".." data-revision="Wed Oct 28 2015 16:49:15 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -772,7 +772,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.7" data-path="order/get_delivery_time_eat_warehouse.html">
+        <li class="chapter active" data-level="6.7" data-path="order/get_delivery_time_eat_warehouse.html">
             
                 
                     <a href="../order/get_delivery_time_eat_warehouse.html">
@@ -978,7 +978,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="8" data-path="article/index.html">
+        <li class="chapter " data-level="8" data-path="article/index.html">
             
                 
                     <a href="../article/index.html">
@@ -1170,28 +1170,55 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="article-%E8%8F%9C%E5%93%81%E6%96%87%E7%AB%A0">Article &#x83DC;&#x54C1;&#x6587;&#x7AE0;</h1>
-<pre><code class="lang-js">
-{
-    user: type: Schema.ObjectId, ref: <span class="hljs-string">&quot;user&quot;</span> # &#x7528;&#x6237;
-    publishedAt: type: <span class="hljs-built_in">Date</span>, <span class="hljs-keyword">default</span>: <span class="hljs-built_in">Date</span>.now # &#x53D1;&#x5E03;&#x65F6;&#x95F4;
-    isPublished: type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>: <span class="hljs-literal">false</span> # &#x662F;&#x5426;&#x53D1;&#x5E03;
-    sortId: type: <span class="hljs-built_in">Number</span> # &#x6392;&#x5E8F;&#x503C;
-
-    title: zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> # &#x6587;&#x7AE0;&#x6807;&#x9898;
-    content: [ # &#x6587;&#x7AE0;&#x5185;&#x5BB9;
-      title: zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span>
-      contentType: <span class="hljs-built_in">String</span> # pic, txt, url, video
-      value: zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span>
-    ]
-    picCover: [ zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> ] # &#x5C01;&#x9762;
-    picDeading: [ zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> ] # &#x5934;&#x56FE;
-
-    tag: [ zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> ] # tag
-
-    statisticViews: type: <span class="hljs-built_in">Number</span>, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span> # &#x9605;&#x8BFB;&#x6570;
-    statisticLike: type: <span class="hljs-built_in">Number</span>, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span> # &#x8D5E;&#x6570;
-
+                        <h2 id="req">Req</h2>
+<p>POST <code>/api/orders/delivery/time/eat/warehouse</code></p>
+<p>Group <code>member</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">_id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&quot;1&quot; &#x65B0;&#x5473;&#x529E;&#x516C;&#x5BA4; &#x6216; &quot;2&quot; &#x6F15;&#x6CB3;&#x6CFE;   &#x4E0D;&#x4F20;&#x9ED8;&#x8BA4;&quot;1&quot;</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-string">&quot;2&quot;</span>
+}
+</code></pre>
+<h2 id="res">Res</h2>
+<h3 id="body">Body</h3>
+<p>&#x4FBF;&#x5F53; &#x4E0D;&#x540C;&#x4ED3;&#x5E93;&#x8FD4;&#x56DE;&#x4E0D;&#x540C; &#x9884;&#x8BA1;&#x914D;&#x9001;&#x65F6;&#x95F4;</p>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;caohejing&quot;</span>,
+  <span class="hljs-string">&quot;timeList&quot;</span>: [
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 11:00 AM&quot;</span>
+    },
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 11:30 AM&quot;</span>
+    },
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 12:00 PM&quot;</span>
+    },
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 12:30 PM&quot;</span>
+    },
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 13:00 PM&quot;</span>
+    },
+    {
+      <span class="hljs-string">&quot;hour&quot;</span>: <span class="hljs-string">&quot;2015-10-29 13:30 PM&quot;</span>
+    }
+  ]
 }
 </code></pre>
 
@@ -1204,10 +1231,10 @@
         </div>
 
         
-        <a href="../dish/like_single_dish.html" class="navigation navigation-prev " aria-label="Previous page: 点赞和取消点赞单一菜品"><i class="fa fa-angle-left"></i></a>
+        <a href="../order/get_delivery_time.html" class="navigation navigation-prev " aria-label="Previous page: 获取订单预计的配送时间"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../article/get_articles.html" class="navigation navigation-next " aria-label="Next page: 获取所有文章"><i class="fa fa-angle-right"></i></a>
+        <a href="../order/get_delivery_range.html" class="navigation navigation-next " aria-label="Next page: 获取订单配送范围"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

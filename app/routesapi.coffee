@@ -115,7 +115,7 @@ expressRoutes = (app) ->
 
   app.put("/api/orders/:_id", libs.auth("member"), orderController.updateOrder)
   app.post("/api/orders/delivery/time", libs.auth("member"), orderController.deliveryTimeArithmetic)
-  app.post("/api/orders/delivery/time/eat/warehouse/:_id", libs.auth("member"), orderController.deliveryTimeArithmeticForEatWithWareHouse)
+  app.post("/api/orders/delivery/time/eat/warehouse", libs.auth("member"), orderController.deliveryTimeArithmeticForEatWithWareHouse)
   app.get("/api/orders/delivery/range", libs.auth("member"), deliveryController.deliveryAddressForCook)
 
 
