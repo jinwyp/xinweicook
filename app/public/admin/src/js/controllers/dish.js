@@ -50,7 +50,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         dish : {
             isPublished : false,
-            isFromAdminPanel: true,
+            showForWarehouse : '',
             sortId : 1000,
             cookingType : 'ready to cook',
             sideDishType : 'main',
@@ -215,6 +215,21 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             {
                 name : '未上架',
                 value : 'false'
+            }
+        ],
+
+        showForWarehouseList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '新味办公室',
+                value : '!=caohejing'
+            },
+            {
+                name : '漕河泾',
+                value : 'caohejing'
             }
         ],
 

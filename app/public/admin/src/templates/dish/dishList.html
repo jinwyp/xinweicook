@@ -50,6 +50,16 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$valid, 'has-error':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$invalid}">
+                    <label for="inputShowForWarehouse" class="col-lg-2 control-label" >仓库</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="status in data.showForWarehouseList">
+                            <input type="radio" name="showForWarehouse" id="inputShowForWarehouse" ng-value="status.value" ng-model="data.searchOptions.query.showForWarehouse">{{status.name}}
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.dishId.$dirty&&searchForm.dishId.$valid, 'has-error':searchForm.dishId.$dirty&&searchForm.dishId.$invalid}">
                     <label for="inputDishId" class="col-lg-2 control-label" >菜品_ID</label>
                     <div class="col-lg-4">
