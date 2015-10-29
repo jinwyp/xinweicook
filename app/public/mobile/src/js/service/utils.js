@@ -16,21 +16,22 @@ angular.module('xw.services').factory('Utils', function () {
                     return item2.subDish.some(function (b) {
                         return a.dish._id == b.dish._id
                     })
-                })
+                }) && item1.subDish.length == item2.subDish.length;
         },
 
         // 合并本地购物车和线上购物车, 将数据全部合并到本地购物车.
         // local dish的数量(非dish.number)只会增加不会减少
         mergeCarts: function (local, server) {
             if (!local || !local.length) return server;
-            for (var i = 0; i < local.length; i++) {
-                for (var j = 0; j < server.length; j++) {
-                    if (!this.isSameItemInCart(local[i], server[j])) {
-                        local.splice(++i, 1, server[j]);
-                    }
-                }
+            var that = this;
+            for (var i = 0; i < server.length; i++) {
+                var notInLocal = local.every(function (lDish) {
+                    return !that.isSameItemInCart(lDish, server[i])
+                });
+                if (notInLocal)
+                   local.push(server[i]);
             }
-            return local
+            return local;
         }
     }
 });

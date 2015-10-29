@@ -73,9 +73,10 @@ angular.module('xw.filters').filter('beautifyMobile', function () {
 angular.module('xw.filters').filter('subDishTitle', function () {
     return function (item) {
         var last = item.subDish.length;
-        return item.subDish.reduce(function (title, cur, i) {
+        if (!last) return '';
+        return '(' + item.subDish.reduce(function (title, cur, i) {
             return title + cur.dish.title.zh + (i == last - 1 ? '' : '/')
-        }, '');
+        }, '') + ')';
     }
 });
 

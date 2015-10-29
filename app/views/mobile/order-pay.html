@@ -19,7 +19,7 @@
         <div class="block" ng-repeat="(name, list) in data.cart">
             <h4>{{name == 'cookList' ? '食材包' : '便当'}}</h4>
             <div ng-repeat="item in list">
-                <span class="dish-title">{{item.dish.title.zh}}({{item | subDishTitle}})</span>
+                <span class="dish-title">{{item.dish.title.zh}}{{item | subDishTitle}}</span>
                 <span class="quantity">x{{item.number}}</span>
                 <span class="rmb-char fee">
                     {{item | dishPrice | number:1}}
@@ -96,6 +96,7 @@
 <script src="/components/angular/angular.min.js"></script>
 <script src="/components/ngstorage/ngStorage.min.js"></script>
 
+
 <script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
 <script src="/mobile/dist/js/models-e8ffe5b4f3.js"></script>
 <script src="/mobile/dist/js/config-6315525f3c.js"></script>
@@ -109,4 +110,5 @@
 <script src="/mobile/dist/js/service/utils-36cd9ad5d9.js"></script>
 <script src="/mobile/dist/js/weixin-7ad381f4a6.js"></script>
 <script src="/mobile/dist/js/controllers/order-pay-4dcc161b56.js"></script>
+
 </html>

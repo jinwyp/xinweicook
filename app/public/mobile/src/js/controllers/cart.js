@@ -6,6 +6,21 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     // clear all `cart` in $localStorage
     try {
+        if ($localStorage.localBag) {
+            var localBag = $localStorage.localBag;
+            var dishIdMap = {};
+            for (var i = 0; i < localBag.length; i++) {
+                var id = localBag[i]._id;
+                var subDish = localBag[i].subDish;
+                for (var j = 0; j < localBag[i].subDish; j++) {
+                    id += subDish[j]._id;
+                }
+                if (!dishIdMap[id]) dishIdMap[id] = true;
+                else {
+                    localBag.splice(i--, 1)
+                }
+            }
+        }
         for (var key in $localStorage) {
             if (/cart/i.test(key)) {
                 delete $localStorage[key];
