@@ -164,6 +164,41 @@ exports.getWeixinUserOpenId = (req, res, next) ->
 
 
 
+exports.getWeixinUserInfo = (req, res, next) ->
+
+  userId = req.query.userId
+  models.user.validationUserId(userId)
+
+  models.user.findOneAsync({"_id": userId}).then (resultUser) ->
+
+    models.user.checkNotFound(resultUser)
+
+    if resultUser.weixinId and resultUser.weixinId.openid and resultUser.weixinId.access_token
+
+      weixinpay.getUserInfo(resultUser.weixinId, (err, result) ->
+        if err
+          return next(new Err err.errmsg, 400)
+
+        if not result.errcode
+
+          res.json(result)
+
+        else
+          return next(new Err result.errmsg, 400)
+
+      )
+
+    else
+      throw new Err "Field validation error,  User access_token not found", 400
+
+
+  .catch next
+
+
+
+
+
+
 
 
 
@@ -184,7 +219,7 @@ exports.userSignUp = (req, res, next) ->
 
     models.coupon.addCouponForNewUser(resultUser, req).then (resultUser2) ->
       if couponcode
-        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode)
+        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode).catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)

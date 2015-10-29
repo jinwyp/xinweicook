@@ -16,7 +16,6 @@ couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 deliveryController = require "./controllers/delivery.js"
-couponController = require "./controllers/coupon.coffee"
 orderStatController = require "./controllers/orderStatistic.js"
 userStatController = require "./controllers/userStatistic.js"
 
@@ -69,6 +68,7 @@ expressRoutes = (app) ->
 
   app.get("/api/user/weixin/oauthcode", userController.getWeixinUserOauthCode)
   app.get("/api/user/weixin/openid", userController.getWeixinUserOpenId)
+  app.get("/api/user/weixin/userinfo", userController.getWeixinUserInfo)
 
   app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)
@@ -92,6 +92,9 @@ expressRoutes = (app) ->
 
   app.get("/api/user/coupon/friends", libs.auth("member"), couponController.getCouponForUserShare)
   app.get("/api/user/coupon/invitation/:invitationCode", libs.auth("member"), couponController.getCouponForUserInvitationSendCode)
+  app.get("/api/user/coupon/code/:code", libs.auth("member"), couponController.getCouponFromCouponCode)
+
+
 
   app.get("/api/user/messages", libs.auth("member"), userController.getUserMessages)
   app.put("/api/user", libs.auth("member"), userController.updateUserInfo)

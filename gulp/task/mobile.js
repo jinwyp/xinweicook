@@ -47,6 +47,12 @@ gulp.task("html", ["revision"], function(){
 });
 
 
+gulp.task("watchhtml", function(){
+    gulp.watch("app/public/mobile/src/html/*.html", ['html']);
+});
+
+
+
 
 //
 //

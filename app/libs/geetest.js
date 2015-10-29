@@ -31,7 +31,7 @@ exports.getGeeTestRegisterChallenge = function(req, res, next){
 
     geetest.register(function(err, challenge){
         if (err) {
-            next(err)
+            return next(err)
         }
 
         if (challenge) {

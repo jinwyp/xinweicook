@@ -31,6 +31,7 @@
    * [删除用户收货地址](user/delete_address.md)
    * [用户成功分享邀请码获得优惠券](user/coupon_share_invitation_code.md)
    * [用户使用他人邀请码获得优惠券](user/coupon_used_invitation_code.md)
+   * [用户通过优惠券兑换码获得优惠券](user/coupon_from_couponcode.md)
    * [获取用户账户余额](user/get_account.md)
    * [获取用户账户余额明细](user/get_account_details.md)
    * [用户账户余额在线充值](user/charge_account.md)
