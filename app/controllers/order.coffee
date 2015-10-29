@@ -26,67 +26,130 @@ alipay = AliPay({})
 
 
 
-exports.getWeixinDeveloperAccessToken = (req, res, next) ->
+exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
   # 增加生成微信developerAccessToken备用
 
+  models.setting.findOneAsync({name:"weixinPayJSSdkConfig"}).then (resultSetting) ->
 
-  models.setting.findOneAsync({name:"weixinPayJSSdkConfig"})
-  .then (resultSetting) ->
-    if resultSetting
-      if models.setting.checkExpired(resultSetting)
-        weixinpay.getDeveloperJsapiTicket( (err, resultTicket) ->
-          if err
-            return next(new Err err.errmsg, 400)
+    isNeedRefreshJsapiTicket = false
 
-          if resultTicket
-            weixinpayJSSdkConfigSign =
-              noncestr: weixinpay.util.generateNonceString()
-              timestamp: Math.floor(Date.now()/1000)+""
-              jsapi_ticket: resultTicket.ticket
-              url: req.body.url
-
-            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
-
-            resultSetting.value = weixinpayJSSdkConfigSign
-            resultSetting.expiredDate =  moment().add(60, 'minutes')
-            resultSetting.saveAsync()
-            res.json weixinpayJSSdkConfigSign
-        )
-      else
-        weixinpayJSSdkConfigSign =
-          noncestr: resultSetting.value.noncestr
-          timestamp: Math.floor(Date.now()/1000)+""
-          jsapi_ticket: resultSetting.value.jsapi_ticket
-          url: req.body.url
-
-        weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
-        resultSetting.value = weixinpayJSSdkConfigSign
-        resultSetting.saveAsync()
-        res.json resultSetting.value
+    if not resultSetting
+      isNeedRefreshJsapiTicket = true
     else
-      weixinpay.getDeveloperJsapiTicket( (err, resultTicket) ->
-        if err
-          return next(new Err err.errmsg, 400)
+      if models.setting.checkExpired(resultSetting)
+        isNeedRefreshJsapiTicket = true
 
-        if resultTicket
+    if isNeedRefreshJsapiTicket
 
-          weixinpayJSSdkConfigSign =
-            noncestr: weixinpay.util.generateNonceString()
-            timestamp: Math.floor(Date.now()/1000)+""
-            jsapi_ticket: resultTicket.ticket
-            url: req.body.url
+      models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}).then (resultSetting2) ->
 
-          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+        isNeedRefreshAccessToken = false
 
-          newInfo2 =
-            name : "weixinPayJSSdkConfig"
-            key : "weixinPayJSSdkConfig"
-            value : weixinpayJSSdkConfigSign
-            expiredDate : moment().add(60, 'minutes')
+        if not resultSetting2
+          isNeedRefreshAccessToken = true
+        else
+          if models.setting.checkExpired(resultSetting2)
+            isNeedRefreshAccessToken = true
 
-          models.setting.createAsync(newInfo2)
-          res.json weixinpayJSSdkConfigSign
-      )
+
+        if isNeedRefreshAccessToken
+
+          weixinpay.getDeveloperAccessToken( (err, resultAccessToken) ->
+            if err
+              return next(new Err err.errmsg, 400)
+
+            if not resultAccessToken.errcode
+
+              newDeveloperAccessToken =
+                name : "weixinDeveloperAccessToken"
+                key : "weixinDeveloperAccessToken"
+                value : JSON.stringify(resultAccessToken)
+                expiredDate : moment().add(100, 'minutes')
+
+              models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSetting3)->
+
+                console.log(resultSetting3); # { ok: 1, nModified: 1, n: 1 }
+
+              console.log(resultAccessToken)
+              # 请求JsapiTicket
+              weixinpay.getDeveloperJsapiTicket(resultAccessToken.access_token, (err, resultTicket) ->
+                if err
+                  return next(new Err err.errmsg, 400)
+
+                if not resultTicket.errcode
+
+                  weixinpayJSSdkConfigSign =
+                    noncestr: weixinpay.util.generateNonceString()
+                    timestamp: Math.floor(Date.now()/1000)+""
+                    jsapi_ticket: resultTicket.ticket
+                    url: req.body.url
+
+                  weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+                  newInfo1 =
+                    name : "weixinPayJSSdkConfig"
+                    key : "weixinPayJSSdkConfig"
+                    value : JSON.stringify(weixinpayJSSdkConfigSign)
+                    expiredDate : moment().add(90, 'minutes')
+
+                  models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo1, {upsert: true})
+
+                  res.json weixinpayJSSdkConfigSign
+
+                else
+                  return next(new Err result.errmsg, 400)
+              )
+
+            else
+              return next(new Err result.errmsg, 400)
+          )
+
+        else
+          console.log(resultSetting2.value)
+          # 请求JsapiTicket
+          weixinpay.getDeveloperJsapiTicket(resultSetting2.value.access_token, (err, resultTicket2) ->
+            if err
+              return next(new Err err.errmsg, 400)
+
+            if not resultTicket2.errcode
+
+              weixinpayJSSdkConfigSign =
+                noncestr: weixinpay.util.generateNonceString()
+                timestamp: Math.floor(Date.now()/1000)+""
+                jsapi_ticket: resultTicket2.ticket
+                url: req.body.url
+
+              weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+              newInfo2 =
+                name : "weixinPayJSSdkConfig"
+                key : "weixinPayJSSdkConfig"
+                value : JSON.stringify(weixinpayJSSdkConfigSign)
+                expiredDate : moment().add(90, 'minutes')
+
+              models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo2, {upsert: true})
+
+              res.json weixinpayJSSdkConfigSign
+
+            else
+              return next(new Err result.errmsg, 400)
+          )
+
+    else
+      weixinpayJSSdkConfigSign =
+        noncestr: resultSetting.value.noncestr
+        timestamp: Math.floor(Date.now()/1000)+""
+        jsapi_ticket: resultSetting.value.jsapi_ticket
+        url: req.body.url
+
+      weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
+
+      resultSetting.value = weixinpayJSSdkConfigSign
+      resultSetting.saveAsync()
+
+      res.json weixinpayJSSdkConfigSign
+
+
   .catch next
 
 
