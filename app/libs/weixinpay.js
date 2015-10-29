@@ -69,12 +69,12 @@ var configWeiXinPay = {
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
     url_getUserOauthCode : "https://open.weixin.qq.com/connect/oauth2/authorize?", //第一步：用户同意授权，获取code  http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
     url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //第二步：通过code换取网页授权access_token
+    url_getUserInfo : "https://api.weixin.qq.com/cgi-bin/user/info?", //获取用户基本信息（包括UnionID机制） http://mp.weixin.qq.com/wiki/14/bb5031008f1494a59c6f71fa0f319c66.html
     url_getDeveloperAccessToken : "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&",
     url_getDeveloperTicket : "https://api.weixin.qq.com/cgi-bin/ticket/getticket?"
 
 
 };
-
 
 
 
@@ -198,7 +198,7 @@ weiXinPay.prototype.getUserOauthUrl = function(redirectUrl, state){
 
     // URL范例 https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
     var url = configWeiXinPay.url_getUserOauthCode + 'appid=' + this.config.appid + '&redirect_uri=' + encodeURIComponent(redirectUrl) + '&response_type=code' + '&scope=snsapi_base' + '&state=' + encodeURIComponent(state) + '#wechat_redirect';
-    logger.error('Get User Oauth Code Url: ', url);
+    //logger.error('Get User Oauth Code Url: ', url);
     return url
 };
 
@@ -231,18 +231,74 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
             var result = {};
             try {
                 result = JSON.parse(body) ;
-                if (typeof result.errcode === 'undefined'){
-                    logger.error("OpenID Success: " + body );
-                    callback(null, result)
-                }else{
-                    logger.error("OpenID Failed, get errcode : " + body );
-                    callback(null, result)
-                }
+            } catch (err) {
+                // handle error
+                logger.error("OpenID Failed JSON Parse Error:", JSON.stringify(err));
+                callback(err)
+            }
+
+            if (typeof result.errcode === 'undefined'){
+                //logger.error("OpenID Success: " + body );
+                callback(null, result)
+            }else{
+                logger.error("OpenID Failed, get errcode : " + body );
+                callback(null, result)
+            }
+        }
+
+    });
+
+};
+
+
+
+
+
+
+
+weiXinPay.prototype.getUserInfo = function(user, callback){
+
+    if (typeof user.access_token === 'undefined' && !user.access_token ){
+        throw new Error ("Weixin access_token wrong");
+    }
+
+    if (typeof user.openid === 'undefined' && !user.openid ){
+        throw new Error ("Weixin OpenId wrong");
+    }
+
+    var url = configWeiXinPay.url_getUserInfo + 'access_token=' + user.access_token + '&openid=' + user.openid + '&lang=zh_CN';
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 6000
+    };
+
+    //通过 access_token 获取用户基本信息（包括UnionID机制）
+    //文档 http://mp.weixin.qq.com/wiki/14/bb5031008f1494a59c6f71fa0f319c66.html
+
+    console.log(url);
+    requestC(opts, function(err, response, body){
+        if (err){
+            logger.error("UserInfo Failed Network error:", JSON.stringify(err));
+            callback(err)
+
+        }else{
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
 
             } catch (err) {
                 // handle error
-                logger.error("OpenID Failed JSON Parse Error:", JSON.stringify(err))
+                logger.error("UserInfo Failed JSON Parse Error:", JSON.stringify(err));
                 callback(err)
+            }
+
+            if (typeof result.errcode === 'undefined'){
+                callback(null, result)
+            }else{
+                logger.error("UserInfo Failed, get errcode : " + body );
+                callback(null, result)
             }
 
         }
@@ -250,6 +306,9 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     });
 
 };
+
+
+
 
 
 

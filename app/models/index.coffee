@@ -44,7 +44,7 @@ restify.defaults
   lean: true
   findOneAndUpdate: false
   onError: (err, req, res, next) ->
-    next err
+    next(err)
   preMiddleware: libs.auth("admin")
   # protected: "__v"
   # prereq: (req) ->

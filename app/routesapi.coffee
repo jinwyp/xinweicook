@@ -68,6 +68,7 @@ expressRoutes = (app) ->
 
   app.get("/api/user/weixin/oauthcode", userController.getWeixinUserOauthCode)
   app.get("/api/user/weixin/openid", userController.getWeixinUserOpenId)
+  app.get("/api/user/weixin/userinfo", userController.getWeixinUserInfo)
 
   app.post("/api/user/device", deviceController.addNewDevice)
   app.post("/api/user/token", tokenController.tokenSignIn)

@@ -91,6 +91,7 @@ module.exports =
       access_token : String
       openid : String
       refresh_token : String
+      subscribe : String
 
 
   statics:
@@ -107,6 +108,10 @@ module.exports =
         member : "member"
         courier : "courier"
         guest : "guest"
+
+    validationUserId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  User ID length must be 24-24", 400
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')

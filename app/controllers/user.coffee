@@ -164,6 +164,41 @@ exports.getWeixinUserOpenId = (req, res, next) ->
 
 
 
+exports.getWeixinUserInfo = (req, res, next) ->
+
+  userId = req.query.userId
+  models.user.validationUserId(userId)
+
+  models.user.findOneAsync({"_id": userId}).then (resultUser) ->
+
+    models.user.checkNotFound(resultUser)
+
+    if resultUser.weixinId and resultUser.weixinId.openid and resultUser.weixinId.access_token
+
+      weixinpay.getUserInfo(resultUser.weixinId, (err, result) ->
+        if err
+          return next(new Err err.errmsg, 400)
+
+        if not result.errcode
+
+          res.json(result)
+
+        else
+          return next(new Err result.errmsg, 400)
+
+      )
+
+    else
+      throw new Err "Field validation error,  User access_token not found", 400
+
+
+  .catch next
+
+
+
+
+
+
 
 
 

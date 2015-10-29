@@ -36,7 +36,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
       if models.setting.checkExpired(resultSetting)
         weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
           if err
-            next(err)
+            return next(new Err err.errmsg, 400)
 
           if resultTicket
             weixinpayJSSdkConfigSign =
@@ -66,7 +66,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
     else
       weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
         if err
-          next(err)
+          return next(new Err err.errmsg, 400)
 
         if resultTicket
 
