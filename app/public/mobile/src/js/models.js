@@ -116,6 +116,9 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
         invitedFriends: function () {
             return $http.get('/api/user/coupon/friends');
+        },
+        isSubscribe: function () {
+            return $http.get('/api/user/TODO');
         }
 
     }

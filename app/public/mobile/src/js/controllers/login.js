@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('loginCtrl', loginCtrl);
 
-function loginCtrl($scope, User, $location, Alert, Weixin) {
+function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
     $scope.loginData = {};
     $scope.signupData = {};
     $scope.resetPwdData = {};
@@ -61,23 +61,12 @@ function loginCtrl($scope, User, $location, Alert, Weixin) {
         history.back();
     };
 
-    var _times = 0;
-    var oldUrl1 = '';
-    var oldUrl2 = '';
-    $scope.$on('$locationChangeStart', function (e, url1, url2) {
-        if (oldUrl1 == url1 && oldUrl2 == url2) {
-            //alert('same:' + _times);
-            if (_times < 3) {
-                _times++
-            }
-        } else {
-            oldUrl1 = url1;
-            oldUrl2 = url2;
-        }
+    $scope.$on('$locationChangeStart', function () {
         $scope.path = $location.path();
     });
 
     var couponcode = '';
+    var promotion = '';
 
     function init() {
         var path = $location.path() || '/login';
@@ -92,6 +81,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin) {
         }, {});
 
         couponcode = searches.couponcode || '';
+        $localStorage.promotion = promotion = searches.promotion || '';
 
         User.getUserInfo().then(function (res) {
             // 如果在登录页面获取到用户信息,那么跳转到首页
