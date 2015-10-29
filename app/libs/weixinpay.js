@@ -69,6 +69,7 @@ var configWeiXinPay = {
     url_createUnifiedOrder : "https://api.mch.weixin.qq.com/pay/unifiedorder",
     url_getUserOauthCode : "https://open.weixin.qq.com/connect/oauth2/authorize?", //第一步：用户同意授权，获取code  http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
     url_getUserOpenId : "https://api.weixin.qq.com/sns/oauth2/access_token?", //第二步：通过code换取网页授权access_token
+    url_getUserRefreshAccessToken : "https://api.weixin.qq.com/sns/oauth2/refresh_token?", //第三步：刷新access_token（如果需要）
     url_getUserInfo : "https://api.weixin.qq.com/cgi-bin/user/info?", //获取用户基本信息（包括UnionID机制） http://mp.weixin.qq.com/wiki/14/bb5031008f1494a59c6f71fa0f319c66.html
     url_getDeveloperAccessToken : "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&",
     url_getDeveloperTicket : "https://api.weixin.qq.com/cgi-bin/ticket/getticket?"
@@ -290,14 +291,14 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
 
             } catch (err) {
                 // handle error
-                logger.error("UserInfo Failed JSON Parse Error:", JSON.stringify(err));
+                logger.error("Weixin getUserInfo JSON Parse Error:", JSON.stringify(err));
                 callback(err)
             }
 
             if (typeof result.errcode === 'undefined'){
                 callback(null, result)
             }else{
-                logger.error("UserInfo Failed, get errcode : " + body );
+                logger.error("Weixin getUserInfo error : " + body );
                 callback(null, result)
             }
 
@@ -313,6 +314,49 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
 
 
 weiXinPay.prototype.getDeveloperAccessToken = function( callback){
+
+    var url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + this.config.appid + '&secret=' + this.config.secret;
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 6000
+    };
+
+    requestC(opts, function(err, response, body){
+        if (err){
+            callback(err)
+        }else{
+            // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
+            // {"access_token":"ACCESS_TOKEN","expires_in":7200}
+
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+
+            } catch (err) {
+                // handle error
+                logger.error("Weixin Developer AccessToken JSON Parse Error:", JSON.stringify(err));
+                callback(err)
+            }
+
+            if (typeof result.errcode === 'undefined'){
+                callback(null, result)
+            }else{
+                logger.error("Weixin Developer AccessToken error : " + body );
+                callback(null, result)
+            }
+        }
+
+    });
+
+};
+
+
+
+
+
+weiXinPay.prototype.getDeveloperJsapiTicket = function( callback){
 
     var url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + this.config.appid + '&secret=' + this.config.secret;
 
@@ -352,7 +396,6 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
     });
 
 };
-
 
 
 
