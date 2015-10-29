@@ -214,6 +214,19 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
                   if not result.errcode
 
+                    resultUser.weixinId.subscribe = result.subscribe
+                    resultUser.weixinId.nickname = result.nickname
+                    resultUser.weixinId.sex = result.sex
+                    resultUser.weixinId.language = result.language
+                    resultUser.weixinId.city = result.city
+                    resultUser.weixinId.province = result.province
+                    resultUser.weixinId.country = result.country
+                    resultUser.weixinId.headimgurl = result.headimgurl
+                    resultUser.weixinId.subscribe_time = result.subscribe_time
+                    resultUser.weixinId.remark = result.remark
+                    resultUser.weixinId.groupid = result.groupid
+
+                    resultUser.save()
                     res.json(result)
 
                   else
@@ -225,6 +238,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
               return next(new Err result.errmsg, 400)
           )
 
+
         else
           userInfo =
             access_token : resultSetting.value.access_token
@@ -235,7 +249,19 @@ exports.getWeixinUserInfo = (req, res, next) ->
               return next(new Err err.errmsg, 400)
 
             if not result.errcode
+              resultUser.weixinId.subscribe = result.subscribe
+              resultUser.weixinId.nickname = result.nickname
+              resultUser.weixinId.sex = result.sex
+              resultUser.weixinId.language = result.language
+              resultUser.weixinId.city = result.city
+              resultUser.weixinId.province = result.province
+              resultUser.weixinId.country = result.country
+              resultUser.weixinId.headimgurl = result.headimgurl
+              resultUser.weixinId.subscribe_time = result.subscribe_time
+              resultUser.weixinId.remark = result.remark
+              resultUser.weixinId.groupid = result.groupid
 
+              resultUser.save()
               res.json(result)
 
             else

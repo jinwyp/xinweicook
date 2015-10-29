@@ -92,6 +92,15 @@ module.exports =
       openid : String
       refresh_token : String
       subscribe : String
+      nickname : String
+      sex : String
+      city : String
+      province : String
+      country : String
+      headimgurl : String
+      subscribe_time : String
+      remark : String
+      groupid : String
 
 
   statics:
