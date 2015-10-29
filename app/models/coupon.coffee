@@ -57,7 +57,7 @@ module.exports =
         if coupon.usedCountLimitOfOneUser is 1
           # 可以使用多次,但一个用户只能使用一次
           if coupon.usedUserList.indexOf(user._id) > -1
-            throw new Err "Coupon is use by this user!", 400, Err.code.coupon.used
+            throw new Err "Coupon is used by this user!", 400, Err.code.coupon.used
 
         if coupon.usedTime > 1 and coupon.isUsedCount >= coupon.usedTime
           throw new Err "Coupon run out used count !", 400, Err.code.coupon.outOfCount
@@ -222,7 +222,7 @@ module.exports =
 
       models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
       .then (resultCoupon)->
-
+        console.log(resultCoupon)
         models.coupon.checkNotFound resultCoupon
         models.coupon.checkUsed(resultCoupon, user)
         couponData = resultCoupon
@@ -242,7 +242,7 @@ module.exports =
         user.couponList.push(resultCouponList._id.toString())
         couponData.used(user)
         user.saveAsync()
-      .catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
+
 
 
     addCouponForShare : (user) ->

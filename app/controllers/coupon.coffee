@@ -97,7 +97,18 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
 
 
 
+# 用户通过优惠券兑换码获得优惠券
+exports.getCouponFromCouponCode = (req, res, next) ->
 
+  if req.params.code
+    models.coupon.addCouponFromCouponChargeCode(req.u, req.params.code)
+    .then (resultUser) ->
+      models.user.find1({_id : req.u._id})
+    .then (resultUser2)->
+      res.json resultUser2
+    .catch next
+  else
+    next(new Err "Coupon Code Wrong", 400)
 
 
 
