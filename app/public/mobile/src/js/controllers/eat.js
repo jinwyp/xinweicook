@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeout, ScopeDecorator, $location, $q) {
+function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDecorator, $location, $q, Coupon) {
     $scope.cart = [];
     $scope.user = null;
     $scope.address = '';
@@ -47,7 +47,16 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
                 return true;
             }),
             User.getUserInfo().then(function (res) {
-                
+                var promotion = $localStorage.promotion;
+                if (promotion) {
+                    User.getWeixinUserInfo().then(function (res) {
+                        if (res.data.subscribe) {
+                            Coupon.exchangeCouponCode(promotion).then(function () {
+                                delete $localStorage.promotion;
+                            })
+                        } else location.replace('/mobile/wxgzh');
+                    })
+                }
 
                 $scope.allAddresses = res.data.address;
                 return $scope.user = res.data;
