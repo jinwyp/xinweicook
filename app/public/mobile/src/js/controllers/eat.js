@@ -47,6 +47,8 @@ function eatCtrl($scope, Dishes, $localStorage, Weixin, Debug, User, Map, $timeo
                 return true;
             }),
             User.getUserInfo().then(function (res) {
+                
+
                 $scope.allAddresses = res.data.address;
                 return $scope.user = res.data;
             })

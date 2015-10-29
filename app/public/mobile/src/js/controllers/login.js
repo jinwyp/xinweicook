@@ -83,7 +83,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
         couponcode = searches.couponcode || '';
         if (couponcode.indexOf('XWNOD') == 0 && couponcode.length == 10) {
-            $localStorage.promotion = promotion = couponcode;
+            promotion = couponcode;
             couponcode = '';
         }
 
