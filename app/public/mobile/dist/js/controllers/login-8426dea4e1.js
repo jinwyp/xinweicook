@@ -121,6 +121,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
                 // 如果是地推活动,则强制跳到首页
                 if (promotion) {
+                    alert('pause: promotion login.js');
                     redirect = '/api/user/weixin/oauthcode?redirectUrl=&userId=' + user._id;
                 }
             }

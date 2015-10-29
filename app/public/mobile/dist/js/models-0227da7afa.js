@@ -119,6 +119,7 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
 
         getWeixinUserInfo: function (id) {
+            alert(id);
             return $http.get('/api/user/weixin/userinfo?userId=' + id);
         }
 

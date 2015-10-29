@@ -24,6 +24,16 @@ expressRoutes = function(app) {
         res.redirect('/mobile');
     });
 
+    app.get("/r/:id", function (req, res) {
+        var urlMap = {
+            // DiTui Promotion 01 01
+            'DTP0101': '/mobile/login?couponcode=XWNODLVR01#/signup',
+            'DTP0102': '/mobile/login?couponcode=XWNODLVR02#/signup',
+            'DTP0103': '/mobile/login?couponcode=XWNODLVR03#/signup'
+        };
+        res.redirect(urlMap[req.params.id] || '/mobile');
+    });
+
     app.get("/mobile", function (req, res) {
         res.render('mobile/eat-list.html', {title: 'XinWeiCook'})
     });
@@ -102,7 +112,7 @@ expressRoutes = function(app) {
 
     app.get("/mobile/wxgzh", function (req, res) {
         res.render('mobile/wxgzh-qrcode.html');
-    })
+    });
 
 
 

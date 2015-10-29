@@ -118,8 +118,8 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
             return $http.get('/api/user/coupon/friends');
         },
 
-        getWeixinUserInfo: function (id) {
-            return $http.get('/api/user/weixin/userinfo?userId=' + id);
+        getWeixinUserInfo: function () {
+            return $http.get('/api/user/weixin/userinfo');
         }
 
     }

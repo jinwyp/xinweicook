@@ -49,13 +49,15 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDeco
             User.getUserInfo().then(function (res) {
                 var promotion = $localStorage.promotion;
                 if (promotion) {
+                    alert('call getWeixinUserInfo');
                     User.getWeixinUserInfo(res.data._id).then(function (res) {
                         if (res.data.subscribe) {
                             Coupon.exchangeCouponCode(promotion).then(function () {
-                                alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
                                 delete $localStorage.promotion;
                             })
                         } else location.replace('/mobile/wxgzh');
+                    }).catch(function () {
+                        alert('getWeixinUserInfo failed');
                     })
                 }
 
