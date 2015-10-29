@@ -49,12 +49,15 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDeco
             User.getUserInfo().then(function (res) {
                 var promotion = $localStorage.promotion;
                 if (promotion) {
-                    User.getWeixinUserInfo().then(function (res) {
+                    alert('call getWeixinUserInfo');
+                    User.getWeixinUserInfo(res.data._id).then(function (res) {
                         if (res.data.subscribe) {
                             Coupon.exchangeCouponCode(promotion).then(function () {
                                 delete $localStorage.promotion;
                             })
                         } else location.replace('/mobile/wxgzh');
+                    }).catch(function () {
+                        alert('getWeixinUserInfo failed');
                     })
                 }
 
