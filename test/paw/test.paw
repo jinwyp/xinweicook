@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z314 z315 z312 z313 z316 z317 z311"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Cd:7fhdfU8tUkcRkBwBjNG3rDvfAp+Di3aB</attribute>
+        <attribute name="value" type="string">Bearer 2Cd:Cg59UUREgX75L7QluDWJGI3LTVrIowOX</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2573,7 +2573,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to eat\\",\\"isCityShanghai\\":true,\\"isInRange4KM\\":false}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to eat\\",\\"isCityShanghai\\":true,\\"isInRange4KM\\":true}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">30</attribute>
         <attribute name="name" type="string">user-getOrdersDeliveryTime</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
