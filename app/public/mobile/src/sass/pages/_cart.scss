@@ -12,6 +12,9 @@ $select-btn-width: 100px;
   padding:12px 12px 0;
   .select {
     @include retina-sprite-background(ForkIcon);
+    background-image: none;
+    border: 1px $menu-nav-bg-color solid;
+    border-radius: 50%;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -19,6 +22,7 @@ $select-btn-width: 100px;
     margin: auto;
     &.active {
       @include retina-background("icons/ForkIconHighlighted.png");
+      border: none;
       //@include retina-sprite-background(ForkIconHighlighted)
     }
   }

@@ -19,7 +19,7 @@
         <div class="block" ng-repeat="(name, list) in data.cart">
             <h4>{{name == 'cookList' ? '食材包' : '便当'}}</h4>
             <div ng-repeat="item in list">
-                <span class="dish-title">{{item.dish.title.zh}}({{item | subDishTitle}})</span>
+                <span class="dish-title">{{item.dish.title.zh}}{{item | subDishTitle}}</span>
                 <span class="quantity">x{{item.number}}</span>
                 <span class="rmb-char fee">
                     {{item | dishPrice | number:1}}

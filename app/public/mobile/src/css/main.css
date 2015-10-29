@@ -1196,24 +1196,28 @@ form .err-tip {
   -o-background-size: 98px auto;
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
+  background-image: none;
+  border: 1px #262626 solid;
+  border-radius: 50%;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   margin: auto;
 }
-/* line 20, ../sass/pages/_cart.scss */
+/* line 23, ../sass/pages/_cart.scss */
 .cart-main .select.active {
   height: 24px;
   width: 24px;
   background: url('../img/icons/ForkIconHighlighted.png?1444051628') 50%/cover no-repeat;
+  border: none;
 }
 
-/* line 29, ../sass/pages/_cart.scss */
+/* line 33, ../sass/pages/_cart.scss */
 .cart-block h4, .cart-block h5 {
   margin: 0;
 }
-/* line 32, ../sass/pages/_cart.scss */
+/* line 36, ../sass/pages/_cart.scss */
 .cart-block h4 {
   font-size: 14px;
   line-height: 2.4;
@@ -1222,40 +1226,40 @@ form .err-tip {
   position: relative;
   padding-left: 36px;
 }
-/* line 40, ../sass/pages/_cart.scss */
+/* line 44, ../sass/pages/_cart.scss */
 .cart-block h4 .total {
   font-size: 13px;
   position: absolute;
   right: 0;
   bottom: 0;
 }
-/* line 47, ../sass/pages/_cart.scss */
+/* line 51, ../sass/pages/_cart.scss */
 .cart-block h4 .select {
   top: -2px;
 }
 
-/* line 54, ../sass/pages/_cart.scss */
+/* line 58, ../sass/pages/_cart.scss */
 .cart-list {
   overflow: hidden;
   background-color: white;
   position: relative;
   margin-bottom: 15px;
 }
-/* line 59, ../sass/pages/_cart.scss */
+/* line 63, ../sass/pages/_cart.scss */
 .cart-list li {
   position: relative;
 }
-/* line 62, ../sass/pages/_cart.scss */
+/* line 66, ../sass/pages/_cart.scss */
 .cart-list .dish-wrapper {
   border-bottom: 1px solid rgba(188, 188, 188, 0.2);
   border-top: 0;
   padding: 10px 0;
 }
-/* line 67, ../sass/pages/_cart.scss */
+/* line 71, ../sass/pages/_cart.scss */
 .cart-list li:last-child .dish-wrapper {
   border-bottom: 0;
 }
-/* line 70, ../sass/pages/_cart.scss */
+/* line 74, ../sass/pages/_cart.scss */
 .cart-list .dish-img {
   left: 38px;
   position: absolute;
@@ -1263,45 +1267,45 @@ form .err-tip {
   height: 75px;
   background: 50% / cover no-repeat;
 }
-/* line 77, ../sass/pages/_cart.scss */
+/* line 81, ../sass/pages/_cart.scss */
 .cart-list .dish-detail {
   margin-left: 132px;
   height: 75px;
 }
-/* line 80, ../sass/pages/_cart.scss */
+/* line 84, ../sass/pages/_cart.scss */
 .cart-list .dish-detail h5 {
   font-size: 15px;
   font-weight: normal;
   min-height: 32px;
 }
-/* line 85, ../sass/pages/_cart.scss */
+/* line 89, ../sass/pages/_cart.scss */
 .cart-list .dish-detail span {
   display: block;
 }
-/* line 88, ../sass/pages/_cart.scss */
+/* line 92, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .sub-name {
   display: inline;
   font-size: 12px;
   color: gray;
 }
-/* line 93, ../sass/pages/_cart.scss */
+/* line 97, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock {
   font-size: 14px;
 }
-/* line 95, ../sass/pages/_cart.scss */
+/* line 99, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock.out-of-stock {
   color: #f44d4d;
 }
-/* line 99, ../sass/pages/_cart.scss */
+/* line 103, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .rmb-char {
   color: #4b4b4c;
   font-weight: 200;
 }
-/* line 103, ../sass/pages/_cart.scss */
+/* line 107, ../sass/pages/_cart.scss */
 .cart-list .dish-detail > * {
   margin-bottom: 4px;
 }
-/* line 107, ../sass/pages/_cart.scss */
+/* line 111, ../sass/pages/_cart.scss */
 .cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1310,7 +1314,7 @@ form .err-tip {
   right: -14px;
   top: 50px;
 }
-/* line 114, ../sass/pages/_cart.scss */
+/* line 118, ../sass/pages/_cart.scss */
 .cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1318,7 +1322,7 @@ form .err-tip {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 121, ../sass/pages/_cart.scss */
+/* line 125, ../sass/pages/_cart.scss */
 .cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1327,7 +1331,7 @@ form .err-tip {
   border-radius: 5px;
 }
 
-/* line 132, ../sass/pages/_cart.scss */
+/* line 136, ../sass/pages/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1336,7 +1340,7 @@ form .err-tip {
   text-indent: 2em;
 }
 
-/* line 142, ../sass/pages/_cart.scss */
+/* line 146, ../sass/pages/_cart.scss */
 .empty-cart .icon {
   margin: 34px auto;
   background-repeat: no-repeat;
@@ -1349,7 +1353,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 146, ../sass/pages/_cart.scss */
+/* line 150, ../sass/pages/_cart.scss */
 .empty-cart .text {
   color: #969696;
 }
