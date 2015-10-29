@@ -1,8 +1,13 @@
-var gulp = require('gulp'),
-    replace = require('gulp-replace'),
-    concat = require('gulp-concat'),
-    minifyHtml = require("gulp-minify-html"),
-    ngTemplateCache = require('gulp-angular-templatecache');
+var gulp = require('gulp');
+var rev = require('gulp-rev');
+var revReplace = require('gulp-rev-replace');
+var useref = require('gulp-useref');
+var replace = require('gulp-replace');
+var concat = require('gulp-concat');
+var minifyHtml = require("gulp-minify-html");
+var ngTemplateCache = require('gulp-angular-templatecache');
+
+
 
 gulp.task('mobile-ng-templates', function () {
     return gulp.src('app/public/mobile/src/js/directives/*.html')
@@ -22,6 +27,40 @@ gulp.task('errcode', function () {
         .pipe(concat('config.js'))
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
+
+
+gulp.task('revision', function () {
+    return gulp.src('app/public/mobile/src/js/**')
+        .pipe(rev())
+        .pipe(gulp.dest('app/public/mobile/dist/js'))
+        .pipe(rev.manifest())
+        .pipe(gulp.dest('app/public/mobile/dist'));
+});
+
+
+gulp.task("html", ["revision"], function(){
+    var manifest = gulp.src("app/public/mobile/dist/rev-manifest.json");
+
+    return gulp.src("app/public/mobile/src/html/*.html")
+        .pipe(revReplace({manifest: manifest}))
+        .pipe(gulp.dest('app/views/mobile'));
+});
+
+
+
+//
+//
+//gulp.task('minify', function () {
+//    var assets = useref.assets();
+//
+//    return gulp.src('app/views/mobile/order-address.html')
+//        .pipe(assets)
+//        .pipe(assets.restore())
+//        .pipe(useref())
+//        .pipe(gulp.dest('app/public/mobile/dist/html'));
+//});
+
+
 
 //gulp.watch(['app/libs/errcode.js', 'app/public/mobile/src/js/_config.js'], ['errcode']).on('change', function (event) {
 //    console.log('File ' + event.path + ' was ' + event.type + ', running tasks `errcode`');
