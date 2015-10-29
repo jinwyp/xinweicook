@@ -8,7 +8,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
     $scope.sms = {
         state: 'init' // 短信按钮的状态
-    }
+    };
 
     var pwdErrTimes = 0;
     $scope.login = function (form) {
@@ -67,13 +67,14 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
     var couponcode = '';
     var promotion = '';
+    var searches;
 
     function init() {
         var path = $location.path() || '/login';
         $location.path(path);
         $scope.path = path;
 
-        var searches = location.search.slice(1).split('&');
+        searches = location.search.slice(1).split('&');
         searches = searches.reduce(function (obj, cur) {
             cur = cur.split('=');
             obj[cur[0]] = decodeURIComponent(cur[1]);
@@ -81,7 +82,10 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
         }, {});
 
         couponcode = searches.couponcode || '';
-        $localStorage.promotion = promotion = searches.promotion || '';
+        if (couponcode.indexOf('XWNOD') == 0 && couponcode.length == 10) {
+            $localStorage.promotion = promotion = couponcode;
+            couponcode = '';
+        }
 
         User.getUserInfo().then(function (res) {
             // 如果在登录页面获取到用户信息,那么跳转到首页
@@ -99,9 +103,8 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
     }
 
     function redirect() {
-        var redirect = location.search.substring(1).split('=');
-        if (redirect.length > 1) {
-            redirect = redirect[1];
+        var redirect = searches['redirect'];
+        if (redirect) {
             if (!/(\/\w*)+/.test(redirect)) {
                 redirect = '/mobile/';
             }
@@ -115,6 +118,11 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
                 redirect = '/api/user/weixin/oauthcode?redirectUrl=' +
                     encodeURIComponent(redirect.replace('/mobile/', '')) +
                     '&userId=' + user._id ;
+
+                // 如果是地推活动,则强制跳到首页
+                if (promotion) {
+                    redirect = '/api/user/weixin/oauthcode?redirectUrl=&userId=' + user._id;
+                }
             }
 
             setTimeout(function () {

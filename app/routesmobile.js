@@ -100,6 +100,10 @@ expressRoutes = function(app) {
         res.render('mobile/search-address.html');
     });
 
+    app.get("/mobile/wxgzh", function (req, res) {
+        res.render('mobile/wxgzh-qrcode.html');
+    })
+
 
 
     // 百度place suggestion api不支持jsonp, 只好在服务器端请求
