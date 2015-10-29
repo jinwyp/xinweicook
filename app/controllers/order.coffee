@@ -30,11 +30,11 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
   # 增加生成微信developerAccessToken备用
 
 
-  models.setting.findOneAsync({name:"weixinPayJSSdkConfig", isExpired:false})
+  models.setting.findOneAsync({name:"weixinPayJSSdkConfig"})
   .then (resultSetting) ->
     if resultSetting
       if models.setting.checkExpired(resultSetting)
-        weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+        weixinpay.getDeveloperJsapiTicket( (err, resultTicket) ->
           if err
             return next(new Err err.errmsg, 400)
 
@@ -64,7 +64,7 @@ exports.getWeixinDeveloperAccessToken = (req, res, next) ->
         resultSetting.saveAsync()
         res.json resultSetting.value
     else
-      weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
+      weixinpay.getDeveloperJsapiTicket( (err, resultTicket) ->
         if err
           return next(new Err err.errmsg, 400)
 

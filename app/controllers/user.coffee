@@ -173,23 +173,79 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
     models.user.checkNotFound(resultUser)
 
-    if resultUser.weixinId and resultUser.weixinId.openid and resultUser.weixinId.access_token
+    if resultUser.weixinId and resultUser.weixinId.openid
 
-      weixinpay.getUserInfo(resultUser.weixinId, (err, result) ->
-        if err
-          return next(new Err err.errmsg, 400)
+      models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}).then (resultSetting) ->
 
-        if not result.errcode
+        isNeedRefreshAccessToken = false
 
-          res.json(result)
+        if not resultSetting
+          isNeedRefreshAccessToken = true
+        else
+          if models.setting.checkExpired(resultSetting)
+            isNeedRefreshAccessToken = true
+
+
+        if isNeedRefreshAccessToken
+          weixinpay.getDeveloperAccessToken( (err, resultAccessToken) ->
+            if err
+              return next(new Err err.errmsg, 400)
+
+
+            if not resultAccessToken.errcode
+
+              newDeveloperAccessToken =
+                name : "weixinDeveloperAccessToken"
+                key : "weixinDeveloperAccessToken"
+                value : JSON.stringify(resultAccessToken)
+                expiredDate : moment().add(100, 'minutes')
+
+              models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSetting2)->
+
+#                console.log(resultSetting2); # { ok: 1, nModified: 1, n: 1 }
+
+                userInfo =
+                  access_token : resultAccessToken.access_token
+                  openid : resultUser.weixinId.openid
+
+                weixinpay.getUserInfo(userInfo, (err, result) ->
+                  if err
+                    return next(new Err err.errmsg, 400)
+
+                  if not result.errcode
+
+                    res.json(result)
+
+                  else
+                    return next(new Err result.errmsg, 400)
+
+                )
+
+            else
+              return next(new Err result.errmsg, 400)
+          )
 
         else
-          return next(new Err result.errmsg, 400)
+          userInfo =
+            access_token : resultSetting.value.access_token
+            openid : resultUser.weixinId.openid
 
-      )
+          weixinpay.getUserInfo(userInfo, (err, result) ->
+            if err
+              return next(new Err err.errmsg, 400)
+
+            if not result.errcode
+
+              res.json(result)
+
+            else
+              return next(new Err result.errmsg, 400)
+
+          )
+
 
     else
-      throw new Err "Field validation error,  User access_token not found", 400
+      throw new Err "Field validation error,  User weixin openid not found", 400
 
 
   .catch next
