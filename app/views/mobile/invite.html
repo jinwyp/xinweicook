@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>新味</title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+</head>
+<body class="invite-body" ng-app="xw" ng-controller="inviteCtrl">
+
+
+<div ng-cloak>
+    <div class="invite-img-wrapper text-center">
+        <img src="/mobile/src/img/xw.jpg"/>
+    </div>
+    <p class="notes text-center">
+        分享到朋友圈, 立得两张 ¥5 优惠券<br/>
+        好友使用您的邀请码会得到¥10优惠券 <br/>
+        好友下单后，您还会得到¥10优惠券
+    </p>
+
+    <div class="share-block">
+        <div class="content">
+            <div class="txt row">
+                <span class="money col-xs-4">¥10</span>
+                <div class="col-xs-8 codes row">
+                    <span class="col-xs-4 caption">您的邀请码:</span><span class="col-xs-8 code pull-right">{{user.invitationSendCode}}</span>
+                </div>
+            </div>
+            <div class="inputs row">
+                <div class="col-xs-4">
+                    <select ng-model="role" ng-options="role for role in roles" name="roles" id="roles"></select>
+                </div>
+                <div class="col-xs-8">
+                    <select ng-model="place" ng-options="place.inner as place.display for place in places" name="places" id="places"></select>
+                </div>
+            </div>
+        </div>
+        <div ng-class="{invalid: !ready}" ng-click="ready && (css.showTip=true)" class="button text-center">分享</div>
+    </div>
+
+    <div ng-click="css.showTip=false" class="tip" ng-if="css.showTip">
+        <div class="operation">
+            点击右上角<img src="/mobile/src/img/wxsetting.png" alt="微信选项按钮"/>按钮, <i class="top-right-arrow"></i><br/>
+            选择 "分享到朋友圈"
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
+<script src="/mobile/dist/js/models-2c4d216f51.js"></script>
+<script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
+<script src="/mobile/dist/js/service/utils-9ed08b8212.js"></script>
+<script src="/mobile/dist/js/config-6315525f3c.js"></script>
+<script src="/mobile/dist/js/weixin-7ad381f4a6.js"></script>
+<script src="/mobile/dist/js/controllers/invite-d44879391d.js"></script>
+</html>

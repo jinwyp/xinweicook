@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <title>在线充值</title>
+</head>
+<body ng-app="xw" ng-controller="chargeBalanceOnlineCtrl">
+
+<nav class="nav">
+    <back-button></back-button>
+    <span>充值</span>
+</nav>
+
+<div class="charge-balance-online-main" ng-cloak>
+    <div class="cur-balance clearfix">
+        <span class="label-txt">现有余额</span>
+        <span class="balance pull-right"><i>{{balance}}</i> 新味币</span>
+    </div>
+
+    <ul class="selections">
+        <li><span>价格</span><span>充值</span></li>
+        <li ng-repeat="item in chargeSelections" ng-click="chargeSelections.selected = $index">
+            <span>¥ {{item.price}}</span><span>{{item.coin}} 新味币</span><span ng-if="$index == chargeSelections.selected" class="glyphicon glyphicon-ok"></span>
+        </li>
+    </ul>
+
+    <div class="confirm" ng-click="chargeOnline()">确认</div>
+</div>
+
+</body>
+
+<script src="/components/angular/angular.min.js"></script>
+<script src="/components/ngstorage/ngStorage.min.js"></script>
+
+<script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
+<script src="/mobile/dist/js/models-2c4d216f51.js"></script>
+<script src="/mobile/dist/js/config-6315525f3c.js"></script>
+<script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
+<script src="/mobile/dist/js/service/alert-844568461c.js"></script>
+<script src="/mobile/dist/js/directives/back-button-eb8cadf5c2.js"></script>
+<script src="/mobile/dist/js/controllers/charge-balance-online-29b17f5950.js"></script>
+</html>
