@@ -98,7 +98,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
          * @returns {*|Promise.<T>}
          */
         distance: function (lat, lng, warehouse) {
-            var topDistance = warehouse == 'CHJ' ? topDistance2CHJ : topDistance2HQ;
+            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             return this.walkingDistance(lat, lng, warehouse).then(function (res) {
                 var d = res.data.result.elements[0].distance.value;
                 d = map.fixZero(d, lat, lng);
@@ -114,6 +114,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         },
 
         distances: function (dests, warehouse) {
+            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             dests = Array.isArray(dests) ? dests : [dests];
             return this.walkingDistance(dests, warehouse).then(function (res) {
                 return res.data.result.elements.map(function (el, i) {
