@@ -6,6 +6,7 @@ module.exports =
   schema:
     orderNumber: type: String, unique: true# 订单号
     user: type: Schema.ObjectId, ref: "user"
+    warehouse :type: Schema.ObjectId, ref: "warehouse"
 
     isSplitOrder : type: Boolean, default: false # 订单分割
     isChildOrder : type: Boolean, default: false # 是否是子订单
