@@ -113,11 +113,11 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
         Weixin.getLocation(function (res) {
             var simpleRes = {
-                longitude : "121.44948",
-                latitude : "31.256105",
-                speed : "0.0",
-                accuracy : "1.0",
-                errMsg : "getLocation:ok"
+                accuracy: "150.0",
+                errMsg: "getLocation:ok",
+                latitude: "31.189463",
+                longitude: "121.460655",
+                speed: "0.0"
             };
 
             console.log("weixinGeo:", res);
