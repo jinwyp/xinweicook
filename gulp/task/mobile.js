@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var del = require('del');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var useref = require('gulp-useref');
@@ -7,6 +8,24 @@ var concat = require('gulp-concat');
 var minifyHtml = require("gulp-minify-html");
 var ngTemplateCache = require('gulp-angular-templatecache');
 
+
+
+var paths = {
+    baseStatic : 'app/public/',
+    baseView : 'app/views/',
+
+    sourceMobile : {
+        root : 'mobile/src',
+        js : 'mobile/src/js/**',
+        html : 'mobile/src/html/**'
+    },
+
+    distMobile : {
+        root : 'mobile/dist',
+        js : 'mobile/dist/js',
+        html : 'mobile'
+    }
+};
 
 
 gulp.task('mobile-ng-templates', function () {
@@ -29,26 +48,44 @@ gulp.task('errcode', function () {
 });
 
 
-gulp.task('revision', function () {
-    return gulp.src('app/public/mobile/src/js/**')
+
+
+
+
+
+gulp.task('deleteStatic', function () {
+    return del([
+        // here we use a globbing pattern to match everything inside the `mobile` folder
+        paths.baseStatic + paths.distMobile.root + '/**',
+        paths.baseView + paths.distMobile.html + '/**',
+        // we don't want to clean this file though so we negate the pattern
+        '!dist/mobile/deploy.json'
+    ]);
+});
+
+
+
+gulp.task('revision', ["deleteStatic"], function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
         .pipe(rev())
-        .pipe(gulp.dest('app/public/mobile/dist/js'))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js))
         .pipe(rev.manifest())
-        .pipe(gulp.dest('app/public/mobile/dist'));
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root));
 });
 
 
 gulp.task("html", ["revision"], function(){
-    var manifest = gulp.src("app/public/mobile/dist/rev-manifest.json");
+    var manifest = gulp.src(paths.baseStatic + paths.distMobile.root + "/rev-manifest.json");
 
-    return gulp.src("app/public/mobile/src/html/*.html")
+    return gulp.src(paths.baseStatic + paths.sourceMobile.html)
         .pipe(revReplace({manifest: manifest}))
-        .pipe(gulp.dest('app/views/mobile'));
+        .pipe(gulp.dest(paths.baseView + paths.distMobile.html));
 });
 
 
+
 gulp.task("watchhtml", function(){
-    gulp.watch("app/public/mobile/src/html/*.html", ['html']);
+    gulp.watch(paths.baseStatic + paths.sourceMobile.html, ['html']);
 });
 
 
