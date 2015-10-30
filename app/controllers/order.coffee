@@ -338,6 +338,9 @@ exports.addNewOrder = (req, res, next) ->
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
 
+  if req.body.warehouseId
+    unless libs.validator.isLength req.body.warehouseId, 24, 24
+      return throw new Err "Field validation error,  warehouse ID length must be 24-24", 400
 
 
   languageStr = req.acceptsLanguages()
@@ -386,6 +389,7 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType : req.body.cookingType
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : req.body.dishList
@@ -429,6 +433,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
+    warehouse : "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : []
@@ -458,6 +463,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : []
