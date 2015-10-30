@@ -20,6 +20,7 @@ Group `member`
 | deliveryDateEat  | String   | 用于 "ready to eat" 预计到达日期 年月日  注意用双位数表达日期 2015-06-13         |
 | deliveryTimeEat  | String   | "ready to eat"  预计到达时间 格式 小时:分钟 12:00          |
 | userComment      | String   | 订单备注        |
+| warehouseId      | String   | 仓库_ID, 从哪个仓库发货 24位ID "56332187594b09af6e6c7dd2" 新味办公室 或 "56332196594b09af6e6c7dd7" 漕河泾    |
 | addressId        | String   | 用户地址_ID, 24位ID 5590d256103f46d9ac31e3e  如果带有该参数,下面的地址信息会被忽略(不用传了),会直接使用该用户的地址ID的所有地址信息  |
 | address          | Object   | 地址       |
 |   -> geoLatitude   | Number   | 纬度       |
