@@ -10,6 +10,8 @@ module.exports =
     locationGeoLatitude: Number # 纬度
     locationGeoLongitude: Number # 经度
 
+    isActivated : type: Boolean, default: false
+
 
   statics:
     constantRemark : () ->

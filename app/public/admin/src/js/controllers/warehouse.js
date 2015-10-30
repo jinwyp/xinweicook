@@ -21,7 +21,8 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
             limit : 200,
 
             query : {
-                name :''
+                name :'',
+                isActivated : ''
             }
 
         },
@@ -40,15 +41,26 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
                 zh : '',
                 en : ''
             },
+            isActivated : false,
 
             locationGeoLatitude : 0,
             locationGeoLongitude : 0
         },
 
-        warehouseGroupList: [
+        warehouseIsActivatedTypeList: [
             {
                 name : 'ALL',
                 value : ''
+            },
+
+            {
+                name : '已启用',
+                value : 'true'
+            },
+
+            {
+                name : '未启用',
+                value : 'false'
             },
 
         ]

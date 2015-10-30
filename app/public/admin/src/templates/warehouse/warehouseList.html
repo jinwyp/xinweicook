@@ -38,6 +38,17 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.warehouseIsActivated.$dirty&&searchForm.warehouseIsActivated.$valid, 'has-error':searchForm.warehouseIsActivated.$dirty&&searchForm.warehouseIsActivated.$invalid}">
+                    <label for="inputWarehouseIsActivated" class="col-lg-2 control-label" >是否启用</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="warehouseIsActivatedType in data.warehouseIsActivatedTypeList">
+                            <input type="radio" name="warehouseIsActivated" id="inputWarehouseIsActivated" ng-value="warehouseIsActivatedType.value" ng-model="data.searchOptions.query.isActivated">{{warehouseIsActivatedType.name}}
+                        </label>
+                    </div>
+                </div>
+
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchWarehouse(searchForm)">搜索</button>
@@ -61,6 +72,7 @@
                 <th>显示名称应为</th>
 
                 <th>经/纬度</th>
+                <th>是否启用</th>
 
             </tr>
         </thead>
@@ -73,6 +85,7 @@
                 <td>{{warehouse.displayName.en}}</td>
 
                 <td>{{warehouse.locationGeoLongitude}} / {{warehouse.locationGeoLatitude}}</td>
+                <td>{{warehouse.isActivated}} </td>
             </tr>
         </tbody>
     </table>

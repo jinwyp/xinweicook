@@ -95,6 +95,21 @@
                 </div>
 
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseIsActivated.$dirty&&warehouseForm.warehouseIsActivated.$valid, 'has-error':warehouseForm.warehouseIsActivated.$dirty&&warehouseForm.warehouseIsActivated.$invalid}">
+                    <label class="col-lg-2 control-label" >是否启用</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="warehouseIsActivated"  ng-value="true" ng-model="data.warehouse.isActivated">已启用
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="warehouseIsActivated"  ng-value="false" ng-model="data.warehouse.isActivated">未启用
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
                         <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="warehouseForm.$invalid" ng-click="addNewWarehouse(warehouseForm)">Save</button>
