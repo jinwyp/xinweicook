@@ -129,24 +129,15 @@ expressRoutes = (app) ->
 
 
 
+
+
+
+
   app.put("/api/courier/trace", libs.auth("courier"), deliveryTraceController.updateTrace)
 
 
 
-#  app.post("/api/administrator/coupon", couponController.addNewCoupon)
-#  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
-  app.post("/api/administrator/coupons/date", couponController.modifyCouponStartDate)
 
-#  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
-
-  app.post("/api/administrator/dishes", dishController.addNewDish)
-  app.post("/api/administrator/cooks", cookController.addNewCook)
-  app.post("/api/administrator/tags", tagController.addNewTag)
-
-
-
-
-  app.get("/api/administrator/initadminuser", initController.createAdmin)
 
   app.get("/api/administrator/export/orderall", orderStatController.orderList)
   app.get("/api/administrator/export/orders", orderStatController.orderExportList)
@@ -164,6 +155,11 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
+
+
+
+  app.get("/api/administrator/initadminuser", initController.createAdmin)
+  app.get("/api/administrator/initwarehouse", initController.createWarehouse)
 #  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)
 #  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initNewDish)
@@ -173,11 +169,31 @@ expressRoutes = (app) ->
 #  app.get("/api/administrator/initremovedish", libs.auth("admin"), initController.removeDish)
 #  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
 #  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
+
+  app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
   app.get("/api/administrator/initremovecoupon", libs.auth("admin"), initController.removeCoupon)
   app.get("/api/administrator/initremoveaccountdetail", libs.auth("admin"), initController.removeAccountDetails)
-  app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
+
+
+
+
+
+
+
+#  app.post("/api/administrator/coupon", couponController.addNewCoupon)
+#  app.post("/api/administrator/coupons", couponController.addNewCouponBatch)
+#  app.post("/api/administrator/coupons/date", couponController.modifyCouponStartDate)
+#  app.post("/api/administrator/coupons/user", couponController.assignCouponToUser)
+
+  app.post("/api/administrator/dishes", dishController.addNewDish)
+  app.post("/api/administrator/cooks", cookController.addNewCook)
+  app.post("/api/administrator/tags", tagController.addNewTag)
+
+
+
+
 
 
 

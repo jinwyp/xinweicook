@@ -97,6 +97,30 @@ exports.removeSetting = (req, res, next) ->
 
 
 
+
+
+
+
+
+
+
+
+
+exports.createWarehouse = (req, res, next) ->
+
+  models.warehouse.findOneAsync({ name: 'xinweioffice' }).then (resultWarehouse) ->
+    if resultWarehouse
+      return res.send("Warehouse already created")
+    else
+      return models.warehouse.createAsync(initData.warehouse).then (result) ->
+        res.json result
+
+  .catch next
+
+
+
+
+
 exports.createDishTag = (req, res, next) ->
 
   models.tag.findOneAsync({}).then (resultTag) ->
