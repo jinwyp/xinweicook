@@ -24,6 +24,9 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         geoLatitude: 0,
         geoLongitude: 0
     };
+
+    var warehouse = $localStorage.warehouse;
+
     var newAddr = $scope.newAddr = angular.copy(emptyAddr);
     $scope.Address = Address;
     $scope.isWeixin = Weixin.isWeixin;
@@ -112,18 +115,15 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         event.stopPropagation();
 
         Weixin.getLocation(function (res) {
-            var simpleRes = {
-                longitude : "121.44948",
-                latitude : "31.256105",
-                speed : "0.0",
-                accuracy : "1.0",
-                errMsg : "getLocation:ok"
-            };
-
-            console.log("weixinGeo:", res);
+            //var simpleRes = {
+            //    longitude : "121.000",
+            //    latitude : "31.000",
+            //    speed : "0.0",
+            //    accuracy : "1.0",
+            //    errMsg : "getLocation:ok"
+            //};
 
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
-                console.log("weixinFromBaiduGeo:", data.data);
                 var result = data.data.result;
                 result = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
                 fixAddress(result);
@@ -132,7 +132,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
                 angular.extend(newAddr, result);
 
-                Map.distance(res.latitude, res.longitude).then(function (res) {
+                Map.distance(res.latitude, res.longitude, warehouse).then(function (res) {
                     newAddr.isInRange = res.isInRange;
                     newAddr.distance = res.distance;
                 })
@@ -174,7 +174,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         addr.district = street.district;
         addr.isInRange = false;
         addr.distance = Map.bentoNoReach;
-        Map.distance(addr.geoLatitude, addr.geoLongitude).then(function (res) {
+        Map.distance(addr.geoLatitude, addr.geoLongitude, warehouse).then(function (res) {
             addr.isInRange = res.isInRange;
             addr.distance = res.distance;
         })
@@ -272,7 +272,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                         lat: addr.geoLatitude,
                         lng: addr.geoLongitude
                     }
-                }))
+                }), warehouse)
             } else {
                 css.cur = -2;
             }
@@ -280,6 +280,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         }).then(function (res) {
             if (typeof res != 'object') return;
             $scope.address.forEach(function (addr, i) {
+                if (typeof addr.isInRange != 'undefined') return;
                 addr.isInRange = res[i].isInRange;
                 addr.distance = res[i].distance;
             })

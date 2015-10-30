@@ -24,6 +24,12 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     
     var isWeixin = $scope.isWeixin = Weixin.isWeixin;
 
+    var warehouse = $localStorage.warehouse;
+    var warehouseIdMap = {
+        caohejing: '56332187594b09af6e6c7dd2',
+        xinweioffie: '56332196594b09af6e6c7dd7'
+    }
+
     function init() {
         var isCityShanghai, isNearAddress;
 
@@ -50,7 +56,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         cart.eatList && cart.eatList.length && Orders.deliveryTime({
             cookingType: "ready to eat",
             isCityShanghai: isCityShanghai,
-            isInRange4KM: address.isInRange || false
+            isInRange4KM: address.isInRange || false,
+            _id: warehouseIdMap[warehouse]
         }).then(function (res) {
             time.eat = $filter('eatTimeOptions')(res.data);
             model.time.eat = time.eat[0];
@@ -157,7 +164,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             credit: 0,
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
-            userComment: model.userComment
+            userComment: model.userComment,
+            warehouseId:  warehouseIdMap[warehouse]
         };
 
         angular.extend(order, {address: address},
@@ -217,6 +225,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     function clear() {
         //delete $localStorage.confirmedBag;
+        delete $localStorage.warehouse;
         var localBag = $localStorage.localBag;
         if (!localBag) return;
         for (var key in cart) {

@@ -152,12 +152,14 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     var postCart = null;
 
     function init() {
+        var warehouse = $localStorage.warehouse;
+
         // 如果已登录,则用合并服务器数据到本地
         $q.all([
             ((function () {
                 var localBag = $localStorage.localBag;
                 if (localBag) { //本地数据需要更新库存信息
-                    return Dishes.getList().then(function (res) {
+                    return Dishes.getList(warehouse).then(function (res) {
                         var dishes = res.data;
                         for (var i = 0; i < localBag.length; i++) {
                             var postItem = localBag[i];
