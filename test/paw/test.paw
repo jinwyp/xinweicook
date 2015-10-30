@@ -6666,7 +6666,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"_id\\":\\"2\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"_id\\": \\"56332196594b09af6e6c7dd7\\",\\n  \\"warehouseName\\": \\"caohejing1\\"\\n}"]</attribute>
         <attribute name="order" type="int64">33</attribute>
         <attribute name="name" type="string">user-getOrdersDeliveryTimeWarehouse</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>

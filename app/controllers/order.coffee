@@ -800,21 +800,36 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  result =
-    _id : "1"
-    name : 'xinweioffice'
-    timeList : []
+  models.warehouse.findAsync({}).then (resultWarehouseList) ->
 
-  if req.body._id is "2"
+    tempWarehouse = {}
+    result = {}
 
-    result._id = "2"
-    result.name = 'caohejing'
-    result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
-  else
-    result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+    for warehouse, warehouseIndex in resultWarehouseList
+      tempWarehouse[warehouse._id] = warehouse.toObject()
+      tempWarehouse[warehouse.name] = warehouse.toObject()
 
-  res.status(200).json(result)
 
+
+
+    if req.body.warehouseName is "xinweioffice"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+    else if req.body._id is "56332187594b09af6e6c7dd2"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+
+
+    if req.body.warehouseName is "caohejing1"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+    else if req.body._id is "56332196594b09af6e6c7dd7"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+
+    res.status(200).json(result)
+
+  .catch next
 
 
 
