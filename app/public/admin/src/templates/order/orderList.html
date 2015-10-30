@@ -185,7 +185,8 @@
 
 
                         <a class="btn btn-default"  href="/api/administrator/export/ordersinternal?createdAt={{data.searchOptions.query.createdAt}}&status={{data.searchOptions.query.status}}&cookingType={{data.searchOptions.query.cookingType}}&clientFrom={{data.searchOptions.query.clientFrom}}&deliveryDateType={{data.searchOptions.query.deliveryDateType}}&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中内部制作单</a>
-                        <a class="btn btn-default"  href="/api/administrator/shiplist/orders?idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中出货单</a>
+                        <a class="btn btn-default"  href="/api/administrator/shiplist/orders?idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中出货单(A4)</a>
+                        <a class="btn btn-default"  href="/api/administrator/shiplist/orders?pageType=a5&idList={{arrayToUrl(data.exportOrderIdList)}}" target="_blank">导出选中出货单(A5)</a>
                         <a class="btn btn-default"  href="/api/administrator/export/orders" target="_blank">导出所有订单</a>
                     </div>
 
