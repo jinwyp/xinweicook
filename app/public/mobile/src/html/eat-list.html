@@ -56,7 +56,7 @@
 
 <add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
 
-<nav class="menu-nav">
+<nav class="menu-nav empty" ng-class="{'empty': !cart.length}">
     <div><a href="me"><span>帐号</span></a></div>
     <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
     <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>

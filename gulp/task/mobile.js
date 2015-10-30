@@ -48,7 +48,8 @@ gulp.task("html", ["revision"], function(){
 
 
 gulp.task("watchhtml", function(){
-    gulp.watch("app/public/mobile/src/html/*.html", ['html']);
+    gulp.watch(["app/public/mobile/src/html/*.html",
+        "app/public/mobile/src/js/**/*.js"], ['html']);
 });
 
 
