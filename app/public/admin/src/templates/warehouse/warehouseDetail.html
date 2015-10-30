@@ -16,20 +16,20 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$valid, 'has-error':warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$invalid}">
                     <label for="inputWarehouseName" class="col-lg-2 control-label" >仓库代号</label>
 
-                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                    <div class="col-lg-8" >
                         <input type="text" class="form-control" id="inputWarehouseName" placeholder="仓库代号" name="warehouseName" ng-model="data.warehouse.name" required ng-minlength="4" ng-maxlength="200" >
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$invalid"></span>
                     </div>
 
-                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                    <div class="col-lg-2" >
                         <span class="form-validation help-block" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.required">请填入信息！</span>
                         <span class="form-validation help-block" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.minlength || warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.maxlength">字符长度错误11-18！</span>
                     </div>
 
-                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
-                        <span class="help-block" aria-hidden="true">{{data.warehouse.name}}</span>
-                    </div>
+                    <!--<div class="col-lg-8" ng-if="!css.isAddNewStatus">-->
+                        <!--<span class="help-block" aria-hidden="true">{{data.warehouse.name}}</span>-->
+                    <!--</div>-->
                 </div>
 
 
