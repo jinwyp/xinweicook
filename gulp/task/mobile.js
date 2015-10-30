@@ -16,7 +16,7 @@ var paths = {
 
     sourceMobile : {
         root : 'mobile/src',
-        js : 'mobile/src/js/**',
+        js : 'mobile/src/js/**/*.js',
         html : 'mobile/src/html/**'
     },
 
