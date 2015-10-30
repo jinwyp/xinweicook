@@ -304,9 +304,7 @@ exports.orderList = function(req, res, next) {
 exports.orderPrintShippingList = function(req, res, next) {
 
     var orderIdList = [];
-    var view = req.query.pageType == 'a5'
-        ? 'admin/ship_list_a5.html'
-        : 'admin/ship_list.html';
+    var pageType = req.query.pageType || 'a4';
     //console.log(req.query.idList);
 
     if (req.query.idList){
@@ -323,7 +321,7 @@ exports.orderPrintShippingList = function(req, res, next) {
                 resultOrderList.forEach(function(order){
                     order.createdAtNew = moment(order.createdAt).format("ddd, YYYY-MM-D H:mm:ss")
                 });
-                res.render(view, {title: 'XinWeiCook', orderList:resultOrderList})
+                res.render('admin/ship_list.html', {title: 'XinWeiCook', orderList:resultOrderList, pageType: pageType})
             }else{
                 res.send('ok')
             }
