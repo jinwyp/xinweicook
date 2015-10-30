@@ -317,6 +317,38 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
 
 
+            .state('menu.warehouses', {
+                url: '/warehouses',
+                templateUrl: 'templates/warehouse/warehouseList.html',
+                data: {
+                    title: '仓库管理',
+                    type : 'list'
+                },
+                controller: 'WarehouseController'
+            })
+            .state('menu.updateWarehouse', {
+                url: '/warehouses/:id',
+                templateUrl: 'templates/warehouse/warehouseDetail.html',
+                data: {
+                    title: '仓库管理',
+                    type : 'update'
+                },
+                controller: 'WarehouseController'
+            })
+            .state('menu.addNewWarehouse', {
+                url: '/warehouseadd',
+                templateUrl: 'templates/warehouse/warehouseDetail.html',
+                data: {
+                    title: '仓库管理',
+                    type : 'add'
+                },
+                controller: 'WarehouseController'
+            })
+
+
+
+
+
             .state('menu.deviceTokens', {
                 url: '/devicetokens',
                 templateUrl: 'templates/user/deviceTokenList.html',

@@ -1,0 +1,110 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Warehouse 仓库</span>
+                <span ng-hide="css.isAddNewStatus">修改 Warehouse 仓库 - {{data.warehouse.name.zh}} - {{data.warehouse._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.warehouses" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="warehouseForm" role="form" novalidate ng-cloak>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$valid, 'has-error':warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$invalid}">
+                    <label for="inputWarehouseName" class="col-lg-2 control-label" >仓库代号</label>
+
+                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                        <input type="text" class="form-control" id="inputWarehouseName" placeholder="仓库代号" name="warehouseName" ng-model="data.warehouse.name" required ng-minlength="4" ng-maxlength="200" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.minlength || warehouseForm.warehouseName.$dirty&&warehouseForm.warehouseName.$error.maxlength">字符长度错误11-18！</span>
+                    </div>
+
+                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
+                        <span class="help-block" aria-hidden="true">{{data.warehouse.name}}</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$valid||warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$valid, 'has-error':warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$invalid||warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$invalid}">
+                    <label for="inputWarehouseDisplayNameZh" class="col-lg-2 control-label" >仓库显示名称</label>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="inputWarehouseDisplayNameZh" placeholder="显示名称中文" name="warehouseDisplayNameZh" ng-model="data.warehouse.displayName.zh" required ng-minlength="2" ng-maxlength="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="inputWarehouseDisplayNameEn" placeholder="显示名称英文" name="warehouseDisplayNameEn" ng-model="data.warehouse.displayName.en" required ng-minlength="2" ng-maxlength="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$error.minlength || warehouseForm.warehouseDisplayNameZh.$dirty&&warehouseForm.warehouseDisplayNameZh.$error.maxlength">字符长度错误！</span>
+
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$error.minlength || warehouseForm.warehouseDisplayNameEn.$dirty&&warehouseForm.warehouseDisplayNameEn.$error.maxlength">字符长度错误！</span>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$valid, 'has-error':warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$invalid}">
+                    <label for="inputWarehouseLongitude" class="col-lg-2 control-label" >经度坐标</label>
+
+                    <div class="col-lg-6" >
+                        <input type="text" class="form-control" id="inputWarehouseLongitude" placeholder="仓库经度坐标" name="warehouseLongitude" ng-model="data.warehouse.locationGeoLongitude" required ng-minlength="1" ng-maxlength="200" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4" >
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.minlength || warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.maxlength">字符长度错误11-18！</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$valid, 'has-error':warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$invalid}">
+                    <label for="inputWarehouseLatitude" class="col-lg-2 control-label" >纬度坐标</label>
+
+                    <div class="col-lg-6" >
+                        <input type="text" class="form-control" id="inputWarehouseLatitude" placeholder="仓库纬度坐标" name="warehouseLatitude" ng-model="data.warehouse.locationGeoLatitude" required ng-minlength="1" ng-maxlength="200" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4" >
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.minlength || warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.maxlength">字符长度错误11-18！</span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="warehouseForm.$invalid" ng-click="addNewWarehouse(warehouseForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="warehouseForm.$invalid" ng-click="updateWarehouse(warehouseForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
