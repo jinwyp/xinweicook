@@ -77,6 +77,16 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.warehouse.$dirty&&searchForm.warehouse.$valid, 'has-error':searchForm.warehouse.$dirty&&searchForm.warehouse.$invalid}">
+                    <label for="inputWarehouse" class="col-lg-2 control-label" >发货仓库</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="warehouse in data.warehouseList">
+                            <input type="radio" name="warehouse" id="inputWarehouse" ng-value="warehouse.value" ng-model="data.searchOptions.query.warehouse">{{warehouse.name}}
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback">
                     <label class="col-lg-2 control-label" >日期范围起始</label>
                     <div class="col-lg-4">
@@ -222,6 +232,7 @@
                 <!--<th>拆分订单</th>暂时隐藏掉,S要求-->
                 <!--<th>子订单</th>-->
                 <th>来源</th>
+                <th>仓库</th>
                 <th>联系人 / 手机</th>
                 <th>地址</th>
                 <th>用户备注</th>
@@ -279,6 +290,11 @@
                     <span ng-if="order.clientFrom === 'wechat'">微信</span>
                     <span ng-if="order.clientFrom === 'website'">PC版网站</span>
                     <span ng-if="order.clientFrom === 'mobileweb'">移动版网站</span>
+                </td>
+
+                <td>
+                    <span ng-if="order.warehouse === '56332187594b09af6e6c7dd2'">办公室</span>
+                    <span ng-if="order.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
                 </td>
 
                 <td><a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a><br/>{{order.address.mobile}}</td>

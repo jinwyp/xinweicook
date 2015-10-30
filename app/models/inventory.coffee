@@ -2,6 +2,8 @@
 
 module.exports =
   schema:
+    warehouse :type: Schema.ObjectId, ref: "warehouse"
+
     dish :type: Schema.ObjectId, ref: "dish"
     user :type: Schema.ObjectId, ref: "user" # 修改人
     order :type: Schema.ObjectId, ref: "order"

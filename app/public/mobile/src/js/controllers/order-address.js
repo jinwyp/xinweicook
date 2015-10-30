@@ -123,6 +123,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             //    errMsg : "getLocation:ok"
             //};
 
+            //console.log("weixinGeo:", res);
+
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
                 var result = data.data.result;
                 result = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');

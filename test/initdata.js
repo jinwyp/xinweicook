@@ -76,6 +76,25 @@ var userAdmin = [
 ];
 
 
+var warehouseList = [
+    {
+        "_id"                  : "56332196594b09af6e6c7dd7",
+        "name"                 : "caohejing1",
+        "locationGeoLatitude"  : 0,
+        "locationGeoLongitude" : 0,
+        "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
+        "isActivated"          : true
+    },
+    {
+        "_id"                  : "56332187594b09af6e6c7dd2",
+        "name"                 : "xinweioffice",
+        "locationGeoLatitude"  : 31.195693,
+        "locationGeoLongitude" : 121.467155,
+        "displayName"          : {"zh" : "新味办公室", "en" : "Xinwei Office"},
+        "isActivated"          : true
+    }
+];
+
 
 
 var dishFilterTagList1 = [
@@ -1102,6 +1121,7 @@ var realReadyToEat = [
 
 module.exports = {
     userAdmin : userAdmin,
+    warehouse : warehouseList,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 

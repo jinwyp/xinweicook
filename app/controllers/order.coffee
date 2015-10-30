@@ -338,6 +338,9 @@ exports.addNewOrder = (req, res, next) ->
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
 
+  if req.body.warehouseId
+    unless libs.validator.isLength req.body.warehouseId, 24, 24
+      return throw new Err "Field validation error,  warehouse ID length must be 24-24", 400
 
 
   languageStr = req.acceptsLanguages()
@@ -386,6 +389,7 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType : req.body.cookingType
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : req.body.dishList
@@ -429,6 +433,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
+    warehouse : "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : []
@@ -458,6 +463,7 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     addressId : req.body.addressId
     address : req.body.address
     dishList : []
@@ -800,21 +806,36 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  result =
-    _id : "1"
-    name : 'xinweioffice'
-    timeList : []
+  models.warehouse.findAsync({}).then (resultWarehouseList) ->
 
-  if req.body._id is "2"
+    tempWarehouse = {}
+    result = {}
 
-    result._id = "2"
-    result.name = 'caohejing'
-    result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
-  else
-    result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+    for warehouse, warehouseIndex in resultWarehouseList
+      tempWarehouse[warehouse._id] = warehouse.toObject()
+      tempWarehouse[warehouse.name] = warehouse.toObject()
 
-  res.status(200).json(result)
 
+
+
+    if req.body.warehouseName is "xinweioffice"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+    else if req.body._id is "56332187594b09af6e6c7dd2"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+
+
+    if req.body.warehouseName is "caohejing1"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+    else if req.body._id is "56332196594b09af6e6c7dd7"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+
+    res.status(200).json(result)
+
+  .catch next
 
 
 

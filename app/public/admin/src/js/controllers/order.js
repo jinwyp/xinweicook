@@ -27,6 +27,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 orderNumber : '',
                 _id : '',
                 user : '',
+                warehouse : '',
                 isSplitOrder : '',
                 isChildOrder : '',
                 cookingType : '',
@@ -299,7 +300,22 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                     en : '达达快递'
                 }
             }
-        ]
+        ],
+
+        warehouseList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '新味办公室',
+                value : '56332187594b09af6e6c7dd2'
+            },
+            {
+                name : '漕河泾仓库',
+                value : '56332196594b09af6e6c7dd7'
+            }
+        ],
     };
 
     $scope.css = {

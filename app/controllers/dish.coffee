@@ -9,10 +9,10 @@ exports.dishList = (req, res, next) ->
     req.query.sideDishType = "main"
 
 
-  if req.query.showForWarehouse
-    req.query.showForWarehouse = "caohejing"
+  if req.query.showForWarehouse is "caohejing1"
+    req.query.showForWarehouse = "caohejing1"
   else
-    req.query.showForWarehouse = {$ne:"caohejing"}
+    req.query.showForWarehouse = {$ne:"caohejing1"}
 
 
   models.dish.find99({sideDishType : {$in: [req.query.sideDishType, "drink"]}, showForWarehouse:req.query.showForWarehouse, isPublished : true}).then (dishes) ->
