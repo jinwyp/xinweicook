@@ -25,7 +25,6 @@
     box-shadow: 0;
     padding: 0;
     margin: 0;
-    page-break-after: always;
   }
   .pageBreak {
 	page-break-after: always;
@@ -212,7 +211,7 @@
 
 <% for(var m = 0; m < orderList.length; m++) { %>
 
-<div class="page<%= m %2 == 1 && m != orderList.length - 1 ? " Break" : "" %>">
+<div class="page<%= m %2 == 1 && m != orderList.length - 1 ? " pageBreak" : "" %>">
     <div class="container">
         <div class="ad">
           <dl>
