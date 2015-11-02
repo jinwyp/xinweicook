@@ -1,6 +1,7 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDecorator, $location, $q, Coupon) {
+function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
+                 ScopeDecorator, $location, $q, Coupon, Weixin) {
     $scope.cart = [];
     $scope.user = null;
     $scope.address = '';
@@ -34,17 +35,40 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDeco
 
 
     function init() {
-
         // 初始化nav
         var path = $location.path() || '/eat';
         if (path !== '/cook') path = '/eat';
         $location.path(path);
         $scope.path = path;
 
+        $localStorage.warehouse = 'xinweioffice';
+
+        Weixin.ready(function () {
+            Weixin.getLocation(function (res) {
+                var warehouse = Map.nearestWarehouse(res.latitude,
+                    res.longitude);
+
+                getDishList(warehouse)
+            })
+        });
+
+        Weixin.getJsconfig().then(function (res) {
+            Weixin.config({
+                nonceStr :res.data.noncestr,
+                timestamp: res.data.timestamp,
+                signature: res.data.signature
+            })
+        });
+
+        !Weixin.isWeixin && getDishList($localStorage.warehouse);
+    }
+
+    function getDishList(warehouse) {
+        $localStorage.warehouse = warehouse;
+
         $q.all([
-            Dishes.getList().then(function (res) {
-                $scope.dishes = res.data;
-                return true;
+            Dishes.getList(warehouse).then(function (res) {
+                return $scope.dishes = res.data;
             }),
             User.getUserInfo().then(function (res) {
                 var promotion = $localStorage.promotion;
@@ -59,7 +83,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, ScopeDeco
                     })
                 }
 
-                $scope.allAddresses = res.data.address;
                 return $scope.user = res.data;
             })
         ]).then(function (results) {

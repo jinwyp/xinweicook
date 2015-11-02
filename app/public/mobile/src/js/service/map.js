@@ -1,6 +1,7 @@
 angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
-    var topDistance = 6000;
+    var topDistance2HQ = 6000;
+    var topDistance2CHJ = 3000;
     var map = {
         bentoNoReach: 999999,
 
@@ -62,10 +63,12 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
          * 对百度地图routematrix api的后端包装,此处原样返回百度的数据
          * @param lat gcj02坐标 | [sval, obj, ..]
          * @param lng
+         * @param warehouse
          * @returns {HttpPromise}
          */
-        walkingDistance: function (lat, lng) {
+        walkingDistance: function (lat, lng, warehouse) {
             var args;
+            warehouse = warehouse || '';
             if (Array.isArray(arguments[0])) {
                 args = arguments[0];
             } else {
@@ -84,11 +87,19 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             });
 
             return $http.get('/mobile/distance?destinations=' +
-                encodeURIComponent(sval))
+                encodeURIComponent(sval) + '&warehouse=' + warehouse)
         },
 
-        distance: function (lat, lng) {
-            return this.walkingDistance(lat, lng).then(function (res) {
+        /**
+         * 计算距离仓库的距离
+         * @param lat gcj02
+         * @param lng gcj02
+         * @param dest - 'CHJ'
+         * @returns {*|Promise.<T>}
+         */
+        distance: function (lat, lng, warehouse) {
+            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
+            return this.walkingDistance(lat, lng, warehouse).then(function (res) {
                 var d = res.data.result.elements[0].distance.value;
                 d = map.fixZero(d, lat, lng);
                 return {
@@ -102,9 +113,10 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             })
         },
 
-        distances: function (dests) {
+        distances: function (dests, warehouse) {
+            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             dests = Array.isArray(dests) ? dests : [dests];
-            return this.walkingDistance(dests).then(function (res) {
+            return this.walkingDistance(dests, warehouse).then(function (res) {
                 return res.data.result.elements.map(function (el, i) {
                     var d = map.fixZero(el.distance.value, dests[i].lat, dests[i].lng);
                     return {
@@ -113,6 +125,31 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                     }
                 })
             })
+        },
+
+        nearestWarehouse: function (lat, lng) {
+            var that = this;
+            return Object.keys(this.warehouseCoords).map(function (name) {
+                var warehouse = that.warehouseCoords[name];
+                return {
+                    name: name,
+                    distance: that.lineDistance(lat, lng,
+                        warehouse.lat, warehouse.lng)
+                }
+            }).sort(function (a, b) {
+                return b.distance - a.distance
+            })[0].name;
+        },
+
+        warehouseCoords: {
+            xinweioffice: {
+                lat: 31.189426,
+                lng: 121.460625
+            },
+            caohejing1: {
+                lat: 31.169250,
+                lng: 121.398949
+            }
         }
     };
 

@@ -141,11 +141,23 @@ expressRoutes = function(app) {
         })
     });
 
+    var warehouseCoords = {
+        xinweioffice: {
+            lat: 31.189426,
+            lng: 121.460625
+        },
+        caohejing1: {
+            lat: 31.169250,
+            lng: 121.398949
+        }
+    };
     app.get('/mobile/distance', function (req, res, next) {
             // 使用gcj02坐标.
             var destinations = req.query.destinations || '';
-            var xwLat = 31.189426;
-            var xwLng = 121.460625;
+            var warehouse = warehouseCoords[req.query.warehouse || 'xinweioffice'] ;
+
+            var xwLat = warehouse.lat;
+            var xwLng = warehouse.lng;
             var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
 
             var params = 'origins=' + encodeURIComponent(xwLat + ',' + xwLng) +

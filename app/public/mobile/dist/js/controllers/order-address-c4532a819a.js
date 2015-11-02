@@ -115,13 +115,17 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         event.stopPropagation();
 
         Weixin.getLocation(function (res) {
+            //var simpleRes = {
+            //    longitude : "121.000",
+            //    latitude : "31.000",
+            //    speed : "0.0",
+            //    accuracy : "1.0",
+            //    errMsg : "getLocation:ok"
+            //};
 
-            console.log("weixinGeo:", res);
+            //console.log("weixinGeo:", res);
 
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
-
-                console.log("baiduGeo:", data.data);
-
                 var result = data.data.result;
                 result = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
                 fixAddress(result);

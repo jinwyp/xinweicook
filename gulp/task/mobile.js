@@ -85,7 +85,7 @@ gulp.task("html", ["revision"], function(){
 
 
 gulp.task("watchhtml", function(){
-    gulp.watch(paths.baseStatic + paths.sourceMobile.html, ['html']);
+    gulp.watch([paths.baseStatic + paths.sourceMobile.html], ['html']);
 });
 
 
