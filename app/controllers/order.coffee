@@ -408,6 +408,9 @@ exports.addNewOrder = (req, res, next) ->
     dishesPrice : 0
     totalPrice : 0
 
+  if newOrder.freight < 6
+    newOrder.freight = 6
+
 
   if req.body.cookingType is models.dish.constantCookingType().cook
     newOrder.deliveryDate = req.body.deliveryDateCook
