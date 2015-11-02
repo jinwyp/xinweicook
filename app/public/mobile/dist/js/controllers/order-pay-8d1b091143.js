@@ -26,7 +26,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     var warehouse = $localStorage.warehouse;
     var warehouseIdMap = {
-        caohejing: '56332187594b09af6e6c7dd2',
+        caohejing1: '56332187594b09af6e6c7dd2',
         xinweioffie: '56332196594b09af6e6c7dd7'
     }
 
