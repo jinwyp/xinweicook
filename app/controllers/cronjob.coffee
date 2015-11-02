@@ -114,5 +114,30 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 
 
 
+# 取消没有支付的订单
+exports.cancelNotPaidOrder = (req, res, next) ->
+
+  timeNow = moment();
+  timeCancel = timeNow.clone().subtract(5, 'hours');
+
+
+  models.order.find({ status : models.order.constantStatus().notpaid, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
+
+    if resultOrderList.length > 0
+
+      for order, orderIndex in resultOrderList
+
+        order.status = models.order.constantStatus().canceled
+
+        if order.csComment
+          order.csComment = order.csComment + " System canceled."
+        else
+          order.csComment = "System canceled."
+
+        order.saveAsync()
+
+    res.send resultOrderList
+
+  .catch(next)
 
 
