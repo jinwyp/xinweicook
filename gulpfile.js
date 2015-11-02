@@ -24,5 +24,5 @@ requireDir('./gulp/task', { recurse: true });
 
 gulp.task('default', ['devjin', 'watchhtml']);
 
-gulp.task('ykc', ['mobile-ng-templates', 'devykc', 'watchhtml']);
+gulp.task('ykc', ['mobile-ng-templates', 'devykc']);
 

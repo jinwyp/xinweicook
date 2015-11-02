@@ -33,11 +33,11 @@
                         </div>
                     </div>
                     <div class="user-actions tips">
-                        <!--<div>-->
-                            <!--<span class="time-icon" ng-if="dish.cookingType == 'ready to cook'"></span>{{dish.time}}′-->
-                            <!--<span class="people-icon" ng-if="dish.cookingType == 'ready to cook'"></span>x{{dish.servings}}-->
-                        <!--</div>-->
-                        <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
+                        <div ng-if="dish.cookingType == 'ready to cook'">
+                            <span class="time-icon"></span>{{dish.time}}′
+                            <span class="people-icon"></span>x{{dish.servings}}
+                        </div>
+                        <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
                     <!--<div class="buy">-->
                         <!--<span class="price">{{::dish.priceOriginal}}</span>-->
