@@ -215,6 +215,7 @@ expressRoutes = (app) ->
 
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)
   app.get("/api/admin/cronjob/user/noorder/test", cronJobController.getNoOrderUserLast7DayTest)
+  app.get("/api/admin/cronjob/order/notpaid/cancel", cronJobController.cancelNotPaidOrder)
 
 
 
