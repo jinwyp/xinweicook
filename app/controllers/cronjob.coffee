@@ -136,6 +136,30 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
         order.saveAsync()
 
+
+        # 同时撤销优惠券优惠码新味币
+        if order.childOrderList.length > 0
+          for childOrder in order.childOrderList
+            order.status = models.order.constantStatus().canceled
+            childOrder.saveAsync()
+
+        # 撤销优惠码使用
+        if order.promotionCode
+          models.coupon.revokeUsed(order.promotionCode, order.user.toString())
+
+        # 撤销优惠券使用
+        if order.coupon
+          models.coupon.revokeUsed(order.coupon, order.user.toString())
+
+        # 撤销余额使用
+        if order.accountUsedDiscount > 0
+
+          models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
+            if resultAccount
+              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", order._id.toString())
+
+
+
     res.send resultOrderList
 
   .catch(next)

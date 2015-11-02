@@ -127,7 +127,7 @@ module.exports =
       else
         false
 
-    revokeUsed : (couponcode, user) ->
+    revokeUsed : (couponcode, userId) ->
       promiseCoupon = {}
       if libs.validator.isLength(couponcode, 10, 10)
         promiseCoupon = models.coupon.findOneAsync({code : couponcode})
@@ -135,7 +135,7 @@ module.exports =
         promiseCoupon = models.coupon.findOneAsync({_id : couponcode})
 
       promiseCoupon.then (resultCuopon) ->
-        console.log(resultCuopon)
+
         if resultCuopon
 
           if resultCuopon.usedTime is 1
@@ -143,7 +143,7 @@ module.exports =
           else
             # 是否每人可以多次使用
             if resultCuopon.usedCountLimitOfOneUser is 1
-              couponIndex = resultCuopon.usedUserList.indexOf(user._id)
+              couponIndex = resultCuopon.usedUserList.indexOf(userId)
               if couponIndex > -1
                 resultCuopon.usedUserList.splice(couponIndex, 1)
                 resultCuopon.isUsedCount = resultCuopon.isUsedCount - 1
