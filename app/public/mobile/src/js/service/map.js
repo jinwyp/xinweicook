@@ -1,7 +1,7 @@
 angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
     var topDistance2HQ = 6000;
-    var topDistance2CHJ = 3000;
+    var topDistance2CHJ = 2000;
     var map = {
         bentoNoReach: 999999,
 
@@ -71,6 +71,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             warehouse = warehouse || '';
             if (Array.isArray(arguments[0])) {
                 args = arguments[0];
+                warehouse = lng;
             } else {
                 args = [{lat: lat, lng: lng}];
             }

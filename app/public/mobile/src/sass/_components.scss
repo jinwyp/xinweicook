@@ -145,3 +145,16 @@
   top: 0;
   left: 0;
 }
+
+.tips {
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: #696969;
+  span {
+    &:not(:first-child) {
+      margin-left: 1em;
+    }
+    vertical-align: text-top;
+    margin-right: 0.4em;
+  }
+}
