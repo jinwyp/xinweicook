@@ -920,7 +920,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }
 
         addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
-        addMarker(pointXinWeiCaohejing, '新味漕河泾仓库', '地址:中山南二路510号3楼', 100);
+        addMarker(pointXinWeiCaohejing, '新味漕河泾仓库', '地址:虹梅路2008号红梅大楼', 100);
 
 
 
