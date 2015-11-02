@@ -115,13 +115,82 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         event.stopPropagation();
 
         Weixin.getLocation(function (res) {
+            //var simpleRes = {
+            //    longitude : "121.000",
+            //    latitude : "31.000",
+            //    speed : "0.0",
+            //    accuracy : "1.0",
+            //    errMsg : "getLocation:ok"
+            //};
 
-            console.log("weixinGeo:", res);
+            //console.log("weixinGeo:", res);
 
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
+<<<<<<< HEAD
 
-                console.log("baiduGeo:", data.data);
+                var simpleBaiduRes = {
+                    status: 0,
+                    result : {
+                        addressComponent: {
+                            city: "上海市",
+                            country: "中国",
+                            country_code: 0,
+                            direction: "附近",
+                            distance: "3",
+                            district: "徐汇区",
+                            province: "上海市",
+                            street: "中山南二路",
+                            street_number: "520号5楼"
+                        },
+                        business: "日晖,斜土路,龙华",
+                        cityCode: 289,
+                        formatted_address: "上海市徐汇区中山南二路520号5楼",
+                        location: {
+                            lat: 31.195631513191,
+                            lng: 121.46710083856
+                        },
+                        poiRegions: [],
+                        pois: [
+                            {
+                                addr: "上海徐汇区中山南二路555号",
+                                cp: "NavInfo",
+                                direction: "西北",
+                                distance: "89",
+                                name: "冠霖大楼",
+                                poiType: "房地产",
+                                point: {
+                                    x: 121.46754154724,
+                                    y: 31.195055184526
+                                },
+                                tag: "房地产;写字楼",
+                                tel: "",
+                                uid: "6b831e0817aa34cda8f729c5",
+                                zip: ""
+                            },
+                            {
+                                addr: "中山南二路502、506、508号",
+                                cp: "NavInfo",
+                                direction: "附近",
+                                distance: "37",
+                                name: "泰莱大厦",
+                                poiType: "房地产",
+                                point: {
+                                    x: 121.4672900217,
+                                    y: 31.195873766323
+                                },
+                                tag: "房地产",
+                                tel: "",
+                                uid: "2cc3c8e86ef961d74d2fdfda",
+                                zip: ""
+                            }
+                        ],
+                        sematic_description: "冠霖大楼西北89米"
+                    }
+                };
+                console.log("weixinFromBaiduGeo:", data.data);
 
+=======
+>>>>>>> origin/develop
                 var result = data.data.result;
                 result = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
                 fixAddress(result);
