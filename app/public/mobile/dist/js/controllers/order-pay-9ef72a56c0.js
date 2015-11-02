@@ -53,10 +53,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         // 配送时间
         time = data.time;
-        cart.eatList && cart.eatList.length && Orders.deliveryTime({
-            cookingType: "ready to eat",
-            isCityShanghai: isCityShanghai,
-            isInRange4KM: address.isInRange || false,
+        cart.eatList && cart.eatList.length && Orders.deliveryEatTime({
             _id: warehouseIdMap[warehouse]
         }).then(function (res) {
             time.eat = $filter('eatTimeOptions')(res.data);

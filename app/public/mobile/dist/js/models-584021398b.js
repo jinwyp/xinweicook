@@ -22,6 +22,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         deliveryTime: function (data) {
             return $http.post('/api/orders/delivery/time', data)
         },
+        deliveryEatTime: function (data) {
+            return $http.post('/api/orders/delivery/time/eat/warehouse', data)
+        },
         getOrder: function (orderId) {
             return $http.get('/api/orders/' + orderId);
         },

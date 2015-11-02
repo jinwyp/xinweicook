@@ -264,7 +264,6 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 if (!hasDefault) {
                     $scope.address[0].isDefault = true;
                 }
-                alert(warehouse)
                 return Map.distances($scope.address.map(function (addr) {
                     return {
                         lat: addr.geoLatitude,
