@@ -17,7 +17,7 @@
   "controllers/login.js": "controllers/login-ee02a5a9d8.js",
   "controllers/me.js": "controllers/me-26e0e22d04.js",
   "controllers/order-address.js": "controllers/order-address-1a3a3dd507.js",
-  "controllers/order-pay.js": "controllers/order-pay-1e1454aabc.js",
+  "controllers/order-pay.js": "controllers/order-pay-8d0c29296a.js",
   "controllers/orderlist.js": "controllers/orderlist-cd2484418a.js",
   "controllers/search-address.js": "controllers/search-address-bd92ecb121.js",
   "controllers/wxpay.js": "controllers/wxpay-a153d5bb66.js",
