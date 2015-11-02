@@ -56,7 +56,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         cart.eatList && cart.eatList.length && Orders.deliveryEatTime({
             _id: warehouseIdMap[warehouse]
         }).then(function (res) {
-            time.eat = $filter('eatTimeOptions')(res.data);
+            time.eat = $filter('eatTimeOptions')(res.data.timeList);
             model.time.eat = time.eat[0];
         });
         cart.cookList && cart.cookList.length && Orders.deliveryTime({
