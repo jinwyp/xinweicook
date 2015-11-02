@@ -1012,11 +1012,11 @@ exports.updateOrder = (req, res, next) ->
 
         # 撤销优惠码使用
         if resultOrder.promotionCode
-          models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+          models.coupon.revokeUsed(resultOrder.promotionCode, req.u._id.toString())
 
         # 撤销优惠券使用
         if resultOrder.coupon
-          models.coupon.revokeUsed(resultOrder.coupon, req.u)
+          models.coupon.revokeUsed(resultOrder.coupon, req.u._id.toString())
 
         # 撤销余额使用
         if resultOrder.accountUsedDiscount > 0

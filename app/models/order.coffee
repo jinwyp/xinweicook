@@ -601,7 +601,6 @@ module.exports =
         # 取消订单
 
         models.order.findOne({_id:req.params.id})
-        .populate("user")
         .populate({path: "dishList.dish", select: models.dish.fields()})
         .populate({path: "dishList.subDish.dish", select: models.dish.fields()})
         .populate "childOrderList"
@@ -616,16 +615,16 @@ module.exports =
 
             # 撤销优惠码使用
             if resultOrder.promotionCode
-              models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+              models.coupon.revokeUsed(resultOrder.promotionCode, resultOrder.user.toString())
 
             # 撤销优惠券使用
             if resultOrder.coupon
-              models.coupon.revokeUsed(resultOrder.coupon, req.u)
-            console.log(resultOrder.accountUsedDiscount)
+              models.coupon.revokeUsed(resultOrder.coupon, resultOrder.user.toString())
+
             # 撤销余额使用
             if resultOrder.accountUsedDiscount > 0
 
-              models.useraccount.findOneAsync({user : resultOrder.user._id.toString()}).then (resultAccount)->
+              models.useraccount.findOneAsync({user : resultOrder.user.toString()}).then (resultAccount)->
                 if resultAccount
                   resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
       next()

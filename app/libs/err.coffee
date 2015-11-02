@@ -19,7 +19,7 @@ module.exports =
       error =
         message: err.message or err.msg or err.errmsg or "服务器内部错误"
         stack: err.stack or ""
-        status: err.status or 500
+        status: err.status or err.statusCode or 500  # statusCode 是express-restify-mongoose 带的状态
         validationStatus: err.validationStatus or 1000
         _id: req._id
         req:
