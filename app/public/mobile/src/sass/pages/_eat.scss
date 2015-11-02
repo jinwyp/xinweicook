@@ -42,7 +42,7 @@ $out-of-stock-bg-color: #75A3B7;
 
   li {
     background-color: white;
-    margin-bottom: 17px;
+    margin-bottom: 10px;
     &:last-child {
       margin-bottom: $margin-to-cart-length;
     }
@@ -58,6 +58,14 @@ $out-of-stock-bg-color: #75A3B7;
     .title {
       margin: 9px 0 16px;
       font-size: 18px;
+    }
+    .user-actions {
+      > div {
+        display: inline-block;
+      }
+      .eat {
+        margin-top: 10px;
+      }
     }
     .buy {
       line-height: $buy-height;
