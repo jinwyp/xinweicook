@@ -26,8 +26,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     var warehouse = $localStorage.warehouse;
     var warehouseIdMap = {
-        caohejing: '56332187594b09af6e6c7dd2',
-        xinweioffie: '56332196594b09af6e6c7dd7'
+        caohejing1: '56332196594b09af6e6c7dd7',
+        xinweioffice: '56332187594b09af6e6c7dd2'
     }
 
     function init() {
@@ -53,13 +53,10 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         // 配送时间
         time = data.time;
-        cart.eatList && cart.eatList.length && Orders.deliveryTime({
-            cookingType: "ready to eat",
-            isCityShanghai: isCityShanghai,
-            isInRange4KM: address.isInRange || false,
+        cart.eatList && cart.eatList.length && Orders.deliveryEatTime({
             _id: warehouseIdMap[warehouse]
         }).then(function (res) {
-            time.eat = $filter('eatTimeOptions')(res.data);
+            time.eat = $filter('eatTimeOptions')(res.data.timeList);
             model.time.eat = time.eat[0];
         });
         cart.cookList && cart.cookList.length && Orders.deliveryTime({

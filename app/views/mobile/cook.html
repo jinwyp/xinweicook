@@ -23,6 +23,8 @@
         <div class="detail">
             <h5>{{dish.title.zh}}</h5>
             <div class="tips">
+                <span class="time-icon"></span>{{dish.time}}′
+                <span class="people-icon"></span>x{{dish.servings}}
                 <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
             </div>
             <div class="buy-button"
@@ -78,7 +80,7 @@
 <nav class="menu-nav">
     <div><a href="/mobile/me"><span>帐号</span></a></div>
     <div><a href="/mobile#/eat"><span>便当</span></a></div>
-    <div class="active"><a href="#/cook"><span>食材包</span></a></div>
+    <div class="active"><a href="/mobile#/cook"><span>食材包</span></a></div>
 
     <div class="go-to-cart" ng-click="goToCart()">
         <div class="icon bag-icon">
@@ -111,7 +113,7 @@
 <script src="/components/ngstorage/ngStorage.min.js"></script>
 
 <script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
-<script src="/mobile/dist/js/models-2503ae32fa.js"></script>
+<script src="/mobile/dist/js/models-584021398b.js"></script>
 <script src="/mobile/dist/js/config-6315525f3c.js"></script>
 <script src="/mobile/dist/js/filters-493df975ec.js"></script>
 <script src="/mobile/dist/js/directives/add-dish-bar-454e689292.js"></script>

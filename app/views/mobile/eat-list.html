@@ -32,7 +32,11 @@
                             <div class="brief">{{::dish.brief.zh}}</div>
                         </div>
                     </div>
-                    <div class="user-actions">
+                    <div class="user-actions tips">
+                        <!--<div>-->
+                            <!--<span class="time-icon" ng-if="dish.cookingType == 'ready to cook'"></span>{{dish.time}}′-->
+                            <!--<span class="people-icon" ng-if="dish.cookingType == 'ready to cook'"></span>x{{dish.servings}}-->
+                        <!--</div>-->
                         <span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>
                     </div>
                     <!--<div class="buy">-->
@@ -78,7 +82,7 @@
 <script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
 
 <script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
-<script src="/mobile/dist/js/service/map-d49f9dd339.js"></script>
+<script src="/mobile/dist/js/service/map-3b83de6796.js"></script>
 <script src="/mobile/dist/js/service/scope-decorator-c9a4f80035.js"></script>
 <script src="/mobile/dist/js/service/utils-9ed08b8212.js"></script>
 <script src="/mobile/dist/js/directives/img-lazy-load-8728f392cf.js"></script>
@@ -86,7 +90,7 @@
 <script src="/mobile/dist/js/weixin-99e83d9b5c.js"></script>
 <script src="/mobile/dist/js/filters-493df975ec.js"></script>
 <script src="/mobile/dist/js/templates-a334d37484.js"></script>
-<script src="/mobile/dist/js/models-2503ae32fa.js"></script>
+<script src="/mobile/dist/js/models-584021398b.js"></script>
 <script src="/mobile/dist/js/config-6315525f3c.js"></script>
 <script src="/mobile/dist/js/controllers/eat-0d091245c3.js"></script>
 </html>
