@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
+function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                  ScopeDecorator, $location, $q, Coupon, Weixin) {
     $scope.cart = [];
     $scope.user = null;
@@ -47,8 +47,9 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             Weixin.getLocation(function (res) {
                 var warehouse = Map.nearestWarehouse(res.latitude,
                     res.longitude);
-
                 getDishList(warehouse)
+            }, function () {
+                getDishList($localStorage.warehouse);
             })
         });
 
