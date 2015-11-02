@@ -1,13 +1,11 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
-                 ScopeDecorator, $location, $q, Coupon, Weixin, $window) {
+function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
+                 ScopeDecorator, $location, $q, Coupon, Weixin) {
     $scope.cart = [];
     $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
-
-
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -49,8 +47,9 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             Weixin.getLocation(function (res) {
                 var warehouse = Map.nearestWarehouse(res.latitude,
                     res.longitude);
-
                 getDishList(warehouse)
+            }, function () {
+                getDishList($localStorage.warehouse);
             })
         });
 
@@ -62,7 +61,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             })
         });
 
-        getDishList($localStorage.warehouse);
+        !Weixin.isWeixin && getDishList($localStorage.warehouse);
     }
 
     function getDishList(warehouse) {
