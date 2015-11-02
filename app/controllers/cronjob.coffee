@@ -118,7 +118,7 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 exports.cancelNotPaidOrder = (req, res, next) ->
 
   timeNow = moment();
-  timeCancel = timeNow.clone().subtract(5, 'hours');
+  timeCancel = timeNow.clone().subtract(10, 'hours');
 
 
   models.order.find({ status : models.order.constantStatus().notpaid, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
