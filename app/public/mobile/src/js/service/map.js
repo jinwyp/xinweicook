@@ -95,11 +95,12 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                     var len = results.length / 2;
                     var pair;
                     for (var i = 0; i < len; i++) {
-                        results[i].warehouse = 'caohejing1';
-                        results[len + i].warehouse = 'xinweioffice';
+                        results[i].warehouse = 'xinweioffice';
+                        results[len + i].warehouse = 'caohejing1';
                         pair = [results[i], results[len + i]];
                         pair = pair.sort(function (a, b) {
-                            return a.distance.value - b.distance.value
+                            return (a.distance.value - topDistance2HQ) -
+                                (b.distance.value - topDistance2CHJ)
                         });
                         ret.push(pair);
                     }
