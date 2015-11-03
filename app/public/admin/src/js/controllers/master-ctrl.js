@@ -90,12 +90,7 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
         $http.get('/api/administrator/initremoveaccountdetail');
     };
 
-    $scope.removelog = function () {
-        $http.get('/api/administrator/initremovelog');
-    };
-    $scope.removesetting = function () {
-        $http.get('/api/administrator/initremovesetting');
-    };
+
 
 
     $scope.changeCouponStartDate = function () {

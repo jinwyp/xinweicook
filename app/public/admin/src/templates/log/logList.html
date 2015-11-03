@@ -41,7 +41,10 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchLogCount(searchForm)">Search</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchLogCount(searchForm)">Search Logs</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchSetting(searchForm)">Search Settings</button>
+                        <button class="btn btn-danger" ng-click="removesetting2()">删除微信缓存设置</button>
+                        <button class="btn btn-danger" ng-click="removelog()">删除所有日志</button>
                     </div>
                 </div>
             </form>
@@ -51,7 +54,7 @@
 
 
 
-    <nav>
+    <nav ng-if="css.showTable === 'logs'">
         <ul class="pagination">
             <li>
                 <span aria-hidden="true"> 共{{data.logListCount}}条记录 </span>
@@ -70,7 +73,7 @@
 
 
 
-    <table class="table table-striped table-bordered table-hover table-responsive">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'logs'">
         <thead>
             <tr>
                 <th>_id / 创建时间</th>
@@ -101,6 +104,39 @@
                 <td>{{log.timestamp | date:'MM-dd HH:mm:ss'}} - {{log.meta.method}}: {{log.meta.url}} <br/> user : <a ui-sref="menu.updateUser({ id: log.meta.user })">{{log.meta.user}}</a> <pre>{{log.message}}</pre></td>
                 <td>{{log.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
             </tr>
+        </tbody>
+    </table>
+
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'settings'">
+        <thead>
+        <tr>
+            <th>_id</th>
+            <th>更新时间</th>
+            <th>过期时间</th>
+            <th>是否过期</th>
+            <th>Name</th>
+            <th>Key</th>
+            <th>Value</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="setting in data.settingList | filter: data.searchFilter">
+            <!--<td><a ui-sref="menu.updateTag({ id: log._id })">{{log._id}}</a></td>-->
+            <td>{{setting._id}} </td>
+            <td>{{setting.modifiedAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+            <td>{{setting.expiredDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+            <td>{{setting.isExpired }}</td>
+
+            <td>{{setting.name}}</td>
+            <td>{{setting.key}}</td>
+            <td>{{setting.value}}</td>
+
+
+        </tr>
         </tbody>
     </table>
 

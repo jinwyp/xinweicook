@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('LogController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Logs', logController ]);
+    .controller('LogController', ['$scope', '$http', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Logs', 'Settings', logController ]);
 
 
 
-function logController($scope, $timeout, $state, $stateParams, Notification, Util, Logs) {
+function logController($scope, $http, $timeout, $state, $stateParams, Notification, Util, Logs, Settings) {
 
     $scope.data = {
         searchFilter : '',
@@ -35,16 +35,21 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
         currentDeleteIndex : -1,
 
         logList : [],
-        log : {}
+        log : {},
+
+        settingList : []
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : 'logs'
     };
 
 
 
     $scope.searchLogCount = function (){
+
+        $scope.css.showTable = 'logs';
 
         Util.delProperty($scope.data.searchOptions.query);
 
@@ -67,10 +72,10 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
 
         Logs.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultLog) {
             $scope.data.logList = resultLog;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -83,6 +88,63 @@ function logController($scope, $timeout, $state, $stateParams, Notification, Uti
 
 
 
+
+
+    $scope.searchSetting = function (form) {
+        $scope.css.showTable = 'settings';
+
+        $scope.data.searchOptions.query.level = '';
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Settings.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultSettings) {
+            $scope.data.settingList = resultSettings;
+            Notification.success({message: 'Search Success! ', delay: 4000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
+
+
+
+    $scope.removeSetting = function (form) {
+        $scope.css.showTable = 'settings';
+
+        Settings.remove({}).then(function (resultSettings) {
+            console.log(resultSettings);
+            $scope.data.settingList = resultSettings;
+            Notification.success({message: 'Delete Success! ', delay: 4000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
+
+
+    $scope.removesetting2 = function () {
+        $http.get('/api/administrator/initremovesetting').then(function (resultSettings) {
+
+            $scope.data.settingList = [];
+            Notification.success({message: 'Delete Success! ', delay: 4000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
+
+
+
+    $scope.removelog = function () {
+        $http.get('/api/administrator/initremovelog').then(function (resultLog) {
+            $scope.data.logList = [];
+            Notification.success({message: 'Delete Success! ', delay: 4000});
+
+        }).catch(function(err){
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
 
 
 
