@@ -1,7 +1,10 @@
 angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
-    var topDistance2HQ = 6000;
-    var topDistance2CHJ = 2000;
+    var topDistance = {
+        xinweioffice: 6000,
+        caohejing1: 2000
+    };
+
     var map = {
         bentoNoReach: 999999,
 
@@ -99,8 +102,8 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                         results[len + i].warehouse = 'caohejing1';
                         pair = [results[i], results[len + i]];
                         pair = pair.sort(function (a, b) {
-                            return (a.distance.value - topDistance2HQ) -
-                                (b.distance.value - topDistance2CHJ)
+                            return (a.distance.value - topDistance.xinweioffice) -
+                                (b.distance.value - topDistance.caohejing1)
                         });
                         ret.push(pair);
                     }
@@ -116,18 +119,18 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
          * 计算距离仓库的距离
          * @param lat gcj02
          * @param lng gcj02
-         * @param dest - 'CHJ'
+         * @param warehouse - 'CHJ'
          * @returns {*|Promise.<T>}
          */
         distance: function (lat, lng, warehouse) {
-            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             return this.walkingDistance(lat, lng, warehouse).then(function (res) {
                 var d = res[0][0].distance.value;
                 d = map.fixZero(d, lat, lng);
+                var top = topDistance[res[0][0].warehouse];
                 return {
                     distance: d,
                     // 百度有时候返回的是null, 此时就当作1000公里
-                    isInRange: (d === null ? 999999 : d) <= topDistance,
+                    isInRange: (d === null ? 999999 : d) <= top,
                     warehouse: res[0][0].warehouse
                 }
             }).catch(function (res) {
@@ -137,14 +140,14 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         },
 
         distances: function (dests, warehouse) {
-            var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             dests = Array.isArray(dests) ? dests : [dests];
             return this.walkingDistance(dests, warehouse).then(function (res) {
                 return res.map(function (el, i) {
                     var d = map.fixZero(el[0].distance.value, dests[i].lat, dests[i].lng);
+                    var top = topDistance[el[0].warehouse];
                     return {
                         distance: d,
-                        isInRange: (d === null ? 999999 : d) <= topDistance,
+                        isInRange: (d === null ? 999999 : d) <= top,
                         warehouse: el[0].warehouse
                     }
                 })
@@ -153,6 +156,8 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
 
         nearestWarehouse: function (lat, lng) {
             var that = this;
+            var topDistance2HQ = topDistance['xinweioffice'];
+            var topDistance2CHJ = topDistance['caohejing1'];
             var warehouses = ['xinweioffice', 'caohejing1'].map(function (name) {
                 var warehouse = that.warehouseCoords[name];
                 return {

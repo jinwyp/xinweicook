@@ -1924,16 +1924,20 @@ html.order-address-html body {
   padding: 3px 11px;
   border: 1px solid black;
 }
-/* line 25, ../sass/pages/_search-address.scss */
+/* line 22, ../sass/pages/_search-address.scss */
+.search-address-main form .confirm.invalid {
+  border-color: #A7A7A7;
+}
+/* line 28, ../sass/pages/_search-address.scss */
 .search-address-main .results {
   margin-top: 1.5em;
 }
-/* line 27, ../sass/pages/_search-address.scss */
+/* line 30, ../sass/pages/_search-address.scss */
 .search-address-main .results h4 {
   font-size: 14px;
   margin-bottom: 4px;
 }
-/* line 31, ../sass/pages/_search-address.scss */
+/* line 34, ../sass/pages/_search-address.scss */
 .search-address-main .results p {
   font-size: 12px;
   margin-bottom: 14px;

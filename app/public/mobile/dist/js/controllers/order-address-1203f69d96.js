@@ -290,6 +290,9 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 addr.distance = res[i].distance;
                 addr.warehouse = res[i].warehouse;
             })
+        }).catch(function (res) {
+            alert('计算配送距离出错了,请联系客服!');
+            alert(JSON.stringify(res.data));
         });
 
         Weixin.getJsconfig().then(function (res) {
