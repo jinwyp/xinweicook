@@ -141,7 +141,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
     $scope.next = function () {
         if (!addressReady) {
-            alert('正在计算配送距离,请稍后再试!');
+            alert('正在计算配送距离,请稍候!');
             return;
         }
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
@@ -276,7 +276,10 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                         lat: addr.geoLatitude,
                         lng: addr.geoLongitude
                     }
-                }), warehouse)
+                }), warehouse).catch(function (res) {
+                    alert('计算配送距离出错了,请联系客服!');
+                    alert(JSON.stringify(res.data));
+                });
             } else {
                 css.cur = -2;
             }
@@ -290,7 +293,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 addr.distance = res[i].distance;
                 addr.warehouse = res[i].warehouse;
             })
-        });
+        })
 
         Weixin.getJsconfig().then(function (res) {
             Weixin.config({

@@ -128,7 +128,7 @@
 
 <div class="search-address-main" ng-if="css.showSearchAddress" ng-cloak>
     <form id="address-form">
-        <span ng-click="confirmStreet()" class="confirm">确定</span>
+        <span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>
         <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"
                     ng-model="data.street"
                     ng-model-options="{debounce: 400}"

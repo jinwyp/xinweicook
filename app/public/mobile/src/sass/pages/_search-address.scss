@@ -19,6 +19,9 @@
       text-align: center;
       padding: 3px 11px;
       border: 1px solid black;
+      &.invalid {
+        border-color: $invalid-text-color;
+      }
     }
   }
 

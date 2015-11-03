@@ -128,7 +128,7 @@
 
 <div class="search-address-main" ng-if="css.showSearchAddress" ng-cloak>
     <form id="address-form">
-        <span ng-click="confirmStreet()" class="confirm">确定</span>
+        <span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>
         <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"
                     ng-model="data.street"
                     ng-model-options="{debounce: 400}"
@@ -164,11 +164,11 @@
 <script src="/mobile/dist/js/directives/auto-focus-9c4964431c.js"></script>
 <script src="/mobile/dist/js/templates-a334d37484.js"></script>
 <script src="/mobile/dist/js/service/scope-decorator-c9a4f80035.js"></script>
-<script src="/mobile/dist/js/service/map-8617026f5e.js"></script>
+<script src="/mobile/dist/js/service/map-91416d9e4e.js"></script>
 <script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
 <script src="/mobile/dist/js/service/address-9adc45a744.js"></script>
 <script src="/mobile/dist/js/weixin-99e83d9b5c.js"></script>
-<script src="/mobile/dist/js/controllers/order-address-9181cb1e42.js"></script>
+<script src="/mobile/dist/js/controllers/order-address-038255009f.js"></script>
 
 
 </html>
