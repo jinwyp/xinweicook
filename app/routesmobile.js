@@ -154,18 +154,20 @@ expressRoutes = function(app) {
     app.get('/mobile/distance', function (req, res, next) {
             // 使用gcj02坐标.
             var destinations = req.query.destinations || '';
-            var warehouse = warehouseCoords[req.query.warehouse || 'xinweioffice'] ;
+            //var warehouse = warehouseCoords[req.query.warehouse || 'xinweioffice'] ;
+            var office = warehouseCoords.xinweioffice;
+            var chj1 = warehouseCoords.caohejing1;
 
-            var xwLat = warehouse.lat;
-            var xwLng = warehouse.lng;
             var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
 
-            var params = 'origins=' + encodeURIComponent(xwLat + ',' + xwLng) +
+            var params = 'origins=' + encodeURIComponent(office.lat + ',' + office.lng)
+                    + '|' + encodeURIComponent(chj1.lat + ',' + chj1.lng) +
                 '&destinations=' + encodeURIComponent(destinations) +
                 '&ak=' + ak +
                 '&output=json&mode=walking&coord_type=gcj02&tactics=12';
             var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
 
+            console.log(url)
             request(url, function(err, response, body) {
                 if (err) {
                     next(err)

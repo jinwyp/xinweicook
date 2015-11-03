@@ -89,6 +89,26 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
 
             return $http.get('/mobile/distance?destinations=' +
                 encodeURIComponent(sval) + '&warehouse=' + warehouse)
+            .then(function (res) {
+                    var results = res.data.result.elements;
+                    var ret = [];
+                    var len = results.length / 2;
+                    var pair;
+                    for (var i = 0; i < len; i++) {
+                        results[i].warehouse = 'caohejing1';
+                        results[len + i].warehouse = 'xinweioffice';
+                        pair = [results[i], results[len + i]];
+                        pair = pair.sort(function (a, b) {
+                            return a.distance.value - b.distance.value
+                        });
+                        ret.push(pair);
+                    }
+                    return ret;
+                })
+            .catch(function () {
+                    console.log('get distance error');
+                    return []
+                })
         },
 
         /**
@@ -101,12 +121,13 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         distance: function (lat, lng, warehouse) {
             var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             return this.walkingDistance(lat, lng, warehouse).then(function (res) {
-                var d = res.data.result.elements[0].distance.value;
+                var d = res[0][0].distance.value;
                 d = map.fixZero(d, lat, lng);
                 return {
                     distance: d,
                     // 百度有时候返回的是null, 此时就当作1000公里
-                    isInRange: (d === null ? 999999 : d) <= topDistance
+                    isInRange: (d === null ? 999999 : d) <= topDistance,
+                    warehouse: res[0][0].warehouse
                 }
             }).catch(function (res) {
                 Debug.alert('获取步行距离失败');
@@ -118,11 +139,12 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             var topDistance = warehouse == 'caohejing1' ? topDistance2CHJ : topDistance2HQ;
             dests = Array.isArray(dests) ? dests : [dests];
             return this.walkingDistance(dests, warehouse).then(function (res) {
-                return res.data.result.elements.map(function (el, i) {
-                    var d = map.fixZero(el.distance.value, dests[i].lat, dests[i].lng);
+                return res.map(function (el, i) {
+                    var d = map.fixZero(el[0].distance.value, dests[i].lat, dests[i].lng);
                     return {
                         distance: d,
-                        isInRange: (d === null ? 999999 : d) <= topDistance
+                        isInRange: (d === null ? 999999 : d) <= topDistance,
+                        warehouse: el[0].warehouse
                     }
                 })
             })

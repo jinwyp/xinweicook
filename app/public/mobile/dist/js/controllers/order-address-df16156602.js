@@ -175,6 +175,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         Map.distance(addr.geoLatitude, addr.geoLongitude, warehouse).then(function (res) {
             addr.isInRange = res.isInRange;
             addr.distance = res.distance;
+            addr.warehouse = res.warehouse;
         })
     };
 
@@ -280,6 +281,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 if (typeof addr.isInRange != 'undefined') return;
                 addr.isInRange = res[i].isInRange;
                 addr.distance = res[i].distance;
+                addr.warehouse = res[i].warehouse;
             })
         });
 
