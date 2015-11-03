@@ -133,6 +133,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 Map.distance(res.latitude, res.longitude, warehouse).then(function (res) {
                     newAddr.isInRange = res.isInRange;
                     newAddr.distance = res.distance;
+                    newAddr.warehouse = res.warehouse;
                 })
             })
         })
