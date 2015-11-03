@@ -80,8 +80,8 @@ var warehouseList = [
     {
         "_id"                  : "56332196594b09af6e6c7dd7",
         "name"                 : "caohejing1",
-        "locationGeoLatitude"  : 0,
-        "locationGeoLongitude" : 0,
+        "locationGeoLatitude"  : 31.175474,
+        "locationGeoLongitude" : 121.40523,
         "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
         "isActivated"          : true
     },
