@@ -6,7 +6,6 @@ qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 
 WXPay = require "../libs/weixinpay"
-
 AliPay = require "../libs/alipay.js"
 
 configAlipay =
@@ -23,7 +22,6 @@ configWeiXinPay =
   key: conf.weixinpay.key
   notify_url : conf.url.base + conf.weixinpay.notify_url
 
-
 configWeiXinAppPay =
   appid: conf.weixinAppPay.appid
   mch_id: conf.weixinAppPay.mch_id
@@ -32,6 +30,9 @@ configWeiXinAppPay =
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
 weixinpay = WXPay(configWeiXinPay)
+
+
+
 
 
 exports.getUploadResponse = (req, res) ->
@@ -71,6 +72,254 @@ exports.getUploadQiniuToken = (req, res, next) ->
   putPolicy.expires = 3600 * 24 * 2;
 
   res.send({uptoken : putPolicy.token()})
+
+
+
+
+
+
+exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
+# 增加生成微信developerAccessToken备用
+
+  promiseList = []
+  promiseList.push(models.setting.findOneAsync({name:"weixinPayJSSdkConfig"}))
+  promiseList.push(models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}))
+
+  Promise.all(promiseList).spread( (settingJSSdk, settingAccessToken) ->
+
+    isNeedRefreshJsapiTicket = false
+
+    if not settingJSSdk
+      isNeedRefreshJsapiTicket = true
+    else
+      if models.setting.checkExpired(settingJSSdk)
+        isNeedRefreshJsapiTicket = true
+
+
+    isNeedRefreshAccessToken = false
+
+    if not settingAccessToken
+      isNeedRefreshAccessToken = true
+    else
+      if models.setting.checkExpired(settingAccessToken)
+        isNeedRefreshAccessToken = true
+
+
+
+
+    if isNeedRefreshJsapiTicket
+
+      if isNeedRefreshAccessToken
+
+        weixinpay.getDeveloperAccessTokenAsync().then ( resultAccessToken) ->
+
+          if resultAccessToken.errcode
+            throw(resultAccessToken)
+
+          newDeveloperAccessToken =
+            name : "weixinDeveloperAccessToken"
+            key : "weixinDeveloperAccessToken"
+            value : JSON.stringify(resultAccessToken)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
+            console.log(resultSettingUpdated); # { ok: 1, nModified: 1, n: 1 }
+
+
+          # 请求JsapiTicket
+          weixinpay.getDeveloperJsapiTicketAsync(resultAccessToken.access_token)
+        .then (resultTicket) ->
+
+          if resultTicket.errcode
+            throw(resultTicket)
+
+          weixinpayJSSdkConfigSign =
+            noncestr: weixinpay.util.generateNonceString()
+            timestamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultTicket.ticket
+            url: req.body.url
+
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+          newInfo1 =
+            name : "weixinPayJSSdkConfig"
+            key : "weixinPayJSSdkConfig"
+            value : JSON.stringify(weixinpayJSSdkConfigSign)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo1, {upsert: true})
+
+          res.json weixinpayJSSdkConfigSign
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+      else
+        console.log(settingAccessToken.value)
+
+        # 请求JsapiTicket
+        weixinpay.getDeveloperJsapiTicketAsync(settingAccessToken.value.access_token).then  (resultTicket2) ->
+
+          if resultTicket2.errcode
+            throw(resultTicket2)
+
+          weixinpayJSSdkConfigSign =
+            noncestr: weixinpay.util.generateNonceString()
+            timestamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultTicket2.ticket
+            url: req.body.url
+
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+          newInfo2 =
+            name : "weixinPayJSSdkConfig"
+            key : "weixinPayJSSdkConfig"
+            value : JSON.stringify(weixinpayJSSdkConfigSign)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo2, {upsert: true})
+
+          res.json weixinpayJSSdkConfigSign
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+
+    else
+      weixinpayJSSdkConfigSign =
+        noncestr: settingJSSdk.value.noncestr
+        timestamp: Math.floor(Date.now()/1000)+""
+        jsapi_ticket: settingJSSdk.value.jsapi_ticket
+        url: req.body.url
+
+      weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
+
+      settingJSSdk.value = weixinpayJSSdkConfigSign
+      settingJSSdk.saveAsync()
+
+      res.json weixinpayJSSdkConfigSign
+
+  )
+  .catch next
+
+
+
+
+
+
+
+
+
+exports.getWeixinUserInfo = (req, res, next) ->
+
+  userId = req.query.userId
+  models.user.validationUserId(userId)
+
+  models.user.findOneAsync({"_id": userId}).then (resultUser) ->
+
+    models.user.checkNotFound(resultUser)
+
+    if not resultUser.weixinId or not resultUser.weixinId.openid
+      throw new Err "Field validation error,  User weixin openid not found", 400
+
+
+    models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}).then (resultSetting) ->
+
+      isNeedRefreshAccessToken = false
+
+      if not resultSetting
+        isNeedRefreshAccessToken = true
+      else
+        if models.setting.checkExpired(resultSetting)
+          isNeedRefreshAccessToken = true
+
+
+      if isNeedRefreshAccessToken
+        weixinpay.getDeveloperAccessTokenAsync().then (resultAccessToken) ->
+
+          if resultAccessToken.errcode
+            throw(resultAccessToken)
+
+          newDeveloperAccessToken =
+            name : "weixinDeveloperAccessToken"
+            key : "weixinDeveloperAccessToken"
+            value : JSON.stringify(resultAccessToken)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
+            console.log("weixinDeveloperAccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
+
+
+          userInfo =
+            access_token : resultAccessToken.access_token
+            openid : resultUser.weixinId.openid
+
+          weixinpay.getUserInfoAsync(userInfo)
+
+        .then (resultWeixinUserInfo) ->
+
+          if resultWeixinUserInfo.errcode
+            throw(resultWeixinUserInfo)
+
+          resultUser.weixinId.subscribe = resultWeixinUserInfo.subscribe
+          resultUser.weixinId.nickname = resultWeixinUserInfo.nickname
+          resultUser.weixinId.sex = resultWeixinUserInfo.sex
+          resultUser.weixinId.language = resultWeixinUserInfo.language
+          resultUser.weixinId.city = resultWeixinUserInfo.city
+          resultUser.weixinId.province = resultWeixinUserInfo.province
+          resultUser.weixinId.country = resultWeixinUserInfo.country
+          resultUser.weixinId.headimgurl = resultWeixinUserInfo.headimgurl
+          resultUser.weixinId.subscribe_time = resultWeixinUserInfo.subscribe_time
+          resultUser.weixinId.remark = resultWeixinUserInfo.remark
+          resultUser.weixinId.groupid = resultWeixinUserInfo.groupid
+
+          resultUser.save()
+          res.json(resultWeixinUserInfo)
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+      else
+
+        userInfo =
+          access_token : resultSetting.value.access_token
+          openid : resultUser.weixinId.openid
+
+        weixinpay.getUserInfoAsync(userInfo).then (resultWeixinUserInfo) ->
+
+          if resultWeixinUserInfo.errcode
+            throw(resultWeixinUserInfo)
+
+          resultUser.weixinId.subscribe = resultWeixinUserInfo.subscribe
+          resultUser.weixinId.nickname = resultWeixinUserInfo.nickname
+          resultUser.weixinId.sex = resultWeixinUserInfo.sex
+          resultUser.weixinId.language = resultWeixinUserInfo.language
+          resultUser.weixinId.city = resultWeixinUserInfo.city
+          resultUser.weixinId.province = resultWeixinUserInfo.province
+          resultUser.weixinId.country = resultWeixinUserInfo.country
+          resultUser.weixinId.headimgurl = resultWeixinUserInfo.headimgurl
+          resultUser.weixinId.subscribe_time = resultWeixinUserInfo.subscribe_time
+          resultUser.weixinId.remark = resultWeixinUserInfo.remark
+          resultUser.weixinId.groupid = resultWeixinUserInfo.groupid
+
+          resultUser.save()
+          res.json(resultWeixinUserInfo)
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+
+  .catch(next)
+
+
 
 
 
@@ -159,122 +408,6 @@ exports.getWeixinUserOpenId = (req, res, next) ->
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Found user 500 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
-
-
-
-
-
-exports.getWeixinUserInfo = (req, res, next) ->
-
-  userId = req.query.userId
-  models.user.validationUserId(userId)
-
-  models.user.findOneAsync({"_id": userId}).then (resultUser) ->
-
-    models.user.checkNotFound(resultUser)
-
-    if resultUser.weixinId and resultUser.weixinId.openid
-
-      models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}).then (resultSetting) ->
-
-        isNeedRefreshAccessToken = false
-
-        if not resultSetting
-          isNeedRefreshAccessToken = true
-        else
-          if models.setting.checkExpired(resultSetting)
-            isNeedRefreshAccessToken = true
-
-
-        if isNeedRefreshAccessToken
-          weixinpay.getDeveloperAccessToken( (err, resultAccessToken) ->
-            if err
-              return next(new Err err.errmsg, 400)
-
-
-            if not resultAccessToken.errcode
-
-              newDeveloperAccessToken =
-                name : "weixinDeveloperAccessToken"
-                key : "weixinDeveloperAccessToken"
-                value : JSON.stringify(resultAccessToken)
-                expiredDate : moment().add(100, 'minutes')
-
-              models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSetting2)->
-
-#                console.log(resultSetting2); # { ok: 1, nModified: 1, n: 1 }
-
-                userInfo =
-                  access_token : resultAccessToken.access_token
-                  openid : resultUser.weixinId.openid
-
-                weixinpay.getUserInfo(userInfo, (err, result) ->
-                  if err
-                    return next(new Err err.errmsg, 400)
-
-                  if not result.errcode
-
-                    resultUser.weixinId.subscribe = result.subscribe
-                    resultUser.weixinId.nickname = result.nickname
-                    resultUser.weixinId.sex = result.sex
-                    resultUser.weixinId.language = result.language
-                    resultUser.weixinId.city = result.city
-                    resultUser.weixinId.province = result.province
-                    resultUser.weixinId.country = result.country
-                    resultUser.weixinId.headimgurl = result.headimgurl
-                    resultUser.weixinId.subscribe_time = result.subscribe_time
-                    resultUser.weixinId.remark = result.remark
-                    resultUser.weixinId.groupid = result.groupid
-
-                    resultUser.save()
-                    res.json(result)
-
-                  else
-                    return next(new Err result.errmsg, 400)
-
-                )
-
-            else
-              return next(new Err result.errmsg, 400)
-          )
-
-
-        else
-          userInfo =
-            access_token : resultSetting.value.access_token
-            openid : resultUser.weixinId.openid
-
-          weixinpay.getUserInfo(userInfo, (err, result) ->
-            if err
-              return next(new Err err.errmsg, 400)
-
-            if not result.errcode
-              resultUser.weixinId.subscribe = result.subscribe
-              resultUser.weixinId.nickname = result.nickname
-              resultUser.weixinId.sex = result.sex
-              resultUser.weixinId.language = result.language
-              resultUser.weixinId.city = result.city
-              resultUser.weixinId.province = result.province
-              resultUser.weixinId.country = result.country
-              resultUser.weixinId.headimgurl = result.headimgurl
-              resultUser.weixinId.subscribe_time = result.subscribe_time
-              resultUser.weixinId.remark = result.remark
-              resultUser.weixinId.groupid = result.groupid
-
-              resultUser.save()
-              res.json(result)
-
-            else
-              return next(new Err result.errmsg, 400)
-
-          )
-
-
-    else
-      throw new Err "Field validation error,  User weixin openid not found", 400
-
-
-  .catch next
 
 
 
