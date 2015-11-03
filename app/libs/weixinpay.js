@@ -5,6 +5,7 @@
 var sha1 = require('sha1');
 var md5     = require('MD5');
 var requestC = require('request');
+var Promise = require("bluebird");
 var xml2js  = require('xml2js');
 var _       = require('lodash');
 
@@ -112,6 +113,11 @@ function weiXinPay(config) {
 
 }
 
+
+
+
+
+weiXinPay.prototype.util = util;
 
 
 
@@ -278,7 +284,6 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
     //通过 access_token 获取用户基本信息（包括UnionID机制）
     //文档 http://mp.weixin.qq.com/wiki/14/bb5031008f1494a59c6f71fa0f319c66.html
 
-    console.log(url);
     requestC(opts, function(err, response, body){
         if (err){
             logger.error("UserInfo Failed Network error:", JSON.stringify(err));
@@ -308,102 +313,14 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
 
 };
 
+weiXinPay.prototype.getUserInfoAsync = Promise.promisify(weiXinPay.prototype.getUserInfo);
 
 
 
 
 
-weiXinPay.prototype.getDeveloperAccessToken = function( callback){
-
-    var url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + this.config.appid + '&secret=' + this.config.secret;
-
-    var opts = {
-        method: 'GET',
-        url: url,
-        timeout: 6000
-    };
-
-    requestC(opts, function(err, response, body){
-        if (err){
-            callback(err)
-        }else{
-            // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
-            // {"access_token":"ACCESS_TOKEN","expires_in":7200}
-
-            var result = {};
-            try {
-                result = JSON.parse(body) ;
-
-            } catch (err) {
-                // handle error
-                logger.error("Weixin Developer AccessToken JSON Parse Error:", JSON.stringify(err));
-                callback(err)
-            }
-
-            if (typeof result.errcode === 'undefined'){
-                callback(null, result)
-            }else{
-                logger.error("Weixin Developer AccessToken error : " + body );
-                callback(null, result)
-            }
-        }
-
-    });
-
-};
 
 
-
-
-
-weiXinPay.prototype.getDeveloperJsapiTicket = function(access_token, callback){
-
-    // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
-    // {"access_token":"ACCESS_TOKEN","expires_in":7200}
-
-    if (typeof access_token !== 'undefined' && access_token){
-
-        // GET方式请求获得jsapi_ticket
-        var options = {
-            method: 'GET',
-            url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + access_token + '&type=jsapi',
-            timeout: 6000
-        };
-
-
-        requestC(options, function(err, response, body){
-            //console.log(err)
-            //console.log(body)
-
-            if (err){
-                callback(err)
-            }else{
-                var result = {};
-                try {
-                    result = JSON.parse(body) ;
-
-                } catch (err) {
-                    // handle error
-                    logger.error("Weixin Developer JsapiTicket JSON Parse Error:", JSON.stringify(err));
-                    callback(err)
-                }
-
-                if (typeof result.errcode === 'undefined' || result.errcode == 0){
-                    callback(null, result)
-                }else{
-                    logger.error("Weixin Developer JsapiTicket error : " + body );
-                    callback(null, result)
-                }
-            }
-        });
-
-
-    }else {
-        throw new Error ("Weixin Developer access_token wrong");
-    }
-
-
-};
 
 
 
@@ -518,7 +435,113 @@ createApplication.parserNotifyMiddleware = function (req, res, next) {
 
 
 
-weiXinPay.prototype.util = util;
+
+
+
+
+
+weiXinPay.prototype.getDeveloperAccessToken = function( callback){
+
+    var url = configWeiXinPay.url_getDeveloperAccessToken + 'appid=' + this.config.appid + '&secret=' + this.config.secret;
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 6000
+    };
+
+    requestC(opts, function(err, response, body){
+        if (err){
+            callback(err)
+        }else{
+            // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
+            // {"access_token":"ACCESS_TOKEN","expires_in":7200}
+
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+
+            } catch (err) {
+                // handle error
+                logger.error("Weixin Developer AccessToken JSON Parse Error:", JSON.stringify(err));
+                callback(err)
+            }
+
+            if (typeof result.errcode === 'undefined'){
+                callback(null, result)
+            }else{
+                logger.error("Weixin Developer AccessToken error : " + body );
+                callback(null, result)
+            }
+        }
+
+    });
+
+};
+
+weiXinPay.prototype.getDeveloperAccessTokenAsync = Promise.promisify(weiXinPay.prototype.getDeveloperAccessToken);
+
+
+
+weiXinPay.prototype.getDeveloperJsapiTicket = function(access_token, callback){
+
+    // 文档 http://mp.weixin.qq.com/wiki/15/54ce45d8d30b6bf6758f68d2e95bc627.html
+    // {"access_token":"ACCESS_TOKEN","expires_in":7200}
+
+    if (typeof access_token === 'undefined' && !access_token) {
+
+        throw new Error ("Weixin Developer access_token wrong");
+    }
+
+    // GET方式请求获得jsapi_ticket
+    var options = {
+        method: 'GET',
+        url: configWeiXinPay.url_getDeveloperTicket + 'access_token=' + access_token + '&type=jsapi',
+        timeout: 6000
+    };
+
+
+    requestC(options, function(err, response, body){
+        //console.log(err)
+        //console.log(body)
+
+        if (err){
+            callback(err)
+        }else{
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+
+            } catch (err) {
+                // handle error
+                logger.error("Weixin Developer JsapiTicket JSON Parse Error:", JSON.stringify(err));
+                callback(err)
+            }
+
+            if (typeof result.errcode === 'undefined' || result.errcode == 0){
+                callback(null, result)
+            }else{
+                logger.error("Weixin Developer JsapiTicket error : " + body );
+                callback(null, result)
+            }
+        }
+    });
+
+
+
+};
+
+weiXinPay.prototype.getDeveloperJsapiTicketAsync = Promise.promisify(weiXinPay.prototype.getDeveloperJsapiTicket);
+
+
+
+
+
+
+
+
+
+
 
 
 /*
