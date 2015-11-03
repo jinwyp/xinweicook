@@ -140,6 +140,10 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     };
 
     $scope.next = function () {
+        if (!addressReady) {
+            alert('正在计算配送距离,请稍后再试!');
+            return;
+        }
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
         if (css.edit != -1 && !save(true)) return;
 
@@ -215,7 +219,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         })
     }
 
-    var districts = [], cities, provinces;
+    var districts = [], cities, provinces, addressReady = false;
     function init() {
         $scope.$on('$locationChangeStart', function () {
             var path = $location.path();
@@ -279,6 +283,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
         }).then(function (res) {
             if (typeof res != 'object') return;
+            addressReady = true;
             $scope.address.forEach(function (addr, i) {
                 if (typeof addr.isInRange != 'undefined') return;
                 addr.isInRange = res[i].isInRange;
