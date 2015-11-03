@@ -6,6 +6,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
     $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
+    $scope.warehouseFilter = '!caohejing1';
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -43,13 +44,29 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
 
         $localStorage.warehouse = 'xinweioffice';
 
+        // todo: just for now.
+        Dishes.getList('caohejing1').then(function (res) {
+            $scope.dishes = res.data;
+            if (!Weixin.isWeixin) {
+                $scope.warehouseFilter = '!caohejing1';
+            }
+        });
+
+        getDishList('caohejing1');
+
         Weixin.ready(function () {
             Weixin.getLocation(function (res) {
                 var warehouse = Map.nearestWarehouse(res.latitude,
                     res.longitude);
-                getDishList(warehouse)
+                $localStorage.warehouse = warehouse;
+
+                if (warehouse == 'caohejing1') {
+                    $scope.warehouseFilter = 'caohejing1'
+                } else {
+                    $scope.warehouseFilter = '!caohejing1'
+                }
             }, function () {
-                getDishList($localStorage.warehouse);
+                $scope.warehouseFilter = '!caohejing1'
             })
         });
 
@@ -61,12 +78,10 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             })
         });
 
-        !Weixin.isWeixin && getDishList($localStorage.warehouse);
+        //!Weixin.isWeixin && getDishList($localStorage.warehouse);
     }
 
     function getDishList(warehouse) {
-        $localStorage.warehouse = warehouse;
-
         $q.all([
             Dishes.getList(warehouse).then(function (res) {
                 return $scope.dishes = res.data;
