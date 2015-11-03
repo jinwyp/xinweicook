@@ -18,7 +18,7 @@
 
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook', showForWarehouse: warehouseFilter} track by dish._id">
+        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
             <div class="dish-detail">
                 <div class="img-group">
                     <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">

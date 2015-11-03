@@ -6,7 +6,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
     $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
-    $scope.warehouseFilter = '!caohejing1';
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -45,12 +44,14 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         $localStorage.warehouse = 'xinweioffice';
 
         // todo: just for now.
-        Dishes.getList('caohejing1').then(function (res) {
-            $scope.dishes = res.data;
-            if (!Weixin.isWeixin) {
-                $scope.warehouseFilter = '!caohejing1';
-            }
-        });
+        //Dishes.getList('caohejing1').then(function (res) {
+        //    $scope.dishes = res.data;
+        //    if (!Weixin.isWeixin) {
+        //        filterDishByWarehouse({
+        //            dishReady: true
+        //        })
+        //    }
+        //});
 
         getDishList('caohejing1');
 
@@ -60,13 +61,13 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                     res.longitude);
                 $localStorage.warehouse = warehouse;
 
-                if (warehouse == 'caohejing1') {
-                    $scope.warehouseFilter = 'caohejing1'
-                } else {
-                    $scope.warehouseFilter = '!caohejing1'
-                }
+                filterDishByWarehouse({
+                    warehouse: warehouse
+                });
             }, function () {
-                $scope.warehouseFilter = '!caohejing1'
+                filterDishByWarehouse({
+                    warehouse: 'xinweioffice'
+                })
             })
         });
 
@@ -81,10 +82,42 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         //!Weixin.isWeixin && getDishList($localStorage.warehouse);
     }
 
+    var dishReady = false;
+    var warehouse = '';
+    var dishes;
+    function filterDishByWarehouse(state) {
+        if (state.dishReady) {
+            dishReady = true;
+        }
+
+        if (state.warehouse) {
+            warehouse = state.warehouse
+        }
+
+        if (!dishReady) return;
+        if (!dishes) {
+            dishes = $scope.dishes;
+        }
+
+        $scope.dishes = dishes.filter(function (dish) {
+
+            var _warehouse = warehouse || 'xinweioffice';
+            if (_warehouse == 'caohejing1') {
+                return dish.showForWarehouse == 'caohejing1'
+            } else {
+                return dish.showForWarehouse != 'caohejing1';
+            }
+        })
+    }
+
     function getDishList(warehouse) {
         $q.all([
             Dishes.getList(warehouse).then(function (res) {
-                return $scope.dishes = res.data;
+                $scope.dishes = res.data;
+                filterDishByWarehouse({
+                    dishReady: true
+                });
+                return res.data;
             }),
             User.getUserInfo().then(function (res) {
                 var promotion = $localStorage.promotion;
@@ -104,7 +137,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         ]).then(function (results) {
             //初始化用户的喜好到菜品
             var dishLikeList = results[1].dishLikeList;
-            $scope.dishes.forEach(function (dish) {
+            results[0].forEach(function (dish) {
                 dishLikeList.some(function (el) {
                     if (el._id == dish._id) {
                         return dish.liked = true;
