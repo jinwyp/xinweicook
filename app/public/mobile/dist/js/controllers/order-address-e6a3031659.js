@@ -149,6 +149,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         }
 
         $localStorage.orderAddress = addr;
+        $localStorage.warehouse = addr.warehouse;
 
         setTimeout(function () {
             location.href = 'orderpay';
