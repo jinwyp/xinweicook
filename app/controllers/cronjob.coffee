@@ -118,10 +118,10 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 exports.cancelNotPaidOrder = (req, res, next) ->
 
   timeNow = moment();
-  timeCancel = timeNow.clone().subtract(10, 'hours');
+  timeCancel = timeNow.clone().subtract(1, 'hours');
 
 
-  models.order.find({ status : models.order.constantStatus().notpaid, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
+  models.order.find({ status : models.order.constantStatus().notpaid, cookingType :  models.dish.constantCookingType().eat, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
 
     if resultOrderList.length > 0
 
