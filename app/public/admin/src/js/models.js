@@ -248,6 +248,9 @@ angular.module('RDash.models').factory('Logs', function (Restangular) {
     return Restangular.service('logs');
 });
 
+angular.module('RDash.models').factory('Settings', function (Restangular) {
+    return Restangular.service('settings');
+});
 
 angular.module('RDash.models').factory('Crons', function (Restangular) {
     return Restangular.service('cronjobs');

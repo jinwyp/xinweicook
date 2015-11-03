@@ -501,7 +501,7 @@ module.exports =
       timeNow = moment()
 
       today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
-      today14PM = moment(timeNow.clone().format("YYYY-MM-DD 14:01"));
+      today14PM = moment(timeNow.clone().format("YYYY-MM-DD 13:31"));
 
       tomorrow11AM = today11AM.clone().add(1, 'days');
 
