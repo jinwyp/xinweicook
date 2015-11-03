@@ -152,7 +152,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
 
         nearestWarehouse: function (lat, lng) {
             var that = this;
-            var warehouses = Object.keys(this.warehouseCoords).map(function (name) {
+            var warehouses = ['xinweioffice', 'caohejing1'].map(function (name) {
                 var warehouse = that.warehouseCoords[name];
                 return {
                     name: name,
@@ -160,7 +160,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                         warehouse.lat, warehouse.lng)
                 }
             }).sort(function (a, b) {
-                return a.distance - b.distance
+                return (a.distance - topDistance2HQ) - (b.distance - topDistance2CHJ)
             });
             return warehouses[0].name;
 
