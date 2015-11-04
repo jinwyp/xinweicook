@@ -31,17 +31,16 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
         },
 
 
-
-
-        accountDetailListCount : 0,
+        accountDetailListCount       : 0,
         accountDetailListCurrentPage : 1,
-        accountDetailListTotalPages : 1,
-        accountDetailListPagesArray : [],
+        accountDetailListTotalPages  : 1,
+        accountDetailListPagesArray  : [],
 
         currentDeleteIndex : -1,
 
 
-        accountDetailList     : [],
+        accountDetailList    : [],
+        accountPaymentDetail : [],
 
         isPlusList : [
             {
@@ -203,8 +202,12 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
     $scope.showAccountPayment = function(accountdetailId){
 
-        PaymentDetails.getList({accountDetail:accountdetailId}).then(function (result) {
+        $scope.data.currentDeleteIndex = accountdetailId;
+
+        PaymentDetails.getList( {query : {accountDetail:"55ff96483c0b47cb3ef98fee"}}).then(function (result) {
             console.log(result);
+            $scope.data.accountPaymentDetail = result;
+
             Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){

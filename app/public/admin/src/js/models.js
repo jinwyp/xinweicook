@@ -101,9 +101,6 @@ angular.module('RDash.models').factory('Util', function ($http) {
             }
 
 
-            console.log(result);
-
-
             //console.log(decodeURIComponent('http://localhost:3003/api/admin/accountdetails/count?limit=200&query=%7B%22isPlus%22:%22true%22%7D&sort=-createdAt'));
 
 
