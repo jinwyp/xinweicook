@@ -2,11 +2,16 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
     var topDistance = {
         xinweioffice: 6000,
-        caohejing1: 2000
+        caohejing1: 1560
     };
 
     var map = {
         bentoNoReach: 999999,
+
+        topDistance: {
+            xinweioffice: 6000,
+            caohejing1: 1560
+        },
 
         suggestion: function (query, region) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
@@ -54,6 +59,11 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             }
             var alpha = Math.acos(s);
             return alpha * earthR;
+        },
+
+        lineDistance2CHJ: function (lat, lng) {
+            var CHJ = this.warehouseCoords.caohejing1;
+            return this.lineDistance(lat, lng, CHJ.lat, CHJ.lng)
         },
 
         fixZero: function (d, lat, lng) {
