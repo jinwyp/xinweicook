@@ -18,6 +18,7 @@ exports.userNewComerRate = function(req, res, next) {
         purchased4MoreTimeUserCount : 0,
         purchased5MoreTimeUserCount : 0,
         purchased6MoreTimeUserCount : 0,
+        purchased7MoreTimeUserCount : 0,
 
         shareTotal : {
             purchased1MoreTimeUserCount : 0,
@@ -25,20 +26,25 @@ exports.userNewComerRate = function(req, res, next) {
             purchased3MoreTimeUserCount : 0,
             purchased4MoreTimeUserCount : 0,
             purchased5MoreTimeUserCount : 0,
-            purchased6MoreTimeUserCount : 0
+            purchased6MoreTimeUserCount : 0,
+            purchased7MoreTimeUserCount : 0
         },
 
 
-        totalTime : 0,
-        totalOrderNumber : 0,
-        avgTime : 0,
+        twoMoreTotalTime : 0,
+        twoMoreTotalOrderNumber : 0,
+        twoMoreAvgTime : 0,
         twoMoreTimeUserListWithOrder : []
     };
 
     var purchasedUserIdList = {
         oneMoreTime : [],
         twoMoreTime : [],
-        threeMoreTime : []
+        threeMoreTime : [],
+        fourMoreTime : [],
+        fiveMoreTime : [],
+        sixMoreTime : [],
+        sevenMoreTime : []
     };
 
 
@@ -68,6 +74,7 @@ exports.userNewComerRate = function(req, res, next) {
     var queryLast7DayOrderGte4 = {};
     var queryLast7DayOrderGte5 = {};
     var queryLast7DayOrderGte6 = {};
+    var queryLast7DayOrderGte7 = {};
 
 
 
@@ -91,6 +98,7 @@ exports.userNewComerRate = function(req, res, next) {
         queryLast7DayOrderGte4 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 5} };
         queryLast7DayOrderGte5 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 6} };
         queryLast7DayOrderGte6 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 7} };
+        queryLast7DayOrderGte7 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 8} };
 
     }else{
         queryAll = {};
@@ -102,6 +110,7 @@ exports.userNewComerRate = function(req, res, next) {
         queryLast7DayOrderGte4 = {  sharedInvitationSendCodeTotalCount:{"$gte": 5} };
         queryLast7DayOrderGte5 = {  sharedInvitationSendCodeTotalCount:{"$gte": 6} };
         queryLast7DayOrderGte6 = {  sharedInvitationSendCodeTotalCount:{"$gte": 7} };
+        queryLast7DayOrderGte7 = {  sharedInvitationSendCodeTotalCount:{"$gte": 8} };
 
     }
 
@@ -187,12 +196,13 @@ exports.userNewComerRate = function(req, res, next) {
         models.user.count(queryLast7DayOrderGte4).execAsync(),
         models.user.count(queryLast7DayOrderGte5).execAsync(),
         models.user.count(queryLast7DayOrderGte6).execAsync(),
+        models.user.count(queryLast7DayOrderGte7).execAsync(),
 
         models.order.aggregateAsync( pipeline),
         models.order.aggregateAsync( pipelineLast7Day)
     ];
 
-    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultPurchased4MoreTimeUserCount, resultPurchased5MoreTimeUserCount, resultPurchased6MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
+    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultPurchased4MoreTimeUserCount, resultPurchased5MoreTimeUserCount, resultPurchased6MoreTimeUserCount, resultPurchased7MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
 
         var twoMoreTimeUserListWithOrder = [];
 
@@ -206,6 +216,7 @@ exports.userNewComerRate = function(req, res, next) {
         result.shareTotal.purchased4MoreTimeUserCount = resultPurchased4MoreTimeUserCount;
         result.shareTotal.purchased5MoreTimeUserCount = resultPurchased5MoreTimeUserCount;
         result.shareTotal.purchased6MoreTimeUserCount = resultPurchased6MoreTimeUserCount;
+        result.shareTotal.purchased7MoreTimeUserCount = resultPurchased7MoreTimeUserCount;
 
         //console.log("2user:", resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultPurchased4MoreTimeUserCount);
 
@@ -224,7 +235,32 @@ exports.userNewComerRate = function(req, res, next) {
             if (user.orderList.length >= 3){
                 purchasedUserIdList.threeMoreTime.push(user._id);
             }
+            if (user.orderList.length >= 4){
+                purchasedUserIdList.fourMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 5){
+                purchasedUserIdList.fiveMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 6){
+                purchasedUserIdList.sixMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 7){
+                purchasedUserIdList.sevenMoreTime.push(user._id);
+            }
+
         });
+
+
+        result.totalPurchasedUserCount = purchasedUserIdList.oneMoreTime.length;
+        result.purchased2MoreTimeUserCount = purchasedUserIdList.twoMoreTime.length;
+        result.purchased3MoreTimeUserCount = purchasedUserIdList.threeMoreTime.length;
+        result.purchased4MoreTimeUserCount = purchasedUserIdList.fourMoreTime.length;
+        result.purchased5MoreTimeUserCount = purchasedUserIdList.fiveMoreTime.length;
+        result.purchased6MoreTimeUserCount = purchasedUserIdList.sixMoreTime.length;
+        result.purchased7MoreTimeUserCount = purchasedUserIdList.sevenMoreTime.length;
+
+
+        result.twoMoreTimeUserListWithOrder = twoMoreTimeUserListWithOrder;
 
 
         twoMoreTimeUserListWithOrder.forEach(function(user){
@@ -242,13 +278,13 @@ exports.userNewComerRate = function(req, res, next) {
                     first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
                     //console.log(first.secondOrderInterval);
-                    if (typeof user.totalTime === 'undefined'){
-                        user.totalTime = 0;
-                        user.totalOrderNumber = 0;
+                    if (typeof user.twoMoreTotalTime === 'undefined'){
+                        user.twoMoreTotalTime = 0;
+                        user.twoMoreTotalOrderNumber = 0;
                     }
 
-                    user.totalTime = user.totalTime + first.secondOrderInterval;
-                    user.totalOrderNumber = user.totalOrderNumber + 1;
+                    user.twoMoreTotalTime = user.twoMoreTotalTime + first.secondOrderInterval;
+                    user.twoMoreTotalOrderNumber = user.twoMoreTotalOrderNumber + 1;
 
                 }
 
@@ -258,22 +294,15 @@ exports.userNewComerRate = function(req, res, next) {
 
 
 
-        result.totalPurchasedUserCount = purchasedUserIdList.oneMoreTime.length;
-        result.purchased2MoreTimeUserCount = purchasedUserIdList.twoMoreTime.length;
-        result.purchased3MoreTimeUserCount = purchasedUserIdList.threeMoreTime.length;
-
-
-        result.twoMoreTimeUserListWithOrder = twoMoreTimeUserListWithOrder;
-
 
         for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
 
-            result.totalTime = result.totalTime + twoMoreTimeUserListWithOrder[j].totalTime;
-            result.totalOrderNumber = result.totalOrderNumber + twoMoreTimeUserListWithOrder[j].totalOrderNumber;
+            result.twoMoreTotalTime = result.twoMoreTotalTime + twoMoreTimeUserListWithOrder[j].twoMoreTotalTime;
+            result.twoMoreTotalOrderNumber = result.twoMoreTotalOrderNumber + twoMoreTimeUserListWithOrder[j].twoMoreTotalOrderNumber;
 
         }
 
-        result.avgTime = result.totalTime / result.totalOrderNumber;
+        result.twoMoreAvgTime = result.twoMoreTotalTime / result.twoMoreTotalOrderNumber;
 
         res.send(result)
     })
