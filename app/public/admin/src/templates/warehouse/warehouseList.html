@@ -71,7 +71,10 @@
                 <th>显示名称中文</th>
                 <th>显示名称应为</th>
 
+                <th>地址</th>
                 <th>经/纬度</th>
+                <th>配送距离(米)</th>
+                <th>显示顺序</th>
                 <th>是否启用</th>
 
             </tr>
@@ -84,7 +87,11 @@
                 <td>{{warehouse.displayName.zh}}</td>
                 <td>{{warehouse.displayName.en}}</td>
 
+                <td>{{warehouse.address}} </td>
                 <td>{{warehouse.locationGeoLongitude}} / {{warehouse.locationGeoLatitude}}</td>
+
+                <td>{{warehouse.deliveryRange}} </td>
+                <td>{{warehouse.sortId}} </td>
                 <td>{{warehouse.isActivated}} </td>
             </tr>
         </tbody>
