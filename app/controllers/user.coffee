@@ -7,6 +7,7 @@ qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 WXPay = require "../libs/weixinpay"
 AliPay = require "../libs/alipay.js"
+Map = require "../libs/baidumap.js"
 
 configAlipay =
   notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/notify/account"
@@ -30,6 +31,9 @@ configWeiXinAppPay =
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
 weixinpay = WXPay(configWeiXinPay)
+
+baiduMap = Map({ak:"hGHhGxXeioV00csas6otDPM0"})
+
 
 
 
@@ -616,7 +620,7 @@ exports.updateShoppingCart = (req, res, next) ->
 
 
 
-# 获取用户收货地址
+# 获取用户收货地址 (新版接口)
 exports.getUserAddress = (req, res, next) ->
 
   models.useraddress.find({user : req.u._id}).then (resultUserAddressList)->
@@ -666,7 +670,7 @@ exports.getUserAddress = (req, res, next) ->
 
 
 
-# 新增用户收货地址
+# 新增用户收货地址 (新版接口)
 exports.addNewAddress = (req, res, next) ->
 
   models.useraddress.validationSingle(req.body)
@@ -695,30 +699,86 @@ exports.addNewAddress = (req, res, next) ->
   tempAddress.sortOrder = req.body.sortOrder if req.body.sortOrder
 
 
-  if req.body.isDefault
+  models.warehouse.findAsync({}).then (resultWarehouseList) ->
 
-    models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
-
-      # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
-
-      models.useraddress.createAsync(tempAddress)
-
-    .then (result)->
-      res.json result
-    .catch next
-
-  else
-    models.useraddress.createAsync(tempAddress).then (result)->
-
-      res.json result
-
-    .catch next
+    tempWarehouse = {}
+    baiduMapQuery =
+      origins : []
+      destinations :
+        lat : tempAddress.geoLatitude
+        lng : tempAddress.geoLongitude
 
 
+    for warehouse, warehouseIndex in resultWarehouseList
+      tempWarehouse[warehouse._id] = warehouse.toObject()
+      tempWarehouse[warehouse.name] = warehouse.toObject()
+
+      originPlace =
+        lat : warehouse.locationGeoLatitude
+        lng : warehouse.locationGeoLongitude
+
+
+      baiduMapQuery.origins.push(originPlace)
+
+      console.log("仓库" , warehouse)
+
+    baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
+  .then (resultBaidu) ->
+    console.log (resultBaidu)
+
+    if resultBaidu.status isnt 0
+      throw(new Err resultBaidu.message, 400)
+
+    for placeBaidu, placeBaiduIndex in resultBaidu.result.elements
+      console.log("送货: ", placeBaidu)
+
+#
+#    if req.body.warehouseName is "xinweioffice"
+#      result = tempWarehouse[req.body.warehouseName]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+#    else if req.body._id is "56332187594b09af6e6c7dd2"
+#      result = tempWarehouse[req.body._id]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+#
+#
+#    if req.body.warehouseName is "caohejing1"
+#      result = tempWarehouse[req.body.warehouseName]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+#    else if req.body._id is "56332196594b09af6e6c7dd7"
+#      result = tempWarehouse[req.body._id]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+#
 
 
 
-# 编辑用户收货地址
+    if req.body.isDefault
+
+      models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
+
+  # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
+
+        models.useraddress.createAsync(tempAddress)
+
+      .then (result)->
+        res.json result
+      .catch next
+
+    else
+      models.useraddress.createAsync(tempAddress).then (result)->
+
+        res.json result
+
+      .catch next
+
+  .catch next
+
+
+
+
+
+
+
+# 编辑用户收货地址 (新版接口)
 exports.updateAddress = (req, res, next) ->
 
   models.useraddress.validationId(req.params._id)
@@ -765,7 +825,7 @@ exports.updateAddress = (req, res, next) ->
 
 
 
-# 删除用户收货地址
+# 删除用户收货地址 (新版接口)
 exports.deleteAddress = (req, res, next) ->
 
   models.useraddress.validationId(req.params._id)

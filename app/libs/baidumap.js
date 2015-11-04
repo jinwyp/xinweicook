@@ -46,7 +46,9 @@ module.exports = createApplication;
  */
 
 function createApplication() {
+
     var app = new baiduMap(arguments[0]);
+
     return app;
 }
 
@@ -68,18 +70,26 @@ function baiduMap(config) {
 
 
 
+/**
+ * Created by JinWYP on 15-11-04.
+ * http://developer.baidu.com/map/index.php?title=webapi/route-matrix-api
+ * Route Matrix API是一套以HTTP形式提供的批量线路查询接口，用于返回多个起点和多个终点间的线路距离和行驶时间
+ * 起终点个数最多为5个，即每个请求串最多能查询25条线路信息；
+ * 每个ak每天最多查询10万次
+ */
 
 
-baiduMap.prototype.getDistancePoint = function(query, callback){
+baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
     // URL范例 http://api.map.baidu.com/direction/v1?mode=driving&origin=清华大学&destination=北京大学&origin_region=北京&destination_region=北京&output=json&ak=E4805d16520de693a3fe707cdc962045
 
     var originParam = '';
+    var destinationParam = '';
 
-    if (typeof query.origin === 'undefined' || !query.origin || !Array.isArray(query.origin) ){
+    if (typeof query.origins === 'undefined' || !query.origins || !Array.isArray(query.origins) ){
         throw new Error('需要填写起点名称或经纬度');
-    }else if (Array.isArray(query.origin)) {
-        query.origin.forEach(function(place){
+    }else if (Array.isArray(query.origins)) {
+        query.origins.forEach(function(place){
             if (typeof place.lng === 'undefined' || !place.lng || typeof place.lat === 'undefined' || !place.lat){
                 throw new Error('需要填写起点名称或经纬度');
             }else{
@@ -87,17 +97,20 @@ baiduMap.prototype.getDistancePoint = function(query, callback){
                 if (originParam === ''){
                     originParam = encodeURIComponent(originParam + place.lat + ',' + place.lng)
                 }else{
-                    originParam = originParam + encodeURIComponent(originParam + place.lat + ',' + place.lng)
+                    originParam = originParam + '|' + encodeURIComponent(originParam + place.lat + ',' + place.lng)
                 }
-
             }
-
         })
     }
 
-    if (typeof query.destination === 'undefined' || !query.destination){
-        throw new Error('需要填写起点名称或经纬度');
+    if (typeof query.destinations === 'undefined' || !query.destinations){
+        throw new Error('需要填写终点名称或经纬度');
+    }else if (typeof query.destinations.lng === 'undefined' || !query.destinations.lng || typeof query.destinations.lat === 'undefined' || !query.destinations.lat) {
+        throw new Error('需要填写终点名称或经纬度');
+    }else{
+        destinationParam = encodeURIComponent(destinationParam + query.destinations.lat + ',' + query.destinations.lng)
     }
+
 
     if (typeof query.mode === 'undefined' || !query.mode){
         query.mode = 'walking';    //导航模式，包括：driving（驾车）、walking（步行）、transit（公交）
@@ -112,36 +125,61 @@ baiduMap.prototype.getDistancePoint = function(query, callback){
     }
 
 
-    var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + encodeURIComponent(office.lat + ',' + office.lng)
+    var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + originParam + '&destinations=' + destinationParam + '&mode=' + query.mode + '&output=' + query.output + '&coord_type=' + query.coord_type + '&ak=' + this.config.ak
 
 
-    //
-    //// 使用gcj02坐标.
-    //var destinations = req.query.destinations || '';
-    ////var warehouse = warehouseCoords[req.query.warehouse || 'xinweioffice'] ;
-    //var office = warehouseCoords.xinweioffice;
-    //var chj1 = warehouseCoords.caohejing1;
-    //
-    //var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
-    //
-    //var params = 'origins=' + encodeURIComponent(office.lat + ',' + office.lng)
-    //    + '|' + encodeURIComponent(chj1.lat + ',' + chj1.lng) +
-    //    '&destinations=' + encodeURIComponent(destinations) +
-    //    '&ak=' + ak +
-    //    '&output=json&mode=walking&coord_type=gcj02&tactics=12';
-    //var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
-    //
-    //console.log(url)
-    //request(url, function(err, response, body) {
-    //    if (err) {
-    //        next(err)
-    //    } else {
-    //        try {
-    //            res.json(JSON.parse(body));
-    //        } catch (e) {
-    //            next(e);
-    //        }
-    //    }
-    //})
+    console.log(url);
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 6000
+    };
+
+    requestC(opts, function(err, response, body){
+        if (err){
+            logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
+            callback(err)
+        }else{
+            logger.error ('-- BaiduMap Response Body: ', body);
+
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+            } catch (err) {
+                // handle error
+                logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(err));
+                callback(err)
+            }
+
+            if (typeof result.status !== 0){
+
+                //0	成功
+                //1	服务器内部错误
+                //2	请求参数非法
+                //3	权限校验失败
+                //4	配额校验失败
+                //5	Ak不存在或者非法
+                //11	起终点信息模糊
+                //12	起点或者终点超过5个
+                //101	服务禁用
+                //102	不通过白名单或者安全码不对
+
+                //logger.error("BaiduMap Success: " + body );
+                callback(null, result)
+            }else{
+                logger.error("BaiduMap Failed, get err : " + body );
+                callback(null, result)
+            }
+        }
+
+    });
+
 };
+
+
+baiduMap.prototype.getDistanceFromMultiPointAsync = Promise.promisify(baiduMap.prototype.getDistanceFromMultiPoint);
+
+
+
 

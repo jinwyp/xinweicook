@@ -10,6 +10,10 @@ module.exports =
     locationGeoLatitude: Number # 纬度
     locationGeoLongitude: Number # 经度
 
+    address :type:String
+    deliveryRange : Number # 米
+
+    sortId : Number # 排序
     isActivated : type: Boolean, default: false
 
 
