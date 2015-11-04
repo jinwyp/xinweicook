@@ -64,7 +64,7 @@ angular.pick = function (obj) {
 angular.sort = function sort (_array, compare) {
     var array = _array.slice(0);
     var tmp;
-    for (var l = array.length - 1; l > 1; l--) {
+    for (var l = array.length - 1; l >= 1; l--) {
         for (var i = 0; i < l; i++) {
             var result = compare(array[i], array[i + 1]);
             if (result > 0) {
