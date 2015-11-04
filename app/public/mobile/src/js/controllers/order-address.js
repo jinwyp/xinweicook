@@ -140,10 +140,6 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     };
 
     $scope.next = function () {
-        if (!addressReady) {
-            alert('正在计算配送距离,请稍候!');
-            return;
-        }
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
         if (css.edit != -1 && !save(true)) return;
 

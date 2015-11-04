@@ -1,8 +1,0 @@
-<div class="sms-button-group">
-    <span class="sms-button"
-          ng-if="state <= 1"
-          ng-class="{invalid: state === 0}"
-          ng-click="state == 1 && getSmsCode()">获取验证码</span>
-    <span class="sms-button invalid" ng-if="state == 2">{{remains}}秒后重新获取</span>
-    <span ng-click="state == 4 && getSmsCode()" class="sms-button" ng-class="{invalid: state == 3}" ng-if="state > 2">重新获取</span>
-</div>
