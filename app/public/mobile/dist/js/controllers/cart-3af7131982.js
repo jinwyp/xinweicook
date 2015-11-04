@@ -1,9 +1,5 @@
 angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
-    window.onerror = function (e) {
-        alert(JSON.stringify(e));
-    };
-
     // clear all `cart` in $localStorage
     try {
         if ($localStorage.localBag) {

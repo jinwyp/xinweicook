@@ -6,7 +6,7 @@
   "controllers/alipay-notify.js": "controllers/alipay-notify-9cbb22d13f.js",
   "controllers/balance-records.js": "controllers/balance-records-b788d6709a.js",
   "controllers/balance.js": "controllers/balance-440b15ce44.js",
-  "controllers/cart.js": "controllers/cart-2033cc0a0d.js",
+  "controllers/cart.js": "controllers/cart-3af7131982.js",
   "controllers/charge-balance-online.js": "controllers/charge-balance-online-29b17f5950.js",
   "controllers/charge-balance.js": "controllers/charge-balance-78c344b1e8.js",
   "controllers/cook.js": "controllers/cook-157c00752d.js",
