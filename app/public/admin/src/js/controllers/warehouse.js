@@ -41,6 +41,9 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
                 zh : '',
                 en : ''
             },
+            address : '',
+            deliveryRange : 1000, //米
+            sortId : 0, //排序
             isActivated : false,
 
             locationGeoLatitude : 0,

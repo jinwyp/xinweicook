@@ -73,7 +73,7 @@
 
                     <div class="col-lg-4" >
                         <span class="form-validation help-block" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.minlength || warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.maxlength">字符长度错误11-18！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.minlength || warehouseForm.warehouseLongitude.$dirty&&warehouseForm.warehouseLongitude.$error.maxlength">字符长度错误1-200！</span>
                     </div>
 
                 </div>
@@ -89,11 +89,58 @@
 
                     <div class="col-lg-4" >
                         <span class="form-validation help-block" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.minlength || warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.maxlength">字符长度错误11-18！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.minlength || warehouseForm.warehouseLatitude.$dirty&&warehouseForm.warehouseLatitude.$error.maxlength">字符长度错误1-200！</span>
                     </div>
 
                 </div>
 
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$valid, 'has-error':warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$invalid}">
+                    <label for="inputWarehouseAddress" class="col-lg-2 control-label" >详细地址</label>
+
+                    <div class="col-lg-6" >
+                        <input type="text" class="form-control" id="inputWarehouseAddress" placeholder="详细地址" name="warehouseAddress" ng-model="data.warehouse.address" required ng-minlength="6" ng-maxlength="200" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4" >
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$error.minlength || warehouseForm.warehouseAddress.$dirty&&warehouseForm.warehouseAddress.$error.maxlength">字符长度错误6-200！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$valid, 'has-error':warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$invalid}">
+                    <label for="inputWarehouseDeliveryRange" class="col-lg-2 control-label" >配送范围(米)</label>
+
+                    <div class="col-lg-6" >
+                        <input type="number" class="form-control" id="inputWarehouseDeliveryRange" placeholder="配送范围" name="warehouseDeliveryRange" ng-model="data.warehouse.deliveryRange" required min="1" max="99999" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4" >
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$error.min || warehouseForm.warehouseDeliveryRange.$dirty&&warehouseForm.warehouseDeliveryRange.$error.max">字符长度错误1-99999！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$valid, 'has-error':warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$invalid}">
+                    <label for="inputWarehouseSortId" class="col-lg-2 control-label" >显示顺序</label>
+
+                    <div class="col-lg-6" >
+                        <input type="number" class="form-control" id="inputWarehouseSortId" placeholder="显示顺序" name="warehouseSortId" ng-model="data.warehouse.sortId" required min="1" max="99999" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-4" >
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$error.min || warehouseForm.warehouseSortId.$dirty&&warehouseForm.warehouseSortId.$error.max">字符长度错误1-99999！</span>
+                    </div>
+                </div>
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':warehouseForm.warehouseIsActivated.$dirty&&warehouseForm.warehouseIsActivated.$valid, 'has-error':warehouseForm.warehouseIsActivated.$dirty&&warehouseForm.warehouseIsActivated.$invalid}">
