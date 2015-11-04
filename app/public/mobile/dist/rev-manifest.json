@@ -16,7 +16,7 @@
   "controllers/invite.js": "controllers/invite-d44879391d.js",
   "controllers/login.js": "controllers/login-ee02a5a9d8.js",
   "controllers/me.js": "controllers/me-26e0e22d04.js",
-  "controllers/order-address.js": "controllers/order-address-30e61bf21b.js",
+  "controllers/order-address.js": "controllers/order-address-c4c92cf9a5.js",
   "controllers/order-pay.js": "controllers/order-pay-8d0c29296a.js",
   "controllers/orderlist.js": "controllers/orderlist-cd2484418a.js",
   "controllers/search-address.js": "controllers/search-address-bd92ecb121.js",

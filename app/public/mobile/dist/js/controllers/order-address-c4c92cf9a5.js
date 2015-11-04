@@ -140,6 +140,10 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     };
 
     $scope.next = function () {
+        if (!addressReady) {
+            alert('正在计算配送距离,请稍候!');
+            return;
+        }
         var addr = css.cur == -2 ? newAddr : $scope.address[css.cur];
         if (css.edit != -1 && !save(true)) return;
 
@@ -174,10 +178,14 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         addr.district = street.district;
         addr.isInRange = false;
         addr.distance = Map.bentoNoReach;
+        addressReady = false;
         Map.distance(addr.geoLatitude, addr.geoLongitude, warehouse).then(function (res) {
             addr.isInRange = res.isInRange;
             addr.distance = res.distance;
             addr.warehouse = res.warehouse;
+            addressReady = true;
+        }).catch(function () {
+            addressReady = true;
         })
     };
 
@@ -281,8 +289,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             }
 
         }).then(function (res) {
-            if (typeof res != 'object') return;
             addressReady = true;
+            if (typeof res != 'object') return;
             $scope.address.forEach(function (addr, i) {
                 if (typeof addr.isInRange != 'undefined') return;
                 addr.isInRange = res[i].isInRange;
