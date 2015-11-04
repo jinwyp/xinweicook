@@ -99,17 +99,17 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             dishes = $scope.dishes;
         }
 
-        $scope.dishes = dishes.filter(function (dish) {
+        $timeout(function () {
+            $scope.dishes = dishes.filter(function (dish) {
 
-            var _warehouse = warehouse || 'xinweioffice';
-            if (_warehouse == 'caohejing1') {
-                return dish.showForWarehouse == 'caohejing1'
-            } else {
-                return dish.showForWarehouse != 'caohejing1';
-            }
-        });
-
-        $scope.$apply();
+                var _warehouse = warehouse || 'xinweioffice';
+                if (_warehouse == 'caohejing1') {
+                    return dish.showForWarehouse == 'caohejing1'
+                } else {
+                    return dish.showForWarehouse != 'caohejing1';
+                }
+            });
+        }, 10)
     }
 
     function getDishList(warehouse) {
