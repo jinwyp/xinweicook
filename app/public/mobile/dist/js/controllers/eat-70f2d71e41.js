@@ -59,8 +59,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             Weixin.getLocation(function (res) {
                 var warehouse = Map.nearestWarehouse(res.latitude,
                     res.longitude);
-                $localStorage.warehouse = warehouse;
 
+                $localStorage.warehouse = warehouse;
                 filterDishByWarehouse({
                     warehouse: warehouse
                 });
@@ -107,7 +107,9 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             } else {
                 return dish.showForWarehouse != 'caohejing1';
             }
-        })
+        });
+
+        $scope.$apply();
     }
 
     function getDishList(warehouse) {

@@ -178,10 +178,14 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         addr.district = street.district;
         addr.isInRange = false;
         addr.distance = Map.bentoNoReach;
+        addressReady = false;
         Map.distance(addr.geoLatitude, addr.geoLongitude, warehouse).then(function (res) {
             addr.isInRange = res.isInRange;
             addr.distance = res.distance;
             addr.warehouse = res.warehouse;
+            addressReady = true;
+        }).catch(function () {
+            addressReady = true;
         })
     };
 
@@ -285,8 +289,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             }
 
         }).then(function (res) {
-            if (typeof res != 'object') return;
             addressReady = true;
+            if (typeof res != 'object') return;
             $scope.address.forEach(function (addr, i) {
                 if (typeof addr.isInRange != 'undefined') return;
                 addr.isInRange = res[i].isInRange;
