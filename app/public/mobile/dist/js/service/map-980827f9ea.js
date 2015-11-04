@@ -101,7 +101,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                         results[i].warehouse = 'xinweioffice';
                         results[len + i].warehouse = 'caohejing1';
                         pair = [results[i], results[len + i]];
-                        pair = pair.sort(function (a, b) {
+                        pair = angular.sort(pair, function (a, b) {
                             return (a.distance.value - topDistance.xinweioffice) -
                                 (b.distance.value - topDistance.caohejing1)
                         });
@@ -158,14 +158,13 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             var that = this;
             var topDistance2HQ = topDistance['xinweioffice'];
             var topDistance2CHJ = topDistance['caohejing1'];
-            var warehouses = ['xinweioffice', 'caohejing1'].map(function (name) {
+            var warehouses = angular.sort(['xinweioffice', 'caohejing1'].map(function (name) {
                 var warehouse = that.warehouseCoords[name];
                 return {
                     name: name,
-                    distance: that.lineDistance(lat, lng,
-                        warehouse.lat, warehouse.lng)
+                    distance: that.lineDistance(lat, lng, warehouse.lat, warehouse.lng)
                 }
-            }).sort(function (a, b) {
+            }), function (a, b) {
                 return (a.distance - topDistance2HQ) - (b.distance - topDistance2CHJ)
             });
             return warehouses[0].name;
