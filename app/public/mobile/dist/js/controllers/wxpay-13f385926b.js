@@ -164,10 +164,18 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
 
         }).catch(function (res) {
             Debug.alert(res);
-            alert('亲,生成订单出了点意外,请在 我的订单 中重新支付!');
             setTimeout(function () {
-                location.href = '/mobile/orderlist';
-            }, 100);
+                Orders.getOrder(orderId).then(function (order) {
+                    if (order.status == 'paid') {
+                        $scope.state = 'success'
+                    } else {
+                        alert('亲,生成订单出了点意外,请在 我的订单 中重新支付!');
+                        setTimeout(function () {
+                            location.href = '/mobile/orderlist';
+                        }, 100);
+                    }
+                })
+            }, 1200);
         })
     }
     init();

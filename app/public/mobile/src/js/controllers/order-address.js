@@ -130,7 +130,26 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
                 angular.extend(newAddr, result);
 
+                var warehouse = Map.nearestWarehouse(res.latitude, res.longitude);
+
+                if (warehouse == 'caohejing1') {
+                    var distance = Map.lineDistance2CHJ(res.latitude, res.longitude);
+                    if (distance <= Map.topDistance.caohejing1) {
+                        newAddr.isInRange = true;
+                        newAddr.warehouse = 'caohejing1';
+                        newAddr.distance = distance;
+                        return;
+                    }
+                }
+
                 Map.distance(res.latitude, res.longitude, warehouse).then(function (res) {
+                    if (res.warehouse == 'caohejing1') {
+                        newAddr.warehouse = 'caohejing1';
+                        newAddr.isInRange = false;
+                        newAddr.distance = res.distance;
+                        return;
+                    }
+
                     newAddr.isInRange = res.isInRange;
                     newAddr.distance = res.distance;
                     newAddr.warehouse = res.warehouse;
