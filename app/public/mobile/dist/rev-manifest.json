@@ -20,7 +20,7 @@
   "controllers/order-pay.js": "controllers/order-pay-c42b8a7f21.js",
   "controllers/orderlist.js": "controllers/orderlist-cd2484418a.js",
   "controllers/search-address.js": "controllers/search-address-bd92ecb121.js",
-  "controllers/wxpay.js": "controllers/wxpay-55c3ef6073.js",
+  "controllers/wxpay.js": "controllers/wxpay-13f385926b.js",
   "directives/add-dish-bar.js": "directives/add-dish-bar-454e689292.js",
   "directives/auto-focus.js": "directives/auto-focus-9c4964431c.js",
   "directives/back-button.js": "directives/back-button-eb8cadf5c2.js",
