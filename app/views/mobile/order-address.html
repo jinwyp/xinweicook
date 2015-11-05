@@ -128,12 +128,19 @@
 
 <div class="search-address-main" ng-if="css.showSearchAddress" ng-cloak>
     <form id="address-form">
-        <span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>
+        <!--<span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>-->
         <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"
                     ng-model="data.street"
                     ng-model-options="{debounce: 400}"
                     ng-change="searchAddress()"/></div>
     </form>
+
+    <div class="find-address-tip" ng-if="data.streetList.length">您要找的是不是?</div>
+
+    <div class="no-address-tip" ng-if="data.street && !data.streetList.length">
+        <h4>未能找到此地址</h4>
+        <p>建议只输入小区、写字楼、地标名称等</p>
+    </div>
 
     <ul class="results">
         <li ng-click="confirmStreet(street)" ng-repeat="street in data.streetList">
@@ -158,17 +165,17 @@
 
 <script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
 <script src="/mobile/dist/js/models-584021398b.js"></script>
-<script src="/mobile/dist/js/config-6315525f3c.js"></script>
+<script src="/mobile/dist/js/config-6f8236c645.js"></script>
 <script src="/mobile/dist/js/filters-493df975ec.js"></script>
 <script src="/mobile/dist/js/directives/shopping-progress-bar-455a98999e.js"></script>
 <script src="/mobile/dist/js/directives/auto-focus-9c4964431c.js"></script>
 <script src="/mobile/dist/js/templates-a334d37484.js"></script>
 <script src="/mobile/dist/js/service/scope-decorator-c9a4f80035.js"></script>
-<script src="/mobile/dist/js/service/map-91416d9e4e.js"></script>
+<script src="/mobile/dist/js/service/map-01ddf4f19e.js"></script>
 <script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
 <script src="/mobile/dist/js/service/address-9adc45a744.js"></script>
 <script src="/mobile/dist/js/weixin-99e83d9b5c.js"></script>
-<script src="/mobile/dist/js/controllers/order-address-c4c92cf9a5.js"></script>
+<script src="/mobile/dist/js/controllers/order-address-986da5e026.js"></script>
 
 
 </html>

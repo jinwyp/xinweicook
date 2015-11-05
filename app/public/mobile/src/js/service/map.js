@@ -2,11 +2,16 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
     // 如果有必要修改则需要改成provider
     var topDistance = {
         xinweioffice: 6000,
-        caohejing1: 2000
+        caohejing1: 1560
     };
 
     var map = {
         bentoNoReach: 999999,
+
+        topDistance: {
+            xinweioffice: 6000,
+            caohejing1: 1560
+        },
 
         suggestion: function (query, region) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
@@ -56,6 +61,11 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             return alpha * earthR;
         },
 
+        lineDistance2CHJ: function (lat, lng) {
+            var CHJ = this.warehouseCoords.caohejing1;
+            return this.lineDistance(lat, lng, CHJ.lat, CHJ.lng)
+        },
+
         fixZero: function (d, lat, lng) {
             if (d !== 0) return d;
             var lineD = this.lineDistance(lat, lng, 31.189426, 121.460625);
@@ -101,7 +111,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
                         results[i].warehouse = 'xinweioffice';
                         results[len + i].warehouse = 'caohejing1';
                         pair = [results[i], results[len + i]];
-                        pair = pair.sort(function (a, b) {
+                        pair = angular.sort(pair, function (a, b) {
                             return (a.distance.value - topDistance.xinweioffice) -
                                 (b.distance.value - topDistance.caohejing1)
                         });
@@ -158,14 +168,13 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             var that = this;
             var topDistance2HQ = topDistance['xinweioffice'];
             var topDistance2CHJ = topDistance['caohejing1'];
-            var warehouses = ['xinweioffice', 'caohejing1'].map(function (name) {
+            var warehouses = angular.sort(['xinweioffice', 'caohejing1'].map(function (name) {
                 var warehouse = that.warehouseCoords[name];
                 return {
                     name: name,
-                    distance: that.lineDistance(lat, lng,
-                        warehouse.lat, warehouse.lng)
+                    distance: that.lineDistance(lat, lng, warehouse.lat, warehouse.lng)
                 }
-            }).sort(function (a, b) {
+            }), function (a, b) {
                 return (a.distance - topDistance2HQ) - (b.distance - topDistance2CHJ)
             });
             return warehouses[0].name;

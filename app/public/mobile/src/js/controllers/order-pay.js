@@ -80,7 +80,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                 return !el.isUsed;
             });
             if (coupon.cardList.length) {
-                model.coupon.card = coupon.cardList.sort(function (a, b) {
+                model.coupon.card = angular.sort(coupon.cardList, function (a, b) {
                     return b.price - a.price
                 })[0];
             }

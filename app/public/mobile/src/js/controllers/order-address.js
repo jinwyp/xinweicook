@@ -104,7 +104,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             Map.suggestion(data.street, addr.city || '全国')
                 .then(function (res) {
                 $scope.data.streetList = res.data.result.filter(function (address) {
-                    return (!!address.city && !!address.location )
+                    return (!!address.city && !!address.location && address.name != '漕河泾' )
                 });
             })
         }
@@ -179,10 +179,28 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         addr.isInRange = false;
         addr.distance = Map.bentoNoReach;
         addressReady = false;
+
+        if (Map.nearestWarehouse(addr.geoLatitude, addr.geoLongitude) == 'caohejing1') {
+            var distance = Map.lineDistance2CHJ(addr.geoLatitude, addr.geoLongitude);
+            var inRange = distance <= Map.topDistance.caohejing1;
+            if (inRange) {
+                addr.isInRange = true;
+                addr.distance = distance;
+                addr.warehouse = 'caohejing1';
+                addressReady = true;
+                return;
+            }
+        }
+
         Map.distance(addr.geoLatitude, addr.geoLongitude, warehouse).then(function (res) {
-            addr.isInRange = res.isInRange;
-            addr.distance = res.distance;
-            addr.warehouse = res.warehouse;
+            if (addr.warehouse == 'caohejing1') {
+                addr.isInRange = false;
+                addr.distance = res.distance;
+            } else {
+                addr.isInRange = res.isInRange;
+                addr.distance = res.distance;
+                addr.warehouse = res.warehouse;
+            }
             addressReady = true;
         }).catch(function () {
             addressReady = true;
@@ -275,7 +293,24 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 if (!hasDefault) {
                     $scope.address[0].isDefault = true;
                 }
-                return Map.distances($scope.address.map(function (addr) {
+
+                var addrOffice = $scope.address.filter(function (addr) {
+                    var _warehouse = Map.nearestWarehouse(addr.geoLatitude,
+                        addr.geoLongitude);
+                    if (_warehouse == 'caohejing1') {
+                        var distance = Map.lineDistance2CHJ(addr.geoLatitude, addr.geoLongitude);
+                        var inRange = distance <= Map.topDistance.caohejing1;
+                        if (inRange) {
+                            addr.isInRange = true;
+                            addr.warehouse = 'caohejing1';
+                            addr.distance = distance;
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                return Map.distances(addrOffice.map(function (addr) {
                     return {
                         lat: addr.geoLatitude,
                         lng: addr.geoLongitude
@@ -291,8 +326,18 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         }).then(function (res) {
             addressReady = true;
             if (typeof res != 'object') return;
-            $scope.address.forEach(function (addr, i) {
+
+            $scope.address.filter(function (addr) {
+                return addr.warehouse != 'caohejing1';
+            }).forEach(function (addr, i) {
                 if (typeof addr.isInRange != 'undefined') return;
+
+                if (addr.warehouse == 'caohejing1') {
+                    addr.isInRange = false;
+                    addr.distance = res[i].distance;
+                    return;
+                }
+
                 addr.isInRange = res[i].isInRange;
                 addr.distance = res[i].distance;
                 addr.warehouse = res[i].warehouse;
