@@ -1901,21 +1901,21 @@ html.order-address-html body {
   display: block;
 }
 
-/* line 3, ../sass/pages/_search-address.scss */
+/* line 6, ../sass/pages/_search-address.scss */
 .search-address-main {
   padding: 0 12px;
 }
-/* line 6, ../sass/pages/_search-address.scss */
+/* line 9, ../sass/pages/_search-address.scss */
 .search-address-main form {
   padding: 13px 0 10px 8px;
   border-bottom: 1px solid gray;
   position: relative;
 }
-/* line 11, ../sass/pages/_search-address.scss */
+/* line 14, ../sass/pages/_search-address.scss */
 .search-address-main form input {
   width: 100%;
 }
-/* line 15, ../sass/pages/_search-address.scss */
+/* line 18, ../sass/pages/_search-address.scss */
 .search-address-main form .confirm {
   position: absolute;
   bottom: 7px;
@@ -1924,20 +1924,39 @@ html.order-address-html body {
   padding: 3px 11px;
   border: 1px solid black;
 }
-/* line 22, ../sass/pages/_search-address.scss */
+/* line 25, ../sass/pages/_search-address.scss */
 .search-address-main form .confirm.invalid {
   border-color: #A7A7A7;
 }
-/* line 28, ../sass/pages/_search-address.scss */
-.search-address-main .results {
-  margin-top: 1.5em;
+/* line 31, ../sass/pages/_search-address.scss */
+.search-address-main .find-address-tip {
+  font-size: 13px;
+  background: #E6E6E6;
+  line-height: 1.8;
+  text-indent: 0.5em;
+  color: #5D5D5D;
 }
-/* line 30, ../sass/pages/_search-address.scss */
+/* line 39, ../sass/pages/_search-address.scss */
+.search-address-main .no-address-tip {
+  text-align: center;
+  padding-top: 20px;
+  color: gray;
+}
+/* line 43, ../sass/pages/_search-address.scss */
+.search-address-main .no-address-tip h4 {
+  font-weight: 400;
+  font-size: 16px;
+}
+/* line 49, ../sass/pages/_search-address.scss */
+.search-address-main .results {
+  margin-top: 1.2em;
+}
+/* line 51, ../sass/pages/_search-address.scss */
 .search-address-main .results h4 {
   font-size: 14px;
   margin-bottom: 4px;
 }
-/* line 34, ../sass/pages/_search-address.scss */
+/* line 55, ../sass/pages/_search-address.scss */
 .search-address-main .results p {
   font-size: 12px;
   margin-bottom: 14px;
