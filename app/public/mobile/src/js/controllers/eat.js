@@ -134,7 +134,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                                 alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
                                 delete $localStorage.promotion;
                             })
-                        } else location.replace('/mobile/wxgzh');
+                        } else location.replace( '/mobile/wxgzh');
                     })
                 }
 
