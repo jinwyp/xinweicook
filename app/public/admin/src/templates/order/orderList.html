@@ -270,6 +270,8 @@
                     <span ng-if="order.status === 'shipped'">已发货</span>
                     <span ng-if="order.status === 'finished'">已完成</span>
                     <span ng-if="order.status === 'canceled'">已取消</span>
+
+                    <br/> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> 出货单A4</a>
                 </td>
                 <td>
                     <span ng-if="order.expressStatus==='waitForConfirm'">待抢单</span>
@@ -282,7 +284,7 @@
 
                 </td>
 
-                <!--<td>{{order.isSplitOrder}}</td>暂时隐藏掉,S要求-->
+                <!--<td>{{order.isSplitOrder}}</td>-->
                 <!--<td>{{order.isChildOrder}}</td>-->
                 <td>
                     <span ng-if="order.clientFrom === 'ios'">iOS</span>
@@ -297,11 +299,11 @@
                     <span ng-if="order.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
                 </td>
 
-                <td><a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> {{order.address.contactPerson}}</a><br/>{{order.address.mobile}}</td>
+                <td> <a ui-sref="menu.updateUser({ id: order.user })" target="_blank"> {{order.address.contactPerson}}<br/>{{order.address.mobile}} </a></td>
                 <td>
-                    <a ui-sref="menu.updateUser({ id: order.user })" target="_blank">
+
                     {{order.address.city}} {{order.address.district}}<br/>
-                    {{order.address.street}} / {{order.address.address}}</a>
+                    {{order.address.street}} / {{order.address.address}}
                     <a target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.195693,121.467155|name:新味&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味|定位&amp;destination_region={{order.address.city}}"><i class="fa fa-search-plus"></i>{{order.address.distanceFrom}}米</a>
                 </td>
 
