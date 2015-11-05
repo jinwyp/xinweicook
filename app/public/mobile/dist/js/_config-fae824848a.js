@@ -40,15 +40,18 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
 }]);
 
 
-angular.module('xw.config').config(['$httpProvider',
-    function($httpProvider) {
+angular.module('xw.config').config(['$httpProvider', '$compileProvider',
+    function($httpProvider, $compileProvider) {
+        // http interceptor
         $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
         $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://m.xinweicook.com';
         $httpProvider.defaults.headers.common['Accept-Language'] = navigator.language == 'zh-CN' ? 'zh-CN' : 'en-US';
         $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
 
-
         $httpProvider.interceptors.push('commonInterceptor');
+
+        // disable debug data for performance.
+        $compileProvider.debugInfoEnabled(false);
     }
 ]);
 

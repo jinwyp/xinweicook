@@ -1,6 +1,6 @@
 {
-  "_config.js": "_config-1a3b51b589.js",
-  "config.js": "config-6f8236c645.js",
+  "_config.js": "_config-fae824848a.js",
+  "config.js": "config-8ec1c12e4f.js",
   "controllers/address-edit.js": "controllers/address-edit-e360bcf36a.js",
   "controllers/address-list.js": "controllers/address-list-df56941699.js",
   "controllers/alipay-notify.js": "controllers/alipay-notify-9cbb22d13f.js",
@@ -16,7 +16,7 @@
   "controllers/invite.js": "controllers/invite-d44879391d.js",
   "controllers/login.js": "controllers/login-ee02a5a9d8.js",
   "controllers/me.js": "controllers/me-26e0e22d04.js",
-  "controllers/order-address.js": "controllers/order-address-986da5e026.js",
+  "controllers/order-address.js": "controllers/order-address-af10b13b67.js",
   "controllers/order-pay.js": "controllers/order-pay-c42b8a7f21.js",
   "controllers/orderlist.js": "controllers/orderlist-cd2484418a.js",
   "controllers/search-address.js": "controllers/search-address-bd92ecb121.js",
