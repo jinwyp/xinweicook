@@ -8,6 +8,11 @@ exports.dishList = (req, res, next) ->
 
   query = {}
 
+  if req.query.cookingType
+    query.sideDishType = {cookingType: req.query.cookingType}
+
+
+
   if not req.query.sideDishType
     query.sideDishType = {$in: ["main", "drink"]}
   else
