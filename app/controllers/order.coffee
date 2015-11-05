@@ -419,8 +419,16 @@ exports.addNewOrder = (req, res, next) ->
 
     if resultAddress
       newOrder.address = resultAddress
-      newOrderReadyToCook.address = resultAddress
+      newOrder.warehouse = resultAddress.warehouse
+
       newOrderReadyToEat.address = resultAddress
+      newOrderReadyToEat.warehouse = resultAddress.warehouse
+
+      newOrderReadyToCook.address = resultAddress
+
+
+
+
 
 
     models.dish.find99({"_id" : {$in:dishIdList}})
