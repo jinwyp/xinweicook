@@ -682,13 +682,13 @@ exports.addNewAddress = (req, res, next) ->
   tempAddress.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
   tempAddress.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
   tempAddress.coordType = req.body.coordType if req.body.coordType
+  tempAddress.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
 
   if req.body.coordType is "gcj02"
     tempLocation = models.useraddress.gcj02ToBd09({lng:req.body.geoLongitude, lat:req.body.geoLatitude })
     tempAddress.geoLongitude = tempLocation.lng
     tempAddress.geoLatitude = tempLocation.lat
 
-  tempAddress.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
 
   tempAddress.country = req.body.country if req.body.country
   tempAddress.province = req.body.province if req.body.province
@@ -736,20 +736,8 @@ exports.addNewAddress = (req, res, next) ->
       throw(new Err resultBaidu.message, 400)
 
 
-    #漕河泾仓库使用直线距离
-    for placeBaidu, placeBaiduIndex in resultBaidu
-      if placeBaidu.name is "caohejing1"
-
-        origin =
-          lat : tempAddress.geoLatitude
-          lng : tempAddress.geoLongitude
-
-        destination =
-          lat : placeBaidu.lat
-          lng : placeBaidu.lng
-
-        placeBaidu.distance.value = models.useraddress.getDistanceFromTwoPoint(origin, destination)
-        placeBaidu.distance.text = (parseInt(models.useraddress.getDistanceFromTwoPoint(origin, destination) / 100) / 10) + "公里"
+    # 漕河泾仓库使用直线距离
+    resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, tempAddress)
 
 
     # 判断与哪个仓库最近, 最近的仓库发货
@@ -758,6 +746,7 @@ exports.addNewAddress = (req, res, next) ->
     if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
       tempAddress.distanceFrom = nearestWarehouse.warehouseDistance
       tempAddress.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+      tempAddress.isAvailableForEat = true
 
 
     if req.body.isDefault
@@ -798,35 +787,99 @@ exports.updateAddress = (req, res, next) ->
 
     models.useraddress.checkNotFound(result)
 
-    if result
-      result.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
-      result.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+    result.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
+    result.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+    result.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
 
-      result.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
+    if req.body.coordType or req.body.coordType is ""
+      result.coordType = req.body.coordType
 
-      result.country = req.body.country if req.body.country
-      result.province = req.body.province if req.body.province
-      result.city = req.body.city if req.body.city
-      result.district = req.body.district if req.body.district
-      result.street = req.body.street if req.body.street
-      result.street_number = req.body.street_number if req.body.street_number
-      result.address = req.body.address if req.body.address
 
-      result.contactPerson = req.body.contactPerson if req.body.contactPerson
-      result.mobile = req.body.mobile if req.body.mobile
+    if req.body.coordType is "gcj02"
+      tempLocation = models.useraddress.gcj02ToBd09({lng:req.body.geoLongitude, lat:req.body.geoLatitude })
+      result.geoLongitude = tempLocation.lng
+      result.geoLatitude = tempLocation.lat
 
-      result.isDefault = req.body.isDefault if req.body.isDefault
-      result.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+
+    result.country = req.body.country if req.body.country
+    result.province = req.body.province if req.body.province
+    result.city = req.body.city if req.body.city
+    result.district = req.body.district if req.body.district
+    result.street = req.body.street if req.body.street
+    result.street_number = req.body.street_number if req.body.street_number
+    result.address = req.body.address if req.body.address
+
+    result.contactPerson = req.body.contactPerson if req.body.contactPerson
+    result.mobile = req.body.mobile if req.body.mobile
+
+    result.isDefault = req.body.isDefault if req.body.isDefault
+    result.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+
+
+    tempWarehouse = {}
+
+    models.warehouse.find99({}).then (resultWarehouseList) ->
+
+      baiduMapQuery =
+        origins : []
+        destinations :
+          lat : result.geoLatitude
+          lng : result.geoLongitude
+
+
+      for warehouse, warehouseIndex in resultWarehouseList
+        tempWarehouse[warehouse._id] = warehouse.toObject()
+        tempWarehouse[warehouse.name] = warehouse.toObject()
+
+        originPlace =
+          lat : warehouse.locationGeoLatitude
+          lng : warehouse.locationGeoLongitude
+          name : warehouse.name
+          deliveryRange : warehouse.deliveryRange
+
+        baiduMapQuery.origins.push(originPlace)
+
+      baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
+
+    .then (resultBaidu) ->
+
+      if resultBaidu.status and resultBaidu.status isnt 0
+        throw(new Err resultBaidu.message, 400)
+
+
+      # 漕河泾仓库使用直线距离
+      resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, result)
+
+
+      # 判断与哪个仓库最近, 最近的仓库发货
+      nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+
+      if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+        result.distanceFrom = nearestWarehouse.warehouseDistance
+        result.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+        result.isAvailableForEat = true
+      else
+        result.isAvailableForEat = false
+
 
       if req.body.isDefault
         models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
 
           result.saveAsync()
-      else
-        result.saveAsync()
+        .then (result)->
+          res.json result[0]
+        .catch next
 
-  .then (result)->
-    res.json result[0]
+      else
+        result.saveAsync().then (result)->
+          res.json result[0]
+        .catch next
+
+    .catch next
+
+
   .catch next
 
 

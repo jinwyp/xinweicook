@@ -110,22 +110,7 @@ module.exports =
 
 
 
-    # 计算两点直线距离 https://github.com/googollee/eviltransform
-    getDistanceFromTwoPoint: (origin, destination) ->
-      earthR = 6371000;
-      x = Math.cos(origin.lat * Math.PI / 180) * Math.cos(destination.lat * Math.PI / 180) * Math.cos((origin.lng - destination.lng) * Math.PI / 180);
-      y = Math.sin(origin.lat * Math.PI / 180) * Math.sin(destination.lat * Math.PI / 180);
-      s = x + y;
 
-      if s > 1
-        s = 1;
-
-      if s < -1
-        s = -1;
-
-      alpha = Math.acos(s);
-
-      return alpha * earthR
 
 
   methods: {}
