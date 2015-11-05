@@ -148,38 +148,29 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     var postCart = null;
 
     function init() {
-        var warehouse = $localStorage.warehouse;
-
         // 如果已登录,则用合并服务器数据到本地
-        $q.all([
-            ((function () {
-                var localBag = $localStorage.localBag;
-                if (localBag) { //本地数据需要更新库存信息
-                    return Dishes.getList(warehouse).then(function (res) {
-                        var dishes = res.data;
-                        for (var i = 0; i < localBag.length; i++) {
-                            var postItem = localBag[i];
-                            updateSubDishStock(dishes, postItem.dish);
-                            if (postItem.subDish) {
-                                postItem.subDish.forEach(function (el) {
-                                    updateSubDishStock(dishes, el.dish)
-                                })
-                            }
-                        }
-                        return localBag
-                    });
-                } else return $q.resolve($localStorage.localBag = [])
-            })()),
+        User.getUserInfo().then(function (res) { // 服务器数据
+            return res.data.shoppingCart
+        }).catch(function () {
+            return []
+        }).then(function (serverBag) {
+            var localBag = $localStorage.localBag;
+            if (localBag) { //本地数据需要更新库存信息
+                var dishes = $localStorage.dishes || [];
+                for (var i = 0; i < localBag.length; i++) {
+                    var postItem = localBag[i];
+                    updateSubDishStock(dishes, postItem.dish);
+                    if (postItem.subDish) {
+                        postItem.subDish.forEach(function (el) {
+                            updateSubDishStock(dishes, el.dish)
+                        })
+                    }
+                }
+            } else localBag = $localStorage.localBag = [];
 
-            User.getUserInfo().then(function (res) { // 服务器数据
-                return res.data.shoppingCart
-            }).catch(function () {
-                return []
-            })
-        ]).then(function (carts) {
-            postCart = Utils.mergeCarts(carts[0], carts[1]);
+            postCart = Utils.mergeCarts(localBag, serverBag);
             initDishList(postCart);
-        });
+        })
     }
 
     function updateSubDishStock(dishes, dish) {

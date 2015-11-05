@@ -119,6 +119,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         $q.all([
             Dishes.getList(warehouse).then(function (res) {
                 $scope.dishes = res.data;
+                $localStorage.dihes = res.data;
                 filterDishByWarehouse({
                     dishReady: true
                 });

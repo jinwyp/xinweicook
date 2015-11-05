@@ -9,7 +9,7 @@ exports.dishList = (req, res, next) ->
   query = {}
 
   if req.query.cookingType
-    query.sideDishType = {cookingType: req.query.cookingType}
+    query.cookingType = req.query.cookingType
 
 
 

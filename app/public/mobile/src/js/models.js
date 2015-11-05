@@ -1,9 +1,13 @@
 angular.module('xw.models').factory('Dishes', function ($http) {
 
     return {
-        getList: function (warehouse) {
+        getList: function (warehouse, cookingType) {
             warehouse = warehouse || '';
-            return $http.get('/api/dishes?showForWarehouse=' + warehouse);
+            cookingType = cookingType || '';
+            return $http.get(
+                '/api/dishes?showForWarehouse=' + warehouse +
+                '&cookingType=' + cookingType
+            );
         },
         like: function (id) {
             return $http.put('/api/dishes/' + id + '/like');
