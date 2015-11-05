@@ -6,8 +6,11 @@ module.exports =
 
     geoLongitude: Number # 经度
     geoLatitude: Number # 纬度
+    coordType : String  # 坐标类型，可选参数，默认为bd09ll。允许的值为：bd09ll（百度经纬度坐标）、bd09mc（百度摩卡托坐标）、gcj02（国测局加密坐标）、wgs84（gps设备获取的坐标）。
 
-    distanceFrom : Number   # 距离新味办公室发货 单位米 3公里还是4公里 快递不一样
+    distanceFrom : Number   # 距离新味办公室发货 单位米
+    warehouse :type: Schema.ObjectId, ref: "warehouse"
+
 
     country : String
     province: String
@@ -28,6 +31,10 @@ module.exports =
 
   statics:
 
+    constantCoordType : () ->
+      type = ["bd09ll", "gcj02"]
+
+
     checkNotFound : (address) ->
       if not address
         throw new Err "Address not found !", 400, Err.code.user.addressNotFound
@@ -42,6 +49,11 @@ module.exports =
         return throw new Err "Field validation error,  geoLatitude must be isFloat", 400, Err.code.user.addressLatitudeWrong
       unless libs.validator.isFloat address.geoLongitude
         return throw new Err "Field validation error,  geoLongitude must be isFloat", 400, Err.code.user.addressLongitudeWrong
+
+      if address.coordType
+        coordType = ["bd09ll", "gcj02"]
+        if coordType.indexOf(address.coordType) is -1
+          return throw new Err "Field validation error,  coordType value wrong", 400, Err.code.user.addressCoordTypeWrong
 
       unless libs.validator.isLength address.province, 2, 200
         return throw new Err "Field validation error,  province must be 2-200", 400, Err.code.user.addressProvinceWrong
@@ -63,6 +75,58 @@ module.exports =
 
       unless libs.validator.isFloat address.sortOrder
         return throw new Err "Field validation error,  sortOrder must be isFloat", 400, Err.code.user.addressSortOrderWrong
+
+
+
+
+    # 坐标转化 https://github.com/JackZhouCn/JZLocationConverter/
+
+    gcj02ToBd09: (location) ->
+      y = location.lat;
+      x = location.lng;
+
+      z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Math.PI)
+      theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Math.PI)
+
+      result =
+        lng: z * Math.cos(theta) + 0.0065
+        lat: z * Math.sin(theta) + 0.006
+      console.log(result)
+      return result
+
+
+
+    bd09ToGcj02: (location) ->
+      y = location.lat - 0.006;
+      x = location.lng - 0.0065;
+      z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * Math.PI);
+      theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Math.PI);
+
+      result =
+        lng: z * Math.cos(theta)
+        lat: z * Math.sin(theta)
+
+      return result
+
+
+
+    # 计算两点直线距离 https://github.com/googollee/eviltransform
+    getDistanceFromTwoPoint: (origin, destination) ->
+      earthR = 6371000;
+      x = Math.cos(origin.lat * Math.PI / 180) * Math.cos(destination.lat * Math.PI / 180) * Math.cos((origin.lng - destination.lng) * Math.PI / 180);
+      y = Math.sin(origin.lat * Math.PI / 180) * Math.sin(destination.lat * Math.PI / 180);
+      s = x + y;
+
+      if s > 1
+        s = 1;
+
+      if s < -1
+        s = -1;
+
+      alpha = Math.acos(s);
+
+      return alpha * earthR
+
 
   methods: {}
   rest:{}

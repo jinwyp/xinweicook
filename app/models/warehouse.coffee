@@ -22,6 +22,25 @@ module.exports =
       type =
         userOrder : "userOrder"
 
+    find99 : (options) ->
+      @find(options).sort("-sortId").sort("-createdAt").execAsync()
+
+
+    getNearestWarehouse : (distanceArray, warehouseListObj) ->
+      nearest =
+        warehouseName : ''
+        warehouseDistance : 0
+
+      for placeBaidu, placeBaiduIndex in distanceArray
+        console.log("送货: ", placeBaidu)
+
+        if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange
+
+          if nearest.warehouseDistance is 0 or nearest.warehouseDistance > placeBaidu.distance.value
+            nearest.warehouseDistance = placeBaidu.distance.value
+            nearest.warehouseName = placeBaidu.name
+
+      nearest
 
   methods: {}
   rest:{}

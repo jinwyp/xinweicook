@@ -14,17 +14,18 @@ module.exports = {
 
         addressLatitudeWrong  : 1220,
         addressLongitudeWrong : 1221,
+        addressCoordTypeWrong : 1222,
 
-        addressProvinceWrong     : 1222,
-        addressCityWrong         : 1223,
-        addressDistrictWrong     : 1224,
-        addressStreetWrong       : 1225,
-        addressStreetNumberWrong : 1226,
-        addressAddressWrong      : 1227,
+        addressProvinceWrong     : 1225,
+        addressCityWrong         : 1226,
+        addressDistrictWrong     : 1227,
+        addressStreetWrong       : 1228,
+        addressStreetNumberWrong : 1229,
+        addressAddressWrong      : 1230,
 
-        addressContactPersonWrong : 1228,
-        addressMobileWrong        : 1229,
-        addressSortOrderWrong     : 1230
+        addressContactPersonWrong : 1235,
+        addressMobileWrong        : 1236,
+        addressSortOrderWrong     : 1237
 
     },
     order: {

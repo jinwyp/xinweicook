@@ -681,6 +681,12 @@ exports.addNewAddress = (req, res, next) ->
   tempAddress.user = req.u._id
   tempAddress.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
   tempAddress.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+  tempAddress.coordType = req.body.coordType if req.body.coordType
+
+  if req.body.coordType is "gcj02"
+    tempLocation = models.useraddress.gcj02ToBd09({lng:req.body.geoLongitude, lat:req.body.geoLatitude })
+    tempAddress.geoLongitude = tempLocation.lng
+    tempAddress.geoLatitude = tempLocation.lat
 
   tempAddress.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
 
@@ -699,9 +705,10 @@ exports.addNewAddress = (req, res, next) ->
   tempAddress.sortOrder = req.body.sortOrder if req.body.sortOrder
 
 
-  models.warehouse.findAsync({}).then (resultWarehouseList) ->
+  tempWarehouse = {}
 
-    tempWarehouse = {}
+  models.warehouse.find99({}).then (resultWarehouseList) ->
+
     baiduMapQuery =
       origins : []
       destinations :
@@ -716,46 +723,48 @@ exports.addNewAddress = (req, res, next) ->
       originPlace =
         lat : warehouse.locationGeoLatitude
         lng : warehouse.locationGeoLongitude
-
+        name : warehouse.name
+        deliveryRange : warehouse.deliveryRange
 
       baiduMapQuery.origins.push(originPlace)
 
-      console.log("仓库" , warehouse)
-
     baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
-  .then (resultBaidu) ->
-    console.log (resultBaidu)
 
-    if resultBaidu.status isnt 0
+  .then (resultBaidu) ->
+
+    if resultBaidu.status and resultBaidu.status isnt 0
       throw(new Err resultBaidu.message, 400)
 
-    for placeBaidu, placeBaiduIndex in resultBaidu.result.elements
-      console.log("送货: ", placeBaidu)
 
-#
-#    if req.body.warehouseName is "xinweioffice"
-#      result = tempWarehouse[req.body.warehouseName]
-#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
-#    else if req.body._id is "56332187594b09af6e6c7dd2"
-#      result = tempWarehouse[req.body._id]
-#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
-#
-#
-#    if req.body.warehouseName is "caohejing1"
-#      result = tempWarehouse[req.body.warehouseName]
-#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
-#    else if req.body._id is "56332196594b09af6e6c7dd7"
-#      result = tempWarehouse[req.body._id]
-#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
-#
+    #漕河泾仓库使用直线距离
+    for placeBaidu, placeBaiduIndex in resultBaidu
+      if placeBaidu.name is "caohejing1"
 
+        origin =
+          lat : tempAddress.geoLatitude
+          lng : tempAddress.geoLongitude
+
+        destination =
+          lat : placeBaidu.lat
+          lng : placeBaidu.lng
+
+        placeBaidu.distance.value = models.useraddress.getDistanceFromTwoPoint(origin, destination)
+        placeBaidu.distance.text = (parseInt(models.useraddress.getDistanceFromTwoPoint(origin, destination) / 100) / 10) + "公里"
+
+
+    # 判断与哪个仓库最近, 最近的仓库发货
+    nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+
+    if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+      tempAddress.distanceFrom = nearestWarehouse.warehouseDistance
+      tempAddress.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
 
 
     if req.body.isDefault
 
       models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
 
-  # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
+        # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
 
         models.useraddress.createAsync(tempAddress)
 
