@@ -179,7 +179,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             setTimeout(function () {
                 if (payment == 'account balance') {
                     alert('支付成功');
-                    location.href = '/mobile/invite';
+                    location.replace('/mobile/invite')
                 }
 
                 if (payment == 'weixinpay')
