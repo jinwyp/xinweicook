@@ -93,11 +93,10 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
             if (typeof place.lng === 'undefined' || !place.lng || typeof place.lat === 'undefined' || !place.lat){
                 throw new Error('需要填写起点名称或经纬度');
             }else{
-
                 if (originParam === ''){
                     originParam = encodeURIComponent(originParam + place.lat + ',' + place.lng)
                 }else{
-                    originParam = originParam + '|' + encodeURIComponent(originParam + place.lat + ',' + place.lng)
+                    originParam = originParam + '|' + encodeURIComponent(place.lat + ',' + place.lng)
                 }
             }
         })
@@ -141,7 +140,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
             logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
             callback(err)
         }else{
-            logger.error ('-- BaiduMap Response Body: ', body);
+            //logger.error ('-- BaiduMap Response Body: ', body);
 
             var result = {};
             try {
@@ -152,8 +151,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
                 callback(err)
             }
 
-            if (typeof result.status !== 0){
-
+            if (result.status === 0){
                 //0	成功
                 //1	服务器内部错误
                 //2	请求参数非法
@@ -165,8 +163,17 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
                 //101	服务禁用
                 //102	不通过白名单或者安全码不对
 
-                //logger.error("BaiduMap Success: " + body );
-                callback(null, result)
+                var distanceArray = [];
+
+                for (var i = 0; i < query.origins.length; i++) {
+
+                    query.origins[i].distance = result.result.elements[i].distance;
+                    query.origins[i].duration = result.result.elements[i].duration;
+
+                    distanceArray.push(query.origins[i])
+                }
+
+                callback(null, distanceArray)
             }else{
                 logger.error("BaiduMap Failed, get err : " + body );
                 callback(null, result)

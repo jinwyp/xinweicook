@@ -10,6 +10,7 @@ Group `member`
 |:-------           |:-------|:------- |
 |  geoLatitude      | Number | 纬度     |
 |  geoLongitude     | Number | 经度     |
+|  coordType        | String | 坐标类型，可选参数，默认不填为bd09ll。允许的值为：bd09ll（百度经纬度坐标）、gcj02（国测局加密坐标）、wgs84（gps设备获取的坐标）。     |
 |  country          | String | 国家     |
 |  province         | String | 省       |
 |  city             | String | 市       |

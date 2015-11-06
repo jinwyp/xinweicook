@@ -22,6 +22,79 @@ module.exports =
       type =
         userOrder : "userOrder"
 
+    find99 : (options) ->
+      @find(options).sort("-sortId").sort("-createdAt").execAsync()
+
+
+    getNearestWarehouse : (distanceArray, warehouseListObj) ->
+      nearest =
+        warehouseName : ''
+        warehouseDistance : 0
+
+      for placeBaidu, placeBaiduIndex in distanceArray
+        console.log("送货: ", placeBaidu)
+
+        if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange
+
+          if nearest.warehouseDistance is 0 or nearest.warehouseDistance > placeBaidu.distance.value
+            nearest.warehouseDistance = placeBaidu.distance.value
+            nearest.warehouseName = placeBaidu.name
+
+      nearest
+
+
+    getNearestWarehouse : (distanceArray, warehouseListObj) ->
+      nearest =
+        warehouseName : ''
+        warehouseDistance : 0
+
+      for placeBaidu, placeBaiduIndex in distanceArray
+        console.log("送货: ", placeBaidu)
+
+        if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange
+
+          if nearest.warehouseDistance is 0 or nearest.warehouseDistance > placeBaidu.distance.value
+            nearest.warehouseDistance = placeBaidu.distance.value
+            nearest.warehouseName = placeBaidu.name
+
+      nearest
+
+
+    correctDistanceForCaohejing1Warehouse : (resultBaidu, userAddress) ->
+      #漕河泾仓库使用直线距离
+      for placeBaidu, placeBaiduIndex in resultBaidu
+        if placeBaidu.name is "caohejing1"
+
+          origin =
+            lat : placeBaidu.lat
+            lng : placeBaidu.lng
+
+          destination =
+            lat : userAddress.geoLatitude
+            lng : userAddress.geoLongitude
+
+          placeBaidu.distance.value = models.warehouse.getDistanceFromTwoPoint(origin, destination)
+          placeBaidu.distance.text = (parseInt(models.warehouse.getDistanceFromTwoPoint(origin, destination) / 100) / 10) + "公里"
+
+      resultBaidu
+
+
+    # 计算两点直线距离 https://github.com/googollee/eviltransform
+    getDistanceFromTwoPoint: (origin, destination) ->
+      earthR = 6371000;
+      x = Math.cos(origin.lat * Math.PI / 180) * Math.cos(destination.lat * Math.PI / 180) * Math.cos((origin.lng - destination.lng) * Math.PI / 180);
+      y = Math.sin(origin.lat * Math.PI / 180) * Math.sin(destination.lat * Math.PI / 180);
+      s = x + y;
+
+      if s > 1
+        s = 1;
+
+      if s < -1
+        s = -1;
+
+      alpha = Math.acos(s);
+
+      return alpha * earthR
 
   methods: {}
   rest:{}
