@@ -62,9 +62,9 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                             tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
                         });
                     }else{
-                        console.log('------+++++++',dish.dish);
-                        console.log('------+++++++',dish);
-                        console.log('------+++++++',currentCell);
+                        //console.log('------+++++++',dish.dish);
+                        //console.log('------+++++++',dish);
+                        //console.log('------+++++++',currentCell);
                     }
 
                 });
@@ -162,7 +162,6 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
 
             var packageType = '';
-            console.log(arrayData[row].packageType);
             if (arrayData[row].packageType === 'foambox'){
                 packageType = '泡沫箱';
             }
@@ -305,7 +304,6 @@ exports.orderPrintShippingList = function(req, res, next) {
 
     var orderIdList = [];
     var pageType = req.query.pageType || 'a4';
-    //console.log(req.query.idList);
 
     if (req.query.idList){
         orderIdList = JSON.parse(req.query.idList)
@@ -618,7 +616,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
         if (resultOrder.length > 0){
             totalAllPrice = resultOrder.reduce(function(previous, order) {
-                console.log(previous, order.saleTotalPrice);
+                //console.log(previous, order.saleTotalPrice);
                 return previous + order.saleTotalPrice;
             }, 0);
 
@@ -1108,6 +1106,17 @@ exports.dishDailySales = function(req, res, next) {
 
     var query = {};
 
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
+
+
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
     }
@@ -1236,6 +1245,16 @@ exports.dishDailySales = function(req, res, next) {
 exports.dishDailySalesChart = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
+
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
@@ -1411,6 +1430,15 @@ exports.dishDailySalesChart = function(req, res, next) {
 exports.dishStatisticByStock = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
