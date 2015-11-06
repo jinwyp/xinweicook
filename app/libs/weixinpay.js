@@ -249,6 +249,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
                 callback(null, result)
             }else{
                 logger.error("OpenID Failed, get errcode : " + body );
+                // 错误代码 http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
                 callback(null, result)
             }
         }
