@@ -433,6 +433,12 @@ exports.orderStatisticByAddress = function(req, res, next) {
     var pipeline = [];
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = req.query.warehouse
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -527,6 +533,12 @@ exports.orderStatisticByAddress = function(req, res, next) {
 exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = req.query.warehouse
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -627,6 +639,12 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 exports.orderDailySales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = req.query.warehouse
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -837,6 +855,12 @@ exports.orderDailySales = function(req, res, next) {
 exports.orderHourSales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = req.query.warehouse
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -1034,6 +1058,10 @@ exports.orderHourSales = function(req, res, next) {
         res.status(200).json(resultOrder)
     }).catch(next)
 };
+
+
+
+
 
 
 
