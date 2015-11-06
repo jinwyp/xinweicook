@@ -433,6 +433,12 @@ exports.orderStatisticByAddress = function(req, res, next) {
     var pipeline = [];
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -506,13 +512,18 @@ exports.orderStatisticByAddress = function(req, res, next) {
             totalAllPrice = resultOrder.reduce(function(previous, order) {
                 return previous + order.saleTotalPrice;
             }, 0);
+
+
+
+            resultOrder[0].totalAllPrice = totalAllPrice;
+
+            resultOrder.forEach(function(order){
+                order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+            });
+
         }
 
-        resultOrder[0].totalAllPrice = totalAllPrice;
 
-        resultOrder.forEach(function(order){
-            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
-        });
 
         res.status(200).json(resultOrder)
     }).catch(next)
@@ -527,6 +538,12 @@ exports.orderStatisticByAddress = function(req, res, next) {
 exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -597,18 +614,21 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
         var totalAllPrice = 0;
 
+        console.log(resultOrder)
+
         if (resultOrder.length > 0){
             totalAllPrice = resultOrder.reduce(function(previous, order) {
                 console.log(previous, order.saleTotalPrice);
                 return previous + order.saleTotalPrice;
             }, 0);
+
+            resultOrder[0].totalAllPrice = totalAllPrice;
+
+            resultOrder.forEach(function(order){
+                order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+            });
         }
 
-        resultOrder[0].totalAllPrice = totalAllPrice;
-
-        resultOrder.forEach(function(order){
-            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
-        });
 
         res.status(200).json(resultOrder)
     }).catch(next)
@@ -627,6 +647,12 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 exports.orderDailySales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -837,6 +863,12 @@ exports.orderDailySales = function(req, res, next) {
 exports.orderHourSales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
