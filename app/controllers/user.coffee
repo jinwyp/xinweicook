@@ -393,11 +393,12 @@ exports.getWeixinUserOpenId = (req, res, next) ->
             resultUser.saveAsync().then (resultUser2) ->
               return res.redirect("/mobile/" + redirectUrl)
             .catch (err)->
-              logger.error("Weixin OpenId, OpenID Failed Save User error:", JSON.stringify(err))
+              logger.error("User OpenID Failed Save User error:", JSON.stringify(err))
 
           else
             # 给开发发送Open短信
             if not conf.debug
+              logger.error("User OpenID weixin error:", JSON.stringify(result))
               text = models.sms.constantTemplateSystemErrorNotify("OpenID错误")
               models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
               models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话

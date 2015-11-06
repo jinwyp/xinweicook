@@ -43,6 +43,9 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
   unless libs.validator.isLength orderId, 24, 24
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(orderId) )
 
+  return res.redirect("/mobile/wxpay/" + orderId)
+
+###
   models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
     if resultOrder
 
@@ -65,7 +68,7 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
-
+###
 
 
 
@@ -121,6 +124,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
               else
                 # 给开发发送Open短信
                 if not conf.debug
+                  logger.error("Order OpenID weixin error:", JSON.stringify(result))
                   text = models.sms.constantTemplateSystemErrorNotify("OpenID错误")
                   models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
                   models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
