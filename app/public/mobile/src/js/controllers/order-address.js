@@ -177,7 +177,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
         setTimeout(function () {
             location.href = 'orderpay';
-        }, 200);
+        }, 110);
     };
 
     $scope.confirmStreet = function (street) {

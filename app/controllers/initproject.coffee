@@ -1,6 +1,7 @@
 # 初始化网站数据
 initData = require "../../test/initdata.js"
 initOldData = require "../../test/oldDish.js"
+initDish = require "../../test/testNewDish"
 
 
 exports.createAdmin = (req, res, next) ->
@@ -891,7 +892,7 @@ exports.initNewDish = (req, res, next) ->
   .then (resultCook) ->
     models.dish.createAsync preferencesAndTopping
   .then (result1Dishes) ->
-    models.dish.createAsync sampleDishes
+    models.dish.createAsync initDish
   .then (result2Dishes) ->
     res.json result2Dishes
   .catch next
