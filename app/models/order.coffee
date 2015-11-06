@@ -520,14 +520,15 @@ module.exports =
       for i in [1..20]
         timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
-        # 处理如果计算出来的时间超过14点  将不在push进去
-        if timeStarterTemp.isBefore(today14PM)
+        # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
+        console.log(timeNow.day())
+        if timeStarterTemp.isBefore(today14PM) and timeNow.day() > 0 and timeNow.day() < 6
           segmentHour =
             hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
           resultTime.push(segmentHour)
 
-      # 处理第二天的时间点 不包括星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
-      if timeNow.day() > 0 or timeNow.hour() >= 20
+      # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
+      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 20 and timeNow.day() is 0)
         for i in [1..6]
           timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
