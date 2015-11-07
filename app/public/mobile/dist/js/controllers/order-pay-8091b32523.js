@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $scope, $localStorage, Orders, User, Balance, Weixin, $filter, Utils) {
+angular.module('xw.controllers').controller('orderPayCtrl', ["Alert", "$scope", "$localStorage", "Orders", "User", "Balance", "Weixin", "$filter", "Utils", function (Alert, $scope, $localStorage, Orders, User, Balance, Weixin, $filter, Utils) {
     // 此类变量在被重新赋予新值较为麻烦,需要cart = data.cart = ..
     var cart, address, time, coupon;
     var data = $scope.data = {
@@ -236,4 +236,4 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             })
         }
     }
-});
+}]);

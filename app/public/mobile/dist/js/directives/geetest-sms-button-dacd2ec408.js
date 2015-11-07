@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('geetestSmsButton', function (Debug, User, $interval, $window, Alert, $http) {
+angular.module('xw.directives').directive('geetestSmsButton', ["Debug", "User", "$interval", "$window", "Alert", "$http", function (Debug, User, $interval, $window, Alert, $http) {
     return {
         scope: {
             valid: '@',
@@ -105,4 +105,4 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
             }
         }
     }
-})
+}])

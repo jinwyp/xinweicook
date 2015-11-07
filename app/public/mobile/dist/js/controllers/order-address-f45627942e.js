@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('orderAddressCtrl', function (
+angular.module('xw.controllers').controller('orderAddressCtrl', ["Weixin", "$scope", "User", "Map", "Address", "$location", "$localStorage", function (
     Weixin, $scope, User, Map, Address, $location, $localStorage) {
 
     var css = $scope.css = {
@@ -373,4 +373,4 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     }
 
     init();
-});
+}]);

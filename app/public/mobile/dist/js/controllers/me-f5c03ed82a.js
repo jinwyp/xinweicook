@@ -20,3 +20,4 @@ function meCtrl($scope, User, $localStorage, Debug) {
 
     init();
 }
+meCtrl.$inject = ["$scope", "User", "$localStorage", "Debug"];

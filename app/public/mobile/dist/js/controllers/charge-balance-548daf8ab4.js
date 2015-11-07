@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('chargeBalanceCtrl', function ($scope, Balance, Debug, Alert) {
+angular.module('xw.controllers').controller('chargeBalanceCtrl', ["$scope", "Balance", "Debug", "Alert", function ($scope, Balance, Debug, Alert) {
     $scope.charge = function (code) {
         Balance.chargeByCode(code).then(function () {
             alert('充值成功')
@@ -8,4 +8,4 @@ angular.module('xw.controllers').controller('chargeBalanceCtrl', function ($scop
             Alert.show(res.data.validationStatus, '充值失败,请稍后重试');
         })
     }
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope, Alipay, Debug, Orders, $localStorage) {
+angular.module('xw.controllers').controller('alipayNotifyCtrl', ["$scope", "Alipay", "Debug", "Orders", "$localStorage", function ($scope, Alipay, Debug, Orders, $localStorage) {
 
     init();
 
@@ -39,4 +39,4 @@ angular.module('xw.controllers').controller('alipayNotifyCtrl', function ($scope
             }
         }
     }
-});
+}]);

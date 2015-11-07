@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debug, Weixin, User, Utils) {
+angular.module('xw.controllers').controller('inviteCtrl', ["$scope", "Debug", "Weixin", "User", "Utils", function ($scope, Debug, Weixin, User, Utils) {
 
     $scope.css = {
         showTip: false
@@ -136,4 +136,4 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     }
 
     init();
-})
+}])

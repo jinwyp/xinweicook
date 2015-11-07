@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('couponsCtrl', function ($scope, User, Debug, ScopeDecorator) {
+angular.module('xw.controllers').controller('couponsCtrl', ["$scope", "User", "Debug", "ScopeDecorator", function ($scope, User, Debug, ScopeDecorator) {
 
     ScopeDecorator.common($scope);
 
@@ -36,4 +36,4 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
     }
 
     init();
-});
+}]);

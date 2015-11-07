@@ -128,3 +128,8 @@ app/public/admin/src/excel/output1.xlsx
 app/public/admin/src/excel/output2.xlsx
 app/public/admin/src/excel/outputcoupon.xlsx
 app/views/mobile/app-old.html
+
+### build tmp dir ###
+tmp
+tmp1
+tmp2

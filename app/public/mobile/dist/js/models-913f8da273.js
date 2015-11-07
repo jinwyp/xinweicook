@@ -1,4 +1,4 @@
-angular.module('xw.models').factory('Dishes', function ($http) {
+angular.module('xw.models').factory('Dishes', ["$http", function ($http) {
 
     return {
         getList: function (warehouse, cookingType) {
@@ -16,9 +16,9 @@ angular.module('xw.models').factory('Dishes', function ($http) {
             return $http.get('/api/dishes/' + id);
         }
     }
-});
+}]);
 
-angular.module('xw.models').factory('Orders', function ($http) {
+angular.module('xw.models').factory('Orders', ["$http", function ($http) {
     return {
         postOrder: function (data) {
             return $http.post('/api/orders', data);
@@ -42,9 +42,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
             return $http.post('/api/orders/payment/weixinpay/unifiedorder', data);
         }
     }
-});
+}]);
 
-angular.module('xw.models').factory('User', function ($http, $localStorage) {
+angular.module('xw.models').factory('User', ["$http", "$localStorage", function ($http, $localStorage) {
     // 这些变量作为更新购物车用
     // 最近一次添加至cart的时间
     var cartDate = Date.now();
@@ -130,9 +130,9 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         }
 
     }
-});
+}]);
 
-angular.module('xw.models').factory('Coupon', function ($http) {
+angular.module('xw.models').factory('Coupon', ["$http", function ($http) {
     return {
         getCouponInfo: function (code) {
             return $http.get('/api/coupons/code/' + code);
@@ -141,9 +141,9 @@ angular.module('xw.models').factory('Coupon', function ($http) {
             return $http.get('/api/user/coupon/code/' + code);
         }
     }
-});
+}]);
 
-angular.module('xw.models').factory('Alipay', function ($http) {
+angular.module('xw.models').factory('Alipay', ["$http", function ($http) {
     return {
         notify: function (id, isCharge) {
             var url = isCharge ? '/api/orders/payment/alipay/notify/account'
@@ -151,9 +151,9 @@ angular.module('xw.models').factory('Alipay', function ($http) {
             return $http.post(url, {out_trade_no: id})
         }
     }
-});
+}]);
 
-angular.module('xw.models').factory('Balance', function ($http, Debug) {
+angular.module('xw.models').factory('Balance', ["$http", "Debug", function ($http, Debug) {
     return {
         balance: function () {
             return $http.get('/api/user/account')
@@ -169,4 +169,4 @@ angular.module('xw.models').factory('Balance', function ($http, Debug) {
                 .catch(Debug.promiseErrFn('获取余额记录失败'))
         }
     }
-})
+}])

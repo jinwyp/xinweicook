@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('addressListCtrl', function ($scope, Debug, User, $localStorage, ScopeDecorator) {
+angular.module('xw.controllers').controller('addressListCtrl', ["$scope", "Debug", "User", "$localStorage", "ScopeDecorator", function ($scope, Debug, User, $localStorage, ScopeDecorator) {
     ScopeDecorator.common($scope);
 
     $scope.editAddress = function (addr) {
@@ -30,4 +30,4 @@ angular.module('xw.controllers').controller('addressListCtrl', function ($scope,
     }
 
     init();
-})
+}])

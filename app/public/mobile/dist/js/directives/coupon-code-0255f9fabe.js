@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('couponCode', function (Coupon, $q) {
+angular.module('xw.directives').directive('couponCode', ["Coupon", "$q", function (Coupon, $q) {
     return {
         restrict: 'A',
         scope: {couponPrice: '=couponCode'},
@@ -29,4 +29,4 @@ angular.module('xw.directives').directive('couponCode', function (Coupon, $q) {
             }
         }
     }
-});
+}]);

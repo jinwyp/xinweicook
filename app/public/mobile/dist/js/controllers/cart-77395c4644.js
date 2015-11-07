@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
+angular.module('xw.controllers').controller('cartCtrl', ["$scope", "User", "$localStorage", "$timeout", "$filter", "Dishes", "Utils", "$q", function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
     // clear all `cart` in $localStorage
     try {
@@ -205,4 +205,4 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     }
 
     init();
-});
+}]);

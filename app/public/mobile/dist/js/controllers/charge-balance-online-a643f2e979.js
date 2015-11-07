@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('chargeBalanceOnlineCtrl', function ($localStorage, $scope, Debug, Alert, Balance, User) {
+angular.module('xw.controllers').controller('chargeBalanceOnlineCtrl', ["$localStorage", "$scope", "Debug", "Alert", "Balance", "User", function ($localStorage, $scope, Debug, Alert, Balance, User) {
 
     var isWeiXin = /MicroMessenger/i.test(navigator.userAgent);
     var openid = '';
@@ -75,4 +75,4 @@ angular.module('xw.controllers').controller('chargeBalanceOnlineCtrl', function 
 
     init();
 
-});
+}]);

@@ -165,3 +165,4 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
     }
     init();
 }
+wxpayCtrl.$inject = ["$scope", "Orders", "Debug", "$localStorage", "Balance"];

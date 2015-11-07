@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('cookCtrl', function ($scope, Dishes, Debug, User, $localStorage) {
+angular.module('xw.controllers').controller('cookCtrl', ["$scope", "Dishes", "Debug", "User", "$localStorage", function ($scope, Dishes, Debug, User, $localStorage) {
     $scope.cart = [];
     $scope.user = null;
 
@@ -40,4 +40,4 @@ angular.module('xw.controllers').controller('cookCtrl', function ($scope, Dishes
     }
 
     init();
-});
+}]);

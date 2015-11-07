@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('favCtrl', function ($scope, User, ScopeDecorator, $filter) {
+angular.module('xw.controllers').controller('favCtrl', ["$scope", "User", "ScopeDecorator", "$filter", function ($scope, User, ScopeDecorator, $filter) {
 
     ScopeDecorator.common($scope);
 
@@ -29,4 +29,4 @@ angular.module('xw.controllers').controller('favCtrl', function ($scope, User, S
     }
 
     init();
-})
+}])

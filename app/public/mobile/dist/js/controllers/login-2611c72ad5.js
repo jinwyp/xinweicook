@@ -133,3 +133,4 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
     init();
 }
+loginCtrl.$inject = ["$scope", "User", "$location", "Alert", "Weixin", "$localStorage"];

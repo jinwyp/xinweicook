@@ -155,3 +155,4 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
 
     init();
 }
+eatCtrl.$inject = ["$scope", "Dishes", "$localStorage", "Debug", "User", "$timeout", "Map", "ScopeDecorator", "$location", "$q", "Coupon", "Weixin"];

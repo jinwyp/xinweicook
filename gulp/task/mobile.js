@@ -6,7 +6,13 @@ var useref = require('gulp-useref');
 var replace = require('gulp-replace');
 var concat = require('gulp-concat');
 var minifyHtml = require("gulp-minify-html");
+var minifyCss = require("gulp-minify-css");
+var uglify = require("gulp-uglify");
 var ngTemplateCache = require('gulp-angular-templatecache');
+var ngAnnotate = require('gulp-ng-annotate');
+var gulpif = require("gulp-if");
+var fs = require("fs");
+var usemin = require('gulp-usemin');
 
 
 
@@ -17,7 +23,28 @@ var paths = {
     sourceMobile : {
         root : 'mobile/src',
         js : 'mobile/src/js/**/*.js',
-        html : 'mobile/src/html/**'
+        css: 'mobile/src/css/*.css',
+        html : 'mobile/src/html/*.html'
+    },
+
+    tmp1Mobile : {
+        root: 'mobile/tmp1',
+        jsDir : 'mobile/tmp1/js',
+        jsFiles: 'mobile/tmp1/js/**/*.js',
+        cssDir: 'mobile/tmp1/css',
+        cssFiles: 'mobile/tmp1/css/*.css',
+        htmlDir: 'mobile/tmp1/html',
+        htmlFiles: 'mobile/tmp1/html/**/*.html'
+    },
+
+    tmp2Mobile : {
+        root: 'mobile/tmp2',
+        jsDir : 'mobile/tmp2/js',
+        jsFiles: 'mobile/tmp2/js/**/*.js',
+        cssDir: 'mobile/tmp2/css',
+        cssFiles: 'mobile/tmp2/css/*.css',
+        htmlDir: 'mobile/tmp2/html',
+        htmlFiles: 'mobile/tmp2/html/**/*.html'
     },
 
     distMobile : {
@@ -47,8 +74,62 @@ gulp.task('errcode', function () {
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
 
+gulp.task('test-replace-eat', function () {
+    return gulp.src('app/public/mobile/src/html/eat-list.html')
+        .pipe(replace('<!-- GULP-REPLACE-CSS -->',
+            fs.readFileSync('app/public/mobile/src/html/includes/css', 'utf8')))
+        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.htmlDir))
+});
 
 
+gulp.task('test-useref-eat', ['test-replace-eat'], function () {
+    var assets = useref.assets({
+        transformPath: function (filePath) {
+            return filePath.replace('/mobile/src', '..')
+        }
+    });
+
+    return gulp.src(paths.baseStatic + paths.tmp1Mobile.htmlFiles)
+        .pipe(assets)
+        .pipe(assets.restore())
+        .pipe(useref())
+        .pipe(gulp.dest(paths.baseStatic + paths.tmp2Mobile.htmlDir))
+});
+
+gulp.task("ng-annotate", function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
+        .pipe(ngAnnotate())
+        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.jsDir));
+});
+
+gulp.task("copy-mobile-css", function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.css)
+        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.cssDir))
+});
+
+gulp.task("usemin-test", function () {
+    var replaceBlock = /(<!-- build:(?:css|js|inlinejs).*?-->)([\w\W]*?)<!-- endbuild -->/g;
+    var includes = paths.baseStatic + paths.sourceMobile.root + '/html/includes/';
+
+    return gulp.src(paths.baseStatic + paths.sourceMobile.html)
+        .pipe(replace("<%- include('includes/css') %>",
+            fs.readFileSync(includes + 'css', 'utf8')))
+        .pipe(replace("<%- include('includes/js') %>",
+            fs.readFileSync(includes + 'js', 'utf8')))
+        .pipe(replace(replaceBlock, function (_, m1, m2) {
+            return m1 + m2.replace(/\/mobile\/src/g, '../') + '<!-- endbuild -->';
+        }))
+        .pipe(usemin({
+            css: [rev()],
+            js: [ngAnnotate(), uglify(), 'concat', rev()]
+        }))
+        .pipe(replace(replaceBlock, function (_, __, m) {
+            return m.replace(/\b(href|src)="\.\.(.*?")/g, function (_, m1, m2) {
+                return m1 + '="/mobile/dist' + m2
+            })
+        }))
+        .pipe(gulp.dest(paths.baseStatic + paths.tmp2Mobile.htmlDir))
+});
 
 
 
@@ -65,8 +146,8 @@ gulp.task('deleteStatic', function () {
 
 
 
-gulp.task('revision', ["deleteStatic"], function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
+gulp.task('revision', ["deleteStatic", "ng-annotate"], function () {
+    return gulp.src(paths.baseStatic + paths.tmp1Mobile.jsFiles)
         .pipe(rev())
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js))
         .pipe(rev.manifest())

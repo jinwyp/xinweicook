@@ -1,4 +1,4 @@
-angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
+angular.module('xw.weixin').factory('Weixin',["$http", "Debug", function ($http, Debug) {
 
     var defaults = {
         //weixin js config
@@ -106,4 +106,4 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
             });
         }
     }
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('xw.services').factory('ScopeDecorator', function ($location) {
+angular.module('xw.services').factory('ScopeDecorator', ["$location", function ($location) {
     return {
         common: function (scope) {
             if (!scope) return;
@@ -14,4 +14,4 @@ angular.module('xw.services').factory('ScopeDecorator', function ($location) {
             });
         }
     }
-});
+}]);

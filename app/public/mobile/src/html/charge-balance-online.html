@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
-    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <%- include('includes/css') %>
     <title>在线充值</title>
 </head>
 <body ng-app="xw" ng-controller="chargeBalanceOnlineCtrl">
@@ -33,14 +31,8 @@
 
 </body>
 
-<script src="/components/angular/angular.min.js"></script>
-<script src="/components/ngstorage/ngStorage.min.js"></script>
-
-<script src="/mobile/dist/js/modules.js"></script>
-<script src="/mobile/dist/js/models.js"></script>
-<script src="/mobile/dist/js/config.js"></script>
-<script src="/mobile/dist/js/service/debug.js"></script>
-<script src="/mobile/dist/js/service/alert.js"></script>
-<script src="/mobile/dist/js/directives/back-button.js"></script>
-<script src="/mobile/dist/js/controllers/charge-balance-online.js"></script>
+<%- include('includes/js') %>
+<!-- build:inlinejs -->
+<script src="/mobile/src/js/controllers/charge-balance-online.js"></script>
+<!-- endbuild -->
 </html>

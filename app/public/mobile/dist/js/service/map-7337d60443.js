@@ -1,4 +1,4 @@
-angular.module('xw.services').factory('Map', function ($http, Debug) {
+angular.module('xw.services').factory('Map', ["$http", "Debug", function ($http, Debug) {
     // 如果有必要修改则需要改成provider
     var topDistance = {
         xinweioffice: 6000,
@@ -194,4 +194,4 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
     };
 
     return map;
-});
+}]);

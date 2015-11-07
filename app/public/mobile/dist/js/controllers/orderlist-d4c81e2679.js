@@ -21,3 +21,4 @@ function orderlistCtrl($scope, Orders) {
 
     init();
 }
+orderlistCtrl.$inject = ["$scope", "Orders"];

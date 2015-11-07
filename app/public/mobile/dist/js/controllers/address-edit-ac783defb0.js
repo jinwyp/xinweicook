@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('addressEditCtrl', function ($scope, ScopeDecorator, Debug, Address, User, $localStorage, Map) {
+angular.module('xw.controllers').controller('addressEditCtrl', ["$scope", "ScopeDecorator", "Debug", "Address", "User", "$localStorage", "Map", function ($scope, ScopeDecorator, Debug, Address, User, $localStorage, Map) {
     ScopeDecorator.common($scope);
 
     var user, oldAddress;
@@ -184,4 +184,4 @@ angular.module('xw.controllers').controller('addressEditCtrl', function ($scope,
     }
 
     init();
-});
+}]);

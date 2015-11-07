@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage, $filter, Utils) {
+angular.module('xw.directives').directive('addDishBar', ["Debug", "User", "$localStorage", "$filter", "Utils", function (Debug, User, $localStorage, $filter, Utils) {
     return {
         scope: {
             dish: '=',
@@ -106,4 +106,4 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
 
         }
     }
-})
+}])
