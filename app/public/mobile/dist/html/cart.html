@@ -25,7 +25,7 @@
         <h4><span class="icon select" ng-class="{active: list.selectedAll}" ng-click="selectAll(listName)"></span> {{listName == 'cookList' ? '食材包' : '便当'}}
             <span class="total">已选中 {{list.selectedLength}}份{{listName == 'cookList' ? '食材包' : '便当'}}, 小计 ¥{{totalPrice(listName)|number:1}}</span></h4>
         <ul class="cart-list">
-            <li ng-repeat="item in list">
+            <li ng-repeat="item in list" ng-class="{'out-of-stock': item.outOfStock}">
                 <div class="select" ng-class="{active: item.selected}" ng-click="select(item)"></div>
                 <div class="dish-wrapper">
                     <a ng-href="{{listName == 'eatList' ? '/mobile/' : ('/mobile/cook/' + item.dish._id)}}">
@@ -36,7 +36,7 @@
                             <span class="sub-name" ng-repeat="el in item.subDish">{{el.dish.title.zh + ($last ? '': ' ')}}</span>
                         </h5>
                         <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
-                            {{item.dish.outOfStock ? '无货' : '有货'}}
+                            {{item.outOfStock ? '无货' : '有货'}}
                         </span>
                         <span class="rmb-char">
                             {{item|dishPrice}}
@@ -68,6 +68,6 @@
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/cart-171e7b64c9.js"></script>
+<script src="/mobile/dist/js/controllers/cart-0ad1fb0cfd.js"></script>
 
 </html>
