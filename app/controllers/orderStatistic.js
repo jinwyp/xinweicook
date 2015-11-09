@@ -50,7 +50,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(propertyList[column] == '_id'){
                 console.log("-------", arrayData[row][propertyList[column]])
             }
-            
+
             var cell = {v: arrayData[row][propertyList[column]] };
             var tempCellString = "";
             var currentCell = arrayData[row][propertyList[column]];

@@ -66,9 +66,8 @@ exports.getCouponForUserShare = (req, res, next) ->
 
   if not req.u.isSharedInvitationSendCode
 
-    models.coupon.addCouponForShare(req.u).then (user)->
-      models.user.find1({_id : req.u._id})
-    .then (resultUser)->
+#    models.coupon.addCouponForShare(req.u).then (user)->
+    models.user.find1({_id : req.u._id}).then (resultUser)->
         res.json resultUser
     .catch next
   else
