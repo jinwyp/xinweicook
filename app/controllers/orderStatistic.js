@@ -56,9 +56,15 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 currentCell.forEach(function(dish){
                     if (dish.dish){
+
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                         dish.subDish.forEach(function(subDish){
+
+                            if (typeof subDish.dish.title === 'undefined'){
+                                console.log(subDish.dish)
+                            }
+
                             tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
                         });
                     }else{
