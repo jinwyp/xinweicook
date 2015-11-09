@@ -512,22 +512,24 @@ module.exports =
         timeStarter = tomorrow11AM.clone()
 
       if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+
         if timeNow.minute()%30 >= 10
-          timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
+          timeStarter = timeNow.clone().add(30, 'minutes').add((30-timeNow.minute()%30), 'minutes')
         else
-          timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
+          timeStarter = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
 
       for i in [1..20]
         timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
-        # 处理如果计算出来的时间超过14点  将不在push进去
-        if timeStarterTemp.isBefore(today14PM)
+        # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
+
+        if timeStarterTemp.isBefore(today14PM) and timeNow.day() > 0 and timeNow.day() < 6
           segmentHour =
             hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
           resultTime.push(segmentHour)
 
-      # 处理第二天的时间点 不包括星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
-      if timeNow.day() > 0 or timeNow.hour() >= 20
+      # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
+      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 20 and timeNow.day() is 0)
         for i in [1..6]
           timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =

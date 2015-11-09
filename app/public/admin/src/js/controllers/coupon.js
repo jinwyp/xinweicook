@@ -35,6 +35,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         },
 
+        datePickerIsOpenStart : false,
+        datePickerIsOpenEnd : false,
 
         couponListCount : 0,
         couponListCurrentPage : 1,
@@ -63,7 +65,10 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             usedTime : 1,
             usedCountLimitOfOneUser : 1,
             isUsed : false,
-            user : ''
+            user : '',
+
+            startDate : '',
+            endDate : ''
 
         }
     };
@@ -74,11 +79,22 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
 
+    $scope.datePickerOpen = function(isStart, $event) {
+
+        if (isStart === 'start'){
+            $scope.data.datePickerIsOpenStart = true;
+        }else{
+            $scope.data.datePickerIsOpenEnd = true;
+        }
+    };
+
+
 
     $scope.searchCouponCount = function (){
 
         $scope.css.showTable = 'coupons';
 
+        console.log($scope.data.searchOptions.query);
         Util.delProperty($scope.data.searchOptions.query);
 
         Coupons.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (resultCoupons) {

@@ -266,7 +266,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
     var pointXinWeiCaohejing = new BMap.Point( 121.40523, 31.175474);  // 创建点坐标 longitude 经度 / latitude 纬度  //经度 ( 121.4051452465212 ) / 纬度 ( 31.17546886907618 )
 
-    map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
+    map.centerAndZoom(pointXinWeiOffice, 15);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
 
     map.addControl(new BMap.NavigationControl());   // 平移缩放控件
@@ -312,8 +312,8 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
             iconUrl = '/admin/src/img/marker100.png';
         }
 
-        if (percentage == 100){
-            iconUrl = '/admin/src/img/marker40.png';
+        if (percentage === 100){
+            iconUrl = '/admin/src/img/marker_home.png';
         }
 
         var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {

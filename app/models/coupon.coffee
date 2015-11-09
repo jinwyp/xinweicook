@@ -14,8 +14,8 @@ module.exports =
     usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
-    startDate: type: Date, default: moment()
-    endDate: type: Date, default: moment().add(90, 'days')
+    startDate: type: Date, default: moment().startOf('day')
+    endDate: type: Date, default: moment().startOf('day').add(90, 'days')
     isExpired : type: Boolean, default:false
     isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
@@ -454,16 +454,40 @@ module.exports =
 
   rest:
     preMiddleware : (req, res, next) ->
+      # 检查优惠码是否重复
       if req.method is "POST" and req.body.code
-        models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
-          console.log(result)
+        models.coupon.findOneAsync({$or:[{code:req.body.code}]}).then (result)->
+
           if result
             next(new Err("优惠码已经存在 - 后台管理"), 400)
           else
             next()
-        )
+
+      else if req.method is "PUT" and req.body.code
+
+        req.body.startDate = moment(req.body.startDate).startOf('day').toDate()
+        req.body.endDate = moment(req.body.endDate).startOf('day').toDate()
+
+
+        models.coupon.findOneAsync({_id:req.params.id}).then (result)->
+
+          if result
+
+            if result.code is req.body.code
+              next()
+
+            else
+              models.coupon.findAsync({code: req.body.code}).then ( result2)->
+
+                if result2 and result2.length > 0
+                  next(new Err("优惠码已经存在 - 后台管理"), 400)
+                else
+                  next()
+
       else
         next()
+
+
 
     postCreate : (req, res, next) ->
 
