@@ -194,7 +194,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 street.district = d;
             }
         });
-        addr.district = street.district;
+        addr.district = street.district ? street.district : addr.district;
         addr.isInRange = false;
         addr.distance = Map.bentoNoReach;
         addressReady = false;

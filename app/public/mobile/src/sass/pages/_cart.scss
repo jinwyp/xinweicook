@@ -62,6 +62,10 @@ $select-btn-width: 100px;
   margin-bottom: 15px;
   li {
     position: relative;
+
+    &.out-of-stock {
+      opacity: .7;
+    }
   }
   .dish-wrapper {
     border-bottom: 1px solid rgba(188, 188, 188, 0.2);

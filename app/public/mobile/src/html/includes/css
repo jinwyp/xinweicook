@@ -1,6 +1,0 @@
-    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
-    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
-
-    <!-- build:css  ../css/main.css -->
-    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <!-- endbuild -->

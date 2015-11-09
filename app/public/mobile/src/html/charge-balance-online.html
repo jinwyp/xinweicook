@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
-    <%- include('includes/css') %>
+    <%- include('includes/css.html') %>
     <title>在线充值</title>
 </head>
 <body ng-app="xw" ng-controller="chargeBalanceOnlineCtrl">
@@ -31,8 +31,10 @@
 
 </body>
 
-<%- include('includes/js') %>
-<!-- build:inlinejs -->
+<%- include('includes/js.html') %>
+<!-- build-replace-->
+<!-- build:chargeBalanceOnline(app/public/mobile/src) ../js/controllers/charge-balance-online.js -->
 <script src="/mobile/src/js/controllers/charge-balance-online.js"></script>
 <!-- endbuild -->
+<!-- end-build-replace-->
 </html>

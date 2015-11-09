@@ -143,13 +143,13 @@ label {
   display: inline-block;
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIcon.png?1445499278') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIcon.png?1446874315') 50%/cover no-repeat;
 }
 /* line 159, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIconHighlighted.png?1445499278') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIconHighlighted.png?1446874315') 50%/cover no-repeat;
 }
 
 /* line 166, ../sass/_base.scss */
@@ -1280,16 +1280,20 @@ form .err-tip {
   position: relative;
 }
 /* line 66, ../sass/pages/_cart.scss */
+.cart-list li.out-of-stock {
+  opacity: .7;
+}
+/* line 70, ../sass/pages/_cart.scss */
 .cart-list .dish-wrapper {
   border-bottom: 1px solid rgba(188, 188, 188, 0.2);
   border-top: 0;
   padding: 10px 0;
 }
-/* line 71, ../sass/pages/_cart.scss */
+/* line 75, ../sass/pages/_cart.scss */
 .cart-list li:last-child .dish-wrapper {
   border-bottom: 0;
 }
-/* line 74, ../sass/pages/_cart.scss */
+/* line 78, ../sass/pages/_cart.scss */
 .cart-list .dish-img {
   left: 38px;
   position: absolute;
@@ -1297,45 +1301,45 @@ form .err-tip {
   height: 75px;
   background: 50% / cover no-repeat;
 }
-/* line 81, ../sass/pages/_cart.scss */
+/* line 85, ../sass/pages/_cart.scss */
 .cart-list .dish-detail {
   margin-left: 132px;
   height: 75px;
 }
-/* line 84, ../sass/pages/_cart.scss */
+/* line 88, ../sass/pages/_cart.scss */
 .cart-list .dish-detail h5 {
   font-size: 15px;
   font-weight: normal;
   min-height: 32px;
 }
-/* line 89, ../sass/pages/_cart.scss */
+/* line 93, ../sass/pages/_cart.scss */
 .cart-list .dish-detail span {
   display: block;
 }
-/* line 92, ../sass/pages/_cart.scss */
+/* line 96, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .sub-name {
   display: inline;
   font-size: 12px;
   color: gray;
 }
-/* line 97, ../sass/pages/_cart.scss */
+/* line 101, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock {
   font-size: 14px;
 }
-/* line 99, ../sass/pages/_cart.scss */
+/* line 103, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .stock.out-of-stock {
   color: #f44d4d;
 }
-/* line 103, ../sass/pages/_cart.scss */
+/* line 107, ../sass/pages/_cart.scss */
 .cart-list .dish-detail .rmb-char {
   color: #4b4b4c;
   font-weight: 200;
 }
-/* line 107, ../sass/pages/_cart.scss */
+/* line 111, ../sass/pages/_cart.scss */
 .cart-list .dish-detail > * {
   margin-bottom: 4px;
 }
-/* line 111, ../sass/pages/_cart.scss */
+/* line 115, ../sass/pages/_cart.scss */
 .cart-list .counter {
   position: absolute;
   height: 26px;
@@ -1344,7 +1348,7 @@ form .err-tip {
   right: -14px;
   top: 50px;
 }
-/* line 118, ../sass/pages/_cart.scss */
+/* line 122, ../sass/pages/_cart.scss */
 .cart-list .counter span {
   display: inline-block;
   width: 40px;
@@ -1352,7 +1356,7 @@ form .err-tip {
   font-size: 18px;
   color: #A5A5A5;
 }
-/* line 125, ../sass/pages/_cart.scss */
+/* line 129, ../sass/pages/_cart.scss */
 .cart-list .counter .number {
   width: 45px;
   height: 26px;
@@ -1361,7 +1365,7 @@ form .err-tip {
   border-radius: 5px;
 }
 
-/* line 136, ../sass/pages/_cart.scss */
+/* line 140, ../sass/pages/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1370,7 +1374,7 @@ form .err-tip {
   text-indent: 2em;
 }
 
-/* line 146, ../sass/pages/_cart.scss */
+/* line 150, ../sass/pages/_cart.scss */
 .empty-cart .icon {
   margin: 34px auto;
   background-repeat: no-repeat;
@@ -1383,7 +1387,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 150, ../sass/pages/_cart.scss */
+/* line 154, ../sass/pages/_cart.scss */
 .empty-cart .text {
   color: #969696;
 }

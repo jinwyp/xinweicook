@@ -17,7 +17,9 @@ var request = require('request');
 expressRoutes = function(app) {
 
 
-
+    var useBuild = process.env.NODE_ENV == 'production' 
+        || process.env.PREVIEW == 'true';
+    var pathPrefix = useBuild ? 'mobile/' : '';
 
 
     app.get("/", function (req, res) {
@@ -35,83 +37,83 @@ expressRoutes = function(app) {
     });
 
     app.get("/mobile", function (req, res) {
-        res.render('mobile/eat-list.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'eat-list.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/login", function (req, res) {
-        res.render('mobile/login.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'login.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/resetpwd", function (req, res) {
-        res.render('mobile/reset-password.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'reset-password.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/me", function (req, res) {
-        res.render('mobile/me.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'me.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/orderlist", function (req, res) {
-        res.render('mobile/order-list.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'order-list.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/addresslist", function (req, res) {
-        res.render('mobile/address-list.html', {title: 'XinweiCook'})
+        res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
     });
     app.get("/mobile/addressedit", function (req, res) {
-        res.render('mobile/address-edit.html', {title: 'XinweiCook'})
+        res.render(pathPrefix + 'address-edit.html', {title: 'XinweiCook'})
     });
     app.get("/mobile/wxpay/:id", function (req, res) {
-        res.render('mobile/wxpay.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'wxpay.html', {title: 'XinWeiCook'})
     });
     app.get('/mobile/favlist', function (req, res) {
-        res.render('mobile/fav-list.html');
+        res.render(pathPrefix + 'fav-list.html');
     });
     app.get('/mobile/cart', function (req, res) {
-        res.render('mobile/cart.html');
+        res.render(pathPrefix + 'cart.html');
     });
     app.get('/mobile/cook/:id', function (req, res) {
-        res.render('mobile/cook.html');
+        res.render(pathPrefix + 'cook.html');
     });
     app.get('/mobile/app', function (req, res) {
-        res.render('mobile/app.html');
+        res.render(pathPrefix + 'app.html');
     });
     app.get('/mobile/invite', function (req, res) {
-        res.render('mobile/invite.html');
+        res.render(pathPrefix + 'invite.html');
     });
     app.get('/mobile/invited/:avatar/:code/:name/:place', function (req, res) {
-        res.render('mobile/invited.html');
+        res.render(pathPrefix + 'invited.html');
     });
     app.get('/mobile/invited-app/:code', function (req, res) {
-        res.render('mobile/invited-app.html');
+        res.render(pathPrefix + 'invited-app.html');
     });
     app.get('/mobile/coupons', function (req, res) {
-        res.render('mobile/coupons.html');
+        res.render(pathPrefix + 'coupons.html');
     });
     app.get("/mobile/alipay/return", function (req, res) {
-        res.render('mobile/alipay-notify.html');
+        res.render(pathPrefix + 'alipay-notify.html');
     });
     app.get("/mobile/alipay/returnaccountdetail", function (req, res) {
-        res.render('mobile/alipay-notify.html');
+        res.render(pathPrefix + 'alipay-notify.html');
     });
     app.get("/mobile/balance", function (req, res) {
-        res.render('mobile/balance.html');
+        res.render(pathPrefix + 'balance.html');
     });
     app.get("/mobile/chargebalance", function (req, res) {
-        res.render('mobile/charge-balance.html');
+        res.render(pathPrefix + 'charge-balance.html');
     });
     app.get("/mobile/chargebalanceonline", function (req, res) {
-        res.render('mobile/charge-balance-online.html');
+        res.render(pathPrefix + 'charge-balance-online.html');
     });
     app.get("/mobile/balancerecords", function (req, res) {
-        res.render('mobile/balance-records.html');
+        res.render(pathPrefix + 'balance-records.html');
     });
     app.get("/mobile/orderaddress", function (req, res) {
-        res.render('mobile/order-address.html');
+        res.render(pathPrefix + 'order-address.html');
     });
     app.get("/mobile/orderpay", function (req, res) {
-        res.render('mobile/order-pay.html');
+        res.render(pathPrefix + 'order-pay.html');
     });
     app.get("/mobile/searchaddress", function (req, res) {
-        res.render('mobile/search-address.html');
+        res.render(pathPrefix + 'search-address.html');
     });
 
     app.get("/mobile/wxgzh", function (req, res) {
-        res.render('mobile/wxgzh-qrcode.html');
+        res.render(pathPrefix + 'wxgzh-qrcode.html');
     });
 
 

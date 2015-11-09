@@ -64,7 +64,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.select = function (item) {
-        if (item.dish.outOfStock) return;
+        if (item.outOfStock) return;
         item.selected = !item.selected;
 
         var type = item.dish.cookingType == 'ready to cook'
@@ -85,7 +85,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var state = $scope.dishList[type].selectedAll =
             (outState !== undefined ? outState : !$scope.dishList[type].selectedAll);
         $scope.dishList[type].forEach(function (item) {
-            item.selected = state && !item.dish.outOfStock;
+            item.selected = state && !item.outOfStock;
         });
     };
 
@@ -140,12 +140,9 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         return adapt(src);
     };
 
-    function outOfStock (dish) {
-        return dish.outOfStock || !dish.isPublished;
-    }
-
     var postDishFilter = $filter('postDish');
     var postCart = null;
+    var idSubDishMap = {};
 
     function init() {
         // 如果已登录,则用合并服务器数据到本地
@@ -154,33 +151,64 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }).catch(function () {
             return []
         }).then(function (serverBag) {
-            var localBag = $localStorage.localBag;
-            if (localBag) { //本地数据需要更新库存信息
-                var dishes = $localStorage.dishes || [];
-                for (var i = 0; i < localBag.length; i++) {
-                    var postItem = localBag[i];
-                    updateSubDishStock(dishes, postItem.dish);
-                    if (postItem.subDish) {
-                        postItem.subDish.forEach(function (el) {
-                            updateSubDishStock(dishes, el.dish)
-                        })
-                    }
-                }
-            } else localBag = $localStorage.localBag = [];
+            var localBag = $localStorage.localBag =
+                $localStorage.localBag || [];
 
-            postCart = Utils.mergeCarts(localBag, serverBag);
+            localBag = postCart = Utils.mergeCarts(localBag, serverBag);
+
+            // 构造附属菜id hash map
+            var dishes = $localStorage.dishes || [];
+            dishes.forEach(function (dish) {
+                dish.preferences.forEach(function (p) {
+                    p.foodMaterial.forEach(function (f) {
+                        if (!idSubDishMap[f.dish._id]) {
+                            idSubDishMap[f.dish._id] = f.dish;
+                        }
+                    })
+                })
+            });
+
+            // 更新库存信息
+            for (var i = 0; i < postCart.length; i++) {
+                var pDish = postCart[i].dish;
+                pDish.outOfStock = true;
+                dishes.some(function (dish) {
+                    if (dish._id == pDish._id) {
+                        pDish.outOfStock = dish.outOfStock;
+                        return true;
+                    }
+                });
+
+                if (postCart[i].subDish) {
+                    postCart[i].subDish.forEach(function (el) {
+                        var serverDish = idSubDishMap[el.dish._id];
+                        //if (serverDish._id == '5628b573bbcf82f1411bfa79') {
+                        //    console.log(serverDish);
+                        //    debugger;
+                        //}
+                        el.dish.outOfStock = serverDish
+                            ? (serverDish.outOfStock || !serverDish.isPublished)
+                            : true;
+                    })
+                }
+
+                // 预先算好, 避免html上多余的计算
+                postCart[i].outOfStock = !stockOfItem(postCart[i]);
+                postCart[i].outOfStock && (postCart[i].selected = false)
+            }
+
             initDishList(postCart);
         })
     }
 
-    function updateSubDishStock(dishes, dish) {
-        return dishes.some(function (el) {
-            if (el._id == dish._id) {
-                dish.outOfStock = el.outOfStock;
-                dish.isPublished = el.isPublished;
-                return true;
-            }
-        })
+    function stockOfItem (item) {
+        var hasStock = !item.dish.outOfStock;
+        if (item.subDish) {
+            hasStock = hasStock && item.subDish.every(function (el) {
+                    return !el.dish.outOfStock;
+                })
+        }
+        return hasStock;
     }
 
     function initDishList(cart) {
@@ -191,9 +219,6 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
         cart.forEach(function (el) {
             var dish = el.dish;
-            dish.outOfStock = outOfStock(dish) || el.subDish.some(function (item) {
-                return outOfStock(item.dish);
-            });
 
             // postCart的dish和list上的引用的是同一个对象
             if (dish.cookingType == 'ready to cook') {

@@ -78,11 +78,11 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
 
                 $scope.hide();
 
-                User.postCart($scope.cart.map(postDishFilter)).catch(function () {
-                    $localStorage.localBag = $scope.cart;
-                });
+                User.postCart($scope.cart.map(postDishFilter));
 
                 $scope.totalPrice();
+
+                $localStorage.localBag = $scope.cart;
             };
 
             var postDishFilter = $filter('postDish');

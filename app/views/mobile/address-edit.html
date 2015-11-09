@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
-    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+<%- include('includes/css.html') %>
     <title>地址管理.</title>
     <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
@@ -80,15 +78,8 @@
 
 </body>
 
-<script src="/components/angular/angular.min.js"></script>
-<script src="/components/ngstorage/ngStorage.min.js"></script>
+<%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/modules-e04d37f1a1.js"></script>
-<script src="/mobile/dist/js/models-913f8da273.js"></script>
-<script src="/mobile/dist/js/config-8ec1c12e4f.js"></script>
-<script src="/mobile/dist/js/service/debug-addec6f01a.js"></script>
-<script src="/mobile/dist/js/service/address-9adc45a744.js"></script>
-<script src="/mobile/dist/js/service/scope-decorator-7368fa7664.js"></script>
-<script src="/mobile/dist/js/service/map-7337d60443.js"></script>
-<script src="/mobile/dist/js/controllers/address-edit-ac783defb0.js"></script>
+<script src="/mobile/dist/js/controllers/address-edit.js"></script>
+
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
-    <%- include('includes/css') %>
+    <%- include('includes/css.html') %>
     <style>
         [ng-cloak] {display:none;}
     </style>
@@ -65,8 +65,10 @@
 </div>
 </body>
 
-<%- include('includes/js') %>
-<!-- build:inlinejs -->
+<%- include('includes/js.html') %>
+<!-- build-replace-->
+<!-- build:coupons(app/public/mobile/src) ../js/controllers/coupons.js -->
 <script src="/mobile/src/js/controllers/coupons.js"></script>
 <!-- endbuild -->
+<!-- end-build-replace-->
 </html>

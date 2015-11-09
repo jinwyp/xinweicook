@@ -24,33 +24,17 @@ var paths = {
         root : 'mobile/src',
         js : 'mobile/src/js/**/*.js',
         css: 'mobile/src/css/*.css',
-        html : 'mobile/src/html/*.html'
-    },
-
-    tmp1Mobile : {
-        root: 'mobile/tmp1',
-        jsDir : 'mobile/tmp1/js',
-        jsFiles: 'mobile/tmp1/js/**/*.js',
-        cssDir: 'mobile/tmp1/css',
-        cssFiles: 'mobile/tmp1/css/*.css',
-        htmlDir: 'mobile/tmp1/html',
-        htmlFiles: 'mobile/tmp1/html/**/*.html'
-    },
-
-    tmp2Mobile : {
-        root: 'mobile/tmp2',
-        jsDir : 'mobile/tmp2/js',
-        jsFiles: 'mobile/tmp2/js/**/*.js',
-        cssDir: 'mobile/tmp2/css',
-        cssFiles: 'mobile/tmp2/css/*.css',
-        htmlDir: 'mobile/tmp2/html',
-        htmlFiles: 'mobile/tmp2/html/**/*.html'
+        html : 'mobile/src/html/**/*',
+        img: 'mobile/src/img/**/*'
     },
 
     distMobile : {
-        root : 'mobile/dist',
+        all: 'mobile/dist/**',
+        root : 'mobile/dist/',
         js : 'mobile/dist/js',
-        html : 'mobile'
+        htmlDir: 'mobile/dist/html/',
+        html: 'mobile/dist/html/**/*',
+        imgDir: 'mobile/dist/img/'
     }
 };
 
@@ -74,103 +58,104 @@ gulp.task('errcode', function () {
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
 
-gulp.task('test-replace-eat', function () {
-    return gulp.src('app/public/mobile/src/html/eat-list.html')
-        .pipe(replace('<!-- GULP-REPLACE-CSS -->',
-            fs.readFileSync('app/public/mobile/src/html/includes/css', 'utf8')))
-        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.htmlDir))
-});
+gulp.task("mobileUsemin", ['delDist'], function () {
+    var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
+    var useminOptions = {
+        css: [minifyCss(), rev()],
+        js: [ngAnnotate(), uglify(), 'concat', rev()]
+    };
+    fs.readdirSync(paths.baseStatic + paths.sourceMobile.root + '/js/controllers')
+        .forEach(function (file) {
+            file = file.split('.')[0].split('-');
+            var name = file[0];
+            for (var i = 1; i < file.length; i++) {
+                name += file[i][0].toUpperCase() + file[i].slice(1);
+            }
+            useminOptions[name] = [rev()];
+        });
 
-
-gulp.task('test-useref-eat', ['test-replace-eat'], function () {
-    var assets = useref.assets({
-        transformPath: function (filePath) {
-            return filePath.replace('/mobile/src', '..')
-        }
-    });
-
-    return gulp.src(paths.baseStatic + paths.tmp1Mobile.htmlFiles)
-        .pipe(assets)
-        .pipe(assets.restore())
-        .pipe(useref())
-        .pipe(gulp.dest(paths.baseStatic + paths.tmp2Mobile.htmlDir))
-});
-
-gulp.task("ng-annotate", function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
-        .pipe(ngAnnotate())
-        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.jsDir));
-});
-
-gulp.task("copy-mobile-css", function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.css)
-        .pipe(gulp.dest(paths.baseStatic + paths.tmp1Mobile.cssDir))
-});
-
-gulp.task("usemin-test", function () {
-    var replaceBlock = /(<!-- build:(?:css|js|inlinejs).*?-->)([\w\W]*?)<!-- endbuild -->/g;
-    var includes = paths.baseStatic + paths.sourceMobile.root + '/html/includes/';
-
-    return gulp.src(paths.baseStatic + paths.sourceMobile.html)
-        .pipe(replace("<%- include('includes/css') %>",
-            fs.readFileSync(includes + 'css', 'utf8')))
-        .pipe(replace("<%- include('includes/js') %>",
-            fs.readFileSync(includes + 'js', 'utf8')))
-        .pipe(replace(replaceBlock, function (_, m1, m2) {
-            return m1 + m2.replace(/\/mobile\/src/g, '../') + '<!-- endbuild -->';
+    return gulp.src([paths.baseStatic + paths.sourceMobile.html])
+        .pipe(replace(replaceBlock, function (_, m) {
+            return '<!-- build-replace-->'
+                + m.replace(/\/mobile\/src\//g, '')
+                + '<!-- end-build-replace-->';
         }))
-        .pipe(usemin({
-            css: [rev()],
-            js: [ngAnnotate(), uglify(), 'concat', rev()]
-        }))
-        .pipe(replace(replaceBlock, function (_, __, m) {
+        .pipe(usemin(useminOptions))
+        .pipe(replace(replaceBlock, function (_, m) {
             return m.replace(/\b(href|src)="\.\.(.*?")/g, function (_, m1, m2) {
                 return m1 + '="/mobile/dist' + m2
             })
         }))
-        .pipe(gulp.dest(paths.baseStatic + paths.tmp2Mobile.htmlDir))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.htmlDir))
+        .pipe(gulpif('js.html', gulp.dest(paths.baseStatic + paths.distMobile.htmlDir + 'includes')))
+        .pipe(gulpif('css.html', gulp.dest(paths.baseStatic + paths.distMobile.htmlDir + 'includes')))
 });
 
-
-
-
-gulp.task('deleteStatic', function () {
+gulp.task('delDist', function () {
     return del([
-        // here we use a globbing pattern to match everything inside the `mobile` folder
-        paths.baseStatic + paths.distMobile.root + '/**',
-        paths.baseView + paths.distMobile.html + '/**',
-        // we don't want to clean this file though so we negate the pattern
-        '!dist/mobile/deploy.json'
+        paths.baseStatic + paths.distMobile.all
     ]);
 });
 
-
-
-gulp.task('revision', ["deleteStatic", "ng-annotate"], function () {
-    return gulp.src(paths.baseStatic + paths.tmp1Mobile.jsFiles)
-        .pipe(rev())
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js))
-        .pipe(rev.manifest())
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root));
+gulp.task('delMobileViewsAndIncludes', ['mobileUsemin'], function () {
+    return del([
+        paths.baseView + 'mobile',
+        paths.baseStatic + paths.distMobile.htmlDir + '{css.html,js.html}'
+    ])
 });
 
-
-gulp.task("html", ["revision"], function(){
-    var manifest = gulp.src(paths.baseStatic + paths.distMobile.root + "/rev-manifest.json");
-
-    return gulp.src(paths.baseStatic + paths.sourceMobile.html)
-        .pipe(revReplace({manifest: manifest}))
-        .pipe(gulp.dest(paths.baseView + paths.distMobile.html));
+gulp.task('mobileCopy2Views', ['delMobileViewsAndIncludes'], function () {
+    return gulp.src(paths.baseStatic + paths.distMobile.html)
+        .pipe(gulp.dest(paths.baseView + 'mobile'))
 });
 
-
-
-gulp.task("watchhtml", function(){
-    gulp.watch([
-        paths.baseStatic + paths.sourceMobile.html,
-        paths.baseStatic + paths.sourceMobile.js
-    ], ['html']);
+gulp.task('mobileCopyImg', function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.img)
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
 });
+
+gulp.task('mobileProduction', ['mobileCopy2Views', 'mobileCopyImg']);
+
+
+
+
+//gulp.task('deleteStatic', function () {
+//    return del([
+//        // here we use a globbing pattern to match everything inside the `mobile` folder
+//        paths.baseStatic + paths.distMobile.root + '/**',
+//        paths.baseView + paths.distMobile.html + '/**',
+//        // we don't want to clean this file though so we negate the pattern
+//        '!dist/mobile/deploy.json'
+//    ]);
+//});
+//
+//
+//
+//gulp.task('revision', ["deleteStatic", "ng-annotate"], function () {
+//    return gulp.src(paths.baseStatic + paths.tmp1Mobile.jsFiles)
+//        .pipe(rev())
+//        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js))
+//        .pipe(rev.manifest())
+//        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root));
+//});
+//
+//
+//gulp.task("html", ["revision"], function(){
+//    var manifest = gulp.src(paths.baseStatic + paths.distMobile.root + "/rev-manifest.json");
+//
+//    return gulp.src(paths.baseStatic + paths.sourceMobile.html)
+//        .pipe(revReplace({manifest: manifest}))
+//        .pipe(gulp.dest(paths.baseView + paths.distMobile.html));
+//});
+//
+//
+//
+//gulp.task("watchhtml", function(){
+//    gulp.watch([
+//        paths.baseStatic + paths.sourceMobile.html,
+//        paths.baseStatic + paths.sourceMobile.js
+//    ], ['html']);
+//});
 
 
 

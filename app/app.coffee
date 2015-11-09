@@ -14,7 +14,8 @@ app.use libs.req._id
 app.enable "trust proxy"
 app.disable "x-powered-by"
 
-app.set "views", path.join(__dirname, "views")
+viewsPath = (if process.env.NODE_ENV is "production" or process.env.PREVIEW is "true" then "views" else "public/mobile/src/html")
+app.set "views", path.join(__dirname, viewsPath)
 app.set "view engine", "ejs"
 app.engine("ejs", require('ejs').renderFile);
 app.engine("html", require('ejs').renderFile);
