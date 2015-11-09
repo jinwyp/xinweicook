@@ -47,7 +47,10 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(range.e.r < row) range.e.r = row+10;
             if(range.e.c < column) range.e.c = column;
 
-
+            if(propertyList[column] == '_id'){
+                console.log("-------", arrayData[row][propertyList[column]])
+            }
+            
             var cell = {v: arrayData[row][propertyList[column]] };
             var tempCellString = "";
             var currentCell = arrayData[row][propertyList[column]];
@@ -59,16 +62,17 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
+                        dish.subDish.forEach(function(subDish){
 
-                        if (typeof dish.subDish !== 'undefined' && dish.subDish.length > 0){
-                            dish.subDish.forEach(function(subDish){
-                                console.log("---------------", subDish)
 
+                            if ( subDish.dish != null){
                                 tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
-                            });
-                        }else{
-                            console.log("---------------", dish.dish_id)
-                        }
+                            }else{
+                                console.log("---------------", subDish);
+                            }
+
+                        });
+
 
 
                     }else{
