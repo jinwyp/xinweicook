@@ -14,8 +14,8 @@ module.exports =
     usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
-    startDate: type: Date, default: moment()
-    endDate: type: Date, default: moment().add(90, 'days')
+    startDate: type: Date, default: moment().startOf('day')
+    endDate: type: Date, default: moment().startOf('day').add(90, 'days')
     isExpired : type: Boolean, default:false
     isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
