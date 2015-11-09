@@ -59,14 +59,16 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
-                        dish.subDish.forEach(function(subDish){
 
-                            if (typeof subDish.dish.title === 'undefined'){
-                                console.log(subDish.dish)
-                            }
+                        if (typeof dish.subDish !== 'undefined'){
+                            dish.subDish.forEach(function(subDish){
+                                tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                            });
+                        }else{
+                            console.log("---------------", dish.dish_id)
+                        }
 
-                            tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
-                        });
+
                     }else{
                         //console.log('------+++++++',dish.dish);
                         //console.log('------+++++++',dish);
