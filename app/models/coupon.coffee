@@ -465,6 +465,10 @@ module.exports =
 
       else if req.method is "PUT" and req.body.code
 
+        req.body.startDate = moment(req.body.startDate).startOf('day').toDate()
+        req.body.endDate = moment(req.body.endDate).startOf('day').toDate()
+
+
         models.coupon.findOneAsync({_id:req.params.id}).then (result)->
 
           if result
