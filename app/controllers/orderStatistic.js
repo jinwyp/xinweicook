@@ -60,8 +60,10 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
 
-                        if (typeof dish.subDish !== 'undefined'){
+                        if (typeof dish.subDish !== 'undefined' && dish.subDish.length > 0){
                             dish.subDish.forEach(function(subDish){
+                                console.log("---------------", subDish)
+
                                 tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
                             });
                         }else{
