@@ -454,16 +454,36 @@ module.exports =
 
   rest:
     preMiddleware : (req, res, next) ->
+      # 检查优惠码是否重复
       if req.method is "POST" and req.body.code
-        models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
-          console.log(result)
+        models.coupon.findOneAsync({$or:[{code:req.body.code}]}).then (result)->
+
           if result
             next(new Err("优惠码已经存在 - 后台管理"), 400)
           else
             next()
-        )
+
+      else if req.method is "PUT" and req.body.code
+
+        models.coupon.findOneAsync({_id:req.params.id}).then (result)->
+
+          if result
+
+            if result.code is req.body.code
+              next()
+
+            else
+              models.coupon.findAsync({code: req.body.code}).then ( result2)->
+
+                if result2 and result2.length > 0
+                  next(new Err("优惠码已经存在 - 后台管理"), 400)
+                else
+                  next()
+
       else
         next()
+
+
 
     postCreate : (req, res, next) ->
 
