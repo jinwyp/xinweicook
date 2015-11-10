@@ -231,7 +231,7 @@ exports.orderExportList = function(req, res, next) {
     req.query.limit = 10000;
 
 
-    models.order.find({}).sort("-createdAt").skip (req.query.skip).limit (req.query.limit)
+    models.order.find({}).skip (req.query.skip).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()

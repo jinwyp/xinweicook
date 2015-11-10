@@ -152,15 +152,14 @@ exports.cancelNotPaidOrder = (req, res, next) ->
           models.coupon.revokeUsed(order.coupon, order.user.toString())
 
         # 撤销余额使用
-        if order.accountUsedDiscount > 0
+        if order.accountUsedDiscount and order.accountUsedDiscount > 0
 
           models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
             if resultAccount
-              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", order._id.toString())
+              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", order._id.toString())
 
 
     res.send resultOrderList
 
   .catch(next)
-
 
