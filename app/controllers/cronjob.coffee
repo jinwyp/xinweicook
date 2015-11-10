@@ -119,6 +119,7 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
   timeNow = moment();
   timeCancel = timeNow.clone().subtract(1, 'hours');
+#  timeCancel = timeNow.clone();
 
 
   models.order.find({ status : models.order.constantStatus().notpaid, cookingType :  models.dish.constantCookingType().eat, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
@@ -156,7 +157,7 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
           models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
             if resultAccount
-              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", order._id.toString())
+              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", order._id.toString()).catch( (err) -> logger.error("cronjob refund account error:", order._id, order.accountUsedDiscount, JSON.stringify(resultAccount)))
 
 
     res.send resultOrderList
