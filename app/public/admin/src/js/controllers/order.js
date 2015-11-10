@@ -590,7 +590,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.getOrderById();
 
 
-        Users.getList({group : 'courier'}).then(function (resultUsers) {
+        Users.getList({query : {group : 'courier'}}).then(function (resultUsers) {
             $scope.data.couriersList = resultUsers;
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});

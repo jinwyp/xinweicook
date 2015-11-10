@@ -14,8 +14,8 @@ POST `/api/user/address`
 |  city             | String | 市       |
 |  district         | String | 区       |
 |  street           | String | 街道     |
-|  street_number    | String | baidu map 的街道号      |
-|  address          | String | 详细地        |
+|  street_number    | String | baidu map 的街道号 或自动获取的地址 , 对用户可以不显示    |
+|  address          | String | 详细地址  用户手工填写的地址,尽量让用户手填,比较准确       |
 |  contactPerson    | String | 联系人        |
 |  mobile           | String | 手机          |
 |  isDefault        | Boolean| 默认地址      |
