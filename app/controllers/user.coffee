@@ -434,10 +434,24 @@ exports.userSignUp = (req, res, next) ->
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
-  models.user.signUp(mobile, pwd, code)
-  .then (resultUser)->
 
-    models.coupon.addCouponForNewUser(resultUser, req).then (resultUser2) ->
+  models.sms.verifyCode("signUp", mobile, code).then (smscode) ->
+
+    if smscode[1] isnt 1
+      throw new Err "验证码保存失败", 400
+
+    models.user.findOneAsync(mobile: mobile)
+
+  .then (resultUser) ->
+    models.user.checkFound(resultUser)
+
+    if not resultUser
+      logger.error("new user signUp:", mobile, code, pwd, couponcode)
+      models.user.createAsync(mobile: mobile, pwd: pwd )
+
+  .then (resultUserCreated)->
+
+    models.coupon.addCouponForNewUser(resultUserCreated, req).then (resultUser2) ->
       if couponcode
         models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode).catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
 
@@ -445,12 +459,14 @@ exports.userSignUp = (req, res, next) ->
     models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
+
     res.json
       access_token: t.access_token
       refresh_token: t.refresh_token
       token_type: "Bearer"
       expires_in: t.getExpiresIn()
-  , next
+
+  .catch(next)
 
 
 
@@ -624,7 +640,7 @@ exports.updateShoppingCart = (req, res, next) ->
 # 获取用户收货地址 (新版接口)
 exports.getUserAddress = (req, res, next) ->
 
-  models.useraddress.find({user : req.u._id}).then (resultUserAddressList)->
+  models.useraddress.findAsync({user : req.u._id}).then (resultUserAddressList)->
     # 转换老地址
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 

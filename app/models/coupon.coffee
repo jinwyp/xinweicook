@@ -222,7 +222,7 @@ module.exports =
 
       models.coupon.findOneAsync({code : couponChargeCode, couponType:models.coupon.constantCouponType().couponchargecode, isExpired : false, isUsed : false})
       .then (resultCoupon)->
-        console.log(resultCoupon)
+
         models.coupon.checkNotFound resultCoupon
         models.coupon.checkUsed(resultCoupon, user)
         couponData = resultCoupon
