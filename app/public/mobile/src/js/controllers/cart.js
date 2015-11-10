@@ -8,7 +8,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             for (var i = 0; i < localBag.length; i++) {
                 var id = localBag[i].dish._id;
                 var subDish = localBag[i].subDish;
-                for (var j = 0; j < localBag[i].subDish; j++) {
+                for (var j = 0; j < localBag[i].subDish.length; j++) {
                     id += subDish[j].dish._id;
                 }
                 if (!dishIdMap[id]) dishIdMap[id] = true;
