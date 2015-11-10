@@ -2,16 +2,18 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
     return {
         scope: {
             dish: '=',
-            user: '=',
-            cart: '='
+            user: '='
         },
         templateUrl: 'add-dish-bar.html',
         link : function ($scope) {
+            var storage = $scope.storage = $localStorage;
+            storage.localBag = storage.localBag || [];
+
             var unwatcher = $scope.$watch('user', function (user) {
                 if (user) {
                     unwatcher();
 
-                    $scope.cart = Utils.mergeCarts($localStorage.localBag || []
+                    storage.localBag = Utils.mergeCarts(storage.localBag || []
                         , user.shoppingCart);
                     $scope.totalPrice();
                 }
@@ -35,10 +37,6 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 }
             });
 
-            if ($localStorage.localBag) {
-                $scope.cart = $localStorage.localBag;
-            }
-
             /**
              * @param dish 此dish同$scope.dish
              */
@@ -59,7 +57,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 // - {dish: dish, number:number, subDish: []}
                 var entry;
 
-                $scope.cart.some(function (item) {
+                storage.localBag.some(function (item) {
                     if (Utils.isSameItemInCart(item, newEntry)) {
                         entry = item;
                         entry.number += newEntry.number;
@@ -71,31 +69,29 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 });
 
                 if (!entry) {
-                    $scope.cart.push(newEntry);
+                    storage.localBag.push(newEntry);
                 }
 
                 dish.count = 0;
 
                 $scope.hide();
 
-                User.postCart($scope.cart.map(postDishFilter));
+                User.postCart(storage.localBag.map(postDishFilter));
 
                 $scope.totalPrice();
-
-                $localStorage.localBag = $scope.cart;
             };
 
             var postDishFilter = $filter('postDish');
 
             $scope.totalPrice = function () {
-                var p = $scope.cart.reduce(function price(total, cur) {
+                var p = storage.localBag.reduce(function price(total, cur) {
                     total += cur.dish.priceOriginal * cur.number;
                     if (cur.subDish) {
                         total += cur.subDish.reduce(price, 0)
                     }
                     return total;
                 }, 0);
-                return $scope.cart.price = p;
+                return storage.localBag.price = p;
             };
 
             $scope.totalPrice();

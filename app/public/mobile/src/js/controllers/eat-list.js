@@ -1,8 +1,7 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
 function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
-                 ScopeDecorator, $location, $q, Coupon, Weixin) {
-    $scope.cart = [];
+                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils) {
     $scope.user = null;
     $scope.address = '';
     $scope.curDish = null; // 点击购买后被选中的菜品
@@ -14,8 +13,10 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         }
     };
 
+    Utils.cleanLocalStorage();
+
     $scope.goToCart = function () {
-        if (!$scope.cart.length) {
+        if (!storage.localBag.length) {
             alert('请至少添加一份菜品');
             return;
         }
@@ -33,6 +34,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
 
     ScopeDecorator.nav($scope);
 
+    var storage = $scope.storage = $localStorage;
+
 
     function init() {
         // 初始化nav
@@ -41,17 +44,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         $location.path(path);
         $scope.path = path;
 
-        $localStorage.warehouse = 'xinweioffice';
-
-        // todo: just for now.
-        //Dishes.getList('caohejing1').then(function (res) {
-        //    $scope.dishes = res.data;
-        //    if (!Weixin.isWeixin) {
-        //        filterDishByWarehouse({
-        //            dishReady: true
-        //        })
-        //    }
-        //});
+        storage.warehouse = 'xinweioffice';
 
         getDishList('caohejing1');
 
@@ -60,7 +53,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                 var warehouse = Map.nearestWarehouse(res.latitude,
                     res.longitude);
 
-                $localStorage.warehouse = warehouse;
+                storage.warehouse = warehouse;
                 filterDishByWarehouse({
                     warehouse: warehouse
                 });
@@ -120,21 +113,22 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             Dishes.getList(warehouse).then(function (res) {
                 $scope.dishes = res.data;
                 // for one week
-                delete $localStorage.dihes;
-                $localStorage.dishes = res.data;
+                storage.preferenceStockIds = Utils.getStockId(res.data, 'preference');
+                storage.mainStockIds = Utils.getStockId(res.data, 'main');
+
                 filterDishByWarehouse({
                     dishReady: true
                 });
                 return res.data;
             }),
             User.getUserInfo().then(function (res) {
-                var promotion = $localStorage.promotion;
+                var promotion = storage.promotion;
                 if (promotion) {
                     User.getWeixinUserInfo(res.data._id).then(function (res) {
                         if (res.data.subscribe) {
                             Coupon.exchangeCouponCode(promotion).then(function () {
                                 alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
-                                delete $localStorage.promotion;
+                                delete storage.promotion;
                             })
                         } else location.replace( '/mobile/wxgzh');
                     })
