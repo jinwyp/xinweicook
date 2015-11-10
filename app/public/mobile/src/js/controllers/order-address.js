@@ -2,8 +2,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     Weixin, $scope, User, Map, Address, $location, $localStorage) {
 
     var css = $scope.css = {
-        cur: 0,
-        edit: -1,
+        cur: 0,//-2:当前表单为新地址表单
+        edit: -1, //-1:不在编辑状态, -2:新地址表单正在编辑
         showFakeInput: true,
         refForm: null,
         showSearchAddress: false
@@ -234,7 +234,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
         if (css.cur == -2) { //是新增地址
             $scope.user.address.push(newAddr);
-            newAddr = $scope.newAddr = angular.copy(emptyAddr)
+            newAddr = $scope.newAddr = angular.copy(emptyAddr);
+            css.cur = $scope.user.address.length - 1;
         }
 
         User.updateUser($scope.user);
@@ -329,15 +330,17 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                     return true;
                 });
 
-                return Map.distances(addrOffice.map(function (addr) {
-                    return {
-                        lat: addr.geoLatitude,
-                        lng: addr.geoLongitude
-                    }
-                }), warehouse).catch(function (res) {
-                    alert('计算配送距离出错了,请联系客服!');
-                    alert(JSON.stringify(res.data));
-                });
+                if (addrOffice.length) {
+                    return Map.distances(addrOffice.map(function (addr) {
+                        return {
+                            lat: addr.geoLatitude,
+                            lng: addr.geoLongitude
+                        }
+                    }), warehouse).catch(function (res) {
+                        alert('计算配送距离出错了,请联系客服!');
+                        alert(JSON.stringify(res.data));
+                    });
+                }
             } else {
                 css.cur = -2;
             }
