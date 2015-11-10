@@ -205,15 +205,7 @@ module.exports =
 
       return false
 
-    signUp: (mobile, pwd, code) ->
-      models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
-        if smscode[1] isnt 1
-          throw new Err "验证码保存失败", 400
-        models.user.findOneAsync(mobile: mobile).then (resultUser) ->
-          models.user.checkFound(resultUser)
-          unless resultUser
-            models.user.createAsync(mobile: mobile, pwd: pwd )
-      )
+
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
         if smscode[1] isnt 1
