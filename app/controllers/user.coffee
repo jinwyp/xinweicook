@@ -640,7 +640,7 @@ exports.updateShoppingCart = (req, res, next) ->
 # 获取用户收货地址 (新版接口)
 exports.getUserAddress = (req, res, next) ->
 
-  models.useraddress.find({user : req.u._id}).then (resultUserAddressList)->
+  models.useraddress.findAsync({user : req.u._id}).then (resultUserAddressList)->
     # 转换老地址
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 
