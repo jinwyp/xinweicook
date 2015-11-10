@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
-    // clear all `cart` in $localStorage
+    // localBag may be has some bug.
     try {
         if ($localStorage.localBag) {
             var localBag = $localStorage.localBag;
@@ -15,11 +15,6 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 else {
                     localBag.splice(i--, 1)
                 }
-            }
-        }
-        for (var key in $localStorage) {
-            if (/cart/i.test(key)) {
-                delete $localStorage[key];
             }
         }
     } catch(e) {
@@ -142,7 +137,6 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     var postDishFilter = $filter('postDish');
     var postCart = null;
-    var idSubDishMap = {};
 
     function init() {
         // 如果已登录,则用合并服务器数据到本地
@@ -151,50 +145,34 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }).catch(function () {
             return []
         }).then(function (serverBag) {
-            var localBag = $localStorage.localBag =
-                $localStorage.localBag || [];
+            var localBag = $localStorage.localBag || [];
 
-            localBag = postCart = Utils.mergeCarts(localBag, serverBag);
-
-            // 构造附属菜id hash map
-            var dishes = $localStorage.dishes || [];
-            dishes.forEach(function (dish) {
-                dish.preferences.forEach(function (p) {
-                    p.foodMaterial.forEach(function (f) {
-                        if (!idSubDishMap[f.dish._id]) {
-                            idSubDishMap[f.dish._id] = f.dish;
-                        }
-                    })
-                })
-            });
+            $localStorage.localBag = postCart = Utils.mergeCarts(localBag, serverBag);
+            var mainStockIds = $localStorage.mainStockIds.reduce(function (map, id) {
+                map[id] = true;
+                return map;
+            }, {});
+            var preferencesStockIds = $localStorage.preferenceStockIds.reduce(function (map, id) {
+                map[id] = true;
+                return map;
+            }, {});
 
             // 更新库存信息
             for (var i = 0; i < postCart.length; i++) {
                 var pDish = postCart[i].dish;
-                pDish.outOfStock = true;
-                dishes.some(function (dish) {
-                    if (dish._id == pDish._id) {
-                        pDish.outOfStock = dish.outOfStock;
-                        return true;
-                    }
-                });
+                pDish.outOfStock = !mainStockIds[pDish._id];
 
                 if (postCart[i].subDish) {
                     postCart[i].subDish.forEach(function (el) {
-                        var serverDish = idSubDishMap[el.dish._id];
-                        //if (serverDish._id == '5628b573bbcf82f1411bfa79') {
-                        //    console.log(serverDish);
-                        //    debugger;
-                        //}
-                        el.dish.outOfStock = serverDish
-                            ? (serverDish.outOfStock || !serverDish.isPublished)
-                            : true;
+                        el.dish.outOfStock = !preferencesStockIds[el.dish._id];
                     })
                 }
 
                 // 预先算好, 避免html上多余的计算
                 postCart[i].outOfStock = !stockOfItem(postCart[i]);
-                postCart[i].outOfStock && (postCart[i].selected = false)
+                if (postCart[i].outOfStock) {
+                    postCart[i].selected = false;
+                }
             }
 
             initDishList(postCart);

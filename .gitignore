@@ -130,6 +130,4 @@ app/public/admin/src/excel/outputcoupon.xlsx
 app/views/mobile/app-old.html
 
 ### build tmp dir ###
-tmp
-tmp1
-tmp2
+app/public/mobile/dist/html/
