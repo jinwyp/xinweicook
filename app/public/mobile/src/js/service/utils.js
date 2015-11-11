@@ -67,7 +67,7 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
          * localStorage实在是太大了,去掉多余的信息,只保留必要的信息.
          */
         cleanLocalStorage: function () {
-            var remain = ['localBag', 'promotion'];
+            var remain = ['localBag', 'promotion', 'access_token'];
             Object.keys($localStorage).forEach(function (key) {
                 if (remain.indexOf(key) == -1 && key[0] != '$') {
                     delete $localStorage[key];
