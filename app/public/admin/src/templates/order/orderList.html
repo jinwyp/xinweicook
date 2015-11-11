@@ -230,7 +230,7 @@
                 <th>状态</th>
                 <th>快递</th>
                 <!--<th>拆分订单</th>暂时隐藏掉,S要求-->
-                <!--<th>子订单</th>-->
+                <th>子订单</th>
                 <th>来源</th>
                 <th>仓库</th>
                 <th>联系人 / 手机</th>
@@ -284,7 +284,9 @@
 
                 </td>
 
-                <!--<td>{{order.isSplitOrder}}</td>-->
+                <td><span ng-if="order.isSplitOrder">已拆单 <span ng-if="!order.isChildOrder">主订单</span> </span>
+                    <span ng-if="order.isChildOrder">子订单</span>
+                </td>
                 <!--<td>{{order.isChildOrder}}</td>-->
                 <td>
                     <span ng-if="order.clientFrom === 'ios'">iOS</span>
