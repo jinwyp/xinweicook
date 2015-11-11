@@ -6,7 +6,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         edit: -1, //-1:不在编辑状态, -2:新地址表单正在编辑
         showFakeInput: true,
         refForm: null,
-        showSearchAddress: false
+        showSearchAddress: false,
+        locating: false
     };
 
     var data = $scope.data = {
@@ -17,7 +18,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     var emptyAddr = {
         contactPerson: '',
         mobile: '',
-        province: '',
+        province: '上海',
         city: '',
         street: '',
         address: '',
@@ -86,7 +87,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     $scope.initForm = function (form, addr) {
         css.refForm = form;
         if (addr) css.showFakeInput = !addr.province;
-        else css.showFakeInput = false;
+        else css.showFakeInput = true;
     };
 
     $scope.showSearchAddress = function () {
@@ -112,15 +113,17 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
 
     $scope.locate = function (event) {
 
+        css.locating = true;
+
         event.stopPropagation();
 
         Weixin.getLocation(function (res) {
 
-            console.log("weixinGeo:", res);
+            //console.log("weixinGeo:", res);
 
             Weixin.getLocationName(res.latitude, res.longitude).then(function (data) {
 
-                console.log("baiduGeo:", data.data);
+                //console.log("baiduGeo:", data.data);
 
                 var result = data.data.result;
                 result = angular.pick(result.addressComponent, 'province', 'city', 'district', 'street');
@@ -153,8 +156,12 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                     newAddr.isInRange = res.isInRange;
                     newAddr.distance = res.distance;
                     newAddr.warehouse = res.warehouse;
-                })
+                });
+            }).catch(angular.noop).then(function () {
+                css.locating = false; // like finally
             })
+        }, function () {
+            css.locating = false;
         })
     };
 
@@ -226,6 +233,14 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         })
     };
 
+    $scope.deleteAddress = function (idx, $event) {
+        $event.stopPropagation();
+        if (!confirm('确定删除该地址?')) return;
+        $scope.address.splice(idx, 1);
+        User.updateUser($scope.user);
+        css.cur = 0;
+    };
+
     function save(isNext) {
         if (!css.refForm) return true;
         if (css.refForm.$invalid) {
@@ -233,9 +248,9 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         }
 
         if (css.cur == -2) { //是新增地址
-            $scope.user.address.push(newAddr);
+            $scope.address.push(newAddr);
             newAddr = $scope.newAddr = angular.copy(emptyAddr);
-            css.cur = $scope.user.address.length - 1;
+            css.cur = $scope.address.length - 1;
         }
 
         User.updateUser($scope.user);
@@ -341,8 +356,6 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                         alert(JSON.stringify(res.data));
                     });
                 }
-            } else {
-                css.cur = -2;
             }
 
         }).then(function (res) {
@@ -364,7 +377,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 addr.distance = res[i].distance;
                 addr.warehouse = res[i].warehouse;
             })
-        })
+        });
 
         Weixin.getJsconfig().then(function (res) {
             Weixin.config({

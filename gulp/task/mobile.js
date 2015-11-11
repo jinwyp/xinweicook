@@ -59,7 +59,7 @@ gulp.task('errcode', function () {
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
 
-gulp.task("mobileUsemin", ['delDist'], function () {
+gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
         css: [minifyCss(), rev()],
@@ -110,12 +110,12 @@ gulp.task('mobileCopy2Views', ['delMobileViewsAndIncludes'], function () {
         .pipe(gulp.dest(paths.baseView + 'mobile'))
 });
 
-gulp.task('mobileCopyImg', function () {
+gulp.task('mobileCopyImg', ['delDist'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.img)
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
 });
 
-gulp.task('mobileProduction', ['mobileCopy2Views', 'mobileCopyImg']);
+gulp.task('mobileProduction', ['mobileCopy2Views']);
 
 
 

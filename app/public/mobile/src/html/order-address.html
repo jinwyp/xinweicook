@@ -14,7 +14,7 @@
 <div class="order-address-main" ng-show="!css.showSearchAddress" ng-click="saveAndLeave()" ng-cloak>
     <ul class="address-list">
         <li ng-repeat="addr in address"
-            ng-class="{cur: css.cur == $index}"
+            ng-class="{cur: css.cur == $index, edit: css.edit == $index}"
             ng-click="choose($index, $event)">
             <span class="deliverable-tag" ng-if="addr.isInRange">便当可送达</span>
             <div>{{addr.contactPerson}}</div>
@@ -22,6 +22,11 @@
             <div class="cur-show">{{addr.province + ' ' + addr.city + ' ' + addr.district}}</div>
             <div>{{addr.street}}</div>
             <div class="cur-show">{{addr.address}}</div>
+
+            <div class="user-actions">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span ng-click="deleteAddress($index, $event)" class="glyphicon glyphicon-trash"></span>
+            </div>
 
             <form ng-if="css.edit == $index" name="form">
                 <div ng-init="initForm(form, addr)" ng-class="{'with-tag': addr.isInRange}">
@@ -41,17 +46,24 @@
                 </div>
 
                 <div ng-if="!css.showFakeInput" class="selects">
-                    <select required name="province" id="province"
-                            ng-options="province for province in options()"
-                            ng-model="addr.province"></select>
+                    <div class="select">
+                        <select required name="province" id="province"
+                                ng-options="province for province in options()"
+                                ng-model="addr.province"></select>
+                    </div>
 
-                    <select required name="city" id="city"
-                            ng-options="city for city in options(addr.province)"
-                            ng-model="addr.city"></select>
+                    <div class="select">
+                        <select required name="city" id="city"
+                                 ng-options="city for city in options(addr.province)"
+                                 ng-model="addr.city"></select>
+                    </div>
 
-                    <select required name="district" id="district"
-                            ng-options="district for district in options(addr.province, addr.city)"
-                            ng-model="addr.district"></select>
+                    <div class="select">
+                        <select required name="district" id="district"
+                                ng-options="district for district in options(addr.province, addr.city)"
+                                ng-model="addr.district"></select>
+                    </div>
+
                 </div>
                 <div ng-if="css.showFakeInput">
                     <input type="text" placeholder="省、市、区"  ng-click="css.showFakeInput = false"/>
@@ -69,7 +81,7 @@
             </form>
         </li>
 
-        <li class="new" ng-class="{cur: css.cur == -2}" ng-click="choose(-2, $event)">
+        <li class="new" ng-class="{cur: css.cur == -2, edit: css.edit == -2}" ng-click="choose(-2, $event)">
             <div>新增收货人</div>
             <div>手机号</div>
             <div>省、市、区</div>
@@ -78,7 +90,7 @@
             <form name="newForm" ng-if="css.cur == -2">
                 <div ng-init="initForm(newForm)" ng-class="{'with-tag': newAddr.isInRange}">
                     <input name="contactPerson" type="text" placeholder="收货人"
-                           ng-model="newAddr.contactPerson"
+                           ng-model="newAddr.contactPerson" auto-focus
                            minlength="2" required/>
                     <span class="err-tip" ng-if="newForm.contactPerson.$dirty && newForm.contactPerson.$error.required">必填</span>
                     <span class="err-tip" ng-if="newForm.contactPerson.$error.minlength">联系人姓名至少2个字</span>
@@ -93,17 +105,22 @@
                 </div>
 
                 <div ng-if="!css.showFakeInput" class="selects">
-                    <select required name="province"
+                    <div class="select">
+                        <select required name="province"
                             ng-options="province for province in options()"
                             ng-model="newAddr.province"></select>
+                    </div>
 
-                    <select required name="city"
+                    <div class="select">
+                        <select required name="city"
                             ng-options="city for city in options(newAddr.province)"
                             ng-model="newAddr.city"></select>
-
-                    <select required name="district"
+                    </div>
+                    <div class="select">
+                        <select required name="district"
                             ng-options="district for district in options(newAddr.province, newAddr.city)"
                             ng-model="newAddr.district"></select>
+                    </div>
                 </div>
                 <div ng-if="css.showFakeInput">
                     <input type="text" placeholder="省、市、区"  ng-click="css.showFakeInput = false"/>
@@ -113,7 +130,8 @@
                     {{newAddr.street}}
                     <input ng-if="!newAddr.street" type="text" placeholder="街道" name="street" ng-model="newAddr.street" required/>
                     <span class="err-tip" ng-if="newForm.street.$dirty && newForm.street.$error.required">必填</span>
-                    <span ng-if="::isWeixin" ng-click="locate($event)" class="location">定位</span>
+                    <span ng-if="isWeixin && !css.locating" ng-click="locate($event)" class="location">定位</span>
+                    <span ng-if="isWeixin && css.locating" class="location">定位中 ···</span>
                 </div>
                 <div>
                     <input name="address" type="text" placeholder="楼层、门牌号" required ng-model="newAddr.address">
