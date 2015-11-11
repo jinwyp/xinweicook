@@ -66,7 +66,7 @@ conf =
     secret_key : "ktbOSuZrHbGbFl-Zdo06SEAhRC4DLT9oQ2eqv-QR"
 
   code:
-    trys: 3
+    trys: 5
     sends: 9
     expire: 30 # mins
 

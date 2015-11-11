@@ -141,8 +141,10 @@ module.exports =
 
             if log.expiredAt < moment()
               throw new Err "过期的验证码 ", 400, Err.code.sms.expired
+
             else if log.code?.toString() isnt code?.toString()
               throw new Err "验证码错误", 400, Err.code.sms.wrongCode
+
             else
               log.expiredAt = moment()
               log.saveAsync()
