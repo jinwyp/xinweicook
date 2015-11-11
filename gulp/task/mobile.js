@@ -13,6 +13,7 @@ var ngAnnotate = require('gulp-ng-annotate');
 var gulpif = require("gulp-if");
 var fs = require("fs");
 var usemin = require('gulp-usemin');
+var sourcemaps = require('gulp-sourcemaps');
 
 
 
@@ -62,7 +63,7 @@ gulp.task("mobileUsemin", ['delDist'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
         css: [minifyCss(), rev()],
-        js: [ngAnnotate(), uglify(), 'concat', rev()]
+        js: [ngAnnotate(), sourcemaps.init(), uglify(), 'concat', rev(), sourcemaps.write('.')]
     };
     fs.readdirSync(paths.baseStatic + paths.sourceMobile.root + '/js/controllers')
         .forEach(function (file) {
