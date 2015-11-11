@@ -62,7 +62,7 @@ gulp.task('errcode', function () {
 gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
-        css: [minifyCss(), rev()],
+        css: [sourcemaps.init(), minifyCss(), rev(), sourcemaps.write('.')],
         js: [ngAnnotate(), sourcemaps.init(), uglify(), 'concat', rev(), sourcemaps.write('.')]
     };
     fs.readdirSync(paths.baseStatic + paths.sourceMobile.root + '/js/controllers')

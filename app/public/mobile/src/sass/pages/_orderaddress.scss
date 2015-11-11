@@ -130,14 +130,15 @@ html.order-address-html {
         }
 
         .user-actions {
+          opacity: .5;
           display: block;
           position: absolute;
-          right: 20px;
+          right: 5px;
           bottom: 0;
           span {
             padding: .5em;
             &:not(:last-child) {
-              margin-right: 1.5em;
+              margin-right: 1.3em;
             }
           }
         }
