@@ -1855,12 +1855,29 @@ html.order-address-html body {
   width: 100%;
 }
 /* line 60, ../sass/pages/_orderaddress.scss */
-.order-address-main .address-list li form > div.selects select {
-  height: 37px;
-  background-color: white;
+.order-address-main .address-list li form > div.selects .select {
+  position: relative;
+  display: inline-block;
   width: 31%;
 }
-/* line 68, ../sass/pages/_orderaddress.scss */
+/* line 64, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li form > div.selects .select::after {
+  font-weight: 700;
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  border: 5px transparent solid;
+  border-top: 6px black solid;
+}
+/* line 74, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li form > div.selects select {
+  width: 100%;
+  height: 37px;
+  background-color: white;
+  -webkit-appearance: none;
+}
+/* line 83, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li .location {
   position: absolute;
   right: 13px;
@@ -1873,37 +1890,65 @@ html.order-address-html body {
   font-size: 12px;
   height: 27px;
 }
-/* line 81, ../sass/pages/_orderaddress.scss */
+/* line 96, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li input {
   width: 100%;
   height: 37px;
   line-height: 1.428;
 }
-/* line 88, ../sass/pages/_orderaddress.scss */
+/* line 103, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li .cur-show {
   display: none;
 }
-/* line 92, ../sass/pages/_orderaddress.scss */
+/* line 107, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li .user-actions {
+  display: none;
+}
+/* line 111, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur {
   padding: 0;
   border-color: black;
   color: black;
 }
-/* line 97, ../sass/pages/_orderaddress.scss */
+/* line 116, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur form > div, .order-address-main .address-list li.cur > div {
   line-height: 38px;
 }
-/* line 98, ../sass/pages/_orderaddress.scss */
-.order-address-main .address-list li.cur form > div:not(:last-of-type), .order-address-main .address-list li.cur > div:not(:last-of-type) {
-  border-bottom: 2px dotted #EAE9E9;
+/* line 120, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur form > div:not(:last-child), .order-address-main .address-list li.cur > div:not(:last-child) {
+  border-bottom: 2px dotted white;
 }
-/* line 102, ../sass/pages/_orderaddress.scss */
+/* line 124, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur .deliverable-tag {
   background-color: black;
 }
-/* line 106, ../sass/pages/_orderaddress.scss */
+/* line 128, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur .cur-show {
   display: block;
+}
+/* line 132, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur .user-actions {
+  opacity: .5;
+  display: block;
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+}
+/* line 138, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur .user-actions span {
+  padding: .5em;
+}
+/* line 140, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur .user-actions span:not(:last-child) {
+  margin-right: 1.3em;
+}
+/* line 147, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur.edit form > div, .order-address-main .address-list li.cur.edit > div {
+  border-bottom-color: #989595;
+}
+/* line 150, ../sass/pages/_orderaddress.scss */
+.order-address-main .address-list li.cur.edit .user-actions {
+  display: none;
 }
 
 /* line 6, ../sass/pages/_search-address.scss */
