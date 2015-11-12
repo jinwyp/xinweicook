@@ -820,7 +820,7 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
               delete resultTemp.dishList
   #            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
               res.json resultTemp
-
+    .catch next
 
 
   .catch next
