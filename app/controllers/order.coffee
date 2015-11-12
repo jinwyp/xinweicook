@@ -223,8 +223,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
   if req.body.warehouseId
-    unless libs.validator.isLength req.body.warehouseId, 24, 24
-      return throw new Err "Field validation error,  warehouse ID length must be 24-24", 400
+    models.warehouse.validationId(req.body.warehouseId)
 
 
   languageStr = req.acceptsLanguages()
@@ -300,7 +299,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
-    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
     if req.body.address.city is "上海市"
       newOrder.packageType = "paperbox"
@@ -311,7 +310,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
-    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateEat)
+    newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateEat)
 
 
 
@@ -338,7 +337,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
-    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
   if req.body.address.city is "上海市"
     newOrderReadyToCook.packageType = "paperbox"
@@ -368,7 +367,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
-    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
 
   models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
@@ -441,7 +440,7 @@ exports.addNewOrder = (req, res, next) ->
       dish._id.toString()
     )
     # 判断是否有不存在的菜品ID
-    models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
+    models.order.checkInvalidDishIdList(dishIdList, tempResultDishIdList)
 
     # 判断饮料不能单独下单，数量不超过十个
     models.order.checkInvalidDrink(resultDishes)

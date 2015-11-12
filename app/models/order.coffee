@@ -173,23 +173,6 @@ module.exports =
     packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
 
   statics:
-    checkNotFound : (order) ->
-      if not order
-        throw new Err "Order ID or OrderNumber not found !", 400
-    checkInvalidDishIdListh : (sourceDishIdList, dataBaseDishIdList) ->
-      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
-      if invalidDishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
-
-    checkInvalidDrink : (dishList) ->
-      drinkList = []
-      for dish,dishIndex in dishList
-        # 饮料不能单独点
-        if dish.sideDishType is models.dish.constantSideDishType().drink
-          drinkList.push(dish)
-      if drinkList.length is dishList.length
-        throw new Err "Can't order drink only !", 400
-
     constantStatus : () ->
       status =
         notpaid : "not paid"
@@ -240,9 +223,37 @@ module.exports =
       deliveryName =
         ksudi : "快速递"
 
+    checkNotFound : (order) ->
+      if not order
+        throw new Err "Order ID or OrderNumber not found !", 400, Err.code.order.notFound
+
+    checkInvalidDishIdList : (sourceDishIdList, dataBaseDishIdList) ->
+      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
+      if invalidDishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400, Err.code.order.dishIdInvalid
+
+    checkInvalidDrink : (dishList) ->
+      drinkList = []
+      dishWithoutPreferencesList = []
+
+      for dish,dishIndex in dishList
+        # 饮料不能单独点
+        if dish.sideDishType is models.dish.constantSideDishType().drink
+          drinkList.push(dish)
+
+        if dish.sideDishType isnt models.dish.constantSideDishType().preferences
+          dishWithoutPreferencesList.push(dish)
+
+      if drinkList.length is dishWithoutPreferencesList.length
+        throw new Err "Can't order drink only !", 400, Err.code.order.notOnlyDrink
+
+      if drinkList.length > 10
+        throw new Err "Can't order 11 or more drinks!", 400, Err.code.order.notOverTenDrinks
+
+
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
+        return throw new Err "Field validation error,  orderID _id length must be 24-24", 400, Err.code.order.orderIdWrong
 
     validationOrderNumber : (orderNumber) ->
       unless libs.validator.isLength orderNumber, 21, 22
@@ -271,75 +282,85 @@ module.exports =
 
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30
-        return throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength newOrder.clientFrom, 2, 100
+        return throw new Err "Field validation error,  cookingType must be string", 400, Err.code.order.cookingTypeWrong
+      unless libs.validator.isLength newOrder.clientFrom, 2, 100, Err.code.order.cookingTypeWrong
         return throw new Err "Field validation error,  clientFrom must be string", 400
-      unless libs.validator.isLength newOrder.userComment, 0, 600
+      unless libs.validator.isLength newOrder.userComment, 0, 600, Err.code.order.userCommentWrong
         return throw new Err "Field validation error,  userComment must be string 0-600", 400
 
-      unless libs.validator.isInt newOrder.credit, {min: 0}
+      unless libs.validator.isInt newOrder.credit, {min: 0}, Err.code.order.creditWrong
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 5}
+      unless libs.validator.isInt newOrder.freight, {min: 5}, Err.code.order.freightWrong
         return throw new Err "Field validation error,  freight must be number > 4", 400
-      unless libs.validator.isLength newOrder.payment, 3, 20
+      unless libs.validator.isLength newOrder.payment, 3, 20, Err.code.order.paymentWrong
         return throw new Err "Field validation error,  payment length must be 3-20", 400
 
       if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod and newOrder.payment isnt @constantPayment().account
-        return throw new Err "Field validation error,  payment text wrong", 400
+        return throw new Err "Field validation error,  payment text wrong", 400, Err.code.order.paymentWrong
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
-        return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+        return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400, Err.code.order.paymentUsedCashWrong
 
 
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
-          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
         unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
       else
         unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
-          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
         unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
 
       unless Array.isArray newOrder.dishList
-        return throw new Err "Field validation error,  dishList must be ArrayObject", 400
+        return throw new Err "Field validation error,  dishList must be ArrayObject", 400, Err.code.order.dishListArrayWrong
       else
         if newOrder.dishList.length is 0
-          return throw new Err "Field validation error,  dishList must have some dish", 400
+          return throw new Err "Field validation error,  dishList must have some dish", 400, Err.code.order.dishListArrayWrong
 
         for dish,dishIndex in newOrder.dishList
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
-            return throw new Err "Field validation error,  dish.number must be 1-100", 400
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400, Err.code.order.dishListDishNumberWrong
           unless libs.validator.isLength dish.dish, 24, 24
-            return throw new Err "Field validation error,  dishID must be 24-24", 400
+            return throw new Err "Field validation error,  dishID must be 24-24", 400, Err.code.order.dishListDishIdWrong
 
           if Array.isArray dish.subDish
             for subDish,subDishIndex in dish.subDish
-              unless libs.validator.isInt subDish.number, {min: 1, max: 100}
+              unless libs.validator.isInt subDish.number, {min: 1, max: 100}, Err.code.order.dishListSubDishNumberWrong
                 return throw new Err "Field validation error,  subDish.number must be 1-100", 400
-              unless libs.validator.isLength subDish.dish, 24, 24
+              unless libs.validator.isLength subDish.dish, 24, 24, Err.code.order.dishListSubDishIdWrong
                 return throw new Err "Field validation error,  subDishID must be 24-24", 400
           else
             if dish.subDish
-              throw new Err "Field validation error,  subDish must be Array", 400
+              throw new Err "Field validation error,  subDish must be Array", 400, Err.code.order.dishListSubDishArrayWrong
 
-      unless libs.validator.isFloat newOrder.address.geoLatitude
-        return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
-      unless libs.validator.isFloat newOrder.address.geoLongitude
-        return throw new Err "Field validation error,  geoLongitude must be isFloat", 400
-      unless libs.validator.isLength newOrder.address.province, 2, 200
-        return throw new Err "Field validation error,  province must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.city, 2, 200
-        return throw new Err "Field validation error,  city must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.district, 2, 200
-        return throw new Err "Field validation error,  district must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.address, 2, 1000
-        return throw new Err "Field validation error,  detail address must be 2-1000", 400
-      unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
-        return throw new Err "Field validation error,  contactPerson must be 2-99", 400
-      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
-        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+      if newOrder.addressId or newOrder.addressId is ""
+        unless libs.validator.isLength newOrder.addressId, 24, 24
+          return throw new Err "Field validation error,  address _id length must be 24-24", 400, Err.code.order.addressIdWrong
+
+      else
+        unless libs.validator.isFloat newOrder.address.geoLatitude
+          return throw new Err "Field validation error,  geoLatitude must be isFloat", 400, Err.code.order.addressLatitudeWrong
+        unless libs.validator.isFloat newOrder.address.geoLongitude
+          return throw new Err "Field validation error,  geoLongitude must be isFloat", 400, Err.code.order.addressLongitudeWrong
+        unless libs.validator.isLength newOrder.address.province, 2, 200
+          return throw new Err "Field validation error,  province must be 2-200", 400, Err.code.order.addressProvinceWrong
+        unless libs.validator.isLength newOrder.address.city, 2, 200
+          return throw new Err "Field validation error,  city must be 2-200", 400, Err.code.order.addressCityWrong
+        unless libs.validator.isLength newOrder.address.district, 2, 200
+          return throw new Err "Field validation error,  district must be 2-200", 400, Err.code.order.addressDistrictWrong
+        unless libs.validator.isLength newOrder.address.street, 2, 200
+          return throw new Err "Field validation error,  street must be 2-200", 400, Err.code.user.addressStreetWrong
+#        unless libs.validator.isLength newOrder.address.street_number, 2, 200
+#          return throw new Err "Field validation error,  street_number must be 2-200", 400, Err.code.user.addressStreetNumberWrong
+        unless libs.validator.isLength newOrder.address.address, 2, 1000
+          return throw new Err "Field validation error,  detail address must be 2-1000", 400, Err.code.user.addressAddressWrong
+        unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
+          return throw new Err "Field validation error,  contactPerson must be 2-99", 400, Err.code.user.addressContactPersonWrong
+        unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
+          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400, Err.code.user.addressMobileWrong
+
 
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 24
@@ -362,7 +383,7 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
-    deliveryDateTypeChecker : (date) ->
+    deliveryDateTypeIsNextDayChecker : (date) ->
       deliveryDate =  moment(date)
       timeToday = moment().startOf('day')
       timeTomorrow = timeToday.add(1, 'days')
