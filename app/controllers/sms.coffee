@@ -53,7 +53,7 @@ exports.sendSMS = (req, res, next) ->
     if conf.debug
       res.json code: tempCode
     else
-      res.json code: ''
+      res.json code: 1
 
   .catch(next)
 
