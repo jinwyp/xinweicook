@@ -81,7 +81,7 @@
             </form>
         </li>
 
-        <li class="new" ng-class="{cur: css.cur == -2, edit: css.edit == -2}" ng-click="choose(-2, $event)">
+        <li class="new" ng-if="user" ng-class="{cur: css.cur == -2, edit: css.edit == -2}" ng-click="choose(-2, $event)">
             <div>新增收货人</div>
             <div>手机号</div>
             <div>省、市、区</div>

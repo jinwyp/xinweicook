@@ -1944,7 +1944,7 @@ html.order-address-html body {
 }
 /* line 147, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur.edit form > div, .order-address-main .address-list li.cur.edit > div {
-  border-bottom-color: #989595;
+  border-bottom-color: #bbbbbb;
 }
 /* line 150, ../sass/pages/_orderaddress.scss */
 .order-address-main .address-list li.cur.edit .user-actions {
