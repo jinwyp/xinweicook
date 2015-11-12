@@ -17,7 +17,7 @@
             ng-class="{cur: css.cur == $index, edit: css.edit == $index}"
             ng-click="choose($index, $event)">
             <span class="deliverable-tag" ng-if="addr.isInRange">便当可送达</span>
-            <div>{{addr.contactPerson}}</div>
+            <div>{{addr.contactPerson}}</div>\
             <div class="cur-show">{{addr.mobile | beautifyMobile}}</div>
             <div class="cur-show">{{addr.province + ' ' + addr.city + ' ' + addr.district}}</div>
             <div>{{addr.street}}</div>

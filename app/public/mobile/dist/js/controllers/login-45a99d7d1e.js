@@ -10,11 +10,15 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
         state: 'init' // 短信按钮的状态
     };
 
+    $scope.css = {pending: false};
+
     var pwdErrTimes = 0;
-    $scope.login = function (form) {
-        User.login($scope.loginData.username, $scope.loginData.password, couponcode).then(redirect)
-            .catch(function (res) {
-            // todo:
+    $scope.login = function () {
+        $scope.css.pending = true;
+        User.login($scope.loginData.username, $scope.loginData.password, couponcode)
+        .then(redirect)
+        .catch(function (res) {
+            resetPending();
             if (res.data) {
                 if (res.data.validationStatus == 1111) {
                     if (++pwdErrTimes >= 2) {
@@ -29,22 +33,25 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
         })
     };
     
-    $scope.signup = function (form) {
+    $scope.signup = function () {
+        $scope.css.pending = true;
         User.signup(
             $scope.signupData.mobile,
             $scope.signupData.pwd,
             $scope.signupData.code,
             couponcode
-        ).then(function (res) {
+        ).then(function () {
             // todo: redirect
             alert('注册成功!');
             redirect();
         }).catch(function (res) {
+            resetPending();
             Alert.show(res.data.validationStatus, '注册失败,请稍后重试');
         })
     };
 
     $scope.resetPwd = function () {
+        $scope.css.pending = true;
         User.resetPwd(
             $scope.resetPwdData.mobile,
             $scope.resetPwdData.pwd,
@@ -53,6 +60,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
             alert('密码重置成功,请重新登录!');
             location.href = '/mobile/login'
         }).catch(function (res) {
+            resetPending();
             Alert.show(res.data.validationStatus, '重置密码失败, 请稍后重置');
         })
     };
@@ -127,8 +135,12 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
 
             setTimeout(function () {
                 location.replace(redirect);
-            }, 150);
+            }, 100);
         });
+    }
+
+    function resetPending() {
+        $scope.css.pending = false;
     }
 
     init();

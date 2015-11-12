@@ -1,28 +1,28 @@
 @charset "UTF-8";
-/* line 22, ../sass/_base.scss */
+/* line 23, ../sass/_base.scss */
 html {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 26, ../sass/_base.scss */
+/* line 27, ../sass/_base.scss */
 body {
   background-color: #f1f1f1;
   color: #4b4b4c;
 }
 
-/* line 32, ../sass/_base.scss */
+/* line 33, ../sass/_base.scss */
 a:link, a:visited, a:focus, a:hover, a:active {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 38, ../sass/_base.scss */
+/* line 39, ../sass/_base.scss */
 ul, li {
   list-style: none;
   padding: 0;
 }
 
-/* line 43, ../sass/_base.scss */
+/* line 44, ../sass/_base.scss */
 input:focus, input, textarea, select, option {
   border-radius: 0 !important;
   border: none !important;
@@ -30,46 +30,46 @@ input:focus, input, textarea, select, option {
   outline: 0;
 }
 
-/* line 50, ../sass/_base.scss */
+/* line 51, ../sass/_base.scss */
 i {
   font-style: normal;
 }
 
-/* line 54, ../sass/_base.scss */
+/* line 55, ../sass/_base.scss */
 ::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 57, ../sass/_base.scss */
+/* line 58, ../sass/_base.scss */
 :-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 60, ../sass/_base.scss */
+/* line 61, ../sass/_base.scss */
 ::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
 }
 
-/* line 64, ../sass/_base.scss */
+/* line 65, ../sass/_base.scss */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 72, ../sass/_base.scss */
+/* line 73, ../sass/_base.scss */
 .form-horizontal .control-label {
   padding-top: 7px;
   margin-bottom: 0;
   text-align: left;
 }
 
-/* line 78, ../sass/_base.scss */
+/* line 79, ../sass/_base.scss */
 label {
   font-weight: 400;
 }
 
-/* line 109, ../sass/_base.scss */
+/* line 110, ../sass/_base.scss */
 .nav {
   background-color: white;
   text-align: center;
@@ -78,23 +78,23 @@ label {
   position: relative;
   box-shadow: #DEDEDE 0 0 1px;
 }
-/* line 117, ../sass/_base.scss */
+/* line 118, ../sass/_base.scss */
 .nav span {
   border-bottom: solid 1px transparent;
   padding: 0 15px 11px;
 }
-/* line 125, ../sass/_base.scss */
+/* line 126, ../sass/_base.scss */
 .nav span.active {
   color: #f44d4d;
   border-color: #f44d4d;
 }
 
-/* line 132, ../sass/_base.scss */
+/* line 133, ../sass/_base.scss */
 .white-body {
   background-color: white;
 }
 
-/* line 136, ../sass/_base.scss */
+/* line 137, ../sass/_base.scss */
 .back-icon {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s66e3f122eb.png');
@@ -110,7 +110,7 @@ label {
   top: 12px;
 }
 
-/* line 143, ../sass/_base.scss */
+/* line 144, ../sass/_base.scss */
 .time-icon {
   display: inline-block;
   background-repeat: no-repeat;
@@ -124,7 +124,7 @@ label {
   background-size: 98px auto;
 }
 
-/* line 149, ../sass/_base.scss */
+/* line 150, ../sass/_base.scss */
 .people-icon {
   display: inline-block;
   background-repeat: no-repeat;
@@ -138,21 +138,21 @@ label {
   background-size: 98px auto;
 }
 
-/* line 156, ../sass/_base.scss */
+/* line 157, ../sass/_base.scss */
 .like-icon {
   display: inline-block;
   height: 14px;
   width: 14px;
   background: url('../img/icons/MenuLikeIcon.png?1446874315') 50%/cover no-repeat;
 }
-/* line 159, ../sass/_base.scss */
+/* line 160, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
   background: url('../img/icons/MenuLikeIconHighlighted.png?1446874315') 50%/cover no-repeat;
 }
 
-/* line 166, ../sass/_base.scss */
+/* line 167, ../sass/_base.scss */
 .form-line {
   margin: 0 12px 0 12px;
   border-bottom: 1px solid #bcbcbc;
@@ -160,27 +160,27 @@ label {
   opacity: 0.5;
 }
 
-/* line 173, ../sass/_base.scss */
+/* line 174, ../sass/_base.scss */
 .plus-char::before {
   content: 'X';
 }
 
-/* line 177, ../sass/_base.scss */
+/* line 178, ../sass/_base.scss */
 .rmb-char::before {
   content: "¥ ";
 }
 
-/* line 180, ../sass/_base.scss */
+/* line 181, ../sass/_base.scss */
 .rmb-char.negative::before {
   content: "- ¥ ";
 }
 
-/* line 184, ../sass/_base.scss */
+/* line 185, ../sass/_base.scss */
 .no-padding-left {
   padding-left: 0;
 }
 
-/* line 190, ../sass/_base.scss */
+/* line 191, ../sass/_base.scss */
 form .err-tip {
   color: #f44d4d;
   position: absolute;
@@ -188,7 +188,7 @@ form .err-tip {
   right: 1em;
 }
 
-/* line 202, ../sass/_base.scss */
+/* line 203, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
@@ -234,15 +234,27 @@ form .err-tip {
 .login-form .form-control, .signup-form .form-control {
   height: 40px;
 }
-
+/* line 41, ../sass/pages/_login.scss */
+.login-form .group, .signup-form .group {
+  position: relative;
+}
 /* line 43, ../sass/pages/_login.scss */
+.login-form .group .err-tip, .signup-form .group .err-tip {
+  line-height: 40px;
+}
+/* line 47, ../sass/pages/_login.scss */
+.login-form button.invalid, .signup-form button.invalid {
+  background: #F9F9F9;
+}
+
+/* line 52, ../sass/pages/_login.scss */
 .login-button {
   width: 95%;
   margin: 20px auto 0;
   border-radius: 0;
 }
 
-/* line 50, ../sass/pages/_login.scss */
+/* line 59, ../sass/pages/_login.scss */
 .forget-pwd-container {
   text-align: right;
   margin: 7px 7px -10px;
@@ -250,17 +262,17 @@ form .err-tip {
   color: #71736F;
 }
 
-/* line 57, ../sass/pages/_login.scss */
+/* line 66, ../sass/pages/_login.scss */
 .test-wrapper {
   padding-left: 12px;
   margin-bottom: 10px;
 }
-/* line 61, ../sass/pages/_login.scss */
+/* line 70, ../sass/pages/_login.scss */
 .test-wrapper label {
   padding: 10px 0 5px;
 }
 
-/* line 66, ../sass/pages/_login.scss */
+/* line 75, ../sass/pages/_login.scss */
 .sms-button {
   position: absolute;
   border: 1px #f44d4d solid;
@@ -272,7 +284,7 @@ form .err-tip {
   top: 46px;
   right: 11px;
 }
-/* line 67, ../sass/pages/_login.scss */
+/* line 76, ../sass/pages/_login.scss */
 .sms-button.invalid {
   color: #A7A7A7;
 }
