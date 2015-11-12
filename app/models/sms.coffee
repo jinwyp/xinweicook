@@ -156,7 +156,7 @@ module.exports =
         text = models.sms.constantTemplateCustomerNewOrderNotify(orderNumber)
         today = moment().second()
 
-        if today < 5
+        if today < 2
           models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 索晶电话
           models.sms.sendSmsVia3rd("15907090405", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 李晓雪电话
           models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 赵梦菲电话

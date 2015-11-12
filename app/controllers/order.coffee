@@ -43,9 +43,8 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
   unless libs.validator.isLength orderId, 24, 24
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(orderId) )
 
-  return res.redirect("/mobile/wxpay/" + orderId)
+#  return res.redirect("/mobile/wxpay/" + orderId)
 
-###
   models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
     if resultOrder
 
@@ -68,7 +67,7 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
-###
+
 
 
 
