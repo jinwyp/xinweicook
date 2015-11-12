@@ -23,7 +23,11 @@ exports.dishList = (req, res, next) ->
 
   query.isPublished = true
 
-  models.dish.find99(query).then (dishes) ->
+
+  if req.query.limit > 0
+    limit = req.query.limit
+
+  models.dish.find99(query, limit).then (dishes) ->
     res.json dishes
   , next
 

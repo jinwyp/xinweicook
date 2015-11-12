@@ -143,8 +143,11 @@ module.exports =
     find1 : (options) ->
       @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
-    find99 : (options) ->
-      @find(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).sort("-sortId").sort("-createdAt").execAsync()
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-sortId").sort("-createdAt").limit(limit).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
   methods: {
     getPrice : (number) ->
