@@ -38,6 +38,15 @@
   .form-control {
     height: 40px;
   }
+  .group {
+    position: relative;
+    .err-tip {
+      line-height: 40px;
+    }
+  }
+  button.invalid {
+    background: $invalid-bg-color;
+  }
 }
 
 .login-button {

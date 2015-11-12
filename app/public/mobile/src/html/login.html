@@ -15,15 +15,23 @@
 
 <!-- login form -->
 <div class="login-form" ng-if="path == '/login'" ng-cloak>
-    <form class="form-horizontal" name="signInForm">
+    <form novalidate class="form-horizontal" name="signInForm">
         <div class="login-form-group">
-            <input type="tel" class="form-control" placeholder="手机号" name="username"
-                   ng-minlength="11" required maxlength="11"
-                   ng-model="loginData.username"/>
+            <div class="group">
+                <input type="tel" class="form-control" placeholder="手机号" name="username"
+                       minlength="11" required maxlength="11"
+                       ng-model="loginData.username"/>
+                <span ng-if="(signInForm.username.$dirty||signInForm.$submitted) && signInForm.username.$invalid"
+                      class="err-tip">请填写11位手机号</span>
+            </div>
             <hr class="form-line"/>
-            <input type="password" class="form-control" placeholder="密码" name="password"
-                   ng-minlength="6" required
-                   ng-model="loginData.password"/>
+            <div class="group">
+                <input type="password" class="form-control" placeholder="密码" name="password"
+                       minlength="6" required
+                       ng-model="loginData.password"/>
+                <span ng-if="(signInForm.password.$dirty||signInForm.$submitted) && signInForm.password.$invalid"
+                      class="err-tip">密码至少为6位</span>
+            </div>
         </div>
 
         <div class="forget-pwd-container">
@@ -31,45 +39,55 @@
         </div>
 
         <button class="form-control login-button"
+                ng-if="!css.pending"
                 ng-class="{invalid: !signInForm.$valid}"
-                ng-disabled="!signInForm.$valid"
-                ng-click="login()">登录</button>
+                ng-click="signInForm.$valid && login()">登录</button>
+        <button class="form-control login-button invalid"
+                ng-if="css.pending">登录中···</button>
     </form>
 </div>
 
 <!-- sign up form -->
 <div class="signup-form" ng-show="path == '/signup'" ng-cloak>
-    <form class="form-horizontal" name="signUpForm">
+    <form novalidate class="form-horizontal" name="signUpForm">
         <div class="login-form-group">
-            <input type="tel" class="form-control" placeholder="请先填写手机号" name="mobile"
-                   ng-minlength="11" required maxlength="11"
+            <div class="group">
+                <input type="tel" class="form-control" placeholder="请先填写手机号" name="mobile"
+                   minlength="11" required maxlength="11"
                    ng-model="signupData.mobile"/>
+                <span ng-if="(signUpForm.mobile.$dirty||signUpForm.$submitted) && signUpForm.mobile.$invalid"
+                      class="err-tip">请填写11位手机号</span>
+            </div>
             <hr class="form-line"/>
 
-            <!--<div class="test-wrapper">-->
-                <!--<div id="geetestContainer"></div>-->
-                <!--<div class="get-code">获取验证码</div>-->
-                <!--<div class="get-code pass-geetest" ng-if="">验证码发送成功</div>-->
-                <!--<div class="get-code re-fetch">重新获取验证码</div>-->
-            <!--</div>-->
-            <!--<hr class="form-line"/>-->
             <geetest-sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.mobile.$valid}}"></geetest-sms-button>
 
-            <input type="number" class="form-control" placeholder="请填写收到的验证码" name="code"
-                   required
-                   ng-model="signupData.code"/>
+            <div class="group">
+                <input type="number" class="form-control" placeholder="请填写收到的验证码" name="code"
+                       required
+                       ng-model="signupData.code"/>
+                <span ng-if="(signUpForm.code.$dirty||signUpForm.$submitted) && signUpForm.code.$invalid"
+                      class="err-tip">请填写短信验证码</span>
+            </div>
             <!--<sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.$valid}}" ></sms-button>-->
             <hr class="form-line"/>
 
-            <input type="password" class="form-control" placeholder="请填写密码" name="pwd"
-                   required ng-minlength="6"
-                   ng-model="signupData.pwd"/>
+            <div class="group">
+                <input type="password" class="form-control" placeholder="请填写密码" name="pwd"
+                       required minlength="6"
+                       ng-model="signupData.pwd"/>
+                <span ng-if="(signUpForm.pwd.$dirty||signUpForm.$submitted) && signUpForm.pwd.$invalid"
+                      class="err-tip">密码至少为6位</span>
+            </div>
+
         </div>
 
         <button class="form-control login-button"
+                ng-if="!css.pending"
                 ng-class="{invalid: !signUpForm.$valid}"
-                ng-disabled="!signUpForm.$valid"
-                ng-click="signup()">注册</button>
+                ng-click="signUpForm.$valid && signup()">注册</button>
+        <button class="form-control login-button invalid"
+                ng-if="css.pending">注册中···</button>
     </form>
 </div>
 
