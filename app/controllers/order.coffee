@@ -1112,16 +1112,35 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
         resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
         resultOrder.saveAsync();
 
+        kuaiSuDi.searchOrder(resultOrder, (err, result)->
+
+          if err
+            return next(new Err(err.msg, 400))
+
+          if result.record.length > 1
+            patternPerson = /^【([\u4e00-\u9fa5]+)，/
+            patternMobile = /：(1[0-9]{10})/
+
+            if result.record[1].content.match(patternPerson) and result.record[1].content.match(patternMobile)
+              resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1] #  content: '【陈飞，手机号：13761114427】即将收件，请准备好快件,操作人【杨阳】'
+              resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
+
+            resultOrder.saveAsync();
+
+        )
+
+
       if req.body.state is "400"
         resultOrder.expressStatus = models.order.constantExpressStatus().shipping
         resultOrder.saveAsync();
+
 
       if req.body.state is "500"
         resultOrder.expressStatus = models.order.constantExpressStatus().finished
         resultOrder.saveAsync();
 
 #      if req.body.state isnt "300" and req.body.state isnt "400" and req.body.state isnt "500" and req.body.state isnt "600"
-      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
+#      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
 
     res.send({code : 200})
 
