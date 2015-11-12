@@ -238,9 +238,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
       if not resultSetting
         isNeedRefreshAccessToken = true
+        logger.error("WeixinUserInfo resultSetting not found !" );
       else
         if models.setting.checkExpired(resultSetting)
           isNeedRefreshAccessToken = true
+          logger.error("WeixinUserInfo resultSetting expired !" );
 
 
       if isNeedRefreshAccessToken
@@ -291,7 +293,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-
+        logger.error("WeixinUserInfo resultSetting is ok !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
