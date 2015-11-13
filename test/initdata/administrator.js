@@ -24,7 +24,7 @@ var adminList = [
         username : "steveadmin",
         pwd : "xwcook789",
         mobile : "18621378962",
-        email : "x@x3.com",
+        email : "sge@xinweicook.com",
         group : "admin",
         fullName : "steve"
     },
