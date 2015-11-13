@@ -10,6 +10,7 @@ deviceController = require "./controllers/device.coffee"
 tokenController = require "./controllers/token.coffee"
 smsController = require "./controllers/sms.coffee"
 articleController = require "./controllers/article.coffee"
+announcementController = require "./controllers/announcement.coffee"
 dishController = require "./controllers/dish.coffee"
 cookController = require "./controllers/cook.coffee"
 couponController = require "./controllers/coupon.coffee"
@@ -51,6 +52,8 @@ expressRoutes = (app) ->
 
 
 #  app.use libs.secure.middleware
+
+  app.get("/api/announcements", announcementController.getAnnouncementList)
 
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
