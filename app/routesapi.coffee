@@ -159,10 +159,10 @@ expressRoutes = (app) ->
 
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
-  app.get("/api/administrator/initwarehouse", initController.createWarehouse)
-#  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishTag)
-#  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDish)
-#  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initNewDish)
+  app.get("/api/administrator/initwarehouse", libs.auth("admin"), initController.createWarehouse)
+  app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishAndTag)
+#  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDishMigrate)
+#  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initDishWithTopping)
 
 
 #  app.get("/api/administrator/initremovetag", libs.auth("admin"), initController.removeTag)
@@ -170,11 +170,13 @@ expressRoutes = (app) ->
 #  app.get("/api/administrator/initremoveorder", libs.auth("admin"), initController.removeOrder)
 #  app.get("/api/administrator/initremoveuser", libs.auth("admin"), initController.removeUser)
 
-  app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeInventory)
-  app.get("/api/administrator/initremovecoupon", libs.auth("admin"), initController.removeCoupon)
-  app.get("/api/administrator/initremoveaccountdetail", libs.auth("admin"), initController.removeAccountDetails)
   app.get("/api/administrator/initremovelog", libs.auth("admin"), initController.removeLog)
   app.get("/api/administrator/initremovesetting", libs.auth("admin"), initController.removeSetting)
+
+  app.get("/api/administrator/initremoveInventory", libs.auth("admin"), initController.removeTestInventory)
+  app.get("/api/administrator/initremovecoupon", libs.auth("admin"), initController.removeWrongCoupon)
+  app.get("/api/administrator/initremoveaccountdetail", libs.auth("admin"), initController.removeNotPaidAccountDetails)
+
 
 
 

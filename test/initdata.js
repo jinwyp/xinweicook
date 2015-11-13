@@ -4,105 +4,6 @@
 
 
 
-var userAdmin = [
-    {
-        username : "jinwang@xinweicook.com",
-        pwd : "xwcook789",
-        mobile : "13564568304",
-        email : "jinwang@xinweicook.com",
-        group : "admin"
-    },
-    {
-        username : "yuekec@xinweicook.com",
-        pwd : "xwcook789",
-        mobile : "15900719671",
-        email : "yuekec@xinweicook.com",
-        group : "admin"
-    },
-    {
-        username : "x@x.com",
-        pwd : "xwcook789",
-        mobile : "13564568301",
-        email : "x@x.com",
-        group : "admin"
-    },
-    {
-        username : "x@x2.com",
-        pwd : "xwcook789",
-        mobile : "13564568302",
-        email : "x@x2.com",
-        group : "admin"
-    },
-    {
-        username : "x@x3.com",
-        pwd : "xwcook789",
-        mobile : "13564568303",
-        email : "x@x3.com",
-        group : "admin"
-    },
-    {
-        username : "steveadmin",
-        pwd : "xwcook789",
-        mobile : "18621378962",
-        email : "x@x3.com",
-        group : "admin",
-        fullName : "steve"
-    },
-
-    {
-        username : "shaoxiaoqing",
-        pwd : "xwcook789",
-        mobile : "18602327056",
-        email : "dreamer0321@foxmail.com",
-        group : "admin",
-        fullName : "邵晓青"
-    },
-    {
-        username : "chensilu",
-        pwd : "xwcook789",
-        mobile : "18601799423",
-        email : "690363236@qq.com",
-        group : "admin",
-        fullName : "陈思璐"
-    },
-    {
-        username : "mengfei",
-        pwd : "xwcook789",
-        mobile : "18215563108",
-        email : "918372085@qq.com",
-        group : "admin",
-        fullName : "赵梦菲"
-    }
-];
-
-
-var warehouseList = [
-    {
-        "_id"                  : "56332187594b09af6e6c7dd2",
-        "name"                 : "xinweioffice",
-        "locationGeoLatitude"  : 31.195693,
-        "locationGeoLongitude" : 121.467155,
-        "displayName"          : {"zh" : "新味办公室", "en" : "Xinwei Office"},
-        "address" : "中山南二路510号",
-        "deliveryRange": 6000 ,
-        "sortId": 100,
-        "isActivated"          : true
-    },
-    {
-        "_id"                  : "56332196594b09af6e6c7dd7",
-        "name"                 : "caohejing1",
-        "locationGeoLatitude"  : 31.175474,
-        "locationGeoLongitude" : 121.40523,
-        "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
-        "address" : "虹梅路2008号虹梅大楼",
-        "deliveryRange": 1500 ,
-        "sortId": 10,
-        "isActivated"          : true
-    }
-
-];
-
-
 
 var dishFilterTagList1 = [
     {
@@ -1127,8 +1028,6 @@ var realReadyToEat = [
 ];
 
 module.exports = {
-    userAdmin : userAdmin,
-    warehouse : warehouseList,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 
