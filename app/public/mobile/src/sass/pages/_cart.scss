@@ -114,24 +114,22 @@ $select-btn-width: 100px;
   }
   .counter {
     position: absolute;
-    height: 26px;
-    line-height: 24px;
+    height: 30px;
+    line-height: 26px;
     text-align: center;
-    right: -14px;
+    right: 1px;
     top: 50px;
+    outline: 1px solid $body-color;
     span {
       display: inline-block;
-      width: 40px;
-      height: 26px;
-      font-size: 18px;
-      color: #A5A5A5;
+      font-size: 17px;
+      height: 30px;
+      width: 29px;
     }
     .number {
-      width: 45px;
-      height: 26px;
-      background-color: #E2E2E2;
+      width: 24px;
+      height: 30px;
       color: inherit;
-      border-radius: 5px;
     }
   }
 }
