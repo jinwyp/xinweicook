@@ -1366,30 +1366,28 @@ form .err-tip {
 /* line 115, ../sass/pages/_cart.scss */
 .cart-list .counter {
   position: absolute;
-  height: 26px;
-  line-height: 24px;
+  height: 30px;
+  line-height: 26px;
   text-align: center;
-  right: -14px;
+  right: 1px;
   top: 50px;
+  outline: 1px solid #4b4b4c;
 }
-/* line 122, ../sass/pages/_cart.scss */
+/* line 123, ../sass/pages/_cart.scss */
 .cart-list .counter span {
   display: inline-block;
-  width: 40px;
-  height: 26px;
-  font-size: 18px;
-  color: #A5A5A5;
+  font-size: 17px;
+  height: 30px;
+  width: 29px;
 }
 /* line 129, ../sass/pages/_cart.scss */
 .cart-list .counter .number {
-  width: 45px;
-  height: 26px;
-  background-color: #E2E2E2;
+  width: 24px;
+  height: 30px;
   color: inherit;
-  border-radius: 5px;
 }
 
-/* line 140, ../sass/pages/_cart.scss */
+/* line 138, ../sass/pages/_cart.scss */
 .no-delivery-tip {
   color: white;
   background-color: #f44d4d;
@@ -1398,7 +1396,7 @@ form .err-tip {
   text-indent: 2em;
 }
 
-/* line 150, ../sass/pages/_cart.scss */
+/* line 148, ../sass/pages/_cart.scss */
 .empty-cart .icon {
   margin: 34px auto;
   background-repeat: no-repeat;
@@ -1411,7 +1409,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 154, ../sass/pages/_cart.scss */
+/* line 152, ../sass/pages/_cart.scss */
 .empty-cart .text {
   color: #969696;
 }
