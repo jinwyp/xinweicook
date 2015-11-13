@@ -1,5 +1,5 @@
 angular.module('xw.controllers').controller('orderAddressCtrl', function (
-    Weixin, $scope, User, Map, Address, $location, $localStorage) {
+    Weixin, $scope, User, Map, Address, $location, $localStorage, Dishes) {
 
     var css = $scope.css = {
         cur: 0,//-2:当前表单为新地址表单
@@ -179,6 +179,25 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             return;
         }
 
+        var noStockEat = [];
+        if (eatList.length && eatList[0].showForWarehouse != addr.warehouse && eatMenu) {
+            eatList.forEach(function (dish) {
+                var otherWarehouseDish = eatMenu[dish.dish.title.zh][addr.warehouse];
+                if (!otherWarehouseDish || otherWarehouseDish.outOfStock) {
+                    noStockEat.push(dish.dish);
+                }
+            })
+        }
+
+        if (noStockEat.length) {
+            var sval = '您购物袋中的以下菜品可能无法配送至当前地址:\n';
+            sval = noStockEat.reduce(function (str, cur) {
+                return str + '  ' + cur.title.zh + '\n';
+            }, sval);
+            sval += '如果确实不能送达我们的客服会联系您';
+            alert(sval);
+        }
+
         $localStorage.orderAddress = addr;
         $localStorage.warehouse = addr.warehouse;
 
@@ -276,7 +295,23 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         })
     }
 
-    var districts = [], cities, provinces, addressReady = false;
+    // 生成以title为key, {warehouse: dish}为value的对象
+    function makeTitleDishMap(dishList) {
+        return dishList.reduce(function (titleDishMap, dish) {
+            var title = dish.title.zh;
+            dish.showForWarehouse = dish.showForWarehouse || 'xinweioffice';
+            if (title == '陈皮川香爆鸡球') {
+                console.log(dish);
+            }
+            if (!titleDishMap[title]) {
+                titleDishMap[title] = {};
+            }
+            titleDishMap[title][dish.showForWarehouse] = dish;
+            return titleDishMap
+        }, {})
+    }
+
+    var districts = [], cities, provinces, addressReady = false, eatMenu;
     function init() {
         $scope.$on('$locationChangeStart', function () {
             var path = $location.path();
@@ -340,10 +375,32 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                             addr.warehouse = 'caohejing1';
                             addr.distance = distance;
                             return false;
-                        }
+                        } else addr.warehouse = 'xinweioffice';
+                    } else {
+                        addr.warehouse = 'xinweioffice';
                     }
                     return true;
                 });
+
+                // 在这里检查,如果购物车的存在一个便当,并且存在超过1个仓库,
+                // 那么获取相应便当的菜品列表
+
+                var tmpWarehouse = '';
+                var eatList = $localStorage.confirmedBag.eatList;
+                var hasEat = !!(eatList && eatList.length);
+                var hasMultipleWarehouse = hasEat && $scope.address.some(function (addr) {
+                    if (!tmpWarehouse) {
+                        tmpWarehouse = addr.warehouse;
+                    }
+                    return addr.warehouse != tmpWarehouse
+                });
+
+                if (hasMultipleWarehouse) {
+                    Dishes.getList('caohejing1', 'ready to eat').then(function (res) {
+                        eatMenu = makeTitleDishMap(res.data);
+                    })
+                }
+
 
                 if (addrOffice.length) {
                     return Map.distances(addrOffice.map(function (addr) {
@@ -351,10 +408,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                             lat: addr.geoLatitude,
                             lng: addr.geoLongitude
                         }
-                    }), warehouse).catch(function (res) {
-                        alert('计算配送距离出错了,请联系客服!');
-                        alert(JSON.stringify(res.data));
-                    });
+                    }), warehouse);
                 }
             }
 
@@ -366,12 +420,6 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 return addr.warehouse != 'caohejing1';
             }).forEach(function (addr, i) {
                 if (typeof addr.isInRange != 'undefined') return;
-
-                if (addr.warehouse == 'caohejing1') {
-                    addr.isInRange = false;
-                    addr.distance = res[i].distance;
-                    return;
-                }
 
                 addr.isInRange = res[i].isInRange;
                 addr.distance = res[i].distance;
@@ -387,6 +435,8 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             });
         })
     }
+
+
 
     init();
 });

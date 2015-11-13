@@ -96,7 +96,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
 
             var _warehouse = warehouse || 'xinweioffice';
             if (_warehouse == 'caohejing1') {
-                return dish.showForWarehouse == 'caohejing1'
+                return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
             } else {
                 return dish.showForWarehouse != 'caohejing1';
             }
