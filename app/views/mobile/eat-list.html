@@ -54,12 +54,12 @@
 
 <add-dish-bar user="user" dish="curDish"></add-dish-bar>
 
-<nav class="menu-nav empty" ng-class="{'empty': !storage.localBag.length}">
+<nav class="menu-nav" ng-class="{'empty': !storage.localBag.length}">
     <div><a href="me"><span>帐号</span></a></div>
     <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
     <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
 
-    <div class="go-to-cart" ng-click="goToCart()">
+    <div ng-if="storage.localBag.length" flash-class="{exp: storage.localBag.length, duration: 400}" class="go-to-cart" ng-click="goToCart()">
         <div class="icon bag-icon">
             <i class="number" ng-bind="storage.localBag.length"></i>
         </div>

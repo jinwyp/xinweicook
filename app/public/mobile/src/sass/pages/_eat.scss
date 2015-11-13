@@ -274,6 +274,8 @@ $sc-h5-font-size: 15px;
   line-height: 52px;
 
   & > div {
+    -webkit-transition: .5s width ease;
+    transition: .5s width ease;
     display: inline-block;
     text-align: center;
     width: 21%;
@@ -286,11 +288,19 @@ $sc-h5-font-size: 15px;
     }
   }
 
+  &.empty {
+    & > div {
+      width: 32%;
+    }
+  }
+
   .go-to-cart {
     position: absolute;
     right: 0;
     width: 100px;
     background-color: $primary-color;
+    -webkit-transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
+    transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
 
     .bag-icon {
       position: absolute;
@@ -321,6 +331,11 @@ $sc-h5-font-size: 15px;
         line-height: normal;
         font-size: 10px;
       }
+    }
+
+    &.flash {
+      //-webkit-transform-style: preserve-3d;
+      -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
     }
   }
 }

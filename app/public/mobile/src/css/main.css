@@ -143,13 +143,13 @@ label {
   display: inline-block;
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIcon.png?1446874315') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIcon.png?1447323318') 50%/cover no-repeat;
 }
 /* line 160, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIconHighlighted.png?1446874315') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIconHighlighted.png?1447323318') 50%/cover no-repeat;
 }
 
 /* line 167, ../sass/_base.scss */
@@ -586,27 +586,35 @@ form .err-tip {
 }
 /* line 276, ../sass/pages/_eat.scss */
 .menu-nav > div {
+  -webkit-transition: .5s width ease;
+  transition: .5s width ease;
   display: inline-block;
   text-align: center;
   width: 21%;
 }
-/* line 280, ../sass/pages/_eat.scss */
+/* line 282, ../sass/pages/_eat.scss */
 .menu-nav > div.active {
   font-weight: 900;
 }
-/* line 282, ../sass/pages/_eat.scss */
+/* line 284, ../sass/pages/_eat.scss */
 .menu-nav > div.active span {
   border-top: 7px solid;
   padding: 9px 7px;
 }
-/* line 289, ../sass/pages/_eat.scss */
+/* line 292, ../sass/pages/_eat.scss */
+.menu-nav.empty > div {
+  width: 32%;
+}
+/* line 297, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart {
   position: absolute;
   right: 0;
   width: 100px;
   background-color: #f44d4d;
+  -webkit-transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
+  transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
 }
-/* line 295, ../sass/pages/_eat.scss */
+/* line 305, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .bag-icon {
   position: absolute;
   left: 22px;
@@ -623,7 +631,7 @@ form .err-tip {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 303, ../sass/pages/_eat.scss */
+/* line 313, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .bag-icon i {
   position: absolute;
   bottom: 1px;
@@ -632,12 +640,12 @@ form .err-tip {
   font-size: 12px;
   line-height: normal;
 }
-/* line 313, ../sass/pages/_eat.scss */
+/* line 323, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .price {
   position: relative;
   right: -16px;
 }
-/* line 316, ../sass/pages/_eat.scss */
+/* line 326, ../sass/pages/_eat.scss */
 .menu-nav .go-to-cart .price::before {
   content: '¥';
   position: absolute;
@@ -645,6 +653,10 @@ form .err-tip {
   left: -0.6em;
   line-height: normal;
   font-size: 10px;
+}
+/* line 336, ../sass/pages/_eat.scss */
+.menu-nav .go-to-cart.flash {
+  -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
 
 /* line 3, ../sass/pages/_order.scss */
