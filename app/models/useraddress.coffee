@@ -41,7 +41,7 @@ module.exports =
 
     validationId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  address _id length must be 24-24", 400, Err.code.user.addressIdNotFound
+        return throw new Err "Field validation error,  address _id length must be 24-24", 400, Err.code.user.addressIdWrong
 
     validationSingle : (address) ->
 

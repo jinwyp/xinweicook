@@ -40,7 +40,7 @@ module.exports =
         couponchargecode : "couponchargecode"
     checkNotFound : (coupon) ->
       if not coupon
-        throw new Err "Coupon not Found or used or expired!", 400
+        throw new Err "Coupon not Found or used or expired!", 400, Err.code.coupon.notFound
       else
         coupon
 
@@ -67,11 +67,11 @@ module.exports =
 
     validationCouponId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  coupon ID length must be 24-24", 400
+        return throw new Err "Field validation error,  coupon ID length must be 24-24", 400, Err.code.coupon.couponIdWrong
 
     validationCouponCode : (code) ->
       unless libs.validator.isLength code, 10, 10
-        return throw new Err "Field validation error,  promotion code length must be 10-10", 400
+        return throw new Err "Field validation error,  promotion code length must be 10-10", 400, Err.code.coupon.promotionCodeWrong
 
     validationNewCoupon : (coupon) ->
       unless libs.validator.isLength coupon.name.zh, 3, 100

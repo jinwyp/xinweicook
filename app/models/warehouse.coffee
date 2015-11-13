@@ -22,6 +22,10 @@ module.exports =
       type =
         userOrder : "userOrder"
 
+    validationId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  warehouse ID length must be 24-24", 400, Err.code.order.warehouseIdWrong
+
     find99 : (options) ->
       @find(options).sort("-sortId").sort("-createdAt").execAsync()
 

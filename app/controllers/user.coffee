@@ -293,7 +293,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-        logger.error("WeixinUserInfo resultSetting is ok !" );
+        logger.error("WeixinUserInfo resultSetting is exist !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
