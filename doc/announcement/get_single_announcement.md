@@ -24,6 +24,7 @@ GET `/announcements/:_id`
   "appVersion": "1",
   "__v": 0,
   "clientFor": "all",
+  "priority": 20,
   "isActivated": true,
   "description": {
     "en": "iOS 升级 1.8 版本",

@@ -22,11 +22,12 @@
 [
   {
     "_id": "5645ba288ed18a0e7cb53829",
-    "modifiedAt": "2015-11-16T08:40:04.138Z",
+    "modifiedAt": "2015-11-16T10:10:07.026Z",
     "createdAt": "2015-11-13T10:23:36.763Z",
     "appVersion": "1",
     "__v": 0,
     "clientFor": "all",
+    "priority": 20,
     "isActivated": true,
     "description": {
       "en": "iOS 升级 1.8 版本",
