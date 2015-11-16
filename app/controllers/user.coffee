@@ -94,18 +94,22 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
     isNeedRefreshJsapiTicket = false
 
     if not settingJSSdk
+      logger.error("WeixinDeveloperJsapi not found !" );
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
+        logger.error("WeixinDeveloperJsapi expired !" );
         isNeedRefreshJsapiTicket = true
 
 
     isNeedRefreshAccessToken = false
 
     if not settingAccessToken
+      logger.error("WeixinDeveloper AccessToken not found !" );
       isNeedRefreshAccessToken = true
     else
       if models.setting.checkExpired(settingAccessToken)
+        logger.error("WeixinDeveloper AccessToken expired !" );
         isNeedRefreshAccessToken = true
 
 
