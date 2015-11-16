@@ -121,14 +121,14 @@
                     <label for="inputAppVersion" class="col-lg-2 control-label" >版本号</label>
 
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="inputAppVersion" placeholder="版本号" name="appVersion" ng-model="data.announcement.appVersion" >
+                        <input type="text" class="form-control" id="inputAppVersion" placeholder="版本号" name="appVersion" ng-model="data.announcement.appVersion" ng-minlength="3" ng-maxlength="3">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$invalid"></span>
                     </div>
 
                     <div class="col-lg-2">
                         <span class="help-block" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.required">请填入信息！</span>
-                        <span class="help-block" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.min || announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.max">字符错误0-9999！</span>
+                        <span class="help-block" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.minlength || announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.maxlength">字符错误3-3！</span>
                     </div>
 
                 </div>
