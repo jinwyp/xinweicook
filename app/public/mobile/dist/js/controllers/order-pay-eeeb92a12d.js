@@ -217,7 +217,6 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             alert('请选择食材包配送时间');
             valid = false;
         }
-        if (!valid)
         return valid;
     }
 
