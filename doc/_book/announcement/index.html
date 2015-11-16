@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>获取单一订单 | 新味 API 文档</title>
+        <title>Announcement 公告 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../order/add_new_order.html" />
+    <link rel="next" href="../announcement/get_announcements.html" />
     
     
-    <link rel="prev" href="../order/get_orders.html" />
+    <link rel="prev" href="../dish/like_single_dish.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="6.2" data-basepath=".." data-revision="Mon Nov 16 2015 18:11:13 GMT+0800 (CST)">
+    <div class="book" data-level="8" data-basepath=".." data-revision="Mon Nov 16 2015 18:11:13 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -712,7 +712,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="6.2" data-path="order/get_single_order.html">
+        <li class="chapter " data-level="6.2" data-path="order/get_single_order.html">
             
                 
                     <a href="../order/get_single_order.html">
@@ -993,7 +993,7 @@
             
         </li>
     
-        <li class="chapter " data-level="8" data-path="announcement/index.html">
+        <li class="chapter active" data-level="8" data-path="announcement/index.html">
             
                 
                     <a href="../announcement/index.html">
@@ -1236,12 +1236,39 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h2 id="req">Req</h2>
-<p>GET <code>/api/orders/:_id</code></p>
-<p>Group <code>member</code></p>
-<h2 id="res">Res</h2>
-<h3 id="body">Body</h3>
-<p><a href="../Order">Orders</a></p>
+                        <h1 id="announcement-%E7%BD%91%E7%AB%99%E5%85%AC%E5%91%8A">Announcement &#x7F51;&#x7AD9;&#x516C;&#x544A;</h1>
+<pre><code class="lang-js">
+{
+    title: zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> # &#x6807;&#x9898;
+    description: zh:<span class="hljs-built_in">String</span>, en:<span class="hljs-built_in">String</span> # &#x5185;&#x5BB9; &#x53EF;&#x7A7A;
+    priority: <span class="hljs-built_in">Number</span> # &#x516C;&#x544A;&#x4F18;&#x5148;&#x7EA7; &#x91CD;&#x8981;&#x7A0B;&#x5EA6; <span class="hljs-number">10</span> &#x4E00;&#x822C;  <span class="hljs-number">20</span> &#x91CD;&#x8981;
+    clientFor : <span class="hljs-built_in">String</span>  # &#x9488;&#x5BF9;&#x5E73;&#x53F0; all/ios/android/wechat/website/mobileweb &#x4E13;&#x5C5E;&#x516C;&#x544A;
+    appVersion : <span class="hljs-built_in">String</span>  # &#x9488;&#x5BF9;&#x5E73;&#x53F0; &#x5347;&#x7EA7;&#x7248;&#x672C;, &#x53EF;&#x4EE5;&#x7528;&#x6765;&#x5224;&#x65AD;&#x4F4E;&#x4E8E;&#x67D0;&#x7248;&#x672C;&#x663E;&#x793A;&#x516C;&#x544A;
+    isActivated : type: <span class="hljs-built_in">Boolean</span>, <span class="hljs-keyword">default</span>:<span class="hljs-literal">false</span>  # &#x662F;&#x5426;&#x542F;&#x7528;
+}
+</code></pre>
+<h2 id="%E8%8C%83%E4%BE%8B">&#x8303;&#x4F8B;</h2>
+<pre><code class="lang-js">[
+  {
+    <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;5645ba288ed18a0e7cb53829&quot;</span>,
+    <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-11-16T10:10:07.026Z&quot;</span>,
+    <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-11-13T10:23:36.763Z&quot;</span>,
+    <span class="hljs-string">&quot;appVersion&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+    <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-string">&quot;clientFor&quot;</span>: <span class="hljs-string">&quot;all&quot;</span>,
+    <span class="hljs-string">&quot;priority&quot;</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-string">&quot;isActivated&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">&quot;description&quot;</span>: {
+      <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;iOS &#x5347;&#x7EA7; 1.8 &#x7248;&#x672C;&quot;</span>,
+      <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;iOS &#x5347;&#x7EA7; 1.8 &#x7248;&#x672C;&quot;</span>
+    },
+    <span class="hljs-string">&quot;title&quot;</span>: {
+      <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;&#x516C;&#x544A;test1&quot;</span>,
+      <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;&#x516C;&#x544A;test1&quot;</span>
+    }
+  }
+]
+</code></pre>
 
                     
                     </section>
@@ -1252,10 +1279,10 @@
         </div>
 
         
-        <a href="../order/get_orders.html" class="navigation navigation-prev " aria-label="Previous page: 获取该用户的所有订单"><i class="fa fa-angle-left"></i></a>
+        <a href="../dish/like_single_dish.html" class="navigation navigation-prev " aria-label="Previous page: 点赞和取消点赞单一菜品"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../order/add_new_order.html" class="navigation navigation-next " aria-label="Next page: 生成新订单"><i class="fa fa-angle-right"></i></a>
+        <a href="../announcement/get_announcements.html" class="navigation navigation-next " aria-label="Next page: 获取所有公告"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

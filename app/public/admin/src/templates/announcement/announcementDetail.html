@@ -1,0 +1,167 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Announcement 公告 </span>
+                <span ng-hide="css.isAddNewStatus">修改 Announcement 公告 - {{data.announcement.name.zh}} - {{data.announcement._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.announcements" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="announcementForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$valid, 'has-error':announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$invalid}">
+                    <label for="inputAnnouncementTitleZh" class="col-lg-2 control-label" >公告标题</label>
+
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputAnnouncementTitleZh" placeholder="中文标题" name="announcementTitleZh" ng-model="data.announcement.title.zh" required ng-minlength="2" ng-maxlength="300">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-offset-2 col-lg-2">
+                        <span class="help-block" ng-if="announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$error.minlength || announcementForm.announcementTitleZh.$dirty&&announcementForm.announcementTitleZh.$error.maxlength">字符长度错误！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$valid, 'has-error':announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$invalid}">
+                    <label for="inputAnnouncementTitleEn" class="col-lg-2 control-label" ></label>
+
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputAnnouncementTitleEn" placeholder="英文" name="announcementTitleEn" ng-model="data.announcement.title.en" required ng-minlength="2" ng-maxlength="300">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-offset-2 col-lg-2">
+                        <span class="help-block" ng-if="announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$error.minlength || announcementForm.announcementTitleEn.$dirty&&announcementForm.announcementTitleEn.$error.maxlength">字符长度错误！</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$valid, 'has-error':dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$invalid}">
+                    <label for="inputAnnouncementDescriptionZh" class="col-lg-2 control-label" >公告内容</label>
+
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputAnnouncementDescriptionZh" placeholder="内容中文" name="descriptionZh" ng-model="data.announcement.description.zh"  ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$error.minlength || dishForm.descriptionZh.$dirty&&dishForm.descriptionZh.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$valid, 'has-error':dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$invalid}">
+                    <label for="inputAnnouncementDescriptionEn" class="col-lg-2 control-label" ></label>
+
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputAnnouncementDescriptionEn" placeholder="内容英文" name="descriptionEn" ng-model="data.announcement.description.en"  ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$error.minlength || dishForm.descriptionEn.$dirty&&dishForm.descriptionEn.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback"  ng-class="{'has-success':announcementForm.priority.$dirty&&announcementForm.priority.$valid, 'has-error':announcementForm.priority.$dirty&&announcementForm.priority.$invalid}">
+                    <label class="col-lg-2 control-label" >重要程度</label>
+
+                    <div class="col-lg-8">
+
+                        <label class="radio-inline">
+                            <input type="radio" name="priority"  ng-value="10" ng-model="data.announcement.priority">一般
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="priority"  ng-value="20" ng-model="data.announcement.priority">重要
+                        </label>
+
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback"  ng-class="{'has-success':announcementForm.clientFor.$dirty&&announcementForm.clientFor.$valid, 'has-error':announcementForm.clientFor.$dirty&&announcementForm.clientFor.$invalid}">
+                    <label class="col-lg-2 control-label" >面向端</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" ng-value="'all'" ng-model="data.announcement.clientFor">所有端
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'ios'" ng-model="data.announcement.clientFor">iOS 苹果APP
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'android'" ng-model="data.announcement.clientFor">Android 安卓 APP
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'wechat'" ng-model="data.announcement.clientFor">微信
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"  ng-value="'website'" ng-model="data.announcement.clientFor">PC 网站
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback"  ng-class="{'has-success':announcementForm.appVersion.$dirty&&announcementForm.appVersion.$valid, 'has-error':announcementForm.appVersion.$dirty&&announcementForm.appVersion.$invalid}">
+                    <label for="inputAppVersion" class="col-lg-2 control-label" >版本号</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputAppVersion" placeholder="版本号" name="appVersion" ng-model="data.announcement.appVersion" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="help-block" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.required">请填入信息！</span>
+                        <span class="help-block" ng-if="announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.min || announcementForm.appVersion.$dirty&&announcementForm.appVersion.$error.max">字符错误0-9999！</span>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':announcementForm.announcementIsActivated.$dirty&&announcementForm.announcementIsActivated.$valid, 'has-error':announcementForm.announcementIsActivated.$dirty&&announcementForm.announcementIsActivated.$invalid}">
+                    <label class="col-lg-2 control-label" >是否发布</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="announcementIsActivated"  ng-value="true" ng-model="data.announcement.isActivated">已发布
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="announcementIsActivated"  ng-value="false" ng-model="data.announcement.isActivated">未发布
+                        </label>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="announcementForm.$invalid" ng-click="addNewAnnouncement(announcementForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="announcementForm.$invalid" ng-click="updateAnnouncement(announcementForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>

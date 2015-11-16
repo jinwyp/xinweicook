@@ -94,18 +94,22 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
     isNeedRefreshJsapiTicket = false
 
     if not settingJSSdk
+      logger.error("WeixinDeveloperJsapi not found !" );
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
+        logger.error("WeixinDeveloperJsapi expired !" );
         isNeedRefreshJsapiTicket = true
 
 
     isNeedRefreshAccessToken = false
 
     if not settingAccessToken
+      logger.error("WeixinDeveloper AccessToken not found !" );
       isNeedRefreshAccessToken = true
     else
       if models.setting.checkExpired(settingAccessToken)
+        logger.error("WeixinDeveloper AccessToken expired !" );
         isNeedRefreshAccessToken = true
 
 
@@ -150,7 +154,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : JSON.stringify(weixinpayJSSdkConfigSign)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(110, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo1, {upsert: true})
@@ -182,7 +186,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : JSON.stringify(weixinpayJSSdkConfigSign)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(110, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo2, {upsert: true})
@@ -362,7 +366,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+
   code = req.query.code
   state = req.query.state
   redirectUrl = req.query.redirectUrl
@@ -371,6 +375,7 @@ exports.getWeixinUserOpenId = (req, res, next) ->
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )
 
   if not code or code.length is 0
+    logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error, Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
 

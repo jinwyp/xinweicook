@@ -234,6 +234,10 @@ angular.module('RDash.models').factory('Coupons', function (Restangular) {
 });
 
 
+angular.module('RDash.models').factory('Announcements', function (Restangular) {
+    return Restangular.service('announcements');
+});
+
 angular.module('RDash.models').factory('Warehouses', function (Restangular) {
     return Restangular.service('warehouses');
 });
