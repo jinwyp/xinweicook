@@ -54,6 +54,7 @@ expressRoutes = (app) ->
 #  app.use libs.secure.middleware
 
   app.get("/api/announcements", announcementController.getAnnouncementList)
+  app.get("/api/announcements/:_id", announcementController.getSingleAnnouncement)
 
   app.get("/api/dishes", dishController.dishList)
   app.get("/api/dishes/:_id", dishController.dishSingleInfo)
