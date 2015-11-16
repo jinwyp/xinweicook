@@ -4,7 +4,7 @@
 
 exports.getAnnouncementList = (req, res, next) ->
 
-  models.announcement.findAsync({}).then (result) ->
+  models.announcement.find({isActivated:true}).sort("-createdAt").execAsync().then (result) ->
     res.json result
   .catch(next)
 
