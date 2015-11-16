@@ -118,6 +118,18 @@ $ms-border-color: #DEDEDE; // ms: multiple-selection
 $ms-border: 1px solid $ms-border-color;
 $sc-left-padding: 15px; //sc: selections-container
 $sc-h5-font-size: 15px;
+
+.close-button {
+  @include retina-sprite-background(CloseIcon);
+  //background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
+  position: absolute;
+  right: 15px;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
 .selections-container {
   position: fixed;
   bottom: 0;
@@ -135,16 +147,6 @@ $sc-h5-font-size: 15px;
     margin: 0;
     height: 64px;
     line-height: 64px;
-  }
-
-  .close-button {
-    background: url(../img/icons/CloseIcon.png) 50%/contain no-repeat;
-    width: 1.1em;
-    height: 100%;
-    position: absolute;
-    right: 15px;
-    opacity: 0.5;
-    top: 0;
   }
 
   .properties {

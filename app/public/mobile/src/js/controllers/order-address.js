@@ -300,9 +300,6 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
         return dishList.reduce(function (titleDishMap, dish) {
             var title = dish.title.zh;
             dish.showForWarehouse = dish.showForWarehouse || 'xinweioffice';
-            if (title == '陈皮川香爆鸡球') {
-                console.log(dish);
-            }
             if (!titleDishMap[title]) {
                 titleDishMap[title] = {};
             }

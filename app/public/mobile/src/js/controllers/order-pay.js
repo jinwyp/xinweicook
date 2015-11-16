@@ -56,16 +56,15 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         cart.eatList && cart.eatList.length && Orders.deliveryEatTime({
             _id: warehouseIdMap[warehouse]
         }).then(function (res) {
-            time.eat = $filter('eatTimeOptions')(res.data.timeList);
-            model.time.eat = time.eat[0];
+            time.eat = res.data.timeList;
         });
         cart.cookList && cart.cookList.length && Orders.deliveryTime({
             cookingType: "ready to cook",
             isCityShanghai: isCityShanghai,
             isInRange4KM: address.isInRange || false
         }).then(function (res) {
-            time.cook = $filter('cookTimeOptions')(res.data);
-            model.time.cook = {day: time.cook[0]};
+            time.cook = $filter('cookTimeUnion')(res.data);
+            //model.time.cook = {day: time.cook[0]};
         });
 
         // 购物车处理
@@ -139,7 +138,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     var isSubmitting = false;
     $scope.order = function (form) {
-        if (form.$invalid || !isTimeValid()) return;
+        if (!isTimeValid() || form.$invalid) return;
         if (isSubmitting) return;
 
         isSubmitting = true;
@@ -210,13 +209,15 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     function isTimeValid() {
         var valid = true;
-        if (time.eat && (model.time.eat == time.eat[0])) {
+        if (time.eat && !model.time.eat) {
+            alert('请选择便当配送时间');
             valid = false;
         }
-        if (time.cook && model.time.cook.day == time.cook[0]) {
+        if (time.cook && !model.time.cook) {
+            alert('请选择食材包配送时间');
             valid = false;
         }
-        if (!valid) alert('请选择配送时间');
+        if (!valid)
         return valid;
     }
 
