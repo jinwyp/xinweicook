@@ -92,15 +92,18 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             dishes = $scope.dishes;
         }
 
-        $scope.dishes = dishes.filter(function (dish) {
+        $timeout(function () {
+            $scope.dishes = dishes.filter(function (dish) {
 
-            var _warehouse = warehouse || 'xinweioffice';
-            if (_warehouse == 'caohejing1') {
-                return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
-            } else {
-                return dish.showForWarehouse != 'caohejing1';
-            }
-        });
+                var _warehouse = warehouse || 'xinweioffice';
+                if (_warehouse == 'caohejing1') {
+                    return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
+                } else {
+                    return dish.showForWarehouse != 'caohejing1';
+                }
+            });    
+        }, 0);
+        
 
         // ugly DOM code in the controller to trigger `img-lazy-load`.
         //$timeout(function () {
