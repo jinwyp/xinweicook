@@ -169,7 +169,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'UserController'
             })
             .state('menu.updateUser', {
-                url: '/user/:id',
+                url: '/users/:id',
                 templateUrl: 'templates/user/userDetail.html',
                 data: {
                     title: '用户管理',
@@ -219,7 +219,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'DishController'
             })
             .state('menu.updateDish', {
-                url: '/dish/:id',
+                url: '/dishes/:id',
                 templateUrl: 'templates/dish/dishDetail.html',
                 data: {
                     title: '菜品管理',
@@ -317,6 +317,37 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
 
 
 
+
+            .state('menu.announcements', {
+                url: '/announcements',
+                templateUrl: 'templates/announcement/announcementList.html',
+                data: {
+                    title: '公告管理',
+                    type : 'list'
+                },
+                controller: 'AnnouncementController'
+            })
+            .state('menu.updateAnnouncement', {
+                url: '/announcements/:id',
+                templateUrl: 'templates/announcement/announcementDetail.html',
+                data: {
+                    title: '公告管理',
+                    type : 'update'
+                },
+                controller: 'AnnouncementController'
+            })
+            .state('menu.addNewAnnouncement', {
+                url: '/announcementadd',
+                templateUrl: 'templates/announcement/announcementDetail.html',
+                data: {
+                    title: '公告管理',
+                    type : 'add'
+                },
+                controller: 'AnnouncementController'
+            })
+
+
+
             .state('menu.warehouses', {
                 url: '/warehouses',
                 templateUrl: 'templates/warehouse/warehouseList.html',
@@ -380,7 +411,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'CronController'
             })
             .state('menu.updateCron', {
-                url: '/cron/:id',
+                url: '/cronjobs/:id',
                 templateUrl: 'templates/cron/cronDetail.html',
                 data: {
                     title: '定时任务管理',
@@ -389,7 +420,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'CronController'
             })
             .state('menu.addNewCron', {
-                url: '/cronadd',
+                url: '/cronjobadd',
                 templateUrl: 'templates/cron/cronDetail.html',
                 data: {
                     title: '定时任务管理',
