@@ -19,5 +19,15 @@ module.exports =
         android : "android"
         wechat : "wechat"
 
+
+    validationId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  announcement ID length must be 24-24", 400, Err.code.announcement.announcementIdWrong
+
+
+    checkNotFound : (announcement) ->
+      if not announcement
+        throw new Err "Announcement not Found !", 400, Err.code.announcement.notFound
+
   methods: {}
   rest: {}

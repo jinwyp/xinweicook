@@ -102,5 +102,10 @@ module.exports = {
 
         couponIdWrong : 5210,
         promotionCodeWrong : 5212
+    },
+
+    announcement: {
+        announcementIdWrong : 8110,
+        notFound: 8112
     }
 };
