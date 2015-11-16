@@ -154,7 +154,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : JSON.stringify(weixinpayJSSdkConfigSign)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(110, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo1, {upsert: true})
@@ -186,7 +186,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinPayJSSdkConfig"
             key : "weixinPayJSSdkConfig"
             value : JSON.stringify(weixinpayJSSdkConfigSign)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(110, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo2, {upsert: true})
