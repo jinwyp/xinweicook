@@ -81,7 +81,7 @@ angular.module('xw.filters').filter('subDishTitle', function () {
 });
 
 /**
- * 将查询返回的派送时间转换成下单所需要的形式
+ * 将查询返回的派送时间转换成下单所需要的形式[NOT FOR HTML]
  * time为{hour: ''}, 当type为eat时,
  * time为{day:{day:''}, time: {name: ''}}, 当type为cook时,
  * time为{eat: {hour}, cook:{day,time}}, 当type为all时.
@@ -95,8 +95,8 @@ angular.module('xw.filters').filter('orderTime', function () {
                 deliveryTimeEat: time.hour.substr(11, 5)
             }
         } else if (type == 'cook') {
-            ret = {deliveryDateCook: time.day.day};
-            ret.deliveryTimeCook = time.time ? time.time.name+':00' : '12:00';
+            ret = {deliveryDateCook: time.day};
+            ret.deliveryTimeCook = time.segment ? time.segment.name+':00' : '12:00';
             return ret;
         } else if (type == 'all') {
             ret = {};
@@ -106,6 +106,28 @@ angular.module('xw.filters').filter('orderTime', function () {
         }
     }
 });
+
+angular.module('xw.filters').filter('cookTimeUnion', function () {
+    return function (times) {
+        if (!times || !times.length) {
+            return times
+        }
+        var hasSegment = !!times[0].segment;
+        return times.reduce(function (list, cur) {
+            if (hasSegment) {
+                cur.segment.forEach(function (item) {
+                    list.push({
+                        day: cur.day,
+                        segment: item
+                    })
+                })
+            } else {
+                list.push({day: cur.day})
+            }
+            return list;
+        }, [])
+    }
+})
 
 /**
  * 有多种不同的dishList类型, 有些是从后端获得的, 有些是作为更新购物车post回去的,
@@ -188,7 +210,7 @@ angular.module('xw.filters').filter('eatTimeOptions', function () {
 
 angular.module('xw.filters').filter('eatTimeDisplay', function () {
     return function (time) {
-        return time.hour != '请选择配送时间' ? time.hour + ' 送达' : time.hour;
+        return time.hour
     }
 });
 

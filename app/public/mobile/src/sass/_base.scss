@@ -14,6 +14,7 @@ $invalid-text-color: #A7A7A7;
 $invalid-bg-color: #F9F9F9;
 $bottom-bar-height: 53px;
 $menu-nav-bg-color: #262626;
+$placeholder-color: rgba(0,0,0,0.3);
 
 //  length
 $margin-to-cart-length: 60px;
@@ -53,13 +54,13 @@ i {
 }
 
 ::-moz-placeholder {
-  color: rgba(0,0,0,0.3);
+  color: $placeholder-color;
 }
 :-ms-input-placeholder {
-  color: rgba(0,0,0,0.3);
+  color: $placeholder-color;
 }
 ::-webkit-input-placeholder {
-  color: rgba(0,0,0,0.3) !important;
+  color: $placeholder-color !important;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -128,6 +129,14 @@ $retina: sprite-map("icons/*.png");
       border-color: $primary-color;
     }
   }
+}
+
+.hide {
+  display: none;
+}
+
+.placeholder {
+  color: $placeholder-color;
 }
 
 .white-body {
