@@ -103,9 +103,9 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         });
 
         // ugly DOM code in the controller to trigger `img-lazy-load`.
-        $timeout(function () {
-            window.scrollTo(0, window.scrollY + 1);
-        })
+        //$timeout(function () {
+        //    window.scrollTo(0, window.scrollY + 1);
+        //})
     }
 
     function getDishList(warehouse) {
