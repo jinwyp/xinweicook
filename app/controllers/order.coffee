@@ -256,6 +256,7 @@ exports.addNewOrder = (req, res, next) ->
   dishHistoryList = []
   dishReadyToCookList = []
   dishReadyToEatList = []
+  dishReadyToEatWithoutDrinkList = []
 
 
 
@@ -511,7 +512,8 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.userComment = ""
         newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
-      if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
+      # 处理订单分子订单
+      if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
@@ -521,6 +523,10 @@ exports.addNewOrder = (req, res, next) ->
             newOrderReadyToCook.userComment = ""
           newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
+        # 排除drink 饮品
+        if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().eat and dishDataList[dish.dish].sideDishType is models.dish.constantSideDishType().main
+          dishReadyToEatWithoutDrinkList.push({dish:dishDataList[dish.dish], number:dish.number})
+
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
@@ -552,8 +558,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrderReadyToEat.dishHistory = dishReadyToEatList
 
 
-
-    if dishReadyToCookList.length > 0 and dishReadyToEatList.length > 0
+    if dishReadyToCookList.length > 0 and dishReadyToEatWithoutDrinkList.length > 0
       newOrder.isSplitOrder = true
 
     if newOrder.isSplitOrder
