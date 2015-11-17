@@ -5,13 +5,13 @@ angular.module('xw.directives').directive('modal', function () {
         scope: {
             show: "=",
             close: '=',
-            toggle: '='
+            toggle: '=',
+            preClose: '=?'
         },
         templateUrl: 'modal.html',
         link: function (scope, el, attrs) {
             scope.css = {show: false};
 
-            console.log(attrs.default);
             if (attrs.default == 'show') {
                 scope.css.show = true;
             }
@@ -20,12 +20,14 @@ angular.module('xw.directives').directive('modal', function () {
                 setStatus(event, true);
             };
 
-            scope.close = function () {
+            scope.close = function (ignorePreClose) {
+                if (!ignorePreClose && scope.preClose) {
+                    scope.preClose();
+                }
                 setStatus(event, false);
             };
 
             scope.toggle = function () {
-                console.log('eatTime');
                 setStatus(event);
             };
 

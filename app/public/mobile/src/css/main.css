@@ -2463,3 +2463,32 @@ html.order-address-html body {
   background-color: white;
   z-index: 1;
 }
+
+/* line 190, ../sass/_components.scss */
+.xw-confirm .xw-modal-content {
+  height: 150px;
+  width: 76%;
+  border-radius: 4px;
+  text-align: center;
+}
+/* line 196, ../sass/_components.scss */
+.xw-confirm .xw-modal-content .text {
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  font-size: 15px;
+}
+/* line 203, ../sass/_components.scss */
+.xw-confirm .xw-modal-content .button-group {
+  font-size: 0;
+}
+/* line 205, ../sass/_components.scss */
+.xw-confirm .xw-modal-content .button-group span {
+  font-size: 14px;
+  padding: 7px 13px;
+  border: 1px solid;
+}
+/* line 209, ../sass/_components.scss */
+.xw-confirm .xw-modal-content .button-group span:not(:last-child) {
+  margin-right: 22px;
+}

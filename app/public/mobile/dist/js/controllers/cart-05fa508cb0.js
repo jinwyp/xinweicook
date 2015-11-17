@@ -21,7 +21,6 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     }
 
-
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
         item.number++;
@@ -35,27 +34,27 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.decrease = function (item, idx) {
-        var cancel = false;
         var key = item.dish.cookingType == 'ready to cook' ? 'cookList' : 'eatList';
         var list = $scope.dishList[key];
         if (item.number == 1) {
-            cancel = !confirm('确定删除该商品吗?');
+            $scope.confirm().then(function (confirm) {
+                if (!confirm) return;
+
+                item.number--;
+                item.subDish.forEach(function (el) {
+                    el.number--;
+                });
+
+                if (!item.number) {
+                    list.splice(idx, 1);
+                    postCart.splice(postCart.indexOf(item), 1);
+                }
+
+                User.postCart(postCart.map(postDishFilter)).catch(function () {
+                    $localStorage.localBag = postCart;
+                })
+            })
         }
-        if (cancel) return;
-
-        item.number--;
-        item.subDish.forEach(function (el) {
-            el.number--;
-        });
-
-        if (!item.number) {
-            list.splice(idx, 1);
-            postCart.splice(postCart.indexOf(item), 1);
-        }
-
-        User.postCart(postCart.map(postDishFilter)).catch(function () {
-            $localStorage.localBag = postCart;
-        })
     };
 
     $scope.select = function (item) {
