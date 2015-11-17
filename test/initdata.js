@@ -4,79 +4,6 @@
 
 
 
-var userAdmin = [
-    {
-        username : "jinwang@xinweicook.com",
-        pwd : "xwcook789",
-        mobile : "13564568304",
-        email : "jinwang@xinweicook.com",
-        group : "admin"
-    },
-    {
-        username : "yuekec@xinweicook.com",
-        pwd : "xwcook789",
-        mobile : "15900719671",
-        email : "yuekec@xinweicook.com",
-        group : "admin"
-    },
-    {
-        username : "x@x.com",
-        pwd : "xwcook789",
-        mobile : "13564568301",
-        email : "x@x.com",
-        group : "admin"
-    },
-    {
-        username : "x@x2.com",
-        pwd : "xwcook789",
-        mobile : "13564568302",
-        email : "x@x2.com",
-        group : "admin"
-    },
-    {
-        username : "x@x3.com",
-        pwd : "xwcook789",
-        mobile : "13564568303",
-        email : "x@x3.com",
-        group : "admin"
-    },
-    {
-        username : "steveadmin",
-        pwd : "xwcook789",
-        mobile : "18621378962",
-        email : "x@x3.com",
-        group : "admin",
-        fullName : "steve"
-    },
-
-    {
-        username : "shaoxiaoqing",
-        pwd : "xwcook789",
-        mobile : "18602327056",
-        email : "dreamer0321@foxmail.com",
-        group : "admin",
-        fullName : "邵晓青"
-    },
-    {
-        username : "chensilu",
-        pwd : "xwcook789",
-        mobile : "18601799423",
-        email : "690363236@qq.com",
-        group : "admin",
-        fullName : "陈思璐"
-    },
-    {
-        username : "mengfei",
-        pwd : "xwcook789",
-        mobile : "18215563108",
-        email : "918372085@qq.com",
-        group : "admin",
-        fullName : "赵梦菲"
-    }
-];
-
-
-
 
 var dishFilterTagList1 = [
     {
@@ -1101,7 +1028,6 @@ var realReadyToEat = [
 ];
 
 module.exports = {
-    userAdmin : userAdmin,
     dishFilter : dishFilterList,
     sampleReadyToEat : realReadyToEat
 

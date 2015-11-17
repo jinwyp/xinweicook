@@ -1,16 +1,20 @@
-angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage, $filter) {
+angular.module('xw.directives').directive('addDishBar', function (Debug, User, $localStorage, $filter, Utils) {
     return {
         scope: {
             dish: '=',
-            user: '=',
-            cart: '='
+            user: '='
         },
         templateUrl: 'add-dish-bar.html',
         link : function ($scope) {
+            var storage = $scope.storage = $localStorage;
+            storage.localBag = storage.localBag || [];
+
             var unwatcher = $scope.$watch('user', function (user) {
                 if (user) {
                     unwatcher();
-                    $scope.cart = user.shoppingCart;
+
+                    storage.localBag = Utils.mergeCarts(storage.localBag || []
+                        , user.shoppingCart);
                     $scope.totalPrice();
                 }
             });
@@ -33,71 +37,46 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 }
             });
 
-            if ($localStorage.addDishCart) {
-                $scope.cart = $localStorage.addDishCart;
-            }
-
             /**
              * @param dish 此dish同$scope.dish
              */
             $scope.addToCart = function (dish) {
                 var selection = dish.curSelection;
-                // 存在与cart中的与dish的id相同的dish wrapper - {dish: dish, number:number, subDish: []}
+                var newEntry = {
+                    dish: dish,
+                    number: dish.count,
+                    subDish: Object.keys(selection).map(function (key) {
+                        return {
+                            dish: selection[key],
+                            number: dish.count
+                        };
+                    })
+                };
+
+                // 存在与cart中的与dish的id相同的dish wrapper
+                // - {dish: dish, number:number, subDish: []}
                 var entry;
 
-                $scope.cart.some(function (item) {
-                    if (item.dish._id == dish._id) {
+                storage.localBag.some(function (item) {
+                    if (Utils.isSameItemInCart(item, newEntry)) {
                         entry = item;
+                        entry.number += newEntry.number;
+                        entry.subDish.forEach(function (sDish) {
+                            sDish.number = entry.number;
+                        });
                         return true;
                     }
                 });
 
-                // 如果cart已经存在主dish, 则更新主dish的子菜品
-                if (entry) {
-                    // 先增加主dish上的count
-                    entry.number += dish.count;
-                    // 然后处理子菜品
-                    Object.keys(selection).forEach(function (propertyName) {
-                        var item = selection[propertyName];
-                        var sEntry;
-                        entry.subDish = entry.subDish || [];
-                        entry.subDish.some(function (el) {
-                            if (el.dish._id == item._id) {
-                                sEntry = el;
-                                return true;
-                            }
-                        });
-
-                        // 如果subDish中已经存在sDish,则更新
-                        if (sEntry) {
-                            sEntry.number += dish.count;
-                        } else {
-                            entry.subDish.push({
-                                dish: item,
-                                number: dish.count
-                            })
-                        }
-                    })
-                } else {
-                    $scope.cart.push({
-                        dish: dish,
-                        number: dish.count,
-                        subDish: Object.keys(selection).map(function (propertyName) {
-                            return {
-                                dish: selection[propertyName],
-                                number: dish.count
-                            }
-                        })
-                    });
+                if (!entry) {
+                    storage.localBag.push(newEntry);
                 }
 
                 dish.count = 0;
 
                 $scope.hide();
 
-                User.postCart($scope.cart.map(postDishFilter)).catch(function () {
-                    $localStorage.addDishCart = $scope.cart;
-                });
+                User.postCart(storage.localBag.map(postDishFilter));
 
                 $scope.totalPrice();
             };
@@ -105,14 +84,14 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
             var postDishFilter = $filter('postDish');
 
             $scope.totalPrice = function () {
-                var p = $scope.cart.reduce(function price(total, cur) {
+                var p = storage.localBag.reduce(function price(total, cur) {
                     total += cur.dish.priceOriginal * cur.number;
                     if (cur.subDish) {
                         total += cur.subDish.reduce(price, 0)
                     }
                     return total;
                 }, 0);
-                return $scope.cart.price = p;
+                return storage.localBag.price = p;
             };
 
             $scope.totalPrice();

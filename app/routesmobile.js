@@ -17,90 +17,103 @@ var request = require('request');
 expressRoutes = function(app) {
 
 
-
+    var useBuild = process.env.NODE_ENV == 'production' 
+        || process.env.PREVIEW == 'true';
+    var pathPrefix = useBuild ? 'mobile/' : '';
 
 
     //app.get("/", function (req, res) {
     //    res.redirect('/mobile');
     //});
 
+    app.get("/r/:id", function (req, res) {
+        var urlMap = {
+            // DiTui Promotion 01 01
+            'DTP0101': '/mobile/login?couponcode=XWNODLVR01#/signup',
+            'DTP0102': '/mobile/login?couponcode=XWNODLVR02#/signup',
+            'DTP0103': '/mobile/login?couponcode=XWNODLVR03#/signup'
+        };
+        res.redirect(urlMap[req.params.id] || '/mobile');
+    });
+
     app.get("/mobile", function (req, res) {
-        res.render('mobile/eat-list.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'eat-list.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/login", function (req, res) {
-        res.render('mobile/login.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'login.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/resetpwd", function (req, res) {
-        res.render('mobile/reset-password.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'reset-password.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/me", function (req, res) {
-        res.render('mobile/me.html', {title: 'XinWeiCook'})
-    });
-    app.get("/mobile/order", function (req, res) {
-        res.render('mobile/order.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'me.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/orderlist", function (req, res) {
-        res.render('mobile/order-list.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'order-list.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/addresslist", function (req, res) {
-        res.render('mobile/address-list.html', {title: 'XinweiCook'})
+        res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
     });
     app.get("/mobile/addressedit", function (req, res) {
-        res.render('mobile/address-edit.html', {title: 'XinweiCook'})
+        res.render(pathPrefix + 'address-edit.html', {title: 'XinweiCook'})
     });
     app.get("/mobile/wxpay/:id", function (req, res) {
-        res.render('mobile/wxpay.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'wxpay.html', {title: 'XinWeiCook'})
     });
     app.get('/mobile/favlist', function (req, res) {
-        res.render('mobile/fav-list.html');
+        res.render(pathPrefix + 'fav-list.html');
     });
     app.get('/mobile/cart', function (req, res) {
-        res.render('mobile/cart.html');
+        res.render(pathPrefix + 'cart.html');
     });
     app.get('/mobile/cook/:id', function (req, res) {
-        res.render('mobile/cook.html');
+        res.render(pathPrefix + 'cook.html');
     });
     app.get('/mobile/app', function (req, res) {
-        res.render('mobile/app.html');
+        res.render(pathPrefix + 'app.html');
     });
     app.get('/mobile/invite', function (req, res) {
-        res.render('mobile/invite.html');
+        res.render(pathPrefix + 'invite.html');
     });
     app.get('/mobile/invited/:avatar/:code/:name/:place', function (req, res) {
-        res.render('mobile/invited.html');
+        res.render(pathPrefix + 'invited.html');
     });
     app.get('/mobile/invited-app/:code', function (req, res) {
-        res.render('mobile/invited-app.html');
+        res.render(pathPrefix + 'invited-app.html');
     });
     app.get('/mobile/coupons', function (req, res) {
-        res.render('mobile/coupons.html');
+        res.render(pathPrefix + 'coupons.html');
     });
     app.get("/mobile/alipay/return", function (req, res) {
-        res.render('mobile/alipay-notify.html');
+        res.render(pathPrefix + 'alipay-notify.html');
     });
     app.get("/mobile/alipay/returnaccountdetail", function (req, res) {
-        res.render('mobile/alipay-notify.html');
+        res.render(pathPrefix + 'alipay-notify.html');
     });
     app.get("/mobile/balance", function (req, res) {
-        res.render('mobile/balance.html');
+        res.render(pathPrefix + 'balance.html');
     });
     app.get("/mobile/chargebalance", function (req, res) {
-        res.render('mobile/charge-balance.html');
+        res.render(pathPrefix + 'charge-balance.html');
     });
     app.get("/mobile/chargebalanceonline", function (req, res) {
-        res.render('mobile/charge-balance-online.html');
+        res.render(pathPrefix + 'charge-balance-online.html');
     });
     app.get("/mobile/balancerecords", function (req, res) {
-        res.render('mobile/balance-records.html');
+        res.render(pathPrefix + 'balance-records.html');
     });
     app.get("/mobile/orderaddress", function (req, res) {
-        res.render('mobile/order-address.html');
+        res.render(pathPrefix + 'order-address.html');
     });
     app.get("/mobile/orderpay", function (req, res) {
-        res.render('mobile/order-pay.html');
+        res.render(pathPrefix + 'order-pay.html');
     });
     app.get("/mobile/searchaddress", function (req, res) {
-        res.render('mobile/search-address.html');
+        res.render(pathPrefix + 'search-address.html');
+    });
+
+    app.get("/mobile/wxgzh", function (req, res) {
+        res.render(pathPrefix + 'wxgzh-qrcode.html');
     });
 
 
@@ -130,19 +143,33 @@ expressRoutes = function(app) {
         })
     });
 
+    var warehouseCoords = {
+        xinweioffice: {
+            lat: 31.189426,
+            lng: 121.460625
+        },
+        caohejing1: {
+            lat: 31.169250,
+            lng: 121.398949
+        }
+    };
     app.get('/mobile/distance', function (req, res, next) {
             // 使用gcj02坐标.
             var destinations = req.query.destinations || '';
-            var xwLat = 31.189426;
-            var xwLng = 121.460625;
+            //var warehouse = warehouseCoords[req.query.warehouse || 'xinweioffice'] ;
+            var office = warehouseCoords.xinweioffice;
+            var chj1 = warehouseCoords.caohejing1;
+
             var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
 
-            var params = 'origins=' + encodeURIComponent(xwLat + ',' + xwLng) +
+            var params = 'origins=' + encodeURIComponent(office.lat + ',' + office.lng)
+                    + '|' + encodeURIComponent(chj1.lat + ',' + chj1.lng) +
                 '&destinations=' + encodeURIComponent(destinations) +
                 '&ak=' + ak +
                 '&output=json&mode=walking&coord_type=gcj02&tactics=12';
             var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
 
+            console.log(url)
             request(url, function(err, response, body) {
                 if (err) {
                     next(err)

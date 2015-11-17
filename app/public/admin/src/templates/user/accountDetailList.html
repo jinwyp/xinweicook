@@ -28,7 +28,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >用户_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.user" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query.user" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderId.$dirty&&searchForm.orderId.$valid, 'has-error':searchForm.orderId.$dirty&&searchForm.orderId.$invalid}">
                     <label for="inputOrderId" class="col-lg-2 control-label" >消费的订单ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputOrderId" placeholder="" name="orderId" ng-model="data.searchOptions.order" ng-minlength="64">
+                        <input type="text" class="form-control" id="inputOrderId" placeholder="" name="orderId" ng-model="data.searchOptions.query.order" ng-minlength="64">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$invalid"></span>
                     </div>
@@ -57,7 +57,7 @@
                     <label class="col-lg-2 control-label" >充值或消费</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.isPlusList">
-                            <input type="radio" name="isPlus"  ng-value="group.value" ng-model="data.searchOptions.isPlus">{{group.name}}
+                            <input type="radio" name="isPlus"  ng-value="group.value" ng-model="data.searchOptions.query.isPlus">{{group.name}}
                         </label>
 
                     </div>
@@ -68,7 +68,7 @@
                     <label class="col-lg-2 control-label" >充值类型</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.chargeTypeList">
-                            <input type="radio" name="chargeType"  ng-value="group.value" ng-model="data.searchOptions.chargeType">{{group.name}}
+                            <input type="radio" name="chargeType"  ng-value="group.value" ng-model="data.searchOptions.query.chargeType">{{group.name}}
                         </label>
 
                     </div>
@@ -80,7 +80,7 @@
                     <label class="col-lg-2 control-label" >在线充值是否完成支付</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.isPaidTypeList">
-                            <input type="radio" name="isPaid"  ng-value="group.value" ng-model="data.searchOptions.isPaid">{{group.name}}
+                            <input type="radio" name="isPaid"  ng-value="group.value" ng-model="data.searchOptions.query.isPaid">{{group.name}}
                         </label>
 
                     </div>
@@ -135,7 +135,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="account in data.accountDetailList | filter: data.searchFilter">
-                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} <br/> <button class="btn btn-info" ng-click="showAccountPayment(account._id)">查看支付状态</button></td>
+                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} <br/> <button class="btn btn-info" ng-click="showAccountPayment(account._id)">查看支付状态</button> <br/>
+
+                    <span ng-repeat="payment in data.accountPaymentDetail" ng-show="data.currentDeleteIndex === account._id"> <pre> {{payment | json}}</pre></span>
+                </td>
+
                 <td><a ui-sref="menu.updateUser({ id: account.user })">{{account.user}}</a> </td>
                 <td>{{account.name.zh}}</td>
                 <td>{{account.remark}}</td>

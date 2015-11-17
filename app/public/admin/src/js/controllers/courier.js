@@ -16,16 +16,20 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-modifiedAt',
             skip : 0,
-            createdAt :'',
-            group : 'courier',
-            lang : '',
-            _id : '',
-            mobile : ''
+            limit : 200,
+
+            query : {
+                group : 'courier',
+                _id : '',
+                mobile : ''
+            }
+
         },
 
         searchSort : {
-            sort : '-modifiedAt'
+
         },
 
 
@@ -91,22 +95,22 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
     $scope.css = {
         isAddNewStatus : true,
-        searchUserSortBy : '-timeLeft'
+        searchUserSortBy : '-timeLeft',
+        showTable : ''
     };
 
 
 
 
-    var stopInterval;
+
 
     $scope.searchUserCount = function (){
 
-        $scope.css.showTable = 'users';
+        $scope.css.showTable = '';
 
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Util.delProperty($scope.data.searchOptions);
-
-        Users.one('count').get($scope.data.searchOptions).then(function (users) {
+        Users.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (users) {
             $scope.data.userListCount = users.count;
             $scope.data.userListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
 
@@ -119,18 +123,13 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
         });
 
-        $interval.cancel(stopInterval);
-        stopInterval = null;
-
     };
 
     $scope.searchUser = function (form) {
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        Users.getList(options).then(function (resultUsers) {
+        Users.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
             //Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -144,22 +143,26 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                 });
 
                 angular.forEach($scope.data.userList, function(user, userIndex){
-                    user.geoLatitude = tempUser[user._id].geoLatitude;
-                    user.geoLongitude = tempUser[user._id].geoLongitude;
-                    user.distanceFrom = tempUser[user._id].distanceFrom;
-                    user.isBack = tempUser[user._id].isBack;
 
-                    if (tempUser[user._id].speed) {
-                        user.speed = tempUser[user._id].speed;
-                    }else{
-                        user.speed = 20;  // 公里/小时
+                    if (typeof tempUser[user._id] !== 'undefined'){
+                        user.geoLatitude = tempUser[user._id].geoLatitude;
+                        user.geoLongitude = tempUser[user._id].geoLongitude;
+                        user.distanceFrom = tempUser[user._id].distanceFrom;
+                        user.isBack = tempUser[user._id].isBack;
+
+                        if (tempUser[user._id].speed) {
+                            user.speed = tempUser[user._id].speed;
+                        }else{
+                            user.speed = 20;  // 公里/小时
+                        }
+
+                        if (tempUser[user._id].timeLeft) {
+                            user.timeLeft = tempUser[user._id].timeLeft;
+                        }else{
+                            user.timeLeft = user.distanceFrom / 1000 / user.speed * 60;
+                        }
                     }
 
-                    if (tempUser[user._id].timeLeft) {
-                        user.timeLeft = tempUser[user._id].timeLeft;
-                    }else{
-                        user.timeLeft = user.distanceFrom / 1000 / user.speed * 60;
-                    }
 
                 });
 
@@ -233,8 +236,8 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     };
 
 
-
-    $scope.showBaiduMapInterval = function(){
+    var stopInterval;
+    $scope.startBaiduMapInterval = function(){
         $scope.css.showTable = 'map';
 
         stopInterval = $interval(function() {
@@ -245,14 +248,25 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
     };
 
 
+    $scope.stopBaiduMapInterval = function(){
+        $scope.css.showTable = '';
+
+        $interval.cancel(stopInterval);
+        stopInterval = null;
+    };
+
+
+
+
 
 
     var map = new BMap.Map("baidumapCourier");          // 创建地图实例
 
     var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
     var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
+    var pointXinWeiCaohejing = new BMap.Point( 121.40523, 31.175474);  // 创建点坐标 longitude 经度 / latitude 纬度  //经度 ( 121.4051452465212 ) / 纬度 ( 31.17546886907618 )
 
-    map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
+    map.centerAndZoom(pointXinWeiOffice, 15);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
 
     map.addControl(new BMap.NavigationControl());   // 平移缩放控件
@@ -298,8 +312,8 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
             iconUrl = '/admin/src/img/marker100.png';
         }
 
-        if (percentage == 100){
-            iconUrl = '/admin/src/img/marker40.png';
+        if (percentage === 100){
+            iconUrl = '/admin/src/img/marker_home.png';
         }
 
         var myIcon = new BMap.Icon(iconUrl, new BMap.Size(25, 30), {
@@ -339,11 +353,14 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
 
 
 
+
     $scope.refreshBaiduMap = function(){
 
         map.clearOverlays();
 
+
         addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
+        addMarker(pointXinWeiCaohejing, '新味漕河泾仓库', '地址:虹梅路2008号红梅大楼', 100);
 
         angular.forEach($scope.data.userList, function(user, userIndex){
 
@@ -351,7 +368,7 @@ function courierController($scope, $timeout, $interval, $state, $stateParams, No
                 console.log(user.geoLongitude, user.geoLatitude , user.fullName);
 
                 if (!user.fullName){
-                    user.fullName = '暂无姓名';
+                    user.fullName = '暂无姓名'; // 修复在地图点上显示姓名
                 }
 
                 var pointCourier = new BMap.Point( user.geoLongitude, user.geoLatitude);  // 创建点坐标 longitude 经度 / latitude 纬度

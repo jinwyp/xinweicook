@@ -9,7 +9,7 @@ module.exports =
       req._hash = hmac.digest('hex')
       next()
     req.on "error", (err) ->
-      next err
+      next(err)
   _id: (req, res, next) ->
     req._id = (new ObjectId).toString()
     next()

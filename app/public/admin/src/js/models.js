@@ -30,6 +30,48 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
 
 angular.module('RDash.models').factory('Util', function ($http) {
     return {
+        delAllProperty: function (obj){
+            for(var p in obj) {
+                if (obj.hasOwnProperty(p)) {
+                    if (obj[p] ===''){
+                        delete obj[p];
+                    }
+                    if (angular.isArray(obj[p]) ){
+
+                        if(obj[p].length === 0 && p !== 'preferences'){
+                            delete obj[p];
+                        }else{
+                            angular.forEach(obj[p], function(subobj, index){
+                                if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
+                                    obj[p].splice(index, 1)
+                                }
+
+                                if(!angular.isUndefined(subobj.title) && subobj.title.zh == '' && !angular.isUndefined(subobj.value) && subobj.value.zh == ''){
+                                    obj[p].splice(index, 1)
+                                }
+                                if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
+                                    obj[p].splice(index, 1)
+                                }
+
+                            })
+                        }
+                    }else if (angular.isObject(obj[p])) {
+                        //console.log(this);
+                        this.delAllProperty(obj[p]);
+
+                        var hasPro = false;
+                        for(var pchild in obj[p]) {
+                            hasPro = true;
+                        }
+                        if (!hasPro){
+                            delete obj[p];
+                        }
+                    }
+                }
+            }
+            return obj
+        },
+
         delProperty: function (obj){
             for(var p in obj) {
                 if (obj.hasOwnProperty(p)) {
@@ -40,6 +82,31 @@ angular.module('RDash.models').factory('Util', function ($http) {
             }
             return obj
         },
+
+        formatParam: function (options, isSort){
+            var result = {
+                query : JSON.stringify(options.query)
+            };
+
+            if (typeof options.sort !== 'undefined' && options.sort && isSort){
+                result.sort = options.sort;
+            }
+
+            if (typeof options.skip !== 'undefined' && options.skip){
+                result.skip = options.skip;
+            }
+
+            if (typeof options.limit !== 'undefined' && options.limit){
+                result.limit = options.limit;
+            }
+
+
+            //console.log(decodeURIComponent('http://localhost:3003/api/admin/accountdetails/count?limit=200&query=%7B%22isPlus%22:%22true%22%7D&sort=-createdAt'));
+
+
+            return result
+        },
+
 
         chartDataFormat : function(chartData){
 
@@ -167,11 +234,24 @@ angular.module('RDash.models').factory('Coupons', function (Restangular) {
 });
 
 
+angular.module('RDash.models').factory('Announcements', function (Restangular) {
+    return Restangular.service('announcements');
+});
+
+angular.module('RDash.models').factory('Warehouses', function (Restangular) {
+    return Restangular.service('warehouses');
+});
+
+
+
 
 angular.module('RDash.models').factory('Logs', function (Restangular) {
     return Restangular.service('logs');
 });
 
+angular.module('RDash.models').factory('Settings', function (Restangular) {
+    return Restangular.service('settings');
+});
 
 angular.module('RDash.models').factory('Crons', function (Restangular) {
     return Restangular.service('cronjobs');
@@ -253,6 +333,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
 
         getUserStatisticNewFirstOrderUserDaily: function (params) {
             return $http.get('/api/admin/statistic/user/firstorder/daily', {
+                params: params
+            })
+        },
+
+        getUserStatisticCouponByName: function (params) {
+            return $http.get('/api/admin/statistic/user/coupon/name', {
                 params: params
             })
         }

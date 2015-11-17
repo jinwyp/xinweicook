@@ -1,9 +1,13 @@
 angular.module('xw.models').factory('Dishes', function ($http) {
 
-
     return {
-        getList: function () {
-            return $http.get('/api/dishes')
+        getList: function (warehouse, cookingType) {
+            warehouse = warehouse || '';
+            cookingType = cookingType || '';
+            return $http.get(
+                '/api/dishes?showForWarehouse=' + warehouse +
+                '&cookingType=' + cookingType
+            );
         },
         like: function (id) {
             return $http.put('/api/dishes/' + id + '/like');
@@ -21,6 +25,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         deliveryTime: function (data) {
             return $http.post('/api/orders/delivery/time', data)
+        },
+        deliveryEatTime: function (data) {
+            return $http.post('/api/orders/delivery/time/eat/warehouse', data)
         },
         getOrder: function (orderId) {
             return $http.get('/api/orders/' + orderId);
@@ -77,11 +84,8 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 return res;
             })
         },
-        getSmsCode: function (mobile, type) {
-            return $http.post('/api/user/sms', {
-                mobile: mobile,
-                type: type
-            })
+        getSmsCode: function (data) {
+            return $http.post('/api/user/sms', data)
         },
         logout: function () {
             return $http.post('/api/user/logout', {
@@ -119,6 +123,10 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
         invitedFriends: function () {
             return $http.get('/api/user/coupon/friends');
+        },
+
+        getWeixinUserInfo: function (id) {
+            return $http.get('/api/user/weixin/userinfo?userId=' + id);
         }
 
     }
@@ -128,6 +136,9 @@ angular.module('xw.models').factory('Coupon', function ($http) {
     return {
         getCouponInfo: function (code) {
             return $http.get('/api/coupons/code/' + code);
+        },
+        exchangeCouponCode: function (code) {
+            return $http.get('/api/user/coupon/code/' + code);
         }
     }
 });

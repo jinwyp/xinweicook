@@ -14,17 +14,17 @@ module.exports =
     usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
-    startDate: type: Date, default: moment()
-    endDate: type: Date, default: moment().add(90, 'days')
+    startDate: type: Date, default: moment().startOf('day')
+    endDate: type: Date, default: moment().startOf('day').add(90, 'days')
     isExpired : type: Boolean, default:false
     isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
 
     usedUserList : [type: Schema.Types.ObjectId, ref: 'user']  # 记录哪些用户使用过
 
-    user : type: Schema.Types.ObjectId, ref: 'user'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    user : type: Schema.Types.ObjectId, ref: 'user'  # 当usedTime使用次数为1 时 绑定某个用户，只能某个用户使用
 
-    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 当使用次数为1 时 绑定某个用户，只能某个用户使用
+    fromCoupon : type: Schema.Types.ObjectId, ref: 'coupon'  # 该优惠券是从哪个优惠券兑换码而来的
 
 
   statics :
@@ -40,7 +40,7 @@ module.exports =
         couponchargecode : "couponchargecode"
     checkNotFound : (coupon) ->
       if not coupon
-        throw new Err "Coupon not Found or used or expired!", 400
+        throw new Err "Coupon not Found or used or expired!", 400, Err.code.coupon.notFound
       else
         coupon
 
@@ -57,7 +57,7 @@ module.exports =
         if coupon.usedCountLimitOfOneUser is 1
           # 可以使用多次,但一个用户只能使用一次
           if coupon.usedUserList.indexOf(user._id) > -1
-            throw new Err "Coupon is use by this user!", 400, Err.code.coupon.used
+            throw new Err "Coupon is used by this user!", 400, Err.code.coupon.used
 
         if coupon.usedTime > 1 and coupon.isUsedCount >= coupon.usedTime
           throw new Err "Coupon run out used count !", 400, Err.code.coupon.outOfCount
@@ -67,11 +67,11 @@ module.exports =
 
     validationCouponId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  coupon ID length must be 24-24", 400
+        return throw new Err "Field validation error,  coupon ID length must be 24-24", 400, Err.code.coupon.couponIdWrong
 
     validationCouponCode : (code) ->
       unless libs.validator.isLength code, 10, 10
-        return throw new Err "Field validation error,  promotion code length must be 10-10", 400
+        return throw new Err "Field validation error,  promotion code length must be 10-10", 400, Err.code.coupon.promotionCodeWrong
 
     validationNewCoupon : (coupon) ->
       unless libs.validator.isLength coupon.name.zh, 3, 100
@@ -127,7 +127,7 @@ module.exports =
       else
         false
 
-    revokeUsed : (couponcode, user) ->
+    revokeUsed : (couponcode, userId) ->
       promiseCoupon = {}
       if libs.validator.isLength(couponcode, 10, 10)
         promiseCoupon = models.coupon.findOneAsync({code : couponcode})
@@ -135,7 +135,7 @@ module.exports =
         promiseCoupon = models.coupon.findOneAsync({_id : couponcode})
 
       promiseCoupon.then (resultCuopon) ->
-        console.log(resultCuopon)
+
         if resultCuopon
 
           if resultCuopon.usedTime is 1
@@ -143,7 +143,7 @@ module.exports =
           else
             # 是否每人可以多次使用
             if resultCuopon.usedCountLimitOfOneUser is 1
-              couponIndex = resultCuopon.usedUserList.indexOf(user._id)
+              couponIndex = resultCuopon.usedUserList.indexOf(userId)
               if couponIndex > -1
                 resultCuopon.usedUserList.splice(couponIndex, 1)
                 resultCuopon.isUsedCount = resultCuopon.isUsedCount - 1
@@ -242,7 +242,7 @@ module.exports =
         user.couponList.push(resultCouponList._id.toString())
         couponData.used(user)
         user.saveAsync()
-      .catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
+
 
 
     addCouponForShare : (user) ->
@@ -403,8 +403,8 @@ module.exports =
       if (user.sharedInvitationSendCodeTotalCount-1) %% 10 is 0 and user.sharedInvitationSendCodeTotalCount <= 101 and user.sharedInvitationSendCodeTotalCount >18
         newCoupon20 =
           name :
-            zh : "满" + user.sharedInvitationSendCodeTotalCount.toString() + "单优惠券"
-            en : "Achieve" + user.sharedInvitationSendCodeTotalCount.toString()  + " orders Coupon"
+            zh : "满" + (user.sharedInvitationSendCodeTotalCount-1).toString() + "单优惠券"
+            en : "Achieve" + (user.sharedInvitationSendCodeTotalCount-1).toString()  + " orders Coupon"
           price : 20
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
@@ -453,20 +453,46 @@ module.exports =
 
 
   rest:
-    middleware : (req, res, next) ->
+    preMiddleware : (req, res, next) ->
+      # 检查优惠码是否重复
       if req.method is "POST" and req.body.code
-        models.coupon.findOne({$or:[{code:req.body.code}]}, (err, result)->
-          console.log(result)
+        models.coupon.findOneAsync({$or:[{code:req.body.code}]}).then (result)->
+
           if result
             next(new Err("优惠码已经存在 - 后台管理"), 400)
           else
             next()
-        )
+
+      else if req.method is "PUT" and req.body.code
+
+        req.body.startDate = moment(req.body.startDate).startOf('day').toDate()
+        req.body.endDate = moment(req.body.endDate).startOf('day').toDate()
+
+
+        models.coupon.findOneAsync({_id:req.params.id}).then (result)->
+
+          if result
+
+            if result.code is req.body.code
+              next()
+
+            else
+              models.coupon.findAsync({code: req.body.code}).then ( result2)->
+
+                if result2 and result2.length > 0
+                  next(new Err("优惠码已经存在 - 后台管理"), 400)
+                else
+                  next()
+
       else
         next()
 
-    postProcess : (req, res, next) ->
+
+
+    postCreate : (req, res, next) ->
+
       if req.method is "POST"
+
         # 给用户新增优惠券
         if req.body.user and req.body.user.length > 23
           models.user.findOneAsync({_id:req.body.user}).then (resultUser) ->
@@ -481,3 +507,4 @@ module.exports =
                   resultUser.saveAsync().catch( (err)->
                     logger.error("Create Coupon failed:", err)
                   )
+      next()

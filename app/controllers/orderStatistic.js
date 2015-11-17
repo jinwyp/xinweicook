@@ -47,6 +47,9 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(range.e.r < row) range.e.r = row+10;
             if(range.e.c < column) range.e.c = column;
 
+            if(propertyList[column] == '_id'){
+                console.log("-------", arrayData[row][propertyList[column]])
+            }
 
             var cell = {v: arrayData[row][propertyList[column]] };
             var tempCellString = "";
@@ -56,15 +59,26 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 currentCell.forEach(function(dish){
                     if (dish.dish){
+
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                         dish.subDish.forEach(function(subDish){
-                            tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+
+
+                            if ( subDish.dish != null){
+                                tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                            }else{
+                                console.log("---------------", subDish);
+                            }
+
                         });
+
+
+
                     }else{
-                        console.log('------+++++++',dish.dish);
-                        console.log('------+++++++',dish);
-                        console.log('------+++++++',currentCell);
+                        //console.log('------+++++++',dish.dish);
+                        //console.log('------+++++++',dish);
+                        //console.log('------+++++++',currentCell);
                     }
 
                 });
@@ -162,7 +176,6 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
 
             var packageType = '';
-            console.log(arrayData[row].packageType);
             if (arrayData[row].packageType === 'foambox'){
                 packageType = '泡沫箱';
             }
@@ -218,7 +231,7 @@ exports.orderExportList = function(req, res, next) {
     req.query.limit = 10000;
 
 
-    models.order.find({}).sort("-createdAt").skip (req.query.skip).limit (req.query.limit)
+    models.order.find({}).skip (req.query.skip).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()
@@ -304,7 +317,7 @@ exports.orderList = function(req, res, next) {
 exports.orderPrintShippingList = function(req, res, next) {
 
     var orderIdList = [];
-    //console.log(req.query.idList);
+    var pageType = req.query.pageType || 'a4';
 
     if (req.query.idList){
         orderIdList = JSON.parse(req.query.idList)
@@ -320,7 +333,7 @@ exports.orderPrintShippingList = function(req, res, next) {
                 resultOrderList.forEach(function(order){
                     order.createdAtNew = moment(order.createdAt).format("ddd, YYYY-MM-D H:mm:ss")
                 });
-                res.render('admin/ship_list.html', {title: 'XinWeiCook', orderList:resultOrderList})
+                res.render('admin/ship_list.html', {title: 'XinWeiCook', orderList:resultOrderList, pageType: pageType})
             }else{
                 res.send('ok')
             }
@@ -415,35 +428,29 @@ exports.orderExportInternalList = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 exports.orderStatisticByAddress = function(req, res, next) {
 
     var pipeline = [];
 
-    var pipelineExample = [
-
-        { "$match":{
-            "createdAt": { $gte: req.query.createdAt }
-        }},
-
-        { "$group": {
-            "_id": '$address.address',
-            "orderQuantity": { "$sum": 1 },
-            "orderTotalDishesPrice": { "$sum": "$dishesPrice" },
-            "orderTotalFreightPrice": { "$sum": "$freight" },
-            "orderTotalPrice": { "$sum": "$totalPrice" }
-        }},
-
-
-        // Sorting pipeline
-        { "$sort": { "orderTotalPrice": -1 } },
-
-
-        // Optionally limit results
-        { "$limit": 100 }
-
-    ];
-
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -505,7 +512,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 200 }
+        { "$limit": 500 }
     );
 
     //console.log (pipeline);
@@ -517,13 +524,18 @@ exports.orderStatisticByAddress = function(req, res, next) {
             totalAllPrice = resultOrder.reduce(function(previous, order) {
                 return previous + order.saleTotalPrice;
             }, 0);
+
+
+
+            resultOrder[0].totalAllPrice = totalAllPrice;
+
+            resultOrder.forEach(function(order){
+                order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+            });
+
         }
 
-        resultOrder[0].totalAllPrice = totalAllPrice;
 
-        resultOrder.forEach(function(order){
-            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
-        });
 
         res.status(200).json(resultOrder)
     }).catch(next)
@@ -538,6 +550,12 @@ exports.orderStatisticByAddress = function(req, res, next) {
 exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -600,7 +618,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
     // Optionally limit results
     pipeline.push (
-        { "$limit": 200 }
+        { "$limit": 500 }
     );
 
     //console.log (pipeline);
@@ -608,18 +626,21 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
         var totalAllPrice = 0;
 
+        console.log(resultOrder)
+
         if (resultOrder.length > 0){
             totalAllPrice = resultOrder.reduce(function(previous, order) {
-                console.log(previous, order.saleTotalPrice);
+                //console.log(previous, order.saleTotalPrice);
                 return previous + order.saleTotalPrice;
             }, 0);
+
+            resultOrder[0].totalAllPrice = totalAllPrice;
+
+            resultOrder.forEach(function(order){
+                order.totalPricePercent = order.saleTotalPrice / totalAllPrice
+            });
         }
 
-        resultOrder[0].totalAllPrice = totalAllPrice;
-
-        resultOrder.forEach(function(order){
-            order.totalPricePercent = order.saleTotalPrice / totalAllPrice
-        });
 
         res.status(200).json(resultOrder)
     }).catch(next)
@@ -638,6 +659,12 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 exports.orderDailySales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -822,7 +849,7 @@ exports.orderDailySales = function(req, res, next) {
         }},
 
         { "$sort": { "date" : 1} },
-        { "$limit": 1000 }
+        { "$limit": 3000 }
     );
 
 
@@ -848,6 +875,12 @@ exports.orderDailySales = function(req, res, next) {
 exports.orderHourSales = function(req, res, next) {
 
     var matchList = {};
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         matchList.createdAt = { $gte: new Date(req.query.createdAt)}
     }
@@ -1032,7 +1065,7 @@ exports.orderHourSales = function(req, res, next) {
         }},
 
         { "$sort": { "hour" : 1} },
-        { "$limit": 1000 }
+        { "$limit": 3000 }
     );
 
 
@@ -1075,9 +1108,28 @@ exports.orderHourSales = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
 exports.dishDailySales = function(req, res, next) {
 
     var query = {};
+
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
+
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
@@ -1162,7 +1214,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
-            { "$limit": 1000 }
+            { "$limit": 5000 }
         );
 
 
@@ -1207,6 +1259,16 @@ exports.dishDailySales = function(req, res, next) {
 exports.dishDailySalesChart = function(req, res, next) {
 
     var query = {};
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
+
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
@@ -1284,7 +1346,7 @@ exports.dishDailySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1, "day": 1 } },
-            { "$limit": 1000 }
+            { "$limit": 3000 }
         );
 
 
@@ -1383,6 +1445,15 @@ exports.dishStatisticByStock = function(req, res, next) {
 
     var query = {};
 
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'caohejing1') {
+            query.showForWarehouse = req.query.showForWarehouse;
+        } else {
+            query.showForWarehouse = {$ne : 'caohejing1'};
+        }
+    }
+
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
     }
@@ -1445,7 +1516,7 @@ exports.dishStatisticByStock = function(req, res, next) {
     var sort =  { "$sort": { "dishSaleQuantity": 1 } };
 
     // Optionally limit results
-    var limit =  { "$limit": 1000 };
+    var limit =  { "$limit": 3000 };
 
 /*
 
@@ -1636,6 +1707,7 @@ exports.dishStatisticByStock = function(req, res, next) {
         { "$sort": { "week": -1 } },
         { "$limit": 1000 }
     );
+
 
     if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
         pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};

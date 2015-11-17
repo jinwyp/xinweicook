@@ -8,30 +8,35 @@
 
 angular
     .module('RDash')
-    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', couponController ]);
+    .controller('CouponController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Coupons', 'Statistic', couponController ]);
 
 
 
-function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons) {
+function couponController($scope, $timeout, $state, $stateParams, Notification, Util, Coupons, Statistic) {
 
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
+
             skip : 0,
             limit : 200,
-            usedTime : '',
-            isUsedCount : '',
-            isUsed : '',
-            couponType : '',
-            _id : '',
-            fromCoupon : '',
-            user : ''
+            query : {
+                usedTime : '',
+                isUsedCount : '',
+                isUsed : '',
+                couponType : '',
+                _id : '',
+                user : '',
+                fromCoupon : '',
+                code : ''
+
+            }
 
         },
-        searchSort : {
-            sort : '-createdAt'
-//            sort : 'couponType'
-        },
+
+        datePickerIsOpenStart : false,
+        datePickerIsOpenEnd : false,
 
         couponListCount : 0,
         couponListCurrentPage : 1,
@@ -40,6 +45,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
 
         currentDeleteIndex : -1,
 
+        couponStatisticByName : [],
 
         couponList : [],
         coupon : {
@@ -59,22 +65,39 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             usedTime : 1,
             usedCountLimitOfOneUser : 1,
             isUsed : false,
-            user : ''
+            user : '',
+
+            startDate : '',
+            endDate : ''
 
         }
     };
 
     $scope.css = {
-        isAddNewStatus : true
+        isAddNewStatus : true,
+        showTable : 'coupons'
+    };
+
+
+    $scope.datePickerOpen = function(isStart, $event) {
+
+        if (isStart === 'start'){
+            $scope.data.datePickerIsOpenStart = true;
+        }else{
+            $scope.data.datePickerIsOpenEnd = true;
+        }
     };
 
 
 
     $scope.searchCouponCount = function (){
 
-        Util.delProperty($scope.data.searchOptions);
+        $scope.css.showTable = 'coupons';
 
-        Coupons.one('count').get($scope.data.searchOptions).then(function (resultCoupons) {
+        console.log($scope.data.searchOptions.query);
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Coupons.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (resultCoupons) {
 
             $scope.data.couponListCount = resultCoupons.count;
             $scope.data.couponListTotalPages = Math.ceil(resultCoupons.count / $scope.data.searchOptions.limit);
@@ -90,10 +113,9 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
     $scope.searchCoupon = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-        Coupons.getList(options).then(function (resultCoupon) {
+        Coupons.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultCoupon) {
             $scope.data.couponList = resultCoupon;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -107,6 +129,25 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         $scope.data.couponListCurrentPage = currentPageNo;
         $scope.data.searchOptions.skip = ($scope.data.couponListCurrentPage-1) * $scope.data.searchOptions.limit;
         $scope.searchCoupon();
+    };
+
+
+
+
+    $scope.searchCouponStatisticByName = function () {
+
+        $scope.css.showTable = 'statisticByName';
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserStatisticCouponByName($scope.data.searchOptions.query).then(function (resultCoupon) {
+            $scope.data.couponStatisticByName = resultCoupon.data;
+
+            //Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
     };
 
 
@@ -184,6 +225,11 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
         });
     };
+
+
+
+
+
 
 
 }

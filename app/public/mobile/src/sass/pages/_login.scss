@@ -38,11 +38,21 @@
   .form-control {
     height: 40px;
   }
+  .group {
+    position: relative;
+    .err-tip {
+      line-height: 40px;
+    }
+  }
+  button.invalid {
+    background: $invalid-bg-color;
+  }
 }
 
 .login-button {
   width: 95%;
   margin: 20px auto 0;
+  border-radius: 0;
   //border:none;
 }
 

@@ -17,9 +17,9 @@ module.exports =
     (err, req, res, next) ->
 
       error =
-        message: err.message or err.msg or "服务器内部错误"
-        stack: err.stack or err.message or err.msg
-        status: err.status or 500
+        message: err.message or err.msg or err.errmsg or "服务器内部错误"
+        stack: err.stack or ""
+        status: err.status or err.statusCode or 500  # statusCode 是express-restify-mongoose 带的状态
         validationStatus: err.validationStatus or 1000
         _id: req._id
         req:
@@ -38,7 +38,7 @@ module.exports =
         tempError = error
 
       if error.status < 500
-        if error.status isnt 401 and error.status isnt 200
+        if error.status isnt 401 and error.status isnt 200 and req.url isnt "/api/user/sms"
           logger.warn("4XX Error: ", tempError, error.req)
       else
         logger.error("5XX Error: ", tempError, error.req)

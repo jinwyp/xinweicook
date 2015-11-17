@@ -10,6 +10,8 @@ Group `member`
 
 > 返回的数据中 pwd 密码字段会排除掉
 
+> 不在包含 用户地址信息
+
 ```js
 {
   "_id": "5582903e4eb98f251a0478d4",
@@ -611,26 +613,7 @@ Group `member`
   "isPromoOn": true,
   "isSpam": false,
   "credit": 0,
-  "address": [
-    {
-      "geoLatitude": 20,
-      "geoLongitude": 20,
-      "country": "china",
-      "province": "shanghai",
-      "city": "shanghai",
-      "district": "shanghai",
-      "street": "枫林路",
-      "address": "510号",
-      "contactPerson": "xinwei",
-      "mobile": "13564568304",
-      "alias": "",
-      "remark": "",
-      "_id": "5591582037db4aaf0936e5f8",
-      "isDefault": false,
-      "isValid": false,
-      "isTemporary": false
-    }
-  ],
+  "address": [],
   "group": "member"
 }
 

@@ -16,14 +16,13 @@ function userAccountController($scope, $timeout, $state, $stateParams, Notificat
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
+
             skip : 0,
             limit : 200,
             user : ''
         },
 
-        searchSort : {
-            sort : '-createdAt'
-        },
 
         AccountListCount : 0,
         AccountListCurrentPage : 1,
@@ -75,9 +74,10 @@ function userAccountController($scope, $timeout, $state, $stateParams, Notificat
 
 
     $scope.searchAccountCount = function (){
-        Util.delProperty($scope.data.searchOptions);
 
-        UserAccounts.one('count').get($scope.data.searchOptions).then(function (users) {
+        Util.delProperty($scope.data.searchOptions.query);
+
+        UserAccounts.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (users) {
             $scope.data.AccountListCount = users.count;
             $scope.data.AccountListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
 
@@ -92,11 +92,9 @@ function userAccountController($scope, $timeout, $state, $stateParams, Notificat
     };
 
     $scope.searchAccount = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        UserAccounts.getList(options).then(function (result) {
+        UserAccounts.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (result) {
             $scope.data.AccountList = result;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -144,12 +142,6 @@ function userAccountController($scope, $timeout, $state, $stateParams, Notificat
         UserAccounts.one($stateParams.id).get().then(function (resultAccount) {
             $scope.data.userAccount = resultAccount;
             console.log (resultAccount);
-            //编辑user时， 处理user group 显示
-            //angular.forEach($scope.data.userGroup, function (user) {
-            //    if (user.zh === $scope.data.user.group.zh) {
-            //        $scope.data.user.group = user;
-            //    }
-            //});
         });
 
     }

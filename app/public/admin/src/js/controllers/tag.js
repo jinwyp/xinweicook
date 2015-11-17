@@ -29,6 +29,8 @@ function tagController($scope, $timeout, $state, $stateParams, Notification, Tag
             isFilter : false
         },
 
+        currentDeleteIndex : -1,
+
         tagGroup : [
             {
                 zh : '菜系',
@@ -53,10 +55,28 @@ function tagController($scope, $timeout, $state, $stateParams, Notification, Tag
         isAddNewStatus : true
     };
 
-    if ($state.current.data.type === 'list'){
-        Tags.getList().then(function (tags) {
-            $scope.data.tagList = tags;
+
+
+
+
+
+    $scope.searchOrder = function (form) {
+
+        //Util.delProperty($scope.data.searchOptions.query);
+
+        Tags.getList().then(function (resultTagList) {
+            $scope.data.tagList = resultTagList;
+            Notification.success({message: 'Search Success! ', delay: 4000});
+
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
+
+    };
+
+
+    if ($state.current.data.type === 'list'){
+        $scope.searchOrder();
     }
 
     if ($state.current.data.type === 'update'){
@@ -106,4 +126,18 @@ function tagController($scope, $timeout, $state, $stateParams, Notification, Tag
     };
 
 
+    $scope.delTag = function (tag) {
+
+        var index = $scope.data.tagList.indexOf(tag);
+
+        $scope.data.tagList[index].remove().then(function (result) {
+            $scope.searchOrder();
+
+            Notification.success({message : 'Delete Success', delay : 4000});
+
+        }).catch(function (err) {
+            Notification.error({  message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message, delay   : 7000 });
+        });
+
+    };
 }

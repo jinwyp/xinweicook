@@ -128,30 +128,35 @@ module.exports =
 
     # 验证验证码
     verifyCode: (type, mobile, code) ->
-      @findOneAsync(type: type, mobile: mobile).then((log)->
-        if log
+      @findOneAsync(type: type, mobile: mobile).then (log)->
+        if not log
+          throw new Err "无效的验证码", 400, Err.code.sms.invalidCode
+
+        else
           if log.trys >= conf.code.trys
             throw new Err "达到今日最大尝试次数", 400, Err.code.sms.tooManyTries
+
           log.trys++
-          log.saveAsync().then(->
+          log.saveAsync().then ()->
+
             if log.expiredAt < moment()
               throw new Err "过期的验证码 ", 400, Err.code.sms.expired
+
             else if log.code?.toString() isnt code?.toString()
               throw new Err "验证码错误", 400, Err.code.sms.wrongCode
+
             else
               log.expiredAt = moment()
               log.saveAsync()
-          )
-        else
-          throw new Err "无效的验证码", 400, Err.code.sms.invalidCode
-      )
+
+
     # 给客服发送短信
     sendSMSToCSNewOrder: (orderNumber) ->
       if not conf.debug
         text = models.sms.constantTemplateCustomerNewOrderNotify(orderNumber)
         today = moment().second()
 
-        if today < 5
+        if today < 2
           models.sms.sendSmsVia3rd("18140031310", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 索晶电话
           models.sms.sendSmsVia3rd("15907090405", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 李晓雪电话
           models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送新订单通知失败:", JSON.stringify(err)))     # 赵梦菲电话

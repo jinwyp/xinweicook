@@ -15,6 +15,7 @@ module.exports =
     sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性 / drink饮料
     setType: String # 餐食类型  单品single 或 套餐set
 
+    showForWarehouse: String # 针对仓库显示
 
     difficulty: Number # 难度
     time: Number # 烹饪时间 单位min? 不确定
@@ -142,8 +143,11 @@ module.exports =
     find1 : (options) ->
       @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
-    find99 : (options) ->
-      @find(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).sort("-sortId").sort("-createdAt").execAsync()
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-sortId").sort("-createdAt").limit(limit).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
 
   methods: {
     getPrice : (number) ->
@@ -192,8 +196,10 @@ module.exports =
       @saveAsync()
   }
   rest:
-    postProcess : (req, res, next) ->
+    postUpdate : (req, res, next) ->
+
       if req.method is "PUT"
+
         # 修改库存
         if req.body.addInventory > 0
           models.dish.findOneAsync({_id:req.params.id})
@@ -206,6 +212,8 @@ module.exports =
           .then (resultDish) ->
             if resultDish
               resultDish.reduceStock(req.body.reduceInventory, req.u, models.inventory.constantRemark().adminOperation )
+
+      next()
 
   virtual: (schema) ->
     schema.virtual("outOfStock").get( ->

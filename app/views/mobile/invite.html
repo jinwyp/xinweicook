@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
-    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <%- include('includes/css.html') %>
     <style>
         [ng-cloak] {display:none;}
     </style>
@@ -20,7 +18,10 @@
         <img src="/mobile/src/img/xw.jpg"/>
     </div>
     <p class="notes text-center">
-        分享到朋友圈, 立得两张 ¥5 优惠券<br/>
+        分享到朋友圈<br/>
+        邀请了5个好友下单，得35元优惠券一张；<br/>
+        邀请了10个好友下单得50元优惠券一张；<br/>
+        邀请了20个好友下单得100元优惠券<br/>
         好友使用您的邀请码会得到¥10优惠券 <br/>
         好友下单后，您还会得到¥10优惠券
     </p>
@@ -54,15 +55,8 @@
 </div>
 </body>
 
-<script src="/components/angular/angular.min.js"></script>
-<script src="/components/ngstorage/ngStorage.min.js"></script>
-<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<%- include('includes/js.html') %>
 
-<script src="/mobile/src/js/modules.js"></script>
-<script src="/mobile/src/js/models.js"></script>
-<script src="/mobile/src/js/service/debug.js"></script>
-<script src="/mobile/src/js/service/utils.js"></script>
-<script src="/mobile/src/js/config.js"></script>
-<script src="/mobile/src/js/weixin.js"></script>
-<script src="/mobile/src/js/controllers/invite.js"></script>
+<script src="/mobile/dist/js/controllers/invite-d44879391d.js"></script>
+
 </html>

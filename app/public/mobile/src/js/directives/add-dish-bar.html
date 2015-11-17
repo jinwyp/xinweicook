@@ -3,12 +3,12 @@
     <div class="block">
         <h4 class="text-center">{{dish.title.zh}}<span ng-click="hide()" class="button close-button"></span></h4>
         <ul class="properties" ng-if="dish.preferences.length">
-            <li ng-repeat="property in dish.preferences">
+            <li ng-repeat="property in dish.preferences track by property._id">
                 <h5>{{property.name.zh}}</h5>
                 <ul class="selections">
-                    <li ng-repeat="selection in property.foodMaterial"
-                        ng-click="!selection.dish.outOfStock && (dish.curSelection[property.name.zh] = selection.dish)"
-                        ng-class="{'no-stock': selection.dish.outOfStock,
+                    <li ng-repeat="selection in property.foodMaterial track by selection._id"
+                        ng-click="(!selection.dish.outOfStock && selection.dish.isPublished) && (dish.curSelection[property.name.zh] = selection.dish)"
+                        ng-class="{'no-stock': (selection.dish.outOfStock || !selection.dish.isPublished),
                         selected: dish.curSelection[property.name.zh] == selection.dish}">
                         {{selection.dish.title.zh}}
                     </li>

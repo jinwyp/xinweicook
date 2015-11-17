@@ -3,13 +3,81 @@ angular.module("xw.config").constant("errCode", function(){
 return {
     user: {
         // todo: 第二第三位的1 是什么意思, sms独立出来??
-        wrongMobile: 1110,
-        wrongPassword: 1111,
-        alreadyExist: 1112,
-        notFound: 1113
+        wrongMobile   : 1110,
+        wrongPassword : 1111,
+        alreadyExist  : 1112,
+        notFound      : 1113,
+
+        addressIdWrong : 1210,
+        addressNotFound : 1212,
+
+        addressLatitudeWrong  : 1220,
+        addressLongitudeWrong : 1221,
+        addressCoordTypeWrong : 1222,
+
+        addressProvinceWrong     : 1225,
+        addressCityWrong         : 1226,
+        addressDistrictWrong     : 1227,
+        addressStreetWrong       : 1228,
+        addressStreetNumberWrong : 1229,
+        addressAddressWrong      : 1230,
+
+        addressContactPersonWrong : 1235,
+        addressMobileWrong        : 1236,
+        addressSortOrderWrong     : 1237
+
     },
     order: {
-        wrongMobile: 2110
+        notFound: 2010,
+
+        orderIdWrong: 2011,
+        warehouseIdWrong: 2012,
+
+        cookingTypeWrong: 2110,
+        clientFromWrong: 2112,
+
+        creditWrong: 2115,
+        freightWrong: 2117,
+        paymentWrong: 2119,
+        paymentUsedCashWrong: 2120,
+
+        deliveryDateCookWrong: 2122,
+        deliveryTimeCookWrong: 2124,
+        deliveryDateEatWrong: 2126,
+        deliveryTimeEatWrong: 2128,
+
+        dishListArrayWrong: 2130,
+        dishListDishNumberWrong: 2132,
+        dishListDishIdWrong: 2134,
+        dishListSubDishArrayWrong: 2136,
+        dishListSubDishNumberWrong: 2138,
+        dishListSubDishIdWrong: 2139,
+
+
+        addressLatitudeWrong  : 2140,
+        addressLongitudeWrong : 2142,
+
+        addressProvinceWrong     : 2144,
+        addressCityWrong         : 2145,
+        addressDistrictWrong     : 2146,
+        addressStreetWrong       : 2147,
+        addressStreetNumberWrong : 2148,
+        addressAddressWrong      : 2149,
+
+        addressContactPersonWrong : 2152,
+        addressMobileWrong        : 2154,
+
+        addressIdWrong : 2160,
+
+        userCommentWrong: 2180,
+
+        dishIdInvalid: 2190,
+        notOnlyDrink: 2192,
+        notOverTenDrinks: 2194
+
+
+
+
     },
     sms: {
         wrongCode: 3110,
@@ -24,17 +92,27 @@ return {
         outOfStock: 4110
     },
     coupon: {
+
         notStart: 5110,
         expired: 5111,
         used: 5112,
-        outOfCount: 5113
+        outOfCount: 5113,
+        notFound      : 5120,
+
+        couponIdWrong : 5210,
+        promotionCodeWrong : 5212
+    },
+
+    announcement: {
+        announcementIdWrong : 8110,
+        notFound: 8112
     }
 };
 });
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/cart/, /^\/mobile\/resetpwd$/];
     var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart'];
-    var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress',
+    var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress', '/mobile/orderlist',
         '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline'];
 
     return {
@@ -64,7 +142,7 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
                 }
                 setTimeout(function () {
                     // todo:
-                    location.href = '/mobile/login' + redirectPath ;
+                    location.replace('/mobile/login' + redirectPath);
                 }, 120);
             }
             return $q.reject(response);
@@ -73,15 +151,18 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
 }]);
 
 
-angular.module('xw.config').config(['$httpProvider',
-    function($httpProvider) {
+angular.module('xw.config').config(['$httpProvider', '$compileProvider',
+    function($httpProvider, $compileProvider) {
+        // http interceptor
         $httpProvider.defaults.headers.common.Accept = 'application/vnd.cook.v1+json';
         $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://m.xinweicook.com';
         $httpProvider.defaults.headers.common['Accept-Language'] = navigator.language == 'zh-CN' ? 'zh-CN' : 'en-US';
         $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
 
-
         $httpProvider.interceptors.push('commonInterceptor');
+
+        // disable debug data for performance.
+        $compileProvider.debugInfoEnabled(false);
     }
 ]);
 
@@ -94,3 +175,18 @@ angular.pick = function (obj) {
     }, {});
 };
 
+angular.sort = function sort (_array, compare) {
+    var array = _array.slice(0);
+    var tmp;
+    for (var l = array.length - 1; l >= 1; l--) {
+        for (var i = 0; i < l; i++) {
+            var result = compare(array[i], array[i + 1]);
+            if (result > 0) {
+                tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+            }
+        }
+    }
+    return array;
+};

@@ -44,7 +44,7 @@ angular.module('xw.weixin').factory('Weixin',function ($http, Debug) {
 
             wx.config(_setting);
 
-            wx.ready(function(){
+            wx.ready(function() {
                 that.ready.cb && that.ready.cb();
                 that.readyState = true;
             });

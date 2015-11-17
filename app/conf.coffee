@@ -2,6 +2,9 @@ ENV = process.env
 port = ENV.PORT or 3003
 host = ENV.HOST or "127.0.0.1"
 
+console.log("NODE_ENV:", ENV.NODE_ENV, " ", "Database Default Url:", ENV.DB)
+
+
 conf =
   debug: true
   level:
@@ -63,7 +66,7 @@ conf =
     secret_key : "ktbOSuZrHbGbFl-Zdo06SEAhRC4DLT9oQ2eqv-QR"
 
   code:
-    trys: 3
+    trys: 5
     sends: 9
     expire: 30 # mins
 
@@ -80,12 +83,13 @@ production =
   level:
     console: ENV.LEVEL or "warn"
     db: "warn"
-  db: ENV.DB or "mongodb://cook-api:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api"
+  db: ENV.DB or "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
   redis: if ENV.REDIS then JSON.parse ENV.REDIS else [
     { host: "10.4.3.142", port: "6379" }
     { host: "10.4.3.101", port: "6379" }
   ]
   url:
     base: ENV.BASE or "https://xinweicook.com"
+
 
 module.exports = if ENV.NODE_ENV is "production" then _.assign(conf, production) else conf

@@ -114,5 +114,53 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 
 
 
+# 取消没有支付的订单
+exports.cancelNotPaidOrder = (req, res, next) ->
 
+  timeNow = moment();
+  timeCancel = timeNow.clone().subtract(1, 'hours');
+#  timeCancel = timeNow.clone();
+
+
+  models.order.find({ status : models.order.constantStatus().notpaid, cookingType :  models.dish.constantCookingType().eat, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
+
+    if resultOrderList.length > 0
+
+      for order, orderIndex in resultOrderList
+
+        order.status = models.order.constantStatus().canceled
+
+        if order.csComment
+          order.csComment = order.csComment + " System canceled."
+        else
+          order.csComment = "System canceled."
+
+        order.saveAsync()
+
+
+        # 同时撤销优惠券优惠码新味币
+        if order.childOrderList.length > 0
+          for childOrder in order.childOrderList
+            order.status = models.order.constantStatus().canceled
+            childOrder.saveAsync()
+
+        # 撤销优惠码使用
+        if order.promotionCode
+          models.coupon.revokeUsed(order.promotionCode, order.user.toString())
+
+        # 撤销优惠券使用
+        if order.coupon
+          models.coupon.revokeUsed(order.coupon, order.user.toString())
+
+        # 撤销余额使用
+        if order.accountUsedDiscount and order.accountUsedDiscount > 0
+
+          models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
+            if resultAccount
+              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", order._id.toString()).catch( (err) -> logger.error("cronjob refund account error:", order._id, order.accountUsedDiscount, JSON.stringify(resultAccount)))
+
+
+    res.send resultOrderList
+
+  .catch(next)
 

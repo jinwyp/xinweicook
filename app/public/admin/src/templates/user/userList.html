@@ -28,7 +28,7 @@
                     <label for="inputLanguageGroup" class="col-lg-2 control-label" >用户语言</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.userLanguageList">
-                            <input type="radio" name="userLanguage" id="inputLanguageGroup" ng-value="group.value" ng-model="data.searchOptions.lang">{{group.name}}
+                            <input type="radio" name="userLanguage" id="inputLanguageGroup" ng-value="group.value" ng-model="data.searchOptions.query.lang">{{group.name}}
                         </label>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     <label for="inputUserGroup" class="col-lg-2 control-label" >用户组</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="group in data.userGroupList">
-                            <input type="radio" name="userGroup" id="inputUserGroup" ng-value="group.value" ng-model="data.searchOptions.group">{{group.name}}
+                            <input type="radio" name="userGroup" id="inputUserGroup" ng-value="group.value" ng-model="data.searchOptions.query.group">{{group.name}}
                         </label>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userMobile.$dirty&&searchForm.userMobile.$valid, 'has-error':searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid}">
                     <label for="inputUserMobile" class="col-lg-2 control-label" >手机</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.mobile" ng-minlength="11">
+                        <input type="text" class="form-control" id="inputUserMobile" placeholder="" name="userMobile" ng-model="data.searchOptions.query.mobile" ng-minlength="11">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userMobile.$dirty&&searchForm.userMobile.$invalid"></span>
                     </div>
@@ -60,7 +60,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >用户_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions._id" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query._id" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid, 'has-error':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid}">
                     <label for="inputUserInvitationSendCode" class="col-lg-2 control-label" >该用户自己的邀请码</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserInvitationSendCode" placeholder="" name="userInvitationSendCode" ng-model="data.searchOptions.invitationSendCode" ng-minlength="8">
+                        <input type="text" class="form-control" id="inputUserInvitationSendCode" placeholder="" name="userInvitationSendCode" ng-model="data.searchOptions.query.invitationSendCode" ng-minlength="8">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid"></span>
                     </div>
@@ -138,42 +138,6 @@
     </div>
 
 
-
-    <div class="row" ng-show="css.showTable==='stat'">
-        <div class="col-lg-12">
-            <h3>
-                <span class="label label-info">总用户数: {{data.userStatisticOfNewComers.totalUserCount}}</span>
-                <span class="label label-info">七天前注册总用户数: {{data.userStatisticOfNewComers.totalUserLast7dayCount}} </span>
-            </h3>
-            <h3>
-                <span class="label label-info">七天前注册并购买过用户数: {{data.userStatisticOfNewComers.totalPurchasedUserCount}}  </span>
-                <span class="label label-info">占七天前注册总用户: {{data.userStatisticOfNewComers.totalPurchasedUserCount / data.userStatisticOfNewComers.totalUserLast7dayCount * 100 | number :2 }}% </span>
-            </h3>
-            <!--<h3>-->
-                <!--<span class="label label-info">只有1单用户数: {{data.userStatisticOfNewComers.purchased1TimeUserCount}}  </span>-->
-                <!--<span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased1TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>-->
-            <!--</h3>-->
-            <h3>
-                <span class="label label-info">只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased2TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>
-            </h3>
-            <h3>
-                <span class="label label-info">两单及以上用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
-            </h3>
-            <h3>
-                <span class="label label-info">三单及以上用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount}}</span>
-                <span class="label label-info">占七天前注册并购买过用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
-            </h3>
-
-            <h3>
-                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单时间间隔总和: {{data.userStatisticLoyalPurchaseFrequency.totalTime}}小时</span>
-                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单间隔总数量: {{data.userStatisticLoyalPurchaseFrequency.totalOrderNumber}}间隔数量</span>
-                <span class="label label-warning">购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticLoyalPurchaseFrequency.avgTime | number :2}}小时</span>
-            </h3>
-        </div>
-
-    </div>
 
 
 
@@ -249,6 +213,67 @@
             </tr>
         </tbody>
     </table>
+
+
+
+
+
+    <div class="row" ng-show="css.showTable==='stat'">
+        <div class="col-lg-12">
+            <h3>
+                <span class="label label-info">总用户数: {{data.userStatisticOfNewComers.totalUserCount}}</span>
+                <span class="label label-info">七天前注册总用户数: {{data.userStatisticOfNewComers.totalUserLast7dayCount}} </span>
+            </h3>
+            <h3>
+                <span class="label label-info">注册并购买过用户数: {{data.userStatisticOfNewComers.totalPurchasedUserCount}}  </span>
+                <span class="label label-info">占七天前注册总用户: {{data.userStatisticOfNewComers.totalPurchasedUserCount / data.userStatisticOfNewComers.totalUserLast7dayCount * 100 | number :2 }}% </span>
+            </h3>
+            <!--<h3>-->
+            <!--<span class="label label-info">只有1单用户数: {{data.userStatisticOfNewComers.purchased1TimeUserCount}}  </span>-->
+            <!--<span class="label label-info">占七天前注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased1TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>-->
+            <!--</h3>-->
+            <!--<h3>-->
+            <!--<span class="label label-info">只有2单用户数: {{data.userStatisticOfNewComers.purchased2TimeUserCount}}</span>-->
+            <!--<span class="label label-info">占注册并购买过用户数:  {{data.userStatisticOfNewComers.purchased2TimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}% </span>-->
+            <!--</h3>-->
+
+
+            <h3>
+                <span class="label label-info">两单及以上用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased2MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+            <h3>
+                <span class="label label-info">三单及以上用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased3MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+            <h3>
+                <span class="label label-info">四单及以上用户数: {{data.userStatisticOfNewComers.purchased4MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased4MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+            <h3>
+                <span class="label label-info">五单及以上用户数: {{data.userStatisticOfNewComers.purchased5MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased5MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+            <h3>
+                <span class="label label-info">六单及以上用户数: {{data.userStatisticOfNewComers.purchased6MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased6MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+            <h3>
+                <span class="label label-info">七单及以上用户数: {{data.userStatisticOfNewComers.purchased7MoreTimeUserCount}}</span>
+                <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased7MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
+            </h3>
+
+            <h3>
+                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单时间间隔总和: {{data.userStatisticLoyalPurchaseFrequency.totalTime}}小时</span>
+                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单间隔总数量: {{data.userStatisticLoyalPurchaseFrequency.totalOrderNumber}}间隔数量</span>
+                <span class="label label-warning">购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticLoyalPurchaseFrequency.avgTime | number :2}}小时</span>
+            </h3>
+
+
+        </div>
+
+    </div>
+
 
 
 

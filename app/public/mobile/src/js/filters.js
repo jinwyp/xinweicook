@@ -2,7 +2,7 @@
  * 图片自适应为屏幕宽度
  */
 angular.module('xw.filters').filter('adapt', function () {
-    var width = Math.floor(screen.width * window.devicePixelRatio);
+    var width = Math.floor(document.body.offsetWidth * window.devicePixelRatio);
     var height = Math.floor(width * 2 / 3);
     var prefix = '?imageView2/1/w/';
     var query = prefix + width + '/h/' + height;
@@ -44,7 +44,7 @@ angular.module('xw.filters').filter('postDish', function () {
         return {
             dish: dish.dish._id,
             number: dish.number,
-            subDish: dish.subDish.map(function (el) {
+            subDish: !dish.subDish ? [] : dish.subDish.map(function (el) {
                 return {
                     dish: el.dish._id,
                     number: el.number
@@ -71,14 +71,17 @@ angular.module('xw.filters').filter('beautifyMobile', function () {
  * 使title变成 '/土豆泥' 这样的形式
  */
 angular.module('xw.filters').filter('subDishTitle', function () {
-    return function (title) {
-        if (typeof title != 'string') return title;
-        return '/' + title;
+    return function (item) {
+        var last = item.subDish.length;
+        if (!last) return '';
+        return '(' + item.subDish.reduce(function (title, cur, i) {
+            return title + cur.dish.title.zh + (i == last - 1 ? '' : '/')
+        }, '') + ')';
     }
 });
 
 /**
- * 将查询返回的派送时间转换成下单所需要的形式
+ * 将查询返回的派送时间转换成下单所需要的形式[NOT FOR HTML]
  * time为{hour: ''}, 当type为eat时,
  * time为{day:{day:''}, time: {name: ''}}, 当type为cook时,
  * time为{eat: {hour}, cook:{day,time}}, 当type为all时.
@@ -92,8 +95,8 @@ angular.module('xw.filters').filter('orderTime', function () {
                 deliveryTimeEat: time.hour.substr(11, 5)
             }
         } else if (type == 'cook') {
-            ret = {deliveryDateCook: time.day.day};
-            ret.deliveryTimeCook = time.time ? time.time.name+':00' : '12:00';
+            ret = {deliveryDateCook: time.day};
+            ret.deliveryTimeCook = time.segment ? time.segment.name+':00' : '12:00';
             return ret;
         } else if (type == 'all') {
             ret = {};
@@ -104,19 +107,41 @@ angular.module('xw.filters').filter('orderTime', function () {
     }
 });
 
+angular.module('xw.filters').filter('cookTimeUnion', function () {
+    return function (times) {
+        if (!times || !times.length) {
+            return times
+        }
+        var hasSegment = !!times[0].segment;
+        return times.reduce(function (list, cur) {
+            if (hasSegment) {
+                cur.segment.forEach(function (item) {
+                    list.push({
+                        day: cur.day,
+                        segment: item
+                    })
+                })
+            } else {
+                list.push({day: cur.day})
+            }
+            return list;
+        }, [])
+    }
+})
+
 /**
  * 有多种不同的dishList类型, 有些是从后端获得的, 有些是作为更新购物车post回去的,
  * 有些是前端为了展示方便而构造的, 此处对其做统一转换, 免去放在controller中的苦恼.
- * dishes: 待转换待原始数据. dType:target type. sType: source type
+ * dishes: 待转换待原始数据. tType:target type. sType: source type
  * type: 'displayCart',用来展示待购物车的dish list
  *       'order', 用来下单的list
  *
  * examples:
  * displayCart, 为 {cookList: [], eatList: []}, 其中[]为如下形式
  * [{
- *   dish: Dish, // {_id: '', title: {zh:'', en: ''}, ... , number: '从shoppingCart的item上获取的'}
- *   outOfStock: boolean,
- *   subDish: Dish
+ *   dish: Dish, // {_id: '', title: {zh:'', en: ''}, ...}
+ *   subDish: [{dish},.]
+ *   number
  * }, ..]
  *
  * order, 为 {dishList: []}, 其中[]为如下形式
@@ -133,25 +158,18 @@ angular.module('xw.filters').filter('dishes', function () {
         if (tType == 'order' && sType == 'displayCart') {
             ret = [];
             Object.keys(dishes).forEach(function (key) {
-                var hashMap = {};
                 dishes[key].forEach(function (el) {
-                    var id = el.dish._id;
-                    if (!hashMap[id]) hashMap[id] = {
-                        dish: id,
-                        number: el.dish.number,
-                        subDish: []
-                    };
-                    if (el.subDish) {
-                        hashMap[id].subDish.push({
-                            dish: el.subDish._id,
-                            number: el.subDish.number
+                    ret.push({
+                        dish: el.dish._id,
+                        number: el.number,
+                        subDish: el.subDish.map(function (sDish) {
+                            return {
+                                dish: sDish.dish._id,
+                                number: sDish.number
+                            }
                         })
-                    }
+                    });
                 });
-
-                for (var id in hashMap) {
-                   ret.push(hashMap[id])
-                }
             });
 
             return {dishList: ret}
@@ -192,7 +210,7 @@ angular.module('xw.filters').filter('eatTimeOptions', function () {
 
 angular.module('xw.filters').filter('eatTimeDisplay', function () {
     return function (time) {
-        return time.hour != '请选择配送时间' ? time.hour + ' 送达' : time.hour;
+        return time.hour
     }
 });
 
@@ -208,6 +226,19 @@ angular.module('xw.filters').filter('cookTimeDisplay', function () {
     return function (time) {
         return time.day == '请选择配送时间' || time.segment ?
             time.day : time.day + ' 送达'
+    }
+});
+
+// 返回购物车item的价格
+angular.module('xw.filters').filter('dishPrice', function () {
+    return function (item, total) {
+        var price = item.dish.priceOriginal;
+        if (item.subDish) {
+            for (var i = 0, len = item.subDish.length; i < len; i++) {
+                price += item.subDish[i].dish.priceOriginal;
+            }
+        }
+        return price * (total ? item.number : 1);
     }
 })
 

@@ -36,7 +36,10 @@ angular.module('xw.directives').directive('smsButton', function (Debug, User, $i
                     }
                 }, 1000);
 
-                User.getSmsCode(scope.mobile, scope.type).then(function (res) {
+                User.getSmsCode({
+                    mobile: scope.mobile,
+                    type: scope.type
+                }).then(function (res) {
                     //dev
                     if (res.data.code) {
                         // todo: should alert some thing?

@@ -5,10 +5,29 @@
 
 # 获取所有菜品
 exports.dishList = (req, res, next) ->
-  if not req.query.sideDishType
-    req.query.sideDishType = "main"
 
-  models.dish.find99({sideDishType : {$in: [req.query.sideDishType, "drink"]}, isPublished : true}).then (dishes) ->
+  query = {}
+
+  if req.query.cookingType
+    query.cookingType = req.query.cookingType
+
+
+  if not req.query.sideDishType
+    query.sideDishType = {$in: ["main", "drink"]}
+  else
+    query.sideDishType = {$in: [req.query.sideDishType, "drink"]}
+
+
+  if req.query.showForWarehouse isnt "caohejing1"
+    query.showForWarehouse = {$ne:"caohejing1"}
+
+  query.isPublished = true
+
+
+  if req.query.limit > 0
+    limit = req.query.limit
+
+  models.dish.find99(query, limit).then (dishes) ->
     res.json dishes
   , next
 

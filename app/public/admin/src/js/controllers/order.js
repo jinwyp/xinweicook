@@ -17,32 +17,35 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
             skip : 0,
             limit : 200,
-            createdAt :'',
-            status : '',
-            orderNumber : '',
-            _id : '',
-            user : '',
-            isSplitOrder : '',
-            isChildOrder : '',
-            cookingType : '',
-            clientFrom : '',
-            deliveryDateType : '',
-            "addressContactPerson" : '',
-            "addressMobile" : ''
 
+            query : {
+                createdAt :'',
+                status : '',
+                orderNumber : '',
+                _id : '',
+                user : '',
+                warehouse : '',
+                isSplitOrder : '',
+                isChildOrder : '',
+                cookingType : '',
+                clientFrom : '',
+                deliveryDateType : ''
+            }
         },
         exportOrderIdList : [],
 
-        searchSort : {
-            sort : '-createdAt'
-        },
 
         datePickerIsOpen : false,
 
         searchDateFrom : '',
         searchDateTo : '',
+
+        "addressContactPerson" : '',
+        "addressMobile" : '',
+
 
         orderListCount : 0,
         orderListCurrentPage : 1,
@@ -297,7 +300,22 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                     en : '达达快递'
                 }
             }
-        ]
+        ],
+
+        warehouseList : [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '新味办公室',
+                value : '56332187594b09af6e6c7dd2'
+            },
+            {
+                name : '漕河泾仓库',
+                value : '56332196594b09af6e6c7dd7'
+            }
+        ],
     };
 
     $scope.css = {
@@ -401,20 +419,48 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrderCount = function (){
-
         $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom){
             //console.log (new Date($scope.data.searchDateFrom));
-            $scope.data.searchOptions.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = '>=' + new Date($scope.data.searchDateFrom);
         }else{
-            $scope.data.searchOptions.createdAt = '';
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
-        Util.delProperty($scope.data.searchOptions);
 
-        Orders.one('count').get($scope.data.searchOptions).then(function (orders) {
-            $localStorage.orderSearchOptions = $scope.data.searchOptions;
+        if($scope.data.addressMobile){
+            $scope.data.searchOptions.query['address.mobile'] = $scope.data.addressMobile;
+        }else{
+            delete $scope.data.searchOptions.query['address.mobile']
+        }
+
+
+        if($scope.data.addressContactPerson){
+            $scope.data.searchOptions.query['address.contactPerson'] = $scope.data.addressContactPerson;
+        }else{
+            delete $scope.data.searchOptions.query['address.contactPerson']
+        }
+
+
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Orders.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (orders) {
+
+
+            $localStorage.orderSearchOptions = {
+
+                status : $scope.data.searchOptions.query.status,
+                isSplitOrder : $scope.data.searchOptions.query.isSplitOrder,
+                isChildOrder : $scope.data.searchOptions.query.isChildOrder,
+                cookingType : $scope.data.searchOptions.query.cookingType,
+                clientFrom : $scope.data.searchOptions.query.clientFrom,
+                deliveryDateType : $scope.data.searchOptions.query.deliveryDateType
+            };
+
+
+
 
             $scope.data.orderListCount = orders.count;
             $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
@@ -431,10 +477,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
     $scope.searchOrder = function (form) {
-        Util.delProperty($scope.data.searchOptions);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-        Orders.getList(options).then(function (resultOrder) {
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Orders.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultOrder) {
             $scope.data.orderList = resultOrder;
             Notification.success({message: 'Search Success! ', delay: 4000});
 
@@ -443,6 +489,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         });
 
     };
+
+
 
     $scope.changePagination = function (currentPageNo) {
         $scope.data.orderListCurrentPage = currentPageNo;
@@ -469,30 +517,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
-
-
-    if ($state.current.data.type === 'list'){
-        if ($localStorage.orderSearchOptions){
-            $scope.data.searchOptions = $localStorage.orderSearchOptions;
-            $scope.data.searchOptions.limit = 200;
-            $scope.data.searchOptions.skip = 0;
-        }
-        if ($scope.data.searchOptions.createdAt){
-            if ($scope.data.searchOptions.createdAt.toString().indexOf('>') > -1){
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt.substring(2);
-            }else{
-                $scope.data.searchDateFrom = $scope.data.searchOptions.createdAt;
-            }
-
-        }else{
-            $scope.data.searchDateFrom = '';
-        }
-
-        $scope.searchOrderCount();
-
-    }
-
-    if ($state.current.data.type === 'update'){
+    $scope.getOrderById = function () {
         $scope.css.isAddNewStatus = false;
 
         Orders.one($stateParams.id).get().then(function (resutlOrder) {
@@ -538,19 +563,40 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             }
 
         });
+    };
 
 
-        Users.getList({group : 'courier'}).then(function (resultUsers) {
+    if ($state.current.data.type === 'list'){
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
+        }
+
+        //if ($scope.data.searchOptions.query.createdAt){
+        //    if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
+        //    }else{
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
+        //    }
+        //
+        //}else{
+        //    $scope.data.searchDateFrom = '';
+        //}
+
+        $scope.searchOrderCount();
+
+    }
+
+    if ($state.current.data.type === 'update'){
+        $scope.getOrderById();
+
+
+        Users.getList({query : {group : 'courier'}}).then(function (resultUsers) {
             $scope.data.couriersList = resultUsers;
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     }
-
-
-
-
     $scope.updateOrder = function (form) {
         if (form.$invalid) {
             return;
@@ -603,7 +649,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         Statistic.searchOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
             console.log(result);
-            $scope.data.order.expressStatus = 'waitForConfirm';
+            $scope.getOrderById();
             Notification.success({message: 'Update Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
@@ -636,13 +682,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByAddress';
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByAddress($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByAddress($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressList = resultOrder.data;
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
@@ -656,12 +702,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByAddressAuto';
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByAddressAuto($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByAddressListAuto = resultOrder.data;
 
             $scope.showBaiduMap();
@@ -679,13 +725,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByDailySales($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByDailySalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByDaily = resultOrder.data;
@@ -708,13 +754,13 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
         if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.createdAt = new Date($scope.data.searchDateFrom);
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
         }
 
 
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getOrderStatisticByHourSales($scope.data.searchOptions).then(function (resultOrder) {
+        Statistic.getOrderStatisticByHourSales($scope.data.searchOptions.query).then(function (resultOrder) {
             $scope.data.orderStatisticByHourSalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByHour = resultOrder.data;
@@ -772,8 +818,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }
 
 
-
-
     };
 
 
@@ -793,9 +837,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
         var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
+        var pointXinWeiCaohejing = new BMap.Point( 121.40523, 31.175474);  // 创建点坐标 longitude 经度 / latitude 纬度  //经度 ( 121.4051452465212 ) / 纬度 ( 31.17546886907618 )
 
-        map.centerAndZoom(pointXinWeiOffice, 16);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
-
+        map.centerAndZoom(pointXinWeiOffice, 15);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
 
         map.addControl(new BMap.NavigationControl());   // 平移缩放控件
@@ -808,8 +852,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
         // 覆盖物
-    //var marker = new BMap.Marker(pointXinWeiOffice);        // 创建标注
-    //map.addOverlay(marker);                     // 将标注添加到地图中
+        //var marker = new BMap.Marker(pointXinWeiOffice);        // 创建标注
+        //map.addOverlay(marker);                     // 将标注添加到地图中
 
 
 
@@ -835,7 +879,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 iconUrl = '/admin/src/img/marker20.png';
             }
 
-
+            if (percentage === 100){
+                iconUrl = '/admin/src/img/marker_home.png';
+            }
 
             if (percentage > 0.2){
 
@@ -875,6 +921,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }
 
         addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
+        addMarker(pointXinWeiCaohejing, '新味漕河泾仓库', '地址:虹梅路2008号红梅大楼', 100);
 
 
 

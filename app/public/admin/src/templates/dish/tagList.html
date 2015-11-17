@@ -46,6 +46,7 @@
                 <th>所属标签组 中文</th>
                 <th>所属标签组 英文</th>
                 <th>是否用于菜品筛选</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +57,16 @@
                 <td>{{tag.group.zh}}</td>
                 <td>{{tag.group.en}}</td>
                 <td>{{tag.isFilter}}</td>
+
+                <td>
+                    <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==tag._id" ng-click="data.currentDeleteIndex=tag._id">删除 </button>
+
+                    <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===tag._id">确认真的删除吗？
+                        <button class="btn btn-danger" ng-click="delTag(tag)">立即删除</button>
+                        <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
+                    </div>
+
+                </td>
             </tr>
         </tbody>
     </table>

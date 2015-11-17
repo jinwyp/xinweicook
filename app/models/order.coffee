@@ -6,12 +6,15 @@ module.exports =
   schema:
     orderNumber: type: String, unique: true# 订单号
     user: type: Schema.ObjectId, ref: "user"
+    warehouse :type: Schema.ObjectId, ref: "warehouse"
 
     isSplitOrder : type: Boolean, default: false # 订单分割
     isChildOrder : type: Boolean, default: false # 是否是子订单
     childOrderList : [type: Schema.ObjectId, ref: "order"] # 子订单列表
 
     cookingType: String # ready to cook, ready to eat
+
+    addressId : type: Schema.ObjectId, ref: "useraddress"
 
     address: # 收货地址
       geoLatitude: Number # 纬度
@@ -170,23 +173,6 @@ module.exports =
     packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
 
   statics:
-    checkNotFound : (order) ->
-      if not order
-        throw new Err "Order ID or OrderNumber not found !", 400
-    checkInvalidDishIdListh : (sourceDishIdList, dataBaseDishIdList) ->
-      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
-      if invalidDishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400
-
-    checkInvalidDrink : (dishList) ->
-      drinkList = []
-      for dish,dishIndex in dishList
-        # 饮料不能单独点
-        if dish.sideDishType is models.dish.constantSideDishType().drink
-          drinkList.push(dish)
-      if drinkList.length is dishList.length
-        throw new Err "Can't order drink only !", 400
-
     constantStatus : () ->
       status =
         notpaid : "not paid"
@@ -237,9 +223,37 @@ module.exports =
       deliveryName =
         ksudi : "快速递"
 
+    checkNotFound : (order) ->
+      if not order
+        throw new Err "Order ID or OrderNumber not found !", 400, Err.code.order.notFound
+
+    checkInvalidDishIdList : (sourceDishIdList, dataBaseDishIdList) ->
+      invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
+      if invalidDishIdList.length > 0
+        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400, Err.code.order.dishIdInvalid
+
+    checkInvalidDrink : (dishList) ->
+      drinkList = []
+      dishWithoutPreferencesList = []
+
+      for dish,dishIndex in dishList
+        # 饮料不能单独点
+        if dish.sideDishType is models.dish.constantSideDishType().drink
+          drinkList.push(dish)
+
+        if dish.sideDishType isnt models.dish.constantSideDishType().preferences
+          dishWithoutPreferencesList.push(dish)
+
+      if drinkList.length is dishWithoutPreferencesList.length
+        throw new Err "Can't order drink only !", 400, Err.code.order.notOnlyDrink
+
+      if drinkList.length > 10
+        throw new Err "Can't order 11 or more drinks!", 400, Err.code.order.notOverTenDrinks
+
+
     validationOrderId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  orderID _id length must be 24-24", 400
+        return throw new Err "Field validation error,  orderID _id length must be 24-24", 400, Err.code.order.orderIdWrong
 
     validationOrderNumber : (orderNumber) ->
       unless libs.validator.isLength orderNumber, 21, 22
@@ -268,75 +282,85 @@ module.exports =
 
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30
-        return throw new Err "Field validation error,  cookingType must be string", 400
-      unless libs.validator.isLength newOrder.clientFrom, 2, 100
+        return throw new Err "Field validation error,  cookingType must be string", 400, Err.code.order.cookingTypeWrong
+      unless libs.validator.isLength newOrder.clientFrom, 2, 100, Err.code.order.cookingTypeWrong
         return throw new Err "Field validation error,  clientFrom must be string", 400
-      unless libs.validator.isLength newOrder.userComment, 0, 600
+      unless libs.validator.isLength newOrder.userComment, 0, 600, Err.code.order.userCommentWrong
         return throw new Err "Field validation error,  userComment must be string 0-600", 400
 
-      unless libs.validator.isInt newOrder.credit, {min: 0}
+      unless libs.validator.isInt newOrder.credit, {min: 0}, Err.code.order.creditWrong
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 5}
+      unless libs.validator.isInt newOrder.freight, {min: 5}, Err.code.order.freightWrong
         return throw new Err "Field validation error,  freight must be number > 4", 400
-      unless libs.validator.isLength newOrder.payment, 3, 20
+      unless libs.validator.isLength newOrder.payment, 3, 20, Err.code.order.paymentWrong
         return throw new Err "Field validation error,  payment length must be 3-20", 400
 
       if newOrder.payment isnt @constantPayment().alipaydirect and newOrder.payment isnt @constantPayment().weixinpay and newOrder.payment isnt @constantPayment().paypal and newOrder.payment isnt @constantPayment().cod and newOrder.payment isnt @constantPayment().account
-        return throw new Err "Field validation error,  payment text wrong", 400
+        return throw new Err "Field validation error,  payment text wrong", 400, Err.code.order.paymentWrong
 
       unless libs.validator.isBoolean newOrder.paymentUsedCash
-        return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400
+        return throw new Err "Field validation error,  paymentUsedCash must be true or false", 400, Err.code.order.paymentUsedCashWrong
 
 
       if newOrder.deliveryDateCook
         unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
-          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
         unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
       else
         unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
-          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400
+          return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
         unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
-          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400
+          return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
 
       unless Array.isArray newOrder.dishList
-        return throw new Err "Field validation error,  dishList must be ArrayObject", 400
+        return throw new Err "Field validation error,  dishList must be ArrayObject", 400, Err.code.order.dishListArrayWrong
       else
         if newOrder.dishList.length is 0
-          return throw new Err "Field validation error,  dishList must have some dish", 400
+          return throw new Err "Field validation error,  dishList must have some dish", 400, Err.code.order.dishListArrayWrong
 
         for dish,dishIndex in newOrder.dishList
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
-            return throw new Err "Field validation error,  dish.number must be 1-100", 400
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400, Err.code.order.dishListDishNumberWrong
           unless libs.validator.isLength dish.dish, 24, 24
-            return throw new Err "Field validation error,  dishID must be 24-24", 400
+            return throw new Err "Field validation error,  dishID must be 24-24", 400, Err.code.order.dishListDishIdWrong
 
           if Array.isArray dish.subDish
             for subDish,subDishIndex in dish.subDish
-              unless libs.validator.isInt subDish.number, {min: 1, max: 100}
+              unless libs.validator.isInt subDish.number, {min: 1, max: 100}, Err.code.order.dishListSubDishNumberWrong
                 return throw new Err "Field validation error,  subDish.number must be 1-100", 400
-              unless libs.validator.isLength subDish.dish, 24, 24
+              unless libs.validator.isLength subDish.dish, 24, 24, Err.code.order.dishListSubDishIdWrong
                 return throw new Err "Field validation error,  subDishID must be 24-24", 400
           else
             if dish.subDish
-              throw new Err "Field validation error,  subDish must be Array", 400
+              throw new Err "Field validation error,  subDish must be Array", 400, Err.code.order.dishListSubDishArrayWrong
 
-      unless libs.validator.isFloat newOrder.address.geoLatitude
-        return throw new Err "Field validation error,  geoLatitude must be isFloat", 400
-      unless libs.validator.isFloat newOrder.address.geoLongitude
-        return throw new Err "Field validation error,  geoLongitude must be isFloat", 400
-      unless libs.validator.isLength newOrder.address.province, 2, 200
-        return throw new Err "Field validation error,  province must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.city, 2, 200
-        return throw new Err "Field validation error,  city must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.district, 2, 200
-        return throw new Err "Field validation error,  district must be 2-200", 400
-      unless libs.validator.isLength newOrder.address.address, 2, 1000
-        return throw new Err "Field validation error,  detail address must be 2-1000", 400
-      unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
-        return throw new Err "Field validation error,  contactPerson must be 2-99", 400
-      unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
-        return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+      if newOrder.addressId or newOrder.addressId is ""
+        unless libs.validator.isLength newOrder.addressId, 24, 24
+          return throw new Err "Field validation error,  address _id length must be 24-24", 400, Err.code.order.addressIdWrong
+
+      else
+        unless libs.validator.isFloat newOrder.address.geoLatitude
+          return throw new Err "Field validation error,  geoLatitude must be isFloat", 400, Err.code.order.addressLatitudeWrong
+        unless libs.validator.isFloat newOrder.address.geoLongitude
+          return throw new Err "Field validation error,  geoLongitude must be isFloat", 400, Err.code.order.addressLongitudeWrong
+        unless libs.validator.isLength newOrder.address.province, 2, 200
+          return throw new Err "Field validation error,  province must be 2-200", 400, Err.code.order.addressProvinceWrong
+        unless libs.validator.isLength newOrder.address.city, 2, 200
+          return throw new Err "Field validation error,  city must be 2-200", 400, Err.code.order.addressCityWrong
+        unless libs.validator.isLength newOrder.address.district, 2, 200
+          return throw new Err "Field validation error,  district must be 2-200", 400, Err.code.order.addressDistrictWrong
+        unless libs.validator.isLength newOrder.address.street, 2, 200
+          return throw new Err "Field validation error,  street must be 2-200", 400, Err.code.user.addressStreetWrong
+#        unless libs.validator.isLength newOrder.address.street_number, 2, 200
+#          return throw new Err "Field validation error,  street_number must be 2-200", 400, Err.code.user.addressStreetNumberWrong
+        unless libs.validator.isLength newOrder.address.address, 2, 1000
+          return throw new Err "Field validation error,  detail address must be 2-1000", 400, Err.code.user.addressAddressWrong
+        unless libs.validator.isLength newOrder.address.contactPerson, 2, 99
+          return throw new Err "Field validation error,  contactPerson must be 2-99", 400, Err.code.user.addressContactPersonWrong
+        unless libs.validator.isMobilePhone(newOrder.address.mobile, 'zh-CN')
+          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400, Err.code.user.addressMobileWrong
+
 
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 24
@@ -359,7 +383,7 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
-    deliveryDateTypeChecker : (date) ->
+    deliveryDateTypeIsNextDayChecker : (date) ->
       deliveryDate =  moment(date)
       timeToday = moment().startOf('day')
       timeTomorrow = timeToday.add(1, 'days')
@@ -381,7 +405,7 @@ module.exports =
 
       if isInRange4KM
 
-        if timeNow.hour() < 17 # 公司4公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
+        if timeNow.hour() < 17 # 公司6公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           for i in [1..5]
             segmentDay =
               day : timeNow.clone().add(i-1, 'days').format(timeFormat2)
@@ -393,7 +417,11 @@ module.exports =
 
             resultTime.push(segmentDay)
 #          resultTime[0].segment[0].status = false
-          resultTime[0].segment.splice(0, 1)
+
+          if timeNow.hour() < 12
+            resultTime[0].segment.splice(0, 1)
+          else
+            resultTime[0].segment.splice(0, 2)
         else
           for i in [1..5]
             segmentDay =
@@ -407,7 +435,7 @@ module.exports =
             resultTime.push(segmentDay)
       else
 
-        if timeNow.hour() < 17 # 公司4公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
+        if timeNow.hour() < 17 # 公司6公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
           for i in [1..5]
             segmentDay =
               day : timeNow.clone().add(i, 'days').format(timeFormat2)
@@ -449,64 +477,134 @@ module.exports =
 
       resultTime
 
-    deliveryTimeArithmeticForReadyToEat : (isInRange4KM) ->
+    deliveryTimeArithmeticForReadyToEat : () ->
       resultTime = []
 
-      if isInRange4KM is true
-        timeNow = moment()
+      timeNow = moment()
 
-        today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
-        today20PM = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
+      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
+      today19PM = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
 
-        tomorrow11AM = today11AM.clone().add(1, 'days');
+      tomorrow11AM = today11AM.clone().add(1, 'days');
 
-        if timeNow.hour() < 10 and timeNow.hour() >=0
-          timeStarter = today11AM.clone()
+      if timeNow.hour() < 10 and timeNow.hour() >=0
+        timeStarter = today11AM.clone()
 
-        if timeNow.hour() >= 20 and timeNow.hour() < 24
-          timeStarter = tomorrow11AM.clone()
+      if timeNow.hour() >= 20 and timeNow.hour() < 24
+        timeStarter = tomorrow11AM.clone()
 
-        if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
-          if timeNow.minute()%30 >= 10
-            timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
-          else
-            timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
+      if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+        if timeNow.minute()%30 >= 10
+          timeStarter = timeNow.clone().add(1, 'hours').add((30-timeNow.minute()%30), 'minutes')
+        else
+          timeStarter = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
-        for i in [1..20]
-          timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+      for i in [1..20]
+        timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
-          # 处理如果计算出来的时间超过20点  将不在push进去
-          if timeStarterTemp.isBefore(today20PM)
-            segmentHour =
-              hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
-            resultTime.push(segmentHour)
+        # 处理如果计算出来的时间超过19点  将不在push进去
+        if timeStarterTemp.isBefore(today19PM)
+          segmentHour =
+            hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
 
-        # 处理第二天的时间点 不包括星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
-        if timeNow.day() > 0 or timeNow.hour() >= 20
-          for i in [1..18]
-            timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
-            segmentHour =
-              hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
-            resultTime.push(segmentHour)
+      # 处理第二天的时间点 不包括星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
+      if timeNow.day() > 0 or timeNow.hour() >= 20
+        for i in [1..17]
+          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+          segmentHour =
+            hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
 
       resultTime
 
 
+
+    deliveryTimeArithmeticForReadyToEatAtCaohejing : () ->
+      resultTime = []
+
+      timeNow = moment()
+
+      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
+      today14PM = moment(timeNow.clone().format("YYYY-MM-DD 13:31"));
+
+      tomorrow11AM = today11AM.clone().add(1, 'days');
+
+      if timeNow.hour() < 10 and timeNow.hour() >=0
+        timeStarter = today11AM.clone()
+
+      if timeNow.hour() >= 20 and timeNow.hour() < 24
+        timeStarter = tomorrow11AM.clone()
+
+      if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+
+        if timeNow.minute()%30 >= 10
+          timeStarter = timeNow.clone().add(30, 'minutes').add((30-timeNow.minute()%30), 'minutes')
+        else
+          timeStarter = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
+
+      for i in [1..20]
+        timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+
+        # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
+
+        if timeStarterTemp.isBefore(today14PM) and timeNow.day() > 0 and timeNow.day() < 6
+          segmentHour =
+            hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
+      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 20 and timeNow.day() is 0)
+        for i in [1..6]
+          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+          segmentHour =
+            hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      resultTime
+
   methods: {}
   rest:
-    middleware : (req, res, next) ->
-      if req.method is "GET"
-        if req.query.addressContactPerson
-          req.query['address.contactPerson'] = req.query.addressContactPerson
-          delete req.query.addressContactPerson
 
-        if req.query.addressMobile
-          req.query['address.mobile'] = req.query.addressMobile
-          delete req.query.addressMobile
+#    postRead : (req, res, next) ->
+#      if req.method is "GET"
+#
+#        if req.query.query
+#
+#          tempQuery = JSON.parse(req.query.query);
+#
+#          if tempQuery.addressMobile
+#
+#            models.order.find({'address.mobile' : tempQuery.addressMobile}).then (resultList) ->
+#
+#              if req.url.indexOf('count') > -1
+#                req.erm.result = {count : resultList.length};
+#              else
+#                req.erm.result = resultList;
+#
+#              next()
+#
+#          else if tempQuery.addressContactPerson
+#
+#            models.order.find({'address.contactPerson' : tempQuery.addressContactPerson}).then (resultList) ->
+#
+#              if req.url.indexOf('count') > -1
+#                req.erm.result = {count : resultList.length};
+#              else
+#                req.erm.result = resultList;
+#
+#              next()
+#
+#          else
+#            next()
+#
+#        else
+#          next()
 
-      next()
 
-    postProcess : (req, res, next) ->
+
+
+    postUpdate : (req, res, next) ->
       if req.method is "PUT" and req.body.status is models.order.constantStatus().shipped
         models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
           if resultOrder and resultOrder.status is models.order.constantStatus().shipped
@@ -530,7 +628,6 @@ module.exports =
         # 取消订单
 
         models.order.findOne({_id:req.params.id})
-        .populate("user")
         .populate({path: "dishList.dish", select: models.dish.fields()})
         .populate({path: "dishList.subDish.dish", select: models.dish.fields()})
         .populate "childOrderList"
@@ -545,18 +642,19 @@ module.exports =
 
             # 撤销优惠码使用
             if resultOrder.promotionCode
-              models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+              models.coupon.revokeUsed(resultOrder.promotionCode, resultOrder.user.toString())
 
             # 撤销优惠券使用
             if resultOrder.coupon
-              models.coupon.revokeUsed(resultOrder.coupon, req.u)
-            console.log(resultOrder.accountUsedDiscount)
+              models.coupon.revokeUsed(resultOrder.coupon, resultOrder.user.toString())
+
             # 撤销余额使用
             if resultOrder.accountUsedDiscount > 0
 
-              models.useraccount.findOneAsync({user : resultOrder.user._id.toString()}).then (resultAccount)->
+              models.useraccount.findOneAsync({user : resultOrder.user.toString()}).then (resultAccount)->
                 if resultAccount
                   resultAccount.addMoney(resultOrder.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "", resultOrder._id.toString())
+      next()
 
   plugin: (schema) ->
     schema.plugin autoIncrement.plugin, model: "order", field: "autoIncrementId", startAt: 10000

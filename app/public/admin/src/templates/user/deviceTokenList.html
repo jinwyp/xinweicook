@@ -28,7 +28,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">
                     <label for="inputUserId" class="col-lg-2 control-label" >用户_ID</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.user" ng-minlength="23">
+                        <input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query.user" ng-minlength="23">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.deviceToken.$dirty&&searchForm.deviceToken.$valid, 'has-error':searchForm.deviceToken.$dirty&&searchForm.deviceToken.$invalid}">
                     <label for="inputDeviceToken" class="col-lg-2 control-label" >Device Token</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputDeviceToken" placeholder="" name="deviceToken" ng-model="data.searchOptions.deviceToken" ng-minlength="64">
+                        <input type="text" class="form-control" id="inputDeviceToken" placeholder="" name="deviceToken" ng-model="data.searchOptions.query.deviceToken" ng-minlength="64">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.deviceToken.$dirty&&searchForm.deviceToken.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.deviceToken.$dirty&&searchForm.deviceToken.$invalid"></span>
                     </div>
@@ -56,13 +56,13 @@
                     <label class="col-lg-2 control-label" >排序</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" >
-                            <input type="radio" name="isSort"  ng-value="'-createdAt'" ng-model="data.searchSort.sort">创建时间 从新到旧
+                            <input type="radio" name="isSort"  ng-value="'-createdAt'" ng-model="data.searchOptions.sort">创建时间 从新到旧
                         </label>
                         <label class="radio-inline" >
-                            <input type="radio" name="isSort"  ng-value="'-user'" ng-model="data.searchSort.sort">用户ID
+                            <input type="radio" name="isSort"  ng-value="'-user'" ng-model="data.searchOptions.sort">用户ID
                         </label>
                         <label class="radio-inline" >
-                            <input type="radio" name="isSort"  ng-value="'deviceToken'" ng-model="data.searchSort.sort">设备ID
+                            <input type="radio" name="isSort"  ng-value="'deviceToken'" ng-model="data.searchOptions.sort">设备ID
                         </label>
                     </div>
                 </div>

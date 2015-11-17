@@ -8,6 +8,7 @@ compression = require "compression"
 nunjucks = require "nunjucks"
 i18n = require "i18n"
 
+morgan = require('morgan')
 methodOverride = require "method-override"
 
 app = express()
@@ -16,7 +17,8 @@ app.use libs.req._id
 app.enable "trust proxy"
 app.disable "x-powered-by"
 
-app.set "views", path.join(__dirname, "views")
+viewsPath = (if process.env.NODE_ENV is "production" or process.env.PREVIEW is "true" then "views" else "public/mobile/src/html")
+app.set "views", path.join(__dirname, viewsPath)
 app.set "view engine", "ejs"
 
 app.engine("ejs", require('ejs').renderFile);
@@ -54,7 +56,12 @@ app.use bodyParser.json({limit: '1mb'})
 app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")
 
-app.use libs.logger.middleware()
+#app.use libs.logger.middleware() if conf.debug
+app.use(morgan('dev'))
+
+#morgan('combined', {
+#  skip: function (req, res) { return res.statusCode < 400 }
+#})
 
 app.use libs.cache.lastModified
 
@@ -79,5 +86,5 @@ app.use (req, res, next) ->
 app.use libs.err.middleware()
 
 app.listen conf.port, ->
-  logger.debug "app" ,"listening on #{conf.host}:#{conf.port}"
+  logger.debug ("App listening on #{conf.host}:#{conf.port}")
 

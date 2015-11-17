@@ -11,8 +11,10 @@ $body-bg-color: rgb(241, 241, 241);
 $btn-bg-gray-color: rgb(226, 226, 226);
 $form-line-color: #bcbcbc;
 $invalid-text-color: #A7A7A7;
+$invalid-bg-color: #F9F9F9;
 $bottom-bar-height: 53px;
 $menu-nav-bg-color: #262626;
+$placeholder-color: rgba(0,0,0,0.3);
 
 //  length
 $margin-to-cart-length: 60px;
@@ -52,13 +54,13 @@ i {
 }
 
 ::-moz-placeholder {
-  color: rgba(0,0,0,0.3);
+  color: $placeholder-color;
 }
 :-ms-input-placeholder {
-  color: rgba(0,0,0,0.3);
+  color: $placeholder-color;
 }
 ::-webkit-input-placeholder {
-  color: rgba(0,0,0,0.3) !important;
+  color: $placeholder-color !important;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -129,6 +131,14 @@ $retina: sprite-map("icons/*.png");
   }
 }
 
+.hide {
+  display: none;
+}
+
+.placeholder {
+  color: $placeholder-color;
+}
+
 .white-body {
   background-color: white;
 }
@@ -140,19 +150,31 @@ $retina: sprite-map("icons/*.png");
   top: 12px;
 }
 
+.time-icon {
+  display: inline-block;
+  //@include retina-background("icons/MenuTimeIcon.png");
+  @include retina-sprite-background(MenuTimeIcon)
+}
+
+.people-icon {
+  display: inline-block;
+  //@include retina-background("icons/MenuPeopleIcon.png");
+  @include retina-sprite-background(MenuPeopleIcon);
+}
+
+
 .like-icon {
-  width: 30px;
-  display: block;
-  height: 20px;
-  background: url(../img/icons/LikeIcon.png) 50% no-repeat;
-  background-size: contain;
+  display: inline-block;
+  @include retina-background("icons/MenuLikeIcon.png");
   &.like {
-    background-image: url(../img/icons/LikeIconHighlighted.png);
+    @include retina-background("icons/MenuLikeIconHighlighted.png")
   }
 }
 
+
+
 .form-line {
-  margin: 0 5px 0 12px;
+  margin: 0 12px 0 12px;
   border-bottom: 1px solid $form-line-color;
   border-top: 0;
   opacity: 0.5;

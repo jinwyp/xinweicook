@@ -1,8 +1,17 @@
 # 订单
 KSuDi = require "../libs/ksudi.js"
 WXPay = require "../libs/weixinpay.js"
-
 AliPay = require "../libs/alipay.js"
+
+
+configAlipay =
+  notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/mobile"
+  mobile_return_url : "http://m.xinweicook.com/mobile/alipay/return"
+
+alipay = AliPay(configAlipay)
+
+
+
 
 configWeiXinPay =
   appid: conf.weixinpay.appid
@@ -18,76 +27,11 @@ configWeiXinAppPay =
   key: conf.weixinAppPay.key
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
-kuaiSuDi = KSuDi()
-
 weixinpay = WXPay(configWeiXinPay)
 
-alipay = AliPay({})
+kuaiSuDi = KSuDi()
 
 
-
-exports.getWeixinDeveloperAccessToken = (req, res, next) ->
-  # 增加生成微信developerAccessToken备用
-
-
-  models.setting.findOneAsync({name:"weixinPayJSSdkConfig", isExpired:false})
-  .then (resultSetting) ->
-    if resultSetting
-      if models.setting.checkExpired(resultSetting)
-        weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
-          if err
-            next(err)
-
-          if resultTicket
-            weixinpayJSSdkConfigSign =
-              noncestr: weixinpay.util.generateNonceString()
-              timestamp: Math.floor(Date.now()/1000)+""
-              jsapi_ticket: resultTicket.ticket
-              url: req.body.url
-
-            weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
-
-            resultSetting.value = weixinpayJSSdkConfigSign
-            resultSetting.expiredDate =  moment().add(60, 'minutes')
-            resultSetting.saveAsync()
-            res.json weixinpayJSSdkConfigSign
-        )
-      else
-        weixinpayJSSdkConfigSign =
-          noncestr: resultSetting.value.noncestr
-          timestamp: Math.floor(Date.now()/1000)+""
-          jsapi_ticket: resultSetting.value.jsapi_ticket
-          url: req.body.url
-
-        weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
-        resultSetting.value = weixinpayJSSdkConfigSign
-        resultSetting.saveAsync()
-        res.json resultSetting.value
-    else
-      weixinpay.getDeveloperAccessToken( (err, resultTicket) ->
-        if err
-          next(err)
-
-        if resultTicket
-
-          weixinpayJSSdkConfigSign =
-            noncestr: weixinpay.util.generateNonceString()
-            timestamp: Math.floor(Date.now()/1000)+""
-            jsapi_ticket: resultTicket.ticket
-            url: req.body.url
-
-          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
-
-          newInfo2 =
-            name : "weixinPayJSSdkConfig"
-            key : "weixinPayJSSdkConfig"
-            value : weixinpayJSSdkConfigSign
-            expiredDate : moment().add(60, 'minutes')
-
-          models.setting.createAsync(newInfo2)
-          res.json weixinpayJSSdkConfigSign
-      )
-  .catch next
 
 
 
@@ -98,6 +42,8 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
   orderId = req.query.orderid
   unless libs.validator.isLength orderId, 24, 24
     return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Oauth, Field validation error,  orderID _id length must be 24-24") + encodeURIComponent(orderId) )
+
+#  return res.redirect("/mobile/wxpay/" + orderId)
 
   models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
     if resultOrder
@@ -130,12 +76,12 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-  logger.error("-------- OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
   code = req.query.code
   order_number_state = req.query.state
 
   if not req.query.code?
-    logger.error("OpenID Failed code not found: "+JSON.stringify(req.query) )
+    logger.error("Order OpenID Failed code not found: "+JSON.stringify(req.query) )
 
 #  models.order.validationOrderId order_number_state
 
@@ -173,10 +119,11 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
                 resultUser.saveAsync().then (resultUser2) ->
                   return res.redirect("/mobile/wxpay/" + order_number_state)
                 .catch (err)->
-                    logger.error("OpenID Failed Save User error:", JSON.stringify(err))
+                    logger.error("Order OpenID Failed Save User error:", JSON.stringify(err))
               else
                 # 给开发发送Open短信
                 if not conf.debug
+                  logger.error("Order OpenID weixin error:", JSON.stringify(result))
                   text = models.sms.constantTemplateSystemErrorNotify("OpenID错误")
                   models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
                   models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
@@ -187,12 +134,12 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
         else
           return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found user of this order"))
       .catch (err)->
-          logger.error("OpenID Failed Search User error:", JSON.stringify(err))
+          logger.error("Order OpenID Failed Search User error:", JSON.stringify(err))
     else
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Error, can not found this orderId"))
 
   .catch (err)->
-      logger.error("OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
+      logger.error("Order OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
 
 
@@ -274,6 +221,11 @@ exports.addNewOrder = (req, res, next) ->
   models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
   models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
 
+
+  if req.body.warehouseId
+    models.warehouse.validationId(req.body.warehouseId)
+
+
   languageStr = req.acceptsLanguages()
 
   if languageStr[0] is "en"
@@ -281,8 +233,15 @@ exports.addNewOrder = (req, res, next) ->
   else
     languageStr = "zh"
 
+
+
   if req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
+
+  # 新增地址ID
+  if req.body.addressId or req.body.addressId is ""
+    models.useraddress.validationId(req.body.addressId)
+
 
 
   dishIdList = []
@@ -297,6 +256,7 @@ exports.addNewOrder = (req, res, next) ->
   dishHistoryList = []
   dishReadyToCookList = []
   dishReadyToEatList = []
+  dishReadyToEatWithoutDrinkList = []
 
 
 
@@ -313,6 +273,8 @@ exports.addNewOrder = (req, res, next) ->
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
     cookingType : req.body.cookingType
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
+    addressId : req.body.addressId
     address : req.body.address
     dishList : req.body.dishList
     userComment : req.body.userComment
@@ -330,12 +292,15 @@ exports.addNewOrder = (req, res, next) ->
     dishesPrice : 0
     totalPrice : 0
 
+  if newOrder.freight < 6
+    newOrder.freight = 6
+
 
   if req.body.cookingType is models.dish.constantCookingType().cook
     newOrder.deliveryDate = req.body.deliveryDateCook
     newOrder.deliveryTime = req.body.deliveryTimeCook
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
-    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
     if req.body.address.city is "上海市"
       newOrder.packageType = "paperbox"
@@ -346,7 +311,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
-    newOrder.deliveryDateType = models.order.deliveryDateTypeChecker(req.body.deliveryDateEat)
+    newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateEat)
 
 
 
@@ -355,6 +320,8 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().cook
     isChildOrder : true
+    warehouse : "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
+    addressId : req.body.addressId
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
@@ -371,7 +338,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
     deliveryDate : req.body.deliveryDateCook
     deliveryTime : req.body.deliveryTimeCook
-    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
   if req.body.address.city is "上海市"
     newOrderReadyToCook.packageType = "paperbox"
@@ -383,6 +350,8 @@ exports.addNewOrder = (req, res, next) ->
     user : req.u._id.toString()
     cookingType :  models.dish.constantCookingType().eat
     isChildOrder : true
+    warehouse : req.body.warehouseId or "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
+    addressId : req.body.addressId
     address : req.body.address
     dishList : []
     userComment : req.body.userComment
@@ -399,7 +368,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
     deliveryDate : req.body.deliveryDateEat
     deliveryTime : req.body.deliveryTimeEat
-    deliveryDateType : models.order.deliveryDateTypeChecker(req.body.deliveryDateCook)
+    deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
 
   models.useraccount.findOneAsync({user : req.u._id}).then (resultAccount)->
@@ -448,6 +417,23 @@ exports.addNewOrder = (req, res, next) ->
       models.coupon.checkUsed(resultCoupon, req.u)
       coupon = resultCoupon
 
+    models.useraddress.findOneAsync({_id:req.body.addressId})
+  .then (resultAddress) ->
+
+    if resultAddress
+      newOrder.address = resultAddress
+      newOrder.warehouse = resultAddress.warehouse
+
+      newOrderReadyToEat.address = resultAddress
+      newOrderReadyToEat.warehouse = resultAddress.warehouse
+
+      newOrderReadyToCook.address = resultAddress
+
+
+
+
+
+
     models.dish.find99({"_id" : {$in:dishIdList}})
   .then (resultDishes) ->
 
@@ -455,7 +441,7 @@ exports.addNewOrder = (req, res, next) ->
       dish._id.toString()
     )
     # 判断是否有不存在的菜品ID
-    models.order.checkInvalidDishIdListh(dishIdList, tempResultDishIdList)
+    models.order.checkInvalidDishIdList(dishIdList, tempResultDishIdList)
 
     # 判断饮料不能单独下单，数量不超过十个
     models.order.checkInvalidDrink(resultDishes)
@@ -526,7 +512,8 @@ exports.addNewOrder = (req, res, next) ->
           newOrder.userComment = ""
         newOrder.userComment = newOrder.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
 
-      if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook # 处理订单分子订单
+      # 处理订单分子订单
+      if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().cook
         newOrderReadyToCook.dishesPrice = newOrderReadyToCook.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToCookList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToCook.dishList.push dish
@@ -536,6 +523,10 @@ exports.addNewOrder = (req, res, next) ->
             newOrderReadyToCook.userComment = ""
           newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
+        # 排除drink 饮品
+        if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().eat and dishDataList[dish.dish].sideDishType is models.dish.constantSideDishType().main
+          dishReadyToEatWithoutDrinkList.push({dish:dishDataList[dish.dish], number:dish.number})
+
         newOrderReadyToEat.dishesPrice = newOrderReadyToEat.dishesPrice + dishDataList[dish.dish].getPrice(dish.number) * dish.number
         dishReadyToEatList.push({dish:dishDataList[dish.dish], number:dish.number})
         newOrderReadyToEat.dishList.push dish
@@ -567,8 +558,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrderReadyToEat.dishHistory = dishReadyToEatList
 
 
-
-    if dishReadyToCookList.length > 0 and dishReadyToEatList.length > 0
+    if dishReadyToCookList.length > 0 and dishReadyToEatWithoutDrinkList.length > 0
       newOrder.isSplitOrder = true
 
     if newOrder.isSplitOrder
@@ -606,30 +596,34 @@ exports.addNewOrder = (req, res, next) ->
           req.u.shoppingCart.splice(i, 1)
 
 
+
     # 新增用户的收货地址到用户地址信息里面
-    newAddress = {}
-    newAddress.geoLatitude = req.body.address.geoLatitude if req.body.address.geoLatitude
-    newAddress.geoLongitude = req.body.address.geoLongitude if req.body.address.geoLongitude
+    if not req.body.addressId
 
-    newAddress.country = req.body.address.country if req.body.address.country
-    newAddress.province = req.body.address.province if req.body.address.province
-    newAddress.city = req.body.address.city if req.body.address.city
-    newAddress.district = req.body.address.district if req.body.address.district
-    newAddress.street = req.body.address.street if req.body.address.street
-    newAddress.street_number = req.body.address.street_number if req.body.address.street_number
-    newAddress.address = req.body.address.address if req.body.address.address
+      newAddress = {}
+      newAddress.geoLatitude = req.body.address.geoLatitude if req.body.address.geoLatitude
+      newAddress.geoLongitude = req.body.address.geoLongitude if req.body.address.geoLongitude
 
-    newAddress.isDefault = false
-    newAddress.contactPerson = req.body.address.contactPerson if req.body.address.contactPerson
-    newAddress.mobile = req.body.address.mobile if req.body.address.mobile
+      newAddress.country = req.body.address.country if req.body.address.country
+      newAddress.province = req.body.address.province if req.body.address.province
+      newAddress.city = req.body.address.city if req.body.address.city
+      newAddress.district = req.body.address.district if req.body.address.district
+      newAddress.street = req.body.address.street if req.body.address.street
+      newAddress.street_number = req.body.address.street_number if req.body.address.street_number
+      newAddress.address = req.body.address.address if req.body.address.address
 
-    isAddNewFlag = true
-    for address, addressIndex in req.u.address
-      if (address.contactPerson is newAddress.contactPerson and address.address is newAddress.address) or (address.mobile is newAddress.mobile and address.address is newAddress.address)
-        isAddNewFlag = false
+      newAddress.isDefault = false
+      newAddress.contactPerson = req.body.address.contactPerson if req.body.address.contactPerson
+      newAddress.mobile = req.body.address.mobile if req.body.address.mobile
 
-    if isAddNewFlag
-      req.u.address.push(newAddress)
+      isAddNewFlag = true
+      for address, addressIndex in req.u.address
+        if (address.contactPerson is newAddress.contactPerson and address.address is newAddress.address) or (address.mobile is newAddress.mobile and address.address is newAddress.address)
+          isAddNewFlag = false
+
+      if isAddNewFlag
+        req.u.address.push(newAddress)
+
 
     # 记录最后下单时间
     req.u.lastOrderDate = moment()
@@ -700,17 +694,53 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
     else
       result = models.order.deliveryTimeArithmeticNotInShangHaiForReadyToCook()
   else
-    if req.body.isCityShanghai is true
-      result = models.order.deliveryTimeArithmeticForReadyToEat(req.body.isInRange4KM)
+    if req.body.isCityShanghai is true and req.body.isInRange4KM is true
+      result = models.order.deliveryTimeArithmeticForReadyToEat()
+    else
+      result = []
 
   res.status(200).json(result)
 
 
 
+exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
+
+  models.warehouse.findAsync({}).then (resultWarehouseList) ->
+
+    tempWarehouse = {}
+    result = {}
+
+    for warehouse, warehouseIndex in resultWarehouseList
+      tempWarehouse[warehouse._id] = warehouse.toObject()
+      tempWarehouse[warehouse.name] = warehouse.toObject()
+
+
+
+
+    if req.body.warehouseName is "xinweioffice"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+    else if req.body._id is "56332187594b09af6e6c7dd2"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+
+
+    if req.body.warehouseName is "caohejing1"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+    else if req.body._id is "56332196594b09af6e6c7dd7"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+
+    res.status(200).json(result)
+
+  .catch next
+
 
 
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
+  logger.error("-------- UnifiedOrder: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.body))
 
   models.order.validationOrderId req.body._id
   models.order.validationWeixinPayUnifiedOrder req.body
@@ -719,80 +749,83 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
   models.order.findByIdAsync(req.body._id).then (resultOrder) ->
     WXPayOrder = WXPay(configWeiXinPay)
     #处理如果是微信支付需要先生成微信支付的统一订单
-    if resultOrder
-
-      models.user.findByIdAsync(resultOrder.user).then (resultUser) ->
-        if resultUser
-
-          if resultOrder.clientFrom is "ios"
-            WXPayOrder = WXPay(configWeiXinAppPay)
-
-          weixinpayOrder =
-            out_trade_no: resultOrder.orderNumber
-            total_fee: Math.ceil(resultOrder.totalPrice * 100)
-            spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
-
-            notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
-            trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
-#            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
-            product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
-
-            body:  resultOrder.dishHistory[0].dish.title.zh
-            detail:  resultOrder.dishHistory[0].dish.title.zh
-
-            attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-            goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
-
-          if resultUser.weixinId and resultUser.weixinId.openid and resultOrder.clientFrom is "wechat"
-            weixinpayOrder.openid = resultUser.weixinId.openid
-
-          if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
-            weixinpayOrder.total_fee = 1
-
-          console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
-          WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
-            if err
-              next (new Err err)
-
-            if resultWeixinPay
-
-              weixinpayMobileSign =
-                appId: configWeiXinPay.appid
-                timeStamp: parseInt(+new Date() / 1000, 10) + ""
-                nonceStr: WXPayOrder.util.generateNonceString()
-                package: "prepay_id="+resultWeixinPay.prepay_id
-                signType: "MD5"
-
-              # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
-              weixinpayNativeSign =
-                appId : configWeiXinAppPay.appid
-                partnerId : configWeiXinAppPay.mch_id
-                prepayId : resultWeixinPay.prepay_id
-                packageValue : 'Sign=WXPay'
-                timeStamp: parseInt(+new Date() / 1000, 10) + ""
-                nonceStr: WXPayOrder.util.generateNonceString()
-
-              weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
-              weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
-
-              resultOrder.paymentWeixinpay =
-                nativeSign: weixinpayNativeSign
-                mobileSign: weixinpayMobileSign
-                nonce_str : resultWeixinPay.nonce_str
-                sign : resultWeixinPay.sign
-                trade_type : resultWeixinPay.trade_type
-                prepay_id: resultWeixinPay.prepay_id
-                code_url: resultWeixinPay.code_url
-
-              resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
-    #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
-                resultTemp = resultOrder2.toJSON()
-                delete resultTemp.dishList
-    #            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
-                res.json resultTemp
-
-    else
+    if not resultOrder
       throw new Err "Field validation error,  orderID not found!", 200
+
+    if resultOrder.paymentWeixinpay and resultOrder.paymentWeixinpay.out_trade_no
+      throw new Err "Field validation error,  this order already pay by weixinpay!", 200
+
+    models.user.findByIdAsync(resultOrder.user).then (resultUser) ->
+      if resultUser
+
+        if resultOrder.clientFrom is "ios"
+          WXPayOrder = WXPay(configWeiXinAppPay)
+
+        weixinpayOrder =
+          out_trade_no: resultOrder.orderNumber
+          total_fee: Math.ceil(resultOrder.totalPrice * 100)
+          spbill_create_ip: req.ip # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+
+          notify_url: "http://m.xinweicook.com/mobile/wxpay/notify"
+          trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
+#            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
+          product_id : resultOrder._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+
+          body:  resultOrder.dishHistory[0].dish.title.zh
+          detail:  resultOrder.dishHistory[0].dish.title.zh
+
+          attach: resultOrder._id.toString() #附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+          goods_tag : "", #商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+
+        if resultUser.weixinId and resultUser.weixinId.openid and resultOrder.clientFrom is "wechat"
+          weixinpayOrder.openid = resultUser.weixinId.openid
+
+        if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+          weixinpayOrder.total_fee = 1
+
+        console.log "------------------Weixinpay Unified Order: ", weixinpayOrder
+        WXPayOrder.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+          if err
+            next (new Err err)
+
+          if resultWeixinPay
+
+            weixinpayMobileSign =
+              appId: configWeiXinPay.appid
+              timeStamp: parseInt(+new Date() / 1000, 10) + ""
+              nonceStr: WXPayOrder.util.generateNonceString()
+              package: "prepay_id="+resultWeixinPay.prepay_id
+              signType: "MD5"
+
+            # https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_5
+            weixinpayNativeSign =
+              appId : configWeiXinAppPay.appid
+              partnerId : configWeiXinAppPay.mch_id
+              prepayId : resultWeixinPay.prepay_id
+              packageValue : 'Sign=WXPay'
+              timeStamp: parseInt(+new Date() / 1000, 10) + ""
+              nonceStr: WXPayOrder.util.generateNonceString()
+
+            weixinpayNativeSign.sign = WXPayOrder.sign(weixinpayNativeSign);
+            weixinpayMobileSign.paySign = WXPayOrder.sign(weixinpayMobileSign);
+
+            resultOrder.paymentWeixinpay =
+              nativeSign: weixinpayNativeSign
+              mobileSign: weixinpayMobileSign
+              nonce_str : resultWeixinPay.nonce_str
+              sign : resultWeixinPay.sign
+              trade_type : resultWeixinPay.trade_type
+              prepay_id: resultWeixinPay.prepay_id
+              code_url: resultWeixinPay.code_url
+
+            resultOrder.saveAsync().spread (resultOrder2, numberAffected) ->
+  #          res.json _.pick(resultOrder, ["orderNumber", "cookingType", "payment", "paymentUsedCash", "totalPrice", "deliveryDate", "deliveryTime", "deliveryDateTime", "status", "isPaymentPaid", "isSplitOrder", "isChildOrder" ])
+              resultTemp = resultOrder2.toJSON()
+              delete resultTemp.dishList
+  #            console.log "---WeixinPay------Sign", resultOrder.paymentWeixinpay
+              res.json resultTemp
+    .catch next
+
 
   .catch next
 
@@ -857,7 +890,7 @@ exports.updateOrder = (req, res, next) ->
         models.coupon.addCouponPaidManyOrder(req.u)
 
 
-      if req.u.sharedInvitationSendCodeTotalCount is 6
+      if req.u.sharedInvitationSendCodeTotalCount is 7
         # 发送iOS 推送 满6单发新味币充值码
         additionalContent =
           userId : req.u._id
@@ -881,11 +914,11 @@ exports.updateOrder = (req, res, next) ->
 
         # 撤销优惠码使用
         if resultOrder.promotionCode
-          models.coupon.revokeUsed(resultOrder.promotionCode, req.u)
+          models.coupon.revokeUsed(resultOrder.promotionCode, req.u._id.toString())
 
         # 撤销优惠券使用
         if resultOrder.coupon
-          models.coupon.revokeUsed(resultOrder.coupon, req.u)
+          models.coupon.revokeUsed(resultOrder.coupon, req.u._id.toString())
 
         # 撤销余额使用
         if resultOrder.accountUsedDiscount > 0
@@ -1045,13 +1078,13 @@ exports.createDeliveryKSuDi = (req, res, next) ->
     if resultOrder
       kuaiSuDi.createOrder(resultOrder, (err, result)->
         if err
-          next(err)
+          return next(new Err err.msg, 400)
 
-        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
         resultOrder.express.number = result.runningnumber
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
 
         resultOrder.saveAsync();
         res.send(result)
@@ -1086,16 +1119,35 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
         resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
         resultOrder.saveAsync();
 
+        kuaiSuDi.searchOrder(resultOrder, (err, result)->
+
+          if err
+            return next(new Err(err.msg, 400))
+
+          if result.record.length > 1
+            patternPerson = /^【([\u4e00-\u9fa5]+)，/
+            patternMobile = /：(1[0-9]{10})/
+
+            if result.record[1].content.match(patternPerson) and result.record[1].content.match(patternMobile)
+              resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1] #  content: '【陈飞，手机号：13761114427】即将收件，请准备好快件,操作人【杨阳】'
+              resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
+
+            resultOrder.saveAsync();
+
+        )
+
+
       if req.body.state is "400"
         resultOrder.expressStatus = models.order.constantExpressStatus().shipping
         resultOrder.saveAsync();
+
 
       if req.body.state is "500"
         resultOrder.expressStatus = models.order.constantExpressStatus().finished
         resultOrder.saveAsync();
 
 #      if req.body.state isnt "300" and req.body.state isnt "400" and req.body.state isnt "500" and req.body.state isnt "600"
-      logger.error("=========kushudi:", JSON.stringify(req.body))
+      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
 
     res.send({code : 200})
 
@@ -1112,23 +1164,49 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
   models.order.findById(req.params._id).execAsync()
   .then (resultOrder)->
+
     if resultOrder
 
       kuaiSuDi.searchOrder(resultOrder, (err, result)->
 
         if err
-          next(err)
-
-        console.log(result)
+          return next(new Err(err.msg, 400))
 
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
         resultOrder.express.displayName.en = "快速递"
-#        resultOrder.express.number = result.id
+        resultOrder.express.number = result.express.runningnumber
 
-        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
 
-        #        resultOrder.saveAsync();
+        if result.record.length > 1
+          patternPerson = /^【([\u4e00-\u9fa5]+)，/
+          patternMobile = /：(1[0-9]{10})/
+
+          if result.record[1].content.match(patternPerson) and result.record[1].content.match(patternMobile)
+            resultOrder.expressPersonName = result.record[1].content.match(patternPerson)[1] #  content: '【陈飞，手机号：13761114427】即将收件，请准备好快件,操作人【杨阳】'
+            resultOrder.expressPersonMobile = result.record[1].content.match(patternMobile)[1]
+
+
+        if result.express.statusclientcode is "待抢单"
+          resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+          resultOrder.saveAsync();
+
+        if result.express.statusclientcode is "待取件"
+          resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
+          resultOrder.saveAsync();
+
+        if result.express.statusclientcode is "派送中"
+          resultOrder.expressStatus = models.order.constantExpressStatus().shipping
+          resultOrder.saveAsync();
+
+        if result.express.statusclientcode is "已签收"
+          resultOrder.expressStatus = models.order.constantExpressStatus().finished
+          resultOrder.saveAsync();
+
+        if result.express.statusclientcode is "取消"
+          resultOrder.expressStatus = models.order.constantExpressStatus().canceled
+          resultOrder.saveAsync();
+
         res.send(result)
       )
 

@@ -6,8 +6,8 @@ qiniu.conf.SECRET_KEY = conf.qiniu.secret_key;
 
 
 WXPay = require "../libs/weixinpay"
-
 AliPay = require "../libs/alipay.js"
+Map = require "../libs/baidumap.js"
 
 configAlipay =
   notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/notify/account"
@@ -23,7 +23,6 @@ configWeiXinPay =
   key: conf.weixinpay.key
   notify_url : conf.url.base + conf.weixinpay.notify_url
 
-
 configWeiXinAppPay =
   appid: conf.weixinAppPay.appid
   mch_id: conf.weixinAppPay.mch_id
@@ -32,6 +31,12 @@ configWeiXinAppPay =
   notify_url : conf.url.base + conf.weixinAppPay.notify_url
 
 weixinpay = WXPay(configWeiXinPay)
+
+baiduMap = Map({ak:"hGHhGxXeioV00csas6otDPM0"})
+
+
+
+
 
 
 exports.getUploadResponse = (req, res) ->
@@ -77,6 +82,260 @@ exports.getUploadQiniuToken = (req, res, next) ->
 
 
 
+exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
+# 增加生成微信developerAccessToken备用
+
+  promiseList = []
+  promiseList.push(models.setting.findOneAsync({name:"weixinPayJSSdkConfig"}))
+  promiseList.push(models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}))
+
+  Promise.all(promiseList).spread( (settingJSSdk, settingAccessToken) ->
+
+    isNeedRefreshJsapiTicket = false
+
+    if not settingJSSdk
+      logger.error("WeixinDeveloperJsapi not found !" );
+      isNeedRefreshJsapiTicket = true
+    else
+      if models.setting.checkExpired(settingJSSdk)
+        logger.error("WeixinDeveloperJsapi expired !" );
+        isNeedRefreshJsapiTicket = true
+
+
+    isNeedRefreshAccessToken = false
+
+    if not settingAccessToken
+      logger.error("WeixinDeveloper AccessToken not found !" );
+      isNeedRefreshAccessToken = true
+    else
+      if models.setting.checkExpired(settingAccessToken)
+        logger.error("WeixinDeveloper AccessToken expired !" );
+        isNeedRefreshAccessToken = true
+
+
+
+
+    if isNeedRefreshJsapiTicket
+
+      if isNeedRefreshAccessToken
+
+        weixinpay.getDeveloperAccessTokenAsync().then ( resultAccessToken) ->
+
+          if resultAccessToken.errcode
+            throw(resultAccessToken)
+
+          newDeveloperAccessToken =
+            name : "weixinDeveloperAccessToken"
+            key : "weixinDeveloperAccessToken"
+            value : JSON.stringify(resultAccessToken)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
+            console.log(resultSettingUpdated); # { ok: 1, nModified: 1, n: 1 }
+
+
+          # 请求JsapiTicket
+          weixinpay.getDeveloperJsapiTicketAsync(resultAccessToken.access_token)
+        .then (resultTicket) ->
+
+          if resultTicket.errcode
+            throw(resultTicket)
+
+          weixinpayJSSdkConfigSign =
+            noncestr: weixinpay.util.generateNonceString()
+            timestamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultTicket.ticket
+            url: req.body.url
+
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+          newInfo1 =
+            name : "weixinPayJSSdkConfig"
+            key : "weixinPayJSSdkConfig"
+            value : JSON.stringify(weixinpayJSSdkConfigSign)
+            expiredDate : moment().add(110, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo1, {upsert: true})
+
+          res.json weixinpayJSSdkConfigSign
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+      else
+        console.log(settingAccessToken.value)
+
+        # 请求JsapiTicket
+        weixinpay.getDeveloperJsapiTicketAsync(settingAccessToken.value.access_token).then  (resultTicket2) ->
+
+          if resultTicket2.errcode
+            throw(resultTicket2)
+
+          weixinpayJSSdkConfigSign =
+            noncestr: weixinpay.util.generateNonceString()
+            timestamp: Math.floor(Date.now()/1000)+""
+            jsapi_ticket: resultTicket2.ticket
+            url: req.body.url
+
+          weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign);
+
+          newInfo2 =
+            name : "weixinPayJSSdkConfig"
+            key : "weixinPayJSSdkConfig"
+            value : JSON.stringify(weixinpayJSSdkConfigSign)
+            expiredDate : moment().add(110, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinPayJSSdkConfig"}, newInfo2, {upsert: true})
+
+          res.json weixinpayJSSdkConfigSign
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+
+    else
+      weixinpayJSSdkConfigSign =
+        noncestr: settingJSSdk.value.noncestr
+        timestamp: Math.floor(Date.now()/1000)+""
+        jsapi_ticket: settingJSSdk.value.jsapi_ticket
+        url: req.body.url
+
+      weixinpayJSSdkConfigSign.signature = weixinpay.signSha1(weixinpayJSSdkConfigSign)
+
+      settingJSSdk.value = weixinpayJSSdkConfigSign
+      settingJSSdk.saveAsync()
+
+      res.json weixinpayJSSdkConfigSign
+
+  )
+  .catch next
+
+
+
+
+
+
+
+
+
+exports.getWeixinUserInfo = (req, res, next) ->
+
+  userId = req.query.userId
+  models.user.validationUserId(userId)
+
+  models.user.findOneAsync({"_id": userId}).then (resultUser) ->
+
+    models.user.checkNotFound(resultUser)
+
+    if not resultUser.weixinId or not resultUser.weixinId.openid
+      throw new Err "Field validation error,  User weixin openid not found", 400
+
+
+    models.setting.findOneAsync({name:"weixinDeveloperAccessToken"}).then (resultSetting) ->
+
+      isNeedRefreshAccessToken = false
+
+      if not resultSetting
+        isNeedRefreshAccessToken = true
+        logger.error("WeixinUserInfo resultSetting not found !" );
+      else
+        if models.setting.checkExpired(resultSetting)
+          isNeedRefreshAccessToken = true
+          logger.error("WeixinUserInfo resultSetting expired !" );
+
+
+      if isNeedRefreshAccessToken
+        weixinpay.getDeveloperAccessTokenAsync().then (resultAccessToken) ->
+
+          if resultAccessToken.errcode
+            throw(resultAccessToken)
+
+          newDeveloperAccessToken =
+            name : "weixinDeveloperAccessToken"
+            key : "weixinDeveloperAccessToken"
+            value : JSON.stringify(resultAccessToken)
+            expiredDate : moment().add(90, 'minutes')
+            isExpired : false
+
+          models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
+            console.log("weixinDeveloperAccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
+
+
+          userInfo =
+            access_token : resultAccessToken.access_token
+            openid : resultUser.weixinId.openid
+
+          weixinpay.getUserInfoAsync(userInfo)
+
+        .then (resultWeixinUserInfo) ->
+
+          if resultWeixinUserInfo.errcode
+            throw(resultWeixinUserInfo)
+
+          resultUser.weixinId.subscribe = resultWeixinUserInfo.subscribe
+          resultUser.weixinId.nickname = resultWeixinUserInfo.nickname
+          resultUser.weixinId.sex = resultWeixinUserInfo.sex
+          resultUser.weixinId.language = resultWeixinUserInfo.language
+          resultUser.weixinId.city = resultWeixinUserInfo.city
+          resultUser.weixinId.province = resultWeixinUserInfo.province
+          resultUser.weixinId.country = resultWeixinUserInfo.country
+          resultUser.weixinId.headimgurl = resultWeixinUserInfo.headimgurl
+          resultUser.weixinId.subscribe_time = resultWeixinUserInfo.subscribe_time
+          resultUser.weixinId.remark = resultWeixinUserInfo.remark
+          resultUser.weixinId.groupid = resultWeixinUserInfo.groupid
+
+          resultUser.save()
+          res.json(resultWeixinUserInfo)
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+      else
+        logger.error("WeixinUserInfo resultSetting is exist !" );
+        userInfo =
+          access_token : resultSetting.value.access_token
+          openid : resultUser.weixinId.openid
+
+        weixinpay.getUserInfoAsync(userInfo).then (resultWeixinUserInfo) ->
+
+          if resultWeixinUserInfo.errcode
+            throw(resultWeixinUserInfo)
+
+          resultUser.weixinId.subscribe = resultWeixinUserInfo.subscribe
+          resultUser.weixinId.nickname = resultWeixinUserInfo.nickname
+          resultUser.weixinId.sex = resultWeixinUserInfo.sex
+          resultUser.weixinId.language = resultWeixinUserInfo.language
+          resultUser.weixinId.city = resultWeixinUserInfo.city
+          resultUser.weixinId.province = resultWeixinUserInfo.province
+          resultUser.weixinId.country = resultWeixinUserInfo.country
+          resultUser.weixinId.headimgurl = resultWeixinUserInfo.headimgurl
+          resultUser.weixinId.subscribe_time = resultWeixinUserInfo.subscribe_time
+          resultUser.weixinId.remark = resultWeixinUserInfo.remark
+          resultUser.weixinId.groupid = resultWeixinUserInfo.groupid
+
+          resultUser.save()
+          res.json(resultWeixinUserInfo)
+
+        .catch( (err) ->
+          next(new Err err.errmsg, 400)
+        )
+
+
+  .catch(next)
+
+
+
+
+
+
+
+
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
   userId = req.query.userId
@@ -107,18 +366,17 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("----- User OpenID Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+
   code = req.query.code
   state = req.query.state
   redirectUrl = req.query.redirectUrl
 
-  console.log("--------------",redirectUrl);
   unless libs.validator.isLength state, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )
 
   if not code or code.length is 0
+    logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error, Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
-
 
 
   models.user.findOneAsync({"_id": state}).then (resultUser) ->
@@ -142,11 +400,12 @@ exports.getWeixinUserOpenId = (req, res, next) ->
             resultUser.saveAsync().then (resultUser2) ->
               return res.redirect("/mobile/" + redirectUrl)
             .catch (err)->
-              logger.error("Weixin OpenId, OpenID Failed Save User error:", JSON.stringify(err))
+              logger.error("User OpenID Failed Save User error:", JSON.stringify(err))
 
           else
             # 给开发发送Open短信
             if not conf.debug
+              logger.error("User OpenID weixin error:", JSON.stringify(result))
               text = models.sms.constantTemplateSystemErrorNotify("OpenID错误")
               models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
               models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
@@ -172,6 +431,7 @@ exports.getWeixinUserOpenId = (req, res, next) ->
 
 
 
+
 exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code, couponcode } = req.body
@@ -181,23 +441,39 @@ exports.userSignUp = (req, res, next) ->
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
-  models.user.signUp(mobile, pwd, code)
-  .then (resultUser)->
 
-    models.coupon.addCouponForNewUser(resultUser, req).then (resultUser2) ->
+  models.sms.verifyCode("signUp", mobile, code).then (smscode) ->
+
+    if smscode[1] isnt 1
+      throw new Err "验证码保存失败", 400
+
+    models.user.findOneAsync(mobile: mobile)
+
+  .then (resultUser) ->
+    models.user.checkFound(resultUser)
+
+    if not resultUser
+      logger.error("new user signUp:", mobile, code, pwd, couponcode)
+      models.user.createAsync(mobile: mobile, pwd: pwd )
+
+  .then (resultUserCreated)->
+
+    models.coupon.addCouponForNewUser(resultUserCreated, req).then (resultUser2) ->
       if couponcode
-        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode)
+        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode).catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
+
     res.json
       access_token: t.access_token
       refresh_token: t.refresh_token
       token_type: "Bearer"
       expires_in: t.getExpiresIn()
-  , next
+
+  .catch(next)
 
 
 
@@ -286,19 +562,10 @@ exports.userInfo = (req, res, next) ->
 
 
 
-# 获取用户消息通知 iOS
-exports.getUserMessages = (req, res, next) ->
-
-  models.message.find({user:req.u._id})
-  .sort("-createdAt")
-  .execAsync()
-  .then (resultMessages) ->
-    res.json resultMessages
-  .catch next
 
 
 
-# 修改用户信息 修改收货地址
+# 修改用户信息
 exports.updateUserInfo = (req, res, next) ->
 
   models.user.validationUserInfo req.body
@@ -339,6 +606,8 @@ exports.updateUserInfo = (req, res, next) ->
     req.u.address = req.body.address
 
   req.u.gender = req.body.gender if req.body.gender
+  req.u.fullName = req.body.fullName if req.body.fullName
+  req.u.nickname = req.body.nickname if req.body.nickname
   req.u.lang = req.body.language if req.body.language
   req.u.avatarPic = req.body.avatarPic if req.body.avatarPic
 
@@ -347,6 +616,11 @@ exports.updateUserInfo = (req, res, next) ->
   .then (user) ->
     res.json user
   .catch next
+
+
+
+
+
 
 
 
@@ -362,6 +636,315 @@ exports.updateShoppingCart = (req, res, next) ->
   .then (user) ->
     res.json user
   .catch next
+
+
+
+
+
+
+
+
+# 获取用户收货地址 (新版接口)
+exports.getUserAddress = (req, res, next) ->
+
+  models.useraddress.findAsync({user : req.u._id}).then (resultUserAddressList)->
+    # 转换老地址
+    if resultUserAddressList.length is 0 and req.u.address.length > 0
+
+      tempAddressList = []
+
+      for address,addressIndex in req.u.address
+
+        tempAddress = {}
+
+        tempAddress.user = req.u._id
+        tempAddress.geoLongitude = req.u.address[addressIndex].geoLongitude if req.u.address[addressIndex].geoLongitude
+        tempAddress.geoLatitude = req.u.address[addressIndex].geoLatitude if req.u.address[addressIndex].geoLatitude
+
+        tempAddress.country = req.u.address[addressIndex].country if req.u.address[addressIndex].country
+        tempAddress.province = req.u.address[addressIndex].province if req.u.address[addressIndex].province
+        tempAddress.city = req.u.address[addressIndex].city if req.u.address[addressIndex].city
+        tempAddress.district = req.u.address[addressIndex].district if req.u.address[addressIndex].district
+        tempAddress.street = req.u.address[addressIndex].street if req.u.address[addressIndex].street
+        tempAddress.street_number = req.u.address[addressIndex].street_number if req.u.address[addressIndex].street_number
+        tempAddress.address = req.u.address[addressIndex].address if address.address
+
+        tempAddress.contactPerson = req.u.address[addressIndex].contactPerson if req.u.address[addressIndex].contactPerson
+        tempAddress.mobile = req.u.address[addressIndex].mobile if req.u.address[addressIndex].mobile
+
+#        tempAddress.isDefault = req.u.address[addressIndex].isDefault if req.u.address[addressIndex].isDefault
+
+        tempAddressList.push(tempAddress)
+
+
+      models.useraddress.createAsync(tempAddressList).then (result)->
+
+        req.u.address = []
+        req.u.saveAsync();
+
+        res.json result
+      .catch next
+
+    else
+      res.json resultUserAddressList
+
+  .catch next
+
+
+
+
+
+# 新增用户收货地址 (新版接口)
+exports.addNewAddress = (req, res, next) ->
+
+  models.useraddress.validationSingle(req.body)
+
+
+  tempAddress = {}
+
+  tempAddress.user = req.u._id
+  tempAddress.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
+  tempAddress.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+  tempAddress.coordType = req.body.coordType if req.body.coordType
+  tempAddress.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
+
+  if req.body.coordType is "gcj02"
+    tempLocation = models.useraddress.gcj02ToBd09({lng:req.body.geoLongitude, lat:req.body.geoLatitude })
+    tempAddress.geoLongitude = tempLocation.lng
+    tempAddress.geoLatitude = tempLocation.lat
+
+
+  tempAddress.country = req.body.country if req.body.country
+  tempAddress.province = req.body.province if req.body.province
+  tempAddress.city = req.body.city if req.body.city
+  tempAddress.district = req.body.district if req.body.district
+  tempAddress.street = req.body.street if req.body.street
+  tempAddress.street_number = req.body.street_number if req.body.street_number
+  tempAddress.address = req.body.address if req.body.address
+
+  tempAddress.contactPerson = req.body.contactPerson if req.body.contactPerson
+  tempAddress.mobile = req.body.mobile if req.body.mobile
+
+  tempAddress.isDefault = req.body.isDefault if req.body.isDefault
+  tempAddress.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+
+  tempWarehouse = {}
+
+  models.warehouse.find99({}).then (resultWarehouseList) ->
+
+    baiduMapQuery =
+      origins : []
+      destinations :
+        lat : tempAddress.geoLatitude
+        lng : tempAddress.geoLongitude
+
+
+    for warehouse, warehouseIndex in resultWarehouseList
+      tempWarehouse[warehouse._id] = warehouse.toObject()
+      tempWarehouse[warehouse.name] = warehouse.toObject()
+
+      originPlace =
+        lat : warehouse.locationGeoLatitude
+        lng : warehouse.locationGeoLongitude
+        name : warehouse.name
+        deliveryRange : warehouse.deliveryRange
+
+      baiduMapQuery.origins.push(originPlace)
+
+    baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
+
+  .then (resultBaidu) ->
+
+    if resultBaidu.status and resultBaidu.status isnt 0
+      throw(new Err resultBaidu.message, 400)
+
+
+    # 漕河泾仓库使用直线距离
+    resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, tempAddress)
+
+
+    # 判断与哪个仓库最近, 最近的仓库发货
+    nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+
+    if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+      tempAddress.distanceFrom = nearestWarehouse.warehouseDistance
+      tempAddress.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+      tempAddress.isAvailableForEat = true
+
+
+    if req.body.isDefault
+
+      models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
+
+        # console.log(resultAddress); # { ok: 1, nModified: 1, n: 1 }
+
+        models.useraddress.createAsync(tempAddress)
+
+      .then (result)->
+        res.json result
+      .catch next
+
+    else
+      models.useraddress.createAsync(tempAddress).then (result)->
+
+        res.json result
+
+      .catch next
+
+  .catch next
+
+
+
+
+
+
+
+# 编辑用户收货地址 (新版接口)
+exports.updateAddress = (req, res, next) ->
+
+  models.useraddress.validationId(req.params._id)
+  models.useraddress.validationSingle(req.body)
+
+
+  models.useraddress.findOneAsync({_id:req.params._id}).then (result)->
+
+    models.useraddress.checkNotFound(result)
+
+    result.geoLongitude = req.body.geoLongitude if req.body.geoLongitude
+    result.geoLatitude = req.body.geoLatitude if req.body.geoLatitude
+    result.distanceFrom = req.body.distanceFrom if req.body.distanceFrom
+
+    if req.body.coordType or req.body.coordType is ""
+      result.coordType = req.body.coordType
+
+
+    if req.body.coordType is "gcj02"
+      tempLocation = models.useraddress.gcj02ToBd09({lng:req.body.geoLongitude, lat:req.body.geoLatitude })
+      result.geoLongitude = tempLocation.lng
+      result.geoLatitude = tempLocation.lat
+
+
+
+    result.country = req.body.country if req.body.country
+    result.province = req.body.province if req.body.province
+    result.city = req.body.city if req.body.city
+    result.district = req.body.district if req.body.district
+    result.street = req.body.street if req.body.street
+    result.street_number = req.body.street_number if req.body.street_number
+    result.address = req.body.address if req.body.address
+
+    result.contactPerson = req.body.contactPerson if req.body.contactPerson
+    result.mobile = req.body.mobile if req.body.mobile
+
+    result.isDefault = req.body.isDefault if req.body.isDefault
+    result.sortOrder = req.body.sortOrder if req.body.sortOrder
+
+
+
+    tempWarehouse = {}
+
+    models.warehouse.find99({}).then (resultWarehouseList) ->
+
+      baiduMapQuery =
+        origins : []
+        destinations :
+          lat : result.geoLatitude
+          lng : result.geoLongitude
+
+
+      for warehouse, warehouseIndex in resultWarehouseList
+        tempWarehouse[warehouse._id] = warehouse.toObject()
+        tempWarehouse[warehouse.name] = warehouse.toObject()
+
+        originPlace =
+          lat : warehouse.locationGeoLatitude
+          lng : warehouse.locationGeoLongitude
+          name : warehouse.name
+          deliveryRange : warehouse.deliveryRange
+
+        baiduMapQuery.origins.push(originPlace)
+
+      baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
+
+    .then (resultBaidu) ->
+
+      if resultBaidu.status and resultBaidu.status isnt 0
+        throw(new Err resultBaidu.message, 400)
+
+
+      # 漕河泾仓库使用直线距离
+      resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, result)
+
+
+      # 判断与哪个仓库最近, 最近的仓库发货
+      nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+
+      if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+        result.distanceFrom = nearestWarehouse.warehouseDistance
+        result.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+        result.isAvailableForEat = true
+      else
+        result.isAvailableForEat = false
+
+
+      if req.body.isDefault
+        models.useraddress.updateAsync({user : req.u._id, isDefault : true}, {$set: {isDefault: false}}, { multi: true } ).then (resultAddress)->
+
+          result.saveAsync()
+        .then (result)->
+          res.json result[0]
+        .catch next
+
+      else
+        result.saveAsync().then (result)->
+          res.json result[0]
+        .catch next
+
+    .catch next
+
+
+  .catch next
+
+
+
+
+
+
+# 删除用户收货地址 (新版接口)
+exports.deleteAddress = (req, res, next) ->
+
+  models.useraddress.validationId(req.params._id)
+
+  models.useraddress.findOneAndRemoveAsync({_id:req.params._id}).then (result)->
+
+    models.useraddress.checkNotFound(result)
+
+    if result
+      res.json result
+
+  .catch next
+
+
+
+
+
+
+
+
+
+
+
+# 获取用户消息通知 iOS
+exports.getUserMessages = (req, res, next) ->
+
+  models.message.find({user:req.u._id})
+  .sort("-createdAt")
+  .execAsync()
+  .then (resultMessages) ->
+    res.json resultMessages
+  .catch next
+
 
 
 

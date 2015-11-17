@@ -13,21 +13,56 @@ exports.userNewComerRate = function(req, res, next) {
         totalUserLast7dayCount : 0,
         totalPurchasedUserCount : 0,
 
-        purchased1TimeUserCount : 0,
-        purchased2TimeUserCount : 0,
         purchased2MoreTimeUserCount : 0,
-        purchased3MoreTimeUserCount : 0
+        purchased3MoreTimeUserCount : 0,
+        purchased4MoreTimeUserCount : 0,
+        purchased5MoreTimeUserCount : 0,
+        purchased6MoreTimeUserCount : 0,
+        purchased7MoreTimeUserCount : 0,
+
+        shareTotal : {
+            purchased1MoreTimeUserCount : 0,
+            purchased2MoreTimeUserCount : 0,
+            purchased3MoreTimeUserCount : 0,
+            purchased4MoreTimeUserCount : 0,
+            purchased5MoreTimeUserCount : 0,
+            purchased6MoreTimeUserCount : 0,
+            purchased7MoreTimeUserCount : 0
+        },
+
+
+        twoMoreTotalTime : 0,
+        twoMoreTotalOrderNumber : 0,
+        twoMoreAvgTime : 0,
+        twoMoreTimeUserListWithOrder : []
+    };
+
+    var purchasedUserIdList = {
+        oneMoreTime : [],
+        twoMoreTime : [],
+        threeMoreTime : [],
+        fourMoreTime : [],
+        fiveMoreTime : [],
+        sixMoreTime : [],
+        sevenMoreTime : []
     };
 
 
     var today = moment().startOf('day');
+    //console.log(today.format("YYYY-MM-DD hh:mm:ss"));
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
 
 
 
@@ -36,8 +71,10 @@ exports.userNewComerRate = function(req, res, next) {
     var queryLast7DayOrderGte1 = {};
     var queryLast7DayOrderGte2 = {};
     var queryLast7DayOrderGte3 = {};
-    var queryLast7DayOrder1 = {};
-    var queryLast7DayOrder2 = {};
+    var queryLast7DayOrderGte4 = {};
+    var queryLast7DayOrderGte5 = {};
+    var queryLast7DayOrderGte6 = {};
+    var queryLast7DayOrderGte7 = {};
 
 
 
@@ -52,30 +89,101 @@ exports.userNewComerRate = function(req, res, next) {
         //queryLast7DayOrderGte2 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
         //queryLast7DayOrderGte3 = { createdAt:{"$gte": new Date(req.query.createdAt)}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
-
-
         queryAll = {  createdAt:{"$lt": today } };
         queryLast7Day = { createdAt:{ "$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
 
-        queryLast7DayOrder1 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$eq": 2} };
-
-        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte1 = { createdAt:{ "$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte2 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 4} };
+        queryLast7DayOrderGte4 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 5} };
+        queryLast7DayOrderGte5 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 6} };
+        queryLast7DayOrderGte6 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 7} };
+        queryLast7DayOrderGte7 = { createdAt:{"$lt": today}, sharedInvitationSendCodeTotalCount:{"$gte": 8} };
 
     }else{
         queryAll = {};
         queryLast7Day = { createdAt:{"$lt": last7Day } };
-        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 1} };
 
-        queryLast7DayOrder1 = {  sharedInvitationSendCodeTotalCount:{"$eq": 1} };
-        queryLast7DayOrder2 = {  sharedInvitationSendCodeTotalCount:{"$eq": 2} };
-
-        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte1 = { createdAt:{"$lt": last7Day }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryLast7DayOrderGte2 = {  sharedInvitationSendCodeTotalCount:{"$gte": 3} };
+        queryLast7DayOrderGte3 = {  sharedInvitationSendCodeTotalCount:{"$gte": 4} };
+        queryLast7DayOrderGte4 = {  sharedInvitationSendCodeTotalCount:{"$gte": 5} };
+        queryLast7DayOrderGte5 = {  sharedInvitationSendCodeTotalCount:{"$gte": 6} };
+        queryLast7DayOrderGte6 = {  sharedInvitationSendCodeTotalCount:{"$gte": 7} };
+        queryLast7DayOrderGte7 = {  sharedInvitationSendCodeTotalCount:{"$gte": 8} };
 
     }
+
+
+
+
+    var pipeline = [];
+    var pipelineLast7Day = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "createdAt" : {"$lt": today.toDate() },
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 100000 }
+    );
+
+    pipelineLast7Day.push(
+        {
+            "$match" : {
+                "createdAt" : {"$lt": last7Day.toDate() },
+                "isChildOrder" : false,
+                "cookingType"  : {$in : cookingType},
+                "status"       : {$in : orderStatus}
+            }
+        },
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+        { "$limit": 100000 }
+    );
+
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //
+    //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
+    //
+    //}
 
 
     var promiseList = [
@@ -83,28 +191,123 @@ exports.userNewComerRate = function(req, res, next) {
         models.user.count(queryLast7Day).execAsync(),
 
         models.user.count(queryLast7DayOrderGte1).execAsync(),
-
-        models.user.count(queryLast7DayOrder1).execAsync(),
-        models.user.count(queryLast7DayOrder2).execAsync(),
-
         models.user.count(queryLast7DayOrderGte2).execAsync(),
-        models.user.count(queryLast7DayOrderGte3).execAsync()
+        models.user.count(queryLast7DayOrderGte3).execAsync(),
+        models.user.count(queryLast7DayOrderGte4).execAsync(),
+        models.user.count(queryLast7DayOrderGte5).execAsync(),
+        models.user.count(queryLast7DayOrderGte6).execAsync(),
+        models.user.count(queryLast7DayOrderGte7).execAsync(),
+
+        models.order.aggregateAsync( pipeline),
+        models.order.aggregateAsync( pipelineLast7Day)
     ];
 
-    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased1TimeUserCount, resultPurchased2TimeUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount){
+    Promise.all(promiseList).spread(function(resultTotalUserCount, resultUserLast7dayCount, resultTotalPurchasedUserCount, resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultPurchased4MoreTimeUserCount, resultPurchased5MoreTimeUserCount, resultPurchased6MoreTimeUserCount, resultPurchased7MoreTimeUserCount, resultOrderList, resultOrderListLast7Day){
+
+        var twoMoreTimeUserListWithOrder = [];
 
         result.totalUserCount = resultTotalUserCount;
         result.totalUserLast7dayCount = resultUserLast7dayCount;
-        result.totalPurchasedUserCount = resultTotalPurchasedUserCount;
 
-        result.purchased1TimeUserCount = resultPurchased1TimeUserCount;
-        result.purchased2TimeUserCount = resultPurchased2TimeUserCount;
-        result.purchased2MoreTimeUserCount = resultPurchased2MoreTimeUserCount;
-        result.purchased3MoreTimeUserCount = resultPurchased3MoreTimeUserCount;
+        result.shareTotal.purchased1MoreTimeUserCount = resultTotalPurchasedUserCount;
+
+        result.shareTotal.purchased2MoreTimeUserCount = resultPurchased2MoreTimeUserCount;
+        result.shareTotal.purchased3MoreTimeUserCount = resultPurchased3MoreTimeUserCount;
+        result.shareTotal.purchased4MoreTimeUserCount = resultPurchased4MoreTimeUserCount;
+        result.shareTotal.purchased5MoreTimeUserCount = resultPurchased5MoreTimeUserCount;
+        result.shareTotal.purchased6MoreTimeUserCount = resultPurchased6MoreTimeUserCount;
+        result.shareTotal.purchased7MoreTimeUserCount = resultPurchased7MoreTimeUserCount;
+
+        //console.log("2user:", resultPurchased2MoreTimeUserCount, resultPurchased3MoreTimeUserCount, resultPurchased4MoreTimeUserCount);
+
+        resultOrderListLast7Day.forEach(function(user){
+            if (user.orderList.length >= 1){
+                purchasedUserIdList.oneMoreTime.push(user._id);
+            }
+        });
+
+        resultOrderList.forEach(function(user){
+
+            if (user.orderList.length >= 2){
+                purchasedUserIdList.twoMoreTime.push(user._id);
+                twoMoreTimeUserListWithOrder.push(user);
+            }
+            if (user.orderList.length >= 3){
+                purchasedUserIdList.threeMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 4){
+                purchasedUserIdList.fourMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 5){
+                purchasedUserIdList.fiveMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 6){
+                purchasedUserIdList.sixMoreTime.push(user._id);
+            }
+            if (user.orderList.length >= 7){
+                purchasedUserIdList.sevenMoreTime.push(user._id);
+            }
+
+        });
+
+
+        result.totalPurchasedUserCount = purchasedUserIdList.oneMoreTime.length;
+        result.purchased2MoreTimeUserCount = purchasedUserIdList.twoMoreTime.length;
+        result.purchased3MoreTimeUserCount = purchasedUserIdList.threeMoreTime.length;
+        result.purchased4MoreTimeUserCount = purchasedUserIdList.fourMoreTime.length;
+        result.purchased5MoreTimeUserCount = purchasedUserIdList.fiveMoreTime.length;
+        result.purchased6MoreTimeUserCount = purchasedUserIdList.sixMoreTime.length;
+        result.purchased7MoreTimeUserCount = purchasedUserIdList.sevenMoreTime.length;
+
+
+        result.twoMoreTimeUserListWithOrder = twoMoreTimeUserListWithOrder;
+
+
+        twoMoreTimeUserListWithOrder.forEach(function(user){
+
+            var first,second;
+
+            var orderLength = user.orderList.length;
+
+            for(var i=0; i<orderLength ; i++) {
+                first = user.orderList[i];
+
+                if (i < orderLength - 1 ){
+                    second = user.orderList[i+1];
+
+                    first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
+
+                    //console.log(first.secondOrderInterval);
+                    if (typeof user.twoMoreTotalTime === 'undefined'){
+                        user.twoMoreTotalTime = 0;
+                        user.twoMoreTotalOrderNumber = 0;
+                    }
+
+                    user.twoMoreTotalTime = user.twoMoreTotalTime + first.secondOrderInterval;
+                    user.twoMoreTotalOrderNumber = user.twoMoreTotalOrderNumber + 1;
+
+                }
+
+            }
+
+        });
+
+
+
+
+        for(var j=0; j<twoMoreTimeUserListWithOrder.length ; j++){
+
+            result.twoMoreTotalTime = result.twoMoreTotalTime + twoMoreTimeUserListWithOrder[j].twoMoreTotalTime;
+            result.twoMoreTotalOrderNumber = result.twoMoreTotalOrderNumber + twoMoreTimeUserListWithOrder[j].twoMoreTotalOrderNumber;
+
+        }
+
+        result.twoMoreAvgTime = result.twoMoreTotalTime / result.twoMoreTotalOrderNumber;
 
         res.send(result)
     })
     .catch(next);
+
 
 
 };
@@ -137,21 +340,19 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         today = moment(req.query.createdAt).startOf('day');
 
         //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     }else{
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
     }
 
     var last7Day = today.clone().subtract(7, 'days');
-    var last15Day = today.clone().subtract(15, 'days');
-
 
 
 
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
@@ -172,7 +373,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
     }).then(function(resultOrderList){
 
-
+        console.log(resultOrderList.length);
 
         if (resultOrderList.length > 0){
 
@@ -189,7 +390,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         first.secondOrderCreateDate = second.createdAt;
                         first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
-
+                        console.log(first.secondOrderInterval);
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
                                 totalTime : 0,
@@ -202,6 +403,8 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                             //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
                         }
 
+                    }else{
+                        console.log(nextUserId);
                     }
 
 
@@ -248,6 +451,16 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 exports.userGetFirstOrderDaily = function(req, res, next) {
 
     var today = moment().startOf('day');
@@ -257,7 +470,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     }
 
     var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().finished, models.order.constantStatus().paid);
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
     var cookingType = [];
     cookingType.push( models.dish.constantCookingType().eat);
@@ -386,3 +599,65 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
 };
 
+
+
+
+
+
+
+
+
+exports.couponByNameRate = function(req, res, next) {
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        {
+            "$match" : {
+                "couponType" : models.coupon.constantCouponType().coupon
+            }
+        },
+
+        { $sort: { createdAt: 1 } },
+
+        { "$group": {
+            "_id": {name : "$name.zh", isUsed : "$isUsed"},
+            "quantity": { "$sum": 1 },
+            "couponList": { "$push": { "_id": "$_id", "user": "$user",  "name": "$name", "createdAt": "$createdAt", "couponType": "$couponType", "price": "$price", "isUsedCount": "$isUsedCount", "isUsed": "$isUsed"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "name" : "$_id.name",
+            "isUsed" : "$_id.isUsed",
+
+            "quantity": 1,
+            "couponList": 1
+
+        }},
+
+        { "$sort": { "name" : 1} },
+        { "$limit": 100000 }
+    );
+
+    models.coupon.aggregateAsync( pipeline).then(function(resultCouponList){
+
+        var totalQuantity = 0;
+
+        if (resultCouponList.length > 0){
+            totalQuantity = resultCouponList.reduce(function(previous, order) {
+                return previous + order.quantity;
+            }, 0);
+        }
+
+        resultCouponList[0].totalQuantity = totalQuantity;
+
+        resultCouponList.forEach(function(order){
+            order.quantityPercent = order.quantity / totalQuantity
+        });
+
+        res.send(resultCouponList)
+    }).catch(next);
+};

@@ -13,13 +13,11 @@
             <form class="form-horizontal" name="userForm" role="form" novalidate ng-cloak>
 
 
-
-
                 <div class="form-group has-feedback" ng-class="{'has-success':userForm.userBalance.$dirty&&userForm.userBalance.$valid, 'has-error':userForm.userBalance.$dirty&&userForm.userBalance.$invalid}">
                     <label for="inputUserAccount" class="col-lg-2 control-label" >新味币余额</label>
 
                     <div class="col-lg-8" >
-                        <input type="number" class="form-control" id="inputUserAccount" placeholder="手机" name="userBalance" ng-model="data.userAccount.balance" required min="0" max="5000" >
+                        <input type="number" class="form-control" id="inputUserAccount" placeholder="" name="userBalance" ng-model="data.userAccount.balance" required min="0" max="5000" >
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.userBalance.$dirty&&userForm.userBalance.$invalid"></span>
                     </div>

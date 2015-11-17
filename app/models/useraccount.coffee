@@ -113,6 +113,13 @@ module.exports =
           zh : "订单取消返还"
           en : "Order cancel return"
 
+
+      if @balance isnt @balance
+        logger.error("cronjob refund account balance error:", JSON.stringify(newAccountDetail))
+
+      if newAccountDetail.amountXinwei isnt newAccountDetail.amountXinwei
+        logger.error("cronjob refund account amountXinwei error:", JSON.stringify(newAccountDetail))
+
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
       newAccountDetail.order = orderId if orderId
@@ -141,16 +148,14 @@ module.exports =
       @saveAsync()
 
   rest:
-    middleware : (req, res, next) ->
-
+    preMiddleware : (req, res, next) ->
       if req.method is "GET"
+
         if req.params.id
           models.useraccount.findOne( {user:req.params.id}, (err, result)->
             if result
               req.params.id = result._id.toString()
-              next()
-            else
-              next()
+            next()
           )
         else
           next()

@@ -18,7 +18,8 @@ var requestC = require('request');
 
 
 var configKsuDi = {
-    username: '13761339935',  //账号ID
+    //username: '13761339935',  //账号ID
+    username: '15900634317',  //新账号ID
     //password: 'xwcook789', //密码
     password: 'e9a6a3f282d3b49e1a0061b06ace2296', //密码
 
@@ -132,15 +133,15 @@ ksuDi.prototype.sign = function(obj){
 ksuDi.prototype.createOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
-        password : this.config.password,
+        password : 'xwcook789',
         charset  : this.config.charset,
         signtype : 'MD5',
         //sign     : '',
 
         //recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.province + ' ' + item.address.city + ' ' +  item.address.district + ' ' + item.address.street + ' ' + item.address.address,
-        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.district + item.address.street + item.address.address,
+        recaddrs : item.address.contactPerson + '/' + item.address.mobile + '/' + item.address.city + item.address.district + item.address.street.replace(/\//, '') + item.address.address.replace(/\//, ''),
         sender : '新味',
-        sendtelephone : '13761339935', // 客服电话
+        sendtelephone : '15900634317', // 客服电话
         sendaddress : '徐汇区中山南二路510号3楼',
 
         expressnumber : item.orderNumber,
@@ -163,7 +164,6 @@ ksuDi.prototype.createOrder = function (item, callback){
         //advancecost : 0,  // 垫付金额
 
         backurl : this.config.url_notify  // 回调url
-
 
     };
 
@@ -198,37 +198,35 @@ ksuDi.prototype.createOrder = function (item, callback){
         }
 
         //console.log('========== KSudi', response);
-        //console.log('========== KSudi', body);
+        console.log('========== KSudi', body);
 
-        logger.error('========== KSudi createOrder: ', body);
+        //logger.error('========== KSudi createOrder: ', body);
         var result = {};
 
         try{
             result = JSON.parse(body);
-
-
-            if(result.code === 200 || result.code === '200'){
-
-                // 300 接受订单成功
-                // 400 确认收货成功
-                // 500 订单完成
-
-                return callback(null, result);
-            }else{
-                // 200 成功
-                // 201 用户名或密码错误
-                // 202 用户名或密码不能为空
-                // 203 密钥错误
-                // 204 该快递信息不存在
-                // 205 发件地址不能解析！
-                // 206 其他错误
-
-                return  callback(result);
-            }
-
         }catch (err){
             return  callback(err);
         }
+
+        if(result.code === 200 || result.code === '200'){
+
+            // 300 接受订单成功
+            // 400 确认收货成功
+            // 500 订单完成
+            // 600 保存订单成功
+            return callback(null, result);
+        }else{
+            // 200 成功
+            // 201 用户名或密码错误
+            // 202 用户名或密码不能为空
+            // 203 密钥错误
+            // 204 该快递信息不存在
+            // 205 发件地址不能解析！
+            // 206 其他错误
+            return  callback(result);
+        }
+
 
     })
 };
@@ -247,7 +245,7 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //sign     : '',
         flag : 0,
         expressnumber : item.orderNumber
-        //expressnumber : '201510161302552851687'
+        //expressnumber : '201510211430126337709'
 
     };
 
@@ -283,35 +281,51 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        logger.error('========== KSudi searchOrder: ', body);
+        //logger.error('========== KSudi searchOrder: ', body);
 
         var result = {};
 
         try{
             result = JSON.parse(body);
 
-            if(result.code === 200 || result.code === '200' ){
-
-                // 300 接受订单成功
-                // 400 确认收货成功
-                // 500 订单完成
-
-                return callback(null, result);
-            }else{
-                // 200 成功
-                // 201 用户名或密码错误
-                // 202 用户名或密码不能为空
-                // 203 密钥错误
-                // 204 该快递信息不存在
-                // 205 快递信息不存在
-                // 206 参数不能为空
-                // 207 密钥错误
-
-                return  callback(result);
-            }
-
         }catch (err){
             return  callback(err);
+        }
+
+
+        if(result.code === 200 || result.code === '200' ){
+
+            // 兼职系统状态
+            // 300 接受订单成功
+            // 400 确认收货成功
+            // 500 订单完成
+
+            // 300 待取件
+            // 400 待签收
+            // 500 已完成
+
+
+            // 专职系统状态
+            // 1401	待取件
+            // 1402	派送中
+            // 1403	已签收
+            // 1404	取消
+            // 1405	关单
+            // 1406	待抢单
+            // 1407	支付中
+
+            return callback(null, result);
+        }else{
+            // 200 成功
+            // 201 用户名或密码错误
+            // 202 用户名或密码不能为空
+            // 203 密钥错误
+            // 204 该快递信息不存在
+            // 205 快递信息不存在
+            // 206 参数不能为空
+            // 207 密钥错误
+
+            return  callback(result);
         }
 
     })

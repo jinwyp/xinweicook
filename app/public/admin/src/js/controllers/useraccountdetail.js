@@ -16,27 +16,31 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
     $scope.data = {
         searchFilter : '',
         searchOptions : {
+            sort : '-createdAt',
             skip : 0,
             limit : 200,
-            isPlus : '',
-            chargeType : '',
-            user : '',
-            order : ''
+
+            query : {
+                isPlus : '',
+                isPaid : '',
+                chargeType : '',
+                user : '',
+                order : ''
+            }
+
         },
 
-        searchSort : {
-            sort : '-createdAt'
-        },
 
-        accountDetailListCount : 0,
+        accountDetailListCount       : 0,
         accountDetailListCurrentPage : 1,
-        accountDetailListTotalPages : 1,
-        accountDetailListPagesArray : [],
+        accountDetailListTotalPages  : 1,
+        accountDetailListPagesArray  : [],
 
         currentDeleteIndex : -1,
 
 
-        accountDetailList     : [],
+        accountDetailList    : [],
+        accountPaymentDetail : [],
 
         isPlusList : [
             {
@@ -96,11 +100,11 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
     $scope.searchAccountDetailCount = function (){
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        UserAccountDetails.one('count').get($scope.data.searchOptions).then(function (users) {
-            $scope.data.accountDetailListCount = users.count;
-            $scope.data.accountDetailListTotalPages = Math.ceil(users.count / $scope.data.searchOptions.limit);
+        UserAccountDetails.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (accountDetailResult) {
+            $scope.data.accountDetailListCount = accountDetailResult.count;
+            $scope.data.accountDetailListTotalPages = Math.ceil(accountDetailResult.count / $scope.data.searchOptions.limit);
 
             $scope.data.accountDetailListPagesArray= [];
             for (var i = 1; i <= $scope.data.accountDetailListTotalPages; i++){
@@ -113,11 +117,9 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
     };
 
     $scope.searchAccountDetail = function (form) {
-        Util.delProperty($scope.data.searchOptions);
+        Util.delProperty($scope.data.searchOptions.query);
 
-        var options = angular.extend({}, $scope.data.searchOptions, $scope.data.searchSort);
-
-        UserAccountDetails.getList(options).then(function (result) {
+        UserAccountDetails.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (result) {
             $scope.data.accountDetailList = result;
             Notification.success({message: 'Search Success! ', delay: 8000});
 
@@ -200,8 +202,12 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
     $scope.showAccountPayment = function(accountdetailId){
 
-        PaymentDetails.getList({accountDetail:accountdetailId}).then(function (result) {
+        $scope.data.currentDeleteIndex = accountdetailId;
+
+        PaymentDetails.getList( {query : {accountDetail:"55ff96483c0b47cb3ef98fee"}}).then(function (result) {
             console.log(result);
+            $scope.data.accountPaymentDetail = result;
+
             Notification.success({message: 'Search Success! ', delay: 8000});
 
         }).catch(function(err){

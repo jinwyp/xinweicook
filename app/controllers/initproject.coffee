@@ -3,16 +3,12 @@ initData = require "../../test/initdata.js"
 initOldData = require "../../test/oldDish.js"
 
 
-exports.createAdmin = (req, res, next) ->
 
-  models.user.findOneAsync({group : "admin"}).then (resultUser) ->
-    if resultUser
-      return res.send("Admin already created before")
-    else
-      return models.user.createAsync(initData.userAdmin).then (resultUsers) ->
-        res.json resultUsers
 
-  .catch next
+initDataAdmin = require "../../test/initdata/administrator.js"
+initDataWarehouse = require "../../test/initdata/warehouse.js"
+initDataTag = require "../../test/initdata/tag.js"
+initDataDish = require "../../test/initdata/dish.js"
 
 
 
@@ -29,32 +25,6 @@ exports.removeDish = (req, res, next) ->
   .catch next
 
 
-exports.removeInventory = (req, res, next) ->
-  # 删除岳可诚 和 李凯 的测试订单库存记录
-  models.inventory.removeAsync({user:{$in:["55f6aa1bb66fd7da117d6450", "55dd2beff8a6195e11cd6abf", "55c81e4149439fde562d1180"]}}).then () ->
-    res.send "Remove OK"
-  .catch next
-
-
-exports.removeOrder = (req, res, next) ->
-
-  models.order.removeAsync({}).then () ->
-    models.coupon.removeAsync({})
-    res.send "Remove OK"
-  .catch next
-
-
-exports.removeCoupon = (req, res, next) ->
-
-#  models.coupon.findAsync({price: { $exists: false }}).then (result) ->
-#    res.send result
-#  .catch next
-
-  models.coupon.removeAsync({price: { $exists: false }}).then (result) ->
-    res.send result
-  .catch next
-
-
 
 exports.removeUser = (req, res, next) ->
 
@@ -66,16 +36,28 @@ exports.removeUser = (req, res, next) ->
   .catch next
 
 
-exports.removeAccountDetails = (req, res, next) ->
 
-  models.accountdetail.removeAsync({isPlus: true, isPaid:false ,chargeType:{$in:["alipaydirect", "weixinpay"]}  }).then (result) ->
-    res.send result
+
+exports.removeOrder = (req, res, next) ->
+
+  models.order.removeAsync({}).then () ->
+    models.coupon.removeAsync({})
+    res.send "Remove OK"
   .catch next
+
+
 
 
 
 exports.removeLog = (req, res, next) ->
   models.log.removeAsync({}).then () ->
+    res.send "Remove OK"
+  .catch next
+
+
+
+exports.removeSMS = (req, res, next) ->
+  models.sms.removeAsync({}).then () ->
     res.send "Remove OK"
   .catch next
 
@@ -90,14 +72,57 @@ exports.removeSetting = (req, res, next) ->
 
 
 
-exports.createDishTag = (req, res, next) ->
 
-  models.tag.findOneAsync({}).then (resultTag) ->
-    if resultTag
-      return res.send("TagFilter already created before")
+
+
+exports.removeWrongCoupon = (req, res, next) ->
+
+#  models.coupon.findAsync({price: { $exists: false }}).then (result) ->
+#    res.send result
+#  .catch next
+
+  models.coupon.removeAsync({price: { $exists: false }}).then (result) ->
+    res.send result
+  .catch next
+
+
+
+exports.removeTestInventory = (req, res, next) ->
+# 删除岳可诚 和 李凯 的测试订单库存记录
+  models.inventory.removeAsync({user:{$in:["55f6aa1bb66fd7da117d6450", "55dd2beff8a6195e11cd6abf", "55c81e4149439fde562d1180"]}}).then () ->
+    res.send "Remove OK"
+  .catch next
+
+
+
+
+
+exports.removeNotPaidAccountDetails = (req, res, next) ->
+
+  models.accountdetail.removeAsync({isPlus: true, isPaid:false ,chargeType:{$in:["alipaydirect", "weixinpay"]}  }).then (result) ->
+    res.send result
+  .catch next
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.createAdmin = (req, res, next) ->
+
+  models.user.findOneAsync({group : "admin"}).then (resultUser) ->
+    if resultUser
+      return res.send("Admin already created before")
     else
-      return models.tag.createAsync(initData.dishFilter).then (tags) ->
-        res.json tags
+      return models.user.createAsync(initAdmin).then (resultUsers) ->
+        res.json resultUsers
 
   .catch next
 
@@ -106,7 +131,47 @@ exports.createDishTag = (req, res, next) ->
 
 
 
-exports.createOldDish = (req, res, next) ->
+exports.createWarehouse = (req, res, next) ->
+
+  models.warehouse.findOneAsync({ name: 'xinweioffice' }).then (resultWarehouse) ->
+    if resultWarehouse
+      return res.send("Warehouse already created")
+    else
+      return models.warehouse.createAsync(initDataWarehouse).then (result) ->
+        res.json result
+
+  .catch next
+
+
+
+
+
+exports.createDishAndTag = (req, res, next) ->
+
+  models.tag.findOneAsync({}).then (resultTag) ->
+    if resultTag
+      return res.send("TagFilter already created before")
+    else
+
+      models.dish.findOneAsync({}).then (resultDish) ->
+        if resultDish
+          return res.send("Dish already created before")
+        else
+
+          models.tag.createAsync(initDataTag).then (tags) ->
+            models.dish.createAsync(initDataDish)
+
+          .then (result2Dishes) ->
+            res.json result2Dishes
+
+  .catch next
+
+
+
+
+
+
+exports.createOldDishMigrate = (req, res, next) ->
   oldDishList = []
   tempNumber = 0
   tempNumberPublic = 0
@@ -338,7 +403,7 @@ exports.createOldDish = (req, res, next) ->
 
 
 
-exports.initNewDish = (req, res, next) ->
+exports.initDishWithTopping = (req, res, next) ->
 
 
   preferencesAndTopping = [

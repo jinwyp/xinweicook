@@ -15,6 +15,7 @@ module.exports =
     gender: Number # 1 male 2 female
 
     fullName : String
+    nickname : String
 
     avatarPic: String
 
@@ -90,6 +91,16 @@ module.exports =
       access_token : String
       openid : String
       refresh_token : String
+      subscribe : String
+      nickname : String
+      sex : String
+      city : String
+      province : String
+      country : String
+      headimgurl : String
+      subscribe_time : String
+      remark : String
+      groupid : String
 
 
   statics:
@@ -106,6 +117,10 @@ module.exports =
         member : "member"
         courier : "courier"
         guest : "guest"
+
+    validationUserId : (_id) ->
+      unless libs.validator.isLength _id, 24, 24
+        return throw new Err "Field validation error,  User ID length must be 24-24", 400
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
@@ -190,15 +205,7 @@ module.exports =
 
       return false
 
-    signUp: (mobile, pwd, code) ->
-      models.sms.verifyCode("signUp", mobile, code).then((smscode) ->
-        if smscode[1] isnt 1
-          throw new Err "验证码保存失败", 400
-        models.user.findOneAsync(mobile: mobile).then (resultUser) ->
-          models.user.checkFound(resultUser)
-          unless resultUser
-            models.user.createAsync(mobile: mobile, pwd: pwd )
-      )
+
     resetPwd: (mobile, pwd, code) ->
       models.sms.verifyCode("resetPassword", mobile, code).bind(@).then((smscode)->
         if smscode[1] isnt 1
@@ -239,7 +246,7 @@ module.exports =
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4
   rest:
-    middleware : (req, res, next) ->
+    preMiddleware : (req, res, next) ->
       if req.method is "POST"
         models.user.findOne({$or:[{username:req.body.username},{mobile:req.body.mobile}, {email:req.body.email} ]}, (err, result)->
           if result

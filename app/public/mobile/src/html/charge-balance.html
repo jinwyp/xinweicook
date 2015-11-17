@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <%- include('includes/css.html') %>
+    <title>充值码充值</title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+</head>
+<body ng-app="xw" ng-controller="chargeBalanceCtrl">
+
+<nav class="nav">
+    <back-button></back-button>
+    <span>充值码充值</span>
+</nav>
+
+<div class="charge-balance-main" ng-cloak>
+    <form name="chargeBalanceForm" class="form-horizontal">
+        <div class="form-block ">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <input required placeholder="请输入您的充值码" name="invitationCode" maxlength="10" minlength="10"
+                           ng-model="code" id="chargeBalanceCode" type="text" class="form-control"/>
+                </div>
+            </div>
+        </div>
+
+        <span ng-click="chargeBalanceForm.$valid && charge(code)" class="charge-button" ng-class="{invalid: chargeBalanceForm.$invalid}">
+            使用充值码
+        </span>
+    </form>
+</div>
+
+</body>
+
+<%- include('includes/js.html') %>
+<!-- build-replace-->
+<!-- build:chargeBalance.js(app/public/mobile/src) ../js/controllers/charge-balance.js -->
+<script src="/mobile/src/js/controllers/charge-balance.js"></script>
+<!-- endbuild -->
+<!-- end-build-replace-->
+</html>
