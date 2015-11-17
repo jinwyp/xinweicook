@@ -1,8 +1,8 @@
-angular.module('xw.services').provider('Debug', function (Utils) {
+angular.module('xw.services').provider('Debug', function () {
     var that = this;
     that.debugKey = 'debug';
 
-    this.$get = function () {
+    this.$get = function (Utils) {
         var isDebug = new RegExp('\\b' + that.debugKey + '\\b');
         var fakeWarehouse = '';
         var searches = Utils.searches(location.search);
