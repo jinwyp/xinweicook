@@ -61,7 +61,7 @@ module.exports =
             nearest.warehouseDistance = placeBaidu.distance.value
             nearest.warehouseName = placeBaidu.name
 
-      nearest
+      return nearest
 
 
     correctDistanceForCaohejing1Warehouse : (resultBaidu, userAddress) ->
@@ -80,7 +80,7 @@ module.exports =
           placeBaidu.distance.value = models.warehouse.getDistanceFromTwoPoint(origin, destination)
           placeBaidu.distance.text = (parseInt(models.warehouse.getDistanceFromTwoPoint(origin, destination) / 100) / 10) + "公里"
 
-      resultBaidu
+      return resultBaidu
 
 
     # 计算两点直线距离 https://github.com/googollee/eviltransform

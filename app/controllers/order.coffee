@@ -705,7 +705,7 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  models.warehouse.findAsync({}).then (resultWarehouseList) ->
+  models.warehouse.find99({}).then (resultWarehouseList) ->
 
     tempWarehouse = {}
     result = {}
@@ -713,8 +713,6 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
     for warehouse, warehouseIndex in resultWarehouseList
       tempWarehouse[warehouse._id] = warehouse.toObject()
       tempWarehouse[warehouse.name] = warehouse.toObject()
-
-
 
 
     if req.body.warehouseName is "xinweioffice"

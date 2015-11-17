@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', 'Warehouses', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic) {
+function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic, Warehouses) {
 
     $scope.data = {
         searchFilter : '',
@@ -38,6 +38,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         dishAllList : [],
         dishList : [],
         inventoryList : [],
+        warehouseList : [],
+
         dishStatisticByStock : [],
         dishStatisticByDaily : [],
         dishStatisticChartByDaily : [],
@@ -144,8 +146,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
             stock : 20,
 
-            addInventory : 20,
-            reduceInventory : 1
+            addInventory : {},
+            reduceInventory : {}
 
         },
 
@@ -400,10 +402,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
             Statistic.getDishStatisticByStock(options).then(function (result) {
                 $scope.data.dishStatisticByStock = result.data;
-                Notification.success({message: 'Search Success! ', delay: 8000});
+                Notification.success({message: 'Search Success! ', delay: 4000});
             }).catch(function(err){
                 console.log(err);
-                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
             });
         }
 
@@ -421,10 +423,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Statistic.getDishStatisticByDaily(options).then(function (result) {
             $scope.data.dishStatisticByDaily = result.data;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -450,10 +452,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
             $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
 
@@ -476,10 +478,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             };
 
             $scope.data.dishList = resultDish;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -493,12 +495,40 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 $scope.data.dishList = resultDishes;
             });
 
-            Notification.success({message: 'Delete Success', delay: 8000});
+            Notification.success({message: 'Delete Success', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Delete Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
+    };
+
+    var tempStockWarehouseObject = {};
+    $scope.getSingleDishInfo = function (){
+
+        Dishes.one($stateParams.id).get().then(function (resultDish) {
+            $scope.data.dish = resultDish;
+
+            if (angular.isArray($scope.data.dish.stockWarehouse) && $scope.data.dish.stockWarehouse.length > 0){
+                angular.forEach($scope.data.dish.stockWarehouse, function(warehouseStock){
+                    tempStockWarehouseObject[warehouseStock.warehouse] = warehouseStock;
+                });
+            }
+
+            Warehouses.getList(Util.formatParam({sort:'-sortId'}, true)).then(function (resultWarehouses) {
+                $scope.data.warehouseList = resultWarehouses;
+
+                angular.forEach($scope.data.warehouseList, function(warehouse, warehouseIndex){
+                    if (typeof tempStockWarehouseObject[warehouse._id] !== 'undefined'){
+                        warehouse.stock = tempStockWarehouseObject[warehouse._id].stock;
+                    }
+                });
+
+            }).catch(function(err){
+                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+            });
+
+        });
     };
 
 
@@ -513,26 +543,63 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     }
 
 
+
+
     if ($state.current.data.type === 'update'){
         $scope.css.isAddNewStatus = false;
-
 
         Tags.getList().then(function (tags) {
             $scope.data.tagList = tags;
         });
 
+        Dishes.getList().then(function (resultDish) {
+            $scope.data.dishAllList = resultDish;
+        });
+
+        $scope.getSingleDishInfo();
+    }
+
+
+    if ($state.current.data.type === 'add'){
+
+        Tags.getList().then(function (tags) {
+            $scope.data.tagList = tags;
+        });
 
         Dishes.getList().then(function (resultDish) {
             $scope.data.dishAllList = resultDish;
         });
 
-        Dishes.one($stateParams.id).get().then(function (resultDish) {
-            $scope.data.dish = resultDish;
-        });
     }
 
 
 
+    $scope.updateDishInventroy = function(form, warehouseId, isPlus){
+
+        if (form.$invalid) {
+            return;
+        }
+
+        if (isPlus) {
+            $scope.data.dish.addInventoryWarehouseStock = $scope.data.dish.addInventory[warehouseId];
+            $scope.data.dish.addInventoryWarehouseId = warehouseId;
+        }else{
+            $scope.data.dish.reduceInventoryWarehouseStock = $scope.data.dish.reduceInventory[warehouseId];
+            $scope.data.dish.reduceInventoryWarehouseId = warehouseId;
+        }
+
+
+        $scope.data.dish.put().then(function (resultDish) {
+
+            $scope.getSingleDishInfo();
+
+            Notification.success({message: 'Update Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
 
 
 
@@ -548,10 +615,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         Dishes.post(newDish).then(function (resultDish) {
 
             console.log(resultDish);
-            Notification.success({message: 'Save Success', delay: 8000});
+            Notification.success({message: 'Save Success', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Create New Dish Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Create New Dish Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -566,10 +633,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             Dishes.one($stateParams.id).get().then(function (resultDish) {
                 $scope.data.dish = resultDish;
             });
-            Notification.success({message: 'Update Success! ', delay: 8000});
+            Notification.success({message: 'Update Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -669,14 +736,20 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     };
 
-    $scope.showInventory = function () {
+    $scope.showInventory = function (filter) {
+
+        if (filter){
+            $scope.data.searchFilter = filter;
+        }else{
+            $scope.data.searchFilter = '';
+        }
 
         Inventories.getList( { query : {dish : $stateParams.id}, sort : '-createdAt'}).then(function (result) {
             $scope.data.inventoryList = result;
-            Notification.success({message: 'Search Success', delay: 8000});
+            Notification.success({message: 'Search Success', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
 

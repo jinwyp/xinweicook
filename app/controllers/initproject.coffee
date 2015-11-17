@@ -4,7 +4,6 @@ initOldData = require "../../test/oldDish.js"
 
 
 
-
 initDataAdmin = require "../../test/initdata/administrator.js"
 initDataWarehouse = require "../../test/initdata/warehouse.js"
 initDataTag = require "../../test/initdata/tag.js"
