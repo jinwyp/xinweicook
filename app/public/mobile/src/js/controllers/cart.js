@@ -21,8 +21,6 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     }
 
-    $scope.fn = {};
-
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
         item.number++;
@@ -39,7 +37,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var key = item.dish.cookingType == 'ready to cook' ? 'cookList' : 'eatList';
         var list = $scope.dishList[key];
         if (item.number == 1) {
-            $scope.fn.confirm().then(function (confirm) {
+            $scope.confirm().then(function (confirm) {
                 if (!confirm) return;
 
                 item.number--;

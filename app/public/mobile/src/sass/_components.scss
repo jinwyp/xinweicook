@@ -185,3 +185,31 @@
     z-index: 1;
   }
 }
+
+.xw-confirm {
+  .xw-modal-content {
+    height: 150px;
+    width: 76%;
+    border-radius: 4px;
+    text-align: center;
+
+    .text {
+      height: 100px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 15px;
+    }
+
+    .button-group {
+      font-size: 0;
+      span {
+        font-size: 14px;
+        padding: 7px 13px;
+        border: 1px solid;
+        &:not(:last-child) {
+          margin-right: 22px;
+        }
+      }
+    }
+  }
+}

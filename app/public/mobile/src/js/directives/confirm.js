@@ -5,7 +5,7 @@ angular.module('xw.directives').directive('confirm', function ($q) {
         scope: {
             show: "="
         },
-        templateUrl: 'modal.html',
+        templateUrl: 'confirm.html',
         link: function (scope) {
             var deferred;
             scope.show = function () {
