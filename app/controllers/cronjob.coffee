@@ -21,7 +21,7 @@ exports.runCronJob = (req, res, next) ->
                   if resultDish
                     logger.warn "---------- Dish Add Inventory: ", resultDish._id, resultDish.title.zh, dish.quantity
                     # 55b1b25612e798ef1214701a 为 13564568301 管理员ID
-                    resultDish.addStock(dish.quantity, {_id:"55b1b25612e798ef1214701a"}, "cronjob").then (resultDish) ->
+                    resultDish.addStock(dish.quantity, "56332187594b09af6e6c7dd2", {_id:"55b1b25612e798ef1214701a"}, "cronjob").then (resultDish) ->
                       job.logList.push({isExecuted : true, message : resultDish[0].title.zh + " / Added quantity:" + dish.quantity + " / Now stock:" + resultDish[0].stock})
                       job.saveAsync()
 
