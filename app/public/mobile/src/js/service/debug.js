@@ -1,13 +1,20 @@
-angular.module('xw.services').provider('Debug', function () {
+angular.module('xw.services').provider('Debug', function (Utils) {
     var that = this;
     that.debugKey = 'debug';
 
     this.$get = function () {
         var isDebug = new RegExp('\\b' + that.debugKey + '\\b');
+        var fakeWarehouse = '';
+        var searches = Utils.searches(location.search);
         isDebug = isDebug.test(location.search) || !!sessionStorage.getItem('debug');
 
         if (isDebug && !sessionStorage.getItem('debug')) {
             sessionStorage.setItem('debug', 'true');
+        }
+        if (isDebug) {
+            if ('fakewarehouse' in searches) {
+                fakeWarehouse = searches.fakewarehouse;
+            }
         }
 
         var ret = {
@@ -31,7 +38,8 @@ angular.module('xw.services').provider('Debug', function () {
                     ret.alert(msg);
                     ret.alert(res);
                 }
-            }
+            },
+            fakeWarehouse: fakeWarehouse
         };
         
         return ret

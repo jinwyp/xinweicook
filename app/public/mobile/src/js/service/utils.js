@@ -73,6 +73,22 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
                     delete $localStorage[key];
                 }
             })
+        },
+
+        /**
+         * 接收'?a=1&b=&c'这样的查询字符串,输出:{a:1, b:'', c: ''}
+         * @param search - 如果没有则使用location.search
+         * @returns {*}
+         */
+        searches: function (search) {
+            search = search || location.search;
+            return search.slice(1).split('&').reduce(function (obj, cur) {
+                if (cur) {
+                    cur = cur.split('=');
+                    obj[cur[0]] = decodeURIComponent(cur[1] || '');
+                }
+                return obj;
+            }, {});
         }
 
 

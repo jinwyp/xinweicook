@@ -177,6 +177,8 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             }), function (a, b) {
                 return (a.distance - topDistance2HQ + 1100) - (b.distance - topDistance2CHJ)
             });
+
+            if (Debug.fakeWarehouse) {return Debug.fakeWarehouse}
             return warehouses[0].name;
 
         },
