@@ -92,23 +92,21 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
             dishes = $scope.dishes;
         }
 
-        $timeout(function () {
-            $scope.dishes = dishes.filter(function (dish) {
+        $scope.dishes = dishes.filter(function (dish) {
 
-                var _warehouse = warehouse || 'xinweioffice';
-                if (_warehouse == 'caohejing1') {
-                    return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
-                } else {
-                    return dish.showForWarehouse != 'caohejing1';
-                }
-            });    
-        }, 0);
+            var _warehouse = warehouse || 'xinweioffice';
+            if (_warehouse == 'caohejing1') {
+                return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
+            } else {
+                return dish.showForWarehouse != 'caohejing1';
+            }
+        });
         
 
         // ugly DOM code in the controller to trigger `img-lazy-load`.
-        //$timeout(function () {
-        //    window.scrollTo(0, window.scrollY + 1);
-        //})
+        $timeout(function () {
+            window.scrollTo(0, window.scrollY + 0.1);
+        })
     }
 
     function getDishList(warehouse) {
