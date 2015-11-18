@@ -104,7 +104,7 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
             var addr = css.cur == -2 ? newAddr : $scope.address[css.edit];
             Map.suggestion(data.street, addr.city || '全国')
                 .then(function (res) {
-                $scope.data.streetList = res.data.result.filter(function (address) {
+                $scope.data.streetList = res.data.results.filter(function (address) {
                     return (!!address.city && !!address.location && address.name != '漕河泾' )
                 });
             })

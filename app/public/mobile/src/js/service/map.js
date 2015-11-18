@@ -15,6 +15,11 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
 
         suggestion: function (query, region) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
+                .then(function (res) {
+                res.data.results.forEach(function (addr) {
+
+                })
+            })
         },
 
         // 坐标转化

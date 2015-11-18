@@ -132,6 +132,26 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
     }
 });
 
+angular.module('xw.models').factory('Address', function ($http) {
+    return {
+        getList: function () {
+            return $http.get('/api/user/address')
+        },
+        addOne: function (address) {
+            return $http.post('/api/user/address', address)
+        },
+        update: function (id, address) {
+            return $http.put('/api/user/address' + id, address)
+        },
+        'delete': function (id) {
+            return $http.delete('/api/user/address' + id)
+        },
+        range: function () {
+            return $http.get('/api/orders/delivery/range')
+        }
+    }
+});
+
 angular.module('xw.models').factory('Coupon', function ($http) {
     return {
         getCouponInfo: function (code) {

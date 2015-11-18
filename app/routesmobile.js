@@ -129,7 +129,7 @@ expressRoutes = function(app) {
                 'ak=' + ak + '&' +
                 'output=json';
 
-        var url = 'http://api.map.baidu.com/place/v2/suggestion?' + params;
+        var url = 'http://api.map.baidu.com/place/v2/search?' + params;
         request(url, function (err, response, body) {
             if (err) {
                 next(err)

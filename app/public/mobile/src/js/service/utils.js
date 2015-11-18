@@ -89,6 +89,18 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
                 }
                 return obj;
             }, {});
+        },
+
+        /**
+         * 确认两个地址是否相同,比如上海和上海市应该是相同的
+         * @param addr1
+         * @param addr2
+         * @param type
+         * @returns {boolean}
+         */
+        addressEqual: function (addr1, addr2, type) {
+
+            return true;
         }
 
 
