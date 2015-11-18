@@ -147,11 +147,9 @@ exports.fixDishWarehouseStock = (req, res, next) ->
             for warehouse, warehouseIndex in resultWarehouse
 
               if not dishData.stockWarehouse[warehouseIndex]
-                console.log("111",warehouseIndex)
                 dishData.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
 
             for warehouse, warehouseIndex in resultWarehouse
-              console.log("222",dishData.showForWarehouse, dishData.stockWarehouse[warehouseIndex].warehouse)
               if dishData.showForWarehouse is "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332196594b09af6e6c7dd7"
                 dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
 
