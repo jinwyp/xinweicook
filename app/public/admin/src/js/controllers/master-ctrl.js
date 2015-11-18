@@ -91,6 +91,11 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     };
 
 
+    $scope.fixWarehouseStock = function () {
+        $http.get('/api/administrator/initwarehousestock');
+    };
+
+
 
 
     $scope.changeCouponStartDate = function () {

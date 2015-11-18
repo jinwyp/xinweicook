@@ -140,21 +140,23 @@ exports.fixDishWarehouseStock = (req, res, next) ->
 
         for dishData, dishIndex in resultDish
           tempStockWarehouseObject[dishData._id] = dishData.stock
-          dishData.stockWarehouse = []
 
-          for warehouse, warehouseIndex in resultWarehouse
+          if not dishData.stockWarehouse or dishData.stockWarehouse.length is 0
+            dishData.stockWarehouse = []
 
-            if not dishData.stockWarehouse[warehouseIndex]
-              console.log("111",warehouseIndex)
-              dishData.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
+            for warehouse, warehouseIndex in resultWarehouse
 
-          for warehouse, warehouseIndex in resultWarehouse
-            console.log("222",dishData.showForWarehouse, dishData.stockWarehouse[warehouseIndex].warehouse)
-            if dishData.showForWarehouse is "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332196594b09af6e6c7dd7"
-              dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
+              if not dishData.stockWarehouse[warehouseIndex]
+                console.log("111",warehouseIndex)
+                dishData.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
 
-            if dishData.showForWarehouse isnt "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332187594b09af6e6c7dd2"
-              dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
+            for warehouse, warehouseIndex in resultWarehouse
+              console.log("222",dishData.showForWarehouse, dishData.stockWarehouse[warehouseIndex].warehouse)
+              if dishData.showForWarehouse is "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332196594b09af6e6c7dd7"
+                dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
+
+              if dishData.showForWarehouse isnt "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332187594b09af6e6c7dd2"
+                dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
 
           dishData.saveAsync()
 
