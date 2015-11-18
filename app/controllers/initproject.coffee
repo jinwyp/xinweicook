@@ -156,6 +156,9 @@ exports.fixDishWarehouseStock = (req, res, next) ->
               if dishData.showForWarehouse isnt "caohejing1" and dishData.stockWarehouse[warehouseIndex].warehouse.toString() is "56332187594b09af6e6c7dd2"
                 dishData.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[dishData._id]
 
+          if dishData.showForWarehouse isnt "caohejing1"
+            dishData.showForWarehouse = "xinweioffice"
+
           dishData.saveAsync()
 
 

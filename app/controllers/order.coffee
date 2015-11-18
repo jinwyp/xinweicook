@@ -449,7 +449,7 @@ exports.addNewOrder = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
-      models.dish.checkOutOfStock(dish)
+      models.dish.checkOutOfStock(dish, newOrder.warehouse)
 
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
