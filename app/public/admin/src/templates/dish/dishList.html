@@ -52,10 +52,13 @@
 
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$valid, 'has-error':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$invalid}">
                     <label for="inputShowForWarehouse" class="col-lg-2 control-label" >仓库</label>
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                         <label class="radio-inline" ng-repeat="status in data.showForWarehouseList">
                             <input type="radio" name="showForWarehouse" id="inputShowForWarehouse" ng-value="status.value" ng-model="data.searchOptions.query.showForWarehouse">{{status.name}}
                         </label>
+                    </div>
+                    <div class="col-lg-4">
+                        (该项不用于判断能否下单，仅用于显示菜品，请补充相应仓库库存作为能否下单标志)
                     </div>
                 </div>
 
