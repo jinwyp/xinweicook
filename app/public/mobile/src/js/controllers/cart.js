@@ -40,19 +40,23 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             $scope.confirm().then(function (confirm) {
                 if (!confirm) return;
 
-                item.number--;
-                item.subDish.forEach(function (el) {
-                    el.number--;
-                });
+                remove();
+            })
+        } else remove();
 
-                if (!item.number) {
-                    list.splice(idx, 1);
-                    postCart.splice(postCart.indexOf(item), 1);
-                }
+        function remove() {
+            item.number--;
+            item.subDish.forEach(function (el) {
+                el.number--;
+            });
 
-                User.postCart(postCart.map(postDishFilter)).catch(function () {
-                    $localStorage.localBag = postCart;
-                })
+            if (!item.number) {
+                list.splice(idx, 1);
+                postCart.splice(postCart.indexOf(item), 1);
+            }
+
+            User.postCart(postCart.map(postDishFilter)).catch(function () {
+                $localStorage.localBag = postCart;
             })
         }
     };

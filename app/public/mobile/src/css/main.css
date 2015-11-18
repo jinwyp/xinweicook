@@ -153,13 +153,13 @@ label {
   display: inline-block;
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIcon.png?1447323318') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIcon.png?1447740841') 50%/cover no-repeat;
 }
 /* line 169, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIconHighlighted.png?1447323318') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIconHighlighted.png?1447740841') 50%/cover no-repeat;
 }
 
 /* line 176, ../sass/_base.scss */
@@ -2126,7 +2126,7 @@ html.order-address-html body {
 /* line 68, ../sass/pages/_order-pay.scss */
 .order-pay-main .block .select .xw-modal-content ul {
   overflow: auto;
-  width: 77%;
+  width: 80%;
   margin: auto;
 }
 /* line 73, ../sass/pages/_order-pay.scss */
