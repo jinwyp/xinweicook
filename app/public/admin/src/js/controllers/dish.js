@@ -227,11 +227,15 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             },
             {
                 name : '新味办公室',
-                value : '!=caohejing1'
+                value : 'xinweioffice'
             },
             {
-                name : '漕河泾',
+                name : '漕河泾仓库',
                 value : 'caohejing1'
+            },
+            {
+                name : '陆家嘴仓库',
+                value : 'lujiazui1'
             }
         ],
 

@@ -132,9 +132,14 @@ module.exports =
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
 
-    checkOutOfStock : (dish) ->
+    checkOutOfStock : (dish, warehouseId) ->
       if dish.stock <=0
-        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400, Err.code.dish.outOfStock
+        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 总库存不足", 400, Err.code.dish.outOfStock
+      else
+        if dish.stockWarehouse.length > 0
+          for warehouse, warehouseIndex in dish.stockWarehouse
+            if warehouse.warehouse.toString() is warehouseId.toString() and warehouse.stock <= 0
+              return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
 
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24

@@ -32,10 +32,10 @@ var warehouseList = [
     {
         "_id"                  : "564ab6de2bde80bd10a9bc60",
         "name"                 : "lujiazui1",
-        "locationGeoLatitude"  : 31.575474,
-        "locationGeoLongitude" : 121.40523,
-        "displayName"          : {"zh" : "陆家嘴仓库", "en" : "lujiazui warehouse"},
-        "address"              : "东方路2xx号",
+        "locationGeoLatitude"  : 0,
+        "locationGeoLongitude" : 0,
+        "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui warehouse"},
+        "address"              : "东方路227号",
         "deliveryRange"        : 1500,
         "sortId"               : 800,
         "isActivated"          : true
