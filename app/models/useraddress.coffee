@@ -91,7 +91,7 @@ module.exports =
       result =
         lng: z * Math.cos(theta) + 0.0065
         lat: z * Math.sin(theta) + 0.006
-      console.log(result)
+
       return result
 
 

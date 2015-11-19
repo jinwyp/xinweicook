@@ -36,9 +36,6 @@ baiduMap = Map({ak:"hGHhGxXeioV00csas6otDPM0"})
 
 
 
-
-
-
 exports.getUploadResponse = (req, res) ->
 
   infoObject = req.body
@@ -766,7 +763,7 @@ exports.addNewAddress = (req, res, next) ->
 
 
     # 判断与哪个仓库最近, 最近的仓库发货
-    nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+    nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(resultBaidu, tempWarehouse, tempAddress)
 
     if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
       tempAddress.distanceFrom = nearestWarehouse.warehouseDistance
@@ -873,21 +870,22 @@ exports.updateAddress = (req, res, next) ->
       if resultBaidu.status and resultBaidu.status isnt 0
         throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
-      console.log("baiduresult : ", resultBaidu)
 
       # 漕河泾仓库使用直线距离
       resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, result)
 
 
       # 判断与哪个仓库最近, 最近的仓库发货
-      nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+      nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(resultBaidu, tempWarehouse, result)
 
       if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
         result.distanceFrom = nearestWarehouse.warehouseDistance
         result.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
         result.isAvailableForEat = true
       else
+        result.distanceFrom = 0
         result.isAvailableForEat = false
+
 
 
       if req.body.isDefault
