@@ -13,9 +13,9 @@ var warehouseList = [
         "locationGeoLatitude"  : 31.195693,
         "locationGeoLongitude" : 121.467155,
         "displayName"          : {"zh" : "新味办公室", "en" : "Xinwei Office"},
-        "address" : "中山南二路510号",
-        "deliveryRange": 6000 ,
-        "sortId": 100,
+        "address"              : "中山南二路510号",
+        "deliveryRange"        : 6000,
+        "sortId"               : 1000,
         "isActivated"          : true
     },
     {
@@ -24,9 +24,20 @@ var warehouseList = [
         "locationGeoLatitude"  : 31.175474,
         "locationGeoLongitude" : 121.40523,
         "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
-        "address" : "虹梅路2008号虹梅大楼",
-        "deliveryRange": 1500 ,
-        "sortId": 10,
+        "address"              : "虹梅路2008号虹梅大楼",
+        "deliveryRange"        : 1500,
+        "sortId"               : 900,
+        "isActivated"          : true
+    },
+    {
+        "_id"                  : "564ab6de2bde80bd10a9bc60",
+        "name"                 : "lujiazui1",
+        "locationGeoLatitude"  : 0,
+        "locationGeoLongitude" : 0,
+        "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui warehouse"},
+        "address"              : "东方路227号",
+        "deliveryRange"        : 1500,
+        "sortId"               : 800,
         "isActivated"          : true
     }
 

@@ -449,7 +449,7 @@ exports.addNewOrder = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
-      models.dish.checkOutOfStock(dish)
+      models.dish.checkOutOfStock(dish, newOrder.warehouse)
 
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
@@ -641,7 +641,7 @@ exports.addNewOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -705,7 +705,7 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  models.warehouse.findAsync({}).then (resultWarehouseList) ->
+  models.warehouse.find99({}).then (resultWarehouseList) ->
 
     tempWarehouse = {}
     result = {}
@@ -713,8 +713,6 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
     for warehouse, warehouseIndex in resultWarehouseList
       tempWarehouse[warehouse._id] = warehouse.toObject()
       tempWarehouse[warehouse.name] = warehouse.toObject()
-
-
 
 
     if req.body.warehouseName is "xinweioffice"
@@ -867,7 +865,7 @@ exports.updateOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)

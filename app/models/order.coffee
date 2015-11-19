@@ -230,7 +230,7 @@ module.exports =
     checkInvalidDishIdList : (sourceDishIdList, dataBaseDishIdList) ->
       invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
       if invalidDishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400, Err.code.order.dishIdInvalid
+        throw new Err "Some dish invalid in this order ! " + invalidDishIdList.toString(), 400, Err.code.order.dishIdInvalid
 
     checkInvalidDrink : (dishList) ->
       drinkList = []
