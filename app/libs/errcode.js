@@ -25,7 +25,9 @@ module.exports = {
 
         addressContactPersonWrong : 1235,
         addressMobileWrong        : 1236,
-        addressSortOrderWrong     : 1237
+        addressSortOrderWrong     : 1237,
+
+        addressBaiduMapNotFoundError     : 1280
 
     },
     order: {

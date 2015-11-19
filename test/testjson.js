@@ -215,6 +215,7 @@ var simpleWeixinMapRes = {
 
 
 
+// http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-geocoding
 var simpleBaiduMapRes = {
     status: 0,
     result : {

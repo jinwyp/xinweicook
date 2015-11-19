@@ -147,17 +147,4 @@ module.exports =
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()
 
-  rest:
-    preMiddleware : (req, res, next) ->
-      if req.method is "GET"
-
-        if req.params.id
-          models.useraccount.findOne( {user:req.params.id}, (err, result)->
-            if result
-              req.params.id = result._id.toString()
-            next()
-          )
-        else
-          next()
-      else
-        next()
+  rest:{}

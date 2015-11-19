@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>481</integer>
+                    <integer>526</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z314 z311 z316 z317 z315 z313"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 3B5:RYALf8nWZG1SIxUJHxKKtPEBF2o8jfW5</attribute>
+        <attribute name="value" type="string">Bearer 2Cp:7t7IuPcT7bk2H2gcimKm98gqL/ZdAeag</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -3440,7 +3440,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z490 z492"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z492">
-        <attribute name="value" type="string">Bearer 2Bj:2oKqS05u21fPfSORAB7oNb38FIkWpX+i</attribute>
+        <attribute name="value" type="string">Bearer 2Cp:7t7IuPcT7bk2H2gcimKm98gqL/ZdAeag</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z491"></relationship>
     </object>
@@ -3551,12 +3551,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"123456\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\",\\"couponcode\\":\\"XWSALES003\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"grant_type\\":\\"password\\",\\"username\\":\\"13564568304\\",\\"password\\":\\"xwcook789\\",\\"deviceToken\\":\\"0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a\\",\\"couponcode\\":\\"XWSALES003\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">9</attribute>
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z511 z510 z514 z517 z512 z515 z513"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z512 z514 z511 z513 z510 z515 z517"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z517">
         <attribute name="value" type="string">Bearer </attribute>

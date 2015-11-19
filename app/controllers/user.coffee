@@ -757,7 +757,8 @@ exports.addNewAddress = (req, res, next) ->
   .then (resultBaidu) ->
 
     if resultBaidu.status and resultBaidu.status isnt 0
-      throw(new Err resultBaidu.message, 400)
+      throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
+
 
 
     # 漕河泾仓库使用直线距离
@@ -870,8 +871,9 @@ exports.updateAddress = (req, res, next) ->
     .then (resultBaidu) ->
 
       if resultBaidu.status and resultBaidu.status isnt 0
-        throw(new Err resultBaidu.message, 400)
+        throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
+      console.log("baiduresult : ", resultBaidu)
 
       # 漕河泾仓库使用直线距离
       resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, result)
