@@ -1,16 +1,23 @@
-<div ng-class="{cur: css.cur, edit: css.edit}"
+<div class="address-component" ng-class="{cur: css.cur, edit: css.edit}"
     ng-click="choose($event)">
-    <span class="deliverable-tag" ng-if="addr.isAvailableForEat">便当可送达</span>
-    <div>{{addr.contactPerson}}</div>
-    <div class="cur-show">{{addr.mobile | beautifyMobile}}</div>
-    <div class="cur-show">{{addr.province + ' ' + addr.city + ' ' + addr.district}}</div>
-    <div>{{addr.street}}</div>
-    <div class="cur-show">{{addr.address}}</div>
 
-    <div class="user-actions">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span ng-click="deleteAddress($event)" class="glyphicon glyphicon-trash"></span>
+    <div class="address-block" ng-if="oldAddress">
+        <span class="deliverable-tag" ng-if="addr.isAvailableForEat">便当可送达</span>
+        <div>{{addr.contactPerson}}</div>
+        <div class="cur-show">{{addr.mobile | beautifyMobile}}</div>
+        <div class="cur-show">{{addr.province + ' ' + addr.city + ' ' + addr.district}}</div>
+        <div>{{addr.street}}</div>
+        <div class="cur-show">{{addr.address}}</div>
+        <div class="user-actions">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span ng-click="deleteAddress($event)" class="glyphicon glyphicon-trash"></span>
+        </div>
     </div>
+
+    <div class="new-address-block" ng-if="!oldAddress">
+        + 新建收货地址
+    </div>
+
 
     <form ng-if="css.edit" name="form">
         <div ng-init="initForm(form, addr)" ng-class="{'with-tag': addr.isAvailableForEat}">
@@ -64,7 +71,7 @@
         </div>
     </form>
 
-    <div class="search-address-main" ng-if="css.edit && css.showSearchAddress" ng-cloak>
+    <div class="search-address-main" ng-if="css.edit && css.showSearchAddress">
         <form id="address-form">
             <!--<span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>-->
             <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"
@@ -83,7 +90,7 @@
         <ul class="results">
             <li ng-click="confirmStreet(street)" ng-repeat="street in data.streetList">
                 <h4>{{street.name}}</h4>
-                <p>{{street.city + street.district}}</p>
+                <p>{{street.address}}</p>
             </li>
         </ul>
     </div>

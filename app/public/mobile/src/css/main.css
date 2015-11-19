@@ -886,71 +886,6 @@ form .err-tip {
   position: relative;
   margin-bottom: 7px;
   background-color: white;
-  padding-left: 37px;
-}
-/* line 11, ../sass/pages/_addresslist.scss */
-.address-main .address-list li .select-button {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: url(../img/icons/ForkIcon.png) 50% no-repeat;
-  background-size: 65%;
-  width: 36px;
-  height: 100%;
-}
-/* line 19, ../sass/pages/_addresslist.scss */
-.address-main .address-list li .select-button.active {
-  background: url(../img/icons/ForkIconHighlighted.png) 50% no-repeat;
-  background-size: 65%;
-}
-/* line 24, ../sass/pages/_addresslist.scss */
-.address-main .address-list li .detail {
-  padding-bottom: 8px;
-  overflow-x: hidden;
-}
-/* line 28, ../sass/pages/_addresslist.scss */
-.address-main .address-list li .edit {
-  background-color: #dddddd;
-  color: #848280;
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 63px;
-  line-height: 63px;
-}
-/* line 39, ../sass/pages/_addresslist.scss */
-.address-main .address-list .warn-invalid-address {
-  position: absolute;
-  height: 100%;
-  width: calc(100% - 63px);
-  left: 0;
-  top: 0;
-  margin-right: 63px;
-  line-height: 63px;
-  background-color: rgba(247, 3, 3, 0.49);
-  color: #F6FB04;
-  font-size: 16px;
-}
-/* line 53, ../sass/pages/_addresslist.scss */
-.address-main .no-address-tip {
-  margin: 52px;
-  font-size: 16px;
-}
-
-/* line 59, ../sass/pages/_addresslist.scss */
-.icon-add {
-  position: absolute;
-  top: 0;
-  width: 45px;
-  line-height: 38px;
-  height: 45px;
-  right: 0;
-  font-size: 34px;
-}
-/* line 67, ../sass/pages/_addresslist.scss */
-.icon-add::before {
-  content: "+";
 }
 
 /* line 3, ../sass/pages/_addressedit.scss */
@@ -2492,4 +2427,146 @@ html.order-address-html body {
 /* line 210, ../sass/_components.scss */
 .xw-confirm .xw-modal-content .button-group span:not(:last-child) {
   margin-right: 22px;
+}
+
+/* line 218, ../sass/_components.scss */
+.address-component {
+  border: 2px solid #DCDFDE;
+  padding: 5px 0;
+  color: #777;
+  position: relative;
+}
+/* line 223, ../sass/_components.scss */
+.address-component:not(:first-child) {
+  margin: 12px 0;
+}
+/* line 227, ../sass/_components.scss */
+.address-component .deliverable-tag {
+  font-size: 12px;
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 6px;
+  color: white;
+  background-color: #E2E2E2;
+  line-height: 2;
+  padding: 0 .9em;
+}
+/* line 239, ../sass/_components.scss */
+.address-component form {
+  position: absolute;
+  background-color: white;
+  top: 0;
+  width: 100%;
+}
+/* line 246, ../sass/_components.scss */
+.address-component form > div, .address-component .address-block > div {
+  line-height: 34px;
+  padding-left: 10px;
+  height: 40px;
+  position: relative;
+}
+/* line 255, ../sass/_components.scss */
+.address-component form > div.with-tag .err-tip {
+  right: 83px;
+}
+/* line 259, ../sass/_components.scss */
+.address-component form > div.selects {
+  width: 100%;
+}
+/* line 261, ../sass/_components.scss */
+.address-component form > div.selects .select {
+  position: relative;
+  display: inline-block;
+  width: 31%;
+}
+/* line 265, ../sass/_components.scss */
+.address-component form > div.selects .select::after {
+  font-weight: 700;
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  border: 5px transparent solid;
+  border-top: 6px black solid;
+}
+/* line 275, ../sass/_components.scss */
+.address-component form > div.selects select {
+  width: 100%;
+  height: 37px;
+  background-color: white;
+  -webkit-appearance: none;
+}
+/* line 284, ../sass/_components.scss */
+.address-component .location {
+  position: absolute;
+  right: 13px;
+  border: 1px solid;
+  top: 0;
+  margin: auto;
+  bottom: 0;
+  line-height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+  height: 27px;
+}
+/* line 297, ../sass/_components.scss */
+.address-component input {
+  width: 100%;
+  height: 37px;
+  line-height: 1.428;
+}
+/* line 304, ../sass/_components.scss */
+.address-component .cur-show {
+  display: none;
+}
+/* line 308, ../sass/_components.scss */
+.address-component .user-actions {
+  display: none;
+}
+/* line 312, ../sass/_components.scss */
+.address-component.cur {
+  padding: 0;
+  border-color: black;
+  color: black;
+}
+/* line 317, ../sass/_components.scss */
+.address-component.cur form > div, .address-component.cur .address-block > div {
+  line-height: 38px;
+}
+/* line 321, ../sass/_components.scss */
+.address-component.cur form > div:not(:last-child), .address-component.cur .address-block > div:not(:last-child) {
+  border-bottom: 2px dotted white;
+}
+/* line 325, ../sass/_components.scss */
+.address-component.cur .deliverable-tag {
+  background-color: black;
+}
+/* line 329, ../sass/_components.scss */
+.address-component.cur .cur-show {
+  display: block;
+}
+/* line 333, ../sass/_components.scss */
+.address-component.cur .user-actions {
+  opacity: .5;
+  display: block;
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+}
+/* line 339, ../sass/_components.scss */
+.address-component.cur .user-actions span {
+  padding: .5em;
+}
+/* line 341, ../sass/_components.scss */
+.address-component.cur .user-actions span:not(:last-child) {
+  margin-right: 1.3em;
+}
+/* line 348, ../sass/_components.scss */
+.address-component.cur.edit form > div, .address-component.cur.edit .address-block > div {
+  border-bottom-color: #bbbbbb;
+}
+/* line 351, ../sass/_components.scss */
+.address-component.cur.edit .user-actions {
+  display: none;
 }

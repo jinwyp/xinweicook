@@ -214,3 +214,143 @@
     }
   }
 }
+
+.address-component {
+  border: 2px solid #DCDFDE;
+  padding: 5px 0;
+  color: #777;
+  position: relative;
+  &:not(:first-child) {
+    margin: 12px 0;
+  }
+
+  .deliverable-tag {
+    font-size: 12px;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 6px;
+    color: white;
+    background-color: #E2E2E2;
+    line-height: 2;
+    padding: 0 .9em;
+  }
+
+  form {
+    position: absolute;
+    background-color: white;
+    top: 0;
+    width: 100%;
+  }
+
+  form>div, .address-block>div{
+    line-height: 34px;
+    padding-left: 10px;
+    height: 40px;
+    position: relative;
+  }
+
+  form>div {
+    //.err-tip的另外一部分见base
+    &.with-tag .err-tip {
+      right: 83px;
+    }
+
+    &.selects {
+      width: 100%;
+      .select {
+        position: relative;
+        display: inline-block;
+        width: 31%;
+        &::after {
+          font-weight: 700;
+          content: '';
+          position: absolute;
+          right: 10px;
+          top: 16px;
+          border: 5px transparent solid;
+          border-top: 6px black solid;
+        }
+      }
+      select {
+        width: 100%;
+        height: 37px;
+        background-color: white;
+        -webkit-appearance: none;
+      }
+    }
+  }
+
+  .location {
+    position: absolute;
+    right: 13px;
+    border: 1px solid;
+    top: 0;
+    margin: auto;
+    bottom: 0;
+    line-height: 26px;
+    padding: 0 10px;
+    font-size: 12px;
+    height: 27px;
+  }
+
+  input{
+    width: 100%;
+    height: 37px;
+    //padding: 6px 0;
+    line-height: 1.428;
+  }
+
+  .cur-show {
+    display: none;
+  }
+
+  .user-actions {
+    display: none;
+  }
+
+  &.cur {
+    padding: 0;
+    border-color: black;
+    color: black;
+
+    form>div, .address-block>div {
+      line-height: 38px;
+    }
+
+    form>div:not(:last-child), .address-block>div:not(:last-child){
+      border-bottom: 2px dotted white;
+    }
+
+    .deliverable-tag {
+      background-color: black;
+    }
+
+    .cur-show {
+      display: block;
+    }
+
+    .user-actions {
+      opacity: .5;
+      display: block;
+      position: absolute;
+      right: 5px;
+      bottom: 0;
+      span {
+        padding: .5em;
+        &:not(:last-child) {
+          margin-right: 1.3em;
+        }
+      }
+    }
+
+    &.edit {
+      form>div, .address-block>div{
+        border-bottom-color: #bbbbbb;
+      }
+      .user-actions {
+        display: none;
+      }
+    }
+  }
+}

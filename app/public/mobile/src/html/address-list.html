@@ -17,22 +17,13 @@
 
 <div class="main address-main" ng-cloak>
     <ul class="address-list">
-        <li class="row" ng-repeat="address in addresses">
-            <div class="select-button"
-                 ng-click="chooseAddress(address)" ng-class="{active: selectedAddress.street + selectedAddress.contactPerson + selectedAddress.mobile == address.street + address.contactPerson + address.mobile}"></div>
-            <div class="detail" ng-click="chooseAddress(address)">
-                <h5 class="name">{{address.contactPerson}}</h5>
-                <div class="address">{{address.city + address.district + address.street + address.address}}</div>
-            </div>
-            <a href="javascript:;" class="text-center edit" ng-click="editAddress(address)">编辑</a>
-            <div ng-if="!address.geoLatitude" class="warn-invalid-address text-center">
-                该地址无效, 请重新编辑
-            </div>
+        <li ng-repeat="address in addresses">
+            <address cur="{{$first}}" range="range" old-address="address" deleteHook="remove($index)"></address>
+        </li>
+        <li ng-if="range">
+            <address ng-class="{cur: !addresses.length}" range="range"></address>
         </li>
     </ul>
-    <div class="no-address-tip" ng-if="addresses && !addresses.length">
-        您暂时还没有可用的收货地址, 请点击右上角 "+" 添加新地址.
-    </div>
 </div>
 
 </body>

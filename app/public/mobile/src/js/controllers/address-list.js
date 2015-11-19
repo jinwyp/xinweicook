@@ -1,31 +1,15 @@
-angular.module('xw.controllers').controller('addressListCtrl', function ($scope, Debug, User, $localStorage, ScopeDecorator) {
+angular.module('xw.controllers').controller('addressListCtrl',
+function ($scope, Address, Debug, User, $localStorage, ScopeDecorator, $q) {
     ScopeDecorator.common($scope);
 
-    $scope.editAddress = function (addr) {
-        $localStorage.editAddress = addr;
-        setTimeout(function () {
-            location.href = 'addressedit';
-        }, 100); // wait for updating localStorage.
-    };
-
-    $scope.chooseAddress = function (addr) {
-        $scope.selectedAddress = $localStorage.selectedAddress = addr;
+    $scope.remove = function (idx) {
+        $scope.addresses.splice(idx, 1);
     };
 
     function init() {
-        User.getUserInfo().then(function (res) {
-            var user = res.data;
-            $scope.addresses = user.address;
-
-            //验证地址是否有效,并给予无效地址一个0的经纬度
-            user.address.forEach(function (address) {
-                address.geoLatitude = address.geoLatitude || 0;
-                address.geoLongitude = address.geoLongitude || 0;
-            });
-
-            if ($localStorage.selectedAddress) {
-                $scope.selectedAddress = $localStorage.selectedAddress;
-            }
+        $q.all([Address.range(), Address.getList()]).then(function (res) {
+            $scope.range = res[0].data;
+            $scope.addresses = res[1].data;
         })
     }
 
