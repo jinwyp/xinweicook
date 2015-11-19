@@ -733,6 +733,14 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
       result = tempWarehouse[req.body._id]
       result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
 
+
+    if req.body.warehouseName is "lujiazui1"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
+    else if req.body._id is "564ab6de2bde80bd10a9bc60"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
+
     res.status(200).json(result)
 
   .catch next
