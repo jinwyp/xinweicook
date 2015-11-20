@@ -236,8 +236,8 @@ module.exports =
       @findOne(options).select(models.user.fields())
       .populate({path: 'dishLikeList', select: models.dish.fieldsLess()})
       .populate({path: 'couponList'})
-      .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+      .populate({path: 'shoppingCart.dish', select: models.dish.fieldsLess()})
+      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fieldsLess()})
       .execAsync()
 
     find99 : (options, limit) ->
