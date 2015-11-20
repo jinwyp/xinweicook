@@ -429,8 +429,8 @@ exports.addNewOrder = (req, res, next) ->
 
       newOrderReadyToCook.address = resultAddress
 
-   # if newOrder.cookingType is models.dish.constantCookingType().eat and resultAddress.isAvailableForEat is false
-   #   throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
+      if newOrder.cookingType is models.dish.constantCookingType().eat and resultAddress.isAvailableForEat is false
+        throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
 
 
 

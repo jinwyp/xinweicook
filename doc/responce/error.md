@@ -27,7 +27,8 @@ Content-Type: application/json
 /**
  * reused in front-end
  */
-module.exports = {
+
+{
     user: {
         // todo: 第二第三位的1 是什么意思, sms独立出来??
         wrongMobile   : 1110,
@@ -51,7 +52,11 @@ module.exports = {
 
         addressContactPersonWrong : 1235,
         addressMobileWrong        : 1236,
-        addressSortOrderWrong     : 1237
+        addressSortOrderWrong     : 1237,
+
+        addressNotDeliver     : 1270,
+
+        addressBaiduMapNotFoundError     : 1280
 
     },
     order: {
@@ -135,5 +140,6 @@ module.exports = {
         notFound: 8112
     }
 };
+
 ```
 
