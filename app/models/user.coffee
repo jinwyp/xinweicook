@@ -173,6 +173,15 @@ module.exports =
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
+          if Array.isArray(dish.subDish) and dish.subDish.length > 0
+            for subdish, subDishIndex in dish.subDish
+              delete subdish._id
+              unless libs.validator.isInt subdish.number, {min: 1, max: 100}
+                return throw new Err "Field validation error,  subdish.number must be 1-100", 400
+              unless libs.validator.isLength subdish.dish, 24, 24
+                return throw new Err "Field validation error,  subdishID must be 24-24", 400
+
+
     checkNotFound: (u) ->
       if not u or not u.mobile
         throw new Err "找不到该用户", 401, Err.code.user.notFound
