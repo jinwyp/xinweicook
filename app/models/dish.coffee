@@ -302,6 +302,15 @@ module.exports =
         true
     )
 
+    schema.virtual("stockWarehouseObj").get( ()->
+      result = {}
+      if @stockWarehouse.length > 0
+        for warehouse, warehouseIndex in @stockWarehouse
+          result[warehouse.warehouse] = warehouse.stock
+
+      result
+    )
+
     schema.set('toJSON', { virtuals: true })
 
   plugin: (schema) ->
