@@ -164,14 +164,15 @@ module.exports =
 
   methods:
     getPrice : (number) ->
-      if number < 2 or @priceWholesale.length is 0
+      if number < 2
         @priceOriginal
       else
         finalPrice = @priceOriginal
-        for wholesale,wholesaleIndex in @priceWholesale
-          if number < wholesale.quantity
-            finalPrice = wholesale.price
-            break
+        if @priceWholesale and @priceWholesale.length > 0
+          for wholesale,wholesaleIndex in @priceWholesale
+            if number < wholesale.quantity
+              finalPrice = wholesale.price
+              break
         finalPrice
 
 

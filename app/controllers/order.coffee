@@ -421,7 +421,7 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultAddress) ->
 
     if resultAddress
-      if newOrder.cookingType is models.dish.constantCookingType().eat and resultAddress.isAvailableForEat is false
+      if newOrder.cookingType is models.dish.constantCookingType().eat and not resultAddress.isAvailableForEat
         throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
 
       newOrder.address = resultAddress
@@ -528,7 +528,7 @@ exports.addNewOrder = (req, res, next) ->
             newOrderReadyToCook.userComment = ""
           newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
-        # 排除drink 饮品
+        # 排除drink 饮品 用于是否拆单判断
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().eat and dishDataList[dish.dish].sideDishType is models.dish.constantSideDishType().main
           dishReadyToEatWithoutDrinkList.push({dish:dishDataList[dish.dish], number:dish.number})
 
