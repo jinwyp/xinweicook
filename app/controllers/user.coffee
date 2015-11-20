@@ -91,24 +91,23 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
     isNeedRefreshJsapiTicket = false
 
     if not settingJSSdk
-      logger.error("WeixinDeveloperJsapi not found !" );
+      logger.error("Weixin Jsapi not found !" );
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
-        logger.error("WeixinDeveloperJsapi expired !" );
+        logger.error("Weixin Jsapi expired !" );
         isNeedRefreshJsapiTicket = true
 
 
     isNeedRefreshAccessToken = false
 
     if not settingAccessToken
-      logger.error("WeixinDeveloper AccessToken not found !" );
+      logger.error("Weixin Jsapi AccessToken not found !" );
       isNeedRefreshAccessToken = true
     else
       if models.setting.checkExpired(settingAccessToken)
-        logger.error("WeixinDeveloper AccessToken expired !" );
+        logger.error("Weixin Jsapi AccessToken expired !" );
         isNeedRefreshAccessToken = true
-
 
 
 
@@ -239,11 +238,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
       if not resultSetting
         isNeedRefreshAccessToken = true
-        logger.error("WeixinUserInfo resultSetting not found !" );
+        logger.error("Weixin getUserInfo resultSetting not found !" );
       else
         if models.setting.checkExpired(resultSetting)
           isNeedRefreshAccessToken = true
-          logger.error("WeixinUserInfo resultSetting expired !" );
+          logger.error("Weixin getUserInfo resultSetting expired !" );
 
 
       if isNeedRefreshAccessToken
@@ -294,7 +293,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-        logger.error("WeixinUserInfo resultSetting is exist !" );
+        logger.error("Weixin getUserInfo resultSetting is exist !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
