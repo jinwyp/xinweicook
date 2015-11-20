@@ -8,6 +8,7 @@ angular.module('xw.directives').directive('address', function ($location, Addres
             range: '=',
             // 当删掉当前地址后给予外部的回调接口
             deleteHook: '&',
+            save: '=',
             cur: '@'
         },
         templateUrl: 'address.html',
@@ -32,6 +33,7 @@ angular.module('xw.directives').directive('address', function ($location, Addres
             } else {
                 addr = $scope.addr = Utils.regularizeAddress(
                     angular.copy($scope.oldAddress), $scope.range);
+                console.log(addr.province)
             }
 
             $scope.options = Utils.addressOptions.bind(null, $scope.range);

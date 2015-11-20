@@ -154,28 +154,17 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
             } else if (len == 2) {
                 if (!province) return;
                 //这里可以将结果缓存起来, 以节省len == 2时(以及以后可能相同)的多余计算
-                var state, oProvince;
-                try {
-                    return addresses.filter(function (el) {
-                        state = el;
-                        oProvince = province;
-
-                        return el.state == province
-                    })[0].cities.map(function (el) {return el.city})
-                } catch (e) {
-                    console.log(e);
-                    console.log(state)
-                    console.log(oProvince)
-                    console.log(state.state == oProvince)
-                }
-
-
+                return addresses.filter(function (el) {
+                    return el.state == province
+                })[0].cities.map(function (el) {
+                        return el.city;
+                    })
 
             } else if (len == 3) {
                 if (!city) return;
-                return Address.filter(function(el) {
+                return addresses.filter(function(el) {
                     return el.state == province
-                })[0].City.filter(function (el) {
+                })[0].cities.filter(function (el) {
                         return el.city
                     })[0].areas
             }
