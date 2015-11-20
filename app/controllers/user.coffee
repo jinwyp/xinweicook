@@ -548,7 +548,7 @@ exports.userInfo = (req, res, next) ->
         res.json resultUser
     else
 
-      models.user.find({invitationFromUser : req.u._id}).select(models.user.fieldsLess()).then (resultUserList)->
+      models.user.find99({invitationFromUser : req.u._id}).then (resultUserList)->
 
         tempResult = resultUser.toObject()
         tempResult.invitationUserList = resultUserList

@@ -173,6 +173,9 @@ module.exports =
     packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
 
   statics:
+    fields : ->
+      selectFields = "-__v"
+
     constantStatus : () ->
       status =
         notpaid : "not paid"
@@ -382,6 +385,16 @@ module.exports =
       unless libs.validator.isLength order.out_trade_no, 21, 22
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
+
+
+    find1 : (options) ->
+      @findOne(options).select(@fields()).execAsync()
+
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-createdAt").limit(limit).select(@fields()).execAsync()
 
     deliveryDateTypeIsNextDayChecker : (date) ->
       deliveryDate =  moment(date)

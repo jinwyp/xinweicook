@@ -114,10 +114,10 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-priceWholesale -region -recommendSet -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+      selectFields = "-__v -autoIncrementId -priceWholesale -region -recommendSet -cook -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
     fieldsLess : ->
-      selectFields = "-topping -preferences -priceWholesale -region -recommendSet -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+      selectFields = "-__v -autoIncrementId -stockWarehouse -topping -preferences -kitchenware -infoUniqueFeature -infoIngredient -infoCookingStep -priceWholesale -region -recommendSet -cook -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
 
 
     constantCookingType : () ->
