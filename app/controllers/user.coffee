@@ -91,27 +91,26 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
     isNeedRefreshJsapiTicket = false
 
     if not settingJSSdk
-      logger.error("Weixin Jsapi not found !" );
+      logger.error("Weixin Jsapi ticket not found !" );
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
-        logger.error("Weixin Jsapi expired !" );
+        logger.error("Weixin Jsapi ticket expired !" );
         isNeedRefreshJsapiTicket = true
 
 
     isNeedRefreshAccessToken = false
 
-    if not settingAccessToken
-      logger.error("Weixin Jsapi AccessToken not found !" );
-      isNeedRefreshAccessToken = true
-    else
-      if models.setting.checkExpired(settingAccessToken)
-        logger.error("Weixin Jsapi AccessToken expired !" );
-        isNeedRefreshAccessToken = true
-
-
-
     if isNeedRefreshJsapiTicket
+
+      if not settingAccessToken
+        logger.error("Weixin Jsapi AccessToken not found !" );
+        isNeedRefreshAccessToken = true
+      else
+        if models.setting.checkExpired(settingAccessToken)
+          logger.error("Weixin Jsapi AccessToken expired !" );
+          isNeedRefreshAccessToken = true
+
 
       if isNeedRefreshAccessToken
 
@@ -124,11 +123,11 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinDeveloperAccessToken"
             key : "weixinDeveloperAccessToken"
             value : JSON.stringify(resultAccessToken)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
-            console.log(resultSettingUpdated); # { ok: 1, nModified: 1, n: 1 }
+            console.log("Weixin Jsapi Developer AccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
 
 
           # 请求JsapiTicket
@@ -162,7 +161,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
         )
 
       else
-        console.log(settingAccessToken.value)
+#        console.log(settingAccessToken.value)
 
         # 请求JsapiTicket
         weixinpay.getDeveloperJsapiTicketAsync(settingAccessToken.value.access_token).then  (resultTicket2) ->
@@ -238,11 +237,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
       if not resultSetting
         isNeedRefreshAccessToken = true
-        logger.error("Weixin getUserInfo resultSetting not found !" );
+        logger.error("Weixin getUserInfo AccessToken not found !" );
       else
         if models.setting.checkExpired(resultSetting)
           isNeedRefreshAccessToken = true
-          logger.error("Weixin getUserInfo resultSetting expired !" );
+          logger.error("Weixin getUserInfo AccessToken expired !" );
 
 
       if isNeedRefreshAccessToken
@@ -255,11 +254,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
             name : "weixinDeveloperAccessToken"
             key : "weixinDeveloperAccessToken"
             value : JSON.stringify(resultAccessToken)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
-            console.log("weixinDeveloperAccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
+            console.log("Weixin getUserInfo Developer AccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
 
 
           userInfo =
@@ -293,7 +292,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-        logger.error("Weixin getUserInfo resultSetting is exist !" );
+        logger.error("Weixin getUserInfo AccessToken is exist and not expired !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
