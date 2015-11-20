@@ -16,7 +16,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
     $scope.data = {
         searchFilter : '',
         searchOptions : {
-            sort : '-createdAt',
+            sort : '-sortId',
             skip : 0,
             limit : 200,
 
