@@ -684,8 +684,8 @@ module.exports =
         # 取消订单
 
         models.order.findOne({_id:req.params.id})
-        .populate({path: "dishList.dish", select: models.dish.fields()})
-        .populate({path: "dishList.subDish.dish", select: models.dish.fields()})
+        .populate({path: "dishList.dish", select: models.dish.fieldsLess()})
+        .populate({path: "dishList.subDish.dish", select: models.dish.fieldsLess()})
         .populate "childOrderList"
         .execAsync()
         .then (resultOrder) ->

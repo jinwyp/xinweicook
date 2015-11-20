@@ -160,8 +160,8 @@ exports.orderListByUser = (req, res, next) ->
   .sort "-createdAt"
   .skip (req.query.skip)
   .limit (req.query.limit)
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .execAsync()
   .then (orders) ->
     res.json orders
@@ -176,8 +176,8 @@ exports.orderSingleInfo = (req, res, next) ->
   models.order.validationOrderId req.params._id
 
   models.order.findOne _id: req.params._id
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound resultOrder
@@ -850,8 +850,8 @@ exports.updateOrder = (req, res, next) ->
   models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
