@@ -314,8 +314,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             {
                 name : '漕河泾仓库',
                 value : '56332196594b09af6e6c7dd7'
+            },
+            {
+                name : '陆家嘴仓库',
+                value : '564ab6de2bde80bd10a9bc60'
             }
-        ],
+        ]
     };
 
     $scope.css = {
