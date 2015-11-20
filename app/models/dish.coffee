@@ -114,7 +114,11 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+      selectFields = "-priceWholesale -region -recommendSet -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+
+    fieldsLess : ->
+      selectFields = "-topping -preferences -priceWholesale -region -recommendSet -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+
 
     constantCookingType : () ->
       type =
@@ -150,13 +154,13 @@ module.exports =
         return throw new Err "Field validation error,  sideDish must be 2-10", 400
 
     find1 : (options) ->
-      @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+      @findOne(options).select(models.dish.fields()).populate("preferences.foodMaterial.dish").populate("topping").execAsync()
 
     find99 : (options, limit) ->
       if not limit
         limit = 999
 
-      @find(options).sort("-sortId").sort("-createdAt").limit(limit).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+      @find(options).sort("-sortId").sort("-createdAt").limit(limit).select(models.dish.fields()).populate("preferences.foodMaterial.dish").populate("topping").execAsync()
 
   methods:
     getPrice : (number) ->
