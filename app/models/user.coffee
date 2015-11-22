@@ -62,6 +62,7 @@ module.exports =
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
 
+
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
     sharedInvitationSendCodeUsedTime: type: Number, default: 0
@@ -78,11 +79,11 @@ module.exports =
     firstTimeRegFromApp: type: Boolean, default: false
 
     isPaid5Orders: type: Boolean, default: false
-
     isPaid10Orders: type: Boolean, default: false
 
 
     lastOrderDate: type: Date
+
 
     oldUserData :
       mobile:String
@@ -105,9 +106,10 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-pwd"
+      selectFields = "-__v -pwd"
+
     fieldsLess : ->
-      selectFields = "-autoIncrementId -pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
+      selectFields = "-__v -autoIncrementId -pwd -mobile -gender -fullName -avatarPic -credit -address  -shoppingCart -couponList -dishLikeList -weixinId"
 
     constantUserRole : () ->
       type =
@@ -171,6 +173,15 @@ module.exports =
           unless libs.validator.isLength dish.dish, 24, 24
             return throw new Err "Field validation error,  dishID must be 24-24", 400
 
+          if Array.isArray(dish.subDish) and dish.subDish.length > 0
+            for subdish, subDishIndex in dish.subDish
+              delete subdish._id
+              unless libs.validator.isInt subdish.number, {min: 1, max: 100}
+                return throw new Err "Field validation error,  subdish.number must be 1-100", 400
+              unless libs.validator.isLength subdish.dish, 24, 24
+                return throw new Err "Field validation error,  subdishID must be 24-24", 400
+
+
     checkNotFound: (u) ->
       if not u or not u.mobile
         throw new Err "找不到该用户", 401, Err.code.user.notFound
@@ -224,24 +235,27 @@ module.exports =
         user
 
     findUserById: (userId) ->
-      unless Number.isInteger userId
+      unless libs.validator.isMongoId userId
         Promise.reject(new Err "Access Token 错误", 401)
       else
         @findOneAsync(id: userId).then(@checkNotFound).then(@checkNotSpam)
-    findUserBy_Id: (_id) ->
-      unless libs.validator.isMongoId _id
-        Promise.reject(new Err "用户 _id 错误", 400)
-      else
-        @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
+
 
     find1 : (options) ->
-      @findOne(options)
-      .select(models.user.fields())
-      .populate({path: 'dishLikeList', select: models.dish.fields()})
+      @findOne(options).select(models.user.fields())
+      .populate({path: 'dishLikeList', select: models.dish.fieldsLess()})
       .populate({path: 'couponList'})
-      .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+      .populate({path: 'shoppingCart.dish', select: models.dish.fieldsLess()})
+      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fieldsLess()})
       .execAsync()
+
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-createdAt").limit(limit).select(models.user.fieldsLess()).execAsync()
+
+
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4

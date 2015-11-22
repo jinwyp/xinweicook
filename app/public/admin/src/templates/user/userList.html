@@ -171,7 +171,7 @@
                 <th>用户名</th>
                 <th>姓名</th>
                 <th>性别</th>
-                <th>地址</th>
+                <!--<th>地址</th>-->
                 <th>下单数</th>
                 <th>优惠券</th>
                 <th>邀请码</th>
@@ -189,16 +189,16 @@
                 <td>{{user.username}}</td>
                 <td>{{user.fullName}}</td>
                 <td> <span ng-show="user.gender===1">男</span> <span ng-show="user.gender===2">女</span> </td>
-                <td>
-                    <ul class="list-group" ng-repeat="address in user.address">
-                        <li class="list-group-item">客人认证是否有效地址: {{address.isValid}}</li>
-                        <li class="list-group-item">默认地址: {{address.isDefault}}</li>
-                        <li class="list-group-item">联系人: {{address.contactPerson}}</li>
-                        <li class="list-group-item">手机: {{address.mobile}}</li>
-                        <li class="list-group-item">经度: {{address.geoLongitude}} / 纬度: {{address.geoLatitude}}</li>
-                        <li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>
-                    </ul>
-                </td>
+                <!--<td>-->
+                    <!--<ul class="list-group" ng-repeat="address in user.address">-->
+                        <!--<li class="list-group-item">客人认证是否有效地址: {{address.isValid}}</li>-->
+                        <!--<li class="list-group-item">默认地址: {{address.isDefault}}</li>-->
+                        <!--<li class="list-group-item">联系人: {{address.contactPerson}}</li>-->
+                        <!--<li class="list-group-item">手机: {{address.mobile}}</li>-->
+                        <!--<li class="list-group-item">经度: {{address.geoLongitude}} / 纬度: {{address.geoLatitude}}</li>-->
+                        <!--<li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>-->
+                    <!--</ul>-->
+                <!--</td>-->
                 <td>{{user.sharedInvitationSendCodeTotalCount - 1}}</td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
                 <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}} / {{user.sharedInvitationSendCodeUsedTime}}个朋友有下单</td>

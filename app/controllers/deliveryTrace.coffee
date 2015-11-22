@@ -18,16 +18,6 @@ exports.updateTrace = (req, res, next) ->
     res.send({status:'200'})
   )
 
-#  req.u.saveAsync().spread (resultUser, numberAffected) ->
-#    models.user.find1({_id : resultUser._id})
-#  .then (user) ->
-#    res.json user
-#  .catch next
-
-
-
-
-
 
 
 

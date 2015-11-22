@@ -160,8 +160,8 @@ exports.orderListByUser = (req, res, next) ->
   .sort "-createdAt"
   .skip (req.query.skip)
   .limit (req.query.limit)
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .execAsync()
   .then (orders) ->
     res.json orders
@@ -176,8 +176,8 @@ exports.orderSingleInfo = (req, res, next) ->
   models.order.validationOrderId req.params._id
 
   models.order.findOne _id: req.params._id
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .execAsync()
   .then (resultOrder) ->
     models.order.checkNotFound resultOrder
@@ -421,6 +421,9 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultAddress) ->
 
     if resultAddress
+      if newOrder.cookingType is models.dish.constantCookingType().eat and not resultAddress.isAvailableForEat
+        throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
+
       newOrder.address = resultAddress
       newOrder.warehouse = resultAddress.warehouse
 
@@ -428,6 +431,8 @@ exports.addNewOrder = (req, res, next) ->
       newOrderReadyToEat.warehouse = resultAddress.warehouse
 
       newOrderReadyToCook.address = resultAddress
+
+
 
 
 
@@ -449,7 +454,7 @@ exports.addNewOrder = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
-      models.dish.checkOutOfStock(dish)
+      models.dish.checkOutOfStock(dish, newOrder.warehouse)
 
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
@@ -523,7 +528,7 @@ exports.addNewOrder = (req, res, next) ->
             newOrderReadyToCook.userComment = ""
           newOrderReadyToCook.userComment = newOrderReadyToCook.userComment + " (" + dishDataList[dish.dish].title.zh + " " + dish.remark + "), "
       else
-        # 排除drink 饮品
+        # 排除drink 饮品 用于是否拆单判断
         if dishDataList[dish.dish].cookingType is models.dish.constantCookingType().eat and dishDataList[dish.dish].sideDishType is models.dish.constantSideDishType().main
           dishReadyToEatWithoutDrinkList.push({dish:dishDataList[dish.dish], number:dish.number})
 
@@ -641,7 +646,7 @@ exports.addNewOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -705,7 +710,7 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
-  models.warehouse.findAsync({}).then (resultWarehouseList) ->
+  models.warehouse.find99({}).then (resultWarehouseList) ->
 
     tempWarehouse = {}
     result = {}
@@ -713,8 +718,6 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
     for warehouse, warehouseIndex in resultWarehouseList
       tempWarehouse[warehouse._id] = warehouse.toObject()
       tempWarehouse[warehouse.name] = warehouse.toObject()
-
-
 
 
     if req.body.warehouseName is "xinweioffice"
@@ -731,6 +734,14 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
     else if req.body._id is "56332196594b09af6e6c7dd7"
       result = tempWarehouse[req.body._id]
       result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+
+
+    if req.body.warehouseName is "lujiazui1"
+      result = tempWarehouse[req.body.warehouseName]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
+    else if req.body._id is "564ab6de2bde80bd10a9bc60"
+      result = tempWarehouse[req.body._id]
+      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
 
     res.status(200).json(result)
 
@@ -839,8 +850,8 @@ exports.updateOrder = (req, res, next) ->
   models.order.validationUpdateOrder req.body
 
   models.order.findById req.params._id
-  .populate({path: 'dishList.dish', select: models.dish.fields()})
-  .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+  .populate({path: 'dishList.dish', select: models.dish.fieldsLess()})
+  .populate({path: 'dishList.subDish.dish', select: models.dish.fieldsLess()})
   .populate "childOrderList"
   .execAsync()
   .then (resultOrder) ->
@@ -867,7 +878,7 @@ exports.updateOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], req.u, "userOrder", resultOrder._id.toString())
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
       models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -1147,7 +1158,7 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
         resultOrder.saveAsync();
 
 #      if req.body.state isnt "300" and req.body.state isnt "400" and req.body.state isnt "500" and req.body.state isnt "600"
-      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
+#      logger.error("========= Ksudi notify:", JSON.stringify(req.body))
 
     res.send({code : 200})
 

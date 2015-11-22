@@ -173,6 +173,9 @@ module.exports =
     packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
 
   statics:
+    fields : ->
+      selectFields = "-__v"
+
     constantStatus : () ->
       status =
         notpaid : "not paid"
@@ -230,7 +233,7 @@ module.exports =
     checkInvalidDishIdList : (sourceDishIdList, dataBaseDishIdList) ->
       invalidDishIdList = _.difference(sourceDishIdList, dataBaseDishIdList)
       if invalidDishIdList.length > 0
-        throw new Err "Some dish invalid in this order ! " + sourceDishIdList.toString(), 400, Err.code.order.dishIdInvalid
+        throw new Err "Some dish invalid in this order ! " + invalidDishIdList.toString(), 400, Err.code.order.dishIdInvalid
 
     checkInvalidDrink : (dishList) ->
       drinkList = []
@@ -383,6 +386,16 @@ module.exports =
         return throw new Err "Field validation error,  out_trade_no must be 21-22", 400
 
 
+
+    find1 : (options) ->
+      @findOne(options).select(@fields()).execAsync()
+
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-createdAt").limit(limit).select(@fields()).execAsync()
+
     deliveryDateTypeIsNextDayChecker : (date) ->
       deliveryDate =  moment(date)
       timeToday = moment().startOf('day')
@@ -520,6 +533,49 @@ module.exports =
 
 
 
+    deliveryTimeArithmeticForReadyToEatAtLujiazui : () ->
+      resultTime = []
+
+      timeNow = moment()
+
+      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
+      today19PM = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
+
+      tomorrow11AM = today11AM.clone().add(1, 'days');
+
+      if timeNow.hour() < 10 and timeNow.hour() >=0
+        timeStarter = today11AM.clone()
+
+      if timeNow.hour() >= 20 and timeNow.hour() < 24
+        timeStarter = tomorrow11AM.clone()
+
+      if timeNow.hour() >= 10 and timeNow.hour() < 20 # 下单时间：11：00 - 20：00
+        if timeNow.minute()%30 >= 10
+          timeStarter = timeNow.clone().add(30, 'minutes').add((30-timeNow.minute()%30), 'minutes')
+        else
+          timeStarter = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
+
+      for i in [1..20]
+        timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
+
+        # 处理如果计算出来的时间超过19点  将不在push进去
+        if timeStarterTemp.isBefore(today19PM) and timeNow.day() isnt 23
+          segmentHour =
+            hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      # 处理第二天的时间点 不包括星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
+      if timeNow.day() > 0 or timeNow.hour() >= 20
+        for i in [1..17]
+          timeStarterTemp2 = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+          segmentHour =
+            hour : timeStarterTemp2.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      resultTime
+
+
+
     deliveryTimeArithmeticForReadyToEatAtCaohejing : () ->
       resultTime = []
 
@@ -628,8 +684,8 @@ module.exports =
         # 取消订单
 
         models.order.findOne({_id:req.params.id})
-        .populate({path: "dishList.dish", select: models.dish.fields()})
-        .populate({path: "dishList.subDish.dish", select: models.dish.fields()})
+        .populate({path: "dishList.dish", select: models.dish.fieldsLess()})
+        .populate({path: "dishList.subDish.dish", select: models.dish.fieldsLess()})
         .populate "childOrderList"
         .execAsync()
         .then (resultOrder) ->
