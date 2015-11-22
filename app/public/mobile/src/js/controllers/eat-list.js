@@ -1,10 +1,13 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
 function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
-                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils) {
+                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils, Address) {
     $scope.user = null;
     $scope.address = '';
+    $scope.addressLoaded = false;
+    $scope.addresses;
     $scope.curDish = null; // 点击购买后被选中的菜品
+    $scope.warehouse; // 作为筛选菜品使用
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -26,7 +29,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
     };
 
     $scope.likeDish = function (dish) {
-        Dishes.like(dish._id).then(function (res) {
+        Dishes.like(dish._id).then(function () {
             // 如果成功,并不是很有必要重新拉取用户列表.因为这里不会更新用户信息.
             dish.liked = !dish.liked;
         }).catch(Debug.promiseErrFn('更新用户喜欢状态失败'))
@@ -47,6 +50,37 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         storage.warehouse = 'xinweioffice';
 
         getDishList('caohejing1');
+
+        Address.getList().then(function (res) {
+            $scope.addresses = res.data;
+            if (!$scope.addresses.length) return;
+
+            // 选择了一个地址,将此作为默认地址
+            if (storage.selectedAddress) {
+                $scope.address = storage.selectedAddress;
+                $scope.address.isDefault = true;
+                Address.update($scope.address).then(function () {
+                    delete storage.selectedAddress;
+                });
+            } else {
+                // 如果没有经过选择,则选择一个默认地址
+                res.data.some(function (addr) {
+                    if (addr.isDefault) {
+                        $scope.address = addr;
+                        return true;
+                    }
+                });
+
+                // 如果没有默认地址则选择第一个地址.
+                if (!$scope.address) {
+                    $scope.address = $scope.addresses[0];
+                }
+            }
+
+            $scope.warehouse = $scope.address.warehouse;
+        }).catch(angular.noop).then(function () {
+            $scope.addressLoaded = true;
+        });
 
         Weixin.ready(function () {
             Weixin.getLocation(function (res) {

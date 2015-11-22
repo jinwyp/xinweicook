@@ -63,8 +63,8 @@ module.exports =
         return throw new Err "Field validation error,  district must be 2-200", 400, Err.code.user.addressDistrictWrong
       unless libs.validator.isLength address.street, 2, 200
         return throw new Err "Field validation error,  street must be 2-200", 400, Err.code.user.addressStreetWrong
-      unless libs.validator.isLength address.street_number, 2, 200
-        return throw new Err "Field validation error,  street_number must be 2-200", 400, Err.code.user.addressStreetNumberWrong
+      #unless libs.validator.isLength address.street_number, 2, 200
+      #  return throw new Err "Field validation error,  street_number must be 2-200", 400, Err.code.user.addressStreetNumberWrong
       unless libs.validator.isLength address.address, 2, 1000
         return throw new Err "Field validation error,  detail address must be 2-1000", 400, Err.code.user.addressAddressWrong
 

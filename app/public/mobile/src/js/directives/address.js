@@ -1,18 +1,24 @@
-angular.module('xw.directives').directive('address', function ($location, Address, Utils, $q, Weixin, Map) {
+angular.module('xw.directives').directive('address', function ($timeout, $location, Address, Utils, $q, Weixin, Map) {
     return {
         restrict: 'E',
         scope: {
-            // 待编辑的地址, 如果为空, 则表示是新地址
-            oldAddress: '=',
-            // 省市区数据
-            range: '=',
-            // 当删掉当前地址后给予外部的回调接口
-            deleteHook: '&',
+            // 外部传入的数据
+            outAddress: '=', // 待编辑的地址, 如果为空, 则表示是新地址
+            range: '=', // 省市区数据
+
+            // 供外部调用的方法
             save: '=',
+            leave: '=',
+            valid: '=',
+
+            // 需要调用的外部方法
+            deleteHook: '&', // 当删掉当前地址后给予外部的回调接口
+
+            // 是否为当前状态地址的默认参数.
             cur: '@'
         },
         templateUrl: 'address.html',
-        link: function ($scope, el, attrs) {
+        link: function ($scope) {
             var addr;
 
             var css = $scope.css = {
@@ -20,7 +26,8 @@ angular.module('xw.directives').directive('address', function ($location, Addres
                 cur: $scope.cur == "true",
                 showSearchAddress: false,
                 form: null,
-                locating: false
+                locating: false,
+                isNewAddress: Object.keys($scope.outAddress).length < 2
             };
 
             var data = $scope.data = {
@@ -28,17 +35,24 @@ angular.module('xw.directives').directive('address', function ($location, Addres
             };
 
             // 如果没有一个外部传入的地址,那么这是一个新地址
-            if (!$scope.oldAddress) {
-                addr = $scope.addr = {}
+            // <2 for angular
+            if (css.isNewAddress) {
+                addr = $scope.addr = {sortOrder: 0};
+                if (css.cur) {
+                    css.edit = true;
+                }
             } else {
                 addr = $scope.addr = Utils.regularizeAddress(
-                    angular.copy($scope.oldAddress), $scope.range);
-                console.log(addr.province)
+                    angular.copy($scope.outAddress), $scope.range);
             }
+
+            $scope.outAddress.cur = css.cur;
+            $scope.outAddress.edit = !!css.edit;
 
             $scope.options = Utils.addressOptions.bind(null, $scope.range);
 
             $scope.$on('$locationChangeStart', function () {
+                if (!css.edit) return;
                 var path = $location.path();
                 css.showSearchAddress = path == '/search-address'
             });
@@ -46,12 +60,22 @@ angular.module('xw.directives').directive('address', function ($location, Addres
             $scope.choose = function () {
                 if (css.cur) {
                     css.edit = true;
+                    $scope.outAddress.edit = true;
                 } else {
                     css.cur = true;
                     // 如果这是一个新地址
-                    if (!$scope.oldAddress) {
+                    if (css.isNewAddress) {
                         css.edit = true;
+                        $scope.outAddress.edit = true;
                     }
+                }
+                $scope.outAddress.cur = true;
+            };
+
+            $scope.trySelectUnique = function () {
+                var cities = $scope.options(addr.province);
+                if (cities.length == 1) {
+                    addr.city = cities[0];
                 }
             };
 
@@ -80,7 +104,9 @@ angular.module('xw.directives').directive('address', function ($location, Addres
                 }
             };
 
-            $scope.confirmStreet = function (street) {
+            $scope.confirmStreet = function (event, street) {
+                event.stopPropagation();
+
                 $location.path('');
                 if (!street) return;
 
@@ -92,11 +118,25 @@ angular.module('xw.directives').directive('address', function ($location, Addres
             $scope.save = function () {
                 if (css.form.$invalid) return $q.resolve(false);
 
-                Address[$scope.oldAddress ? 'update' : 'addOne']
+                css.edit = css.cur = false;
+                $scope.outAddress.edit = $scope.outAddress.cur = false;
+
+                return Address[!css.isNewAddress ? 'update' : 'addOne'](addr)
                 .then(function (res) {
                         addr = $scope.addr = res.data;
-                        return res;
+                        angular.extend($scope.outAddress, res.data);
+                        return res.data;
                     });
+            };
+
+            $scope.leave = function () {
+                $scope.outAddress.cur = css.cur = false;
+            };
+
+            // 会设置form$submitted为true
+            $scope.valid = function () {
+                css.form.$submitted = true;
+                return !css.form.$invalid;
             };
 
             $scope.initForm = function (form) {
@@ -104,12 +144,11 @@ angular.module('xw.directives').directive('address', function ($location, Addres
                 css.showFakeInput = !addr.province;
             };
 
-            // 必须要先在外部调用Weixin.config
+            // todo:必须要先在外部调用Weixin.config,或许内部也用一个后备?
             $scope.locate = function (event) {
+                event.stopPropagation();
 
                 css.locating = true;
-
-                event.stopPropagation();
 
                 Weixin.getLocation(function (res) {
 

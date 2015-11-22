@@ -878,14 +878,17 @@ form .err-tip {
 }
 
 /* line 2, ../sass/pages/_addresslist.scss */
-.address-main .address-list {
-  margin: 0 24px;
+.address-main .save-button {
+  color: #A7A7A7;
+  text-align: center;
+  border: 2px solid;
+  margin: 0 24px 1em;
+  background: white;
+  line-height: 2.5;
 }
-/* line 5, ../sass/pages/_addresslist.scss */
-.address-main .address-list li {
-  position: relative;
-  margin-bottom: 7px;
-  background-color: white;
+/* line 9, ../sass/pages/_addresslist.scss */
+.address-main .save-button.active {
+  color: #4b4b4c;
 }
 
 /* line 3, ../sass/pages/_addressedit.scss */
@@ -1466,8 +1469,8 @@ form .err-tip {
   font-weight: 100;
 }
 
-/* line 92, ../sass/pages/_invite.scss */
-.tip {
+/* line 93, ../sass/pages/_invite.scss */
+.invite-main .tip {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -1477,21 +1480,21 @@ form .err-tip {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
 }
-/* line 102, ../sass/pages/_invite.scss */
-.tip .operation {
+/* line 103, ../sass/pages/_invite.scss */
+.invite-main .tip .operation {
   font-size: 22px;
   line-height: 1.8;
   width: 360px;
   margin: 95px auto;
   text-align: center;
 }
-/* line 108, ../sass/pages/_invite.scss */
-.tip .operation img {
+/* line 109, ../sass/pages/_invite.scss */
+.invite-main .tip .operation img {
   width: 54px;
   margin: 8px;
 }
-/* line 113, ../sass/pages/_invite.scss */
-.tip .top-right-arrow {
+/* line 114, ../sass/pages/_invite.scss */
+.invite-main .tip .top-right-arrow {
   width: 82px;
   height: 103px;
   background: url(../img/top-right-arrow.png) no-repeat;
@@ -2429,18 +2432,35 @@ html.order-address-html body {
   margin-right: 22px;
 }
 
-/* line 218, ../sass/_components.scss */
+/* line 219, ../sass/_components.scss */
+.address-list {
+  margin: 0 24px;
+}
+/* line 221, ../sass/_components.scss */
+.address-list li {
+  position: relative;
+  margin-bottom: 7px;
+  background-color: white;
+}
+
+/* line 230, ../sass/_components.scss */
+.new-address-tip {
+  font-size: 13px;
+  color: #A7A7A7;
+}
+
+/* line 234, ../sass/_components.scss */
 .address-component {
   border: 2px solid #DCDFDE;
   padding: 5px 0;
   color: #777;
   position: relative;
 }
-/* line 223, ../sass/_components.scss */
+/* line 239, ../sass/_components.scss */
 .address-component:not(:first-child) {
   margin: 12px 0;
 }
-/* line 227, ../sass/_components.scss */
+/* line 243, ../sass/_components.scss */
 .address-component .deliverable-tag {
   font-size: 12px;
   position: absolute;
@@ -2452,36 +2472,40 @@ html.order-address-html body {
   line-height: 2;
   padding: 0 .9em;
 }
-/* line 239, ../sass/_components.scss */
+/* line 255, ../sass/_components.scss */
 .address-component form {
   position: absolute;
   background-color: white;
   top: 0;
   width: 100%;
 }
-/* line 246, ../sass/_components.scss */
-.address-component form > div, .address-component .address-block > div {
+/* line 260, ../sass/_components.scss */
+.address-component form.new-address {
+  position: static;
+}
+/* line 265, ../sass/_components.scss */
+.address-component form:not(#address-form) > div, .address-component .address-block > div {
   line-height: 34px;
   padding-left: 10px;
   height: 40px;
   position: relative;
 }
-/* line 255, ../sass/_components.scss */
-.address-component form > div.with-tag .err-tip {
+/* line 274, ../sass/_components.scss */
+.address-component form:not(address-form) > div.with-tag .err-tip {
   right: 83px;
 }
-/* line 259, ../sass/_components.scss */
-.address-component form > div.selects {
+/* line 278, ../sass/_components.scss */
+.address-component form:not(address-form) > div.selects {
   width: 100%;
 }
-/* line 261, ../sass/_components.scss */
-.address-component form > div.selects .select {
+/* line 280, ../sass/_components.scss */
+.address-component form:not(address-form) > div.selects .select {
   position: relative;
   display: inline-block;
   width: 31%;
 }
-/* line 265, ../sass/_components.scss */
-.address-component form > div.selects .select::after {
+/* line 284, ../sass/_components.scss */
+.address-component form:not(address-form) > div.selects .select::after {
   font-weight: 700;
   content: '';
   position: absolute;
@@ -2490,14 +2514,14 @@ html.order-address-html body {
   border: 5px transparent solid;
   border-top: 6px black solid;
 }
-/* line 275, ../sass/_components.scss */
-.address-component form > div.selects select {
+/* line 294, ../sass/_components.scss */
+.address-component form:not(address-form) > div.selects select {
   width: 100%;
   height: 37px;
   background-color: white;
   -webkit-appearance: none;
 }
-/* line 284, ../sass/_components.scss */
+/* line 303, ../sass/_components.scss */
 .address-component .location {
   position: absolute;
   right: 13px;
@@ -2510,43 +2534,122 @@ html.order-address-html body {
   font-size: 12px;
   height: 27px;
 }
-/* line 297, ../sass/_components.scss */
+/* line 316, ../sass/_components.scss */
 .address-component input {
   width: 100%;
   height: 37px;
   line-height: 1.428;
 }
-/* line 304, ../sass/_components.scss */
+/* line 323, ../sass/_components.scss */
 .address-component .cur-show {
   display: none;
 }
-/* line 308, ../sass/_components.scss */
+/* line 327, ../sass/_components.scss */
 .address-component .user-actions {
   display: none;
 }
-/* line 312, ../sass/_components.scss */
+/* line 331, ../sass/_components.scss */
+.address-component .new-address-block {
+  line-height: 2.5em;
+  text-align: center;
+}
+/* line 339, ../sass/_components.scss */
+.address-component .search-address {
+  color: #4b4b4c;
+  position: fixed;
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  padding: 0 12px;
+  top: 0;
+  left: 0;
+}
+/* line 350, ../sass/_components.scss */
+.address-component .search-address form {
+  padding: 13px 0 10px 8px;
+  border-bottom: 1px solid gray;
+  position: relative;
+}
+/* line 355, ../sass/_components.scss */
+.address-component .search-address form div {
+  height: 20px;
+  line-height: 22px !important;
+}
+/* line 360, ../sass/_components.scss */
+.address-component .search-address form input {
+  width: 100%;
+  height: inherit;
+}
+/* line 365, ../sass/_components.scss */
+.address-component .search-address form .confirm {
+  position: absolute;
+  bottom: 7px;
+  right: 0;
+  text-align: center;
+  padding: 3px 11px;
+  border: 1px solid black;
+}
+/* line 372, ../sass/_components.scss */
+.address-component .search-address form .confirm.invalid {
+  border-color: #A7A7A7;
+}
+/* line 378, ../sass/_components.scss */
+.address-component .search-address .find-address-tip {
+  font-size: 13px;
+  background: #E6E6E6;
+  line-height: 1.8;
+  text-indent: 0.5em;
+  color: #5D5D5D;
+}
+/* line 386, ../sass/_components.scss */
+.address-component .search-address .no-address-tip {
+  text-align: center;
+  padding-top: 20px;
+  color: gray;
+}
+/* line 390, ../sass/_components.scss */
+.address-component .search-address .no-address-tip h4 {
+  font-weight: 400;
+  font-size: 16px;
+}
+/* line 396, ../sass/_components.scss */
+.address-component .search-address .results {
+  margin-top: 1.2em;
+}
+/* line 398, ../sass/_components.scss */
+.address-component .search-address .results h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+/* line 402, ../sass/_components.scss */
+.address-component .search-address .results p {
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+/* line 409, ../sass/_components.scss */
 .address-component.cur {
   padding: 0;
   border-color: black;
   color: black;
 }
-/* line 317, ../sass/_components.scss */
+/* line 414, ../sass/_components.scss */
 .address-component.cur form > div, .address-component.cur .address-block > div {
   line-height: 38px;
 }
-/* line 321, ../sass/_components.scss */
+/* line 418, ../sass/_components.scss */
 .address-component.cur form > div:not(:last-child), .address-component.cur .address-block > div:not(:last-child) {
   border-bottom: 2px dotted white;
 }
-/* line 325, ../sass/_components.scss */
+/* line 422, ../sass/_components.scss */
 .address-component.cur .deliverable-tag {
   background-color: black;
 }
-/* line 329, ../sass/_components.scss */
+/* line 426, ../sass/_components.scss */
 .address-component.cur .cur-show {
   display: block;
 }
-/* line 333, ../sass/_components.scss */
+/* line 430, ../sass/_components.scss */
 .address-component.cur .user-actions {
   opacity: .5;
   display: block;
@@ -2554,19 +2657,19 @@ html.order-address-html body {
   right: 5px;
   bottom: 0;
 }
-/* line 339, ../sass/_components.scss */
+/* line 436, ../sass/_components.scss */
 .address-component.cur .user-actions span {
   padding: .5em;
 }
-/* line 341, ../sass/_components.scss */
+/* line 438, ../sass/_components.scss */
 .address-component.cur .user-actions span:not(:last-child) {
   margin-right: 1.3em;
 }
-/* line 348, ../sass/_components.scss */
+/* line 445, ../sass/_components.scss */
 .address-component.cur.edit form > div, .address-component.cur.edit .address-block > div {
   border-bottom-color: #bbbbbb;
 }
-/* line 351, ../sass/_components.scss */
+/* line 448, ../sass/_components.scss */
 .address-component.cur.edit .user-actions {
   display: none;
 }

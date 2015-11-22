@@ -10,9 +10,14 @@
 </head>
 <body class="menu-body">
 
+<div class="address-selection" ng-if="addressLoaded" ng-cloak>
+    <div ng-show="!addresses.length" class="no-address-tip">您没有可以配送的地址,请先新建地址</div>
+    <div ng-show="address" class="address-tip">配送至:{{address.street + address.address | limitTo: 15}}</div>
+</div>
+
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
+        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook', warehouse: warehouse} track by dish._id">
             <div class="dish-detail">
                 <div class="img-group">
                     <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
@@ -33,11 +38,6 @@
                         </div>
                         <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
-                    <!--<div class="buy">-->
-                        <!--<span class="price">{{::dish.priceOriginal}}</span>-->
-                        <!--<span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>-->
-                        <!--<span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>-->
-                    <!--</div>-->
                     <div class="buy-button"
                          ng-class="{'out-of-stock': dish.outOfStock}"
                          ng-click="!dish.outOfStock && addDish(dish)">

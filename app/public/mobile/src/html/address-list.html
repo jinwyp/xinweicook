@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html ng-app="xw" ng-controller="addressListCtrl" ng-click="saveGlobal">
+<html ng-app="xw" ng-controller="addressListCtrl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
     <%- include('includes/css.html') %>
-    <title>地址管理.</title>
+    <title>新味 / 地址管理</title>
     <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
-<body>
+<body class="white-body">
 
 <nav class="address-list-nav nav">
     <div class="back-icon" ng-click="back()"></div>
     <span class="no-bottom-border">管理收货地址</span>
-    <a class="icon-add icon" href="addressedit"></a>
 </nav>
 
 <div class="main address-main" ng-cloak>
-    <ul class="address-list">
-        <li ng-repeat="address in addresses">
-            <address cur="{{$first}}" range="range" save="" old-address="address" deleteHook="remove($index)"></address>
-        </li>
-        <li ng-if="range">
-            <address ng-class="{cur: !addresses.length}" range="range"></address>
-        </li>
-    </ul>
+    <address-list addresses="addresses" range="range" save="save" editing="editing"></address-list>
+    <div class="save-button" ng-class="{active: editing()}" ng-click="save($event)">保存</div>
 </div>
 
 </body>

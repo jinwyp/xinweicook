@@ -215,6 +215,22 @@
   }
 }
 
+// directive address-list
+.address-list {
+  margin: 0 24px;
+  li {
+    position: relative;
+    margin-bottom: 7px;
+    background-color: white;
+  }
+}
+
+
+//directive address
+.new-address-tip {
+  font-size: 13px;
+  color: $invalid-text-color;
+}
 .address-component {
   border: 2px solid #DCDFDE;
   padding: 5px 0;
@@ -241,16 +257,19 @@
     background-color: white;
     top: 0;
     width: 100%;
+    &.new-address {
+      position: static;
+    }
   }
 
-  form>div, .address-block>div{
+  form:not(#address-form)>div, .address-block>div{
     line-height: 34px;
     padding-left: 10px;
     height: 40px;
     position: relative;
   }
 
-  form>div {
+  form:not(address-form)>div {
     //.err-tip的另外一部分见base
     &.with-tag .err-tip {
       right: 83px;
@@ -307,6 +326,84 @@
 
   .user-actions {
     display: none;
+  }
+
+  .new-address-block {
+    line-height: 2.5em;
+    text-align: center;
+  }
+
+  $text-bg-gray-color: #E6E6E6;
+  $text-gray-color: #5D5D5D;
+
+  .search-address {
+    color: $body-color;
+    position: fixed;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    padding:0 12px;
+    top: 0;
+    left: 0;
+
+    form {
+      padding: 13px 0 10px 8px;
+      border-bottom: 1px solid gray;
+      position: relative;
+
+      div {
+        height: 20px;
+        line-height: 22px !important;
+      }
+
+      input {
+        width: 100%;
+        height: inherit;
+      }
+
+      .confirm {
+        position: absolute;
+        bottom: 7px;
+        right: 0;
+        text-align: center;
+        padding: 3px 11px;
+        border: 1px solid black;
+        &.invalid {
+          border-color: $invalid-text-color;
+        }
+      }
+    }
+
+    .find-address-tip {
+      font-size: 13px;
+      background: $text-bg-gray-color;
+      line-height: 1.8;
+      text-indent: 0.5em;
+      color: $text-gray-color;
+    }
+
+    .no-address-tip {
+      text-align: center;
+      padding-top: 20px;
+      color: gray;
+      h4 {
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    .results {
+      margin-top: 1.2em;
+      h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      p {
+        font-size:  12px;
+        margin-bottom: 14px;
+      }
+    }
   }
 
   &.cur {

@@ -1,11 +1,13 @@
 .address-main {
-  .address-list {
-    margin: 0 24px;
-
-    li {
-      position: relative;
-      margin-bottom: 7px;
-      background-color: white;
+  .save-button {
+    color: $invalid-text-color;
+    text-align: center;
+    border: 2px solid;
+    margin: 0 24px 1em;
+    background: white;
+    line-height: 2.5;
+    &.active {
+      color: $body-color;
     }
   }
 }
