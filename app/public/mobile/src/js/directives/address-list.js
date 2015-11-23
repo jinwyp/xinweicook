@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('addressList', function () {
+angular.module('xw.directives').directive('addressList', function ($q) {
     return {
         restrict: 'E',
         scope: {
@@ -74,19 +74,20 @@ angular.module('xw.directives').directive('addressList', function () {
                     return;
 
                 // 保存
+                var promise;
                 if (editIdx != -1) {
                     if (handler.valid[editIdx]()) {
-                        handler.save[editIdx]()
+                        promise = handler.save[editIdx]()
                     } else {
                         // 阻止离开当前地址指令,并阻止其他地址指令响应click事件.
                         return event.stopPropagation();
                     }
                 } else if (data.newAddress.edit) {
                     if (handler.valid.newAddress()) {
-                        handler.save.newAddress().then(function (address) {
-                            if (!address) return;
+                        promise = handler.save.newAddress().then(function (address) {
                             $scope.addresses.push(address);
                             data.newAddress = {};
+                            return address;
                         });
                     } else {
                         return event.stopPropagation();
@@ -96,9 +97,13 @@ angular.module('xw.directives').directive('addressList', function () {
                 // 离开
                 if (curIdx != -1) {
                     handler.leave[curIdx]();
+                    promise = $q.resolve($scope.addresses[curIdx]);
                 } else if (data.newAddress.cur) {
                     handler.leave.newAddress();
                 }
+
+                // 如果是保存那这就是promise,否则不是.
+                return promise;
             };
         }
     }

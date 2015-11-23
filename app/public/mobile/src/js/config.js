@@ -24,7 +24,11 @@ return {
 
         addressContactPersonWrong : 1235,
         addressMobileWrong        : 1236,
-        addressSortOrderWrong     : 1237
+        addressSortOrderWrong     : 1237,
+
+        addressNotDeliver     : 1270,
+
+        addressBaiduMapNotFoundError     : 1280
 
     },
     order: {
@@ -111,7 +115,7 @@ return {
 });
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
     var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/cart/, /^\/mobile\/resetpwd$/];
-    var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart'];
+    var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart', '/api/user/address'];
     var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress', '/mobile/orderlist',
         '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline'];
 
