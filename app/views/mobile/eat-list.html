@@ -56,28 +56,28 @@
 </div>
 
 
-<add-dish-bar user="user" dish="curDish"></add-dish-bar>
+<add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<nav class="menu-nav" ng-class="{'empty': !storage.localBag.length}">
+<nav class="menu-nav" ng-class="{'empty': !localBag.length}">
     <div><a href="me"><span>帐号</span></a></div>
     <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
     <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
 
     <div class="go-to-cart"
          ng-class="{invalid: !address || !address.isAvailableForEat}"
-         ng-if="storage.localBag.length"
-         flash-class="{exp: storage.localBag.length, duration: 400}"
+         ng-if="localBag.length"
+         flash-class="{exp: localBag.length, duration: 400}"
          ng-click="tryBuy() && goToCart()">
         <div class="icon bag-icon">
-            <i class="number" ng-bind="storage.localBag.length"></i>
+            <i class="number" ng-bind="localBag.length"></i>
         </div>
-        <span class="price" ng-bind="storage.localBag.price || 0 | number: 1"></span>
+        <span class="price" ng-bind="localBag.price || 0 | number: 1"></span>
     </div>
 </nav>
 
 </body>
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/eat-list-335a6abc65.js"></script>
+<script src="/mobile/dist/js/controllers/eat-list-2d1131732f.js"></script>
 
 </html>

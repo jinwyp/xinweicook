@@ -2,18 +2,19 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
     return {
         scope: {
             dish: '=',
-            user: '='
+            user: '=',
+            localBag: '='
         },
         templateUrl: 'add-dish-bar.html',
         link : function ($scope) {
             var storage = $scope.storage = $localStorage;
-            storage.localBag = storage.localBag || [];
+            var localBag = $scope.localBag = [];
 
             var unwatcher = $scope.$watch('user', function (user) {
                 if (user) {
                     unwatcher();
 
-                    storage.localBag = Utils.mergeCarts(storage.localBag || []
+                    $scope.localBag = localBag = Utils.mergeCarts(localBag
                         , user.shoppingCart);
                     $scope.totalPrice();
                 }
@@ -57,7 +58,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 // - {dish: dish, number:number, subDish: []}
                 var entry;
 
-                storage.localBag.some(function (item) {
+                localBag.some(function (item) {
                     if (Utils.isSameItemInCart(item, newEntry)) {
                         entry = item;
                         entry.number += newEntry.number;
@@ -69,14 +70,14 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 });
 
                 if (!entry) {
-                    storage.localBag.push(newEntry);
+                    localBag.push(newEntry);
                 }
 
                 dish.count = 0;
 
                 $scope.hide();
 
-                User.postCart(storage.localBag.map(postDishFilter));
+                User.postCart(localBag.map(postDishFilter));
 
                 $scope.totalPrice();
             };
@@ -84,14 +85,14 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
             var postDishFilter = $filter('postDish');
 
             $scope.totalPrice = function () {
-                var p = storage.localBag.reduce(function price(total, cur) {
+                var p = localBag.reduce(function price(total, cur) {
                     total += cur.dish.priceOriginal * cur.number;
                     if (cur.subDish) {
                         total += cur.subDish.reduce(price, 0)
                     }
                     return total;
                 }, 0);
-                return storage.localBag.price = p;
+                return localBag.price = p;
             };
 
             $scope.totalPrice();

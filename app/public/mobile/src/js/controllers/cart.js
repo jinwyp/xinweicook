@@ -1,26 +1,5 @@
 angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, $localStorage, $timeout, $filter, Dishes, Utils, $q) {
 
-    // localBag may be has some bug.
-    try {
-        if ($localStorage.localBag) {
-            var localBag = $localStorage.localBag;
-            var dishIdMap = {};
-            for (var i = 0; i < localBag.length; i++) {
-                var id = localBag[i].dish._id;
-                var subDish = localBag[i].subDish;
-                for (var j = 0; j < localBag[i].subDish.length; j++) {
-                    id += subDish[j].dish._id;
-                }
-                if (!dishIdMap[id]) dishIdMap[id] = true;
-                else {
-                    localBag.splice(i--, 1)
-                }
-            }
-        }
-    } catch(e) {
-
-    }
-
     $scope.increase = function (item) {
         // 先更新展示数据上的数量
         item.number++;
@@ -28,9 +7,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             sDish.number = item.number;
         });
 
-        User.postCart(postCart.map(postDishFilter)).catch(function () {
-            $localStorage.localBag = postCart;
-        })
+        User.postCart(postCart.map(postDishFilter))
     };
 
     $scope.decrease = function (item, idx) {
@@ -55,9 +32,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 postCart.splice(postCart.indexOf(item), 1);
             }
 
-            User.postCart(postCart.map(postDishFilter)).catch(function () {
-                $localStorage.localBag = postCart;
-            })
+            User.postCart(postCart.map(postDishFilter))
         }
     };
 
@@ -149,9 +124,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             }).catch(function () {
                 return []
             }).then(function (serverBag) {
-                var localBag = $localStorage.localBag || [];
 
-                $localStorage.localBag = postCart = Utils.mergeCarts(localBag, serverBag);
+                postCart = Utils.mergeCarts([], serverBag);
                 var mainStockIds = $localStorage.mainStockIds.reduce(function (map, id) {
                     map[id] = true;
                     return map;
