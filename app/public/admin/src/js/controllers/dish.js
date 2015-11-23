@@ -144,7 +144,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 price : ''
             }],
 
-            stock : 20,
+            stock : 0,
 
             addInventory : {},
             reduceInventory : {}

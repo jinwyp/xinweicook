@@ -21,8 +21,8 @@ var warehouseList = [
     {
         "_id"                  : "56332196594b09af6e6c7dd7",
         "name"                 : "caohejing1",
-        "locationGeoLatitude"  : 31.175474,
-        "locationGeoLongitude" : 121.40523,
+        "locationGeoLatitude"  : 31.17546886907618,
+        "locationGeoLongitude" : 121.4051452465212,
         "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
         "address"              : "虹梅路2008号虹梅大楼",
         "deliveryRange"        : 1500,
@@ -32,10 +32,10 @@ var warehouseList = [
     {
         "_id"                  : "564ab6de2bde80bd10a9bc60",
         "name"                 : "lujiazui1",
-        "locationGeoLatitude"  : 31.243494,
-        "locationGeoLongitude" : 121.527943,
+        "locationGeoLatitude"  : 31.24232042013846,
+        "locationGeoLongitude" : 121.5277729316883,
         "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui warehouse"},
-        "address"              : "东方路227号",
+        "address"              : "东方路286号",
         "deliveryRange"        : 2500,
         "sortId"               : 800,
         "isActivated"          : true,
@@ -61,8 +61,8 @@ var warehouseList = [
                 "sortId" : "2",
                 "title"  : "世纪大道1666号",
 
-                "longitude" : "121.543188",
-                "latitude"  : "31.229294"
+                "longitude" : "121.543188", //121.5413912432196
+                "latitude"  : "31.229294"   //31.22950665779515
 
             },
             {
