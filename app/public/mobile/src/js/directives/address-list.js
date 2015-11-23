@@ -97,7 +97,8 @@ angular.module('xw.directives').directive('addressList', function ($q) {
                 // 离开
                 if (curIdx != -1) {
                     handler.leave[curIdx]();
-                    if (editIdx != -1) promise = $q.resolve($scope.addresses[curIdx]);
+                    if (editIdx == -1)
+                        promise = $q.resolve($scope.addresses[curIdx]);
                 } else if (data.newAddress.cur) {
                     handler.leave.newAddress();
                 }

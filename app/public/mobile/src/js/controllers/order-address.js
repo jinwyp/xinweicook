@@ -2,6 +2,9 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
     Weixin, $scope, Address, $localStorage, $timeout, $q) {
 
     $scope.next = function (event) {
+        if (!$scope.editing()) {
+
+        }
         if ($scope.save) {
             var promise = $scope.save(event);
             if (promise && typeof promise.then == 'function') {
