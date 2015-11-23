@@ -14,7 +14,7 @@
     <a href="/mobile/orderaddress">
         <div ng-show="path != '/eat' && address" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
         <div ng-show="!addresses.length" class="no-address-tip">您没有可以配送的地址,请先新建地址</div>
-        <div ng-show="path == '/eat' && (address && !address.isAvailableForEat)" class="no-address-tip">当前地址不在便当配送范围内</div>
+        <div ng-show="path == '/eat' && (address && !address.isAvailableForEat)" class="no-address-tip">当前地址不在便当配送范围内(如果该地址以前可用,请重新编辑后再尝试)</div>
         <div ng-show="path == '/eat' && address.isAvailableForEat" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
     </a>
 </div>
@@ -78,6 +78,6 @@
 </body>
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/eat-list-d4d54c30bf.js"></script>
+<script src="/mobile/dist/js/controllers/eat-list-335a6abc65.js"></script>
 
 </html>
