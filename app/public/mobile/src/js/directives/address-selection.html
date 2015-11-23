@@ -1,0 +1,8 @@
+<div class="address-selection" flash-class="{exp: animateTrigger, duration: 400}" ng-if="show" ng-cloak>
+    <a href="/mobile/orderaddress?path={{path}}&dishId={{dishId}}">
+        <div ng-show="path != '/eat' && address" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
+        <div ng-show="noAddress" class="no-address-tip">您没有可以配送的地址,请先新建地址</div>
+        <div ng-show="path == '/eat' && (address && !address.isAvailableForEat)" class="no-address-tip">当前地址不在便当配送范围内(如果该地址以前可用,请点此重新编辑后再试)</div>
+        <div ng-show="path == '/eat' && address.isAvailableForEat" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
+    </a>
+</div>

@@ -22,16 +22,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
 
     Utils.cleanLocalStorage();
 
-    $scope.goToCart = function () {
-        if (!$scope.localBag || !$scope.localBag.length) {
-            alert('请至少添加一份菜品');
-            return;
-        }
-        $timeout(function () {
-            location.href = 'cart';// todo: replace with route
-        }, 200); // let $localStorage sync. but
-    };
-
     $scope.likeDish = function (dish) {
         Dishes.like(dish._id).then(function () {
             // 如果成功,并不是很有必要重新拉取用户列表.因为这里不会更新用户信息.
@@ -82,7 +72,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                     delete storage.selectedAddress;
                 });
             } else {
-                // todo:注意食材包
                 // 如果没有经过选择,则选择一个可配送默认地址
                 var eatAddresses = res.data.filter(function (addr) {
                     return addr.isAvailableForEat;
@@ -119,17 +108,11 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         });
     }
 
-    //function filterDishByWarehouse(state) {
-    //    // ugly DOM code in the controller to trigger `img-lazy-load`.
-    //    $timeout(function () {
-    //        window.scrollTo(0, window.scrollY + 0.1);
-    //    })
-    //}
-
     function filterDishByWarehouse() {
         if ($scope.dishes && $scope.warehouse) {
             $scope.dishes = $scope.dishes.filter(function (dish) {
-                return dish.stockWarehouseObj[$scope.warehouse] > 0;
+                return dish.stockWarehouseObj[$scope.warehouse] > 0
+                    || dish.cookingType == 'ready to cook'
             });
 
             $timeout(function () {

@@ -1,17 +1,16 @@
 angular.module('xw.controllers').controller('orderAddressCtrl', function (
-    Weixin, $scope, Address, $localStorage, $timeout, $q) {
+    Weixin, $scope, Address, $localStorage, $timeout, $q, Utils) {
+
+    var backUrl = '/mobile';
 
     $scope.next = function (event) {
-        if (!$scope.editing()) {
-
-        }
         if ($scope.save) {
             var promise = $scope.save(event);
             if (promise && typeof promise.then == 'function') {
                 promise.then(function (address) {
                     $localStorage.selectedAddress = address;
                     $timeout(function () {
-                        location.replace('/mobile');
+                        location.replace(backUrl);
                     }, 119);
                 })
             }
@@ -30,10 +29,15 @@ angular.module('xw.controllers').controller('orderAddressCtrl', function (
                 timestamp: res.data.timestamp,
                 signature: res.data.signature
             });
-        })
+        });
+
+        var searches = Utils.searches(location.search);
+        if (searches.dishId) {
+            backUrl = '/mobile/cook/' + searches.dishId;
+        } else if (searches.path) {
+            backUrl = '/mobile/#' + searches.path
+        }
     }
-
-
 
     init();
 });

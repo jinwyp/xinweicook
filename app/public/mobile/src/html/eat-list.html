@@ -10,14 +10,8 @@
 </head>
 <body class="menu-body">
 
-<div class="address-selection" flash-class="{exp: addressCount, duration: 400}" ng-if="addressLoaded" ng-cloak>
-    <a href="/mobile/orderaddress">
-        <div ng-show="path != '/eat' && address" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
-        <div ng-show="!addresses.length" class="no-address-tip">您没有可以配送的地址,请先新建地址</div>
-        <div ng-show="path == '/eat' && (address && !address.isAvailableForEat)" class="no-address-tip">当前地址不在便当配送范围内(如果该地址以前可用,请重新编辑后再尝试)</div>
-        <div ng-show="path == '/eat' && address.isAvailableForEat" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
-    </a>
-</div>
+<address-selection animate-trigger="addressCount" show="addressLoaded" path="{{path}}"
+                   address="address" no-address="!addresses.length"></address-selection>
 
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
@@ -58,22 +52,8 @@
 
 <add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<nav class="menu-nav" ng-class="{'empty': !localBag.length}">
-    <div><a href="me"><span>帐号</span></a></div>
-    <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
-    <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
-
-    <div class="go-to-cart"
-         ng-class="{invalid: !address || !address.isAvailableForEat}"
-         ng-if="localBag.length"
-         flash-class="{exp: localBag.length, duration: 400}"
-         ng-click="tryBuy() && goToCart()">
-        <div class="icon bag-icon">
-            <i class="number" ng-bind="localBag.length"></i>
-        </div>
-        <span class="price" ng-bind="localBag.price || 0 | number: 1"></span>
-    </div>
-</nav>
+<menu-nav path="{{path}}" local-bag="localBag"
+          try-buy="tryBuy()" is-valid="address && address.isAvailableForEat"></menu-nav>
 
 </body>
 <%- include('includes/js.html') %>
