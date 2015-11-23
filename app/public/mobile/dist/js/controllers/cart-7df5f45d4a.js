@@ -197,7 +197,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
             if (dish.cookingType == 'ready to cook') {
                 $scope.dishList.cookList.push(el);
             } else {
-                if (dishMap[dish._id].stockWarehouseObj[warehouse] > 0) {
+                if (dishMap[dish._id] && dishMap[dish._id].stockWarehouseObj[warehouse] > 0) {
                     $scope.dishList.eatList.push(el);
                 } else {
                     $scope.dishList.noReachList.push(el);
