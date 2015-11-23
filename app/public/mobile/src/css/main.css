@@ -305,7 +305,7 @@ form .err-tip {
   top: 0;
   width: 100%;
   z-index: 1;
-  line-height: 2.5em;
+  line-height: 3em;
   text-align: center;
   -webkit-transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
   transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
@@ -317,7 +317,7 @@ form .err-tip {
   border-bottom: 2px solid;
   width: 9px;
   height: 9px;
-  top: 10px;
+  top: 13px;
   position: absolute;
   right: 1.2em;
   -webkit-transform: rotate(45deg);

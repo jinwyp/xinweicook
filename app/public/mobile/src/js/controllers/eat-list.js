@@ -9,6 +9,10 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.warehouse = ''; // 作为筛选菜品使用
 
+
+    window.onerror = function (e) {
+        alert(JSON.stringify(e));
+    };
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
         if (!dish.count) {
@@ -19,7 +23,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     Utils.cleanLocalStorage();
 
     $scope.goToCart = function () {
-        if (!storage.localBag.length) {
+        if (!$scope.localBag || !$scope.localBag.length) {
             alert('请至少添加一份菜品');
             return;
         }
