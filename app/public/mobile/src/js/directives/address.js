@@ -27,6 +27,7 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                 showSearchAddress: false,
                 form: null,
                 locating: false,
+                isWeixin: Weixin.isWeixin,
                 isNewAddress: Object.keys($scope.outAddress).length < 2
             };
 
