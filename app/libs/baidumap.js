@@ -90,7 +90,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
         throw new Error('需要填写起点名称或经纬度');
     }else if (Array.isArray(query.origins)) {
         query.origins.forEach(function(place){
-            
+
             if (typeof place.lng === 'undefined' || !place.lng || typeof place.lat === 'undefined' || !place.lat){
                 throw new Error('需要填写起点名称或经纬度');
             }else{
