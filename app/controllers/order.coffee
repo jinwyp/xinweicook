@@ -235,7 +235,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
 
-  if req.body.address.fromDistance?
+  if req.body.address and req.body.address.fromDistance?
     req.body.address.distanceFrom = req.body.address.fromDistance
 
   # 新增地址ID
@@ -302,10 +302,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
     newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
-    if req.body.address.city is "上海市"
-      newOrder.packageType = "paperbox"
-    else
-      newOrder.packageType = "foambox"
+
 
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
@@ -340,10 +337,7 @@ exports.addNewOrder = (req, res, next) ->
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
-  if req.body.address.city is "上海市"
-    newOrderReadyToCook.packageType = "paperbox"
-  else
-    newOrderReadyToCook.packageType = "foambox"
+
 
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -433,7 +427,12 @@ exports.addNewOrder = (req, res, next) ->
       newOrderReadyToCook.address = resultAddress
 
 
-
+    if newOrder.address.city is "上海市"
+      newOrder.packageType = "paperbox"
+      newOrderReadyToCook.packageType = "paperbox"
+    else
+      newOrder.packageType = "foambox"
+      newOrderReadyToCook.packageType = "foambox"
 
 
 
