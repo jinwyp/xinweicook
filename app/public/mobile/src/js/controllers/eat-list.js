@@ -91,7 +91,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                 });
                 if (!$scope.address && eatAddresses.length) {
                     $scope.address = eatAddresses[0];
-                } else {
+                }
+                if (!$scope.address)
                     $scope.address = $scope.addresses[0];
                 }
             }

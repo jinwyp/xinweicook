@@ -92,6 +92,9 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                 if (!$scope.address && eatAddresses.length) {
                     $scope.address = eatAddresses[0];
                 }
+                if (!$scope.address)
+                    $scope.address = $scope.addresses[0];
+                }
             }
 
             // 保存warehouse到下单的时候需要,不过回到这个页面的时候会被cleanLocalStorage清除
