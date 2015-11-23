@@ -1,10 +1,13 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
-function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
-                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils) {
+function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
+                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils, Address) {
     $scope.user = null;
     $scope.address = '';
+    $scope.addressLoaded = false;
+    $scope.addresses = null;
     $scope.curDish = null; // 点击购买后被选中的菜品
+    $scope.warehouse = ''; // 作为筛选菜品使用
 
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
@@ -26,10 +29,25 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
     };
 
     $scope.likeDish = function (dish) {
-        Dishes.like(dish._id).then(function (res) {
+        Dishes.like(dish._id).then(function () {
             // 如果成功,并不是很有必要重新拉取用户列表.因为这里不会更新用户信息.
             dish.liked = !dish.liked;
         }).catch(Debug.promiseErrFn('更新用户喜欢状态失败'))
+    };
+
+    // for flash-class
+    $scope.addressCount = 0;
+    $scope.tryBuy = function () {
+        if (!$scope.address) {
+            $scope.addressCount++;
+            return false
+        }
+        if (!$scope.address.isAvailableForEat && $scope.path == '/eat') {
+            $scope.addressCount++;
+            return false;
+        }
+
+        return true;
     };
 
     ScopeDecorator.nav($scope);
@@ -44,24 +62,44 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
         $location.path(path);
         $scope.path = path;
 
-        storage.warehouse = 'xinweioffice';
+        //storage.warehouse = 'xinweioffice';
 
         getDishList('caohejing1');
 
-        Weixin.ready(function () {
-            Weixin.getLocation(function (res) {
-                var warehouse = Map.nearestWarehouse(res.latitude,
-                    res.longitude);
+        Address.getList().then(function (res) {
+            $scope.addresses = res.data;
+            if (!$scope.addresses.length) return;
 
-                storage.warehouse = warehouse;
-                filterDishByWarehouse({
-                    warehouse: warehouse
+            // 选择了一个地址,将此作为默认地址
+            if (storage.selectedAddress) {
+                $scope.address = storage.selectedAddress;
+                $scope.address.isDefault = true;
+                Address.update($scope.address).then(function () {
+                    delete storage.selectedAddress;
                 });
-            }, function () {
-                filterDishByWarehouse({
-                    warehouse: 'xinweioffice'
-                })
-            })
+            } else {
+                // todo:注意食材包
+                // 如果没有经过选择,则选择一个可配送默认地址
+                var eatAddresses = res.data.filter(function (addr) {
+                    return addr.isAvailableForEat;
+                });
+                eatAddresses.some(function (addr) {
+                    if (addr.isDefault) {
+                        $scope.address = addr;
+                        return true;
+                    }
+                });
+                if (!$scope.address && eatAddresses.length) {
+                    $scope.address = eatAddresses[0];
+                }
+            }
+
+            // 保存warehouse到下单的时候需要,不过回到这个页面的时候会被cleanLocalStorage清除
+            storage.warehouse = $scope.warehouse = $scope.address.warehouse;
+            storage.orderAddress = $scope.address;
+            filterDishByWarehouse();
+        }).catch(angular.noop).then(function () {
+            $scope.addressLoaded = true;
         });
 
         Weixin.getJsconfig().then(function (res) {
@@ -71,42 +109,25 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                 signature: res.data.signature
             })
         });
-
-        //!Weixin.isWeixin && getDishList($localStorage.warehouse);
     }
 
-    var dishReady = false;
-    var warehouse = '';
-    var dishes;
-    function filterDishByWarehouse(state) {
-        if (state.dishReady) {
-            dishReady = true;
+    //function filterDishByWarehouse(state) {
+    //    // ugly DOM code in the controller to trigger `img-lazy-load`.
+    //    $timeout(function () {
+    //        window.scrollTo(0, window.scrollY + 0.1);
+    //    })
+    //}
+
+    function filterDishByWarehouse() {
+        if ($scope.dishes && $scope.warehouse) {
+            $scope.dishes = $scope.dishes.filter(function (dish) {
+                return dish.stockWarehouseObj[$scope.warehouse] > 0;
+            });
+
+            $timeout(function () {
+                window.scrollTo(0, window.scrollY + 1);
+            })
         }
-
-        if (state.warehouse) {
-            warehouse = state.warehouse
-        }
-
-        if (!dishReady) return;
-        if (!dishes) {
-            dishes = $scope.dishes;
-        }
-
-        $scope.dishes = dishes.filter(function (dish) {
-
-            var _warehouse = warehouse || 'xinweioffice';
-            if (_warehouse == 'caohejing1') {
-                return (dish.showForWarehouse == 'caohejing1' || dish.cookingType == 'ready to cook')
-            } else {
-                return dish.showForWarehouse != 'caohejing1';
-            }
-        });
-        
-
-        // ugly DOM code in the controller to trigger `img-lazy-load`.
-        $timeout(function () {
-            window.scrollTo(0, window.scrollY + 0.1);
-        })
     }
 
     function getDishList(warehouse) {
@@ -117,9 +138,7 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout, Map,
                 storage.preferenceStockIds = Utils.getStockId(res.data, 'preference');
                 storage.mainStockIds = Utils.getStockId(res.data, 'main');
 
-                filterDishByWarehouse({
-                    dishReady: true
-                });
+                filterDishByWarehouse();
                 return res.data;
             }),
             User.getUserInfo().then(function (res) {

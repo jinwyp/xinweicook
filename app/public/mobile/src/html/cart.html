@@ -9,24 +9,18 @@
 </head>
 <body class="cart-body" ng-app="xw" ng-controller="cartCtrl">
 
-<!--<nav class="fav-nav nav">-->
-    <!--<div class="back-icon" ng-click="back()"></div>-->
-    <!--<span>购物袋</span>-->
-<!--</nav>-->
-
-<shopping-progress-bar></shopping-progress-bar>
-
 <div class="cart-main" ng-cloak>
 
     <div ng-repeat="(listName, list) in dishList" class="cart-block" ng-if="list.length">
         <!--<div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">-->
             <!--您当前的配送地址不在便当的配送范围内-->
         <!--</div>-->
-        <h4><span class="icon select" ng-class="{active: list.selectedAll}" ng-click="selectAll(listName)"></span> {{listName == 'cookList' ? '食材包' : '便当'}}
+        <h4 ng-if="listName == 'noReachList'">当前地址无法配送以下商品</h4>
+        <h4 ng-if="listName != 'noReachList'"><span class="icon select" ng-class="{active: list.selectedAll}" ng-click="selectAll(listName)"></span> {{listName == 'cookList' ? '食材包' : '便当'}}
             <span class="total">已选中 {{list.selectedLength}}份{{listName == 'cookList' ? '食材包' : '便当'}}, 小计 ¥{{totalPrice(listName)|number:1}}</span></h4>
-        <ul class="cart-list">
+        <ul class="cart-list" ng-class="{'no-reach-list': listName == 'noReachList'}">
             <li ng-repeat="item in list" ng-class="{'out-of-stock': item.outOfStock}">
-                <div class="select" ng-class="{active: item.selected}" ng-click="select(item)"></div>
+                <div class="select" ng-if="listName != 'noReachList'" ng-class="{active: item.selected}" ng-click="select(item)"></div>
                 <div class="dish-wrapper">
                     <a ng-href="{{listName == 'eatList' ? '/mobile/' : ('/mobile/cook/' + item.dish._id)}}">
                         <span class="dish-img" ng-style="{'background-image': 'url('+ imgAdapt(item.dish.cover[0].zh) + ')'}"></span>
@@ -42,7 +36,7 @@
                             {{item|dishPrice}}
                         </span>
                     </div>
-                    <div class="counter">
+                    <div class="counter" ng-if="listName != 'noReachList'">
                         <span ng-click="decrease(item, $index)">-</span>
                         <span class="number">{{item.number}}</span><!-- todo: dish.number是否合适 -->
                         <span ng-click="increase(item)">+</span>

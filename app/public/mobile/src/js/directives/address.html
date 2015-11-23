@@ -1,0 +1,103 @@
+<div ng-if="css.isNewAddress && css.edit" class="new-address-tip">请填写有效的地址以便按时送达</div>
+<div class="address-component" ng-class="{cur: css.cur || css.isNewAddress, edit: css.edit}"
+    ng-click="choose($event)">
+
+    <div class="address-block" ng-if="!css.isNewAddress">
+        <span class="deliverable-tag" ng-if="addr.isAvailableForEat">便当可送达</span>
+        <div>{{addr.contactPerson}}</div>
+        <div class="cur-show">{{addr.mobile | beautifyMobile}}</div>
+        <div class="cur-show">{{addr.province + ' ' + addr.city + ' ' + addr.district}}</div>
+        <div>{{addr.street}}</div>
+        <div class="cur-show">{{addr.address}}</div>
+        <div class="user-actions">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span ng-click="deleteAddress($event)" class="glyphicon glyphicon-trash"></span>
+        </div>
+    </div>
+
+    <div class="new-address-block" ng-if="css.isNewAddress && !css.edit">
+        + 新建收货地址
+    </div>
+
+    <form ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }" ng-class="{'new-address': css.isNewAddress}" ng-if="css.edit" name="form">
+        <div ng-init="initForm(form, addr)" ng-class="{'with-tag': addr.isAvailableForEat}">
+            <input name="contactPerson" type="text" placeholder="收货人"
+                   ng-model="addr.contactPerson" auto-focus
+                   minlength="2" required/>
+            <err-tip form="form" name="contactPerson" error="required">必填</err-tip>
+            <err-tip form="form" name="contactPerson" error="minlength">联系人姓名至少2个字</err-tip>
+        </div>
+        <div>
+            <input name="mobile" type="tel" placeholder="手机号"
+                   ng-model="addr.mobile"
+                   minlength="11" maxlength="11" required/>
+            <err-tip form="form" name="mobile" error="required">必填</err-tip>
+            <err-tip form="form" name="mobile" error="minlength">手机号码长度为11位</err-tip>
+        </div>
+
+        <div ng-show="!css.showFakeInput" class="selects">
+            <div class="select">
+                <select required name="province" id="province"
+                        ng-options="province for province in options()"
+                        ng-change="trySelectUnique()"
+                        ng-model="addr.province"></select>
+            </div>
+
+            <div class="select">
+                <select required name="city" id="city"
+                        ng-options="city for city in options(addr.province)"
+                        ng-model="addr.city"></select>
+            </div>
+
+            <div class="select">
+                <select required name="district" id="district"
+                        ng-options="district for district in options(addr.province, addr.city)"
+                        ng-model="addr.district"></select>
+            </div>
+        </div>
+        <div ng-if="css.showFakeInput">
+            <input type="text" placeholder="省、市、区"  ng-click="css.showFakeInput = false"/>
+            <span class="err-tip"
+                  ng-if="(form.province.$error.required||form.city.$error.required||form.district.$error.required)
+                  &&form.$submitted">必填</span>
+        </div>
+
+        <div ng-click="showSearchAddress()">
+            {{addr.street}}
+            <input type="hidden" name="street" placeholder="街道" ng-model="addr.street" required/>
+            <span ng-if="!addr.street" class="placeholder">街道</span>
+            <err-tip form="form" name="street" error="required">必填</err-tip>
+            <span ng-if="isWeixin && !css.locating" ng-click="locate($event)" class="location">定位</span>
+            <span ng-if="isWeixin && css.locating" class="location">定位中 ···</span>
+        </div>
+        <div>
+            <input name="address" type="text" placeholder="楼层、门牌号" required ng-model="addr.address">
+            <err-tip form="form" name="address" error="required">必填</err-tip>
+        </div>
+    </form>
+
+    <div class="search-address" ng-if="css.edit && css.showSearchAddress">
+        <form id="address-form">
+            <!--<span ng-click="data.street && confirmStreet()" ng-class="{invalid: !data.street}" class="confirm">确定</span>-->
+            <div><input type="text" placeholder="小区、写字楼、地标名称" id="address"
+                        ng-model="data.street"
+                        ng-model-options="{debounce: 400}"
+                        auto-focus
+                        ng-change="searchAddress()"/></div>
+        </form>
+
+        <div class="find-address-tip" ng-if="data.streetList.length">您要找的是不是?</div>
+
+        <div class="no-address-tip" ng-if="data.street && !data.streetList.length">
+            <h4>未能找到此地址</h4>
+            <p>建议只输入小区、写字楼、地标名称等</p>
+        </div>
+
+        <ul class="results">
+            <li ng-click="confirmStreet($event, street)" ng-repeat="street in data.streetList">
+                <h4>{{street.name}}</h4>
+                <p>{{street.address}}</p>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -60,6 +60,11 @@ $select-btn-width: 100px;
   background-color: white;
   position: relative;
   margin-bottom: 15px;
+
+  &.no-reach-list {
+    opacity: 0.6;
+  }
+
   li {
     position: relative;
 

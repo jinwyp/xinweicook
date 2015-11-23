@@ -24,12 +24,6 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     
     var isWeixin = $scope.isWeixin = Weixin.isWeixin;
 
-    var warehouse = $localStorage.warehouse;
-    var warehouseIdMap = {
-        caohejing1: '56332196594b09af6e6c7dd7',
-        xinweioffice: '56332187594b09af6e6c7dd2'
-    }
-
     function init() {
         var isCityShanghai, isNearAddress;
 
@@ -44,7 +38,6 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         address = data.address = $localStorage.orderAddress;
         isCityShanghai = address.province.indexOf('上海') != -1;
         isNearAddress = /浙江|江苏|安徽/.test(address.province);
-        address.distanceFrom = +address.distance;
 
         // 配送费用
         if (cart.cookList && cart.cookList.length)
@@ -54,14 +47,14 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         // 配送时间
         time = data.time;
         cart.eatList && cart.eatList.length && Orders.deliveryEatTime({
-            _id: warehouseIdMap[warehouse]
+            _id: $localStorage.warehouse
         }).then(function (res) {
             time.eat = res.data.timeList;
         });
         cart.cookList && cart.cookList.length && Orders.deliveryTime({
             cookingType: "ready to cook",
             isCityShanghai: isCityShanghai,
-            isInRange4KM: address.isInRange || false
+            isInRange4KM: address.isAvailableForEat
         }).then(function (res) {
             time.cook = $filter('cookTimeUnion')(res.data);
             //model.time.cook = {day: time.cook[0]};
@@ -161,10 +154,12 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
             userComment: model.userComment,
-            warehouseId:  warehouseIdMap[warehouse]
+            warehouseId:  $localStorage.warehouse,
+            addressId: $localStorage.orderAddress._id,
+            address: $localStorage.orderAddress
         };
 
-        angular.extend(order, {address: address},
+        angular.extend(order,
             $filter('dishes')(cart, 'order', 'displayCart'),
             $filter('orderTime')(model.time, 'all'),
             $filter('coupon')(model.coupon)
@@ -221,8 +216,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     }
 
     function clear() {
-        //delete $localStorage.confirmedBag;
-        delete $localStorage.warehouse;
+        delete $localStorage.confirmedBag;
         var localBag = $localStorage.localBag;
         if (!localBag) return;
         for (var key in cart) {

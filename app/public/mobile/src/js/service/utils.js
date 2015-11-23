@@ -64,10 +64,10 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
         },
 
         /**
-         * localStorage实在是太大了,去掉多余的信息,只保留必要的信息.
+         * localStorage实在是太大了,去掉多余的信息,只保留必要的信息.这些必要掉信息需要手动清除
          */
         cleanLocalStorage: function () {
-            var remain = ['localBag', 'promotion', 'access_token'];
+            var remain = [ 'promotion', 'access_token', 'selectedAddress'];
             Object.keys($localStorage).forEach(function (key) {
                 if (remain.indexOf(key) == -1 && key[0] != '$') {
                     delete $localStorage[key];
@@ -89,8 +89,85 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
                 }
                 return obj;
             }, {});
+        },
+
+        /**
+         * 确认两个地址是否相同,比如上海和上海市应该是相同的
+         * @param addr1
+         * @param addr2
+         * @returns {boolean}
+         */
+        addressEqual: function (addr1, addr2) {
+            addr1 = addr1 || '';
+            addr2 = addr2 || '';
+            if (!addr1 || !addr2) return false;
+            return !addr1.indexOf(addr2) || !addr2.indexOf(addr1)
+        },
+
+        /**
+         * 将老地址中的`徐汇`之类的转换成新地址的`徐汇区`
+         * @param address - {province:.., city: .., district: ..}
+         * @param ref - [从服务端拉取的地址数组, /api/../range]
+         */
+        regularizeAddress: function (address, ref) {
+            var cities, districts;
+            var equal = this.addressEqual;
+            ref.some(function (state) {
+                if (equal(address.province, state.state)) {
+                    address.province = state.state;
+                    cities = state.cities;
+                    return true;
+                }
+            });
+
+            cities && cities.some(function (city) {
+                if (equal(address.city, city.city)) {
+                    address.city = city.city;
+                    districts = city.areas;
+                    return true;
+                }
+            });
+
+            districts && districts.some(function (district) {
+                if (equal(address.district, district)) {
+                    address.district = district;
+                    return true;
+                }
+            });
+
+            return address
+        },
+
+        /**
+         * 基于服务端传回的配送范围数据,以空,或省,或市为参数来查询相应的子地区列表
+         * @example call('浙江') - return ['杭州市', '宁波市', ..]; call(), - ret[全国省]
+         * @param addresses - 服务端范围数据 /api/../range
+         * @param province
+         * @param city
+         * @returns []
+         */
+        addressOptions: function (addresses, province, city) {
+            var len = arguments.length;
+            if (len == 1) {
+                return addresses.map(function (el) {return el.state})
+
+            } else if (len == 2) {
+                if (!province) return;
+                //这里可以将结果缓存起来, 以节省len == 2时(以及以后可能相同)的多余计算
+                return addresses.filter(function (el) {
+                    return el.state == province
+                })[0].cities.map(function (el) {
+                        return el.city;
+                    })
+
+            } else if (len == 3) {
+                if (!city) return;
+                return addresses.filter(function(el) {
+                    return el.state == province
+                })[0].cities.filter(function (el) {
+                        return el.city
+                    })[0].areas
+            }
         }
-
-
     }
 });

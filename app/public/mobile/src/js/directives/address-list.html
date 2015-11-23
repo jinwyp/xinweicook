@@ -1,0 +1,11 @@
+<ul class="address-list" capture-click="watchAddress($event)">
+    <li class="address-item" ng-repeat="address in addresses">
+        <address cur="{{$first}}" range="range" out-address="address"
+                 leave="handler.leave[$index]" save="handler.save[$index]" valid="handler.valid[$index]"
+                 delete-hook="remove($index)"></address>
+    </li>
+    <li ng-if="range" class="address-item">
+        <address range="range" out-address="data.newAddress" cur="{{!addresses.length}}"
+                 leave="handler.leave.newAddress" save="handler.save.newAddress" valid="handler.valid.newAddress"></address>
+    </li>
+</ul>

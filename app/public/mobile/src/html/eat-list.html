@@ -10,6 +10,15 @@
 </head>
 <body class="menu-body">
 
+<div class="address-selection" flash-class="{exp: addressCount, duration: 400}" ng-if="addressLoaded" ng-cloak>
+    <a href="/mobile/orderaddress">
+        <div ng-show="path != '/eat' && address" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
+        <div ng-show="!addresses.length" class="no-address-tip">您没有可以配送的地址,请先新建地址</div>
+        <div ng-show="path == '/eat' && (address && !address.isAvailableForEat)" class="no-address-tip">当前地址不在便当配送范围内</div>
+        <div ng-show="path == '/eat' && address.isAvailableForEat" class="address-tip">配送至:{{address.street + address.address | limitTo: 18}}</div>
+    </a>
+</div>
+
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list">
         <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
@@ -33,14 +42,9 @@
                         </div>
                         <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
-                    <!--<div class="buy">-->
-                        <!--<span class="price">{{::dish.priceOriginal}}</span>-->
-                        <!--<span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>-->
-                        <!--<span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>-->
-                    <!--</div>-->
                     <div class="buy-button"
-                         ng-class="{'out-of-stock': dish.outOfStock}"
-                         ng-click="!dish.outOfStock && addDish(dish)">
+                         ng-class="{'out-of-stock': dish.outOfStock || !address || !address.isAvailableForEat}"
+                         ng-click="(!dish.outOfStock && tryBuy()) && addDish(dish)">
                         <div class="price"><span>{{dish.priceOriginal}}</span></div>
                         <div class="text" ng-if="!dish.outOfStock">购买</div>
                         <div class="text" ng-if="dish.outOfStock">售罄</div>
@@ -59,7 +63,11 @@
     <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
     <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
 
-    <div ng-if="storage.localBag.length" flash-class="{exp: storage.localBag.length, duration: 400}" class="go-to-cart" ng-click="goToCart()">
+    <div class="go-to-cart"
+         ng-class="{invalid: !address || !address.isAvailableForEat}"
+         ng-if="storage.localBag.length"
+         flash-class="{exp: storage.localBag.length, duration: 400}"
+         ng-click="tryBuy() && goToCart()">
         <div class="icon bag-icon">
             <i class="number" ng-bind="storage.localBag.length"></i>
         </div>
