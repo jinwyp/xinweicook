@@ -720,10 +720,10 @@ exports.getUserAddress = (req, res, next) ->
           # 判断与哪个仓库最近, 最近的仓库发货
           nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(baidu, tempWarehouse, tempAddressList[baiduIndex])
 
-          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
-            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
-            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
-            tempAddressList[baiduIndex].isAvailableForEat = true
+#          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+#            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
+#            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+#            tempAddressList[baiduIndex].isAvailableForEat = true
 
         models.useraddress.createAsync(tempAddressList)
 
