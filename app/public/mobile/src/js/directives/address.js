@@ -167,9 +167,11 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                         });
                         result.geoLatitude = location.lat;
                         result.geoLongitude = location.lng;
-                        Utils.regularizeAddress(result);
+
+                        Utils.regularizeAddress(result, $scope.range);
 
                         angular.extend(addr, result);
+
                     }).catch(angular.noop).then(function () {
                         css.locating = false; // like finally
                     })
