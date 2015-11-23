@@ -512,7 +512,7 @@
 
 
 
-    <div class="panel panel-info">
+    <div class="panel panel-info" ng-if="!css.isAddNewStatus">
         <div class="panel-heading">库存变更 当前总库存{{data.dish.stock}}</div>
 
         <!-- Table -->
@@ -554,13 +554,10 @@
             </tr>
             </tbody>
         </table>
-
-
-
     </div>
 
 
-    <div class="panel panel-info">
+    <div class="panel panel-info" ng-if="!css.isAddNewStatus">
         <div class="panel-heading">
             <button class="btn btn-info" ng-click="showInventory()">查看所有库存记录</button>
         </div>

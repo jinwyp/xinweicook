@@ -158,6 +158,7 @@
                 <th>原价</th>
                 <th>批发价</th>
                 <th>总库存</th>
+                <th>分仓库存</th>
 
                 <!--<th>创建时间</th>-->
                 <th>操作</th>
@@ -179,6 +180,15 @@
                     <span ng-repeat="price in dish.priceWholesale" >买{{price.quantity}}个为{{price.price}}元<br/></span>
                 </td>
                 <td>{{dish.stock}}</td>
+                <td>
+                    <span ng-repeat="warehouse in dish.stockWarehouse">
+                        <span ng-if="warehouse.warehouse === '56332187594b09af6e6c7dd2'">办公室</span>
+                        <span ng-if="warehouse.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
+                        <span ng-if="warehouse.warehouse === '564ab6de2bde80bd10a9bc60'">陆家嘴</span>
+                        {{warehouse.stock}}
+                        <br/>
+                    </span>
+                </td>
                 <!--<td>{{dish.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
                 <td><button class="btn btn-danger" ng-click="delDish(dish)">删除</button></td>
             </tr>
