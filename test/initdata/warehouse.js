@@ -14,7 +14,7 @@ var warehouseList = [
         "locationGeoLongitude" : 121.467155,
         "displayName"          : {"zh" : "新味办公室", "en" : "Xinwei Office"},
         "address"              : "中山南二路510号",
-        "deliveryRange"        : 6000,
+        "deliveryRange"        : 6100,
         "sortId"               : 1000,
         "isActivated"          : true
     },

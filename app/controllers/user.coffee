@@ -709,24 +709,21 @@ exports.getUserAddress = (req, res, next) ->
       Promise.all(promiseList).then (resultBaiduList) ->
 
         for baidu, baiduIndex in resultBaiduList
-          console.log(baidu)
           if baidu.status and baidu.status isnt 0
             throw(new Err baidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
           # 漕河泾仓库使用直线距离
-          baidu = models.warehouse.correctDistanceForCaohejing1Warehouse(baidu, tempAddress)
-
+          baidu = models.warehouse.correctDistanceForCaohejing1Warehouse(baidu, tempAddressList[baiduIndex])
 
           # 判断与哪个仓库最近, 最近的仓库发货
           nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(baidu, tempWarehouse, tempAddressList[baiduIndex])
 
-#          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
-#            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
-#            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
-#            tempAddressList[baiduIndex].isAvailableForEat = true
+          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+            tempAddressList[baiduIndex].isAvailableForEat = true
 
         models.useraddress.createAsync(tempAddressList)
-
       .then (result)->
 
         req.u.address = []
@@ -734,6 +731,8 @@ exports.getUserAddress = (req, res, next) ->
 
         res.json result
       .catch next
+
+
 
     else
       res.json resultUserAddressList

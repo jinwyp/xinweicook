@@ -110,6 +110,7 @@ module.exports =
             lat : userAddress.geoLatitude
             lng : userAddress.geoLongitude
 
+
           placeBaidu.distance.value = models.warehouse.getDistanceFromTwoPoint(origin, destination)
           placeBaidu.distance.text = (parseInt(models.warehouse.getDistanceFromTwoPoint(origin, destination) / 100) / 10) + "公里"
 
