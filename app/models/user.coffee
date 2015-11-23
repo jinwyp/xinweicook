@@ -122,25 +122,27 @@ module.exports =
 
     validationUserId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  User ID length must be 24-24", 400
+        return throw new Err "Field validation error,  User ID length must be 24-24", 400, Err.code.user.userIdWrong
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
-          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400, Err.code.user.wrongMobile
+
     validationPassword : (password) ->
       unless libs.validator.isLength password, 6, 20
-        return throw new Err "Field validation error,  password mus be 6-20", 400
+        return throw new Err "Field validation error,  password mus be 6-20", 400, Err.code.user.wrongPassword
+
     validationInvitationSendCode : (code) ->
       unless libs.validator.isLength code, 8, 8
-        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400
+        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400, Err.code.user.invitationSendCodeWrong
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender
           unless libs.validator.isInt updateUser.gender, {min: 1, max: 9}
-            return throw new Err "Field validation error,  gender must be 1-9", 400
+            return throw new Err "Field validation error,  gender must be 1-9", 400, Err.code.user.userGenderWrong
 
       unless Array.isArray updateUser.address
-        throw new Err "Field validation error,  address must be ArrayObject", 400
+        throw new Err "Field validation error,  address must be ArrayObject", 400, Err.code.user.userOldAddressWrong
       else
         for address,addressIndex in updateUser.address
           delete address._id
@@ -164,22 +166,22 @@ module.exports =
 
     validationShoppingCart : (updateUser) ->
       unless Array.isArray updateUser.shoppingCart
-        throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
+        throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400, Err.code.user.shoppingCartNotArray
       else
         for dish,dishIndex in updateUser.shoppingCart
           delete dish._id
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
-            return throw new Err "Field validation error,  dish.number must be 1-100", 400
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400, Err.code.user.shoppingCartDishIdWrong
           unless libs.validator.isLength dish.dish, 24, 24
-            return throw new Err "Field validation error,  dishID must be 24-24", 400
+            return throw new Err "Field validation error,  dishID must be 24-24", 400, Err.code.user.shoppingCartDishNumberWrong
 
           if Array.isArray(dish.subDish) and dish.subDish.length > 0
             for subdish, subDishIndex in dish.subDish
               delete subdish._id
               unless libs.validator.isInt subdish.number, {min: 1, max: 100}
-                return throw new Err "Field validation error,  subdish.number must be 1-100", 400
+                return throw new Err "Field validation error,  subdish.number must be 1-100", 400, Err.code.user.shoppingCartSubDishIdWrong
               unless libs.validator.isLength subdish.dish, 24, 24
-                return throw new Err "Field validation error,  subdishID must be 24-24", 400
+                return throw new Err "Field validation error,  subdishID must be 24-24", 400, Err.code.user.shoppingCartSubDishNumberWrong
 
 
     checkNotFound: (u) ->

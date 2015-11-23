@@ -260,7 +260,7 @@ module.exports =
 
     validationOrderNumber : (orderNumber) ->
       unless libs.validator.isLength orderNumber, 21, 22
-        return throw new Err "Field validation error,  order Number must be 21-22", 400
+        return throw new Err "Field validation error,  order Number must be 21-22", 400, Err.code.order.orderNumberWrong
 
     validationGetOrderList : (query) ->
       if query.skip
@@ -278,10 +278,10 @@ module.exports =
     validationUpdateOrder : (order) ->
       if order.status
         unless libs.validator.equals order.status, @constantStatus().canceled
-          return throw new Err "Field validation error,  order status must be string canceled", 400
+          return throw new Err "Field validation error,  order status must be string canceled", 400, Err.code.order.orderStatusWrong
 
       unless libs.validator.isBoolean order.isPaymentPaid
-        return throw new Err "Field validation error,  paymentStatus must be true or false", 400
+        return throw new Err "Field validation error,  paymentStatus must be true or false", 400, Err.code.order.orderPaymentStatusWrong
 
     validationNewOrder : (newOrder) ->
       unless libs.validator.isLength newOrder.cookingType, 3, 30

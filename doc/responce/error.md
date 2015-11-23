@@ -36,6 +36,12 @@ Content-Type: application/json
         alreadyExist  : 1112,
         notFound      : 1113,
 
+        userIdWrong : 1150,
+        userGenderWrong : 1152,
+        userOldAddressWrong : 1155,
+
+        invitationSendCodeWrong : 1190,
+
         addressIdWrong : 1210,
         addressNotFound : 1212,
 
@@ -56,12 +62,24 @@ Content-Type: application/json
 
         addressNotDeliver     : 1270,
 
-        addressBaiduMapNotFoundError     : 1280
+        addressBaiduMapNotFoundError     : 1280,
+
+
+        shoppingCartNotArray     : 1500,
+        shoppingCartDishIdWrong     : 1502,
+        shoppingCartDishNumberWrong     : 1504,
+        shoppingCartSubDishIdWrong     : 1506,
+        shoppingCartSubDishNumberWrong     : 1508
+
+
+
+
 
     },
     order: {
         notFound: 2010,
 
+        orderNumberWrong: 2010,
         orderIdWrong: 2011,
         warehouseIdWrong: 2012,
 
@@ -105,7 +123,11 @@ Content-Type: application/json
 
         dishIdInvalid: 2190,
         notOnlyDrink: 2192,
-        notOverTenDrinks: 2194
+        notOverTenDrinks: 2194,
+
+
+        orderStatusWrong: 2300,
+        orderPaymentStatusWrong: 2310
 
 
 
