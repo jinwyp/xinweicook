@@ -1470,12 +1470,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"shoppingCart\\": [\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b8c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\": [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        },\\n        {\\n            \\"dish\\": \\"558a602a3eba152266ff2b9c\\",\\n            \\"number\\": 1,\\n            \\"subDish\\": [\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b92\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b95\\",\\n                    \\"number\\": 1\\n                },\\n                {\\n                    \\"dish\\": \\"5583b7faa2845dec35276b97\\",\\n                    \\"number\\": 2\\n                }\\n            ]\\n        }\\n    ]}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"shoppingCart\\":[{\\"dish\\":\\"55ffc3517e6977d44a77bc71\\",\\"number\\":1,\\"subDish\\":[{\\"dish\\":\\"55cd9f779cbe209028586178\\",\\"number\\":1},{\\"dish\\":\\"55febfe328d576914a29e01f\\",\\"number\\":1},{\\"dish\\":\\"562d8a25accb8c6a0ae64e9a\\",\\"number\\":2}]},{\\"dish\\":\\"562f3279a615556a44128dca\\",\\"number\\":1,\\"subDish\\":[{\\"dish\\":\\"55cd9f779cbe209028586178\\",\\"number\\":1},{\\"dish\\":\\"55febfe328d576914a29e01f\\",\\"number\\":1},{\\"dish\\":\\"562d8a25accb8c6a0ae64e9a\\",\\"number\\":2}]}]}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">32</attribute>
         <attribute name="name" type="string">user-updateShoppingCart</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z268 z263 z270 z267 z266 z264 z265"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z263 z266 z268 z267 z265 z264 z270"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z270">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>
