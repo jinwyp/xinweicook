@@ -348,3 +348,4 @@ module.exports = function (point, vs) {
     }
     return inside;
 };
+

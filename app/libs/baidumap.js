@@ -128,7 +128,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
     var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + originParam + '&destinations=' + destinationParam + '&mode=' + query.mode + '&output=' + query.output + '&coord_type=' + query.coord_type + '&ak=' + this.config.ak
 
 
-    console.log(url);
+    //console.log(url);
 
     var opts = {
         method: 'GET',

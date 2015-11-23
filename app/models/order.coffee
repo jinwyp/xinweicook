@@ -559,7 +559,8 @@ module.exports =
         timeStarterTemp = timeStarter.clone().add(30*(i-1), 'minutes')
 
         # 处理如果计算出来的时间超过19点  将不在push进去
-        if timeStarterTemp.isBefore(today19PM) and timeNow.day() isnt 23
+        if timeStarterTemp.isBefore(today19PM) and timeNow.date() isnt 23
+
           segmentHour =
             hour : timeStarterTemp.clone().format("YYYY-MM-DD HH:mm A")
           resultTime.push(segmentHour)

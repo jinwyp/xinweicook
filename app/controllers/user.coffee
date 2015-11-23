@@ -638,6 +638,7 @@ exports.updateShoppingCart = (req, res, next) ->
 
 
 
+initDataWarehouse = require "../../test/initdata/warehouse.js"
 
 # 获取用户收货地址 (新版接口)
 exports.getUserAddress = (req, res, next) ->
@@ -647,6 +648,12 @@ exports.getUserAddress = (req, res, next) ->
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 
       tempAddressList = []
+
+
+      tempWarehouse = {}
+
+      promiseList = [];
+
 
       for address,addressIndex in req.u.address
 
@@ -669,10 +676,58 @@ exports.getUserAddress = (req, res, next) ->
 
 #        tempAddress.isDefault = req.u.address[addressIndex].isDefault if req.u.address[addressIndex].isDefault
 
+
+        if req.get("user-agent") isnt "Xinwei Cook"
+          tempLocation = models.useraddress.gcj02ToBd09({lng:tempAddress.geoLongitude, lat:tempAddress.geoLatitude })
+          tempAddress.geoLongitude = tempLocation.lng
+          tempAddress.geoLatitude = tempLocation.lat
+
+
         tempAddressList.push(tempAddress)
 
 
-      models.useraddress.createAsync(tempAddressList).then (result)->
+        baiduMapQuery =
+          origins : []
+          destinations :
+            lat : tempAddress.geoLatitude
+            lng : tempAddress.geoLongitude
+
+        for warehouse, warehouseIndex in initDataWarehouse
+          tempWarehouse[warehouse._id] = warehouse
+          tempWarehouse[warehouse.name] = warehouse
+
+          originPlace =
+            lat : warehouse.locationGeoLatitude
+            lng : warehouse.locationGeoLongitude
+            name : warehouse.name
+            deliveryRange : warehouse.deliveryRange
+
+          baiduMapQuery.origins.push(originPlace)
+
+        promiseList.push(baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery))
+
+      Promise.all(promiseList).then (resultBaiduList) ->
+
+        for baidu, baiduIndex in resultBaiduList
+          console.log(baidu)
+          if baidu.status and baidu.status isnt 0
+            throw(new Err baidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
+
+          # 漕河泾仓库使用直线距离
+          baidu = models.warehouse.correctDistanceForCaohejing1Warehouse(baidu, tempAddress)
+
+
+          # 判断与哪个仓库最近, 最近的仓库发货
+          nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(baidu, tempWarehouse, tempAddressList[baiduIndex])
+
+          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+            tempAddressList[baiduIndex].isAvailableForEat = true
+
+        models.useraddress.createAsync(tempAddressList)
+
+      .then (result)->
 
         req.u.address = []
         req.u.saveAsync();
