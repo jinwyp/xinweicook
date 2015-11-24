@@ -14,8 +14,8 @@
                    address="address" no-address="!addresses.length"></address-selection>
 
 <div class="eat-list-wrapper" ng-cloak>
-    <ul class="eat-list food-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
+    <ul class="eat-list food-list" ng-repeat="(name, dishes) in dishList track by name" ng-if="(path == '/eat' && name == 'eatList') || (path == '/cook' && name == 'cookList')">
+        <li ng-repeat="dish in dishes track by dish._id">
             <div class="dish-detail">
                 <div class="img-group">
                     <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
@@ -58,6 +58,6 @@
 </body>
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/eat-list-c6048f33df.js"></script>
+<script src="/mobile/dist/js/controllers/eat-list-803c854f9d.js"></script>
 
 </html>

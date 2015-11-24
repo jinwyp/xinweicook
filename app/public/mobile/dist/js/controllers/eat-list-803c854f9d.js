@@ -8,11 +8,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.addresses = null;
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.warehouse = ''; // 作为筛选菜品使用
+    var dishList = $scope.dishList = {}; // 将两个列表分开
 
-
-    window.onerror = function (e) {
-        alert(JSON.stringify(e));
-    };
     $scope.addDish = function (dish) {
         $scope.curDish = dish;
         if (!dish.count) {
@@ -44,10 +41,23 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         return true;
     };
 
-    ScopeDecorator.nav($scope);
-
     var storage = $scope.storage = $localStorage;
 
+    $scope.$on('$locationChangeStart', function () {
+        $scope.path = $location.path();
+        if ($scope.path == '/eat' && !$scope.dishList.eatList) {
+            getDishList('caohejing1', 'ready to eat')
+        }
+        if ($scope.path == '/cook' && !$scope.dishList.cookList) {
+            getDishList('caohejing1', 'ready to cook')
+        }
+    });
+
+    $scope.$watch('warehouse', function (val) {
+        if (val) {
+            filterEatByWarehouse()
+        }
+    });
 
     function init() {
         // 初始化nav
@@ -55,10 +65,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         if (path !== '/cook') path = '/eat';
         $location.path(path);
         $scope.path = path;
-
-        //storage.warehouse = 'xinweioffice';
-
-        getDishList('caohejing1');
 
         Address.getList().then(function (res) {
             $scope.addresses = res.data;
@@ -94,7 +100,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             // 保存warehouse到下单的时候需要,不过回到这个页面的时候会被cleanLocalStorage清除
             storage.warehouse = $scope.warehouse = $scope.address.warehouse;
             storage.orderAddress = $scope.address;
-            filterDishByWarehouse();
+
+            filterEatByWarehouse();
         }).catch(angular.noop).then(function () {
             $scope.addressLoaded = true;
         });
@@ -108,9 +115,14 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         });
     }
 
-    function filterDishByWarehouse() {
-        if ($scope.dishes && $scope.warehouse) {
-            $scope.dishes = $scope.dishes.filter(function (dish) {
+    var type2name = {
+        'ready to eat': 'eatList',
+        'ready to cook': 'cookList'
+    };
+
+    function filterEatByWarehouse() {
+        if (dishList.eatList && $scope.warehouse) {
+            dishList.eatList = dishList.eatList.filter(function (dish) {
                 return dish.stockWarehouseObj[$scope.warehouse] > 0
                     || dish.cookingType == 'ready to cook'
             });
@@ -121,15 +133,18 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         }
     }
 
-    function getDishList(warehouse) {
+    function getDishList(warehouse, type) {
         $q.all([
-            Dishes.getList(warehouse).then(function (res) {
-                $scope.dishes = res.data;
+            // 获取订单列表
+            Dishes.getList(warehouse, type).then(function (res) {
+                $scope.dishList[type2name[type]] = res.data;
 
-                filterDishByWarehouse();
+                filterEatByWarehouse();
                 return res.data;
             }),
-            User.getUserInfo().then(function (res) {
+            // 初始化user like list
+            $scope.user ? $q.resolve($scope.user) :
+                User.getUserInfo().then(function (res) {
                 var promotion = storage.promotion;
                 if (promotion) {
                     User.getWeixinUserInfo(res.data._id).then(function (res) {
