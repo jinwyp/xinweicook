@@ -330,8 +330,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
     ];
 
     Promise.all(promiseList).spread(function(resultDish, resultInventroyTotal, resultInventroyToday, resultInventroyYesterday, resultInventroyDayBeforeYesterday, resultInventroyLast3Day, resultInventroyLast7Day, resultInventroyLast15Day, resultInventroyLast30Day, resultInventroyLast60Day, resultInventroyLast90Day, resultInventroyPerDay, resultInventroyPerWeek){
-        console.log(resultDish.length);
-        console.log(resultInventroyTotal);
+
         if (resultDish && resultDish.length > 0 && resultInventroyTotal.length > 0 && resultInventroyPerDay.length > 0) {
             //dishIdList = resultDish.map(function(dish){
             //    return dish._id.toString()
@@ -471,19 +470,41 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.dishDailySales = function(req, res, next) {
 
     var query = {};
 
 
+    var matchQueryWarehouse  = '';
+
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'caohejing1') {
-            query.showForWarehouse = req.query.showForWarehouse;
-        } else {
-            query.showForWarehouse = {$ne : 'caohejing1'};
+        if (req.query.showForWarehouse === 'xinweioffice') {
+            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
+
+        }else if (req.query.showForWarehouse === 'caohejing1'){
+            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
+
+        }else if (req.query.showForWarehouse === 'lujiazui1'){
+            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
         }
+    }else{
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc60')]};
     }
+
 
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
@@ -522,8 +543,10 @@ exports.dishDailySales = function(req, res, next) {
         });
 
 
+
         pipelinePerDay.push (
             { "$match":{
+                "warehouse" : matchQueryWarehouse,
                 "dish" : {$in:dishIdList},
                 "isPlus" : false,
                 "remark" : models.inventory.constantRemark().userOrder
@@ -615,14 +638,23 @@ exports.dishDailySalesChart = function(req, res, next) {
 
     var query = {};
 
+    var matchQueryWarehouse  = '';
+
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'caohejing1') {
-            query.showForWarehouse = req.query.showForWarehouse;
-        } else {
-            query.showForWarehouse = {$ne : 'caohejing1'};
+        if (req.query.showForWarehouse === 'xinweioffice') {
+            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
+
+        }else if (req.query.showForWarehouse === 'caohejing1'){
+            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
+
+        }else if (req.query.showForWarehouse === 'lujiazui1'){
+            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
         }
+    }else{
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc60')]};
     }
+
 
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
@@ -649,6 +681,7 @@ exports.dishDailySalesChart = function(req, res, next) {
     var dishIdList = [];
     var pipelinePerDay = [];
     var pipelinePerWeek = [];
+    var pipelinePerMonth = [];
 
     models.dish.find(query).lean().execAsync().then(function(resultDishList){
         dishIdList = resultDishList.map(function(dish){
@@ -658,6 +691,7 @@ exports.dishDailySalesChart = function(req, res, next) {
 
         pipelinePerDay.push (
             { "$match":{
+                "warehouse" : matchQueryWarehouse,
                 "dish" : {$in:dishIdList},
                 "isPlus" : false,
                 "remark" : models.inventory.constantRemark().userOrder
@@ -701,13 +735,14 @@ exports.dishDailySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1, "day": 1 } },
-            { "$limit": 3000 }
+            { "$limit": 5000 }
         );
 
 
 
         pipelinePerWeek.push (
             { "$match":{
+                "warehouse" : matchQueryWarehouse,
                 "dish" : {$in:dishIdList},
                 "isPlus" : false,
                 "remark" : models.inventory.constantRemark().userOrder
@@ -734,7 +769,7 @@ exports.dishDailySalesChart = function(req, res, next) {
             }},
 
             { "$group": {
-                "_id": { week : "$week"},
+                "_id": { week : "$week", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
                 "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
@@ -743,26 +778,80 @@ exports.dishDailySalesChart = function(req, res, next) {
             { $project :{
                 _id : 0,
                 "week" : "$_id.week",
+                "year" : "$_id.year",
                 "dishSaleQuantity": 1,
                 "dishList": 1
             }},
 
-            { "$sort": { "week": 1 } },
-            { "$limit": 1000 }
+            { "$sort": { "year" : 1, "week": 1 } },
+            { "$limit": 5000 }
         );
+
+
+
+        pipelinePerMonth.push (
+            { "$match":{
+                "warehouse" : matchQueryWarehouse,
+                "dish" : {$in:dishIdList},
+                "isPlus" : false,
+                "remark" : models.inventory.constantRemark().userOrder
+            }},
+
+            { $project :{
+                _id : 1,
+                createdAt : 1,
+                user : 1,
+                order: 1,
+                dish : 1,
+                quantity : 1,
+                isPlus : 1,
+                remark : 1,
+
+                year: { $year: "$createdAt" },
+                month: { $month: "$createdAt" },
+                day: { $dayOfMonth: "$createdAt" },
+                hour: { $hour: "$createdAt" },
+                minutes: { $minute: "$createdAt" },
+                dayOfYear: { $dayOfYear: "$createdAt" },
+                dayOfWeek: { $dayOfWeek: "$createdAt" },
+                week: { $week: "$createdAt" }
+            }},
+
+            { "$group": {
+                "_id": { month : "$month", year : "$year"},
+
+                "dishSaleQuantity": { "$sum": "$quantity" },
+                "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+            }},
+
+            { $project :{
+                _id : 0,
+                "month" : "$_id.month",
+                "year" : "$_id.year",
+
+                "dishSaleQuantity": 1,
+                "dishList": 1
+            }},
+
+            { "$sort": { "year" : 1, "month": 1 } },
+            { "$limit": 5000 }
+        );
+
 
 
         if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
             pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
             pipelinePerWeek[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+            pipelinePerMonth[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
         }
 
         var promiseList = [
             models.inventory.aggregateAsync( pipelinePerDay),
-            models.inventory.aggregateAsync( pipelinePerWeek)
+            models.inventory.aggregateAsync( pipelinePerWeek),
+            models.inventory.aggregateAsync( pipelinePerMonth)
         ];
 
-        Promise.all(promiseList).spread(function( resultInventroyPerDay, resultInventroyPerWeek){
+        Promise.all(promiseList).spread(function( resultInventroyPerDay, resultInventroyPerWeek, resultInventroyPerMonth){
 
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
 
@@ -772,9 +861,26 @@ exports.dishDailySalesChart = function(req, res, next) {
 
             }
 
+            if (resultInventroyPerWeek  && resultInventroyPerWeek.length > 0 ) {
+
+                resultInventroyPerWeek.forEach(function(inventroy){
+                    inventroy.date =  inventroy.year + "-" + inventroy.week
+                })
+
+            }
+
+            if (resultInventroyPerMonth  && resultInventroyPerMonth.length > 0 ) {
+
+                resultInventroyPerMonth.forEach(function(inventroy){
+                    inventroy.date =  inventroy.year + "-" + inventroy.month
+                })
+
+            }
+
             res.status(200).json({
                 byDaily : resultInventroyPerDay,
-                byWeek : resultInventroyPerWeek
+                byWeek : resultInventroyPerWeek,
+                byMonth : resultInventroyPerMonth
             })
         }).catch(next);
 
