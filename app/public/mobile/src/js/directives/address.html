@@ -67,8 +67,8 @@
             <input type="hidden" name="street" placeholder="街道" ng-model="addr.street" required/>
             <span ng-if="!addr.street" class="placeholder">街道</span>
             <err-tip form="form" name="street" error="required">必填</err-tip>
-            <span ng-if="css.isWeixin && !css.locating" ng-click="locate($event)" class="location">定位</span>
-            <span ng-if="css.isWeixin && css.locating" class="location">定位中 ···</span>
+            <!--<span ng-if="css.isWeixin && !css.locating" ng-click="locate($event)" class="location">定位</span>-->
+            <!--<span ng-if="css.isWeixin && css.locating" class="location">定位中 ···</span>-->
         </div>
         <div>
             <input name="address" type="text" placeholder="楼层、门牌号" required ng-model="addr.address">
