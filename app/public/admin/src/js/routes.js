@@ -13,7 +13,7 @@ angular.module('RDash').factory('commonInterceptor', ['$localStorage', '$q', '$l
         'responseError': function(response) {
             // do something on error
             if (response.status == 401 || response.status == 403) {
-                // todo: redirect
+
                 $location.url('/login')
 
             }
