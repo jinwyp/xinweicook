@@ -182,10 +182,7 @@
                 <td>{{dish.stock}}</td>
                 <td>
                     <span ng-repeat="warehouse in dish.stockWarehouse">
-                        <span ng-if="warehouse.warehouse === '56332187594b09af6e6c7dd2'">办公室</span>
-                        <span ng-if="warehouse.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
-                        <span ng-if="warehouse.warehouse === '564ab6de2bde80bd10a9bc60'">陆家嘴</span>
-                        {{warehouse.stock}}
+                        {{warehouse.warehouse | warehousefilter}} {{warehouse.stock}}
                         <br/>
                     </span>
                 </td>

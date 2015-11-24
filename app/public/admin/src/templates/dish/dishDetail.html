@@ -125,21 +125,26 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.showForWarehouse.$dirty&&dishForm.showForWarehouse.$valid, 'has-error':dishForm.showForWarehouse.$dirty&&dishForm.showForWarehouse.$invalid}">
                     <label class="col-lg-2 control-label" >仓库</label>
 
-                    <div class="col-lg-4">
-                        <label class="radio-inline">
-                            <input type="radio" name="showForWarehouse" ng-value="'xinweioffice'" ng-model="data.dish.showForWarehouse">新味办公室
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="showForWarehouse" ng-value="'caohejing1'" ng-model="data.dish.showForWarehouse">漕河泾仓库
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="showForWarehouse" ng-value="'lujiazui1'" ng-model="data.dish.showForWarehouse">陆家嘴仓库
-                        </label>
-                    </div>
+                    <!--<div class="col-lg-4">-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="showForWarehouse" ng-value="'xinweioffice'" ng-model="data.dish.showForWarehouse">新味办公室-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="showForWarehouse" ng-value="'caohejing1'" ng-model="data.dish.showForWarehouse">漕河泾仓库-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="showForWarehouse" ng-value="'lujiazui1'" ng-model="data.dish.showForWarehouse">陆家嘴仓库-->
+                        <!--</label>-->
+                    <!--</div>-->
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
+                        <span ng-if="data.dish.showForWarehouse==='xinweioffice'">新味办公室</span>
+                        <span ng-if="data.dish.showForWarehouse==='caohejing1'">漕河泾仓库</span>
+                        <span ng-if="data.dish.showForWarehouse==='lujiazui1'">陆家嘴仓库</span>
                         (该项不用于判断能否下单，仅用于显示菜品，请补充相应仓库库存作为能否下单标志)
                     </div>
+
+
                 </div>
 
 
