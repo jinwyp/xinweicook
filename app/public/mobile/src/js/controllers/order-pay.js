@@ -69,7 +69,11 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         coupon = data.coupon;
         User.getUserInfo().then(function (res) {
             coupon.cardList = res.data.couponList.filter(function (el) {
-                return !el.isUsed;
+                var startDate = new Date(el.startDate);
+                var endDate = new Date(el.endDate);
+                var now = Date.now();
+
+                return !el.isUsed && (startDate < now && endDate > now);
             });
             if (coupon.cardList.length) {
                 model.coupon.card = angular.sort(coupon.cardList, function (a, b) {
