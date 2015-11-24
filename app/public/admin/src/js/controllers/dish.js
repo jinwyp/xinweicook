@@ -485,7 +485,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 4000});
 
-
+            $scope.data.dishOutOfStockList =[];
             angular.forEach($scope.data.dishList, function(dish, dishIndex){
                 if (dish.isPublished){
 

@@ -70,6 +70,9 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     };
 
 
+    $scope.fixInventory = function () {
+        $http.get('/api/administrator/initfixinventory')
+    };
 
     $scope.fixWarehouseStock = function () {
         $http.get('/api/administrator/initwarehousestock');

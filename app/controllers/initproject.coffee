@@ -130,6 +130,26 @@ exports.createAdmin = (req, res, next) ->
 
 
 
+exports.fixDishInventoryForCaohejin1 = (req, res, next) ->
+
+  query =
+    showForWarehouse : "caohejing1"
+
+  idList = []
+  models.dish.findAsync({query}).then (resultDishList) ->
+
+    if resultDishList.length > 0
+      idList = (dish._id.toString() for dish in resultDishList)
+
+    models.inventory.updateAsync({dish: $in:idList}, {$set : {warehouse : "56332196594b09af6e6c7dd7"}}, { multi: true })
+  .then (result) ->
+
+    res.json result
+
+  .catch next
+
+
+
 exports.fixDishWarehouseStock = (req, res, next) ->
 
   models.warehouse.findAsync({}).then (resultWarehouse) ->
