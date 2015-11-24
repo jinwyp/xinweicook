@@ -233,8 +233,8 @@
             <td>{{dish.salesToday}}</td>
             <td>{{dish.salesYesterday}}</td>
             <td>{{dish.salesDayBeforeYesterday}}</td>
-            <td>{{dish.salesLast3Day}} {{dish.salesLast7Day}} {{dish.salesLast15Day}}</td>
-            <td>{{dish.salesLast30Day}} {{dish.salesLast60Day}} {{dish.salesLast90Day}}</td>
+            <td>{{dish.salesLast3Day}} / {{dish.salesLast7Day}} / {{dish.salesLast15Day}}</td>
+            <td>{{dish.salesLast30Day}} / {{dish.salesLast60Day}} / {{dish.salesLast90Day}}</td>
             <td> <span ng-repeat="daily in dish.salesDaily">{{daily.year}}-{{daily.month}}-{{daily.day}} 销量:{{daily.dishSaleQuantity}} <br/></span></td>
             <td> <span ng-repeat="week in dish.salesWeek">第{{week.week}}周 销量:{{week.dishSaleQuantity}} <br/></span></td>
             <!--<td>-->

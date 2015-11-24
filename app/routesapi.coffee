@@ -17,6 +17,7 @@ couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 deliveryController = require "./controllers/delivery.js"
+dishStatController = require "./controllers/dishStatistic.js"
 orderStatController = require "./controllers/orderStatistic.js"
 userStatController = require "./controllers/userStatistic.js"
 
@@ -211,9 +212,9 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/order/hour", orderStatController.orderHourSales)
 
 
-  app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
-  app.get("/api/admin/statistic/dish/daily", orderStatController.dishDailySales)
-  app.get("/api/admin/statistic/dish/daily/chart", orderStatController.dishDailySalesChart)
+  app.get("/api/admin/statistic/dish/stock", dishStatController.dishStatisticByStockLast7Day)
+  app.get("/api/admin/statistic/dish/daily", dishStatController.dishDailySales)
+  app.get("/api/admin/statistic/dish/daily/chart", dishStatController.dishDailySalesChart)
 
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
   app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
