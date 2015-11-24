@@ -212,9 +212,9 @@ module.exports =
 
           dishNow.stock = dishNow.stock + dishNow.stockWarehouse[warehouseIndex].stock
 
-          if dishNow.stock <= 1 and dishNow.stock > -2
-            # 给客服发送短信
-            models.sms.sendSMSToCSOutOfStock(dishNow.title.zh)
+#          if dishNow.stock <= 1 and dishNow.stock > -2
+#            # 给客服发送短信
+#            models.sms.sendSMSToCSOutOfStock(dishNow.title.zh)
 
         dishNow.saveAsync()
 
