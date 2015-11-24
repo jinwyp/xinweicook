@@ -358,13 +358,9 @@
                     <label class="col-lg-2 control-label" >发货仓库ID:</label>
 
                     <div class="col-lg-10">
-                        <span class="help-block"><a ui-sref="menu.updateWarehouse({ id: data.order.warehouse })">
-                            {{data.order.warehouse}}
-                            <span ng-if="data.order.warehouse === '56332187594b09af6e6c7dd2'">办公室</span>
-                            <span ng-if="data.order.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
-                            <span ng-if="data.order.warehouse === '564ab6de2bde80bd10a9bc60'">陆家嘴</span>
-
-                        </a></span>
+                        <span class="help-block">
+                            <a ui-sref="menu.updateWarehouse({ id: data.order.warehouse })">{{data.order.warehouse | warehousefilter}} </a>
+                        </span>
 
                     </div>
                 </div>
