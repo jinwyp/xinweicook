@@ -36,6 +36,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         tagList : [],
         dishAllList : [],
+        dishOutOfStockList : [],
         dishList : [],
         inventoryList : [],
         warehouseList : [],
@@ -483,6 +484,34 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
             $scope.data.dishList = resultDish;
             Notification.success({message: 'Search Success! ', delay: 4000});
+
+
+            angular.forEach($scope.data.dishList, function(dish, dishIndex){
+                if (dish.isPublished){
+
+                    if (dish.stock < 1){
+                        $scope.data.dishOutOfStockList.push(dish);
+                    }else{
+                        angular.forEach(dish.stockWarehouse, function(warehouse, warehouseIndex){
+
+                            if ($scope.data.dishOutOfStockList.indexOf(dish) === -1){
+
+                                if (warehouse.stock < 2 && warehouse.stock > 0){
+                                    $scope.data.dishOutOfStockList.push(dish);
+                                }else if (warehouse.stock < 0 && warehouse.stock > -6){
+                                    $scope.data.dishOutOfStockList.push(dish);
+                                }
+
+                            }
+
+
+                        })
+                    }
+
+
+                }
+            })
+
 
         }).catch(function(err){
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});

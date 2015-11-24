@@ -141,7 +141,9 @@
         </div>
     </div>
 
-
+    <div class="panel-body">
+        库存不足: <span ng-repeat="dish in data.dishOutOfStockList"><a ui-sref="menu.updateDish({ id: dish._id })">{{dish.title.zh}}</a> | </span>
+    </div>
 
 
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'dishes'">
