@@ -125,9 +125,6 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         $q.all([
             Dishes.getList(warehouse).then(function (res) {
                 $scope.dishes = res.data;
-                // for one week
-                storage.preferenceStockIds = Utils.getStockId(res.data, 'preference');
-                storage.mainStockIds = Utils.getStockId(res.data, 'main');
 
                 filterDishByWarehouse();
                 return res.data;

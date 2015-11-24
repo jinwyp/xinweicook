@@ -8,6 +8,12 @@ return {
         alreadyExist  : 1112,
         notFound      : 1113,
 
+        userIdWrong : 1150,
+        userGenderWrong : 1152,
+        userOldAddressWrong : 1155,
+
+        invitationSendCodeWrong : 1190,
+
         addressIdWrong : 1210,
         addressNotFound : 1212,
 
@@ -28,12 +34,24 @@ return {
 
         addressNotDeliver     : 1270,
 
-        addressBaiduMapNotFoundError     : 1280
+        addressBaiduMapNotFoundError     : 1280,
+
+
+        shoppingCartNotArray     : 1500,
+        shoppingCartDishIdWrong     : 1502,
+        shoppingCartDishNumberWrong     : 1504,
+        shoppingCartSubDishIdWrong     : 1506,
+        shoppingCartSubDishNumberWrong     : 1508
+
+
+
+
 
     },
     order: {
         notFound: 2010,
 
+        orderNumberWrong: 2010,
         orderIdWrong: 2011,
         warehouseIdWrong: 2012,
 
@@ -77,7 +95,11 @@ return {
 
         dishIdInvalid: 2190,
         notOnlyDrink: 2192,
-        notOverTenDrinks: 2194
+        notOverTenDrinks: 2194,
+
+
+        orderStatusWrong: 2300,
+        orderPaymentStatusWrong: 2310
 
 
 
@@ -114,7 +136,7 @@ return {
 };
 });
 angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q', function($localStorage, $q) {
-    var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/cart/, /^\/mobile\/resetpwd$/];
+    var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/resetpwd$/];
     var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart', '/api/user/address'];
     var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress', '/mobile/orderlist',
         '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline'];

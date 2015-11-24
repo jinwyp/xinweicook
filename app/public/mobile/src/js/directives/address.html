@@ -30,9 +30,9 @@
         <div>
             <input name="mobile" type="tel" placeholder="手机号"
                    ng-model="addr.mobile"
-                   minlength="11" maxlength="11" required/>
+                   pattern="^1\d{10}$" required/>
             <err-tip form="form" name="mobile" error="required">必填</err-tip>
-            <err-tip form="form" name="mobile" error="minlength">手机号码长度为11位</err-tip>
+            <err-tip form="form" name="mobile" error="pattern">请填写11位手机号</err-tip>
         </div>
 
         <div ng-show="!css.showFakeInput" class="selects">
@@ -71,8 +71,9 @@
             <!--<span ng-if="css.isWeixin && css.locating" class="location">定位中 ···</span>-->
         </div>
         <div>
-            <input name="address" type="text" placeholder="楼层、门牌号" required ng-model="addr.address">
+            <input name="address" type="text" minlength="2" placeholder="楼层、门牌号" required ng-model="addr.address">
             <err-tip form="form" name="address" error="required">必填</err-tip>
+            <err-tip form="form" name="address" error="minlength">至少2个字符</err-tip>
         </div>
     </form>
 
