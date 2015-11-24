@@ -648,7 +648,7 @@ exports.addNewOrder = (req, res, next) ->
             dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
-      models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
+      #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
 
 
       # 该用户完成支付后可以再次分享邀请码
@@ -880,7 +880,7 @@ exports.updateOrder = (req, res, next) ->
             dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString())
 
       # 给客服发送新订单短信
-      models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
+      #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
 
 
       # 该用户完成支付后可以再次分享邀请码
