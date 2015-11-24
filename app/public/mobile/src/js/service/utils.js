@@ -168,6 +168,24 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
                         return el.city
                     })[0].areas
             }
+        },
+
+        stockOfDish: function (dish, warehouse) {
+            return dish.stockWarehouse.some(function (item) {
+                return item.warehouse == warehouse && item.stock > 0;
+            })
+        },
+
+        /**
+         * 例如购物中的item {dish: {}, subDish: [..]}
+         * @param item
+         * @param warehouse
+         */
+        stockOfItem: function (item, warehouse) {
+            var stockOfDish = this.stockOfDish;
+            return stockOfDish(item.dish, warehouse) && item.subDish.every(function (el) {
+                    return stockOfDish(el.dish, warehouse)
+                })
         }
     }
 });
