@@ -302,8 +302,6 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDateTime = moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00")
     newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
-
-
   else
     newOrder.deliveryDate = req.body.deliveryDateEat
     newOrder.deliveryTime = req.body.deliveryTimeEat
@@ -419,10 +417,10 @@ exports.addNewOrder = (req, res, next) ->
         throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
 
       newOrder.address = resultAddress
-      newOrder.warehouse = resultAddress.warehouse
+      newOrder.warehouse = resultAddress.warehouse.toString()
 
       newOrderReadyToEat.address = resultAddress
-      newOrderReadyToEat.warehouse = resultAddress.warehouse
+      newOrderReadyToEat.warehouse = resultAddress.warehouse.toString()
 
       newOrderReadyToCook.address = resultAddress
 
