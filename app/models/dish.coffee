@@ -142,7 +142,8 @@ module.exports =
       else
         if dish.stockWarehouse.length > 0
           for warehouse, warehouseIndex in dish.stockWarehouse
-            if warehouse.warehouse.toString() is warehouseId.toString() and warehouse.stock <= 0
+            logger.error("check stock : ", warehouseId, warehouse)
+            if warehouse.warehouse.toString() is warehouseId and warehouse.stock <= 0
               return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
 
     validationDishId : (_id) ->

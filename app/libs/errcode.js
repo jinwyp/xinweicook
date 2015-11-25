@@ -3,7 +3,7 @@
  */
 module.exports = {
     user: {
-        // todo: 第二第三位的1 是什么意思, sms独立出来??
+        // 第一位是大项分类,第二位是子分类 第三位开始一次排序 间隔建议为2或5 方便以后插入
         wrongMobile   : 1110,
         wrongPassword : 1111,
         alreadyExist  : 1112,
