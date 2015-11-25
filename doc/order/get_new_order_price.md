@@ -43,36 +43,10 @@ Group `member`
 {
     "cookingType" : "ready to cook",
     "clientFrom" : "ios",
-    "credit" : 0,
-    "freight" : 20,
     "coupon" : "5590d256103f46d9ac31e3ee",
     "promotionCode" : "xxxxxxx",
     "usedAccountBalance" : false,
-
-    "payment" : "weixinpay",
-    "paymentUsedCash" : false,
-    "spbill_create_ip" : "192.168.1.1",
-    "trade_type" : "NATIVE",
-
-    "deliveryDate" : "2015-06-13",
-    "deliveryTime" : "10",
-
-    "address" : {
-        "geoLatitude" : 30,
-        "geoLongitude" : 30,
-
-        "country" : "",
-        "province": "shanghai",
-        "city": "shanghai",
-        "district": "shanghai" ,
-        "street" : "shanghai" ,
-        "address": "xxxxx" ,
-
-        "contactPerson": "wangyupeng" ,
-        "mobile": "13564568304" ,
-        "remark": "comment"
-    },
-
+    "addressId": "565419cd77554f434fcce128",
     "dishList" : [
         {
             "dish": "558a602a3eba152266ff2b8c",
