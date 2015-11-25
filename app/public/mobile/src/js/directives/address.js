@@ -123,6 +123,7 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                 css.edit = css.cur = false;
                 $scope.outAddress.edit = $scope.outAddress.cur = false;
 
+                addr.isDefault = true;
                 return Address[!css.isNewAddress ? 'update' : 'addOne'](addr)
                 .then(function (res) {
                         addr = $scope.addr = res.data;

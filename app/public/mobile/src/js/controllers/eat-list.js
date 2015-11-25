@@ -1,7 +1,7 @@
 angular.module('xw.controllers').controller('eatCtrl', eatCtrl);
 
 function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
-                 ScopeDecorator, $location, $q, Coupon, Weixin, Utils, Address) {
+                 $location, $q, Coupon, Weixin, Utils, Address) {
     $scope.user = null;
     $scope.address = '';
     $scope.addressLoaded = false;
@@ -73,10 +73,14 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             // 选择了一个地址,将此作为默认地址
             if (storage.selectedAddress) {
                 $scope.address = storage.selectedAddress;
-                $scope.address.isDefault = true;
-                Address.update($scope.address).then(function () {
+                if (!$scope.address.isDefault) {
+                    $scope.address.isDefault = true;
+                    Address.update($scope.address).then(function () {
+                        delete storage.selectedAddress;
+                    });
+                } else {
                     delete storage.selectedAddress;
-                });
+                }
             } else {
                 // 如果没有经过选择,则选择一个可配送默认地址
                 res.data.some(function (addr) {

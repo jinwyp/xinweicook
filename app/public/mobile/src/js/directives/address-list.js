@@ -22,6 +22,23 @@ angular.module('xw.directives').directive('addressList', function ($q) {
                 valid: []
             };
 
+            $scope.hideAddress = function (idx) {
+                if ($scope.hideOthersWhenEdit == 'true' && $scope.addresses) {
+                    var editIdx = -1;
+
+                    if ($scope.data.newAddress.edit) {
+                        editIdx = -2;
+                    }
+                    editIdx == -1 && $scope.addresses.some(function (addr, i) {
+                        if (addr.edit) {
+                            editIdx = i;
+                            return true;
+                        }
+                    });
+                    return editIdx != -1 && idx != editIdx;
+                }
+            };
+
             $scope.editing = function () {
                 if (!$scope.addresses) return false;
                 return !!data.newAddress.edit
