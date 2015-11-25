@@ -1510,35 +1510,45 @@ form .err-tip {
   padding: 0 7px;
 }
 /* line 29, ../sass/pages/_wxpay.scss */
+.wxpay-main .qr-pay > div, .wxpay-main .pay-success > div {
+  background: url(../img/ChefHat.png) no-repeat 50% 18px/118px;
+  height: 198px;
+  position: relative;
+}
+/* line 35, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay a, .wxpay-main .pay-success a {
   padding: 7px;
   color: white;
   display: block;
-  background-color: #44b549;
+  background-color: #f44d4d;
   width: 68%;
   margin: 14px auto;
   font-size: 16px;
+  position: absolute;
   border-radius: 2px;
+  bottom: 5px;
+  left: 0;
+  right: 0;
 }
-/* line 40, ../sass/pages/_wxpay.scss */
+/* line 50, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay .title, .wxpay-main .pay-success .title {
   font-size: 12px;
   margin: 7px 0;
 }
-/* line 44, ../sass/pages/_wxpay.scss */
+/* line 54, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay .guide, .wxpay-main .pay-success .guide {
   font-size: 14px;
 }
-/* line 48, ../sass/pages/_wxpay.scss */
+/* line 58, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay h5, .wxpay-main .pay-success h5 {
   font-weight: 100;
 }
-/* line 51, ../sass/pages/_wxpay.scss */
+/* line 61, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay img, .wxpay-main .pay-success img {
   width: 45%;
   margin-bottom: 15px;
 }
-/* line 55, ../sass/pages/_wxpay.scss */
+/* line 65, ../sass/pages/_wxpay.scss */
 .wxpay-main .qr-pay hr, .wxpay-main .pay-success hr {
   margin: 0;
 }
@@ -2576,4 +2586,22 @@ html.order-address-html .address-list {
   left: -0.6em;
   line-height: normal;
   font-size: 10px;
+}
+
+/* line 545, ../sass/_components.scss */
+.thanksgiving .xw-modal-content {
+  width: 280px;
+  height: 280px;
+}
+/* line 549, ../sass/_components.scss */
+.thanksgiving .thanksgiving-main {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 280px;
+  color: #FF8800;
+  font-weight: 400;
+  font-size: 23px;
+  box-shadow: #F98600 0 0 4px;
+  background: url(../img/thanksgiving2.jpg) no-repeat 100%/100%;
 }

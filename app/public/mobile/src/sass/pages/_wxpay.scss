@@ -26,15 +26,25 @@
     background-color: white;
     padding: 0 7px;
 
+    >div {
+      background: url(../img/ChefHat.png) no-repeat 50% 18px/118px;
+      height: 198px;
+      position: relative;
+    }
+
     a {
       padding: 7px;
       color: white;
       display: block;
-      background-color: #44b549;
+      background-color: #f44d4d;
       width: 68%;
       margin: 14px auto;
       font-size: 16px;
+      position: absolute;
       border-radius: 2px;
+      bottom: 5px;
+      left: 0;
+      right: 0;
     }
 
     .title {

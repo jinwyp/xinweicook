@@ -32,7 +32,7 @@ angular.module('xw.directives').directive('modal', function () {
             };
 
             function setStatus(event, status) {
-                event.stopPropagation();
+                event && event.stopPropagation();
                 if (status === undefined) {
                     scope.css.show = !scope.css.show;
                 } else {
