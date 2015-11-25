@@ -417,12 +417,21 @@ exports.addNewOrder = (req, res, next) ->
         throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
 
       newOrder.address = resultAddress
-      newOrder.warehouse = resultAddress.warehouse.toString()
 
       newOrderReadyToEat.address = resultAddress
-      newOrderReadyToEat.warehouse = resultAddress.warehouse.toString()
-
       newOrderReadyToCook.address = resultAddress
+
+      if resultAddress.warehouse
+
+        newOrder.warehouse = resultAddress.warehouse
+        newOrderReadyToEat.warehouse = resultAddress.warehouse.toString()
+      else
+        # 针对食材包处理
+        newOrder.warehouse = "56332187594b09af6e6c7dd2"
+        newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2"
+
+
+
 
 
     if newOrder.address.city is "上海市"
