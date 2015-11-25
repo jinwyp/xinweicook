@@ -213,6 +213,56 @@ exports.pushMobileMessage = (req, res, next) ->
 
 
 
+
+
+exports.calculateOrderPrice = (req, res, next) ->
+
+  models.order.validationNewOrder req.body
+  models.coupon.validationCouponId req.body.coupon if req.body.coupon or req.body.coupon is ""
+  models.coupon.validationCouponCode req.body.promotionCode if req.body.promotionCode or req.body.promotionCode is ""
+
+
+  dishIdList = []
+  dishNumberList = {}
+
+  result =
+    dishQuantity : 0
+    freight : 6
+    dishesPrice : 0
+    totalPrice : 0
+
+
+  for dish,dishIndex in req.body.dishList
+    dishIdList.push dish.dish
+    dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
+    result.dishQuantity = result.dishQuantity + dish.number
+
+    if dish.subDish
+      for subDish,subDishIndex in dish.subDish
+        dishIdList.push subDish.dish
+        dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
+        result.dishQuantity = result.dishQuantity + dish.number
+
+
+  models.dish.find99({"_id" : {$in:dishIdList}}).then (resultDishes) ->
+
+    # 处理订单菜品数量和总价
+    for dish,dishIndex in resultDishes
+
+      result.dishesPrice = result.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
+
+      # 计算订单总金额 满100免运费
+      if result.dishesPrice > 100
+        result.totalPrice = result.dishesPrice
+      else
+        result.totalPrice = result.dishesPrice + result.freight
+
+    res.json result
+
+
+
+
+
 exports.addNewOrder = (req, res, next) ->
   # 新增用户订单
 
@@ -468,8 +518,12 @@ exports.addNewOrder = (req, res, next) ->
       dishDataList[dish._id] = dish
 
 
-    # 计算订单总金额
-    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+    # 计算订单总金额 满100免运费
+    if newOrder.dishesPrice > 100
+      newOrder.totalPrice = newOrder.dishesPrice
+    else
+      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
 
     # 计算感恩节优惠
     timeNow = moment()
