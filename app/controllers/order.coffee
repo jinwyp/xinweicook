@@ -527,7 +527,7 @@ exports.addNewOrder = (req, res, next) ->
 
     # 计算感恩节优惠
     timeNow = moment()
-    if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.date() is 26
+    if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.month() is 10 and timeNow.date() < 28 and timeNow.date() > 21 and timeNow.day() is 4
       newOrder.totalPrice = newOrder.totalPrice - 10
 
     # 计算优惠券
