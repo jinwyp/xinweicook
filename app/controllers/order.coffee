@@ -451,6 +451,9 @@ exports.addNewOrder = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
+      if not newOrder.warehouse
+        logger.error("error warehouseid: ",newOrder)
+
       models.dish.checkOutOfStock(dish, newOrder.warehouse)
 
       newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
