@@ -335,8 +335,6 @@ exports.addNewOrder = (req, res, next) ->
     deliveryTime : req.body.deliveryTimeCook
     deliveryDateType : models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateCook)
 
-
-
   newOrderReadyToEat =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
     user : req.u._id.toString()
@@ -472,6 +470,11 @@ exports.addNewOrder = (req, res, next) ->
 
     # 计算订单总金额
     newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+
+    # 计算感恩节优惠
+    timeNow = moment()
+    if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.date() is 26
+      newOrder.totalPrice = newOrder.totalPrice - 10
 
     # 计算优惠券
     if req.body.coupon and newOrder.dishesPrice >= coupon.priceLimit

@@ -310,11 +310,25 @@ module.exports =
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
         unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
+
+        if newOrder.deliveryDateEat
+          unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
+            return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
+          unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
+            return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
+
       else
         unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
         unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
+
+        if newOrder.deliveryDateCook
+          unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
+            return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
+          unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
+            return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
+
 
       unless Array.isArray newOrder.dishList
         return throw new Err "Field validation error,  dishList must be ArrayObject", 400, Err.code.order.dishListArrayWrong
