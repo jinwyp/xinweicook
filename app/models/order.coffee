@@ -379,6 +379,40 @@ module.exports =
           return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400, Err.code.user.addressMobileWrong
 
 
+    validationOrderPrice : (newOrder) ->
+      unless libs.validator.isLength newOrder.cookingType, 3, 30
+        return throw new Err "Field validation error,  cookingType must be string", 400, Err.code.order.cookingTypeWrong
+      unless libs.validator.isLength newOrder.clientFrom, 2, 100, Err.code.order.cookingTypeWrong
+        return throw new Err "Field validation error,  clientFrom must be string", 400
+
+
+      unless Array.isArray newOrder.dishList
+        return throw new Err "Field validation error,  dishList must be ArrayObject", 400, Err.code.order.dishListArrayWrong
+      else
+        if newOrder.dishList.length is 0
+          return throw new Err "Field validation error,  dishList must have some dish", 400, Err.code.order.dishListArrayWrong
+
+        for dish,dishIndex in newOrder.dishList
+          unless libs.validator.isInt dish.number, {min: 1, max: 100}
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400, Err.code.order.dishListDishNumberWrong
+          unless libs.validator.isLength dish.dish, 24, 24
+            return throw new Err "Field validation error,  dishID must be 24-24", 400, Err.code.order.dishListDishIdWrong
+
+          if Array.isArray dish.subDish
+            for subDish,subDishIndex in dish.subDish
+              unless libs.validator.isInt subDish.number, {min: 1, max: 100}, Err.code.order.dishListSubDishNumberWrong
+                return throw new Err "Field validation error,  subDish.number must be 1-100", 400
+              unless libs.validator.isLength subDish.dish, 24, 24, Err.code.order.dishListSubDishIdWrong
+                return throw new Err "Field validation error,  subDishID must be 24-24", 400
+          else
+            if dish.subDish
+              throw new Err "Field validation error,  subDish must be Array", 400, Err.code.order.dishListSubDishArrayWrong
+
+      unless libs.validator.isLength newOrder.addressId, 24, 24
+        return throw new Err "Field validation error,  address _id length must be 24-24", 400, Err.code.order.addressIdWrong
+
+
+
     validationAlipayNotify : (order) ->
       unless libs.validator.isLength order.out_trade_no, 21, 24
         return throw new Err "Field validation error,  out_trade_no must be 21-24", 400
