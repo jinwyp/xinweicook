@@ -72,8 +72,7 @@
 
 <add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<menu-nav local-bag="localBag" try-buy="tryBuy()" path="{{path}}"
-          is-valid="address && address.isAvailableForEat"></menu-nav>
+<menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 
 </body>
 

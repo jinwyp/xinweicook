@@ -4,10 +4,10 @@
     <div ng-class="{active: path == '/cook' || !path}"><a href="/mobile/#/cook"><span>食材包</span></a></div>
 
     <div class="go-to-cart"
-         ng-class="{invalid: !isValid()}"
+         ng-class="{invalid: !isAddressOk()}"
          ng-if="localBag.length"
          flash-class="{exp: localBag.length, duration: 400}"
-         ng-click="tryBuy() && goToCart()">
+         ng-click="isAddressOk({isClick: true}) && goToCart()">
         <div class="icon bag-icon">
             <i class="number" ng-bind="localBag.length"></i>
         </div>

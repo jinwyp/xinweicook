@@ -13,6 +13,7 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
 
             // 需要调用的外部方法
             deleteHook: '&', // 当删掉当前地址后给予外部的回调接口
+            hide: '&', // 接收隐藏条件
 
             // 是否为当前状态地址的默认参数.
             cur: '@'

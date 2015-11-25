@@ -1,6 +1,6 @@
 <ul class="address-list" capture-click="watchAddress($event)">
     <li class="address-item" ng-repeat="address in addresses">
-        <address cur="{{$first}}" range="range" out-address="address"
+        <address cur="{{$first}}" range="range" out-address="address" hide=""
                  leave="handler.leave[$index]" save="handler.save[$index]" valid="handler.valid[$index]"
                  delete-hook="remove($index)"></address>
     </li>

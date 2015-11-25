@@ -1,5 +1,5 @@
 <div ng-if="css.isNewAddress && css.edit" class="new-address-tip">请填写有效的地址以便按时送达</div>
-<div class="address-component" ng-class="{cur: css.cur || css.isNewAddress, edit: css.edit}"
+<div ng-hide="hide()" class="address-component" ng-class="{cur: css.cur || css.isNewAddress, edit: css.edit}"
     ng-click="choose($event)">
 
     <div class="address-block" ng-if="!css.isNewAddress">

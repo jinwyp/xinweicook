@@ -1,13 +1,10 @@
 .address-main {
   .save-button {
-    color: $invalid-text-color;
+    color: $body-color;
     text-align: center;
     border: 2px solid;
     margin: 0 24px 1em;
     background: white;
     line-height: 2.5;
-    &.active {
-      color: $body-color;
-    }
   }
 }
