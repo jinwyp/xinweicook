@@ -30,7 +30,7 @@
                             <span class="sub-name" ng-repeat="el in item.subDish">{{el.dish.title.zh + ($last ? '': ' ')}}</span>
                         </h5>
                         <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
-                            {{item.outOfStock ? '无货' : '有货'}}
+                            {{item.outOfStock ? '卖光了' : '有货'}}
                         </span>
                         <span class="rmb-char">
                             {{item|dishPrice}}
