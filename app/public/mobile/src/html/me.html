@@ -9,10 +9,20 @@
 </head>
 <body ng-app="xw" ng-controller="meCtrl">
 
-<nav class="order-nav nav">
-    <div class="back-icon" ng-click="back()"></div>
-    <span class="no-bottom-border">个人中心</span>
-</nav>
+<header class="me-header">
+    <div class="avatar">
+        <div class="img"></div>
+    </div>
+</header>
+
+<section class="me-items">
+    <ul>
+        <li class="me-item">
+            <span class="icon"></span>
+            <span class="text"></span>
+        </li>
+    </ul>
+</section>
 
 <div ng-cloak>
     <a href="/mobile/invite" class="login-button form-control text-center">邀请好友</a>
