@@ -306,27 +306,27 @@ module.exports =
 
 
       if newOrder.deliveryDateCook
-        unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
+        unless libs.validator.matches(newOrder.deliveryDateCook, /^\d{4}-\d{2}-\d{2}$/)
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
-        unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
+        unless libs.validator.matches newOrder.deliveryTimeCook, /^\d{2}:\d{2}$/
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
 
         if newOrder.deliveryDateEat
-          unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
+          unless libs.validator.matches(newOrder.deliveryDateEat, /^\d{4}-\d{2}-\d{2}$/)
             return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
-          unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
+          unless libs.validator.matches newOrder.deliveryTimeEat, /^\d{2}:\d{2}$/
             return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
 
       else
-        unless libs.validator.isLength newOrder.deliveryDateEat, 10, 10
+        unless libs.validator.matches(newOrder.deliveryDateEat, /^\d{4}-\d{2}-\d{2}$/)
           return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateEatWrong
-        unless libs.validator.isLength newOrder.deliveryTimeEat, 5, 5
+        unless libs.validator.matches newOrder.deliveryTimeEat, /^\d{2}:\d{2}$/
           return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeEatWrong
 
         if newOrder.deliveryDateCook
-          unless libs.validator.isLength newOrder.deliveryDateCook, 10, 10
+          unless libs.validator.matches(newOrder.deliveryDateCook, /^\d{4}-\d{2}-\d{2}$/)
             return throw new Err "Field validation error,  deliveryDateCook length must be 10-10", 400, Err.code.order.deliveryDateCookWrong
-          unless libs.validator.isLength newOrder.deliveryTimeCook, 5, 5
+          unless libs.validator.matches newOrder.deliveryTimeCook, /^\d{2}:\d{2}$/
             return throw new Err "Field validation error,  deliveryTimeCook length must be 5-5", 400, Err.code.order.deliveryTimeCookWrong
 
 
