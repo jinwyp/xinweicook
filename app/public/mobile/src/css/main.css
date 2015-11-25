@@ -631,97 +631,6 @@ form .err-tip {
     font-size: 14px;
   }
 }
-/* line 306, ../sass/pages/_eat.scss */
-.menu-nav {
-  font-size: 16px;
-  color: white;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  background-color: #262626;
-  height: 52px;
-  line-height: 52px;
-}
-/* line 316, ../sass/pages/_eat.scss */
-.menu-nav > div {
-  -webkit-transition: .5s width ease;
-  transition: .5s width ease;
-  display: inline-block;
-  text-align: center;
-  width: 21%;
-}
-/* line 322, ../sass/pages/_eat.scss */
-.menu-nav > div.active {
-  font-weight: 900;
-}
-/* line 324, ../sass/pages/_eat.scss */
-.menu-nav > div.active span {
-  border-top: 7px solid;
-  padding: 9px 7px;
-}
-/* line 332, ../sass/pages/_eat.scss */
-.menu-nav.empty > div {
-  width: 32%;
-}
-/* line 337, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart {
-  position: absolute;
-  right: 0;
-  width: 100px;
-  background-color: #f44d4d;
-  -webkit-transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
-  transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
-}
-/* line 344, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart.invalid {
-  background-color: #B9B9B9;
-}
-/* line 347, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart.flash {
-  transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-  -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-}
-/* line 352, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart .bag-icon {
-  position: absolute;
-  left: 22px;
-  top: 0;
-  bottom: 4px;
-  margin: auto;
-  background-repeat: no-repeat;
-  background-image: url('../img/icons-s66e3f122eb.png');
-  background-position: 0 -523px;
-  height: 21px;
-  width: 15px;
-  -moz-background-size: 98px auto;
-  -o-background-size: 98px auto;
-  -webkit-background-size: 98px auto;
-  background-size: 98px auto;
-}
-/* line 360, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart .bag-icon i {
-  position: absolute;
-  bottom: 1px;
-  right: 0;
-  left: 0;
-  font-size: 12px;
-  line-height: normal;
-}
-/* line 370, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart .price {
-  position: relative;
-  right: -16px;
-}
-/* line 373, ../sass/pages/_eat.scss */
-.menu-nav .go-to-cart .price::before {
-  content: '¥';
-  position: absolute;
-  top: 1px;
-  left: -0.6em;
-  line-height: normal;
-  font-size: 10px;
-}
-
 /* line 3, ../sass/pages/_order.scss */
 .form-block {
   padding: 3px 15px 3px 12px;
@@ -2570,4 +2479,105 @@ html.order-address-html .address-list {
 /* line 448, ../sass/_components.scss */
 .address-component.cur.edit .user-actions {
   display: none;
+}
+
+/* line 456, ../sass/_components.scss */
+.menu-nav {
+  font-size: 16px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: #262626;
+  height: 52px;
+  line-height: 52px;
+}
+/* line 466, ../sass/_components.scss */
+.menu-nav > div {
+  -webkit-transition: .5s width ease;
+  transition: .5s width ease;
+  display: inline-block;
+  text-align: center;
+  width: 21%;
+}
+/* line 472, ../sass/_components.scss */
+.menu-nav > div.active {
+  font-weight: 900;
+}
+/* line 474, ../sass/_components.scss */
+.menu-nav > div.active span {
+  border-top: 7px solid;
+  padding: 9px 7px;
+}
+/* line 480, ../sass/_components.scss */
+.menu-nav > div a {
+  display: inline-block;
+  transition: background-color .3s ease;
+  width: 100%;
+}
+/* line 484, ../sass/_components.scss */
+.menu-nav > div a:active {
+  background: #39383E;
+}
+/* line 491, ../sass/_components.scss */
+.menu-nav.empty > div {
+  width: 32%;
+}
+/* line 496, ../sass/_components.scss */
+.menu-nav .go-to-cart {
+  position: absolute;
+  right: 0;
+  width: 100px;
+  background-color: #f44d4d;
+  -webkit-transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
+  transition: transform 0.5s cubic-bezier(0.68, -1.06, 0.25, 1);
+}
+/* line 503, ../sass/_components.scss */
+.menu-nav .go-to-cart.invalid {
+  background-color: #B9B9B9;
+}
+/* line 506, ../sass/_components.scss */
+.menu-nav .go-to-cart.flash {
+  transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+  -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+}
+/* line 511, ../sass/_components.scss */
+.menu-nav .go-to-cart .bag-icon {
+  position: absolute;
+  left: 22px;
+  top: 0;
+  bottom: 4px;
+  margin: auto;
+  background-repeat: no-repeat;
+  background-image: url('../img/icons-s66e3f122eb.png');
+  background-position: 0 -523px;
+  height: 21px;
+  width: 15px;
+  -moz-background-size: 98px auto;
+  -o-background-size: 98px auto;
+  -webkit-background-size: 98px auto;
+  background-size: 98px auto;
+}
+/* line 519, ../sass/_components.scss */
+.menu-nav .go-to-cart .bag-icon i {
+  position: absolute;
+  bottom: 1px;
+  right: 0;
+  left: 0;
+  font-size: 12px;
+  line-height: normal;
+}
+/* line 529, ../sass/_components.scss */
+.menu-nav .go-to-cart .price {
+  position: relative;
+  right: -16px;
+}
+/* line 532, ../sass/_components.scss */
+.menu-nav .go-to-cart .price::before {
+  content: '¥';
+  position: absolute;
+  top: 1px;
+  left: -0.6em;
+  line-height: normal;
+  font-size: 10px;
 }
