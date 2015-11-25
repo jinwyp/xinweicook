@@ -1,6 +1,6 @@
 angular.module('xw.controllers').controller('wxpayCtrl', wxpayCtrl);
 
-function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
+function wxpayCtrl($scope, Orders, Debug, $localStorage) {
 
 
     // fail1 订单号异常, fail2 支付失败, fail3 支付失败之跨号支付
@@ -96,6 +96,10 @@ function wxpayCtrl($scope, Orders, Debug, $localStorage, Balance) {
             trade_type: 'JSAPI'
         }).then(function (res) {
             $scope.order = res.data;
+            var now = new Date(res.headers('Date'));
+            if (now.getDate() == 26) {
+                $scope.isThanksgivingDay = true;
+            }
             var wxInfo = res.data.paymentWeixinpay.mobileSign;
             // todo: weixin h5 pay https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
             function onBridgeReady() {

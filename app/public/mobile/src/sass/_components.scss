@@ -540,3 +540,21 @@
     }
   }
 }
+
+.thanksgiving {
+  .xw-modal-content {
+    width: 280px;
+    height: 280px;
+  }
+  .thanksgiving-main {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 280px;
+    color: #FF8800;
+    font-weight: 400;
+    font-size: 23px;
+    box-shadow: #F98600 0 0 4px;
+    background: url(../img/thanksgiving2.jpg) no-repeat 100%/100%;
+  }
+}
