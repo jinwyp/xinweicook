@@ -43,6 +43,7 @@
 * [Order 订单](order/README.md)
    * [获取该用户的所有订单](order/get_orders.md)
    * [获取单一订单](order/get_single_order.md)
+   * [计算新订单运费](order/get_new_order_price.md)
    * [生成新订单](order/add_new_order.md)
    * [生成微信支付统一订单](order/add_new_weixinpay_unified_order.md)
    * [获取微信支付JSSDK初始化配置](order/get_weixin_jssdk_ticket.md)

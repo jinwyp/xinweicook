@@ -142,9 +142,15 @@ module.exports =
       else
         if dish.stockWarehouse.length > 0
           for warehouse, warehouseIndex in dish.stockWarehouse
-            logger.error("check stock : ", warehouseId, warehouse)
-            if warehouse.warehouse.toString() is warehouseId and warehouse.stock <= 0
-              return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
+
+            if dish.cookingType is models.dish.constantCookingType().eat
+              if warehouse.warehouse.toString() is warehouseId.toString() and warehouse.stock <= 0
+                return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
+            else
+              # 食材包无论用户地址在哪,都只判断新味办公室的库存
+              if warehouse.warehouse.toString() is "56332187594b09af6e6c7dd2" and warehouse.stock <= 0
+                return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
+
 
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
