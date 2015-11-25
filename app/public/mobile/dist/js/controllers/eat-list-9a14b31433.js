@@ -28,13 +28,13 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
 
     // for flash-class
     $scope.addressCount = 0;
-    $scope.tryBuy = function () {
+    $scope.isAddressOk = function (isClick) {
         if (!$scope.address) {
-            $scope.addressCount++;
+            isClick && $scope.addressCount++;
             return false
         }
         if (!$scope.address.isAvailableForEat && $scope.path == '/eat') {
-            $scope.addressCount++;
+            isClick && $scope.addressCount++;
             return false;
         }
 
@@ -79,18 +79,12 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                 });
             } else {
                 // 如果没有经过选择,则选择一个可配送默认地址
-                var eatAddresses = res.data.filter(function (addr) {
-                    return addr.isAvailableForEat;
-                });
-                eatAddresses.some(function (addr) {
+                res.data.some(function (addr) {
                     if (addr.isDefault) {
                         $scope.address = addr;
                         return true;
                     }
                 });
-                if (!$scope.address && eatAddresses.length) {
-                    $scope.address = eatAddresses[0];
-                }
 
                 if (!$scope.address) {
                     $scope.address = $scope.addresses[0];

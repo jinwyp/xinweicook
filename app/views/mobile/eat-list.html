@@ -37,8 +37,8 @@
                         <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
                     <div class="buy-button"
-                         ng-class="{'out-of-stock': dish.outOfStock || !address || !address.isAvailableForEat}"
-                         ng-click="(!dish.outOfStock && tryBuy()) && addDish(dish)">
+                         ng-class="{'out-of-stock': dish.outOfStock || !isAddressOk()}"
+                         ng-click="(!dish.outOfStock && isAddressOk(true)) && addDish(dish)">
                         <div class="price"><span>{{dish.priceOriginal}}</span></div>
                         <div class="text" ng-if="!dish.outOfStock">购买</div>
                         <div class="text" ng-if="dish.outOfStock">售罄</div>
@@ -52,12 +52,11 @@
 
 <add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<menu-nav path="{{path}}" local-bag="localBag"
-          try-buy="tryBuy()" is-valid="address && address.isAvailableForEat"></menu-nav>
+<menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 
 </body>
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/eat-list-803c854f9d.js"></script>
+<script src="/mobile/dist/js/controllers/eat-list-9a14b31433.js"></script>
 
 </html>

@@ -15,8 +15,8 @@
 </nav>
 
 <div class="main address-main" ng-cloak>
-    <address-list addresses="addresses" range="range" save="save" editing="editing"></address-list>
-    <div class="save-button" ng-class="{active: editing()}" ng-click="save($event)">保存</div>
+    <address-list addresses="addresses" hide-others-when-edit="{{true}}" range="range" save="save" editing="editing"></address-list>
+    <div class="save-button" ng-if="editing()" ng-click="save($event)">保存</div>
 </div>
 
 </body>

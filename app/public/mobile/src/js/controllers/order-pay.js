@@ -158,7 +158,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             spbill_create_ip: '8.8.8.8',
             paymentUsedCash: false,
             userComment: model.userComment,
-            warehouseId:  $localStorage.warehouse,
+            //warehouseId:  $localStorage.warehouse,
             addressId: $localStorage.orderAddress._id,
             address: $localStorage.orderAddress
         };

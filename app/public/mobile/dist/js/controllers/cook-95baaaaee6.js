@@ -19,13 +19,13 @@ angular.module('xw.controllers').controller('cookCtrl', function ($scope, Addres
 
     // for flash-class
     $scope.addressCount = 0;
-    $scope.tryBuy = function () {
+    $scope.isAddressOk = function (isClick) {
         if (!$scope.address) {
-            $scope.addressCount++;
+            isClick && $scope.addressCount++;
             return false
         }
         if (!$scope.address.isAvailableForEat && $scope.path == '/eat') {
-            $scope.addressCount++;
+            isClick && $scope.addressCount++;
             return false;
         }
 

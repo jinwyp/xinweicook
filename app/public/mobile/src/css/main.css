@@ -832,16 +832,12 @@ form .err-tip {
 
 /* line 2, ../sass/pages/_addresslist.scss */
 .address-main .save-button {
-  color: #A7A7A7;
+  color: #4b4b4c;
   text-align: center;
   border: 2px solid;
   margin: 0 24px 1em;
   background: white;
   line-height: 2.5;
-}
-/* line 9, ../sass/pages/_addresslist.scss */
-.address-main .save-button.active {
-  color: #4b4b4c;
 }
 
 /* line 3, ../sass/pages/_addressedit.scss */

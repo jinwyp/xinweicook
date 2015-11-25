@@ -136,6 +136,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         };
 
         var warehouse = $localStorage.warehouse;
+        var isAvailableForEat = $localStorage.orderAddress.isAvailableForEat;
 
         cart.forEach(function (el) {
             var dish = el.dish;
@@ -149,7 +150,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 }
                 $scope.dishList.cookList.push(el);
             } else {
-                el.outOfStock = !Utils.stockOfItem(el, warehouse);
+                el.outOfStock = !isAvailableForEat || !Utils.stockOfItem(el, warehouse);
                 $scope.dishList.eatList.push(el);
                 //if (el.outOfStock) {
                 //    $scope.dishList.noReachList.push(el);

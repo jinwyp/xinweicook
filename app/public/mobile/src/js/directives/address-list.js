@@ -6,7 +6,8 @@ angular.module('xw.directives').directive('addressList', function ($q) {
             addresses: '=', // 待编辑的地址, 如果为空, 则表示是新地址
             range: '=', // 省市区数据
             watchAddress: '=save',
-            editing: '='
+            editing: '=',
+            hideOthersWhenEdit: '@'
         },
         templateUrl: 'address-list.html',
         link: function ($scope) {
