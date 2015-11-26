@@ -519,9 +519,9 @@ exports.addNewOrder = (req, res, next) ->
 
     # 计算订单总金额 满100免运费
     if newOrder.dishesPrice > 100 and req.body.cookingType is models.dish.constantCookingType().eat
-      newOrder.totalPrice = newOrder.dishesPrice
-    else
-      newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+      newOrder.freight = 0
+
+    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
 
 
     # 计算感恩节优惠

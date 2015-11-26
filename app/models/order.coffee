@@ -293,8 +293,8 @@ module.exports =
 
       unless libs.validator.isInt newOrder.credit, {min: 0}, Err.code.order.creditWrong
         return throw new Err "Field validation error,  credit must be number", 400
-      unless libs.validator.isInt newOrder.freight, {min: 5}, Err.code.order.freightWrong
-        return throw new Err "Field validation error,  freight must be number > 4", 400
+      unless libs.validator.isInt newOrder.freight, {min: 0}, Err.code.order.freightWrong
+        return throw new Err "Field validation error,  freight must be number > 0", 400
       unless libs.validator.isLength newOrder.payment, 3, 20, Err.code.order.paymentWrong
         return throw new Err "Field validation error,  payment length must be 3-20", 400
 
