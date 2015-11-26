@@ -1,5 +1,5 @@
 <nav class="menu-nav" ng-class="{'empty': !localBag.length}">
-    <div><a href="/mobile/me"><span>帐号</span></a></div>
+    <div ng-class="{active: path == '/mobile/me'}"><a href="/mobile/me"><span>帐号</span></a></div>
     <div ng-class="{active: path == '/eat'}"><a href="/mobile/#/eat"><span>便当</span></a></div>
     <div ng-class="{active: path == '/cook' || !path}"><a href="/mobile/#/cook"><span>食材包</span></a></div>
 

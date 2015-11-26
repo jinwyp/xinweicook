@@ -16,6 +16,10 @@ angular.module('xw.directives').directive('menuNav', function () {
                 }
                 location.href= '/mobile/cart';
             };
+
+            if (location.pathname == '/mobile/me') {
+                $scope.path = '/mobile/me';
+            }
         }
     }
 })
