@@ -187,6 +187,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         isSubmitting = true;
         // 设置order对象参数
         var order = orderData();
+        var payment = $scope.payment();
 
         Orders.postOrder(order).then(function (res) {
             // todo: clear some locals to prevent from reordering.
