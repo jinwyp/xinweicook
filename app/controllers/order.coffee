@@ -528,7 +528,11 @@ exports.addNewOrder = (req, res, next) ->
     timeNow = moment()
     if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.month() is 10 and timeNow.date() < 28 and timeNow.date() > 21 and timeNow.day() is 4
       newOrder.totalPrice = newOrder.totalPrice - 10
-      newOrder.userComment = newOrder.userComment + "Thanksgiving Day Discount!"
+      if newOrder.userComment
+        newOrder.userComment = newOrder.userComment  + " Thanksgiving Day Discount! "
+      else
+        newOrder.userComment = "Thanksgiving Day Discount! "
+
 
     # 计算优惠券
     if req.body.coupon and newOrder.dishesPrice >= coupon.priceLimit
