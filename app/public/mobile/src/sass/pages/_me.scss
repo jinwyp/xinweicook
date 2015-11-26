@@ -1,0 +1,28 @@
+.me-items {
+  .me-item {
+    line-height: 3.2;
+    .icon-container {
+      display: inline-block;
+      width: 16%;
+      min-width: 60px;
+      max-width: 80px;
+      .icon {
+        display: inline-block;
+      }
+      .order {
+        //@include retina-sprite-background()
+      }
+    }
+    .text-container {
+      display: inline-block;
+      width: 80%;
+      border-bottom: 1px solid $me-border-bottom-color;
+    }
+
+    &:last-child {
+      .text-container {
+        border:none;
+      }
+    }
+  }
+}

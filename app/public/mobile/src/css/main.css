@@ -1,28 +1,28 @@
 @charset "UTF-8";
-/* line 24, ../sass/_base.scss */
+/* line 25, ../sass/_base.scss */
 html {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 28, ../sass/_base.scss */
+/* line 29, ../sass/_base.scss */
 body {
   background-color: #f1f1f1;
   color: #4b4b4c;
 }
 
-/* line 34, ../sass/_base.scss */
+/* line 35, ../sass/_base.scss */
 a:link, a:visited, a:focus, a:hover, a:active {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 40, ../sass/_base.scss */
+/* line 41, ../sass/_base.scss */
 ul, li {
   list-style: none;
   padding: 0;
 }
 
-/* line 45, ../sass/_base.scss */
+/* line 46, ../sass/_base.scss */
 input:focus, input, textarea, select, option {
   border-radius: 0 !important;
   border: none !important;
@@ -30,46 +30,46 @@ input:focus, input, textarea, select, option {
   outline: 0;
 }
 
-/* line 52, ../sass/_base.scss */
+/* line 53, ../sass/_base.scss */
 i {
   font-style: normal;
 }
 
-/* line 56, ../sass/_base.scss */
+/* line 57, ../sass/_base.scss */
 ::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 59, ../sass/_base.scss */
+/* line 60, ../sass/_base.scss */
 :-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 62, ../sass/_base.scss */
+/* line 63, ../sass/_base.scss */
 ::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
 }
 
-/* line 66, ../sass/_base.scss */
+/* line 67, ../sass/_base.scss */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 74, ../sass/_base.scss */
+/* line 75, ../sass/_base.scss */
 .form-horizontal .control-label {
   padding-top: 7px;
   margin-bottom: 0;
   text-align: left;
 }
 
-/* line 80, ../sass/_base.scss */
+/* line 81, ../sass/_base.scss */
 label {
   font-weight: 400;
 }
 
-/* line 111, ../sass/_base.scss */
+/* line 112, ../sass/_base.scss */
 .nav {
   background-color: white;
   text-align: center;
@@ -78,33 +78,33 @@ label {
   position: relative;
   box-shadow: #DEDEDE 0 0 1px;
 }
-/* line 119, ../sass/_base.scss */
+/* line 120, ../sass/_base.scss */
 .nav span {
   border-bottom: solid 1px transparent;
   padding: 0 15px 11px;
 }
-/* line 127, ../sass/_base.scss */
+/* line 128, ../sass/_base.scss */
 .nav span.active {
   color: #f44d4d;
   border-color: #f44d4d;
 }
 
-/* line 134, ../sass/_base.scss */
+/* line 135, ../sass/_base.scss */
 .hide {
   display: none;
 }
 
-/* line 138, ../sass/_base.scss */
+/* line 139, ../sass/_base.scss */
 .placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* line 142, ../sass/_base.scss */
+/* line 143, ../sass/_base.scss */
 .white-body {
   background-color: white;
 }
 
-/* line 146, ../sass/_base.scss */
+/* line 147, ../sass/_base.scss */
 .back-icon {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s66e3f122eb.png');
@@ -120,7 +120,7 @@ label {
   top: 12px;
 }
 
-/* line 153, ../sass/_base.scss */
+/* line 154, ../sass/_base.scss */
 .time-icon {
   display: inline-block;
   background-repeat: no-repeat;
@@ -134,7 +134,7 @@ label {
   background-size: 98px auto;
 }
 
-/* line 159, ../sass/_base.scss */
+/* line 160, ../sass/_base.scss */
 .people-icon {
   display: inline-block;
   background-repeat: no-repeat;
@@ -148,21 +148,21 @@ label {
   background-size: 98px auto;
 }
 
-/* line 166, ../sass/_base.scss */
+/* line 167, ../sass/_base.scss */
 .like-icon {
   display: inline-block;
   height: 14px;
   width: 14px;
   background: url('../img/icons/MenuLikeIcon.png?1447740841') 50%/cover no-repeat;
 }
-/* line 169, ../sass/_base.scss */
+/* line 170, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
   background: url('../img/icons/MenuLikeIconHighlighted.png?1447740841') 50%/cover no-repeat;
 }
 
-/* line 176, ../sass/_base.scss */
+/* line 177, ../sass/_base.scss */
 .form-line {
   margin: 0 12px 0 12px;
   border-bottom: 1px solid #bcbcbc;
@@ -170,27 +170,27 @@ label {
   opacity: 0.5;
 }
 
-/* line 183, ../sass/_base.scss */
+/* line 184, ../sass/_base.scss */
 .plus-char::before {
   content: 'X';
 }
 
-/* line 187, ../sass/_base.scss */
+/* line 188, ../sass/_base.scss */
 .rmb-char::before {
   content: "¥ ";
 }
 
-/* line 190, ../sass/_base.scss */
+/* line 191, ../sass/_base.scss */
 .rmb-char.negative::before {
   content: "- ¥ ";
 }
 
-/* line 194, ../sass/_base.scss */
+/* line 195, ../sass/_base.scss */
 .no-padding-left {
   padding-left: 0;
 }
 
-/* line 200, ../sass/_base.scss */
+/* line 201, ../sass/_base.scss */
 form .err-tip {
   color: #f44d4d;
   position: absolute;
@@ -198,7 +198,7 @@ form .err-tip {
   right: 1em;
 }
 
-/* line 212, ../sass/_base.scss */
+/* line 213, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
@@ -2098,6 +2098,32 @@ html.order-address-html .address-list {
     font-size: 12px;
   }
 }
+/* line 2, ../sass/pages/_me.scss */
+.me-items .me-item {
+  line-height: 3.2;
+}
+/* line 4, ../sass/pages/_me.scss */
+.me-items .me-item .icon-container {
+  display: inline-block;
+  width: 16%;
+  min-width: 60px;
+  max-width: 80px;
+}
+/* line 9, ../sass/pages/_me.scss */
+.me-items .me-item .icon-container .icon {
+  display: inline-block;
+}
+/* line 16, ../sass/pages/_me.scss */
+.me-items .me-item .text-container {
+  display: inline-block;
+  width: 80%;
+  border-bottom: 1px solid #e0e0e0;
+}
+/* line 23, ../sass/pages/_me.scss */
+.me-items .me-item:last-child .text-container {
+  border: none;
+}
+
 /* line 3, ../sass/_components.scss */
 .shopping-progress-bar {
   padding-top: 4px;
