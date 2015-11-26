@@ -11,6 +11,10 @@
 
 <div class="cart-main" ng-cloak>
 
+    <div class="announcement">
+        公告：便当满一百免运费哦!
+    </div>
+
     <div ng-repeat="(listName, list) in dishList" class="cart-block" ng-if="list.length">
         <!--<div ng-if="listName == 'eatList' && !isInRange" class="no-delivery-tip">-->
             <!--您当前的配送地址不在便当的配送范围内-->
@@ -30,7 +34,7 @@
                             <span class="sub-name" ng-repeat="el in item.subDish">{{el.dish.title.zh + ($last ? '': ' ')}}</span>
                         </h5>
                         <span class="stock" ng-class="{'out-of-stock': item.outOfStock}">
-                            {{item.outOfStock ? '无货' : '有货'}}
+                            {{item.outOfStock ? '卖光了' : '有货'}}
                         </span>
                         <span class="rmb-char">
                             {{item|dishPrice}}
