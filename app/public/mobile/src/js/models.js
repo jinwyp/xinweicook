@@ -40,6 +40,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         getUnifiedOrder: function (data) {
             return $http.post('/api/orders/payment/weixinpay/unifiedorder', data);
+        },
+        price: function (data) {
+            return $http.post('/api/orderprice', data);
         }
     }
 });

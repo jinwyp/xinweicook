@@ -7,7 +7,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         time: {},
         coupon: {},
         balance: {},
-        deliveryFee: 0,
+        freight: 6,
         orderPrice: 0,
         payment: {
             weixinpay: '微信支付',
@@ -40,9 +40,9 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         isNearAddress = /浙江|江苏|安徽/.test(address.province);
 
         // 配送费用
-        if (cart.cookList && cart.cookList.length)
-            data.deliveryFee = isCityShanghai ? 6 : isNearAddress ? 12 : 24;
-        if (cart.eatList && cart.eatList.length) data.deliveryFee += 6;
+        Orders.price(orderData('freight')).then(function (res) {
+            data.freight = res.data.freight;
+        });
 
         // 配送时间
         time = data.time;
@@ -96,10 +96,11 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                 return total + dishPrice(cur, true)
             }, 0)
         }
-
-        // 未减优惠余额前的总金额
-        data.totalPrice = data.orderPrice + data.deliveryFee;
     }
+
+    $scope.totalPrice = function () {
+        return data.orderPrice + data.freight;
+    };
 
     $scope.couponPrice = function () {
         var price = 0;
@@ -111,14 +112,14 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         var balance = data.balance;
         if (!balance.total || !balance.enabled) return 0;
 
-        var remainPrice = data.totalPrice - $scope.couponPrice();
+        var remainPrice = $scope.totalPrice() - $scope.couponPrice();
         remainPrice = balance.total <= remainPrice ? balance.total : remainPrice;
         return remainPrice < 0 ? 0 : remainPrice;
     };
 
     $scope.payPrice = function () {
         var usedBalance = $scope.usedBalance();
-        var payPrice = data.totalPrice - $scope.couponPrice() - usedBalance;
+        var payPrice = $scope.totalPrice() - $scope.couponPrice() - usedBalance;
         if (payPrice <= 0) {
             // 当价格小于等于0时, 如果计算出的使用余额为0(即优惠券已够用无需用余额), 则需要用户支付0.1
             payPrice = usedBalance ? 0 : 0.1
@@ -133,6 +134,51 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         return payment
     };
 
+    /**
+     * 获取提交订单或计算运费的对象
+     * @param type 如果type为freight,则为计算运费需要的对象.
+     * @returns {*}
+     */
+    function orderData(type) {
+        if (!orderData._data) {
+            orderData._data = {
+                cookingType:  cart.cookList && cart.cookList.length
+                    ? 'ready to cook' : 'ready to eat',
+                addressId: $localStorage.orderAddress._id
+            };
+            angular.extend(orderData._data, $filter('dishes')(cart, 'order', 'displayCart'))
+        }
+        if (!orderData.dishes) {
+            orderData.dishes = $filter('dishes');
+        }
+        if (!orderData.orderTime) {
+            orderData.orderTime = $filter('orderTime');
+        }
+        if (!orderData.coupon) {
+            orderData.coupon = $filter('coupon')
+        }
+
+        var order = angular.copy(orderData._data);
+        order.clientFrom = isWeixin && $scope.payPrice() > 0 ? 'wechat' : 'mobileweb';
+        order.usedAccountBalance = !!$scope.usedBalance();
+        angular.extend(order, orderData.coupon(model.coupon));
+
+        if (type != 'freight') {
+            angular.extend(order, {
+                freight: data.freight,
+                payment: $scope.payment(),
+                device_info: 'WEB',
+                trade_type: 'JSAPI',
+                credit: 0,
+                spbill_create_ip: '8.8.8.8',
+                paymentUsedCash: false,
+                userComment: model.userComment
+            })
+        }
+
+        return order;
+    }
+
     var isSubmitting = false;
     $scope.order = function (form) {
         if (!isTimeValid() || form.$invalid) return;
@@ -140,34 +186,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         isSubmitting = true;
         // 设置order对象参数
-        var clientFrom = isWeixin && $scope.payPrice() > 0 ? 'wechat' : 'mobileweb';
-        var payment = $scope.payment();
-        var cookingType = cart.cookList && cart.cookList.length ?
-            'ready to cook' : 'ready to eat';
-
-        // 设置order对象
-        var order = {
-            cookingType: cookingType,
-            clientFrom: clientFrom,
-            freight: data.deliveryFee,
-            payment: payment,
-            device_info: 'WEB',
-            trade_type: 'JSAPI',
-            usedAccountBalance: !!$scope.usedBalance(),
-            credit: 0,
-            spbill_create_ip: '8.8.8.8',
-            paymentUsedCash: false,
-            userComment: model.userComment,
-            //warehouseId:  $localStorage.warehouse,
-            addressId: $localStorage.orderAddress._id,
-            address: $localStorage.orderAddress
-        };
-
-        angular.extend(order,
-            $filter('dishes')(cart, 'order', 'displayCart'),
-            $filter('orderTime')(model.time, 'all'),
-            $filter('coupon')(model.coupon)
-        );
+        var order = orderData();
 
         Orders.postOrder(order).then(function (res) {
             // todo: clear some locals to prevent from reordering.
