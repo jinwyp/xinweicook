@@ -173,7 +173,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                 spbill_create_ip: '8.8.8.8',
                 paymentUsedCash: false,
                 userComment: model.userComment
-            })
+            }, orderData.orderTime(model.time, 'all'))
         }
 
         return order;
