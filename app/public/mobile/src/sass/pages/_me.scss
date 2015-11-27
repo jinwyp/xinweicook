@@ -12,7 +12,7 @@
     margin: auto;
     border: 3px solid white;
     border-radius: 50%;
-    @include retina-background("AvatarPlaceHolder.png");
+    @include retina-background("AvatarPlaceholder.png");
     background-color: white;
   }
 }
