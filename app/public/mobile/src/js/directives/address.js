@@ -127,6 +127,7 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                 return Address[!css.isNewAddress ? 'update' : 'addOne'](addr)
                 .then(function (res) {
                         addr = $scope.addr = res.data;
+                        $scope.outAddress.cur = css.cur = true;
                         angular.extend($scope.outAddress, res.data);
                         return res.data;
                     });
