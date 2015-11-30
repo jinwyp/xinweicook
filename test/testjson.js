@@ -166,7 +166,7 @@ var alipayNotify = {
     "use_coupon": "N",
     "sign_type": "MD5",
     "sign": "46e60ea75801e1b7fe3a5a8176578d54"
-}
+};
 
 
 
@@ -340,12 +340,10 @@ module.exports = function (point, vs) {
         console.log(i, j);
         console.log(xi, yi, xj, yj);
 
-        var intersect = ((yi > y) != (yj > y))
-            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
 
 
         if (intersect) inside = !inside;
     }
     return inside;
 };
-
