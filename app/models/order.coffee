@@ -572,7 +572,7 @@ module.exports =
           resultTime.push(segmentHour)
 
       # 处理第二天的时间段 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
-      if timeNow.day() > 0 or timeNow.hour() >= 19
+      if timeNow.day() > 0 or (timeNow.hour() >= 18 and timeNow.minute() > 30)
         for i in [1..17]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
@@ -580,54 +580,6 @@ module.exports =
           resultTime.push(segmentHour)
 
       resultTime
-
-
-
-    deliveryTimeArithmeticForReadyToEatAtLujiazui : () ->
-      resultTime = []
-
-      timeNow = moment()
-
-      worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:41"));
-      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
-
-      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
-      tomorrow11AM = today11AM.clone().add(1, 'days');
-
-      if timeNow.isBefore(worktimeStart)
-        startPoint = today11AM.clone()
-
-      if timeNow.isAfter(worktimeEnd)
-        startPoint = tomorrow11AM.clone()
-
-      if timeNow.isAfter(worktimeStart) and timeNow.isBefore(worktimeEnd) # 下单时间：10:40 - 19:00
-        if timeNow.minute()%30 > 10
-          startPoint = timeNow.clone().add(30, 'minutes').add((30-timeNow.minute()%30), 'minutes')
-        else
-          startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
-
-      # 处理当天时间段
-      for i in [1..17]
-        timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
-
-        # 处理如果计算出来的时间超过19点  将不在push进去
-        if timeSectionTemp.isBefore(worktimeEnd)
-
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
-          resultTime.push(segmentHour)
-
-      # 处理第二天的时间点 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
-      if timeNow.day() > 0 or timeNow.hour() >= 19
-        for i in [1..17]
-          timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
-          resultTime.push(segmentHour)
-
-      resultTime
-
-
 
     deliveryTimeArithmeticForReadyToEatAtCaohejing : () ->
       resultTime = []
@@ -663,7 +615,7 @@ module.exports =
           resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
-      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 19 and timeNow.day() is 0)
+      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
         for i in [1..6]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
@@ -671,6 +623,53 @@ module.exports =
           resultTime.push(segmentHour)
 
       resultTime
+
+    deliveryTimeArithmeticForReadyToEatAtLujiazui : () ->
+      resultTime = []
+
+      timeNow = moment()
+
+      worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:41"));
+      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
+
+      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
+      tomorrow11AM = today11AM.clone().add(1, 'days');
+
+      if timeNow.isBefore(worktimeStart)
+        startPoint = today11AM.clone()
+
+      if timeNow.isAfter(worktimeEnd)
+        startPoint = tomorrow11AM.clone()
+
+      if timeNow.isAfter(worktimeStart) and timeNow.isBefore(worktimeEnd) # 下单时间：10:40 - 19:00
+        if timeNow.minute()%30 > 10
+          startPoint = timeNow.clone().add(30, 'minutes').add((30-timeNow.minute()%30), 'minutes')
+        else
+          startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
+
+      # 处理当天时间段
+      for i in [1..17]
+        timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
+
+        # 处理如果计算出来的时间超过19点  将不在push进去
+        if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
+          segmentHour =
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      # 处理第二天的时间点 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
+      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
+        for i in [1..17]
+          timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+          segmentHour =
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+          resultTime.push(segmentHour)
+
+      resultTime
+
+
+
+
 
   methods: {}
   rest:

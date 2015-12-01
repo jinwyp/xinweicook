@@ -376,7 +376,7 @@ exports.addNewOrder = (req, res, next) ->
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
 #    credit : req.body.credit
-#    freight : req.body.freight
+    freight : 0
     dishesPrice : 0
     totalPrice : 0
     deliveryDateTime : moment(req.body.deliveryDateCook + "T" + req.body.deliveryTimeCook + ":00") if req.body.deliveryTimeCook
@@ -401,7 +401,7 @@ exports.addNewOrder = (req, res, next) ->
     isPaymentPaid : false
     paymentUsedCash : req.body.paymentUsedCash
 #    credit : req.body.credit
-#    freight : req.body.freight
+    freight : 0
     dishesPrice : 0
     totalPrice : 0
     deliveryDateTime : moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00") if req.body.deliveryDateEat
