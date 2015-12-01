@@ -3,7 +3,7 @@
  */
 
 
- var tags = [
+var tags = [
      {
          "_id"        : "5590d256103f46d9ac31e3e1",
          "modifiedAt" : "2015-07-20T09:03:51.285Z",
