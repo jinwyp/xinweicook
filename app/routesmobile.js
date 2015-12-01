@@ -54,9 +54,6 @@ expressRoutes = function(app) {
     app.get("/mobile/addresslist", function (req, res) {
         res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
     });
-    app.get("/mobile/addressedit", function (req, res) {
-        res.render(pathPrefix + 'address-edit.html', {title: 'XinweiCook'})
-    });
     app.get("/mobile/wxpay/:id", function (req, res) {
         res.render(pathPrefix + 'wxpay.html', {title: 'XinWeiCook'})
     });
