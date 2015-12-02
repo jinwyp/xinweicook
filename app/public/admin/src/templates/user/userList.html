@@ -112,6 +112,16 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userClientFrom.$dirty&&searchForm.userClientFrom.$valid, 'has-error':searchForm.userClientFrom.$dirty&&searchForm.userClientFrom.$invalid}">
+                    <label for="inputUserClientFrom" class="col-lg-2 control-label" >注册来源</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="clientFrom in data.userClientFromList">
+                            <input type="radio" name="userClientFrom" id="inputUserClientFrom" ng-value="clientFrom.value" ng-model="data.searchOptions.query.statisticsClientFrom">{{clientFrom.name}}
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >注册时间范围截至</label>
                     <div class="col-lg-4">
@@ -334,7 +344,3 @@
 
 
 </div>
-
-
-
-

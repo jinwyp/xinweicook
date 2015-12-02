@@ -28,7 +28,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 mobile : '',
                 invitationSendCode : '',
                 sharedInvitationSendCodeTotalCount : 0,
-                sharedInvitationSendCodeUsedTime : 0
+                sharedInvitationSendCodeUsedTime : 0,
+                statisticsClientFrom : ''
             }
 
         },
@@ -94,6 +95,33 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             {
                 name : '管理员',
                 value : 'admin'
+            }
+        ],
+
+        userClientFromList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : 'PC版网站',
+                value : 'website'
+            },
+            {
+                name : '移动版网站',
+                value : 'mobileweb'
+            },
+            {
+                name : '微信公众平台',
+                value : 'wechat'
+            },
+            {
+                name : 'iOS 原生APP',
+                value : 'ios'
+            },
+            {
+                name : '安卓 原生APP',
+                value : 'android'
             }
         ],
 
@@ -430,4 +458,3 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
 }
-
