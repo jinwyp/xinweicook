@@ -10,7 +10,6 @@ exports.tokenSignIn = (req, res, next) ->
     when "password"
       models.token.findTokenByMobilePwd(username, password, deviceToken, couponcode).then((t) ->
 
-
         libs.cache.setHeader res
         res.json
           access_token: t.access_token
@@ -44,7 +43,3 @@ exports.tokenRevoke = (req, res, next) ->
       , next
     else
       next new Err "错误的请求, revoke token failed", 400
-
-
-
-

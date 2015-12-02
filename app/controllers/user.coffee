@@ -34,6 +34,9 @@ weixinpay = WXPay(configWeiXinPay)
 
 baiduMap = Map({ak:"hGHhGxXeioV00csas6otDPM0"})
 
+mobileBrowser = require("../libs/detectmobilebrowser.js")
+
+
 
 
 exports.getUploadResponse = (req, res) ->
@@ -454,8 +457,17 @@ exports.userSignUp = (req, res, next) ->
         mobile : mobile
         pwd    : pwd
 
-      if req.get("user-agent") is "Xinwei Cook" and req.get("iOSAppVersion")
+      ua = req.get("user-agent")
+      re = /MicroMessenger/
+
+      if ua is "Xinwei Cook" and req.get("iOSAppVersion")
         newUser.statisticsClientFrom = models.order.constantClientFrom().ios
+      else if re.test(ua)
+        newUser.statisticsClientFrom = models.order.constantClientFrom().wechat
+      else if mobileBrowser(req)
+        newUser.statisticsClientFrom = models.order.constantClientFrom().mobileweb
+      else
+        newUser.statisticsClientFrom = models.order.constantClientFrom().website
 
       models.user.createAsync(newUser)
 
