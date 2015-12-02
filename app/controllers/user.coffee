@@ -449,13 +449,21 @@ exports.userSignUp = (req, res, next) ->
 
     if not resultUser
       logger.error("new user signUp:", mobile, code, pwd, couponcode)
-      models.user.createAsync(mobile: mobile, pwd: pwd )
+
+      newUser =
+        mobile : mobile
+        pwd    : pwd
+
+      if req.get("user-agent") is "Xinwei Cook" and req.get("iOSAppVersion")
+        newUser.statisticsClientFrom = models.order.constantClientFrom().ios
+
+      models.user.createAsync(newUser)
 
   .then (resultUserCreated)->
 
     models.coupon.addCouponForNewUser(resultUserCreated, req).then (resultUser2) ->
       if couponcode
-        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode).catch( (err) -> logger.error("扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
+        models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode).catch( (err) -> logger.error("注册时扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)
