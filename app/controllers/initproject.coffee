@@ -128,6 +128,27 @@ exports.createAdmin = (req, res, next) ->
 
 
 
+exports.addUserStatisticsClientFrom = (req, res, next) ->
+
+  models.user.findAsync({}).then (resultUserList) ->
+
+    if resultUserList.length > 0
+      for user, userIndex in resultUserList
+        console.log("-----------", user._id, user.mobile)
+        models.order.find({user: user._id.toString()}).sort("createdAt").execAsync().then (result) ->
+
+          if result.length > 0
+            console.log("==========", result[0].user, result[0]._id)
+            models.user.updateAsync({_id: result[0].user}, {$set : {statisticsClientFrom : result[0].clientFrom}}).then (resultUpdate) ->
+              console.log(resultUpdate)
+          else
+            console.log("++++++++++++", result)
+
+
+    res.json 'ok'
+
+  .catch next
+
 
 
 exports.fixDishInventoryForCaohejin1 = (req, res, next) ->
@@ -986,6 +1007,3 @@ exports.initDishWithTopping = (req, res, next) ->
   .then (result2Dishes) ->
     res.json result2Dishes
   .catch next
-
-
-

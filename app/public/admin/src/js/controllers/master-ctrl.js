@@ -38,7 +38,7 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     });
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
-        $scope.title = toState.data && toState.data.title
+        $scope.title = toState.data && toState.data.title;
     });
 
 
@@ -48,7 +48,7 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.logout = function () {
         User.logOut().then(function () {
             $location.url('/login');
-        })
+        });
     };
 
     $scope.inittag = function () {
@@ -62,20 +62,24 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     };
 
     $scope.initAdmin = function () {
-        $http.get('/api/administrator/initadminuser')
+        $http.get('/api/administrator/initadminuser');
     };
 
     $scope.initWarehouse = function () {
-        $http.get('/api/administrator/initwarehouse')
+        $http.get('/api/administrator/initwarehouse');
     };
 
 
     $scope.fixInventory = function () {
-        $http.get('/api/administrator/initfixinventory')
+        $http.get('/api/administrator/initfixinventory');
     };
 
     $scope.fixWarehouseStock = function () {
         $http.get('/api/administrator/initwarehousestock');
+    };
+
+    $scope.fixUserClientFrom = function () {
+        $http.get('/api/administrator/initfixuserclientfrom');
     };
 
 
@@ -117,7 +121,7 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.addcoupons = function () {
         $http.post('/api/administrator/coupons').then(function(result){
             console.log (result.data);
-            $scope.couponList = result.data
+            $scope.couponList = result.data;
         });
     };
 
@@ -176,7 +180,7 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.addPoints = function () {
         var seriesArray = $scope.chartConfig.series;
         var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20])
+        seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20]);
     };
 
     $scope.addSeries = function () {
