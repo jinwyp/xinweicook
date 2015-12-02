@@ -65,6 +65,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         },
 
         userAddressList : [],
+        userAddressOne : {},
         userAccount : {},
         userAccountDetails : [],
         userCouponList : [],
@@ -231,7 +232,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
             $scope.data.userListPagesArray= [];
             for (var i = 1; i <= $scope.data.userListTotalPages; i++){
-                $scope.data.userListPagesArray.push( {value : i} )
+                $scope.data.userListPagesArray.push( {value : i} );
             }
 
             $scope.searchUser();
@@ -244,10 +245,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Users.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (resultUsers) {
             $scope.data.userList = resultUsers;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -266,12 +267,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.data.userList[index].remove().then(function (resultUser) {
             $scope.searchUserCount();
 
-            Notification.success({message : 'Delete Success', delay : 8000});
+            Notification.success({message : 'Delete Success', delay : 4000});
 
         }).catch(function (err) {
             Notification.error({
                 message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
+                delay   : 7000
             });
         });
 
@@ -298,10 +299,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticOfNewComers($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticOfNewComers = result.data;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -311,10 +312,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
-            //Notification.success({message: 'Search Success! ', delay: 8000});
+            //Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -341,10 +342,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             $scope.chartNewFirstOrderUserDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartNewFirstOrderUserDaily);
 
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 
@@ -392,12 +393,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
 
         $scope.data.user.put().then(function (resultUser) {
-            Notification.success({message : 'Update Success', delay : 8000});
+            Notification.success({message : 'Update Success', delay : 4000});
         }).catch(function (err) {
             console.log(err);
             Notification.error({
                 message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
+                delay   : 7000
             });
         });
     };
@@ -413,14 +414,24 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         //console.log (newUser);
         Users.post(newUser).then(function (resultUser) {
             console.log(resultUser);
-            Notification.success({message : 'Save Success', delay : 8000});
+            Notification.success({message : 'Save Success', delay : 4000});
 
         }).catch(function (err) {
-            console.log(err);
-            Notification.error({
-                message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
-            });
+            Notification.error({ message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message, delay   : 7000 });
+        });
+    };
+
+
+
+    $scope.updateUserAddress = function (form, userAddress) {
+        if (form.$invalid) {
+            return;
+        }
+
+        userAddress.put().then(function (resultUser) {
+            Notification.success({message : 'Update Success', delay : 4000});
+        }).catch(function (err) {
+            Notification.error({ message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message, delay   : 7000 });
         });
     };
 
@@ -430,10 +441,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         UserAccountDetails.getList({query : {user : $stateParams.id}, sort : '-createdAt'}).then(function (resultUserAccountDetails) {
             $scope.data.userAccountDetails = resultUserAccountDetails;
-            Notification.success({message: 'Search Success', delay: 8000});
+            Notification.success({message: 'Search Success', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -443,10 +454,10 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Coupons.getList({query : {user : $stateParams.id}, sort : '-createdAt'}).then(function (resultUserCoupons) {
             $scope.data.userCouponList = resultUserCoupons;
-            Notification.success({message: 'Search Success', delay: 8000});
+            Notification.success({message: 'Search Success', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
