@@ -251,7 +251,7 @@ exports.calculateOrderPrice = (req, res, next) ->
       result.dishesPrice = result.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
 
     # 计算订单总金额 满100免运费
-    if result.dishesPrice > 100 and req.body.cookingType is models.dish.constantCookingType().eat
+    if result.dishesPrice >= 100 and req.body.cookingType is models.dish.constantCookingType().eat
       result.freight = 0
 
     result.totalPrice = result.dishesPrice + result.freight
@@ -518,7 +518,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
     # 计算订单总金额 满100免运费
-    if newOrder.dishesPrice > 100 and req.body.cookingType is models.dish.constantCookingType().eat
+    if newOrder.dishesPrice >= 100 and req.body.cookingType is models.dish.constantCookingType().eat
       newOrder.freight = 0
 
     newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
