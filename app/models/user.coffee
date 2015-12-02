@@ -84,6 +84,7 @@ module.exports =
 
     lastOrderDate: type: Date
 
+    statisticsClientFrom: String # website, mobileweb, ios, android, wechat(公众号支付),
 
     oldUserData :
       mobile:String

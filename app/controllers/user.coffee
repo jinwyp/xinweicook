@@ -648,8 +648,6 @@ exports.getUserAddress = (req, res, next) ->
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 
       tempAddressList = []
-
-
       tempWarehouse = {}
 
       promiseList = [];
@@ -676,35 +674,33 @@ exports.getUserAddress = (req, res, next) ->
 
 #        tempAddress.isDefault = req.u.address[addressIndex].isDefault if req.u.address[addressIndex].isDefault
 
+        if req.u.address[addressIndex].geoLongitude and req.u.address[addressIndex].geoLatitude
 
-        if req.get("user-agent") isnt "Xinwei Cook"
-          tempLocation = models.useraddress.gcj02ToBd09({lng:tempAddress.geoLongitude, lat:tempAddress.geoLatitude })
-          tempAddress.geoLongitude = tempLocation.lng
-          tempAddress.geoLatitude = tempLocation.lat
+          if req.get("user-agent") isnt "Xinwei Cook"
+            tempLocation = models.useraddress.gcj02ToBd09({lng:tempAddress.geoLongitude, lat:tempAddress.geoLatitude })
+            tempAddress.geoLongitude = tempLocation.lng
+            tempAddress.geoLatitude = tempLocation.lat
+          tempAddressList.push(tempAddress)
 
+          baiduMapQuery =
+            origins : []
+            destinations :
+              lat : tempAddress.geoLatitude
+              lng : tempAddress.geoLongitude
 
-        tempAddressList.push(tempAddress)
+          for warehouse, warehouseIndex in initDataWarehouse
+            tempWarehouse[warehouse._id] = warehouse
+            tempWarehouse[warehouse.name] = warehouse
 
+            originPlace =
+              lat : warehouse.locationGeoLatitude
+              lng : warehouse.locationGeoLongitude
+              name : warehouse.name
+              deliveryRange : warehouse.deliveryRange
 
-        baiduMapQuery =
-          origins : []
-          destinations :
-            lat : tempAddress.geoLatitude
-            lng : tempAddress.geoLongitude
+            baiduMapQuery.origins.push(originPlace)
 
-        for warehouse, warehouseIndex in initDataWarehouse
-          tempWarehouse[warehouse._id] = warehouse
-          tempWarehouse[warehouse.name] = warehouse
-
-          originPlace =
-            lat : warehouse.locationGeoLatitude
-            lng : warehouse.locationGeoLongitude
-            name : warehouse.name
-            deliveryRange : warehouse.deliveryRange
-
-          baiduMapQuery.origins.push(originPlace)
-
-        promiseList.push(baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery))
+          promiseList.push(baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery))
 
       Promise.all(promiseList).then (resultBaiduList) ->
 

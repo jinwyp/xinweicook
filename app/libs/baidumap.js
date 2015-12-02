@@ -95,12 +95,12 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
                 throw new Error('需要填写起点名称或经纬度');
             }else{
                 if (originParam === ''){
-                    originParam = encodeURIComponent(originParam + place.lat + ',' + place.lng)
+                    originParam = encodeURIComponent(originParam + place.lat + ',' + place.lng);
                 }else{
-                    originParam = originParam + '|' + encodeURIComponent(place.lat + ',' + place.lng)
+                    originParam = originParam + '|' + encodeURIComponent(place.lat + ',' + place.lng);
                 }
             }
-        })
+        });
     }
 
     if (typeof query.destinations === 'undefined' || !query.destinations){
@@ -108,7 +108,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
     }else if (typeof query.destinations.lng === 'undefined' || !query.destinations.lng || typeof query.destinations.lat === 'undefined' || !query.destinations.lat) {
         throw new Error('需要填写终点名称或经纬度');
     }else{
-        destinationParam = encodeURIComponent(destinationParam + query.destinations.lat + ',' + query.destinations.lng)
+        destinationParam = encodeURIComponent(destinationParam + query.destinations.lat + ',' + query.destinations.lng);
     }
 
 
@@ -125,7 +125,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
     }
 
 
-    var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + originParam + '&destinations=' + destinationParam + '&mode=' + query.mode + '&output=' + query.output + '&coord_type=' + query.coord_type + '&ak=' + this.config.ak
+    var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + originParam + '&destinations=' + destinationParam + '&mode=' + query.mode + '&output=' + query.output + '&coord_type=' + query.coord_type + '&ak=' + this.config.ak;
 
 
     //console.log(url);
@@ -139,17 +139,17 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
     requestC(opts, function(err, response, body){
         if (err){
             logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
-            callback(err)
+            callback(err);
         }else{
             //logger.error ('-- BaiduMap Response Body: ', body);
 
             var result = {};
             try {
                 result = JSON.parse(body) ;
-            } catch (err) {
+            } catch (error) {
                 // handle error
-                logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(err));
-                callback(err)
+                logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(error));
+                callback(error);
             }
 
             if (result.status === 0){
@@ -171,13 +171,13 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
                     query.origins[i].distance = result.result.elements[i].distance;
                     query.origins[i].duration = result.result.elements[i].duration;
 
-                    distanceArray.push(query.origins[i])
+                    distanceArray.push(query.origins[i]);
                 }
 
-                callback(null, distanceArray)
+                callback(null, distanceArray);
             }else{
                 logger.error("BaiduMap Failed, get err : " + body );
-                callback(null, result)
+                callback(null, result);
             }
         }
 
@@ -187,7 +187,3 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
 
 baiduMap.prototype.getDistanceFromMultiPointAsync = Promise.promisify(baiduMap.prototype.getDistanceFromMultiPoint);
-
-
-
-

@@ -37,7 +37,7 @@ module.exports =
 
       distanceFrom : Number   # 距离新味办公室发货 单位米 3公里还是4公里 快递不一样
 
-    clientFrom: String # website, ios, android, wechat(公众号支付), 第三方
+    clientFrom: String # website, mobileweb, ios, android, wechat(公众号支付),
 
     payment: String # 支付方式 alipay direct / weixinpay / paypal
     paymentUsedCash: type: Boolean # 是否现金支付
