@@ -745,7 +745,7 @@ module.exports =
 
             if resultOrder.childOrderList.length > 0
               for childOrder in resultOrder.childOrderList
-                resultOrder.status = models.order.constantStatus().canceled
+                childOrder.status = models.order.constantStatus().canceled
                 childOrder.saveAsync()
 
             # 撤销优惠码使用

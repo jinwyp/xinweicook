@@ -122,7 +122,8 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 #  timeCancel = timeNow.clone();
 
 
-  models.order.find({ status : models.order.constantStatus().notpaid, cookingType :  models.dish.constantCookingType().eat, createdAt : { "$lt": timeCancel.toDate() } } ).sort("-createdAt").execAsync().then (resultOrderList) ->
+  models.order.find({ status : models.order.constantStatus().notpaid, cookingType :  models.dish.constantCookingType().eat, createdAt : { "$lt": timeCancel.toDate() } } )
+  .sort("-createdAt").populate("childOrderList").execAsync().then (resultOrderList) ->
 
     if resultOrderList.length > 0
 
@@ -141,7 +142,7 @@ exports.cancelNotPaidOrder = (req, res, next) ->
         # 同时撤销优惠券优惠码新味币
         if order.childOrderList.length > 0
           for childOrder in order.childOrderList
-            order.status = models.order.constantStatus().canceled
+            childOrder.status = models.order.constantStatus().canceled
             childOrder.saveAsync()
 
         # 撤销优惠码使用
@@ -163,4 +164,3 @@ exports.cancelNotPaidOrder = (req, res, next) ->
     res.send resultOrderList
 
   .catch(next)
-
