@@ -4,7 +4,7 @@ var webpack = require("webpack");
 
 var BUILD_DEV = JSON.parse(process.env.BUILD_DEV || 'true');
 
-var jsSrcDir = path.join(__dirname, "./public/pc/src/js-es6");
+var jsSrcDir = path.join(__dirname, "./public/pc/src/es6");
 var jsDevBuildDir = path.join(__dirname, "./public/pc/src/js");
 var jsProBuildDir = path.join(__dirname, "./public/pc/dist/js");
 
@@ -24,7 +24,14 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel-loader', exclude: /(node_modules|bower_components)/}
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /(node_modules|bower_components)/,
+                query: {
+                    presets: ['react', 'es2015']
+                }
+            }
         ]
     },
 
