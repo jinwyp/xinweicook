@@ -52,10 +52,13 @@
 
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$valid, 'has-error':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$invalid}">
                     <label for="inputShowForWarehouse" class="col-lg-2 control-label" >仓库</label>
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                         <label class="radio-inline" ng-repeat="status in data.showForWarehouseList">
                             <input type="radio" name="showForWarehouse" id="inputShowForWarehouse" ng-value="status.value" ng-model="data.searchOptions.query.showForWarehouse">{{status.name}}
                         </label>
+                    </div>
+                    <div class="col-lg-4">
+                        (该项不用于判断能否下单，仅用于显示菜品，请补充相应仓库库存作为能否下单标志)
                     </div>
                 </div>
 
@@ -138,10 +141,12 @@
         </div>
     </div>
 
+    <div class="panel-body">
+        库存不足: <span ng-repeat="dish in data.dishOutOfStockList"><a ui-sref="menu.updateDish({ id: dish._id })">{{dish.title.zh}}</a> | </span>
+    </div>
 
 
-
-    <table class="table table-striped table-bdished table-hover table-responsive" ng-if="css.showTable === 'dishes'">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'dishes'">
         <thead>
             <tr>
                 <th>_id / 菜品名称</th>
@@ -154,7 +159,8 @@
 
                 <th>原价</th>
                 <th>批发价</th>
-                <th>库存</th>
+                <th>总库存</th>
+                <th>分仓库存</th>
 
                 <!--<th>创建时间</th>-->
                 <th>操作</th>
@@ -176,6 +182,12 @@
                     <span ng-repeat="price in dish.priceWholesale" >买{{price.quantity}}个为{{price.price}}元<br/></span>
                 </td>
                 <td>{{dish.stock}}</td>
+                <td>
+                    <span ng-repeat="warehouse in dish.stockWarehouse">
+                        {{warehouse.warehouse | warehousefilter}} {{warehouse.stock}}
+                        <br/>
+                    </span>
+                </td>
                 <!--<td>{{dish.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
                 <td><button class="btn btn-danger" ng-click="delDish(dish)">删除</button></td>
             </tr>
@@ -186,7 +198,7 @@
 
 
 
-    <table class="table table-striped table-bdished table-hover table-responsive" ng-if="css.showTable === 'statistic'">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statistic'">
         <thead>
         <tr>
             <th>_id / 菜品名称</th>
@@ -221,8 +233,8 @@
             <td>{{dish.salesToday}}</td>
             <td>{{dish.salesYesterday}}</td>
             <td>{{dish.salesDayBeforeYesterday}}</td>
-            <td>{{dish.salesLast3Day}} {{dish.salesLast7Day}} {{dish.salesLast15Day}}</td>
-            <td>{{dish.salesLast30Day}} {{dish.salesLast60Day}} {{dish.salesLast90Day}}</td>
+            <td>{{dish.salesLast3Day}} / {{dish.salesLast7Day}} / {{dish.salesLast15Day}}</td>
+            <td>{{dish.salesLast30Day}} / {{dish.salesLast60Day}} / {{dish.salesLast90Day}}</td>
             <td> <span ng-repeat="daily in dish.salesDaily">{{daily.year}}-{{daily.month}}-{{daily.day}} 销量:{{daily.dishSaleQuantity}} <br/></span></td>
             <td> <span ng-repeat="week in dish.salesWeek">第{{week.week}}周 销量:{{week.dishSaleQuantity}} <br/></span></td>
             <!--<td>-->
@@ -237,7 +249,7 @@
 
 
 
-    <table class="table table-striped table-bdished table-hover table-responsive" ng-if="css.showTable === 'statisticDaily'">
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticDaily'">
         <thead>
         <tr>
             <th>时间</th>

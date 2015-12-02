@@ -17,6 +17,10 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             return $http.get('/mobile/placesuggestion?query=' + query + '&region=' + region)
         },
 
+        search: function (query, region) {
+            return $http.get('/mobile/placesearch?query=' + query + '&region=' + region)
+        },
+
         // 坐标转化
         // https://github.com/JackZhouCn/JZLocationConverter/
         gcj02ToBd09: function (location) {

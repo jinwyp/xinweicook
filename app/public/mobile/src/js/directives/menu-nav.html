@@ -1,0 +1,16 @@
+<nav class="menu-nav" ng-class="{'empty': !localBag.length}">
+    <div ng-class="{active: path == '/mobile/me'}"><a href="/mobile/me"><span>帐号</span></a></div>
+    <div ng-class="{active: path == '/eat'}"><a href="/mobile/#/eat"><span>便当</span></a></div>
+    <div ng-class="{active: path == '/cook' || !path}"><a href="/mobile/#/cook"><span>食材包</span></a></div>
+
+    <div class="go-to-cart"
+         ng-class="{invalid: !isAddressOk()}"
+         ng-if="localBag.length"
+         flash-class="{exp: localBag.length, duration: 400}"
+         ng-click="isAddressOk({isClick: true}) && goToCart()">
+        <div class="icon bag-icon">
+            <i class="number" ng-bind="localBag.length"></i>
+        </div>
+        <span class="price" ng-bind="localBag.price || 0 | number: 1"></span>
+    </div>
+</nav>

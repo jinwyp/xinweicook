@@ -90,6 +90,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
         throw new Error('需要填写起点名称或经纬度');
     }else if (Array.isArray(query.origins)) {
         query.origins.forEach(function(place){
+
             if (typeof place.lng === 'undefined' || !place.lng || typeof place.lat === 'undefined' || !place.lat){
                 throw new Error('需要填写起点名称或经纬度');
             }else{
@@ -127,7 +128,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
     var url = configBaiduMap.url_RouteMatrixAPI + 'origins=' + originParam + '&destinations=' + destinationParam + '&mode=' + query.mode + '&output=' + query.output + '&coord_type=' + query.coord_type + '&ak=' + this.config.ak
 
 
-    console.log(url);
+    //console.log(url);
 
     var opts = {
         method: 'GET',

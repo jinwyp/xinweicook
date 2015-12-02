@@ -10,9 +10,12 @@
 </head>
 <body class="menu-body">
 
+<address-selection animate-trigger="addressCount" show="addressLoaded" path="{{path}}"
+                   address="address" no-address="!addresses.length"></address-selection>
+
 <div class="eat-list-wrapper" ng-cloak>
-    <ul class="eat-list food-list">
-        <li ng-repeat="dish in dishes | filter : {cookingType: path == '/eat' ? 'ready to eat' : 'ready to cook'} track by dish._id">
+    <ul class="eat-list food-list" ng-repeat="(name, dishes) in dishList track by name" ng-if="(path == '/eat' && name == 'eatList') || (path == '/cook' && name == 'cookList')">
+        <li ng-repeat="dish in dishes track by dish._id">
             <div class="dish-detail">
                 <div class="img-group">
                     <a ng-href="{{dish.cookingType == 'ready to eat' ? '' : '/mobile/cook/' + dish.id}}">
@@ -33,14 +36,9 @@
                         </div>
                         <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
-                    <!--<div class="buy">-->
-                        <!--<span class="price">{{::dish.priceOriginal}}</span>-->
-                        <!--<span class="button" ng-click="addDish(dish)" ng-if="!dish.outOfStock">购买</span>-->
-                        <!--<span class="button out-of-stock" ng-if="dish.outOfStock">售罄</span>-->
-                    <!--</div>-->
                     <div class="buy-button"
-                         ng-class="{'out-of-stock': dish.outOfStock}"
-                         ng-click="!dish.outOfStock && addDish(dish)">
+                         ng-class="{'out-of-stock': dish.outOfStock || !isAddressOk()}"
+                         ng-click="(!dish.outOfStock && isAddressOk(true)) && addDish(dish)">
                         <div class="price"><span>{{dish.priceOriginal}}</span></div>
                         <div class="text" ng-if="!dish.outOfStock">购买</div>
                         <div class="text" ng-if="dish.outOfStock">售罄</div>
@@ -52,24 +50,13 @@
 </div>
 
 
-<add-dish-bar user="user" dish="curDish"></add-dish-bar>
+<add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<nav class="menu-nav" ng-class="{'empty': !storage.localBag.length}">
-    <div><a href="me"><span>帐号</span></a></div>
-    <div ng-class="{active: path == '/eat'}"><a href="#/eat"><span>便当</span></a></div>
-    <div ng-class="{active: path == '/cook'}"><a href="#/cook"><span>食材包</span></a></div>
-
-    <div ng-if="storage.localBag.length" flash-class="{exp: storage.localBag.length, duration: 400}" class="go-to-cart" ng-click="goToCart()">
-        <div class="icon bag-icon">
-            <i class="number" ng-bind="storage.localBag.length"></i>
-        </div>
-        <span class="price" ng-bind="storage.localBag.price || 0 | number: 1"></span>
-    </div>
-</nav>
+<menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 
 </body>
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/eat-list-7dae229a71.js"></script>
+<script src="/mobile/dist/js/controllers/eat-list-a91d6b0d1b.js"></script>
 
 </html>

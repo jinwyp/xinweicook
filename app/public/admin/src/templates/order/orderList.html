@@ -271,7 +271,7 @@
                     <span ng-if="order.status === 'finished'">已完成</span>
                     <span ng-if="order.status === 'canceled'">已取消</span>
 
-                    <br/> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> 出货单A4</a>
+                    <br/> <a href="/api/administrator/shiplist/{{order._id}}" target="_blank"> A4</a>
                 </td>
                 <td>
                     <span ng-if="order.expressStatus==='waitForConfirm'">待抢单</span>
@@ -280,7 +280,7 @@
                     <span ng-if="order.expressStatus==='finished'">已送达</span>
                     <span ng-if="order.expressStatus==='canceled'">已取消</span>
 
-                    <br/>{{order.expressPersonName}} <a ui-sref="menu.updateUser({ id: order.expressPersonId })"> {{order.expressPersonMobile}}</a>
+                    <br/>{{order.expressPersonName}} {{order.expressPersonMobile}} <span ng-if="order.expressPersonId"><a ui-sref="menu.updateUser({ id: order.expressPersonId })">配送员信息</a></span>
 
                 </td>
 
@@ -296,10 +296,7 @@
                     <span ng-if="order.clientFrom === 'mobileweb'">移动版网站</span>
                 </td>
 
-                <td>
-                    <span ng-if="order.warehouse === '56332187594b09af6e6c7dd2'">办公室</span>
-                    <span ng-if="order.warehouse === '56332196594b09af6e6c7dd7'">漕河泾</span>
-                </td>
+                <td> {{order.warehouse | warehousefilter}} </td>
 
                 <td> <a ui-sref="menu.updateUser({ id: order.user })" target="_blank"> {{order.address.contactPerson}}<br/>{{order.address.mobile}} </a></td>
                 <td>

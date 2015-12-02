@@ -16,7 +16,7 @@ module.exports = Cache =
 #
 #      if lastModified
 #        res.set "Last-Modified", lastModified
-      unless req.path is "/api/dishes"
+      unless req.path is "/api/dishes" or req.path is "/api/orders/delivery/range"
         res.set "Cache-Control", "no-store"
     next()
 

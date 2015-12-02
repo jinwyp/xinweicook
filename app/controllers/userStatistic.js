@@ -373,8 +373,6 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
         return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
     }).then(function(resultOrderList){
 
-        console.log(resultOrderList.length);
-
         if (resultOrderList.length > 0){
 
             var first,second, nextUserId;
@@ -390,7 +388,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         first.secondOrderCreateDate = second.createdAt;
                         first.secondOrderInterval = moment(second.createdAt).diff(moment(first.createdAt), 'hours');
 
-                        console.log(first.secondOrderInterval);
+                        //console.log(first.secondOrderInterval);
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
                                 totalTime : 0,
@@ -404,7 +402,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         }
 
                     }else{
-                        console.log(nextUserId);
+                        //console.log(nextUserId);
                     }
 
 

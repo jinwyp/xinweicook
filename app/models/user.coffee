@@ -62,6 +62,7 @@ module.exports =
     dishLikeList :[type: Schema.ObjectId, ref: "dish"]
 
 
+
     invitationSendCode : type: String
     isSharedInvitationSendCode: type: Boolean, default: false
     sharedInvitationSendCodeUsedTime: type: Number, default: 0
@@ -78,11 +79,11 @@ module.exports =
     firstTimeRegFromApp: type: Boolean, default: false
 
     isPaid5Orders: type: Boolean, default: false
-
     isPaid10Orders: type: Boolean, default: false
 
 
     lastOrderDate: type: Date
+
 
     oldUserData :
       mobile:String
@@ -105,9 +106,10 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-pwd"
+      selectFields = "-__v -pwd"
+
     fieldsLess : ->
-      selectFields = "-autoIncrementId -pwd -mobile -address -credit -shoppingCart -couponList -dishLikeList"
+      selectFields = "-__v -autoIncrementId -pwd -mobile -gender -fullName -avatarPic -credit -address  -shoppingCart -couponList -dishLikeList -weixinId"
 
     constantUserRole : () ->
       type =
@@ -120,25 +122,27 @@ module.exports =
 
     validationUserId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
-        return throw new Err "Field validation error,  User ID length must be 24-24", 400
+        return throw new Err "Field validation error,  User ID length must be 24-24", 400, Err.code.user.userIdWrong
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
-          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400
+          return throw new Err "Field validation error,  mobileNumber must be zh_CN mobile number", 400, Err.code.user.wrongMobile
+
     validationPassword : (password) ->
       unless libs.validator.isLength password, 6, 20
-        return throw new Err "Field validation error,  password mus be 6-20", 400
+        return throw new Err "Field validation error,  password mus be 6-20", 400, Err.code.user.wrongPassword
+
     validationInvitationSendCode : (code) ->
       unless libs.validator.isLength code, 8, 8
-        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400
+        return throw new Err "Field validation error,  Invitation Send Code mus be 8-8", 400, Err.code.user.invitationSendCodeWrong
 
     validationUserInfo : (updateUser) ->
       if updateUser.gender
           unless libs.validator.isInt updateUser.gender, {min: 1, max: 9}
-            return throw new Err "Field validation error,  gender must be 1-9", 400
+            return throw new Err "Field validation error,  gender must be 1-9", 400, Err.code.user.userGenderWrong
 
       unless Array.isArray updateUser.address
-        throw new Err "Field validation error,  address must be ArrayObject", 400
+        throw new Err "Field validation error,  address must be ArrayObject", 400, Err.code.user.userOldAddressWrong
       else
         for address,addressIndex in updateUser.address
           delete address._id
@@ -162,14 +166,23 @@ module.exports =
 
     validationShoppingCart : (updateUser) ->
       unless Array.isArray updateUser.shoppingCart
-        throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400
+        throw new Err "Field validation error,  shoppingCart must be ArrayObject", 400, Err.code.user.shoppingCartNotArray
       else
         for dish,dishIndex in updateUser.shoppingCart
           delete dish._id
           unless libs.validator.isInt dish.number, {min: 1, max: 100}
-            return throw new Err "Field validation error,  dish.number must be 1-100", 400
+            return throw new Err "Field validation error,  dish.number must be 1-100", 400, Err.code.user.shoppingCartDishIdWrong
           unless libs.validator.isLength dish.dish, 24, 24
-            return throw new Err "Field validation error,  dishID must be 24-24", 400
+            return throw new Err "Field validation error,  dishID must be 24-24", 400, Err.code.user.shoppingCartDishNumberWrong
+
+          if Array.isArray(dish.subDish) and dish.subDish.length > 0
+            for subdish, subDishIndex in dish.subDish
+              delete subdish._id
+              unless libs.validator.isInt subdish.number, {min: 1, max: 100}
+                return throw new Err "Field validation error,  subdish.number must be 1-100", 400, Err.code.user.shoppingCartSubDishIdWrong
+              unless libs.validator.isLength subdish.dish, 24, 24
+                return throw new Err "Field validation error,  subdishID must be 24-24", 400, Err.code.user.shoppingCartSubDishNumberWrong
+
 
     checkNotFound: (u) ->
       if not u or not u.mobile
@@ -224,24 +237,27 @@ module.exports =
         user
 
     findUserById: (userId) ->
-      unless Number.isInteger userId
+      unless libs.validator.isMongoId userId
         Promise.reject(new Err "Access Token 错误", 401)
       else
         @findOneAsync(id: userId).then(@checkNotFound).then(@checkNotSpam)
-    findUserBy_Id: (_id) ->
-      unless libs.validator.isMongoId _id
-        Promise.reject(new Err "用户 _id 错误", 400)
-      else
-        @findOneAsync(_id: _id).then(@checkNotFound).then(@checkNotSpam)
+
 
     find1 : (options) ->
-      @findOne(options)
-      .select(models.user.fields())
-      .populate({path: 'dishLikeList', select: models.dish.fields()})
+      @findOne(options).select(models.user.fields())
+      .populate({path: 'dishLikeList', select: models.dish.fieldsLess()})
       .populate({path: 'couponList'})
-      .populate({path: 'shoppingCart.dish', select: models.dish.fields()})
-      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fields()})
+      .populate({path: 'shoppingCart.dish', select: models.dish.fieldsLess()})
+      .populate({path: 'shoppingCart.subDish.dish', select: models.dish.fieldsLess()})
       .execAsync()
+
+    find99 : (options, limit) ->
+      if not limit
+        limit = 999
+
+      @find(options).sort("-createdAt").limit(limit).select(models.user.fieldsLess()).execAsync()
+
+
   methods:
     encryptPwd: (pwd) ->
       bcrypt.hashSync pwd.toString(), 4

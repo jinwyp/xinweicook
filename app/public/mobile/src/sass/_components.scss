@@ -214,3 +214,347 @@
     }
   }
 }
+
+// directive address-list
+.address-list {
+  margin: 0 15px;
+  li {
+    position: relative;
+    margin-bottom: 7px;
+    background-color: white;
+  }
+}
+
+
+//directive address
+.new-address-tip {
+  font-size: 13px;
+  color: $invalid-text-color;
+}
+.address-component {
+  border: 2px solid #DCDFDE;
+  padding: 5px 0;
+  color: #777;
+  position: relative;
+  &:not(:first-child) {
+    margin: 12px 0;
+  }
+
+  .deliverable-tag {
+    font-size: 12px;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 6px;
+    color: white;
+    background-color: #E2E2E2;
+    line-height: 2;
+    padding: 0 .9em;
+  }
+
+  form {
+    position: absolute;
+    background-color: white;
+    top: 0;
+    width: 100%;
+    &.new-address {
+      position: static;
+    }
+  }
+
+  form:not(#address-form)>div, .address-block>div{
+    line-height: 34px;
+    padding-left: 10px;
+    height: 40px;
+    position: relative;
+  }
+
+  form:not(address-form)>div {
+    //.err-tip的另外一部分见base
+    &.with-tag .err-tip {
+      right: 83px;
+    }
+
+    &.selects {
+      width: 100%;
+      .select {
+        position: relative;
+        display: inline-block;
+        width: 31%;
+        &::after {
+          font-weight: 700;
+          content: '';
+          position: absolute;
+          right: 10px;
+          top: 16px;
+          border: 5px transparent solid;
+          border-top: 6px black solid;
+        }
+      }
+      select {
+        width: 100%;
+        height: 37px;
+        background-color: white;
+        -webkit-appearance: none;
+      }
+    }
+  }
+
+  .location {
+    position: absolute;
+    right: 13px;
+    border: 1px solid;
+    top: 0;
+    margin: auto;
+    bottom: 0;
+    line-height: 26px;
+    padding: 0 10px;
+    font-size: 12px;
+    height: 27px;
+  }
+
+  input{
+    width: 100%;
+    height: 37px;
+    //padding: 6px 0;
+    line-height: 1.428;
+  }
+
+  .cur-show {
+    display: none;
+  }
+
+  .user-actions {
+    display: none;
+  }
+
+  .new-address-block {
+    line-height: 2.5em;
+    text-align: center;
+  }
+
+  $text-bg-gray-color: #E6E6E6;
+  $text-gray-color: #5D5D5D;
+
+  .search-address {
+    color: $body-color;
+    position: fixed;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    padding:0 12px;
+    top: 0;
+    left: 0;
+
+    form {
+      padding: 13px 0 10px 8px;
+      border-bottom: 1px solid gray;
+      position: relative;
+
+      div {
+        height: 20px;
+        line-height: 22px !important;
+      }
+
+      input {
+        width: 100%;
+        height: inherit;
+      }
+
+      .confirm {
+        position: absolute;
+        bottom: 7px;
+        right: 0;
+        text-align: center;
+        padding: 3px 11px;
+        border: 1px solid black;
+        &.invalid {
+          border-color: $invalid-text-color;
+        }
+      }
+    }
+
+    .find-address-tip {
+      font-size: 13px;
+      background: $text-bg-gray-color;
+      line-height: 1.8;
+      text-indent: 0.5em;
+      color: $text-gray-color;
+    }
+
+    .no-address-tip {
+      text-align: center;
+      padding-top: 20px;
+      color: gray;
+      h4 {
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    .results {
+      margin-top: 1.2em;
+      h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      p {
+        font-size:  12px;
+        margin-bottom: 14px;
+      }
+    }
+  }
+
+  &.cur {
+    padding: 0;
+    border-color: black;
+    color: black;
+
+    form>div, .address-block>div {
+      line-height: 38px;
+    }
+
+    form>div:not(:last-child), .address-block>div:not(:last-child){
+      border-bottom: 2px dotted white;
+    }
+
+    .deliverable-tag {
+      background-color: black;
+    }
+
+    .cur-show {
+      display: block;
+    }
+
+    .user-actions {
+      opacity: .5;
+      display: block;
+      position: absolute;
+      right: 5px;
+      bottom: 0;
+      span {
+        padding: .5em;
+        &:not(:last-child) {
+          margin-right: 1.3em;
+        }
+      }
+    }
+
+    &.edit {
+      form>div, .address-block>div{
+        border-bottom-color: #bbbbbb;
+      }
+      .user-actions {
+        display: none;
+      }
+    }
+  }
+}
+
+// menu-nav directive
+.menu-nav {
+  font-size: 16px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: $menu-nav-bg-color;
+  height: 52px;
+  line-height: 52px;
+
+  & > div {
+    -webkit-transition: .5s width ease;
+    transition: .5s width ease;
+    display: inline-block;
+    text-align: center;
+    width: 21%;
+    &.active {
+      font-weight: 900;
+      span {
+        border-top: 7px solid;
+        padding: 9px 7px;
+      }
+    }
+
+    a {
+      display: inline-block;
+      transition: background-color .3s ease;
+      width: 100%;
+      &:active {
+        background: #39383E;
+      }
+    }
+  }
+
+  &.empty {
+    & > div {
+      width: 32%;
+    }
+  }
+
+  .go-to-cart {
+    position: absolute;
+    right: 0;
+    width: 100px;
+    background-color: $primary-color;
+    -webkit-transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
+    transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
+    &.invalid {
+      background-color: $out-of-stock-bg-color;
+    }
+    &.flash {
+      transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+      -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    .bag-icon {
+      position: absolute;
+      left: 22px;
+      top: 0;
+      bottom: 4px;
+      margin: auto;
+      @include retina-sprite-background(ShoppingBagIcon);
+
+      i {
+        position: absolute;
+        bottom: 1px;
+        right: 0;
+        left: 0;
+        font-size: 12px;
+        line-height: normal;
+      }
+    }
+
+    .price {
+      position: relative;
+      right: -16px;
+      &::before {
+        content: '¥';
+        position: absolute;
+        top: 1px;
+        left: -0.6em;
+        line-height: normal;
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.thanksgiving {
+  .xw-modal-content {
+    width: 280px;
+    height: 280px;
+  }
+  .thanksgiving-main {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 280px;
+    color: #FF8800;
+    font-weight: 400;
+    font-size: 23px;
+    box-shadow: #F98600 0 0 4px;
+    background: url(../img/thanksgiving2.jpg) no-repeat 100%/100%;
+  }
+}

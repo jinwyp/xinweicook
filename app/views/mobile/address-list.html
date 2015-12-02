@@ -1,45 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="xw" ng-controller="addressListCtrl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
     <%- include('includes/css.html') %>
-    <title>地址管理.</title>
+    <title>新味 / 地址管理</title>
     <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 </head>
-<body ng-app="xw" ng-controller="addressListCtrl">
+<body class="white-body">
 
 <nav class="address-list-nav nav">
     <div class="back-icon" ng-click="back()"></div>
     <span class="no-bottom-border">管理收货地址</span>
-    <a class="icon-add icon" href="addressedit"></a>
 </nav>
 
 <div class="main address-main" ng-cloak>
-    <ul class="address-list">
-        <li class="row" ng-repeat="address in addresses">
-            <div class="select-button"
-                 ng-click="chooseAddress(address)" ng-class="{active: selectedAddress.street + selectedAddress.contactPerson + selectedAddress.mobile == address.street + address.contactPerson + address.mobile}"></div>
-            <div class="detail" ng-click="chooseAddress(address)">
-                <h5 class="name">{{address.contactPerson}}</h5>
-                <div class="address">{{address.city + address.district + address.street + address.address}}</div>
-            </div>
-            <a href="javascript:;" class="text-center edit" ng-click="editAddress(address)">编辑</a>
-            <div ng-if="!address.geoLatitude" class="warn-invalid-address text-center">
-                该地址无效, 请重新编辑
-            </div>
-        </li>
-    </ul>
-    <div class="no-address-tip" ng-if="addresses && !addresses.length">
-        您暂时还没有可用的收货地址, 请点击右上角 "+" 添加新地址.
-    </div>
+    <address-list addresses="addresses" hide-others-when-edit="{{true}}" range="range" save="save" editing="editing"></address-list>
+    <div class="save-button" ng-if="editing()" ng-click="save($event)">保存</div>
 </div>
 
 </body>
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/address-list-df56941699.js"></script>
+<script src="/mobile/dist/js/controllers/address-list-c8fcf9f2db.js"></script>
 
 
 </html>

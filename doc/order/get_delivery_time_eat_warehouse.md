@@ -8,7 +8,6 @@ Group `member`
 | Name             | Type     | Desc                              |
 |:-----------------|:---------|:----------------------------------|
 | _id              | String   | 仓库_id "56332187594b09af6e6c7dd2" 新味办公室 或 "56332196594b09af6e6c7dd7" 漕河泾   仓库_id或仓库代号至少有一个必传   |
-| warehouseName    | String   | 仓库代号 "xinweioffice" 新味办公室 或 "caohejing1" 漕河泾   仓库_id或仓库代号至少有一个必传    |
 
 
 
@@ -20,11 +19,6 @@ Group `member`
 ```
 
 
-```js
-{
-  "warehouseName" : "caohejing1"
-}
-```
 
 ## Res
 ### Body

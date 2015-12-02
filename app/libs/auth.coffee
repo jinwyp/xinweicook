@@ -9,7 +9,7 @@ module.exports = (allowGroupResource="guest", options) ->
         req.u = user
 
         if models.user.authRolePermission(allowGroupResource, user.group)
-          next() # TODO BUG
+          next()
         else
           throw new Err "该用户组没有权限", 403
       else

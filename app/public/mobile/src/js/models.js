@@ -40,6 +40,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         getUnifiedOrder: function (data) {
             return $http.post('/api/orders/payment/weixinpay/unifiedorder', data);
+        },
+        price: function (data) {
+            return $http.post('/api/orderprice', data);
         }
     }
 });
@@ -129,6 +132,26 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
             return $http.get('/api/user/weixin/userinfo?userId=' + id);
         }
 
+    }
+});
+
+angular.module('xw.models').factory('Address', function ($http) {
+    return {
+        getList: function () {
+            return $http.get('/api/user/address')
+        },
+        addOne: function (address) {
+            return $http.post('/api/user/address',address)
+        },
+        update: function (address) {
+            return $http.put('/api/user/address' + '/' + address._id, address)
+        },
+        'delete': function (id) {
+            return $http.delete('/api/user/address/' + id)
+        },
+        range: function () {
+            return $http.get('/api/orders/delivery/range')
+        }
     }
 });
 

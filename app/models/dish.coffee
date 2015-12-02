@@ -91,6 +91,10 @@ module.exports =
 
     stock : type: Number, default: 0 # 库存
 
+    stockWarehouse: [ # 每个仓库的库存
+      warehouse: type: Schema.ObjectId, ref: "warehouse"
+      stock: type: Number, default: 0 # 库存
+    ]
 
 
 
@@ -110,7 +114,11 @@ module.exports =
 
   statics:
     fields : ->
-      selectFields = "-topping -preferences -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+      selectFields = "-__v -autoIncrementId -region -recommendSet -cook -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+
+    fieldsLess : ->
+      selectFields = "-__v -autoIncrementId -topping -preferences -kitchenware -infoUniqueFeature -infoIngredient -infoCookingStep -priceWholesale -region -recommendSet -cook -statisticHot -statisticSales -statisticLike -statisticViews -statisticLikeUserList"
+
 
     constantCookingType : () ->
       type =
@@ -128,9 +136,21 @@ module.exports =
       if not dish
         return throw new Err "Dish ID or dish not found !", 400
 
-    checkOutOfStock : (dish) ->
+    checkOutOfStock : (dish, warehouseId) ->
       if dish.stock <=0
-        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足", 400, Err.code.dish.outOfStock
+        return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 总库存不足", 400, Err.code.dish.outOfStock
+      else
+        if dish.stockWarehouse.length > 0
+          for warehouse, warehouseIndex in dish.stockWarehouse
+
+            if dish.cookingType is models.dish.constantCookingType().eat
+              if warehouse.warehouse.toString() is warehouseId.toString() and warehouse.stock <= 0
+                return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
+            else
+              # 食材包无论用户地址在哪,都只判断新味办公室的库存
+              if warehouse.warehouse.toString() is "56332187594b09af6e6c7dd2" and warehouse.stock <= 0
+                return throw new Err "Dish Out Of Stock ! " + dish._id + " " + dish.title.zh + " 库存不足, 仓库ID: " + warehouseId, 400, Err.code.dish.outOfStock
+
 
     validationDishId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
@@ -141,77 +161,143 @@ module.exports =
         return throw new Err "Field validation error,  sideDish must be 2-10", 400
 
     find1 : (options) ->
-      @findOne(options).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+      @findOne(options).select(models.dish.fields()).populate("preferences.foodMaterial.dish").populate("topping").execAsync()
 
     find99 : (options, limit) ->
       if not limit
         limit = 999
 
-      @find(options).sort("-sortId").sort("-createdAt").limit(limit).populate("cook.user").populate("preferences.foodMaterial.dish").populate("topping").populate({path: 'statisticLikeUserList', select: models.user.fieldsLess()}).execAsync()
+      @find(options).sort("-sortId").sort("-createdAt").limit(limit).select(models.dish.fields()).populate("preferences.foodMaterial.dish").populate("topping").execAsync()
 
-  methods: {
+  methods:
     getPrice : (number) ->
-      if number < 2 or @priceWholesale.length is 0
+      if number < 2
         @priceOriginal
       else
         finalPrice = @priceOriginal
-        for wholesale,wholesaleIndex in @priceWholesale
-          if number < wholesale.quantity
-            finalPrice = wholesale.price
-            break
+        if @priceWholesale and @priceWholesale.length > 0
+          for wholesale,wholesaleIndex in @priceWholesale
+            if number < wholesale.quantity
+              finalPrice = wholesale.price
+              break
         finalPrice
 
-    reduceStock : (stockNumber, user, remark, orderId ) ->
-      @stock = @stock - Number(stockNumber)
 
-      if @stock <= 1
-        # 给客服发送短信
-        models.sms.sendSMSToCSOutOfStock(@title.zh)
+    reduceStock : (stockNumber, warehouseId, user, remark, orderId ) ->
 
-      newInventoryChange =
-        user : user._id
-        dish : @_id
-        isPlus : false
-        quantity : -Number(stockNumber)
-        remark : models.inventory.constantRemark().userOrder
+      dishNow = @
 
-      newInventoryChange.remark = remark if remark
-      newInventoryChange.order = orderId if orderId
+      if not @stockWarehouse
+        @stockWarehouse = []
 
-      models.inventory.createAsync(newInventoryChange)
-      @saveAsync()
+      models.warehouse.find99({}).then (resultWarehouseList) ->
+        # 补齐所缺的仓库的库存数组
+        for warehouse, warehouseIndex in resultWarehouseList
+          if not dishNow.stockWarehouse[warehouseIndex]
+            dishNow.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
 
-    addStock : (stockNumber, user, remark) ->
-      @stock = @stock + Number(stockNumber)
-      newInventoryChange =
-        user : user._id
-        dish : @_id
-        isPlus : true
-        quantity : Number(stockNumber)
-        remark : models.inventory.constantRemark().adminOperation
+        # 减少每个仓库的库存，
+        dishNow.stock = 0   # 每次重新计算总库存
 
-      newInventoryChange.remark = remark if remark
+        for warehouse, warehouseIndex in resultWarehouseList
 
-      models.inventory.createAsync(newInventoryChange)
-      @saveAsync()
-  }
+          if warehouse._id.toString() is warehouseId.toString()
+            dishNow.stockWarehouse[warehouseIndex].stock = dishNow.stockWarehouse[warehouseIndex].stock - Number(stockNumber)
+
+            newInventoryChange =
+              warehouse : warehouseId
+              user : user._id
+              dish : dishNow._id
+              isPlus : false
+              quantity : -Number(stockNumber)
+              remark : models.inventory.constantRemark().adminOperation
+
+            newInventoryChange.remark = remark if remark
+            newInventoryChange.order = orderId if orderId
+
+            models.inventory.createAsync(newInventoryChange)
+
+          dishNow.stock = dishNow.stock + dishNow.stockWarehouse[warehouseIndex].stock
+
+#          if dishNow.stock <= 1 and dishNow.stock > -2
+#            # 给客服发送短信
+#            models.sms.sendSMSToCSOutOfStock(dishNow.title.zh)
+
+        dishNow.saveAsync()
+
+
+
+    addStock : (stockNumber, warehouseId, user, remark) ->
+
+      tempStockWarehouseObject = {}
+      dishNow = @
+
+      if not @stockWarehouse
+        @stockWarehouse = []
+      else
+        for stock, stockIndex in @stockWarehouse
+          tempStockWarehouseObject[stock.warehouse] = stock;
+
+      models.warehouse.find99({}).then (resultWarehouseList) ->
+        # 补齐所缺的仓库的库存数组
+        for warehouse, warehouseIndex in resultWarehouseList
+          if not dishNow.stockWarehouse[warehouseIndex]
+            dishNow.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
+
+
+        # 增加每个仓库的库存，并调整仓库在数组中的顺序
+        dishNow.stock = 0   # 每次重新计算总库存
+
+        for warehouse, warehouseIndex in resultWarehouseList
+          if warehouse._id.toString() isnt dishNow.stockWarehouse[warehouseIndex].warehouse.toString()
+            dishNow.stockWarehouse[warehouseIndex].warehouse = warehouse._id;
+            dishNow.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[warehouse._id].stock;
+
+
+          if warehouse._id.toString() is warehouseId.toString()
+            dishNow.stockWarehouse[warehouseIndex].stock = dishNow.stockWarehouse[warehouseIndex].stock + Number(stockNumber)
+
+            newInventoryChange =
+              warehouse : warehouseId
+              user : user._id
+              dish : dishNow._id
+              isPlus : true
+              quantity : Number(stockNumber)
+              remark : models.inventory.constantRemark().adminOperation
+
+            newInventoryChange.remark = remark if remark
+
+            models.inventory.createAsync(newInventoryChange)
+
+          dishNow.stock = dishNow.stock + dishNow.stockWarehouse[warehouseIndex].stock
+
+        dishNow.saveAsync()
+
+
+
   rest:
     postUpdate : (req, res, next) ->
 
       if req.method is "PUT"
 
         # 修改库存
-        if req.body.addInventory > 0
-          models.dish.findOneAsync({_id:req.params.id})
-          .then (resultDish) ->
-            if resultDish
-              resultDish.addStock(req.body.addInventory, req.u, models.inventory.constantRemark().adminOperation)
+        if req.body.addInventoryWarehouseStock > 0 and req.body.addInventoryWarehouseId and req.body.addInventoryWarehouseId.length is 24
 
-        if req.body.reduceInventory > 0
-          models.dish.findOneAsync({_id:req.params.id})
-          .then (resultDish) ->
-            if resultDish
-              resultDish.reduceStock(req.body.reduceInventory, req.u, models.inventory.constantRemark().adminOperation )
+          models.dish.findOneAsync({_id:req.params.id}).then (resultDish) ->
+            models.warehouse.findOneAsync({_id:req.body.addInventoryWarehouseId}).then (resultWarehouse) ->
+
+              if resultDish and resultWarehouse
+                resultDish.addStock(req.body.addInventoryWarehouseStock, resultWarehouse._id, req.u, models.inventory.constantRemark().adminOperation)
+
+
+
+        if req.body.reduceInventoryWarehouseStock > 0 and req.body.reduceInventoryWarehouseId and req.body.reduceInventoryWarehouseId.length is 24
+
+          models.dish.findOneAsync({_id:req.params.id}).then (resultDish) ->
+            models.warehouse.findOneAsync({_id:req.body.reduceInventoryWarehouseId}).then (resultWarehouse) ->
+
+              if resultDish and resultWarehouse
+                resultDish.reduceStock(req.body.reduceInventoryWarehouseStock, resultWarehouse._id, req.u, models.inventory.constantRemark().adminOperation )
 
       next()
 
@@ -221,6 +307,15 @@ module.exports =
         false
       else
         true
+    )
+
+    schema.virtual("stockWarehouseObj").get( ()->
+      result = {}
+      if @stockWarehouse and @stockWarehouse.length > 0
+        for warehouse, warehouseIndex in @stockWarehouse
+          result[warehouse.warehouse] = warehouse.stock
+
+      result
     )
 
     schema.set('toJSON', { virtuals: true })

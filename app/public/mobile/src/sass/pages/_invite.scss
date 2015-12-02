@@ -11,7 +11,7 @@
 }
 
 .notes{
-  margin-top: -10px;
+  margin-top: -17px;
   line-height: 1.9;
   margin-bottom: 3em;
   font-size: 15px;
@@ -89,34 +89,36 @@
   }
 }
 
-.tip {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  z-index: 100;
-  left: 0;
-  background-color: rgba(0,0,0,0.8);
-  color: white;
+.invite-main {
+  .tip {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 100;
+    left: 0;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
 
-  .operation {
-    font-size: 22px;
-    line-height: 1.8;
-    width: 360px;
-    margin: 95px auto;
-    text-align: center;
-    img {
-      width: 54px;
-      margin: 8px;
+    .operation {
+      font-size: 22px;
+      line-height: 1.8;
+      width: 360px;
+      margin: 95px auto;
+      text-align: center;
+      img {
+        width: 54px;
+        margin: 8px;
+      }
     }
-  }
-  .top-right-arrow {
-    width: 82px;
-    height: 103px;
-    background: url(../img/top-right-arrow.png) no-repeat;
-    background-size: 66px;
-    position: absolute;
-    top: 9px;
-    right: -7px;
+    .top-right-arrow {
+      width: 82px;
+      height: 103px;
+      background: url(../img/top-right-arrow.png) no-repeat;
+      background-size: 66px;
+      position: absolute;
+      top: 9px;
+      right: -7px;
+    }
   }
 }

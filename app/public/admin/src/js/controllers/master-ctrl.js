@@ -65,6 +65,21 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
         $http.get('/api/administrator/initadminuser')
     };
 
+    $scope.initWarehouse = function () {
+        $http.get('/api/administrator/initwarehouse')
+    };
+
+
+    $scope.fixInventory = function () {
+        $http.get('/api/administrator/initfixinventory')
+    };
+
+    $scope.fixWarehouseStock = function () {
+        $http.get('/api/administrator/initwarehousestock');
+    };
+
+
+
 
     $scope.removetag = function () {
         $http.get('/api/administrator/initremovetag');
@@ -89,6 +104,8 @@ function MasterCtrl($scope, $location, $localStorage, $http, User) {
     $scope.removeaccountdetail = function () {
         $http.get('/api/administrator/initremoveaccountdetail');
     };
+
+
 
 
 

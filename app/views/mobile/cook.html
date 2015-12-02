@@ -9,11 +9,8 @@
 </head>
 <body>
 
-<nav style="display:none;" class="cook-nav nav">
-    <div class="back-icon" ng-click="back()"></div>
-    <span>{{::dish.title.zh}}</span>
-</nav>
-
+<address-selection animate-trigger="addressCount" show="addressLoaded" path="{{path}}" dish-id="{{dishId}}"
+                   address="address" no-address="!addresses.length"></address-selection>
 
 <div class="main cook-main" ng-cloak>
     <div class="dish-brief">
@@ -73,42 +70,14 @@
     </div>
 </div>
 
-<add-dish-bar cart="cart" user="user" dish="curDish"></add-dish-bar>
+<add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
-<nav class="menu-nav">
-    <div><a href="/mobile/me"><span>帐号</span></a></div>
-    <div><a href="/mobile#/eat"><span>便当</span></a></div>
-    <div class="active"><a href="/mobile#/cook"><span>食材包</span></a></div>
-
-    <div class="go-to-cart" ng-click="goToCart()">
-        <div class="icon bag-icon">
-            <i class="number" ng-bind="cart.length"></i>
-        </div>
-        <span class="price" ng-bind="cart.price || 0"></span>
-    </div>
-</nav>
-
-<!--<footer class="cook-footer row">-->
-    <!--<div class="col-xs-2">-->
-        <!--<div class="cart" ng-click="goToCart()">-->
-            <!--<span class="total-count" ng-if="cart.length">{{cart.length}}</span>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="col-xs-4 text-center">-->
-        <!--<span class="like-icon" ng-class="{'like': dish.liked}" ng-click="likeDish(dish)"></span>-->
-    <!--</div>-->
-
-    <!--<div class="col-xs-5 pull-right add-to-cart-container" ng-click="addDish(dish)">-->
-        <!--加入购物袋-->
-    <!--</div>-->
-
-<!--</footer>-->
+<menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 
 </body>
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/cook-157c00752d.js"></script>
+<script src="/mobile/dist/js/controllers/cook-95baaaaee6.js"></script>
 
 </html>

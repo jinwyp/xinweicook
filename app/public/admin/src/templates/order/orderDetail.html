@@ -164,7 +164,7 @@
 
                     <div class="col-lg-10">
                         <span class="help-block" >经度: {{data.order.address.geoLongitude}} / 纬度: {{data.order.address.geoLatitude}} / 距离: {{data.order.address.distanceFrom}}米</span>
-                        <span class="help-block" > {{data.order.address.country}} / {{data.order.address.province}}  / {{data.order.address.city}}  / {{data.order.address.district}} / {{data.order.address.street}}</span>
+                        <span class="help-block" > {{data.order.address.country}} / {{data.order.address.province}}  / {{data.order.address.city}}  / {{data.order.address.district}} / {{data.order.address.street}} / {{data.order.address.street_number}}</span>
                         <span class="help-block" > 客服验证该地址是否有效: {{data.order.address.isValid}}  / 地址备注: {{data.order.address.remark}}</span>
                     </div>
 
@@ -358,7 +358,10 @@
                     <label class="col-lg-2 control-label" >发货仓库ID:</label>
 
                     <div class="col-lg-10">
-                        <span class="help-block"><a ui-sref="menu.updateWarehouse({ id: data.order.warehouse })">{{data.order.warehouse}}</a></span>
+                        <span class="help-block">
+                            <a ui-sref="menu.updateWarehouse({ id: data.order.warehouse })">{{data.order.warehouse | warehousefilter}} </a>
+                        </span>
+
                     </div>
                 </div>
 

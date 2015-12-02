@@ -54,9 +54,6 @@ expressRoutes = function(app) {
     app.get("/mobile/addresslist", function (req, res) {
         res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
     });
-    app.get("/mobile/addressedit", function (req, res) {
-        res.render(pathPrefix + 'address-edit.html', {title: 'XinweiCook'})
-    });
     app.get("/mobile/wxpay/:id", function (req, res) {
         res.render(pathPrefix + 'wxpay.html', {title: 'XinWeiCook'})
     });
@@ -118,30 +115,35 @@ expressRoutes = function(app) {
 
 
 
-    // 百度place suggestion api不支持jsonp, 只好在服务器端请求
-    app.get("/mobile/placesuggestion", function (req, res, next) {
-        var query = req.query.query;
-        var region = req.query.region;
-        var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
+    // 百度place api不支持jsonp, 只好在服务器端请求
+    app.get("/mobile/placesuggestion", baiduPlace('suggestion'));
+    app.get("/mobile/placesearch", baiduPlace('search'));
 
-        var params = 'query=' + encodeURIComponent(query) + '&' +
+    function baiduPlace(type) {
+        return function (req, res, next) {
+            var query = req.query.query;
+            var region = req.query.region;
+            var ak = 'SwPFhM6Ari4IlyGW8Okcem2H';
+
+            var params = 'query=' + encodeURIComponent(query) + '&' +
                 'region=' + encodeURIComponent(region) + '&' +
                 'ak=' + ak + '&' +
                 'output=json';
 
-        var url = 'http://api.map.baidu.com/place/v2/suggestion?' + params;
-        request(url, function (err, response, body) {
-            if (err) {
-                next(err)
-            } else {
-                try {
-                    res.json(JSON.parse(body));
-                } catch (e) {
-                    next(e);
+            var url = 'http://api.map.baidu.com/place/v2/' + type + '?' + params;
+            request(url, function (err, response, body) {
+                if (err) {
+                    next(err)
+                } else {
+                    try {
+                        res.json(JSON.parse(body));
+                    } catch (e) {
+                        next(e);
+                    }
                 }
-            }
-        })
-    });
+            })
+        }
+    }
 
     var warehouseCoords = {
         xinweioffice: {

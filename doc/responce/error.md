@@ -27,13 +27,20 @@ Content-Type: application/json
 /**
  * reused in front-end
  */
-module.exports = {
+
+{
     user: {
         // todo: 第二第三位的1 是什么意思, sms独立出来??
         wrongMobile   : 1110,
         wrongPassword : 1111,
         alreadyExist  : 1112,
         notFound      : 1113,
+
+        userIdWrong : 1150,
+        userGenderWrong : 1152,
+        userOldAddressWrong : 1155,
+
+        invitationSendCodeWrong : 1190,
 
         addressIdWrong : 1210,
         addressNotFound : 1212,
@@ -51,12 +58,28 @@ module.exports = {
 
         addressContactPersonWrong : 1235,
         addressMobileWrong        : 1236,
-        addressSortOrderWrong     : 1237
+        addressSortOrderWrong     : 1237,
+
+        addressNotDeliver     : 1270,
+
+        addressBaiduMapNotFoundError     : 1280,
+
+
+        shoppingCartNotArray     : 1500,
+        shoppingCartDishIdWrong     : 1502,
+        shoppingCartDishNumberWrong     : 1504,
+        shoppingCartSubDishIdWrong     : 1506,
+        shoppingCartSubDishNumberWrong     : 1508
+
+
+
+
 
     },
     order: {
         notFound: 2010,
 
+        orderNumberWrong: 2010,
         orderIdWrong: 2011,
         warehouseIdWrong: 2012,
 
@@ -100,7 +123,11 @@ module.exports = {
 
         dishIdInvalid: 2190,
         notOnlyDrink: 2192,
-        notOverTenDrinks: 2194
+        notOverTenDrinks: 2194,
+
+
+        orderStatusWrong: 2300,
+        orderPaymentStatusWrong: 2310
 
 
 
@@ -135,5 +162,6 @@ module.exports = {
         notFound: 8112
     }
 };
+
 ```
 

@@ -30,6 +30,7 @@ module.exports =
   statics :
     fields : ->
       selectFields = "-isExpired"
+
     constantCouponType : () ->
       type =
         code : ["promocode", "promocodepercentage"]

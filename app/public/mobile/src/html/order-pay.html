@@ -9,8 +9,6 @@
 </head>
 <body class="white-body" ng-app="xw" ng-controller="orderPayCtrl">
 
-<shopping-progress-bar></shopping-progress-bar>
-
 <div class="order-pay-main" ng-cloak>
     <form name="form">
 
@@ -100,7 +98,7 @@
         <div class="block price-group">
             <div>订单金额:<span class="rmb-char fee">{{data.orderPrice}}</span></div>
             <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()}}</span></div>
-            <div>运费:<span class="rmb-char fee">{{data.deliveryFee}}</span></div>
+            <div>运费:<span class="rmb-char fee">{{data.freight}}</span></div>
             <div ng-if="data.balance.total">新味币:<span class="rmb-char fee negative">{{usedBalance()|number:1}}</span></div>
             <div class="total">应付总额<span class="rmb-char fee">{{payPrice()|number:1}}</span></div>
         </div>

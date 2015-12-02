@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'Coupons', 'Statistic', userController]);
+    .controller('UserController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAddresses', 'UserAccounts', 'UserAccountDetails', 'Coupons', 'Statistic', userController]);
 
 
-function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, Coupons, Statistic) {
+function userController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAddresses, UserAccounts, UserAccountDetails, Coupons, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -62,9 +62,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             gender : '',
             group : 'member'
         },
+
+        userAddressList : [],
         userAccount : {},
         userAccountDetails : [],
         userCouponList : [],
+
 
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
@@ -338,9 +341,12 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             //});
         });
 
+        UserAddresses.getList({query:{user:$stateParams.id}, sort : '-sortOrder'}).then(function (resultAddressList) {
+            $scope.data.userAddressList = resultAddressList;
+        });
 
-        UserAccounts.one($stateParams.id).get().then(function (resultUserAccount) {
-            $scope.data.userAccount = resultUserAccount;
+        UserAccounts.getList({query:{user:$stateParams.id}}).then(function (resultUserAccount) {
+            $scope.data.userAccount = resultUserAccount[0];
         });
 
     }

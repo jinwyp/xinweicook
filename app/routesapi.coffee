@@ -17,6 +17,7 @@ couponController = require "./controllers/coupon.coffee"
 tagController = require "./controllers/tag.coffee"
 orderController = require "./controllers/order.coffee"
 deliveryController = require "./controllers/delivery.js"
+dishStatController = require "./controllers/dishStatistic.js"
 orderStatController = require "./controllers/orderStatistic.js"
 userStatController = require "./controllers/userStatistic.js"
 
@@ -116,6 +117,8 @@ expressRoutes = (app) ->
   app.get("/api/orders", libs.auth("member"), orderController.orderListByUser)
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
 
+
+  app.post("/api/orderprice", libs.auth("member"), orderController.calculateOrderPrice)
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.post("/api/orders/payment/weixinpay/unifiedorder", libs.auth("member"), orderController.generateWeixinPayUnifiedOrder)
   app.post("/api/orders/payment/weixinpay/config", userController.getWeixinDeveloperJsapiTicket) ##去掉libs.auth("member"), 获取jssdk config对匿名用户也应当可以使用, 否则无法对匿名用户在列表页进行定位.
@@ -164,6 +167,8 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/initwarehouse", libs.auth("admin"), initController.createWarehouse)
+  app.get("/api/administrator/initfixinventory", initController.fixDishInventoryForCaohejin1)
+  app.get("/api/administrator/initwarehousestock", libs.auth("admin"), initController.fixDishWarehouseStock)
   app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishAndTag)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDishMigrate)
 #  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initDishWithTopping)
@@ -209,9 +214,9 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/order/hour", orderStatController.orderHourSales)
 
 
-  app.get("/api/admin/statistic/dish/stock", orderStatController.dishStatisticByStock)
-  app.get("/api/admin/statistic/dish/daily", orderStatController.dishDailySales)
-  app.get("/api/admin/statistic/dish/daily/chart", orderStatController.dishDailySalesChart)
+  app.get("/api/admin/statistic/dish/stock", dishStatController.dishStatisticByStockLast7Day)
+  app.get("/api/admin/statistic/dish/daily", dishStatController.dishDailySales)
+  app.get("/api/admin/statistic/dish/daily/chart", dishStatController.dishDailySalesChart)
 
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
   app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)

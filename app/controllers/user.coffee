@@ -36,9 +36,6 @@ baiduMap = Map({ak:"hGHhGxXeioV00csas6otDPM0"})
 
 
 
-
-
-
 exports.getUploadResponse = (req, res) ->
 
   infoObject = req.body
@@ -94,28 +91,26 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
     isNeedRefreshJsapiTicket = false
 
     if not settingJSSdk
-      logger.error("WeixinDeveloperJsapi not found !" );
+      logger.error("Weixin Jsapi ticket not found !" );
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
-        logger.error("WeixinDeveloperJsapi expired !" );
+        logger.error("Weixin Jsapi ticket expired !" );
         isNeedRefreshJsapiTicket = true
 
 
     isNeedRefreshAccessToken = false
 
-    if not settingAccessToken
-      logger.error("WeixinDeveloper AccessToken not found !" );
-      isNeedRefreshAccessToken = true
-    else
-      if models.setting.checkExpired(settingAccessToken)
-        logger.error("WeixinDeveloper AccessToken expired !" );
-        isNeedRefreshAccessToken = true
-
-
-
-
     if isNeedRefreshJsapiTicket
+
+      if not settingAccessToken
+        logger.error("Weixin Jsapi AccessToken not found !" );
+        isNeedRefreshAccessToken = true
+      else
+        if models.setting.checkExpired(settingAccessToken)
+          logger.error("Weixin Jsapi AccessToken expired !" );
+          isNeedRefreshAccessToken = true
+
 
       if isNeedRefreshAccessToken
 
@@ -128,11 +123,11 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
             name : "weixinDeveloperAccessToken"
             key : "weixinDeveloperAccessToken"
             value : JSON.stringify(resultAccessToken)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
-            console.log(resultSettingUpdated); # { ok: 1, nModified: 1, n: 1 }
+            console.log("Weixin Jsapi Developer AccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
 
 
           # 请求JsapiTicket
@@ -166,7 +161,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
         )
 
       else
-        console.log(settingAccessToken.value)
+#        console.log(settingAccessToken.value)
 
         # 请求JsapiTicket
         weixinpay.getDeveloperJsapiTicketAsync(settingAccessToken.value.access_token).then  (resultTicket2) ->
@@ -242,11 +237,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
       if not resultSetting
         isNeedRefreshAccessToken = true
-        logger.error("WeixinUserInfo resultSetting not found !" );
+        logger.error("Weixin getUserInfo AccessToken not found !" );
       else
         if models.setting.checkExpired(resultSetting)
           isNeedRefreshAccessToken = true
-          logger.error("WeixinUserInfo resultSetting expired !" );
+          logger.error("Weixin getUserInfo AccessToken expired !" );
 
 
       if isNeedRefreshAccessToken
@@ -259,11 +254,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
             name : "weixinDeveloperAccessToken"
             key : "weixinDeveloperAccessToken"
             value : JSON.stringify(resultAccessToken)
-            expiredDate : moment().add(90, 'minutes')
+            expiredDate : moment().add(60, 'minutes')
             isExpired : false
 
           models.setting.updateAsync({name: "weixinDeveloperAccessToken"}, newDeveloperAccessToken, {upsert: true}).then (resultSettingUpdated)->
-            console.log("weixinDeveloperAccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
+            console.log("Weixin getUserInfo Developer AccessToken", resultSettingUpdated) # { ok: 1, nModified: 1, n: 1 }
 
 
           userInfo =
@@ -297,7 +292,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-        logger.error("WeixinUserInfo resultSetting is exist !" );
+        logger.error("Weixin getUserInfo AccessToken is exist and not expired !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
@@ -551,7 +546,7 @@ exports.userInfo = (req, res, next) ->
         res.json resultUser
     else
 
-      models.user.find({invitationFromUser : req.u._id}).select(models.user.fieldsLess()).then (resultUserList)->
+      models.user.find99({invitationFromUser : req.u._id}).then (resultUserList)->
 
         tempResult = resultUser.toObject()
         tempResult.invitationUserList = resultUserList
@@ -643,6 +638,7 @@ exports.updateShoppingCart = (req, res, next) ->
 
 
 
+initDataWarehouse = require "../../test/initdata/warehouse.js"
 
 # 获取用户收货地址 (新版接口)
 exports.getUserAddress = (req, res, next) ->
@@ -652,6 +648,12 @@ exports.getUserAddress = (req, res, next) ->
     if resultUserAddressList.length is 0 and req.u.address.length > 0
 
       tempAddressList = []
+
+
+      tempWarehouse = {}
+
+      promiseList = [];
+
 
       for address,addressIndex in req.u.address
 
@@ -674,16 +676,63 @@ exports.getUserAddress = (req, res, next) ->
 
 #        tempAddress.isDefault = req.u.address[addressIndex].isDefault if req.u.address[addressIndex].isDefault
 
+
+        if req.get("user-agent") isnt "Xinwei Cook"
+          tempLocation = models.useraddress.gcj02ToBd09({lng:tempAddress.geoLongitude, lat:tempAddress.geoLatitude })
+          tempAddress.geoLongitude = tempLocation.lng
+          tempAddress.geoLatitude = tempLocation.lat
+
+
         tempAddressList.push(tempAddress)
 
 
-      models.useraddress.createAsync(tempAddressList).then (result)->
+        baiduMapQuery =
+          origins : []
+          destinations :
+            lat : tempAddress.geoLatitude
+            lng : tempAddress.geoLongitude
+
+        for warehouse, warehouseIndex in initDataWarehouse
+          tempWarehouse[warehouse._id] = warehouse
+          tempWarehouse[warehouse.name] = warehouse
+
+          originPlace =
+            lat : warehouse.locationGeoLatitude
+            lng : warehouse.locationGeoLongitude
+            name : warehouse.name
+            deliveryRange : warehouse.deliveryRange
+
+          baiduMapQuery.origins.push(originPlace)
+
+        promiseList.push(baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery))
+
+      Promise.all(promiseList).then (resultBaiduList) ->
+
+        for baidu, baiduIndex in resultBaiduList
+          if baidu.status and baidu.status isnt 0
+            throw(new Err baidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
+
+          # 漕河泾仓库使用直线距离
+          baidu = models.warehouse.correctDistanceForCaohejing1Warehouse(baidu, tempAddressList[baiduIndex])
+
+          # 判断与哪个仓库最近, 最近的仓库发货
+          nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(baidu, tempWarehouse, tempAddressList[baiduIndex])
+
+          if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].distanceFrom = nearestWarehouse.warehouseDistance
+            tempAddressList[baiduIndex].warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
+            tempAddressList[baiduIndex].isAvailableForEat = true
+
+        models.useraddress.createAsync(tempAddressList)
+      .then (result)->
 
         req.u.address = []
         req.u.saveAsync();
 
         res.json result
       .catch next
+
+
 
     else
       res.json resultUserAddressList
@@ -757,7 +806,8 @@ exports.addNewAddress = (req, res, next) ->
   .then (resultBaidu) ->
 
     if resultBaidu.status and resultBaidu.status isnt 0
-      throw(new Err resultBaidu.message, 400)
+      throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
+
 
 
     # 漕河泾仓库使用直线距离
@@ -765,7 +815,7 @@ exports.addNewAddress = (req, res, next) ->
 
 
     # 判断与哪个仓库最近, 最近的仓库发货
-    nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+    nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(resultBaidu, tempWarehouse, tempAddress)
 
     if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
       tempAddress.distanceFrom = nearestWarehouse.warehouseDistance
@@ -870,7 +920,7 @@ exports.updateAddress = (req, res, next) ->
     .then (resultBaidu) ->
 
       if resultBaidu.status and resultBaidu.status isnt 0
-        throw(new Err resultBaidu.message, 400)
+        throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
 
       # 漕河泾仓库使用直线距离
@@ -878,14 +928,16 @@ exports.updateAddress = (req, res, next) ->
 
 
       # 判断与哪个仓库最近, 最近的仓库发货
-      nearestWarehouse = models.warehouse.getNearestWarehouse(resultBaidu, tempWarehouse)
+      nearestWarehouse = models.warehouse.getNearestWarehouseSpecial(resultBaidu, tempWarehouse, result)
 
       if nearestWarehouse.warehouseName and nearestWarehouse.warehouseDistance
         result.distanceFrom = nearestWarehouse.warehouseDistance
         result.warehouse = tempWarehouse[nearestWarehouse.warehouseName]._id.toString()
         result.isAvailableForEat = true
       else
+        result.distanceFrom = 0
         result.isAvailableForEat = false
+
 
 
       if req.body.isDefault

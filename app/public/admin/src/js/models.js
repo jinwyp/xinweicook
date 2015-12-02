@@ -202,6 +202,9 @@ angular.module('RDash.models').factory('Couriers', function (Restangular) {
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });
+angular.module('RDash.models').factory('UserAddresses', function (Restangular) {
+    return Restangular.service('useraddresses');
+});
 angular.module('RDash.models').factory('UserAccounts', function (Restangular) {
     return Restangular.service('useraccounts');
 });

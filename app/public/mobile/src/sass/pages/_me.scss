@@ -1,0 +1,84 @@
+.me-header {
+  height: 154px;
+  margin-bottom: 18px;
+  text-align: center;
+  position: relative;
+  .img {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: 3px solid white;
+    border-radius: 50%;
+    @include retina-background("AvatarPlaceholder.png");
+    background-color: white;
+  }
+}
+
+.me-items {
+  .me-item {
+    line-height: 49px;
+    height: 49px;
+    .icon-container {
+      display: inline-block;
+      width: 16%;
+      min-width: 60px;
+      max-width: 80px;
+      position: relative;
+      &::after {
+        content: '_';
+        color: white;
+      }
+      .icon {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right:  7px;
+        margin: auto;
+      }
+      .order {
+        @include retina-sprite-background(OrderIcon)
+      }
+      .address {
+        @include retina-sprite-background(AddressIcon)
+      }
+      .dish-like {
+        @include retina-sprite-background(DishLikeIcon)
+      }
+      .invitation {
+        @include retina-sprite-background(InvitationIcon)
+      }
+      .payment {
+        @include retina-sprite-background(PaymentIcon)
+      }
+      .promotion {
+        @include retina-sprite-background(PromotionIcon)
+      }
+    }
+    .text-container {
+      color: $body-color;
+      -webkit-transition: .3s all ease;
+      transition: .3s all ease;
+      display: inline-block;
+      width: 80%;
+      border-bottom: 1px solid $me-border-bottom-color;
+      i {
+        margin-left: .5em;
+        color: #F38F8F;
+      }
+      &:active {
+        color: white;
+        background-color: gray;
+      }
+    }
+
+    &:last-child {
+      .text-container {
+        border:none;
+      }
+    }
+  }
+}
