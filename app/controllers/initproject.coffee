@@ -130,7 +130,7 @@ exports.createAdmin = (req, res, next) ->
 
 exports.addUserStatisticsClientFrom = (req, res, next) ->
 
-  models.user.find({ statisticsClientFrom: { $exists: false } }).sort("createdAt").limit(4000).execAsync().then (resultUserList) ->
+  models.user.find({ statisticsClientFrom: { $exists: false } }).sort("createdAt").skip(3000).limit(6000).execAsync().then (resultUserList) ->
 
     if resultUserList.length > 0
       for user, userIndex in resultUserList
