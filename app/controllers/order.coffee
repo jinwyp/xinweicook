@@ -476,17 +476,22 @@ exports.addNewOrder = (req, res, next) ->
         # 针对食材包处理
         newOrder.warehouse = "56332187594b09af6e6c7dd2"
         newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2"
-
-
-
-
-
-    if newOrder.address.city is "上海市"
-      newOrder.packageType = "paperbox"
-      newOrderReadyToCook.packageType = "paperbox"
     else
-      newOrder.packageType = "foambox"
-      newOrderReadyToCook.packageType = "foambox"
+      if not newOrder.address
+        throw new Err "Field validation error,  order address error", 400, Err.code.user.addressAddressWrong
+      else if typeof(newOrder.address.address) is "undefined" or typeof(newOrder.address.contactPerson) is "undefined" or typeof(newOrder.address.mobile) is "undefined"
+        throw new Err "Field validation error,  order address error", 400, Err.code.user.addressContactPersonWrong
+
+
+
+
+    if newOrder.cookingType is models.dish.constantCookingType().cook
+      if newOrder.address and newOrder.address.city and newOrder.address.city is "上海市"
+        newOrder.packageType = "paperbox"
+        newOrderReadyToCook.packageType = "paperbox"
+      else
+        newOrder.packageType = "foambox"
+        newOrderReadyToCook.packageType = "foambox"
 
 
 
