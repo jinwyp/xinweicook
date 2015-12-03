@@ -18,5 +18,10 @@ export function post(url, data) {
     return _fetch(url, {
         method: 'post',
         body: JSON.stringify(data)
+    }).then(function (res) {
+        if (url == '/api/user/token') {
+            localStorage.access_token = res.json().access_token;
+        }
+        return res;
     })
 }

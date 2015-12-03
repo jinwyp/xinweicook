@@ -1,4 +1,5 @@
 import * as types from '../constants/ActionTypes'
+import { combineReducers } from 'redux'
 
 function signInValue(state = {
     mobile: '',
@@ -31,8 +32,8 @@ function signInUi(state = {
         case types.SIGNIN_RECEIVE:
             return {
                 sending: false,
-                success: !!action.data.success,
-                failed: !action.data.success
+                success: action.success,
+                failed: !action.success
             }
         default:
             return state;
@@ -59,7 +60,7 @@ function signUpValue(state = {
     }
 }
 
-function signUpUI(state = {
+function signUpUi(state = {
     mobileErr: false,
     smsCodeErr: false,
     pwdErr: false,
@@ -82,3 +83,10 @@ function signUpUI(state = {
             return state
     }
 }
+
+var signReducer = combineReducers({
+    signInValue, signInUi, signUpValue, signUpUi
+})
+
+export default signReducer
+
