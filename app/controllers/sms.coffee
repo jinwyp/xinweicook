@@ -21,7 +21,7 @@ exports.getGeeTestRegisterChallenge = (req, res, next) ->
 
 exports.sendSMS = (req, res, next) ->
   # 发送短信验证码
-  { type, mobile} = req.body
+  { type, mobile, isVoice} = req.body
 
 #  if type is "signUp"
 #    logger.error("---- Send SMS: Registration", JSON.stringify(req.body))
@@ -49,7 +49,10 @@ exports.sendSMS = (req, res, next) ->
     else
       text = models.sms.constantTemplateVerifyCode(code)
 
-    yp.sendSMSAsync(mobile, text)
+    if isVoice is "true"
+      yp.sendVoiceAsync(mobile, code)
+    else
+      yp.sendSMSAsync(mobile, text)
 
   .then (result) ->
 
@@ -60,7 +63,7 @@ exports.sendSMS = (req, res, next) ->
 
   .catch( (err) ->
     logger.error("Send SMS failed: " + mobile, JSON.stringify(err))
-    next (throw new Err "Send SMS failed " + err.msg, 400, Err.code.sms.sendFailed)
+    next (throw new Err "Send SMS failed " + err.msg||err.message, 400, Err.code.sms.sendFailed)
   )
 
 
@@ -92,21 +95,7 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
       yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
         res.json {status:"ok", message:result}
       .catch( (err) ->
-        next (throw new Err "Send SMS failed " + err.msg, 400, Err.code.sms.sendFailed)
+        next (throw new Err "Send SMS failed " + err.msg||err.message, 400, Err.code.sms.sendFailed)
       )
 
   .catch(next)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
