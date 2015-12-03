@@ -5487,12 +5487,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"type\\":\\"signUp\\",\\"geetest_challenge\\":\\"8f9cc50c273ec9d0833cb92255c61b53k4\\",\\"geetest_validate\\":\\"73aee1a506ffe6d6a4db12ecfd95aacf\\",\\"geetest_seccode\\":\\"73aee1a506ffe6d6a4db12ecfd95aacf|jordan\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"mobile\\":\\"13564568304\\",\\"type\\":\\"signUp\\",\\"isVoice\\":\\"true\\",\\"geetest_challenge\\":\\"8f9cc50c273ec9d0833cb92255c61b53k4\\",\\"geetest_validate\\":\\"73aee1a506ffe6d6a4db12ecfd95aacf\\",\\"geetest_seccode\\":\\"73aee1a506ffe6d6a4db12ecfd95aacf|jordan\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">user-getSMSForSignUp</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z709 z715 z708 z712 z710 z713 z714"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z708 z710 z712 z713 z714 z709 z715"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z712">
         <attribute name="value" type="string">post</attribute>

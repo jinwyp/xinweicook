@@ -4,8 +4,9 @@ POST `/api/user/sms`
 ### Body
 | Name   | Type   | Desc                                         |
 |:-------|:-------|:---------------------------------------------|
-| mobile | string | 手机号                                       |
+| mobile | string | 手机号                                        |
 | type   | string | `signUp`注册 `verifyMobile`验证手机号, `resetPassword`重置密码 |
+| isVoice| string | 如果值为"true" 则使用语音电话通知而不是短信通知, 默认不传为短信 |
 | geetest_challenge     | string | 极验 geetest 参数 |
 | eetest_validatee      | string | 极验 geetest 参数 |
 | geetest_seccode       | string | 极验 geetest 参数 |
