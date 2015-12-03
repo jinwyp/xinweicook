@@ -3,6 +3,9 @@ var routes = function(app) {
 
     // 页面渲染
     app.get("/", render('pc/index.nunj', render.index));
+    app.get("/sign", function (req, res) {
+        res.render('pc/sign.html')
+    })
 };
 
 /**
