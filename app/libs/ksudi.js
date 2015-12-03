@@ -198,7 +198,6 @@ ksuDi.prototype.createOrder = function (item, callback){
         }
 
         //console.log('========== KSudi', response);
-        console.log('========== KSudi', body);
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};

@@ -171,5 +171,11 @@ module.exports =
         models.sms.sendSmsVia3rd("18215563108", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 赵梦菲电话
         models.sms.sendSmsVia3rd("13761339935", text).catch( (err) -> logger.error("短信发送库存不足通知失败:", JSON.stringify(err)))     # 杨唤电话
 
+    sendSMSToDev: (text) ->
+      if not conf.debug
+        text = models.sms.constantTemplateSystemErrorNotify(text)
+        models.sms.sendSmsVia3rd("13564568304", text)    # 王宇鹏电话
+        models.sms.sendSmsVia3rd("15900719671", text)     # 岳可诚电话
+
   methods: {}
   rest: {}

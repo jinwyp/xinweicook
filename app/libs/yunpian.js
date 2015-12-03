@@ -67,11 +67,19 @@ function yunpianSMS(config) {
 
 // 发短信 https://www.yunpian.com/api/sms.html
 
-yunpianSMS.prototype.sendSMS = function (item, callback){
+yunpianSMS.prototype.sendSMS = function (mobile, text, callback){
+
+    var mobileReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+
+    if (!mobileReg.test(mobile)){
+        throw new Error ("Yunpian send SMS error, mobile number wrong !");
+    }
+
+
     var newSMS = {
         apikey : this.config.apikey,
-        mobile : item.mobile || "sample mobile",
-        text : item.text || "sample mobile"
+        mobile : mobile || "sample mobile",
+        text : text || "sample text"
     };
 
 
@@ -89,26 +97,42 @@ yunpianSMS.prototype.sendSMS = function (item, callback){
         if (err) {
             return callback(err);
         }else{
-            //console.log("========== yunpianSMS sendSMS body json:", json);
-            if(json && json.return_code === "SUCCESS" && json.result_code === "SUCCESS" && json.prepay_id ){
-                return callback(null, {
-                    return_code: json.return_code,
-                    return_msg: json.return_msg,
-                    result_code: json.result_code,
-                    trade_type: json.trade_type, //调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
-                    prepay_id: json.prepay_id,  //微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
-                    code_url: json.code_url, //trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
-                    nonce_str: json.nonce_str,
-                    sign: json.sign,
-                    out_trade_no: newOrder.out_trade_no
-                });
+            console.log("========== yunpianSMS sendSMS body:", body);
+            var result = {};
+
+            try{
+                result = JSON.parse(body);
+            }catch (err){
+                return  callback(err);
+            }
+
+            if(result.code === 0){
+                // http://caibaojian.com/regexp-example.html
+                var resultSimple = {
+                    "code"   : 0,
+                    "msg"    : "OK",
+                    "result" : {
+                        "count" : 1,   //成功发送的短信个数
+                        "fee"   : 1,     //扣费条数，70个字一条，超出70个字时按每67字一条计
+                        "sid"   : 1097   //短信id；多个号码时以该id+各手机号尾号后8位作为短信id,
+                                         //（数据类型：64位整型，对应Java和C#的long，不可用int解析)
+                    }
+                };
+
+                return callback(null, result);
             }else{
-                return  callback("WeixinPay invalid prepay_id and " + json.return_msg + " and " + json.err_code);
+                return  callback(result);
             }
         }
 
     })
 };
+
+
+
+
+yunpianSMS.prototype.sendSMSAsync = Promise.promisify(yunpianSMS.prototype.sendSMS);
+
 
 
 

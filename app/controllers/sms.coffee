@@ -2,6 +2,9 @@
 
 geetest = require("geetest")("ab95acaebd61c6ef7dc6e8a5493f4899", '745d959dec1191e086febd11aa684c9d');
 
+YunPian = require "../libs/yunpian.js"
+yp = YunPian({})
+
 
 exports.getGeeTestRegisterChallenge = (req, res, next) ->
   # https://github.com/GeeTeam/gt-node-sdk
@@ -38,8 +41,7 @@ exports.sendSMS = (req, res, next) ->
 
 
   tempCode = ""
-  models.sms.logCode(type, mobile)
-  .then (code) ->
+  models.sms.logCode(type, mobile).then (code) ->
     tempCode = code
 
     if type is "signUp"
@@ -47,7 +49,8 @@ exports.sendSMS = (req, res, next) ->
     else
       text = models.sms.constantTemplateVerifyCode(code)
 
-    models.sms.sendSmsVia3rd(mobile, text)
+    yp.sendSMSAsync(mobile, text)
+
   .then (result) ->
 
     if conf.debug
@@ -55,7 +58,10 @@ exports.sendSMS = (req, res, next) ->
     else
       res.json code: 1
 
-  .catch(next)
+  .catch( (err) ->
+    logger.error("Send SMS failed: " + mobile, JSON.stringify(err))
+    next (throw new Err "Send SMS failed " + err.msg, 400, Err.code.sms.sendFailed)
+  )
 
 
 
@@ -83,9 +89,11 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
       if type is "moneyRefund"
         text = models.sms.constantTemplateMoneyRefund()
 
-      models.sms.sendSmsVia3rd(resultOrder.address.mobile, text).then (result) ->
-
+      yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
         res.json {status:"ok", message:result}
+      .catch( (err) ->
+        next (throw new Err "Send SMS failed " + err.msg, 400, Err.code.sms.sendFailed)
+      )
 
   .catch(next)
 
