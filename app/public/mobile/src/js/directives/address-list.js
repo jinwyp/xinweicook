@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('addressList', function ($q) {
+angular.module('xw.directives').directive('addressList', function ($q, Alert) {
     return {
         restrict: 'E',
         scope: {
@@ -106,6 +106,8 @@ angular.module('xw.directives').directive('addressList', function ($q) {
                             $scope.addresses.push(address);
                             data.newAddress = {};
                             return address;
+                        }).catch(function (res) {
+                            Alert.show(res.data.validationStatus, '保存失败');
                         });
                     } else {
                         return event.stopPropagation();

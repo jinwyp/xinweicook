@@ -1,4 +1,4 @@
-angular.module('xw.directives').directive('address', function ($timeout, $location, Address, Utils, $q, Weixin, Map) {
+angular.module('xw.directives').directive('address', function ($timeout, $location, Address, Utils, $q, Weixin, Map, Alert) {
     return {
         restrict: 'E',
         scope: {
