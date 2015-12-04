@@ -229,6 +229,8 @@ exports.calculateOrderPrice = (req, res, next) ->
     dishesPrice : 0
     totalPrice : 0
 
+  if req.body.cookingType is models.dish.constantCookingType().cook
+    result.freight = 24
 
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
@@ -242,19 +244,34 @@ exports.calculateOrderPrice = (req, res, next) ->
         result.dishQuantity = result.dishQuantity + subDish.number
 
 
+
   models.dish.find99({"_id" : {$in:dishIdList}}).then (resultDishes) ->
 
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       result.dishesPrice = result.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
 
-    # 计算订单总金额 满100免运费
+    models.useraddress.findOneAsync({_id:req.body.addressId})
+  .then (resultAddress) ->
+
+    # 计算订单总金额 食材包
+    if req.body.cookingType is models.dish.constantCookingType().cook and resultAddress
+
+      isCityShanghai = resultAddress.province.indexOf("上海") isnt -1
+      isNearProvince = /浙江|江苏|安徽/.test(resultAddress.province)
+
+      result.freight = 12 if isNearProvince
+      result.freight = 6 if isCityShanghai
+
+
+    # 计算订单总金额 便当 满100免运费
     if result.dishesPrice >= 100 and req.body.cookingType is models.dish.constantCookingType().eat
-      result.freight = 0
+        result.freight = 0
 
     result.totalPrice = result.dishesPrice + result.freight
 
     res.json result
+  .catch next
 
 
 
