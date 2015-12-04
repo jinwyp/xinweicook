@@ -18,7 +18,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
         },
 
         search: function (query, region) {
-            return $http.get('/mobile/placesearch?query=' + query + '&region=' + region)
+            return $http.post('/api/user/address/suggestion', {query:query, region:region})
         },
 
         // 坐标转化
@@ -28,7 +28,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             var x = location.lng;
             var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Math.PI);
             var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Math.PI);
-    
+
             return {
                 lng: z * Math.cos(theta) + 0.0065,
                 lat: z * Math.sin(theta) + 0.006
@@ -41,7 +41,7 @@ angular.module('xw.services').factory('Map', function ($http, Debug) {
             var x = location.lng - 0.0065;
             var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * Math.PI);
             var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Math.PI);
-    
+
             return {
                 lng: z * Math.cos(theta),
                 lat: z * Math.sin(theta)

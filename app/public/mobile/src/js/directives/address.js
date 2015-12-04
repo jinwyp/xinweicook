@@ -101,8 +101,8 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                 if (data.street) {
                     Map.search(data.street, addr.city || '全国')
                         .then(function (res) {
-                            $scope.data.streetList = res.data.results
-                        })
+                            $scope.data.streetList = res.data;
+                        });
                 }
             };
 
@@ -112,9 +112,9 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
                 $location.path('');
                 if (!street) return;
 
-                addr.street = street.name;
-                addr.geoLatitude = street.location.lat;
-                addr.geoLongitude = street.location.lng;
+                addr.street = street.address;
+                addr.geoLatitude = street.lat;
+                addr.geoLongitude = street.lng;
             };
 
             $scope.save = function () {
@@ -177,12 +177,12 @@ angular.module('xw.directives').directive('address', function ($timeout, $locati
 
                     }).catch(angular.noop).then(function () {
                         css.locating = false; // like finally
-                    })
+                    });
                 }, function () {
                     css.locating = false;
-                })
+                });
             };
 
         }
-    }
-})
+    };
+});
