@@ -63,7 +63,7 @@ exports.sendSMS = (req, res, next) ->
 
   .catch( (err) ->
     logger.error("Send SMS failed: " + mobile, JSON.stringify(err))
-    next (throw new Err "Send SMS failed " + err.msg||err.message, 400, Err.code.sms.sendFailed)
+    next (throw new Err "Send SMS failed, type:" + type + ", "+ err.msg||err.message, 400, Err.code.sms.sendFailed)
   )
 
 
@@ -77,7 +77,6 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
 
   models.order.validationOrderId(orderId)
   models.sms.validationSMSType(type)
-
 
 
   models.order.findOneAsync({"_id": orderId}).then (resultOrder) ->
@@ -95,7 +94,7 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
       yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
         res.json {status:"ok", message:result}
       .catch( (err) ->
-        next (throw new Err "Send SMS failed " + err.msg||err.message, 400, Err.code.sms.sendFailed)
+        next (throw new Err "Send SMS CSToUser failed, type:" + type + ", " + err.msg||err.message, 400, Err.code.sms.sendFailed)
       )
 
   .catch(next)

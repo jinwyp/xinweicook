@@ -31,15 +31,15 @@ exports.getGeeTestRegisterChallenge = function(req, res, next){
 
     geetest.register(function(err, challenge){
         if (err) {
-            return next(err)
+            return next(err);
         }
 
         if (challenge) {
-            res.json({challenge : challenge})
+            res.json({challenge : challenge});
         } else {
-            res.json({challenge : 'geetest_server_error'})
+            res.json({challenge : 'geetest_server_error'});
         }
-    })
+    });
 
 };
 
@@ -48,9 +48,11 @@ exports.getGeeTestRegisterChallenge = function(req, res, next){
 
 exports.middleware = function (req, res, next) {
 
-    if (req.get("user-agent") === "Xinwei Cook"){
+    if (req.get("user-agent") === "Xinwei Cook" ){
         next();
-    }else{
+    }else if(req.body.isVoice && req.body.isVoice === 'true'){
+        next();
+    }else {
 
         if (req.body && req.body.geetest_challenge && req.body.geetest_validate && req.body.geetest_seccode) {
 
@@ -65,7 +67,7 @@ exports.middleware = function (req, res, next) {
 
                 req.geetest = result;
                 next();
-            })
+            });
         }else {
             next(new Err("Field validation error,  geetest code wrong ", 400));
         }
