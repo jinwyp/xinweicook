@@ -1,4 +1,4 @@
-import 'babel-core/polyfill.js'
+import 'babel-polyfill'
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -14,7 +14,7 @@ var App = React.createClass({
         return (
             <div>
                 <SignIn></SignIn>
-                <SignUp></SignUp>
+                <SignUp {...this.props.signUpValue}></SignUp>
             </div>
         );
     }

@@ -6,10 +6,10 @@ var BUILD_DEV = JSON.parse(process.env.BUILD_DEV || 'true');
 
 // webpack.config.js
 module.exports = {
-    context: path.join(__dirname, "./public/pc/src/js"),
+    context: path.join(__dirname, "./app/public/pc/src/js"),
     entry: './pages/sign.js',
     output: {
-        path: path.join(__dirname, "./public/pc/dist/js"),
+        path: path.join(__dirname, "./app/public/pc/dist/js"),
         filename: 'bundle.js'
     },
     module: {
@@ -17,7 +17,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
                 query: {
                     presets: ['react', 'es2015']
                 }
@@ -27,14 +27,14 @@ module.exports = {
 
     resolve: {
         // you can now require('file') instead of require('file.coffee')
-        extensions: ["", '.js'],
-        root: [path.join(__dirname, "./public/components")]
+        extensions: ["", '.js']
+        //root: [path.join(__dirname, "./app/public/components")]
     },
 
     plugins: [
-        new webpack.ResolverPlugin(
-            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-        ),
+        //new webpack.ResolverPlugin(
+        //    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
+        //),
         new webpack.DefinePlugin({
             __DEV__: BUILD_DEV
         })
