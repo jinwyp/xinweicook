@@ -1180,6 +1180,8 @@ header {
     float: left;
     display: inline;
     line-height: 25px; }
+  .usersign button {
+    border: none; }
 
 .custom {
   width: 100%;

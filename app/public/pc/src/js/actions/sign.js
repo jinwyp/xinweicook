@@ -2,55 +2,41 @@ import fetch, {post} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 
 
-function signInSend() {
+function signInSend(data) {
     return {
-        type: types.SIGNIN_SEND
-    }
-}
-
-function signInReceive(success) {
-    return {
-        type: types.SIGNIN_RECEIVE,
-        success
+        type: types.SIGNIN_SEND,
+        data
     }
 }
 
 // todo: 失败的原因
 export function signIn(data) {
     return function (dispatch) {
-        dispatch(signInSend());
+        dispatch(signInSend(data));
         return post("/api/user/token", {
             username: data.mobile,
             password: data.pwd,
             grant_type: 'password'
-        }).then(res => dispatch(signInReceive(true)))
-        .catch(() => dispatch(signInReceive(false)))
+        })
     }
 }
 
-function signUpSend() {
+function signUpSend(data) {
     return {
-        type: types.SIGNUP_SEND
-    }
-}
-
-function signUpReceive(success) {
-    return {
-        type: types.SIGNUP_RECEIVE,
-        success
+        type: types.SIGNUP_SEND,
+        data
     }
 }
 
 // todo: 失败的原因
 export function signUp(data) {
     return function (dispatch) {
-        dispatch(signUpSend());
+        dispatch(signUpSend(data));
         return post("/api/user/signup", {
             mobile: data.mobile,
             pwd: data.pwd,
             code: data.smsCode
-        }).then(res => dispatch(signUpReceive(true)))
-        .catch(() => dispatch(signUpReceive(false)))
+        })
     }
 }
 

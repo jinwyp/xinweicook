@@ -46,6 +46,8 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	__webpack_require__(1);
 
 	var _react = __webpack_require__(191);
@@ -64,11 +66,13 @@
 
 	var _configureSignStore2 = _interopRequireDefault(_configureSignStore);
 
-	var _signin = __webpack_require__(370);
+	var _sign = __webpack_require__(370);
+
+	var _signin = __webpack_require__(374);
 
 	var _signin2 = _interopRequireDefault(_signin);
 
-	var _signup = __webpack_require__(371);
+	var _signup = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../components/signup\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _signup2 = _interopRequireDefault(_signup);
 
@@ -78,11 +82,18 @@
 	    displayName: "App",
 
 	    render: function render() {
+	        var _props = this.props;
+	        var signUpValue = _props.signUpValue;
+	        var signInValue = _props.signInValue;
+	        var dispatch = _props.dispatch;
+
 	        return _react2.default.createElement(
 	            "div",
 	            null,
 	            _react2.default.createElement(_signin2.default, null),
-	            _react2.default.createElement(_signup2.default, this.props.signUpValue)
+	            _react2.default.createElement(_signup2.default, _extends({}, this.props.signUpValue, { signUp: function signUp(data) {
+	                    return dispatch((0, _sign.signUp)(data));
+	                } }))
 	        );
 	    }
 	});
@@ -26062,6 +26073,8 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -26088,66 +26101,24 @@
 	    }
 	}
 
-	function signInUi() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        mobileErr: false,
-	        pwdErr: false,
-	        sending: false,
-	        success: false,
-	        failed: false
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SIGNIN_SEND:
-	            return { sending: true };
-	        case types.SIGNIN_RECEIVE:
-	            return {
-	                sending: false,
-	                success: action.success,
-	                failed: !action.success
-	            };
-	        default:
-	            return state;
-	    }
-	}
-
 	function signUpValue() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
 	        mobile: '',
 	        smsCode: '',
-	        pwd: '',
-	        rePwd: ''
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        default:
-	            return state;
-	    }
-	}
-
-	function signUpUi() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        mobileErr: false,
-	        smsCodeErr: false,
-	        pwdErr: false,
-	        rePwd: false,
-	        sending: false
+	        pwd: ''
 	    } : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.SIGNUP_SEND:
-	            return { sending: true };
-
+	            return _extends({}, action.data);
 	        default:
 	            return state;
 	    }
 	}
 
 	var signReducer = (0, _redux.combineReducers)({
-	    signInValue: signInValue, signInUi: signInUi, signUpValue: signUpValue, signUpUi: signUpUi
+	    signInValue: signInValue, signUpValue: signUpValue
 	});
 
 	exports.default = signReducer;
@@ -26185,6 +26156,510 @@
 
 /***/ },
 /* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.signIn = signIn;
+	exports.signUp = signUp;
+
+	var _xwFetch = __webpack_require__(371);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function signInSend(data) {
+	    return {
+	        type: types.SIGNIN_SEND,
+	        data: data
+	    };
+	}
+
+	// todo: 失败的原因
+	function signIn(data) {
+	    return function (dispatch) {
+	        dispatch(signInSend(data));
+	        return (0, _xwFetch.post)("/api/user/token", {
+	            username: data.mobile,
+	            password: data.pwd,
+	            grant_type: 'password'
+	        });
+	    };
+	}
+
+	function signUpSend(data) {
+	    return {
+	        type: types.SIGNUP_SEND,
+	        data: data
+	    };
+	}
+
+	// todo: 失败的原因
+	function signUp(data) {
+	    return function (dispatch) {
+	        dispatch(signUpSend(data));
+	        return (0, _xwFetch.post)("/api/user/signup", {
+	            mobile: data.mobile,
+	            pwd: data.pwd,
+	            code: data.smsCode
+	        });
+	    };
+	}
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.post = post;
+
+	var _isomorphicFetch = __webpack_require__(372);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _fetch(url, options) {
+	    var access_token = localStorage.access_token;
+	    if (!access_token) return (0, _isomorphicFetch2.default)(url, options);
+
+	    options = options || {};
+	    options.headers = {
+	        Authorization: 'Bearer ' + access_token
+	    };
+
+	    return (0, _isomorphicFetch2.default)(url, args);
+	}
+
+	exports.default = _fetch;
+	function post(url, data) {
+	    return _fetch(url, {
+	        method: 'post',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringify(data)
+	    }).then(function (res) {
+	        if (url == '/api/user/token' || url == '/api/user/signup') {
+	            localStorage.access_token = res.json().access_token;
+	        }
+	        return res;
+	    });
+	}
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(373);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ },
+/* 373 */
+/***/ function(module, exports) {
+
+	(function() {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  var support = {
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob();
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this._initBody(bodyInit)
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers;
+	  self.Request = Request;
+	  self.Response = Response;
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+
+	      var xhr = new XMLHttpRequest()
+
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+
+	        return;
+	      }
+
+	      xhr.onload = function() {
+	        var status = (xhr.status === 1223) ? 204 : xhr.status
+	        if (status < 100 || status > 599) {
+	          reject(new TypeError('Network request failed'))
+	          return
+	        }
+	        var options = {
+	          status: status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})();
+
+
+/***/ },
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26238,141 +26713,6 @@
 	});
 
 	exports.default = SignIn;
-
-/***/ },
-/* 371 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SignUp = _react2.default.createClass({
-	    displayName: 'SignUp',
-
-	    getInitialState: function getInitialState() {
-	        var state = {
-	            mobile: this.props.mobile,
-	            smsCode: this.props.smsCode,
-	            pwd: this.props.pwd,
-	            rePwd: this.props.rePwd
-	        };
-
-	        Object.keys(state).forEach(function (key) {
-	            return state[key + 'ValidateOn'] = false;
-	        });
-	        return state;
-	    },
-
-	    render: function render() {
-	        var _this = this;
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'signup' },
-	            _react2.default.createElement(
-	                'h6',
-	                { className: 'title' },
-	                '注册'
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { className: 'lab' },
-	                '手机号'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.state.mobile, onBlur: function onBlur() {
-	                        return _this.setState({ mobileValidateOn: true });
-	                    }, id: 'signup_tel', type: 'text' }),
-	                function () {
-	                    console.log(_this.state.mobileValidateOn);
-	                    console.log(!/^1\d{10}$/.test(_this.refs.mobile.value));
-	                    if (_this.state.mobileValidateOn && !/^1\d{10}$/.test(_this.refs.mobile.value)) {
-	                        console.log('what??');
-	                        return _react2.default.createElement(
-	                            'span',
-	                            { className: 'err-tip' },
-	                            '请填写11位手机号码'
-	                        );
-	                    }
-	                }
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { className: 'lab' },
-	                '验证码'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement('input', { ref: 'smsCode', defaultValue: this.props.smsCode, onBlur: function onBlur() {
-	                        return _this.setState({ smsCodeValidateOn: true });
-	                    }, id: 'signup_code', type: 'text', style: { width: 50 + '%' } }),
-	                this.state.smsCodeValidateOn && !/^\w{6}$/.test(this.refs.smsCode.value) && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip' },
-	                    '请填写6位验证码'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'span',
-	                { id: 'signup_code_btn', style: { cursor: 'pointer' }, className: 'getcode' },
-	                '获取验证码'
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { className: 'lab' },
-	                '设置密码'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement('input', { ref: 'pwd', defaultValue: this.props.pwd, onBlur: function onBlur() {
-	                        return _this.setState({ pwdValidateOn: true });
-	                    }, id: 'signup_pwd', type: 'password' }),
-	                this.state.pwdValidateOn && !/^\w{6,}$/.test(this.refs.pwd.value) && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip' },
-	                    '密码至少为6位'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { className: 'lab' },
-	                '确认密码'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement('input', { ref: 'rePwd', defaultValue: this.props.rePwd, onBlur: function onBlur() {
-	                        return _this.setState({ rePwdValidateOn: true });
-	                    }, id: 'signup_repwd', type: 'password' }),
-	                this.state.rePwdValidateOn && this.refs.pwd.value != this.refs.rePwd.value && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip' },
-	                    '密码至少为6位'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'a',
-	                { id: 'signup_btn', className: 'btn-login' },
-	                '注册'
-	            )
-	        );
-	    }
-	});
-
-	exports.default = SignUp;
 
 /***/ }
 /******/ ]);
