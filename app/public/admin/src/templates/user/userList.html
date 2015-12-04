@@ -176,11 +176,13 @@
             <tr>
                 <th>_id / 注册时间</th>
                 <th>用户组</th>
+                <th>来源</th>
                 <th>手机</th>
                 <th>邮箱</th>
                 <th>用户名</th>
                 <th>姓名</th>
                 <th>性别</th>
+                <th>语言</th>
                 <!--<th>地址</th>-->
                 <th>下单数</th>
                 <th>优惠券</th>
@@ -192,8 +194,9 @@
         </thead>
         <tbody>
             <tr ng-repeat="user in data.userList | filter: data.searchFilter">
-                <td><a ui-sref="menu.updateUser({ id: user._id })">{{user._id}}</a> <br/> {{user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                <td><a ui-sref="menu.updateUser({ id: user._id })">{{user._id}}</a> <br/> {{user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} </td>
                 <td>{{user.group}}</td>
+                <td>{{user.statisticsClientFrom}}</td>
                 <td>{{user.mobile}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.username}}</td>
@@ -209,9 +212,10 @@
                         <!--<li class="list-group-item"> {{address.country}} / {{address.province}} / {{address.city}} / {{address.district}} / {{address.street}} / {{address.address}} </li>-->
                     <!--</ul>-->
                 <!--</td>-->
+                <td>{{user.lang}}</td>
                 <td>{{user.sharedInvitationSendCodeTotalCount - 1}}</td>
                 <td> <span ng-repeat="coupon in user.couponList">{{coupon}} <br/></span></td>
-                <td>{{user.invitationSendCode}} / 已分享{{user.sharedInvitationSendCodeUsedTime}}次 - 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}} / {{user.sharedInvitationSendCodeUsedTime}}个朋友有下单</td>
+                <td>{{user.invitationSendCode}} <br/> 已分享{{user.sharedInvitationSendCodeUsedTime}} 可分享{{user.sharedInvitationSendCodeTotalCount - user.sharedInvitationSendCodeUsedTime}}次 <br/>  {{user.sharedInvitationSendCodeUsedTime}}个朋友有下单</td>
 
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===user._id">确认真的删除吗？-->
