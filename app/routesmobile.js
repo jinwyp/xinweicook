@@ -17,7 +17,7 @@ var request = require('request');
 expressRoutes = function(app) {
 
 
-    var useBuild = process.env.NODE_ENV == 'production' 
+    var useBuild = process.env.NODE_ENV == 'production'
         || process.env.PREVIEW == 'true';
     var pathPrefix = useBuild ? 'mobile/' : '';
 

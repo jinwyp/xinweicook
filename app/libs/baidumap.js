@@ -22,7 +22,8 @@ var configBaiduMap = {
 
     url_DirectionAPI : "http://api.map.baidu.com/direction/v1?", // http://developer.baidu.com/map/index.php?title=webapi/direction-api
     url_RouteMatrixAPI : "http://api.map.baidu.com/direction/v1/routematrix?", // http://developer.baidu.com/map/index.php?title=webapi/route-matrix-api
-    url_getUserOauthCode : "https://open.weixin.qq.com/connect/oauth2/authorize?" //第一步：用户同意授权，获取code  http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
+    url_placeAPISearch : "http://api.map.baidu.com/place/v2/search?", // http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
+    url_placeSuggestionAPI: "http://api.map.baidu.com/place/v2/suggestion?" // http://developer.baidu.com/map/index.php?title=webapi/place-suggestion-api
 
 };
 
@@ -176,7 +177,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
                 callback(null, distanceArray);
             }else{
-                logger.error("BaiduMap Failed, get err : " + body );
+                logger.error("BaiduMap Failed, get result err : " + body );
                 callback(null, result);
             }
         }
@@ -187,3 +188,194 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
 
 baiduMap.prototype.getDistanceFromMultiPointAsync = Promise.promisify(baiduMap.prototype.getDistanceFromMultiPoint);
+
+
+
+
+
+
+
+
+
+/**
+ * Place API 是一类简单的HTTP接口，用于返回查询某个区域的某类POI数据，且提供单个POI的详情查询服务，用户可以使用C#、C++、Java等开发语言发送HTTP请求且接收json、xml的数据。
+ * http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
+ * @param  Object   query    [description]
+ * @param  Function callback [description]
+ * @return {[type]}            [description]
+ */
+baiduMap.prototype.getPlaceSearch = function(query, callback){
+
+    var querytext = ''; // 检索关键字，周边检索和矩形区域内检索支持多个关键字并集检索，不同关键字间以$符号分隔，最多支持10个关键字检索。如:”银行$酒店”。
+    var region = '';
+
+    var scope = 1; // 检索结果详细程度。取值为1 或空，则返回基本信息；取值为2，返回检索POI详细信息
+    var page_size = 10; // 范围记录数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*page_size。
+    var page_num = 0; // 分页页码，默认为0,0代表第一页，1代表第二页，以此类推。
+
+    if (typeof query.query === 'undefined' || !query.query){
+        throw new Error('需要填写查询的区域的关键字');
+    }else{
+        querytext = encodeURIComponent(query.query);
+    }
+
+    if (typeof query.region === 'undefined' || !query.region) {
+        throw new Error('需要填写查询的省市名称');
+    }else{
+        region = encodeURIComponent(query.region);
+    }
+
+    if (typeof query.output === 'undefined' || !query.output){
+        query.output = 'json';    //表示输出类型，可设置为xml或json，默认为xml。
+    }
+
+    var url = configBaiduMap.url_placeAPISearch + 'query=' + querytext + '&region=' + region + '&scope=' + scope + '&page_size=' + page_size + '&page_num=' + page_num + '&output=' + query.output + '&ak=' + this.config.ak;
+
+
+    //console.log(url);
+
+    var opts = {
+        method: 'GET',
+        url: url,
+        timeout: 6000
+    };
+
+    requestC(opts, function(err, response, body){
+        if (err){
+            logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
+            callback(err);
+        }else{
+            //logger.error ('-- BaiduMap Response Body: ', body);
+
+            var result = {};
+            try {
+                result = JSON.parse(body) ;
+            } catch (error) {
+                // handle error
+                logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(error));
+                callback(error);
+            }
+
+            if (result.status === 0){
+                //0	成功
+                //1	服务器内部错误
+                //2	请求参数非法
+                //3	权限校验失败
+                //4	配额校验失败
+                //5	Ak不存在或者非法
+                //11	起终点信息模糊
+                //12	起点或者终点超过5个
+                //101	服务禁用
+                //102	不通过白名单或者安全码不对
+
+                var placeList = [];
+
+                for (var i = 0; i < result.results.length; i++) {
+                    placeList.push(result.results[i]);
+                }
+
+                callback(null, placeList);
+            }else{
+                logger.error("BaiduMap Failed, get result err : " + body );
+                callback(null, result);
+            }
+        }
+
+    });
+
+};
+
+baiduMap.prototype.getPlaceSearchAsync = Promise.promisify(baiduMap.prototype.getPlaceSearch);
+
+
+
+
+
+
+/**
+ * Place suggestion API 是一套以HTTP形式提供的匹配用户输入关键字辅助信息、提示接口，可返回json或xml格式的一组建议词条的数据。
+ * http://developer.baidu.com/map/index.php?title=webapi/place-suggestion-api
+ * @param  Object   query    [description]
+ * @param  Function callback [description]
+ * @return {[type]}            [description]
+ */
+baiduMap.prototype.getPlaceSuggestion = function(query, callback){
+
+   var querytext = ''; // 输入建议关键字（支持拼音）
+   var region =    ''; // 所属城市/区域名称或代号
+   var location =  '';
+
+
+   if (typeof query.query === 'undefined' || !query.query){
+       throw new Error('需要填写查询的区域的关键字');
+   }else{
+       querytext = encodeURIComponent(query.query);
+   }
+
+   if (typeof query.region === 'undefined' || !query.region) {
+       throw new Error('需要填写查询的省市名称');
+   }else{
+       region = encodeURIComponent(query.region);
+   }
+
+   if (typeof query.output === 'undefined' || !query.output){
+       query.output = 'json';    //表示输出类型，可设置为xml或json，默认为xml。
+   }
+
+   var url = configBaiduMap.url_placeSuggestionAPI + 'query=' + querytext + '&region=' + region + '&output=' + query.output + '&ak=' + this.config.ak;
+
+
+   //console.log(url);
+
+   var opts = {
+       method: 'GET',
+       url: url,
+       timeout: 6000
+   };
+
+   requestC(opts, function(err, response, body){
+       if (err){
+           logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
+           callback(err);
+       }else{
+           //logger.error ('-- BaiduMap Response Body: ', body);
+
+           var result = {};
+           try {
+               result = JSON.parse(body) ;
+           } catch (error) {
+               // handle error
+               logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(error));
+               callback(error);
+           }
+
+           if (result.status === 0){
+               //0	成功
+               //1	服务器内部错误
+               //2	请求参数非法
+               //3	权限校验失败
+               //4	配额校验失败
+               //5	Ak不存在或者非法
+               //11	起终点信息模糊
+               //12	起点或者终点超过5个
+               //101	服务禁用
+               //102	不通过白名单或者安全码不对
+
+               var placeList = [];
+
+               for (var i = 0; i < result.result.length; i++) {
+                   placeList.push(result.result[i]);
+               }
+
+               callback(null, placeList);
+           }else{
+               logger.error("BaiduMap Failed, get result err : " + body );
+               callback(null, result);
+           }
+       }
+
+   });
+
+};
+
+baiduMap.prototype.getPlaceSuggestionAsync = Promise.promisify(baiduMap.prototype.getPlaceSuggestion);

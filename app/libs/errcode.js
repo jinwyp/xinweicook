@@ -36,6 +36,8 @@ module.exports = {
         addressNotDeliver     : 1270,
 
         addressBaiduMapNotFoundError     : 1280,
+        addressBaiduMapQueryWrong     : 1290,
+        addressBaiduMapRegionWrong     : 1291,
 
 
         shoppingCartNotArray     : 1500,

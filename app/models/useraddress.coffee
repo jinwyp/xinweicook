@@ -79,6 +79,13 @@ module.exports =
       unless libs.validator.isFloat address.sortOrder
         return throw new Err "Field validation error,  sortOrder must be isFloat", 400, Err.code.user.addressSortOrderWrong
 
+    validationAddressSuggestion : (query) ->
+
+      unless libs.validator.isLength query.region, 2, 200
+        return throw new Err "Field validation error,  Address Suggestion region must be 2-200", 400, Err.code.user.addressBaiduMapRegionWrong
+      unless libs.validator.isLength query.query, 2, 200
+        return throw new Err "Field validation error,  Address Suggestion query must be 2-200", 400, Err.code.user.addressBaiduMapQueryWrong
+
 
 
 

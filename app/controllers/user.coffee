@@ -993,6 +993,35 @@ exports.deleteAddress = (req, res, next) ->
 
 
 
+# 地址关键词搜索
+exports.getPlaceSuggestion = (req, res, next) ->
+
+  models.useraddress.validationAddressSuggestion(req.body)
+
+  query =
+    query : req.body.query
+    region : req.body.region
+
+  addressList = []
+  baiduMap.getPlaceSearchAsync(query).then (result)->
+
+    for place, placeIndex in result
+      newplace =
+        street_id : place.street_id
+        address : place.name
+        addressInfoBaidu : place.address
+        lat : place.location.lat
+        lng : place.location.lng
+
+      addressList.push(newplace)
+
+    res.json addressList
+
+  .catch( (err)->
+    next(throw(new Err err.message, 400, Err.code.user.addressBaiduMapNotFoundError))
+  )
+
+
 
 
 
