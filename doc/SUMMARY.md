@@ -29,6 +29,7 @@
    * [新增用户收货地址](user/add_address.md)
    * [修改用户收货地址](user/update_address.md)
    * [删除用户收货地址](user/delete_address.md)
+   * [根据关键词获取地址列表](user/get_place_suggestion.md)   
    * [用户成功分享邀请码获得优惠券](user/coupon_share_invitation_code.md)
    * [用户使用他人邀请码获得优惠券](user/coupon_used_invitation_code.md)
    * [用户通过优惠券兑换码获得优惠券](user/coupon_from_couponcode.md)
@@ -68,5 +69,4 @@
    * [获取所有文章](article/get_articles.md)
    * [获取单一文章](article/get_single_article.md)
 * [快递员](courier/README.md)
-   * [更新快递员路径信息](courier/update_delivery_trace.md) 
-
+   * [更新快递员路径信息](courier/update_delivery_trace.md)

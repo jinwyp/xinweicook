@@ -7368,7 +7368,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"query\\": \\"中山南二路\\",\\n  \\"region\\": \\"上海\\"\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"query\\": \\"中山南二路510\\",\\n  \\"region\\": \\"上海\\"\\n}"]</attribute>
         <attribute name="order" type="int64">21</attribute>
         <attribute name="name" type="string">user-getPlaceSuggestion</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
