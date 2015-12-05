@@ -6,7 +6,7 @@ var SignUp = React.createClass({
 
     getInitialState: function () {
         return {
-            time: DURATION;
+            time: DURATION
         }
     },
 

@@ -27,7 +27,7 @@ var SignUp = React.createClass({
                 mobile: this.refs.mobile.value,
                 smsCode: this.refs.smsCode.value,
                 pwd: this.refs.pwd.value
-            }).catch(()={}).then(()={this.setState({isSending: false})})
+            }).catch(()=>{}).then(()=>{this.setState({isSending: false})})
         }
 
     },

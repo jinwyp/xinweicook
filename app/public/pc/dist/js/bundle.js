@@ -72,7 +72,7 @@
 
 	var _signin2 = _interopRequireDefault(_signin);
 
-	var _signup = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../components/signup\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _signup = __webpack_require__(375);
 
 	var _signup2 = _interopRequireDefault(_signup);
 
@@ -26713,6 +26713,183 @@
 	});
 
 	exports.default = SignIn;
+
+/***/ },
+/* 375 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SignUp = _react2.default.createClass({
+	    displayName: 'SignUp',
+
+	    getInitialState: function getInitialState() {
+	        var state = {
+	            isSending: false
+	        };
+	        ['mobile', 'smsCode', 'pwd', 'rePwd'].forEach(function (key) {
+	            return state[key + 'ValidateOn'] = false;
+	        });
+	        return state;
+	    },
+
+	    onSubmit: function onSubmit(e) {
+	        var _this = this;
+
+	        e.preventDefault();
+	        this.setState({
+	            mobileValidateOn: true,
+	            smsCodeValidateOn: true,
+	            pwdValidateOn: true,
+	            rePwdValidateOn: true
+	        });
+	        if (['mobile', 'smsCode', 'pwd', 'rePwd'].every(function (t) {
+	            return _this.validate(t);
+	        })) {
+	            this.setState({
+	                isSending: true
+	            });
+	            this.props.signUp({
+	                mobile: this.refs.mobile.value,
+	                smsCode: this.refs.smsCode.value,
+	                pwd: this.refs.pwd.value
+	            }).catch(function () {}).then(function () {
+	                _this.setState({ isSending: false });
+	            });
+	        }
+	    },
+
+	    validate: function validate(type) {
+	        switch (type) {
+	            case 'mobile':
+	                return (/^1\d{10}$/.test(this.refs.mobile.value)
+	                );
+	            case 'smsCode':
+	                return (/^\w{6}$/.test(this.refs.smsCode.value)
+	                );
+	            case 'pwd':
+	                return (/^\w{6,}$/.test(this.refs.pwd.value)
+	                );
+	            case 'rePwd':
+	                return this.refs.pwd.value == this.refs.rePwd.value;
+
+	            default:
+	                return false;
+	        }
+	    },
+
+	    render: function render() {
+	        var _this2 = this;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'signup' },
+	            _react2.default.createElement(
+	                'h6',
+	                { className: 'title' },
+	                '注册'
+	            ),
+	            _react2.default.createElement(
+	                'form',
+	                { onSubmit: this.onSubmit },
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'lab' },
+	                    '手机号'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onBlur: function onBlur() {
+	                            return _this2.setState({ mobileValidateOn: true });
+	                        }, id: 'signup_tel', type: 'text' }),
+	                    this.state.mobileValidateOn && !this.validate('mobile') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '请填写11位手机号码'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'lab' },
+	                    '验证码'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'smsCode', defaultValue: this.props.smsCode, onBlur: function onBlur() {
+	                            return _this2.setState({ smsCodeValidateOn: true });
+	                        }, id: 'signup_code', type: 'text', style: { width: 50 + '%' } }),
+	                    this.state.smsCodeValidateOn && !this.validate('smsCode') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '请填写6位验证码'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { id: 'signup_code_btn', style: { cursor: 'pointer' }, className: 'getcode' },
+	                    '获取验证码'
+	                ),
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'lab' },
+	                    '设置密码'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'pwd', defaultValue: this.props.pwd, onBlur: function onBlur() {
+	                            return _this2.setState({ pwdValidateOn: true });
+	                        }, id: 'signup_pwd', type: 'password' }),
+	                    this.state.pwdValidateOn && !this.validate('pwd') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '密码至少为6位'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'lab' },
+	                    '确认密码'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'rePwd', onBlur: function onBlur() {
+	                            return _this2.setState({ rePwdValidateOn: true });
+	                        }, id: 'signup_repwd', type: 'password' }),
+	                    this.state.rePwdValidateOn && !this.validate('rePwd') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '两次输入的密码不一致'
+	                    )
+	                ),
+	                this.state.isSending ? _react2.default.createElement(
+	                    'button',
+	                    { id: 'signup_btn', disabled: true, className: 'btn-login' },
+	                    '注册中···'
+	                ) : _react2.default.createElement(
+	                    'button',
+	                    { id: 'signup_btn', className: 'btn-login' },
+	                    '注册'
+	                )
+	            )
+	        );
+	    }
+	});
+
+	exports.default = SignUp;
 
 /***/ }
 /******/ ]);

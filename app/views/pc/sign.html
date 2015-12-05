@@ -39,6 +39,37 @@
         <!--<label class="lab">确认密码</label><input id="signup_repwd" type="password"><a id="signup_btn" class="btn-login">注册</a>-->
     <!--</div>-->
 </div>
+<div id="geetest-wrapper" style="height: 200px;">
+</div>
 <script type="text/javascript" src="/pc/dist/js/bundle.js"></script>
+<script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
+<script>
+    (function () {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            initGeetest.config = {
+                challenge: JSON.parse(xhr.response).challenge,
+                gt: '745d959dec1191e086febd11aa684c9d'
+            }
+            if (initGeetest.ready) {
+                initGeetest()
+            }
+        }
+        xhr.open('get', '/api/user/signup/geetest/register');
+        xhr.send()
+    })()
+    function initGeetest() {
+        initGeetest.ready = true;
+        if (!initGeetest.config) return;
+        var obj = new Geetest(initGeetest.config);
+        obj.appendTo('#geetest-wrapper');
+        obj.onSuccess = function () {
+            console.log('success')
+        }
+        obj.onError = function (e) {
+            console.log(e)
+        }
+    }
+</script>
 </body>
 </html>
