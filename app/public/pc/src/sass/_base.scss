@@ -33,3 +33,10 @@ body {
     color: $white;
   }
 }
+.form-control-group {
+  position: relative;
+  .err-tip {
+    color: $color_sunset_orange_approx;
+    position: absolute;
+  }
+}

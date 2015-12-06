@@ -90,8 +90,10 @@
 	        return _react2.default.createElement(
 	            "div",
 	            null,
-	            _react2.default.createElement(_signin2.default, null),
-	            _react2.default.createElement(_signup2.default, _extends({}, this.props.signUpValue, { signUp: function signUp(data) {
+	            _react2.default.createElement(_signin2.default, _extends({}, signInValue, { signIn: function signIn(data) {
+	                    return dispatch((0, _sign.signIn)(data));
+	                } })),
+	            _react2.default.createElement(_signup2.default, _extends({}, signUpValue, { signUp: function signUp(data) {
 	                    return dispatch((0, _sign.signUp)(data));
 	                } }))
 	        );
@@ -6293,7 +6295,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 
-	function invariant(condition, format, a, b, c, d, e, f) {
+	var invariant = function (condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6307,16 +6309,15 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
-	      error.name = 'Invariant Violation';
 	    }
 
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	}
+	};
 
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -26095,7 +26096,8 @@
 	    var action = arguments[1];
 
 	    switch (action.type) {
-
+	        case types.SIGNIN_SEND:
+	            return _extends({}, action.data);
 	        default:
 	            return state;
 	    }
@@ -26242,7 +26244,8 @@
 	        Authorization: 'Bearer ' + access_token
 	    };
 
-	    return (0, _isomorphicFetch2.default)(url, args);
+	    console.log(url);
+	    return (0, _isomorphicFetch2.default)(url, options);
 	}
 
 	exports.default = _fetch;
@@ -26662,7 +26665,7 @@
 /* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -26675,38 +26678,121 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var SignIn = _react2.default.createClass({
-	    displayName: "SignIn",
+	    displayName: 'SignIn',
+
+	    getInitialState: function getInitialState() {
+	        var state = {
+	            isSending: false
+	        };
+	        ['mobile', 'pwd'].forEach(function (key) {
+	            return state[key + 'ValidateOn'] = false;
+	        });
+	        return state;
+	    },
+
+	    onSubmit: function onSubmit(e) {
+	        var _this = this;
+
+	        e.preventDefault();
+	        this.setState({
+	            mobileValidateOn: true,
+	            pwdValidateOn: true
+	        });
+	        if (['mobile', 'pwd'].every(function (t) {
+	            return _this.validate(t);
+	        })) {
+	            this.setState({
+	                isSending: true
+	            });
+	            this.props.signIn({
+	                mobile: this.refs.mobile.value,
+	                pwd: this.refs.pwd.value
+	            }).then(function () {
+	                return location = '/';
+	            }).catch(function () {
+	                return alert('Sign in failed, try it later');
+	            }).then(function () {
+	                _this.setState({ isSending: false });
+	            });
+	        }
+	    },
+
+	    validate: function validate(type) {
+	        switch (type) {
+	            case 'mobile':
+	                return (/^1\d{10}$/.test(this.refs.mobile.value)
+	                );
+	            case 'pwd':
+	                return (/^\w{6,}$/.test(this.refs.pwd.value)
+	                );
+
+	            default:
+	                return false;
+	        }
+	    },
 
 	    render: function render() {
+	        var _this2 = this;
+
 	        return _react2.default.createElement(
-	            "div",
-	            { className: "login" },
+	            'div',
+	            { className: 'signup' },
 	            _react2.default.createElement(
-	                "h6",
-	                { className: "title" },
-	                "登录"
+	                'h6',
+	                { className: 'title' },
+	                '登录'
 	            ),
 	            _react2.default.createElement(
-	                "label",
-	                { htmlFor: "signin_tel", className: "lab" },
-	                "手机号"
-	            ),
-	            _react2.default.createElement("input", { id: "signin_tel", type: "text" }),
-	            _react2.default.createElement(
-	                "label",
-	                { htmlFor: "signin_pwd", className: "lab" },
-	                "密码"
-	            ),
-	            _react2.default.createElement("input", { id: "signin_pwd", type: "password" }),
-	            _react2.default.createElement(
-	                "a",
-	                { id: "resetpwd", className: "forgot" },
-	                "忘记密码了"
-	            ),
-	            _react2.default.createElement(
-	                "a",
-	                { id: "signin_btn", className: "btn-login" },
-	                "登录"
+	                'form',
+	                { onSubmit: this.onSubmit },
+	                _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'signin_tel', className: 'lab' },
+	                    '手机号'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onBlur: function onBlur() {
+	                            return _this2.setState({ mobileValidateOn: true });
+	                        }, id: 'signip_tel', type: 'text' }),
+	                    this.state.mobileValidateOn && !this.validate('mobile') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '请填写11位手机号码'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'signin_pwd', className: 'lab' },
+	                    '密码'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-control-group' },
+	                    _react2.default.createElement('input', { ref: 'pwd', defaultValue: this.props.pwd, onBlur: function onBlur() {
+	                            return _this2.setState({ pwdValidateOn: true });
+	                        }, id: 'signin_pwd', type: 'password' }),
+	                    this.state.pwdValidateOn && !this.validate('pwd') && _react2.default.createElement(
+	                        'span',
+	                        { className: 'err-tip' },
+	                        '密码至少为6位'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'a',
+	                    { id: 'resetpwd', className: 'forgot', style: { display: 'none' } },
+	                    '忘记密码了?'
+	                ),
+	                this.state.isSending ? _react2.default.createElement(
+	                    'button',
+	                    { id: 'signin_btn', disabled: true, className: 'btn-login' },
+	                    '登录中···'
+	                ) : _react2.default.createElement(
+	                    'button',
+	                    { id: 'signin_btn', className: 'btn-login' },
+	                    '登录'
+	                )
 	            )
 	        );
 	    }
@@ -26763,7 +26849,11 @@
 	                mobile: this.refs.mobile.value,
 	                smsCode: this.refs.smsCode.value,
 	                pwd: this.refs.pwd.value
-	            }).catch(function () {}).then(function () {
+	            }).then(function () {
+	                return location = '/';
+	            }).catch(function () {
+	                return alert('Sign up failed, try it later');
+	            }).then(function () {
 	                _this.setState({ isSending: false });
 	            });
 	        }
@@ -26785,6 +26875,13 @@
 
 	            default:
 	                return false;
+	        }
+	    },
+
+	    _mobileChange: function _mobileChange() {
+	        var mobile = this.refs.mobile.value;
+	        if (mobile) {
+	            localStorage.mobile = mobile;
 	        }
 	    },
 
@@ -26810,7 +26907,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onBlur: function onBlur() {
+	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onChange: this._mobileChange, onBlur: function onBlur() {
 	                            return _this2.setState({ mobileValidateOn: true });
 	                        }, id: 'signup_tel', type: 'text' }),
 	                    this.state.mobileValidateOn && !this.validate('mobile') && _react2.default.createElement(
@@ -26821,7 +26918,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'label',
-	                    { className: 'lab' },
+	                    { className: 'lab', id: 'sms-code', style: { marginTop: 87 } },
 	                    '验证码'
 	                ),
 	                _react2.default.createElement(
@@ -26829,17 +26926,12 @@
 	                    { className: 'form-control-group' },
 	                    _react2.default.createElement('input', { ref: 'smsCode', defaultValue: this.props.smsCode, onBlur: function onBlur() {
 	                            return _this2.setState({ smsCodeValidateOn: true });
-	                        }, id: 'signup_code', type: 'text', style: { width: 50 + '%' } }),
+	                        }, id: 'signup_code', type: 'text' }),
 	                    this.state.smsCodeValidateOn && !this.validate('smsCode') && _react2.default.createElement(
 	                        'span',
 	                        { className: 'err-tip' },
 	                        '请填写6位验证码'
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { id: 'signup_code_btn', style: { cursor: 'pointer' }, className: 'getcode' },
-	                    '获取验证码'
 	                ),
 	                _react2.default.createElement(
 	                    'label',

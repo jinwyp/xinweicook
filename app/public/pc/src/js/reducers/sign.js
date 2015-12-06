@@ -6,7 +6,8 @@ function signInValue(state = {
     pwd: ''
 }, action) {
     switch (action.type) {
-
+        case types.SIGNIN_SEND:
+            return {...action.data}
         default: return state
     }
 }

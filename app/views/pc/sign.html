@@ -39,12 +39,35 @@
         <!--<label class="lab">确认密码</label><input id="signup_repwd" type="password"><a id="signup_btn" class="btn-login">注册</a>-->
     <!--</div>-->
 </div>
-<div id="geetest-wrapper" style="height: 200px;">
+<style type="text/css">
+    #geetest-wrapper {
+        width: 1000px;
+        margin: 10px auto;
+        font-size: 14px;
+        position: absolute;
+        top: 67px;
+        left: 0;
+        right: 0;
+    }
+    #geetest-wrapper .lab {
+        left: 551px;
+        top: 165px;
+        display: inline-block;
+        position: absolute;
+    }
+    #geetest-wrapper .gt_holder {
+        left: 551px;
+        top: 187px;
+    }
+</style>
+<div id="geetest-wrapper">
+    <label class="lab">滑动获取验证码</label>
 </div>
 <script type="text/javascript" src="/pc/dist/js/bundle.js"></script>
 <script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
 <script>
     (function () {
+        delete localStorage.mobile;
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             initGeetest.config = {
@@ -63,12 +86,24 @@
         if (!initGeetest.config) return;
         var obj = new Geetest(initGeetest.config);
         obj.appendTo('#geetest-wrapper');
-        obj.onSuccess = function () {
-            console.log('success')
-        }
-        obj.onError = function (e) {
-            console.log(e)
-        }
+        obj.onSuccess(function() {
+            var validate = obj.getValidate();
+            var mobile = localStorage.mobile;
+            if (!mobile) {
+                alert('请先填写手机号码');
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/api/user/sms');
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+                mobile: mobile,
+                geetest_challenge: validate.geetest_challenge,
+                geetest_validate: validate.geetest_validate,
+                geetest_seccode: validate.geetest_seccode,
+                type: 'signUp'
+            }))
+        })
     }
 </script>
 </body>

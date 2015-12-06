@@ -105,6 +105,12 @@ body {
     border-color: #009ae7;
     color: #fff; }
 
+.form-control-group {
+  position: relative; }
+  .form-control-group .err-tip {
+    color: #f44d4d;
+    position: absolute; }
+
 header {
   position: fixed;
   top: 0;

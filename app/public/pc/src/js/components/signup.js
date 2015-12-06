@@ -27,7 +27,10 @@ var SignUp = React.createClass({
                 mobile: this.refs.mobile.value,
                 smsCode: this.refs.smsCode.value,
                 pwd: this.refs.pwd.value
-            }).catch(()=>{}).then(()=>{this.setState({isSending: false})})
+            })
+            .then(()=>location='/')
+            .catch(()=>alert('Sign up failed, try it later'))
+            .then(()=>{this.setState({isSending: false})})
         }
 
     },
@@ -47,6 +50,13 @@ var SignUp = React.createClass({
         }
     },
 
+    _mobileChange: function () {
+        var mobile = this.refs.mobile.value;
+        if (mobile) {
+            localStorage.mobile = mobile;
+        }
+    },
+
     render: function () {
         return (
             <div className="signup">
@@ -54,17 +64,16 @@ var SignUp = React.createClass({
                 <form onSubmit={this.onSubmit}>
                     <label className="lab">手机号</label>
                     <div className="form-control-group">
-                        <input ref="mobile" defaultValue={this.props.mobile} onBlur={()=>this.setState({mobileValidateOn: true})} id="signup_tel" type="text"/>
+                        <input ref="mobile" defaultValue={this.props.mobile} onChange={this._mobileChange} onBlur={()=>this.setState({mobileValidateOn: true})} id="signup_tel" type="text"/>
                         { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">请填写11位手机号码</span>}
                     </div>
 
-                    <label className="lab">验证码</label>
+                    <label className="lab" id="sms-code" style={{marginTop: 87}}>验证码</label>
                     <div className="form-control-group">
-                        <input ref="smsCode" defaultValue={this.props.smsCode} onBlur={()=>this.setState({smsCodeValidateOn: true})} id="signup_code" type="text" style={{width: 50 + '%'}}/>
+                        <input ref="smsCode" defaultValue={this.props.smsCode} onBlur={()=>this.setState({smsCodeValidateOn: true})} id="signup_code" type="text"/>
                         {this.state.smsCodeValidateOn && !this.validate('smsCode') && <span className="err-tip">请填写6位验证码</span>}
                     </div>
 
-                    <span id="signup_code_btn" style={{cursor:'pointer'}} className="getcode">获取验证码</span>
                     <label className="lab">设置密码</label>
                     <div className="form-control-group">
                         <input ref="pwd" defaultValue={this.props.pwd} onBlur={()=>this.setState({pwdValidateOn: true})} id="signup_pwd" type="password"/>

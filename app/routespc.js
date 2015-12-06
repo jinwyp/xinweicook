@@ -6,6 +6,9 @@ var routes = function(app) {
     app.get("/sign", function (req, res) {
         res.render('pc/sign.html')
     })
+    app.get("/cart", function (req, res) {
+        res.render('pc/cart.html')
+    })
 };
 
 /**

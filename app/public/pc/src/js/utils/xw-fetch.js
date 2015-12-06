@@ -9,7 +9,8 @@ function _fetch(url, options) {
         Authorization: 'Bearer ' + access_token
     };
 
-    return fetch(url, args)
+console.log(url)
+    return fetch(url, options)
 }
 
 export default _fetch;
