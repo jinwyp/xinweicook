@@ -280,7 +280,7 @@
         <attribute name="name" type="string">user-getGeetestRegister</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z129 z153 z130 z104 z110 z152 z121"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z129 z130 z104 z121 z153 z110 z152"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z128">
         <attribute name="value" type="string">application/json</attribute>

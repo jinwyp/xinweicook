@@ -702,14 +702,56 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
         }},
 
-        { "$sort": { "isPlus" : -1} },
+        { "$sort": { "isPaid" : 1} },
+        { "$limit": 100000 }
+    );
+
+    // Grouping pipeline
+    pipelinePurchased.push(
+        {
+            "$match" : {
+                "isPlus" : false
+            }
+        },
+
+        { $sort: { createdAt: 1 } },
+
+        { "$group": {
+            "_id": {isPaid : "$isPaid", "isPlus" : "$isPlus"},
+            "totalAmount": { "$sum": "$amount" },
+            "totalAmountXinwei": { "$sum": "$amountXinwei" },
+            "accountDetailList": { "$push": { "_id": "$_id", "user": "$user",  "order": "$order", "coupon": "$coupon",  "createdAt": "$createdAt", "chargeType": "$chargeType", "isPlus": "$isPlus", "amount": "$amount", "amountXinwei": "$amountXinwei", "isPaid": "$isPaid", "nameZh": "$name.zh"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "isPaid" : "$_id.isPaid",
+            "isPlus" : "$_id.isPlus",
+
+            "totalAmount": 1,
+            "totalAmountXinwei": 1,
+            "accountDetailList": 1
+
+        }},
+
+        { "$sort": { "isPlus" : 1} },
         { "$limit": 100000 }
     );
 
 
-    models.accountdetail.aggregateAsync( pipelineCharged).then(function(resultList){
 
-        res.send(resultList);
+    var promiseList = [
+        models.accountdetail.aggregateAsync( pipelineCharged),
+        models.accountdetail.aggregateAsync( pipelinePurchased),
+    ];
+
+
+    Promise.all(promiseList).spread(function(resultCharged, resultPurchased){
+        var result = {
+            isCharged   : resultCharged,
+            isPurchased : resultPurchased
+        }
+        res.send(result);
 
     }).catch(next);
 

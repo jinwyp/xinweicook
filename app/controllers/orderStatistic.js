@@ -48,7 +48,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(range.e.c < column) range.e.c = column;
 
             if(propertyList[column] == '_id'){
-                console.log("-------", arrayData[row][propertyList[column]])
+                console.log("-------", arrayData[row][propertyList[column]]);
             }
 
             var cell = {v: arrayData[row][propertyList[column]] };
@@ -66,7 +66,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
 
                             if ( subDish.dish != null){
-                                tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], '
+                                tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], ';
                             }else{
                                 console.log("---------------", subDish);
                             }
@@ -83,7 +83,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 });
 
-                cell.v = tempCellString
+                cell.v = tempCellString;
             }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='address'){
                 //cell.v = JSON.stringify(arrayData[row][propertyList[column])
 
@@ -92,7 +92,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                         tempCellString = tempCellString + ' ' + pro + ' : '+ currentCell[pro] + ' , ';
                     }
                 }
-                cell.v = tempCellString
+                cell.v = tempCellString;
             }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='express'){
                 //cell.v = JSON.stringify(arrayData[row][propertyList[column])
 
@@ -106,7 +106,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                     }
                 }
-                cell.v = tempCellString
+                cell.v = tempCellString;
             }
 
 
@@ -128,7 +128,7 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
         }
     }
     if(range.s.c < 10000000) worksheet['!ref'] = XLSX.utils.encode_range(range);
-    return worksheet
+    return worksheet;
 }
 
 
@@ -1078,40 +1078,3 @@ exports.orderHourSales = function(req, res, next) {
         res.status(200).json(resultOrder)
     }).catch(next)
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
