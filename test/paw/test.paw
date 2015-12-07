@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z315 z313 z314 z311 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Cp:qEKr8s5HnjjkJCgMO5CIM7xvGmNqPCd7</attribute>
+        <attribute name="value" type="string">Bearer 2Cp:FF3iIbWOIS92MkOGy7LH52GNHFEzgDCD</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2368,12 +2368,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to eat\\",\\n  \\"clientFrom\\": \\"wechat\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 5,\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateEat\\": \\"2015-06-13\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n \\n  \\"addressId\\": \\"565ead2c5633c1fa5b993d61\\",\\n    \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"56440123eeb6dde1379430bb\\",\\n      \\"number\\": 2,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"55cd9fed9cbe20902858618e\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"clientFrom\\": \\"wechat\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 5,\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateEat\\": \\"2015-06-13\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n \\n  \\"addressId\\": \\"566538ed4a288aae4d8afe5b\\",\\n    \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"56440123eeb6dde1379430bb\\",\\n      \\"number\\": 2,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"55cd9fed9cbe20902858618e\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">39</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z382 z381 z379 z383 z378 z380 z376"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z380 z382 z381 z376 z378 z383 z379"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z378">
         <attribute name="value" type="string">application/json</attribute>
@@ -6337,7 +6337,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z790"></relationship>
     </object>
     <object type="LMREQUEST" id="z796">
-        <attribute name="body" type="string">["{\\n  \\"mobile\\": \\"18629641521\\",\\n  \\"contactPerson\\": \\"李新伟\\",\\n  \\"geoLongitude\\": 121.411545,\\n  \\"geoLatitude\\": 31.170621,\\n  \\"coordType\\": \\"gcj02\\",\\n  \\"distanceFrom\\": 10,\\n  \\"country\\": \\"china\\",\\n  \\"province\\": \\"北京\\",\\n  \\"city\\": \\"北京市\\",\\n  \\"district\\": \\"通州区\\",\\n  \\"street\\": \\"聚点串吧(动物园店)\\",\\n  \\"street_number\\": \\"桂平路418号\\",\\n  \\"address\\": \\"桂平路418号\\",\\n  \\"isDefault\\": true,\\n  \\"sortOrder\\": 0\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"mobile\\": \\"13918038535\\",\\n  \\"contactPerson\\": \\"吴黎敏\\",\\n  \\"geoLongitude\\": 121.5277702367718,\\n  \\"geoLatitude\\": 31.24103912289097,\\n  \\"coordType\\": \\"gcj02\\",\\n  \\"distanceFrom\\": 10,\\n  \\"country\\": \\"china\\",\\n  \\"province\\": \\"北京\\",\\n  \\"city\\": \\"北京市\\",\\n  \\"district\\": \\"通州区\\",\\n  \\"street\\": \\"浦东新区\\",\\n  \\"street_number\\": \\"桂平路418号\\",\\n  \\"address\\": \\"崂山二村甲6号303\\",\\n  \\"isDefault\\": true,\\n  \\"sortOrder\\": 0\\n}"]</attribute>
         <attribute name="uuid" type="string">F6784393-5224-4CB9-A7B6-384A9C169865</attribute>
         <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user\\/address"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -6350,7 +6350,7 @@
         <attribute name="name" type="string">user-addNewAddress</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z801 z797 z800 z803 z798 z799 z802"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z803 z802 z800 z797 z799 z798 z801"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z797">
         <attribute name="value" type="string">application/json</attribute>

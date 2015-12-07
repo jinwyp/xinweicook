@@ -304,7 +304,7 @@ exports.userNewComerRate = function(req, res, next) {
 
         result.twoMoreAvgTime = result.twoMoreTotalTime / result.twoMoreTotalOrderNumber;
 
-        res.send(result)
+        res.send(result);
     })
     .catch(next);
 
@@ -357,7 +357,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
         userIdList = resultUserList.map(function(user){
-            return user._id.toString()
+            return user._id.toString();
         });
         //console.log(userIdList);
 
@@ -427,15 +427,15 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                     });
 
                     result.totalTime = result.totalTime + userDataHash[userIdList[j]].totalTime;
-                    result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber
+                    result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber;
                 }
 
             }
 
-            result.avgTime = result.totalTime / result.totalOrderNumber
+            result.avgTime = result.totalTime / result.totalOrderNumber;
         }
 
-        res.send(result)
+        res.send(result);
     }).catch(next);
 
 
@@ -523,7 +523,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
             week: { $week: "$firstOrderDate" },
 
-            "hour" : {  "$hour" : "$firstOrderDate" },
+
             "minute" : {"$minute" : "$firstOrderDate"},
             "second" : { "$second" : "$firstOrderDate"},
             "millisecond" : {"$millisecond" : "$firstOrderDate"}
@@ -549,7 +549,6 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             dayOfWeek: 1,
             week: 1,
 
-            "hour" : 1,
             "minute" : 1,
             "second" : 1,
             "millisecond" : 1,
@@ -592,7 +591,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
-        res.send(resultOrderList)
+        res.send(resultOrderList);
     }).catch(next);
 
 };
@@ -750,7 +749,7 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
         var result = {
             isCharged   : resultCharged,
             isPurchased : resultPurchased
-        }
+        };
         res.send(result);
 
     }).catch(next);
