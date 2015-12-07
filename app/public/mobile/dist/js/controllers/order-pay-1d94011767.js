@@ -54,7 +54,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         cart.cookList && cart.cookList.length && Orders.deliveryTime({
             cookingType: "ready to cook",
             isCityShanghai: isCityShanghai,
-            isInRange4KM: address.isAvailableForEat
+            isInRange4KM: address.warehouse == '56332187594b09af6e6c7dd2'
+                && address.isAvailableForEat
         }).then(function (res) {
             time.cook = $filter('cookTimeUnion')(res.data);
             //model.time.cook = {day: time.cook[0]};
