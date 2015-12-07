@@ -1005,22 +1005,22 @@ exports.getPlaceSuggestion = (req, res, next) ->
   addressList = []
   baiduMap.getPlaceSearchAsync(query).then (result)->
 
-    for place, placeIndex in result
-      newplace =
-        street_id : place.street_id
-        address : place.name
-        addressInfoBaidu : place.address
-        lat : place.location.lat
-        lng : place.location.lng
+    if result.status and result.status isnt 0
+      throw(new Err result.message, 400, Err.code.user.addressBaiduMapNotFoundError)
+    else
+      for place, placeIndex in result
+        newplace =
+          street_id : place.street_id
+          address : place.name
+          addressInfoBaidu : place.address
+          lat : place.location.lat
+          lng : place.location.lng
 
-      addressList.push(newplace)
+        addressList.push(newplace)
 
     res.json addressList
 
-  .catch( (err)->
-    # next(throw(new Err err.message, 400, Err.code.user.addressBaiduMapNotFoundError))
-    next(err)
-  )
+  .catch(next)
 
 
 
