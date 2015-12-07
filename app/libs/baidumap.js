@@ -245,7 +245,7 @@ baiduMap.prototype.getPlaceSearch = function(query, callback){
             logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
             callback(err);
         }else{
-            //logger.error ('-- BaiduMap Response Body: ', body);
+            logger.error ('-- BaiduMap Response Body: ', body);
 
             var result = {};
             try {

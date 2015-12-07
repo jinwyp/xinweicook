@@ -1009,14 +1009,18 @@ exports.getPlaceSuggestion = (req, res, next) ->
       throw(new Err result.message, 400, Err.code.user.addressBaiduMapNotFoundError)
     else
       for place, placeIndex in result
-        newplace =
-          street_id : place.street_id
-          address : place.name
-          addressInfoBaidu : place.address
-          lat : place.location.lat
-          lng : place.location.lng
 
-        addressList.push(newplace)
+        if place.location
+          if place.location.lat and place.location.lng
+
+            newplace =
+              street_id : place.street_id
+              address : place.name
+              addressInfoBaidu : place.address
+              lat : place.location.lat
+              lng : place.location.lng
+
+            addressList.push(newplace)
 
     res.json addressList
 
