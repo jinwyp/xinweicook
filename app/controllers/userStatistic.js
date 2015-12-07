@@ -669,14 +669,18 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
     var pipelineCharged = [];
     var pipelinePurchased = [];
 
+    chargeTypeList = [];
+    chargeTypeList.push(models.accountdetail.constantChargeType().alipaydirect);
+    chargeTypeList.push(models.accountdetail.constantChargeType().weixinpay);
+    chargeTypeList.push(models.accountdetail.constantChargeType().chargecode);
+
     // Grouping pipeline
     pipelineCharged.push(
-        // {
-        //     "$match" : {
-        //         "isPlus" : true,
-        //         "isPaid" : true
-        //     }
-        // },
+        {
+            "$match" : {
+                "chargeType" : {$in:chargeTypeList}
+            }
+        },
 
         { $sort: { createdAt: 1 } },
 
