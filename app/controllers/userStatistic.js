@@ -698,7 +698,7 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
         }},
 
-        { "$sort": { "isPlus" : 1} },
+        { "$sort": { "isPlus" : -1} },
         { "$limit": 100000 }
     );
 
