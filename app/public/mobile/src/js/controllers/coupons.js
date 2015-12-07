@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('couponsCtrl', function ($scope, User, Debug, ScopeDecorator) {
+angular.module('xw.controllers').controller('couponsCtrl', function ($scope, User, Debug, ScopeDecorator, Alert) {
 
     ScopeDecorator.common($scope);
 
@@ -15,8 +15,7 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
                 $scope.couponList = res.data.couponList;
             });
         }).catch(function (res) {
-            alert('兑换失败, 请稍后再试');
-            Debug.alert(res);
+            Alert.show(res.data.validationStatus, '兑换失败, 请稍后再试');
         })
     };
 
