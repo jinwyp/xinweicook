@@ -43,10 +43,11 @@
       }
     }
   }
-  img.carttitle {
+  .carttitle {
     display: block;
     width: 91px;
     height: 106px;
     margin: 30px auto;
+    background: url(../images/carttitle.png) 100%/cover;
   }
 }

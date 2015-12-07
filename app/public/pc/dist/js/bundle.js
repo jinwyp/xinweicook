@@ -6295,7 +6295,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 
-	var invariant = function (condition, format, a, b, c, d, e, f) {
+	function invariant(condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6309,15 +6309,16 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	      error = new Error(format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
+	      error.name = 'Invariant Violation';
 	    }
 
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	};
+	}
 
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -26243,8 +26244,6 @@
 	    options.headers = {
 	        Authorization: 'Bearer ' + access_token
 	    };
-
-	    console.log(url);
 	    return (0, _isomorphicFetch2.default)(url, options);
 	}
 
@@ -26255,10 +26254,12 @@
 	        headers: { 'Content-Type': 'application/json' },
 	        body: JSON.stringify(data)
 	    }).then(function (res) {
+	        return res.json();
+	    }).then(function (json) {
 	        if (url == '/api/user/token' || url == '/api/user/signup') {
-	            localStorage.access_token = res.json().access_token;
+	            localStorage.access_token = json.access_token;
 	        }
-	        return res;
+	        return json;
 	    });
 	}
 

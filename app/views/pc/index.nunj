@@ -53,7 +53,7 @@
         </div>
         <ul class="menus clearfix">
             {% for dish in cooks %}
-                <li>
+                <li data-id="{{ dish._id }}">
                     <a href="javascript:;">
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] }}">
@@ -81,7 +81,7 @@
         </div>
         <ul class="menus clearfix">
             {% for dish in eats %}
-                <li>
+                <li data-id="{{ dish._id }}">
                     <a href="javascript:;">
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] }}">
@@ -142,6 +142,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/pc/javascripts/main.js"></script>
+<script type="text/javascript" src="/pc/src/js/utils/common.js"></script>
+<script type="text/javascript" src="/pc/src/js/pages/index.js"></script>
 </body>
 </html>

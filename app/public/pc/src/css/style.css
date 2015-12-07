@@ -296,16 +296,19 @@ header {
           .index-main .main-top .menus li a img {
             width: 100%; }
           .index-main .main-top .menus li a .plusok {
+            opacity: 0;
             display: block;
             width: 95px;
             height: 95px;
             position: absolute;
-            top: 0;
             bottom: 0;
             left: 0;
             right: 0;
             margin: auto;
             background: url(../images/plusok.png) 100%/cover; }
+            .index-main .main-top .menus li a .plusok.show {
+              opacity: 1;
+              bottom: 59px; }
         .index-main .main-top .menus li .info {
           height: 65px;
           padding: 5px 0;
@@ -359,6 +362,8 @@ header {
               font-size: 22px;
               line-height: 19px;
               text-align: center; }
+              .index-main .main-top .menus li .info .btns a:active {
+                background-color: #f44d4d; }
     .index-main .main-top .app {
       width: 1000px;
       height: 314px;
@@ -1355,11 +1360,12 @@ header {
       .cart .tabs .cart-main .products {
         width: 480px;
         overflow: hidden; }
-  .cart img.carttitle {
+  .cart .carttitle {
     display: block;
     width: 91px;
     height: 106px;
-    margin: 30px auto; }
+    margin: 30px auto;
+    background: url(../images/carttitle.png) 100%/cover; }
 
 .blog {
   width: 700px;

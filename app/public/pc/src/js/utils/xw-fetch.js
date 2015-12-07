@@ -8,8 +8,6 @@ function _fetch(url, options) {
     options.headers = {
         Authorization: 'Bearer ' + access_token
     };
-
-console.log(url)
     return fetch(url, options)
 }
 
@@ -20,10 +18,10 @@ export function post(url, data) {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
-    }).then(function (res) {
+    }).then(res=>res.json()).then(function (json) {
         if (url == '/api/user/token' || url == '/api/user/signup') {
-            localStorage.access_token = res.json().access_token;
+            localStorage.access_token = json.access_token;
         }
-        return res;
+        return json
     })
 }
