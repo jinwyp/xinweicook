@@ -653,9 +653,61 @@ exports.couponByNameRate = function(req, res, next) {
         resultCouponList[0].totalQuantity = totalQuantity;
 
         resultCouponList.forEach(function(order){
-            order.quantityPercent = order.quantity / totalQuantity
+            order.quantityPercent = order.quantity / totalQuantity;
         });
 
-        res.send(resultCouponList)
+        res.send(resultCouponList);
     }).catch(next);
+};
+
+
+
+
+
+exports.userAccountDetailsStatistic = function(req, res, next) {
+
+    var pipelineCharged = [];
+    var pipelinePurchased = [];
+
+    // Grouping pipeline
+    pipelineCharged.push(
+        // {
+        //     "$match" : {
+        //         "isPlus" : true,
+        //         "isPaid" : true
+        //     }
+        // },
+
+        { $sort: { createdAt: 1 } },
+
+        { "$group": {
+            "_id": {isPaid : "$isPaid", "isPlus" : "$isPlus"},
+            "totalAmount": { "$sum": "$amount" },
+            "totalAmountXinwei": { "$sum": "$amountXinwei" },
+            "accountDetailList": { "$push": { "_id": "$_id", "user": "$user",  "order": "$order", "coupon": "$coupon",  "createdAt": "$createdAt", "chargeType": "$chargeType", "isPlus": "$isPlus", "amount": "$amount", "amountXinwei": "$amountXinwei", "isPaid": "$isPaid", "nameZh": "$name.zh"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "isPaid" : "$_id.isPaid",
+            "isPlus" : "$_id.isPlus",
+
+            "totalAmount": 1,
+            "totalAmountXinwei": 1,
+            "accountDetailList": 1
+
+        }},
+
+        { "$sort": { "isPaid" : 1} },
+        { "$limit": 100000 }
+    );
+
+
+    models.accountdetail.aggregateAsync( pipelineCharged).then(function(resultList){
+
+        res.send(resultList);
+
+    }).catch(next);
+
+
 };
