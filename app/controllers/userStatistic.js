@@ -304,7 +304,7 @@ exports.userNewComerRate = function(req, res, next) {
 
         result.twoMoreAvgTime = result.twoMoreTotalTime / result.twoMoreTotalOrderNumber;
 
-        res.send(result)
+        res.send(result);
     })
     .catch(next);
 
@@ -357,7 +357,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
         userIdList = resultUserList.map(function(user){
-            return user._id.toString()
+            return user._id.toString();
         });
         //console.log(userIdList);
 
@@ -427,15 +427,15 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                     });
 
                     result.totalTime = result.totalTime + userDataHash[userIdList[j]].totalTime;
-                    result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber
+                    result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber;
                 }
 
             }
 
-            result.avgTime = result.totalTime / result.totalOrderNumber
+            result.avgTime = result.totalTime / result.totalOrderNumber;
         }
 
-        res.send(result)
+        res.send(result);
     }).catch(next);
 
 
@@ -523,7 +523,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
             week: { $week: "$firstOrderDate" },
 
-            "hour" : {  "$hour" : "$firstOrderDate" },
+
             "minute" : {"$minute" : "$firstOrderDate"},
             "second" : { "$second" : "$firstOrderDate"},
             "millisecond" : {"$millisecond" : "$firstOrderDate"}
@@ -549,7 +549,6 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             dayOfWeek: 1,
             week: 1,
 
-            "hour" : 1,
             "minute" : 1,
             "second" : 1,
             "millisecond" : 1,
@@ -592,7 +591,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
-        res.send(resultOrderList)
+        res.send(resultOrderList);
     }).catch(next);
 
 };
@@ -669,14 +668,18 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
     var pipelineCharged = [];
     var pipelinePurchased = [];
 
+    chargeTypeList = [];
+    chargeTypeList.push(models.accountdetail.constantChargeType().alipaydirect);
+    chargeTypeList.push(models.accountdetail.constantChargeType().weixinpay);
+    chargeTypeList.push(models.accountdetail.constantChargeType().chargecode);
+
     // Grouping pipeline
     pipelineCharged.push(
-        // {
-        //     "$match" : {
-        //         "isPlus" : true,
-        //         "isPaid" : true
-        //     }
-        // },
+        {
+            "$match" : {
+                "chargeType" : {$in:chargeTypeList}
+            }
+        },
 
         { $sort: { createdAt: 1 } },
 
@@ -702,10 +705,52 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
         { "$limit": 100000 }
     );
 
+    // Grouping pipeline
+    pipelinePurchased.push(
+        {
+            "$match" : {
+                "isPlus" : false
+            }
+        },
 
-    models.accountdetail.aggregateAsync( pipelineCharged).then(function(resultList){
+        { $sort: { createdAt: 1 } },
 
-        res.send(resultList);
+        { "$group": {
+            "_id": {isPaid : "$isPaid", "isPlus" : "$isPlus"},
+            "totalAmount": { "$sum": "$amount" },
+            "totalAmountXinwei": { "$sum": "$amountXinwei" },
+            "accountDetailList": { "$push": { "_id": "$_id", "user": "$user",  "order": "$order", "coupon": "$coupon",  "createdAt": "$createdAt", "chargeType": "$chargeType", "isPlus": "$isPlus", "amount": "$amount", "amountXinwei": "$amountXinwei", "isPaid": "$isPaid", "nameZh": "$name.zh"  } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "isPaid" : "$_id.isPaid",
+            "isPlus" : "$_id.isPlus",
+
+            "totalAmount": 1,
+            "totalAmountXinwei": 1,
+            "accountDetailList": 1
+
+        }},
+
+        { "$sort": { "isPlus" : 1} },
+        { "$limit": 100000 }
+    );
+
+
+
+    var promiseList = [
+        models.accountdetail.aggregateAsync( pipelineCharged),
+        models.accountdetail.aggregateAsync( pipelinePurchased),
+    ];
+
+
+    Promise.all(promiseList).spread(function(resultCharged, resultPurchased){
+        var result = {
+            isCharged   : resultCharged,
+            isPurchased : resultPurchased
+        };
+        res.send(result);
 
     }).catch(next);
 

@@ -508,6 +508,8 @@ exports.addNewOrder = (req, res, next) ->
         newOrder.packageType = "foambox"
         newOrderReadyToCook.packageType = "foambox"
 
+      newOrder.warehouse = "56332187594b09af6e6c7dd2"  # 新味办公室仓库ID
+      newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
 
 
 

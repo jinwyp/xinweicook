@@ -100,10 +100,19 @@
 
 
     <div class="row">
-        <div class="col-lg-offset-2 col-lg-10" ng-repeat="stat in data.accountStatisticByPaid">
-            <span > {{stat.isPaid ? '已完成支付' : '未完成支付'}}的{{stat.isPlus ? '充值' : '消费'}} </span>
-            <span > | 花费的RMB:{{stat.totalAmount}}  充入新味币:{{stat.totalAmountXinwei}} </span>
+        <div class="col-lg-offset-1 col-lg-10">
+            <span > 总共消费的新味币:{{-data.accountStatisticByPaid.isPurchased[0].totalAmountXinwei}}, 占已充值新味币比重{{(-data.accountStatisticByPaid.isPurchased[0].totalAmountXinwei / data.accountStatisticByPaid.isCharged[1].totalAmountXinwei * 100) | number:2 }}%,
+                总充入新味币:{{data.accountStatisticByPaid.isCharged[1].totalAmountXinwei}} , 总充入RMB:{{data.accountStatisticByPaid.isCharged[1].totalAmount}}</span>
         </div>
+
+        <div class="col-lg-offset-1 col-lg-10">
+            <span ng-repeat="stat in data.accountStatisticByPaid.isCharged" >
+                {{stat.isPaid ? '已完成支付' : '未完成支付'}}的充值 总花费RMB:{{stat.totalAmount}}  充入新味币:{{stat.totalAmountXinwei}}
+                占发起充值总金额{{(stat.totalAmount / (data.accountStatisticByPaid.isCharged[0].totalAmount + data.accountStatisticByPaid.isCharged[1].totalAmount) * 100) | number:2 }}% /
+            </span>
+
+        </div>
+
     </div>
 
 
