@@ -59,6 +59,9 @@ module.exports =
       result = 600 if amount is 500
       result = 1250 if amount is 1000
       result = 2600 if amount is 2000
+      result = 6000 if amount is 5000
+      result = 12000 if amount is 10000
+      result = 25000 if amount is 20000
 
       result
 
