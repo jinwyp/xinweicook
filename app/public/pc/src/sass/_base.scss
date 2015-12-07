@@ -40,3 +40,10 @@ body {
     position: absolute;
   }
 }
+
+.rmb-char::before {
+  content: '¥ '
+}
+.rmb-char.negative::before {
+  content: '- ¥ '
+}

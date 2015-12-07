@@ -111,6 +111,12 @@ body {
     color: #f44d4d;
     position: absolute; }
 
+.rmb-char::before {
+  content: '¥ '; }
+
+.rmb-char.negative::before {
+  content: '- ¥ '; }
+
 header {
   position: fixed;
   top: 0;
