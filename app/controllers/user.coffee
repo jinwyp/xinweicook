@@ -1018,7 +1018,8 @@ exports.getPlaceSuggestion = (req, res, next) ->
     res.json addressList
 
   .catch( (err)->
-    next(throw(new Err err.message, 400, Err.code.user.addressBaiduMapNotFoundError))
+    # next(throw(new Err err.message, 400, Err.code.user.addressBaiduMapNotFoundError))
+    next(err)
   )
 
 

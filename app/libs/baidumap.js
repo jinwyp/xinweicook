@@ -62,7 +62,7 @@ function baiduMap(config) {
     //default config
     this.config =  _.assign ({}, configBaiduMap);
     if (typeof config === "object"){
-        this.config = _.assign ({}, configBaiduMap, config)
+        this.config = _.assign ({}, configBaiduMap, config);
     }
 
 }
