@@ -101,7 +101,7 @@
 
     <div class="row">
         <div class="col-lg-offset-2 col-lg-10" ng-repeat="stat in data.accountStatisticByPaid">
-            <span ng-show="stat.isPlus">{{stat.isPaid ? '已完成支付' : '未完成支付'}}的{{stat.isPlus ? '充值' : '消费'}} | 花费的RMB:{{stat.totalAmount}}  充入新味币:{{stat.totalAmountXinwei}} </span>
+            <span ng-show="stat.isPlus">{{stat.isPaid ? '已完成支付' : '未完成支付'}}的{{stat.isPlus ? '充值' : '消费'}} | 花费的RMB:{{stat.totalAmount}}  充入新味币:{{stat.totalAmountXinwei}}  占比{{(stat.totalAmount / (data.accountStatisticByPaid[0].totalAmount + data.accountStatisticByPaid[1].totalAmount) * 100) | number:2 }}%</span>
             <span ng-hide="stat.isPlus"> 消费的新味币:{{stat.totalAmountXinwei}} </span>
         </div>
     </div>
