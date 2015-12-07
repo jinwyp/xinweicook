@@ -8,10 +8,10 @@
 
 angular
     .module('RDash')
-    .controller('UserAccountDetailController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'PaymentDetails', userAccountDetailController]);
+    .controller('UserAccountDetailController', ['$scope', '$timeout', '$state', '$stateParams', 'Notification', 'Util', 'Users', 'UserAccounts', 'UserAccountDetails', 'PaymentDetails', 'Statistic', userAccountDetailController]);
 
 
-function userAccountDetailController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, PaymentDetails) {
+function userAccountDetailController($scope, $timeout, $state, $stateParams, Notification, Util, Users, UserAccounts, UserAccountDetails, PaymentDetails, Statistic) {
 
     $scope.data = {
         searchFilter : '',
@@ -41,6 +41,8 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
         accountDetailList    : [],
         accountPaymentDetail : [],
+
+        accountStatisticByPaid : [],
 
         isPlusList : [
             {
@@ -154,11 +156,26 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
     };
 
 
+    $scope.searchAccountStatisticByPaid = function () {
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserAccountStatisticByPaid($scope.data.searchOptions.query).then(function (result) {
+            $scope.data.accountStatisticByPaid = result.data;
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
+
+
 
 
     if ($state.current.data.type === 'list') {
 
         $scope.searchAccountDetailCount();
+        $scope.searchAccountStatisticByPaid();
     }
 
     if ($state.current.data.type === 'update') {
@@ -218,4 +235,3 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
 }
-

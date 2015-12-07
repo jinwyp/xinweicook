@@ -266,84 +266,90 @@ angular.module('RDash.models').factory('Crons', function (Restangular) {
 angular.module('RDash.models').factory('Statistic', function ($http) {
     return {
         orderSendSMS: function (postdata) {
-            return $http.post('/api/administrator/orders/sms', postdata)
+            return $http.post('/api/administrator/orders/sms', postdata);
         },
 
         searchOrderDeliveryKSuDi: function (orderId) {
             var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
-            return $http.get(url)
+            return $http.get(url);
         },
         createOrderDeliveryKSuDi: function (orderId) {
             var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
-            return $http.post(url)
+            return $http.post(url);
         },
 
         getOrderStatisticByAddress: function (params) {
             return $http.get('/api/admin/statistic/order/address', {
                 params: params
-            })
+            });
         },
 
         getOrderStatisticByAddressAuto: function (params) {
             return $http.get('/api/admin/statistic/order/addressauto', {
                 params: params
-            })
+            });
         },
 
 
         getOrderStatisticByDailySales: function (params) {
             return $http.get('/api/admin/statistic/order/daily', {
                 params: params
-            })
+            });
         },
 
         getOrderStatisticByHourSales: function (params) {
             return $http.get('/api/admin/statistic/order/hour', {
                 params: params
-            })
+            });
         },
 
         getDishStatisticByStock: function (params) {
             return $http.get('/api/admin/statistic/dish/stock', {
                 params: params
-            })
+            });
         },
 
         getDishStatisticByDaily: function (params) {
             return $http.get('/api/admin/statistic/dish/daily', {
                 params: params
-            })
+            });
         },
 
         getDishStatisticChartByDaily: function (params) {
             return $http.get('/api/admin/statistic/dish/daily/chart', {
                 params: params
-            })
+            });
         },
 
 
         getUserStatisticOfNewComers: function (params) {
             return $http.get('/api/admin/statistic/user/newcomer', {
                 params: params
-            })
+            });
         },
 
         getUserStatisticLoyalPurchaseFrequency: function (params) {
             return $http.get('/api/admin/statistic/user/frequency', {
                 params: params
-            })
+            });
         },
 
         getUserStatisticNewFirstOrderUserDaily: function (params) {
             return $http.get('/api/admin/statistic/user/firstorder/daily', {
                 params: params
-            })
+            });
         },
 
         getUserStatisticCouponByName: function (params) {
             return $http.get('/api/admin/statistic/user/coupon/name', {
                 params: params
-            })
+            });
+        },
+
+        getUserAccountStatisticByPaid: function (params) {
+            return $http.get('/api/admin/statistic/user/accoutdetail/paid', {
+                params: params
+            });
         }
     };
 });
