@@ -2,7 +2,7 @@
 angular.module("xw.config").constant("errCode", function(){
 return {
     user: {
-        // todo: 第二第三位的1 是什么意思, sms独立出来??
+        // 第一位是大项分类,第二位是子分类 第三位开始一次排序 间隔建议为2或5 方便以后插入
         wrongMobile   : 1110,
         wrongPassword : 1111,
         alreadyExist  : 1112,
@@ -35,6 +35,8 @@ return {
         addressNotDeliver     : 1270,
 
         addressBaiduMapNotFoundError     : 1280,
+        addressBaiduMapQueryWrong     : 1290,
+        addressBaiduMapRegionWrong     : 1291,
 
 
         shoppingCartNotArray     : 1500,
@@ -124,6 +126,7 @@ return {
         used: 5112,
         outOfCount: 5113,
         notFound      : 5120,
+        exchanged: 5121,
 
         couponIdWrong : 5210,
         promotionCodeWrong : 5212

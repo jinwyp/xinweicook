@@ -90,7 +90,7 @@ exports.getCouponForUserInvitationSendCode = (req, res, next) ->
       res.json resultUser
     .catch next
   else
-    next(new Err "Already used invitation code", 400)
+    next(new Err "Already used invitation code", 400, Err.code.coupon.exchanged)
 
 
 

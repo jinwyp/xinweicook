@@ -127,6 +127,7 @@ module.exports = {
         used: 5112,
         outOfCount: 5113,
         notFound      : 5120,
+        exchanged: 5121,
 
         couponIdWrong : 5210,
         promotionCodeWrong : 5212
