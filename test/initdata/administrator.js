@@ -10,14 +10,16 @@ var adminList = [
         pwd : "xwcook789",
         mobile : "13564568304",
         email : "jinwang@xinweicook.com",
-        group : "admin"
+        group : "admin",
+        fullName : "王宇鹏"
     },
     {
         username : "yuekec@xinweicook.com",
         pwd : "xwcook789",
         mobile : "15900719671",
         email : "yuekec@xinweicook.com",
-        group : "admin"
+        group : "admin",
+        fullName : "岳可诚"
     },
 
     {

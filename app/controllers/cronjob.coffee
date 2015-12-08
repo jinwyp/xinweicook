@@ -164,3 +164,52 @@ exports.cancelNotPaidOrder = (req, res, next) ->
     res.send resultOrderList
 
   .catch(next)
+
+
+
+
+# 员工福利每月充值300新味币 每次充150元 每月分两次充值
+exports.chargeAccountForEmployee = (req, res, next) ->
+
+  userList = []
+  userNewAccountIdist = []
+
+  promiseAccountList = []
+  promiseCreateAccountList = []
+
+  # 李凯  王宇鹏  汤圣罡  岳可诚
+  models.user.find({mobile:{$in:["18629641521", "13564568304", "18621870070", "15900719671"]}}).execAsync().then (resultUserList) ->
+    userList = resultUserList
+
+    models.user.find({group:'cs'}).execAsync()
+  .then (resultUserList2) ->
+    userList = userList.concat(resultUserList2)
+
+    # 如果没有新味币账户需要先创建新味币账户
+    for user, userIndex in userList
+      promiseAccountList.push(models.useraccount.findOneAsync({user : user._id.toString()}))
+
+    Promise.all(promiseAccountList)
+  .then (resultAccountList)->
+    for account, accountIndex in resultAccountList
+
+      console.log(userList[accountIndex]._id)
+      if account
+        if account.balance < 50
+          account.balance = account.balance + 150
+          account.saveAsync()
+          account.chargeAccountDetail(150, {zh : "员工福利", en : "Employee Benefit"}, "员工福利每月300元", models.accountdetail.constantChargeType().employeebenefit)
+      else
+        promiseCreateAccountList.push(models.useraccount.createAsync({user:userList[accountIndex]._id.toString(), balance:150}))
+
+    Promise.all(promiseCreateAccountList)
+
+  .then (resultCreateAccountList)->
+    console.log(resultCreateAccountList)
+
+    for account2, account2Index in resultCreateAccountList
+      account2.chargeAccountDetail(150, {zh : "员工福利", en : "Employee Benefit"}, "员工福利每月300元", models.accountdetail.constantChargeType().employeebenefit)
+
+
+    res.send userList
+  .catch(next)
