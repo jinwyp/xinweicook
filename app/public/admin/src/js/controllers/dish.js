@@ -496,21 +496,18 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
                             if ($scope.data.dishOutOfStockList.indexOf(dish) === -1){
 
-                                if (warehouse.stock < 2 && warehouse.stock > 0){
+                                if (warehouse.stock < 4 && warehouse.stock > 0){
                                     $scope.data.dishOutOfStockList.push(dish);
                                 }else if (warehouse.stock < 0 && warehouse.stock > -6){
                                     $scope.data.dishOutOfStockList.push(dish);
                                 }
 
                             }
-
-
-                        })
+                        });
                     }
 
-
                 }
-            })
+            });
 
 
         }).catch(function(err){
@@ -801,4 +798,3 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
 };
-
