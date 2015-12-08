@@ -55,6 +55,8 @@ exports.sendSMS = (req, res, next) ->
       yp.sendSMSAsync(mobile, text)
 
   .then (result) ->
+    if result isnt 0
+      throw new Err "Send SMS failed, type:" + type + ", "+ err.msg, 400, Err.code.sms.sendFailed
 
     if conf.debug
       res.json code: tempCode
@@ -63,7 +65,7 @@ exports.sendSMS = (req, res, next) ->
 
   .catch( (err) ->
     logger.error("Send SMS failed: " + mobile, JSON.stringify(err))
-    next (throw new Err "Send SMS failed, type:" + type + ", "+ err.msg||err.message, 400, Err.code.sms.sendFailed)
+    next (err)
   )
 
 
@@ -92,9 +94,12 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
         text = models.sms.constantTemplateMoneyRefund()
 
       yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
+        if result isnt 0
+          throw new Err "Send SMS CSToUser failed:" + type + ", "+ err.msg, 400, Err.code.sms.sendFailed
+
         res.json {status:"ok", message:result}
       .catch( (err) ->
-        next (throw new Err "Send SMS CSToUser failed, type:" + type + ", " + err.msg||err.message, 400, Err.code.sms.sendFailed)
+        next (err)
       )
 
   .catch(next)
