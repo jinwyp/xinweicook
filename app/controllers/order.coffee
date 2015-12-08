@@ -484,20 +484,18 @@ exports.addNewOrder = (req, res, next) ->
       newOrderReadyToCook.address = resultAddress
 
       if resultAddress.warehouse
-
         newOrder.warehouse = resultAddress.warehouse
         newOrderReadyToEat.warehouse = resultAddress.warehouse.toString()
-      else
+
+      if newOrder.cookingType is models.dish.constantCookingType().cook
         # 针对食材包处理
-        newOrder.warehouse = "56332187594b09af6e6c7dd2"
-        newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2"
+        newOrder.warehouse = "56332187594b09af6e6c7dd2"  # 新味办公室仓库ID
+        newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
     else
       if not newOrder.address
         throw new Err "Field validation error,  order address error", 400, Err.code.user.addressAddressWrong
       else if typeof(newOrder.address.address) is "undefined" or typeof(newOrder.address.contactPerson) is "undefined" or typeof(newOrder.address.mobile) is "undefined"
         throw new Err "Field validation error,  order address error", 400, Err.code.user.addressContactPersonWrong
-
-
 
 
     if newOrder.cookingType is models.dish.constantCookingType().cook
@@ -508,8 +506,7 @@ exports.addNewOrder = (req, res, next) ->
         newOrder.packageType = "foambox"
         newOrderReadyToCook.packageType = "foambox"
 
-      newOrder.warehouse = "56332187594b09af6e6c7dd2"  # 新味办公室仓库ID
-      newOrderReadyToCook.warehouse = "56332187594b09af6e6c7dd2" # 新味办公室仓库ID
+
 
 
 

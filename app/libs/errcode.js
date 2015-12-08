@@ -9,6 +9,8 @@ module.exports = {
         alreadyExist  : 1112,
         notFound      : 1113,
 
+        userReferrerWrong : 1140,
+        
         userIdWrong : 1150,
         userGenderWrong : 1152,
         userOldAddressWrong : 1155,

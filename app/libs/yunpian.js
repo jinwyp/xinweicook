@@ -104,7 +104,7 @@ yunpianSMS.prototype.sendSMS = function (mobile, text, callback){
         if (err) {
             return callback(err);
         }else{
-            console.log("========== yunpianSMS sendSMS body:", body);
+            // console.log("========== yunpianSMS sendSMS body:", body);
             var result = {};
 
             try{
@@ -128,7 +128,8 @@ yunpianSMS.prototype.sendSMS = function (mobile, text, callback){
 
                 return callback(null, result);
             }else{
-                return  callback(result);
+                logger.error("========== yunpianSMS sendSMS error:", body);
+                return  callback(null, result);
             }
         }
 

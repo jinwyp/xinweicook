@@ -430,12 +430,15 @@ exports.getWeixinUserOpenId = (req, res, next) ->
 
 exports.userSignUp = (req, res, next) ->
   # 注册
-  { mobile, pwd, code, couponcode } = req.body
+  { mobile, pwd, code, couponcode, referrer } = req.body
 
 #  logger.error("---- Regisration couponcode", JSON.stringify(req.body))
 
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
+
+  if referrer
+    models.user.validationReferrer(referrer)
 
 
   models.sms.verifyCode("signUp", mobile, code).then (smscode) ->
@@ -454,6 +457,8 @@ exports.userSignUp = (req, res, next) ->
       newUser =
         mobile : mobile
         pwd    : pwd
+
+      newUser.referrer if referrer
 
       ua = req.get("user-agent")
       re = /MicroMessenger/

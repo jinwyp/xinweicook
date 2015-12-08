@@ -47,6 +47,7 @@ module.exports =
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
     lang: String #zh #en
+    referrer: String #来源于销售推荐
 
     shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"
@@ -124,6 +125,10 @@ module.exports =
     validationUserId : (_id) ->
       unless libs.validator.isLength _id, 24, 24
         return throw new Err "Field validation error,  User ID length must be 24-24", 400, Err.code.user.userIdWrong
+
+    validationReferrer : (referrer ) ->
+        unless libs.validator.isLength referrer, 16, 30
+          return throw new Err "Field validation error,  User referrer length must be 16-30", 400, Err.code.user.userReferrerWrong
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
