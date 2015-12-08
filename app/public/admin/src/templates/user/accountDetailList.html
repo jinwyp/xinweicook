@@ -148,7 +148,7 @@
                 <th>是否支付</th>
                 <th>充值还是消费</th>
                 <th>消费订单ID</th>
-                <!--<th>操作</th>-->
+                <th>操作</th>
 
             </tr>
         </thead>
@@ -168,6 +168,7 @@
                 <td><span ng-show="account.isPlus">{{account.isPaid ? '已支付' : '未支付' }}</span></td>
                 <td>{{account.isPlus ? '充值' : '消费'}} <br/> <a ui-sref="menu.updateCoupon({ id: account.coupon })" ng-show="account.coupon">充值码ID: {{account.coupon}}</a></td>
                 <td><a ui-sref="menu.updateOrder({ id: account.order })">{{account.order}}</a></td>
+                <td><button type="button" name="button" ng-click="saveDetails(account)">保存</button></td>
 
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===account._id">确认真的删除吗？-->
