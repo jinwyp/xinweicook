@@ -95,6 +95,6 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
           throw new Err "Send SMS CSToUser failed:" + type + ", "+ err.msg, 400, Err.code.sms.sendFailed
 
         res.json {status:"ok", message:result}
-      .catch( (next)
+      .catch( next)
 
   .catch(next)
