@@ -183,7 +183,7 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
          */
         stockOfItem: function (item, warehouse) {
             var stockOfDish = this.stockOfDish;
-            return stockOfDish(item.dish, warehouse) && item.subDish.every(function (el) {
+            return stockOfDish(item.dish, warehouse) && !!item.subDish && item.subDish.every(function (el) {
                     return stockOfDish(el.dish, warehouse)
                 })
         }
