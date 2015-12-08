@@ -25,3 +25,17 @@ export function post(url, data) {
         return json
     })
 }
+
+export function del(url) {
+    return _fetch(url, {
+        method: 'delete'
+    })
+}
+
+export function put(url, data) {
+    return _fetch(url, {
+        method: 'put',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringfy(data)
+    }).then(res=>res.json())
+}

@@ -9,7 +9,7 @@ var CartDish = React.createClass({
             dish.priceOriginal)
         return (
             <div className="cart-dish">
-                <span onClick="props.select" className={dish.selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}></span>
+                <span onClick="props.select" className={selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}></span>
                 <div className="dish-info">
                     <img src={dish.cover[0].zh}/>
                     <span className="main-dish">{dish.title.zh}</span>
@@ -21,7 +21,7 @@ var CartDish = React.createClass({
                     <span onClick="props.minus">-</span>{number}<span onClick="props.plus">+</span>
                 </div>
                 <div className="price rmb-char">{price}</div>
-                <span></span>
+                <span className="fa fa-times" onClick="props.del"></span>
             </div>
         )
     }

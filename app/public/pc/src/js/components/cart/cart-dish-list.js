@@ -28,8 +28,7 @@ var CartDishList = React.createClass({
                     {
                         dishList.map(item =>
                             <li key={item._id}>
-
-                                <CartDish key={item._id} {...item} minus={props.minus} plus={props.plus}/>
+                                <CartDish key={item._id} {...item} minus={props.minus} plus={props.plus} del={props.del}/>
                             </li>
                         )
                     }

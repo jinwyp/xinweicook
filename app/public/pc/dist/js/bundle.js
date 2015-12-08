@@ -26135,27 +26135,23 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var SIGNIN_MOBILE_ERR = exports.SIGNIN_MOBILE_ERR = 'SIGNIN_MOBILE_ERR';
-	var SIGNIN_PWD_ERR = exports.SIGNIN_PWD_ERR = 'SIGNIN_PWD_ERR';
-
-	var SIGNIN_MOBILE_CHANGE = exports.SIGNIN_MOBILE_CHANGE = 'SIGNIN_MOBILE_CHANGE';
-	var SIGNIN_PWD_CHANGE = exports.SIGNIN_PWD_CHANGE = 'SIGNIN_PWD_CHANGE';
-
+	// sign
 	var SIGNIN_SEND = exports.SIGNIN_SEND = 'SIGNIN_SEND';
-	var SIGNIN_RECEIVE = exports.SIGNIN_RECEIVE = 'SIGNIN_RECEIVE';
+	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNUP_SEND';
 
-	var SIGNUP_MOBILE_ERR = exports.SIGNUP_MOBILE_ERR = 'SIGNUP_MOBILE_ERR';
-	var SIGNUP_SMS_CODE_ERR = exports.SIGNUP_SMS_CODE_ERR = 'SIGNUP_MOBILE_ERR';
-	var SIGNUP_PWD_ERR = exports.SIGNUP_PWD_ERR = 'SIGNUP_PWD_ERR';
-	var SIGNUP_REPWD_ERR = exports.SIGNUP_REPWD_ERR = 'SIGNUP_REPWD_ERR';
+	// cart
+	var CART_SELECT_ONE = exports.CART_SELECT_ONE = 'CART_SELECT_ONE';
+	var CART_SELECT_ALL = exports.CART_SELECT_ALL = 'CART_SELECT_ALL';
+	var CART_MINUS_DISH = exports.CART_MINUS_DISH = 'CART_MINUS_DISH';
+	var CART_PLUS_DISH = exports.CART_PLUS_DISH = 'CART_PLUS_DISH';
+	var CART_DEL_DISH = exports.CART_DEL_DISH = 'CART_DEL_DISH';
+	var REQUEST_CART = exports.REQUEST_CART = 'REQUEST_CART';
+	var RECEIVE_CART = exports.RECEIVE_CART = 'RECEIVE_CART';
+	var SAVE_CART = exports.SAVE_CART = 'SAVE_CART';
 
-	var SIGNUP_MOBILE_CHANGE = exports.SIGNUP_MOBILE_CHANGE = 'SIGNUP_MOBILE_CHANGE';
-	var SIGNUP_SMS_CODE_CHANGE = exports.SIGNUP_SMS_CODE_CHANGE = 'SIGNUP_SMS_CODE_CHANGE';
-	var SIGNUP_PWD_CHANGE = exports.SIGNUP_PWD_CHANGE = 'SIGNUP_PWD_CHANGE';
-	var SIGNUP_REPWD_CHANGE = exports.SIGNUP_REPWD_CHANGE = 'SIGNUP_REPWD_CHANGE';
-
-	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNIN_SEND';
-	var SIGNUP_RECEIVE = exports.SIGNUP_RECEIVE = 'SIGNIN_RECEIVE';
+	// user
+	var REQUEST_USER = exports.REQUEST_USER = 'REQUEST_USER';
+	var RECEIVE_USER = exports.RECEIVE_USER = 'RECEIVE_USER';
 
 /***/ },
 /* 370 */
@@ -26229,6 +26225,8 @@
 	    value: true
 	});
 	exports.post = post;
+	exports.del = del;
+	exports.put = put;
 
 	var _isomorphicFetch = __webpack_require__(372);
 
@@ -26260,6 +26258,22 @@
 	            localStorage.access_token = json.access_token;
 	        }
 	        return json;
+	    });
+	}
+
+	function del(url) {
+	    return _fetch(url, {
+	        method: 'delete'
+	    });
+	}
+
+	function put(url, data) {
+	    return _fetch(url, {
+	        method: 'put',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringfy(data)
+	    }).then(function (res) {
+	        return res.json();
 	    });
 	}
 
