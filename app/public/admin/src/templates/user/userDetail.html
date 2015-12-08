@@ -14,13 +14,11 @@
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >注册时间</label>
-
                     <div class="col-lg-3" >
                         <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} 来源:{{data.user.statisticsClientFrom}}</span>
                     </div>
 
                     <label  class="col-lg-2 control-label" >最后下单时间</label>
-
                     <div class="col-lg-3" >
                         <span class="help-block" aria-hidden="true">{{data.user.lastOrderDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
                     </div>
@@ -167,6 +165,13 @@
                     <label  class="col-lg-2 control-label" >语言</label>
                     <div class="col-lg-8" >
                         <input type="text" class="form-control" placeholder="zh" ng-model="data.user.lang"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >销售来源标识</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >
                     </div>
                 </div>
 
