@@ -46,10 +46,10 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.$on('$locationChangeStart', function () {
         $scope.path = $location.path();
         if ($scope.path == '/eat' && !$scope.dishList.eatList) {
-            getDishList('caohejing1', 'ready to eat')
+            getDishList('ready to eat')
         }
         if ($scope.path == '/cook' && !$scope.dishList.cookList) {
-            getDishList('caohejing1', 'ready to cook')
+            getDishList('ready to cook')
         }
     });
 
@@ -131,10 +131,10 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         }
     }
 
-    function getDishList(warehouse, type) {
+    function getDishList(type) {
         $q.all([
             // 获取订单列表
-            Dishes.getList(warehouse, type).then(function (res) {
+            Dishes.getList(type).then(function (res) {
                 $scope.dishList[type2name[type]] = res.data;
 
                 filterEatByWarehouse();
