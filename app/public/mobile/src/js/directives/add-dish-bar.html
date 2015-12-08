@@ -7,8 +7,8 @@
                 <h5>{{property.name.zh}}</h5>
                 <ul class="selections">
                     <li ng-repeat="selection in property.foodMaterial track by selection._id"
-                        ng-click="(!selection.dish.outOfStock && selection.dish.isPublished) && (dish.curSelection[property.name.zh] = selection.dish)"
-                        ng-class="{'no-stock': (selection.dish.outOfStock || !selection.dish.isPublished),
+                        ng-click="(!selection.outOfStock && selection.dish.isPublished) && (dish.curSelection[property.name.zh] = selection.dish)"
+                        ng-class="{'no-stock': (selection.outOfStock || !selection.dish.isPublished),
                         selected: dish.curSelection[property.name.zh] == selection.dish}">
                         {{selection.dish.title.zh}}
                     </li>

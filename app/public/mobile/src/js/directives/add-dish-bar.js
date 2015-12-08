@@ -24,8 +24,11 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                 if (dish) {
                     var curSelection = {};
                     $scope.dish.preferences.forEach(function (property) {
+                        property.foodMaterial.forEach(function (el) {
+                            el.outOfStock = Utils.stockOfItem(el, storage.warehouse || '')
+                        })
                         property.foodMaterial.some(function (el) {
-                            if (!el.dish.outOfStock) {
+                            if (!el.outOfStock) {
                                 curSelection[property.name.zh] = el.dish;
                                 return true;
                             } else return false;
