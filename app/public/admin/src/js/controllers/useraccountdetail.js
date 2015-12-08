@@ -215,19 +215,6 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
         });
     };
 
-    $scope.saveDetails = function (account) {
-
-        account.chargeType = "employeebenefit";
-        account.put().then(function (resultAccountDetail) {
-            Notification.success({message : 'Update Success', delay : 8000});
-        }).catch(function (err) {
-            console.log(err);
-            Notification.error({
-                message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
-            });
-        });
-    };
 
 
     $scope.showAccountPayment = function(accountdetailId){
