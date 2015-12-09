@@ -338,43 +338,43 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
 
 
             resultInventroyTotal.forEach(function(dishInventory){
-                dishHashListTotal[dishInventory._id.toString()] = dishInventory
+                dishHashListTotal[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyToday.forEach(function(dishInventory){
-                dishHashListToday[dishInventory._id.toString()] = dishInventory
+                dishHashListToday[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyYesterday.forEach(function(dishInventoryYesterday){
-                dishHashListYesterday[dishInventoryYesterday._id.toString()] = dishInventoryYesterday
+                dishHashListYesterday[dishInventoryYesterday._id.toString()] = dishInventoryYesterday;
             });
 
             resultInventroyDayBeforeYesterday.forEach(function(dishInventory){
-                dishHashListDayBeforeYesterday[dishInventory._id.toString()] = dishInventory
+                dishHashListDayBeforeYesterday[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast3Day.forEach(function(dishInventory){
-                dishHashListLast3Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast3Day[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast7Day.forEach(function(dishInventory){
-                dishHashListLast7Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast7Day[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast15Day.forEach(function(dishInventory){
-                dishHashListLast15Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast15Day[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast30Day.forEach(function(dishInventory){
-                dishHashListLast30Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast30Day[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast60Day.forEach(function(dishInventory){
-                dishHashListLast60Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast60Day[dishInventory._id.toString()] = dishInventory;
             });
 
             resultInventroyLast90Day.forEach(function(dishInventory){
-                dishHashListLast90Day[dishInventory._id.toString()] = dishInventory
+                dishHashListLast90Day[dishInventory._id.toString()] = dishInventory;
             });
 
 
@@ -382,7 +382,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
                 if (typeof dishHashListPerDay[dishInventoryPerDay.dish.toString()] === "undefined"){
                     dishHashListPerDay[dishInventoryPerDay.dish.toString()] = [];
                 }
-                dishHashListPerDay[dishInventoryPerDay.dish.toString()].push(dishInventoryPerDay)
+                dishHashListPerDay[dishInventoryPerDay.dish.toString()].push(dishInventoryPerDay);
 
             });
 
@@ -390,7 +390,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
                 if (typeof dishHashListPerWeek[dishInventoryPerWeek.dish.toString()] === "undefined"){
                     dishHashListPerWeek[dishInventoryPerWeek.dish.toString()] = [];
                 }
-                dishHashListPerWeek[dishInventoryPerWeek.dish.toString()].push(dishInventoryPerWeek)
+                dishHashListPerWeek[dishInventoryPerWeek.dish.toString()].push(dishInventoryPerWeek);
 
             });
 
@@ -456,10 +456,10 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
             });
 
 
-            res.status(200).json(resultDish)
+            res.status(200).json(resultDish);
 
         }else{
-            res.status(200).json([])
+            res.status(200).json([]);
         }
     }).catch(next);
 
@@ -512,19 +512,19 @@ exports.dishDailySales = function(req, res, next) {
     }
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.createdAt = { $gte: new Date(req.query.createdAt)}
+        query.createdAt = { $gte: new Date(req.query.createdAt)};
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
-        query.cookingType = req.query.cookingType
+        query.cookingType = req.query.cookingType;
     }
 
     if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
-        query.sideDishType = req.query.sideDishType
+        query.sideDishType = req.query.sideDishType;
     }
 
     if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
-        query.isPublished = req.query.isPublished
+        query.isPublished = req.query.isPublished;
     }
 
     var dishIdList = [];
@@ -539,7 +539,7 @@ exports.dishDailySales = function(req, res, next) {
         });
 
         resultDishList.forEach(function(dish){
-            dishHash[dish._id.toString()] = dish
+            dishHash[dish._id.toString()] = dish;
         });
 
 
@@ -611,11 +611,11 @@ exports.dishDailySales = function(req, res, next) {
                     inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
                     inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
                     inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
-                })
+                });
 
             }
 
-            res.status(200).json(resultInventroyPerDay)
+            res.status(200).json(resultInventroyPerDay);
 
         }).catch(next);
 
@@ -652,7 +652,7 @@ exports.dishDailySalesChart = function(req, res, next) {
             matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
         }
     }else{
-        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc60')]};
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
 
 
@@ -661,20 +661,17 @@ exports.dishDailySalesChart = function(req, res, next) {
         query._id = req.query._id;
     }
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.createdAt = { $gte: new Date(req.query.createdAt)}
-    }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
-        query.cookingType = req.query.cookingType
+        query.cookingType = req.query.cookingType;
     }
 
     if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
-        query.sideDishType = req.query.sideDishType
+        query.sideDishType = req.query.sideDishType;
     }
 
     if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
-        query.isPublished = req.query.isPublished
+        query.isPublished = req.query.isPublished;
     }
 
 
@@ -721,7 +718,7 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "_id": { day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
             }},
 
             { $project :{
@@ -772,7 +769,7 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "_id": { week : "$week", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
             }},
 
             { $project :{
@@ -821,7 +818,7 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "_id": { month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
             }},
 
             { $project :{
@@ -892,10 +889,3 @@ exports.dishDailySalesChart = function(req, res, next) {
 
 
 };
-
-
-
-
-
-
-
