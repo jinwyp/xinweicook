@@ -571,35 +571,14 @@
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="item in data.inventoryList | filter: data.searchFilter">
                 {{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 库存变化:{{item.quantity}}
-                | 仓库_id:<a ui-sref="menu.updateWarehouse({ id: item.warehouse })" target="_blank">{{item.warehouse}}</a>
-                | 操作用户:<a ui-sref="menu.updateUser({ id: item.user })" target="_blank"> {{item.user}}</a>
+                | <a ui-sref="menu.updateWarehouse({ id: item.warehouse })" target="_blank">仓库_id {{item.warehouse}}</a>
+                | <a ui-sref="menu.updateUser({ id: item.user })" target="_blank"> 操作用户</a>
                 | 原因:{{item.remark}}
-                | 订单ID:<a ui-sref="menu.updateOrder({ id: item.order })" target="_blank">{{item.order}}</a>
+                | <a ui-sref="menu.updateOrder({ id: item.order })" target="_blank">订单ID</a> 来源:{{item.clientFrom}}
+                | 预订时间:{{item.deliveryDateTime | date:'yyyy-MM-dd HH:mm'}}
             </li>
         </ul>
 
     </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
