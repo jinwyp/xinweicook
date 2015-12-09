@@ -170,9 +170,12 @@ exports.fixDishInventoryForDeliveryDate = (req, res, next) ->
 
   .then (resultOrderList) ->
     for order, orderIndex in resultOrderList
-      inventoryList[orderIndex].deliveryDateTime = order.deliveryDateTime
-      inventoryList[orderIndex].clientFrom = order.clientFrom
-      inventoryList[orderIndex].saveAsync()
+      if order and order.deliveryDateTime
+        inventoryList[orderIndex].deliveryDateTime = order.deliveryDateTime
+        inventoryList[orderIndex].clientFrom = order.clientFrom
+        inventoryList[orderIndex].saveAsync()
+      else
+        console.log("---------------", order)
 
     res.json inventoryList
 
