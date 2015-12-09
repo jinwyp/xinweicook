@@ -617,7 +617,7 @@ exports.dishDailySales = function(req, res, next) {
 
                 year: { $year: "$deliveryDateTime" },
                 month: { $month: "$deliveryDateTime" },
-                day: { $dayOfMonth: "$createdAt" },
+                day: { $dayOfMonth: "$deliveryDateTime" },
                 hour: { $hour: "$deliveryDateTime" },
                 minutes: { $minute: "$deliveryDateTime" },
                 dayOfYear: { $dayOfYear: "$deliveryDateTime" },
@@ -690,7 +690,7 @@ exports.dishDailySales = function(req, res, next) {
                     inventroyPerDay.isPublished = dishHash[inventroyPerDay.dish.toString()].isPublished;
                     inventroyPerDay.date =  inventroyPerDay.year + "-" + inventroyPerDay.month + "-" + inventroyPerDay.day;
                     inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] || "";
-                    
+
                 });
             }
 
@@ -937,24 +937,24 @@ exports.dishDailySalesChart = function(req, res, next) {
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
 
                 resultInventroyPerDay.forEach(function(inventroy){
-                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day
-                })
+                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
+                });
 
             }
 
             if (resultInventroyPerWeek  && resultInventroyPerWeek.length > 0 ) {
 
                 resultInventroyPerWeek.forEach(function(inventroy){
-                    inventroy.date =  inventroy.year + "-" + inventroy.week
-                })
+                    inventroy.date =  inventroy.year + "-" + inventroy.week;
+                });
 
             }
 
             if (resultInventroyPerMonth  && resultInventroyPerMonth.length > 0 ) {
 
                 resultInventroyPerMonth.forEach(function(inventroy){
-                    inventroy.date =  inventroy.year + "-" + inventroy.month
-                })
+                    inventroy.date =  inventroy.year + "-" + inventroy.month;
+                });
 
             }
 
@@ -962,9 +962,127 @@ exports.dishDailySalesChart = function(req, res, next) {
                 byDaily : resultInventroyPerDay,
                 byWeek : resultInventroyPerWeek,
                 byMonth : resultInventroyPerMonth
-            })
+            });
         }).catch(next);
 
+
+    }).catch(next);
+
+
+
+
+
+};
+
+
+
+
+
+
+
+exports.dishDailySalesTest = function(req, res, next) {
+
+    var query = {};
+
+
+    query._id = "5636e0c145a39ea057572df7";
+
+
+
+
+
+    var dishIdList = [];
+    var dishHash = {};
+
+    var pipelinePerDeliveryDay = [];
+
+    models.dish.find(query).lean().execAsync().then(function(resultDishList) {
+
+
+        dishIdList = resultDishList.map(function (dish) {
+            return ObjectId(dish._id.toString());
+        });
+        console.log(dishIdList)
+        resultDishList.forEach(function(dish){
+            dishHash[dish._id.toString()] = dish;
+        });
+
+
+        pipelinePerDeliveryDay.push (
+            { "$match":{
+                "dish" : {$in:dishIdList},
+                "isPlus" : false,
+                "remark" : models.inventory.constantRemark().userOrder
+            }},
+
+            { $project :{
+                _id : 1,
+                createdAt : 1,
+                user : 1,
+                order: 1,
+                dish : 1,
+                quantity : 1,
+                isPlus : 1,
+                remark : 1,
+                deliveryDateTime : 1,
+                clientFrom : 1,
+
+                year: { $year: "$deliveryDateTime" },
+                month: { $month: "$deliveryDateTime" },
+                day: { $dayOfMonth: "$deliveryDateTime" },
+                hour: { $hour: "$deliveryDateTime" },
+                minutes: { $minute: "$deliveryDateTime" },
+                dayOfYear: { $dayOfYear: "$deliveryDateTime" },
+                dayOfWeek: { $dayOfWeek: "$deliveryDateTime" },
+                week: { $week: "$deliveryDateTime" }
+            }},
+
+            { "$group": {
+                "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
+
+                "dishSaleQuantityDeliveryDate": { "$sum": "$quantity" },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+            }},
+
+            { $project :{
+                _id : 0,
+                "dish" : "$_id.dish",
+                "day" : "$_id.day",
+                "month" : "$_id.month",
+                "year" : "$_id.year",
+
+                "dishSaleQuantityDeliveryDate": 1,
+                "dishList": 1
+
+            }},
+
+            { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantityDeliveryDate":1 } },
+            { "$limit": 5000 }
+        );
+
+
+
+
+        models.inventory.aggregateAsync( pipelinePerDeliveryDay).then(function(resultInventroyPerDeliveryDay){
+
+            var tempDishObject ={};
+
+            if (resultInventroyPerDeliveryDay  && resultInventroyPerDeliveryDay.length > 0 ) {
+
+                resultInventroyPerDeliveryDay.forEach(function(inventroy){
+                    inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
+                    inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
+                    inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
+                    inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
+                    inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
+                });
+            }
+
+
+            res.status(200).json(resultInventroyPerDeliveryDay);
+
+        }).catch(next);
 
     }).catch(next);
 
