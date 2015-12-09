@@ -183,7 +183,7 @@ module.exports =
         finalPrice
 
 
-    reduceStock : (stockNumber, warehouseId, user, remark, orderId ) ->
+    reduceStock : (stockNumber, warehouseId, user, remark, orderId, deliveryDateTime, clientFrom ) ->
 
       dishNow = @
 
@@ -214,6 +214,8 @@ module.exports =
 
             newInventoryChange.remark = remark if remark
             newInventoryChange.order = orderId if orderId
+            newInventoryChange.deliveryDateTime = deliveryDateTime if deliveryDateTime
+            newInventoryChange.clientFrom = clientFrom if clientFrom
 
             models.inventory.createAsync(newInventoryChange)
 

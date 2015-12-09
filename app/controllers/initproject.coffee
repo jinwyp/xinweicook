@@ -151,6 +151,36 @@ exports.addUserStatisticsClientFrom = (req, res, next) ->
 
 
 
+exports.fixDishInventoryForDeliveryDate = (req, res, next) ->
+
+  query =
+    deliveryDateTime : { $exists: false}
+    remark : models.inventory.constantRemark().userOrder
+
+  inventoryList = {}
+  promiseList = []
+
+  models.inventory.findAsync({query}).then (resultList) ->
+
+    for inventory, inventoryIndex in resultList
+      inventoryList[inventoryIndex] = inventory
+      promiseList.push (models.order.findOneAsync({_id: inventory.order }))
+
+    Promise.all(promiseList)
+
+  .then (resultOrderList) ->
+    for order, orderIndex in resultOrderList
+      inventoryList[orderIndex].deliveryDateTime = order.deliveryDateTime
+      inventoryList[orderIndex].clientFrom = order.clientFrom
+      inventoryList[orderIndex].saveAsync()
+
+    res.json inventoryList
+
+  .catch next
+
+
+
+
 exports.fixDishInventoryForCaohejin1 = (req, res, next) ->
 
   query =

@@ -530,6 +530,7 @@ exports.dishDailySales = function(req, res, next) {
     var dishIdList = [];
     var dishHash = {};
     var pipelinePerDay = [];
+    var pipelinePerDeliveryDay = [];
 
     models.dish.find(query).lean().execAsync().then(function(resultDishList) {
 
@@ -595,12 +596,89 @@ exports.dishDailySales = function(req, res, next) {
             { "$limit": 5000 }
         );
 
+        pipelinePerDeliveryDay.push (
+            { "$match":{
+                "warehouse" : matchQueryWarehouse,
+                "dish" : {$in:dishIdList},
+                "isPlus" : false,
+                "remark" : models.inventory.constantRemark().userOrder
+
+            }},
+
+            { $project :{
+                _id : 1,
+                createdAt : 1,
+                user : 1,
+                order: 1,
+                dish : 1,
+                quantity : 1,
+                isPlus : 1,
+                remark : 1,
+
+                year: { $year: "$deliveryDateTime" },
+                month: { $month: "$deliveryDateTime" },
+                day: { $dayOfMonth: "$createdAt" },
+                hour: { $hour: "$deliveryDateTime" },
+                minutes: { $minute: "$deliveryDateTime" },
+                dayOfYear: { $dayOfYear: "$deliveryDateTime" },
+                dayOfWeek: { $dayOfWeek: "$deliveryDateTime" },
+                week: { $week: "$deliveryDateTime" }
+            }},
+
+            { "$group": {
+                "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
+
+                "dishSaleQuantity": { "$sum": "$quantity" },
+                "dishList": { "$push": { "_id": "$dish", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark"  } }
+            }},
+
+            { $project :{
+                _id : 0,
+                "dish" : "$_id.dish",
+                "day" : "$_id.day",
+                "month" : "$_id.month",
+                "year" : "$_id.year",
+
+                "dishSaleQuantity": 1,
+                "dishList": 1
+
+            }},
+
+            { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
+            { "$limit": 5000 }
+        );
+
 
         if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
             pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)}
+            pipelinePerDeliveryDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)}
         }
 
-        models.inventory.aggregateAsync( pipelinePerDay).then(function(resultInventroyPerDay){
+
+
+        var promiseList = [
+            models.inventory.aggregateAsync( pipelinePerDay),
+            models.inventory.aggregateAsync( pipelinePerDeliveryDay)
+        ];
+
+        Promise.all(promiseList).spread(function( resultInventroyPerDay, resultInventroyPerDeliveryDay){
+
+            var tempDishObject ={};
+
+            if (resultInventroyPerDeliveryDay  && resultInventroyPerDeliveryDay.length > 0 ) {
+
+                resultInventroyPerDeliveryDay.forEach(function(inventroy){
+                    inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
+                    inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
+                    inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
+                    inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
+                    inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
+                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
+
+                    tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] = inventroy.dishSaleQuantity;
+                });
+            }
+
 
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
 
@@ -611,9 +689,10 @@ exports.dishDailySales = function(req, res, next) {
                     inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
                     inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
                     inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
+                    inventroy.dishSaleQuantityDeliveryDay =  tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] || "";
                 });
-
             }
+
 
             res.status(200).json(resultInventroyPerDay);
 
