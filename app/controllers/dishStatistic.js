@@ -601,8 +601,8 @@ exports.dishDailySales = function(req, res, next) {
                 "warehouse" : matchQueryWarehouse,
                 "dish" : {$in:dishIdList},
                 "isPlus" : false,
-                "remark" : models.inventory.constantRemark().userOrder
-
+                "remark" : models.inventory.constantRemark().userOrder,
+                "deliveryDateTime" : { $exists: true}
             }},
 
             { $project :{
