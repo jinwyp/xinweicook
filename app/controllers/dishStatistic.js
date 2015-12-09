@@ -690,6 +690,7 @@ exports.dishDailySales = function(req, res, next) {
                     inventroyPerDay.isPublished = dishHash[inventroyPerDay.dish.toString()].isPublished;
                     inventroyPerDay.date =  inventroyPerDay.year + "-" + inventroyPerDay.month + "-" + inventroyPerDay.day;
                     inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] || "";
+                    
                 });
             }
 
