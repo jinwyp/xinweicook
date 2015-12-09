@@ -682,19 +682,23 @@ exports.dishDailySales = function(req, res, next) {
 
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
 
-                resultInventroyPerDay.forEach(function(inventroy){
-                    inventroy.dishname = dishHash[inventroy.dish.toString()].title.zh;
-                    inventroy.cookingType = dishHash[inventroy.dish.toString()].cookingType;
-                    inventroy.sideDishType = dishHash[inventroy.dish.toString()].sideDishType;
-                    inventroy.priceOriginal = dishHash[inventroy.dish.toString()].priceOriginal;
-                    inventroy.isPublished = dishHash[inventroy.dish.toString()].isPublished;
-                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
-                    inventroy.dishSaleQuantityDeliveryDay =  tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] || "";
+                resultInventroyPerDay.forEach(function(inventroyPerDay){
+                    inventroyPerDay.dishname = dishHash[inventroyPerDay.dish.toString()].title.zh;
+                    inventroyPerDay.cookingType = dishHash[inventroyPerDay.dish.toString()].cookingType;
+                    inventroyPerDay.sideDishType = dishHash[inventroyPerDay.dish.toString()].sideDishType;
+                    inventroyPerDay.priceOriginal = dishHash[inventroyPerDay.dish.toString()].priceOriginal;
+                    inventroyPerDay.isPublished = dishHash[inventroyPerDay.dish.toString()].isPublished;
+                    inventroyPerDay.date =  inventroyPerDay.year + "-" + inventroyPerDay.month + "-" + inventroyPerDay.day;
+                    inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] || "";
                 });
             }
 
+            var result = {
+                perDay : resultInventroyPerDay,
+                perDeliveryDay : resultInventroyPerDeliveryDay
+            };
 
-            res.status(200).json(resultInventroyPerDay);
+            res.status(200).json(result);
 
         }).catch(next);
 

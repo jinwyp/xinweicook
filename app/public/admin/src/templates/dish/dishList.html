@@ -264,7 +264,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in data.dishStatisticByDaily | filter: data.searchFilter  ">
+        <tr ng-repeat="dish in data.dishStatisticByDaily.perDay | filter: data.searchFilter  ">
             <td>{{dish.year}}-{{dish.month}}-{{dish.day}}</td>
             <td><a ui-sref="menu.updateDish({ id: dish.dish })">{{dish.dish}}</a> <br/> {{dish.dishname}} <a ng-click="showChart(dish.dish)">销量图</a></td>
             <td>{{dish.cookingType}}</td>

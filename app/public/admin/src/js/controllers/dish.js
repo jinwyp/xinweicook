@@ -42,7 +42,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         warehouseList : [],
 
         dishStatisticByStock : [],
-        dishStatisticByDaily : [],
+        dishStatisticByDaily : {},
         dishStatisticChartByDaily : [],
         dishStatisticChartByWeek : [],
 
