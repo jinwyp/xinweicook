@@ -160,7 +160,7 @@ exports.fixDishInventoryForDeliveryDate = (req, res, next) ->
   inventoryList = {}
   promiseList = []
 
-  models.inventory.findAsync({query}).then (resultList) ->
+  models.inventory.find({query}).limit(3000).execAsync().then (resultList) ->
 
     for inventory, inventoryIndex in resultList
       inventoryList[inventoryIndex] = inventory
