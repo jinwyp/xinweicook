@@ -17,8 +17,8 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
         query._id = req.query._id;
     }
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.createdAt = { $gte: new Date(req.query.createdAt)};
+    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+        query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
@@ -104,7 +104,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
             matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
         }
     }else{
-        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc60')]};
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
 
     // Grouping pipeline
@@ -502,7 +502,7 @@ exports.dishDailySales = function(req, res, next) {
             matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
         }
     }else{
-        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc60')]};
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
 
 
@@ -511,8 +511,8 @@ exports.dishDailySales = function(req, res, next) {
         query._id = req.query._id;
     }
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.createdAt = { $gte: new Date(req.query.createdAt)};
+    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+        query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
