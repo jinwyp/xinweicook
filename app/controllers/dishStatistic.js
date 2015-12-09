@@ -17,9 +17,9 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
         query._id = req.query._id;
     }
 
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
-    }
+    // if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+    //     query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
+    // }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         query.cookingType = req.query.cookingType;
@@ -509,10 +509,6 @@ exports.dishDailySales = function(req, res, next) {
 
     if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
         query._id = req.query._id;
-    }
-
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
