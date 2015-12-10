@@ -1,10 +1,9 @@
 import React from 'react'
-import CartDish from './cart-dish-list'
+import CartDishList from './cart-dish-list'
 
 var Cart = React.createClass({
 
     render: function () {
-        const {dishList, stockWarehouse} = this.props
         const props = this.props
 
         var dishList = {cookList: [], eatList: []}
@@ -18,18 +17,19 @@ var Cart = React.createClass({
 
         return (
             <div>
-                Object.keys(dishList).map(
-                    name => {
-                        var title = name == 'cookList' ? '食材包' : '便当'
-                        return (
-                            <div class="tabbtn clearfix"><a href="javascript:;" class="cook act">{title}</a></div>
-                            <CartDish {...props.methods} dishList={dishList[name]} stockWarehouse={stockWarehouse}/>
+                {
+                    Object.keys(dishList).filter(name => dishList[name].length > 0).map(
+                        name => (
+                            <div key={name}>
+                                <div className="tabbtn clearfix"><a className="cook">{name == 'cookList' ? '食材包' : '便当'}</a></div>
+                                <CartDishList {...props.methods} dishList={name == 'cookList' ? dishList.cookList : dishList.eatList} warehouse={props.warehouse}/>
+                            </div>
                         )
-                    }
-                )
+                    )
+                }
             </div>
         )
     }
 });
 
-export default CartDishList;
+export default Cart;

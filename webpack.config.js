@@ -7,10 +7,13 @@ var BUILD_DEV = JSON.parse(process.env.BUILD_DEV || 'true');
 // webpack.config.js
 module.exports = {
     context: path.join(__dirname, "./app/public/pc/src/js"),
-    entry: './pages/sign.js',
+    entry: {
+        sign: './pages/sign.js',
+        cart: './pages/cart.js'
+    },
     output: {
         path: path.join(__dirname, "./app/public/pc/dist/js"),
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     module: {
         loaders: [

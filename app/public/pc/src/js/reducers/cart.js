@@ -1,58 +1,54 @@
 import * as types from '../constants/ActionTypes'
 import { combineReducers } from 'redux'
+import { hasStock } from '../utils/dish'
 
-
-
-function cart(state = {
-    dishList: [],
-    stockWarehouse: ''
-}, action) {
+export default function cart(state = [], action) {
     switch (action.type) {
         case types.CART_PLUS_DISH:
-            return plusDish(action.id, state.dishList)
+            return state.map(item => {
+                item._id == action.id && item.number++
+                return item
+            })
         case types.CART_MINUS_DISH:
-            return minusDish(action.id, state.dishList)
-    }
-}
-
-function plusDish(id, cart) {
-    cart.some(item => {
-        if (item._id == id) {
-            item.number++
-            return true
-        }
-    })
-}
-
-function minusDish(id, cart) {
-    cart.some((item, i) => {
-        if (item._id == id) {
-            item.number--
-            if (!item.number) {
-                cart.splice(i, 1)
+            return state.map(item => {
+                item._id == action.id && item.number--
+                return item
+            })
+        case types.CART_DEL_DISH:
+            return state.filter(item => item._id != action.id)
+        // todo: 这里应当是购物车的action,但是购物车又是挂在user对象上,随着user获取而获取的
+        case types.FETCH_USER:
+            if (action.status == 'success') {
+                return action.user.shoppingCart.map(item => {
+                    item.hasStock = hasStock(item, action.warehouse)
+                    return item
+                })
             }
-            return true
-        }
-    })
-}
+            return state
+        case types.SELECT_ADDRESS:
+            return state.map(item => {
+                item.hasStock = hasStock(item, action.warehouse)
+                item.selected = item.selected && item.hasStock
+                return item
+            })
+        case types.CART_SELECT_ONE:
+            return state.map(item => {
+                if (item._id == action.id) {
+                    item.selected = !item.selected && item.hasStock
+                }
+                return item
+            })
+        case types.CART_SELECT_ALL:
+            var dishList = state.filter(item => item.dish.cookingType == action.cookingType);
+            var isSelectedAll = !(dishList.every(item => item.selected || !item.hasStock)
+                && dishList.some(item => item.selected))
+            return state.map(item => {
+                if (item.dish.cookingType == action.cookingType) {
+                    item.selected = isSelectedAll && item.hasStock
+                }
+                return item
+            })
 
-function signUpValue(state = {
-    mobile: '',
-    smsCode: '',
-    pwd: ''
-}, action) {
-    switch (action.type) {
-        case types.SIGNUP_SEND:
-            return {...action.data}
-    default:
-        return state;
+        default: return state
     }
 }
-
-
-var signReducer = combineReducers({
-    signInValue, signUpValue
-})
-
-export default signReducer
-

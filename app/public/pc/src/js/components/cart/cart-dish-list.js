@@ -3,23 +3,17 @@ import CartDish from './cart-dish'
 
 var CartDishList = React.createClass({
 
-    _hasStock: function (item, stockWarehouse) {
-        var mDish = item.dish;
-        return item.dish.stockWarehouse[stockWarehouse] > 0
-            && item.subDish.every(it=>this.hasStock(it, stockWarehouse))
-    }
-
     render: function () {
-        const {dishList, stockWarehouse} = this.props
+        const {dishList} = this.props
         const props = this.props
-        var selectedAll = dishList.every(item =>
-            item.selected || this._hasStock(item, stockWarehouse))
-        var selectedAll = selectedAll && dishList.some(item => item.selected)
+        var cookingType = dishList[0].dish.cookingType;
+        var selectedAll = dishList.every(item => item.selected || !item.hasStock)
+            && dishList.some(item => item.selected)
 
         return (
             <div className="cart-dish-list">
                 <div className="header">
-                    <span onClick="props.selectAll" className={selectedAll ? 'fa fa-square-o' : 'fa fa-check-square-o'}></span>
+                    <span onClick={() => props.selectAll(cookingType)} className={'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o')}></span>
                     <span>全选</span>
                     <span>数量</span>
                     <span>价格</span>
@@ -28,7 +22,7 @@ var CartDishList = React.createClass({
                     {
                         dishList.map(item =>
                             <li key={item._id}>
-                                <CartDish key={item._id} {...item} minus={props.minus} plus={props.plus} del={props.del}/>
+                                <CartDish {...item} minusDish={props.minusDish} plusDish={props.plusDish} delDish={props.delDish} selectOne={props.selectOne}/>
                             </li>
                         )
                     }

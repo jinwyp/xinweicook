@@ -58,42 +58,93 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRedux = __webpack_require__(357);
+	var _reactRedux = __webpack_require__(348);
 
-	var _configureSignStore = __webpack_require__(366);
+	var _configureCartStore = __webpack_require__(366);
 
-	var _configureSignStore2 = _interopRequireDefault(_configureSignStore);
+	var _configureCartStore2 = _interopRequireDefault(_configureCartStore);
 
-	var _sign = __webpack_require__(370);
+	var _cart = __webpack_require__(369);
 
-	var _signin = __webpack_require__(374);
+	var cartAction = _interopRequireWildcard(_cart);
 
-	var _signin2 = _interopRequireDefault(_signin);
+	var _address = __webpack_require__(389);
 
-	var _signup = __webpack_require__(375);
+	var addressAction = _interopRequireWildcard(_address);
 
-	var _signup2 = _interopRequireDefault(_signup);
+	var _cart2 = __webpack_require__(381);
+
+	var _cart3 = _interopRequireDefault(_cart2);
+
+	var _addressList = __webpack_require__(385);
+
+	var _addressList2 = _interopRequireDefault(_addressList);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var App = _react2.default.createClass({
 	    displayName: "App",
 
+	    componentDidMount: function componentDidMount() {
+	        this.props.dispatch(cartAction.getCart());
+	        this.props.dispatch(addressAction.getList());
+	    },
 	    render: function render() {
 	        var _props = this.props;
-	        var signUpValue = _props.signUpValue;
-	        var signInValue = _props.signInValue;
+	        var warehouse = _props.warehouse;
+	        var cart = _props.cart;
 	        var dispatch = _props.dispatch;
+	        var address = _props.address;
+	        var user = _props.user;
 
+	        var cartMethods = {
+	            selectOne: function selectOne(id) {
+	                return dispatch(cartAction.selectOne(id));
+	            },
+	            selectAll: function selectAll(cookingType) {
+	                return dispatch(cartAction.selectAll(cookingType));
+	            },
+	            plusDish: function plusDish(id) {
+	                return dispatch(cartAction.plusDish(id));
+	            },
+	            minusDish: function minusDish(id) {
+	                return dispatch(cartAction.minusDish(id));
+	            },
+	            delDish: function delDish(id) {
+	                return dispatch(cartAction.delDish(id));
+	            }
+	        };
+	        var addressMethods = {
+	            addOne: function addOne() {
+	                return dispatch(addressAction.editAddress());
+	            },
+	            select: function select(id, warehouse) {
+	                return dispatch(addressAction.select(id, warehouse));
+	            },
+	            getList: function getList() {
+	                return dispatch(addressAction.getList());
+	            },
+	            putOne: function putOne(address) {
+	                return dispatch(addressAction.putOne(address));
+	            },
+	            postOne: function postOne(address) {
+	                return dispatch(addressAction.postOne(address));
+	            },
+	            delOne: function delOne(id) {
+	                return dispatch(addressAction.delOne(id));
+	            }
+	        };
 	        return _react2.default.createElement(
 	            "div",
-	            null,
-	            _react2.default.createElement(_signin2.default, _extends({}, signInValue, { signIn: function signIn(data) {
-	                    return dispatch((0, _sign.signIn)(data));
-	                } })),
-	            _react2.default.createElement(_signup2.default, _extends({}, signUpValue, { signUp: function signUp(data) {
-	                    return dispatch((0, _sign.signUp)(data));
-	                } }))
+	            { className: "cart-main" },
+	            _react2.default.createElement(_cart3.default, { methods: cartMethods, cart: cart, warehouse: warehouse }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "cart-main-right" },
+	                _react2.default.createElement(_addressList2.default, _extends({}, address, addressMethods, { warehouse: warehouse }))
+	            )
 	        );
 	    }
 	});
@@ -102,7 +153,7 @@
 	    return state;
 	})(App);
 
-	var store = (0, _configureSignStore2.default)();
+	var store = (0, _configureCartStore2.default)();
 
 	var rootElement = document.getElementById('react-root');
 
@@ -24874,602 +24925,18 @@
 
 	exports.__esModule = true;
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _createStore = __webpack_require__(349);
-
-	var _createStore2 = _interopRequireDefault(_createStore);
-
-	var _utilsCombineReducers = __webpack_require__(351);
-
-	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
-
-	var _utilsBindActionCreators = __webpack_require__(354);
-
-	var _utilsBindActionCreators2 = _interopRequireDefault(_utilsBindActionCreators);
-
-	var _utilsApplyMiddleware = __webpack_require__(355);
-
-	var _utilsApplyMiddleware2 = _interopRequireDefault(_utilsApplyMiddleware);
-
-	var _utilsCompose = __webpack_require__(356);
-
-	var _utilsCompose2 = _interopRequireDefault(_utilsCompose);
-
-	exports.createStore = _createStore2['default'];
-	exports.combineReducers = _utilsCombineReducers2['default'];
-	exports.bindActionCreators = _utilsBindActionCreators2['default'];
-	exports.applyMiddleware = _utilsApplyMiddleware2['default'];
-	exports.compose = _utilsCompose2['default'];
-
-/***/ },
-/* 349 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = createStore;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _utilsIsPlainObject = __webpack_require__(350);
-
-	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
-
-	/**
-	 * These are private action types reserved by Redux.
-	 * For any unknown actions, you must return the current state.
-	 * If the current state is undefined, you must return the initial state.
-	 * Do not reference these action types directly in your code.
-	 */
-	var ActionTypes = {
-	  INIT: '@@redux/INIT'
-	};
-
-	exports.ActionTypes = ActionTypes;
-	/**
-	 * Creates a Redux store that holds the state tree.
-	 * The only way to change the data in the store is to call `dispatch()` on it.
-	 *
-	 * There should only be a single store in your app. To specify how different
-	 * parts of the state tree respond to actions, you may combine several reducers
-	 * into a single reducer function by using `combineReducers`.
-	 *
-	 * @param {Function} reducer A function that returns the next state tree, given
-	 * the current state tree and the action to handle.
-	 *
-	 * @param {any} [initialState] The initial state. You may optionally specify it
-	 * to hydrate the state from the server in universal apps, or to restore a
-	 * previously serialized user session.
-	 * If you use `combineReducers` to produce the root reducer function, this must be
-	 * an object with the same shape as `combineReducers` keys.
-	 *
-	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
-	 * and subscribe to changes.
-	 */
-
-	function createStore(reducer, initialState) {
-	  if (typeof reducer !== 'function') {
-	    throw new Error('Expected the reducer to be a function.');
-	  }
-
-	  var currentReducer = reducer;
-	  var currentState = initialState;
-	  var listeners = [];
-	  var isDispatching = false;
-
-	  /**
-	   * Reads the state tree managed by the store.
-	   *
-	   * @returns {any} The current state tree of your application.
-	   */
-	  function getState() {
-	    return currentState;
-	  }
-
-	  /**
-	   * Adds a change listener. It will be called any time an action is dispatched,
-	   * and some part of the state tree may potentially have changed. You may then
-	   * call `getState()` to read the current state tree inside the callback.
-	   *
-	   * @param {Function} listener A callback to be invoked on every dispatch.
-	   * @returns {Function} A function to remove this change listener.
-	   */
-	  function subscribe(listener) {
-	    listeners.push(listener);
-	    var isSubscribed = true;
-
-	    return function unsubscribe() {
-	      if (!isSubscribed) {
-	        return;
-	      }
-
-	      isSubscribed = false;
-	      var index = listeners.indexOf(listener);
-	      listeners.splice(index, 1);
-	    };
-	  }
-
-	  /**
-	   * Dispatches an action. It is the only way to trigger a state change.
-	   *
-	   * The `reducer` function, used to create the store, will be called with the
-	   * current state tree and the given `action`. Its return value will
-	   * be considered the **next** state of the tree, and the change listeners
-	   * will be notified.
-	   *
-	   * The base implementation only supports plain object actions. If you want to
-	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
-	   * wrap your store creating function into the corresponding middleware. For
-	   * example, see the documentation for the `redux-thunk` package. Even the
-	   * middleware will eventually dispatch plain object actions using this method.
-	   *
-	   * @param {Object} action A plain object representing “what changed”. It is
-	   * a good idea to keep actions serializable so you can record and replay user
-	   * sessions, or use the time travelling `redux-devtools`. An action must have
-	   * a `type` property which may not be `undefined`. It is a good idea to use
-	   * string constants for action types.
-	   *
-	   * @returns {Object} For convenience, the same action object you dispatched.
-	   *
-	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
-	   * return something else (for example, a Promise you can await).
-	   */
-	  function dispatch(action) {
-	    if (!_utilsIsPlainObject2['default'](action)) {
-	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
-	    }
-
-	    if (typeof action.type === 'undefined') {
-	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
-	    }
-
-	    if (isDispatching) {
-	      throw new Error('Reducers may not dispatch actions.');
-	    }
-
-	    try {
-	      isDispatching = true;
-	      currentState = currentReducer(currentState, action);
-	    } finally {
-	      isDispatching = false;
-	    }
-
-	    listeners.slice().forEach(function (listener) {
-	      return listener();
-	    });
-	    return action;
-	  }
-
-	  /**
-	   * Replaces the reducer currently used by the store to calculate the state.
-	   *
-	   * You might need this if your app implements code splitting and you want to
-	   * load some of the reducers dynamically. You might also need this if you
-	   * implement a hot reloading mechanism for Redux.
-	   *
-	   * @param {Function} nextReducer The reducer for the store to use instead.
-	   * @returns {void}
-	   */
-	  function replaceReducer(nextReducer) {
-	    currentReducer = nextReducer;
-	    dispatch({ type: ActionTypes.INIT });
-	  }
-
-	  // When a store is created, an "INIT" action is dispatched so that every
-	  // reducer returns their initial state. This effectively populates
-	  // the initial state tree.
-	  dispatch({ type: ActionTypes.INIT });
-
-	  return {
-	    dispatch: dispatch,
-	    subscribe: subscribe,
-	    getState: getState,
-	    replaceReducer: replaceReducer
-	  };
-	}
-
-/***/ },
-/* 350 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = isPlainObject;
-	var fnToString = function fnToString(fn) {
-	  return Function.prototype.toString.call(fn);
-	};
-
-	/**
-	 * @param {any} obj The object to inspect.
-	 * @returns {boolean} True if the argument appears to be a plain object.
-	 */
-
-	function isPlainObject(obj) {
-	  if (!obj || typeof obj !== 'object') {
-	    return false;
-	  }
-
-	  var proto = typeof obj.constructor === 'function' ? Object.getPrototypeOf(obj) : Object.prototype;
-
-	  if (proto === null) {
-	    return true;
-	  }
-
-	  var constructor = proto.constructor;
-
-	  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 351 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = combineReducers;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _createStore = __webpack_require__(349);
-
-	var _utilsIsPlainObject = __webpack_require__(350);
-
-	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
-
-	var _utilsMapValues = __webpack_require__(352);
-
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
-
-	var _utilsPick = __webpack_require__(353);
-
-	var _utilsPick2 = _interopRequireDefault(_utilsPick);
-
-	/* eslint-disable no-console */
-
-	function getUndefinedStateErrorMessage(key, action) {
-	  var actionType = action && action.type;
-	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
-
-	  return 'Reducer "' + key + '" returned undefined handling ' + actionName + '. ' + 'To ignore an action, you must explicitly return the previous state.';
-	}
-
-	function getUnexpectedStateKeyWarningMessage(inputState, outputState, action) {
-	  var reducerKeys = Object.keys(outputState);
-	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
-
-	  if (reducerKeys.length === 0) {
-	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
-	  }
-
-	  if (!_utilsIsPlainObject2['default'](inputState)) {
-	    return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
-	  }
-
-	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
-	    return reducerKeys.indexOf(key) < 0;
-	  });
-
-	  if (unexpectedKeys.length > 0) {
-	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
-	  }
-	}
-
-	function assertReducerSanity(reducers) {
-	  Object.keys(reducers).forEach(function (key) {
-	    var reducer = reducers[key];
-	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
-
-	    if (typeof initialState === 'undefined') {
-	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
-	    }
-
-	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
-	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
-	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
-	    }
-	  });
-	}
-
-	/**
-	 * Turns an object whose values are different reducer functions, into a single
-	 * reducer function. It will call every child reducer, and gather their results
-	 * into a single state object, whose keys correspond to the keys of the passed
-	 * reducer functions.
-	 *
-	 * @param {Object} reducers An object whose values correspond to different
-	 * reducer functions that need to be combined into one. One handy way to obtain
-	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
-	 * undefined for any action. Instead, they should return their initial state
-	 * if the state passed to them was undefined, and the current state for any
-	 * unrecognized action.
-	 *
-	 * @returns {Function} A reducer function that invokes every reducer inside the
-	 * passed object, and builds a state object with the same shape.
-	 */
-
-	function combineReducers(reducers) {
-	  var finalReducers = _utilsPick2['default'](reducers, function (val) {
-	    return typeof val === 'function';
-	  });
-	  var sanityError;
-
-	  try {
-	    assertReducerSanity(finalReducers);
-	  } catch (e) {
-	    sanityError = e;
-	  }
-
-	  var defaultState = _utilsMapValues2['default'](finalReducers, function () {
-	    return undefined;
-	  });
-
-	  return function combination(state, action) {
-	    if (state === undefined) state = defaultState;
-
-	    if (sanityError) {
-	      throw sanityError;
-	    }
-
-	    var hasChanged = false;
-	    var finalState = _utilsMapValues2['default'](finalReducers, function (reducer, key) {
-	      var previousStateForKey = state[key];
-	      var nextStateForKey = reducer(previousStateForKey, action);
-	      if (typeof nextStateForKey === 'undefined') {
-	        var errorMessage = getUndefinedStateErrorMessage(key, action);
-	        throw new Error(errorMessage);
-	      }
-	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-	      return nextStateForKey;
-	    });
-
-	    if (process.env.NODE_ENV !== 'production') {
-	      var warningMessage = getUnexpectedStateKeyWarningMessage(state, finalState, action);
-	      if (warningMessage) {
-	        console.error(warningMessage);
-	      }
-	    }
-
-	    return hasChanged ? finalState : state;
-	  };
-	}
-
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
-
-/***/ },
-/* 352 */
-/***/ function(module, exports) {
-
-	/**
-	 * Applies a function to every key-value pair inside an object.
-	 *
-	 * @param {Object} obj The source object.
-	 * @param {Function} fn The mapper function that receives the value and the key.
-	 * @returns {Object} A new object that contains the mapped values for the keys.
-	 */
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = mapValues;
-
-	function mapValues(obj, fn) {
-	  return Object.keys(obj).reduce(function (result, key) {
-	    result[key] = fn(obj[key], key);
-	    return result;
-	  }, {});
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 353 */
-/***/ function(module, exports) {
-
-	/**
-	 * Picks key-value pairs from an object where values satisfy a predicate.
-	 *
-	 * @param {Object} obj The object to pick from.
-	 * @param {Function} fn The predicate the values must satisfy to be copied.
-	 * @returns {Object} The object with the values that satisfied the predicate.
-	 */
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = pick;
-
-	function pick(obj, fn) {
-	  return Object.keys(obj).reduce(function (result, key) {
-	    if (fn(obj[key])) {
-	      result[key] = obj[key];
-	    }
-	    return result;
-	  }, {});
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 354 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports['default'] = bindActionCreators;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _utilsMapValues = __webpack_require__(352);
-
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
-
-	function bindActionCreator(actionCreator, dispatch) {
-	  return function () {
-	    return dispatch(actionCreator.apply(undefined, arguments));
-	  };
-	}
-
-	/**
-	 * Turns an object whose values are action creators, into an object with the
-	 * same keys, but with every function wrapped into a `dispatch` call so they
-	 * may be invoked directly. This is just a convenience method, as you can call
-	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
-	 *
-	 * For convenience, you can also pass a single function as the first argument,
-	 * and get a function in return.
-	 *
-	 * @param {Function|Object} actionCreators An object whose values are action
-	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
-	 * syntax. You may also pass a single function.
-	 *
-	 * @param {Function} dispatch The `dispatch` function available on your Redux
-	 * store.
-	 *
-	 * @returns {Function|Object} The object mimicking the original object, but with
-	 * every action creator wrapped into the `dispatch` call. If you passed a
-	 * function as `actionCreators`, the return value will also be a single
-	 * function.
-	 */
-
-	function bindActionCreators(actionCreators, dispatch) {
-	  if (typeof actionCreators === 'function') {
-	    return bindActionCreator(actionCreators, dispatch);
-	  }
-
-	  if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
-	    // eslint-disable-line no-eq-null
-	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
-	  }
-
-	  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
-	    return bindActionCreator(actionCreator, dispatch);
-	  });
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 355 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports['default'] = applyMiddleware;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _compose = __webpack_require__(356);
-
-	var _compose2 = _interopRequireDefault(_compose);
-
-	/**
-	 * Creates a store enhancer that applies middleware to the dispatch method
-	 * of the Redux store. This is handy for a variety of tasks, such as expressing
-	 * asynchronous actions in a concise manner, or logging every action payload.
-	 *
-	 * See `redux-thunk` package as an example of the Redux middleware.
-	 *
-	 * Because middleware is potentially asynchronous, this should be the first
-	 * store enhancer in the composition chain.
-	 *
-	 * Note that each middleware will be given the `dispatch` and `getState` functions
-	 * as named arguments.
-	 *
-	 * @param {...Function} middlewares The middleware chain to be applied.
-	 * @returns {Function} A store enhancer applying the middleware.
-	 */
-
-	function applyMiddleware() {
-	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
-	    middlewares[_key] = arguments[_key];
-	  }
-
-	  return function (next) {
-	    return function (reducer, initialState) {
-	      var store = next(reducer, initialState);
-	      var _dispatch = store.dispatch;
-	      var chain = [];
-
-	      var middlewareAPI = {
-	        getState: store.getState,
-	        dispatch: function dispatch(action) {
-	          return _dispatch(action);
-	        }
-	      };
-	      chain = middlewares.map(function (middleware) {
-	        return middleware(middlewareAPI);
-	      });
-	      _dispatch = _compose2['default'].apply(undefined, chain)(store.dispatch);
-
-	      return _extends({}, store, {
-	        dispatch: _dispatch
-	      });
-	    };
-	  };
-	}
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 356 */
-/***/ function(module, exports) {
-
-	/**
-	 * Composes single-argument functions from right to left.
-	 *
-	 * @param {...Function} funcs The functions to compose.
-	 * @returns {Function} A function obtained by composing functions from right to
-	 * left. For example, compose(f, g, h) is identical to arg => f(g(h(arg))).
-	 */
-	"use strict";
-
-	exports.__esModule = true;
-	exports["default"] = compose;
-
-	function compose() {
-	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
-	    funcs[_key] = arguments[_key];
-	  }
-
-	  return function (arg) {
-	    return funcs.reduceRight(function (composed, f) {
-	      return f(composed);
-	    }, arg);
-	  };
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 357 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
 	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-	var _componentsProvider = __webpack_require__(358);
+	var _componentsProvider = __webpack_require__(349);
 
 	exports.Provider = _interopRequire(_componentsProvider);
 
-	var _componentsConnect = __webpack_require__(360);
+	var _componentsConnect = __webpack_require__(351);
 
 	exports.connect = _interopRequire(_componentsConnect);
 
 /***/ },
-/* 358 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25484,7 +24951,7 @@
 
 	var _react = __webpack_require__(191);
 
-	var _utilsStoreShape = __webpack_require__(359);
+	var _utilsStoreShape = __webpack_require__(350);
 
 	var _utilsStoreShape2 = _interopRequireDefault(_utilsStoreShape);
 
@@ -25543,7 +25010,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 359 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25560,7 +25027,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 360 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -25581,19 +25048,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _utilsStoreShape = __webpack_require__(359);
+	var _utilsStoreShape = __webpack_require__(350);
 
 	var _utilsStoreShape2 = _interopRequireDefault(_utilsStoreShape);
 
-	var _utilsShallowEqual = __webpack_require__(361);
+	var _utilsShallowEqual = __webpack_require__(352);
 
 	var _utilsShallowEqual2 = _interopRequireDefault(_utilsShallowEqual);
 
-	var _utilsIsPlainObject = __webpack_require__(362);
+	var _utilsIsPlainObject = __webpack_require__(353);
 
 	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
 
-	var _utilsWrapActionCreators = __webpack_require__(363);
+	var _utilsWrapActionCreators = __webpack_require__(354);
 
 	var _utilsWrapActionCreators2 = _interopRequireDefault(_utilsWrapActionCreators);
 
@@ -25830,7 +25297,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
 
 /***/ },
-/* 361 */
+/* 352 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -25864,7 +25331,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 362 */
+/* 353 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25899,7 +25366,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 363 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25907,7 +25374,7 @@
 	exports.__esModule = true;
 	exports['default'] = wrapActionCreators;
 
-	var _redux = __webpack_require__(348);
+	var _redux = __webpack_require__(355);
 
 	function wrapActionCreators(actionCreators) {
 	  return function (dispatch) {
@@ -25916,6 +25383,590 @@
 	}
 
 	module.exports = exports['default'];
+
+/***/ },
+/* 355 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _createStore = __webpack_require__(356);
+
+	var _createStore2 = _interopRequireDefault(_createStore);
+
+	var _utilsCombineReducers = __webpack_require__(358);
+
+	var _utilsCombineReducers2 = _interopRequireDefault(_utilsCombineReducers);
+
+	var _utilsBindActionCreators = __webpack_require__(361);
+
+	var _utilsBindActionCreators2 = _interopRequireDefault(_utilsBindActionCreators);
+
+	var _utilsApplyMiddleware = __webpack_require__(362);
+
+	var _utilsApplyMiddleware2 = _interopRequireDefault(_utilsApplyMiddleware);
+
+	var _utilsCompose = __webpack_require__(363);
+
+	var _utilsCompose2 = _interopRequireDefault(_utilsCompose);
+
+	exports.createStore = _createStore2['default'];
+	exports.combineReducers = _utilsCombineReducers2['default'];
+	exports.bindActionCreators = _utilsBindActionCreators2['default'];
+	exports.applyMiddleware = _utilsApplyMiddleware2['default'];
+	exports.compose = _utilsCompose2['default'];
+
+/***/ },
+/* 356 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = createStore;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _utilsIsPlainObject = __webpack_require__(357);
+
+	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+
+	/**
+	 * These are private action types reserved by Redux.
+	 * For any unknown actions, you must return the current state.
+	 * If the current state is undefined, you must return the initial state.
+	 * Do not reference these action types directly in your code.
+	 */
+	var ActionTypes = {
+	  INIT: '@@redux/INIT'
+	};
+
+	exports.ActionTypes = ActionTypes;
+	/**
+	 * Creates a Redux store that holds the state tree.
+	 * The only way to change the data in the store is to call `dispatch()` on it.
+	 *
+	 * There should only be a single store in your app. To specify how different
+	 * parts of the state tree respond to actions, you may combine several reducers
+	 * into a single reducer function by using `combineReducers`.
+	 *
+	 * @param {Function} reducer A function that returns the next state tree, given
+	 * the current state tree and the action to handle.
+	 *
+	 * @param {any} [initialState] The initial state. You may optionally specify it
+	 * to hydrate the state from the server in universal apps, or to restore a
+	 * previously serialized user session.
+	 * If you use `combineReducers` to produce the root reducer function, this must be
+	 * an object with the same shape as `combineReducers` keys.
+	 *
+	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
+	 * and subscribe to changes.
+	 */
+
+	function createStore(reducer, initialState) {
+	  if (typeof reducer !== 'function') {
+	    throw new Error('Expected the reducer to be a function.');
+	  }
+
+	  var currentReducer = reducer;
+	  var currentState = initialState;
+	  var listeners = [];
+	  var isDispatching = false;
+
+	  /**
+	   * Reads the state tree managed by the store.
+	   *
+	   * @returns {any} The current state tree of your application.
+	   */
+	  function getState() {
+	    return currentState;
+	  }
+
+	  /**
+	   * Adds a change listener. It will be called any time an action is dispatched,
+	   * and some part of the state tree may potentially have changed. You may then
+	   * call `getState()` to read the current state tree inside the callback.
+	   *
+	   * @param {Function} listener A callback to be invoked on every dispatch.
+	   * @returns {Function} A function to remove this change listener.
+	   */
+	  function subscribe(listener) {
+	    listeners.push(listener);
+	    var isSubscribed = true;
+
+	    return function unsubscribe() {
+	      if (!isSubscribed) {
+	        return;
+	      }
+
+	      isSubscribed = false;
+	      var index = listeners.indexOf(listener);
+	      listeners.splice(index, 1);
+	    };
+	  }
+
+	  /**
+	   * Dispatches an action. It is the only way to trigger a state change.
+	   *
+	   * The `reducer` function, used to create the store, will be called with the
+	   * current state tree and the given `action`. Its return value will
+	   * be considered the **next** state of the tree, and the change listeners
+	   * will be notified.
+	   *
+	   * The base implementation only supports plain object actions. If you want to
+	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+	   * wrap your store creating function into the corresponding middleware. For
+	   * example, see the documentation for the `redux-thunk` package. Even the
+	   * middleware will eventually dispatch plain object actions using this method.
+	   *
+	   * @param {Object} action A plain object representing “what changed”. It is
+	   * a good idea to keep actions serializable so you can record and replay user
+	   * sessions, or use the time travelling `redux-devtools`. An action must have
+	   * a `type` property which may not be `undefined`. It is a good idea to use
+	   * string constants for action types.
+	   *
+	   * @returns {Object} For convenience, the same action object you dispatched.
+	   *
+	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+	   * return something else (for example, a Promise you can await).
+	   */
+	  function dispatch(action) {
+	    if (!_utilsIsPlainObject2['default'](action)) {
+	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+	    }
+
+	    if (typeof action.type === 'undefined') {
+	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+	    }
+
+	    if (isDispatching) {
+	      throw new Error('Reducers may not dispatch actions.');
+	    }
+
+	    try {
+	      isDispatching = true;
+	      currentState = currentReducer(currentState, action);
+	    } finally {
+	      isDispatching = false;
+	    }
+
+	    listeners.slice().forEach(function (listener) {
+	      return listener();
+	    });
+	    return action;
+	  }
+
+	  /**
+	   * Replaces the reducer currently used by the store to calculate the state.
+	   *
+	   * You might need this if your app implements code splitting and you want to
+	   * load some of the reducers dynamically. You might also need this if you
+	   * implement a hot reloading mechanism for Redux.
+	   *
+	   * @param {Function} nextReducer The reducer for the store to use instead.
+	   * @returns {void}
+	   */
+	  function replaceReducer(nextReducer) {
+	    currentReducer = nextReducer;
+	    dispatch({ type: ActionTypes.INIT });
+	  }
+
+	  // When a store is created, an "INIT" action is dispatched so that every
+	  // reducer returns their initial state. This effectively populates
+	  // the initial state tree.
+	  dispatch({ type: ActionTypes.INIT });
+
+	  return {
+	    dispatch: dispatch,
+	    subscribe: subscribe,
+	    getState: getState,
+	    replaceReducer: replaceReducer
+	  };
+	}
+
+/***/ },
+/* 357 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = isPlainObject;
+	var fnToString = function fnToString(fn) {
+	  return Function.prototype.toString.call(fn);
+	};
+
+	/**
+	 * @param {any} obj The object to inspect.
+	 * @returns {boolean} True if the argument appears to be a plain object.
+	 */
+
+	function isPlainObject(obj) {
+	  if (!obj || typeof obj !== 'object') {
+	    return false;
+	  }
+
+	  var proto = typeof obj.constructor === 'function' ? Object.getPrototypeOf(obj) : Object.prototype;
+
+	  if (proto === null) {
+	    return true;
+	  }
+
+	  var constructor = proto.constructor;
+
+	  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 358 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = combineReducers;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _createStore = __webpack_require__(356);
+
+	var _utilsIsPlainObject = __webpack_require__(357);
+
+	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+
+	var _utilsMapValues = __webpack_require__(359);
+
+	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+
+	var _utilsPick = __webpack_require__(360);
+
+	var _utilsPick2 = _interopRequireDefault(_utilsPick);
+
+	/* eslint-disable no-console */
+
+	function getUndefinedStateErrorMessage(key, action) {
+	  var actionType = action && action.type;
+	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+
+	  return 'Reducer "' + key + '" returned undefined handling ' + actionName + '. ' + 'To ignore an action, you must explicitly return the previous state.';
+	}
+
+	function getUnexpectedStateKeyWarningMessage(inputState, outputState, action) {
+	  var reducerKeys = Object.keys(outputState);
+	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+
+	  if (reducerKeys.length === 0) {
+	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+	  }
+
+	  if (!_utilsIsPlainObject2['default'](inputState)) {
+	    return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+	  }
+
+	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+	    return reducerKeys.indexOf(key) < 0;
+	  });
+
+	  if (unexpectedKeys.length > 0) {
+	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+	  }
+	}
+
+	function assertReducerSanity(reducers) {
+	  Object.keys(reducers).forEach(function (key) {
+	    var reducer = reducers[key];
+	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
+
+	    if (typeof initialState === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+	    }
+
+	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	    }
+	  });
+	}
+
+	/**
+	 * Turns an object whose values are different reducer functions, into a single
+	 * reducer function. It will call every child reducer, and gather their results
+	 * into a single state object, whose keys correspond to the keys of the passed
+	 * reducer functions.
+	 *
+	 * @param {Object} reducers An object whose values correspond to different
+	 * reducer functions that need to be combined into one. One handy way to obtain
+	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+	 * undefined for any action. Instead, they should return their initial state
+	 * if the state passed to them was undefined, and the current state for any
+	 * unrecognized action.
+	 *
+	 * @returns {Function} A reducer function that invokes every reducer inside the
+	 * passed object, and builds a state object with the same shape.
+	 */
+
+	function combineReducers(reducers) {
+	  var finalReducers = _utilsPick2['default'](reducers, function (val) {
+	    return typeof val === 'function';
+	  });
+	  var sanityError;
+
+	  try {
+	    assertReducerSanity(finalReducers);
+	  } catch (e) {
+	    sanityError = e;
+	  }
+
+	  var defaultState = _utilsMapValues2['default'](finalReducers, function () {
+	    return undefined;
+	  });
+
+	  return function combination(state, action) {
+	    if (state === undefined) state = defaultState;
+
+	    if (sanityError) {
+	      throw sanityError;
+	    }
+
+	    var hasChanged = false;
+	    var finalState = _utilsMapValues2['default'](finalReducers, function (reducer, key) {
+	      var previousStateForKey = state[key];
+	      var nextStateForKey = reducer(previousStateForKey, action);
+	      if (typeof nextStateForKey === 'undefined') {
+	        var errorMessage = getUndefinedStateErrorMessage(key, action);
+	        throw new Error(errorMessage);
+	      }
+	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+	      return nextStateForKey;
+	    });
+
+	    if (process.env.NODE_ENV !== 'production') {
+	      var warningMessage = getUnexpectedStateKeyWarningMessage(state, finalState, action);
+	      if (warningMessage) {
+	        console.error(warningMessage);
+	      }
+	    }
+
+	    return hasChanged ? finalState : state;
+	  };
+	}
+
+	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
+
+/***/ },
+/* 359 */
+/***/ function(module, exports) {
+
+	/**
+	 * Applies a function to every key-value pair inside an object.
+	 *
+	 * @param {Object} obj The source object.
+	 * @param {Function} fn The mapper function that receives the value and the key.
+	 * @returns {Object} A new object that contains the mapped values for the keys.
+	 */
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = mapValues;
+
+	function mapValues(obj, fn) {
+	  return Object.keys(obj).reduce(function (result, key) {
+	    result[key] = fn(obj[key], key);
+	    return result;
+	  }, {});
+	}
+
+	module.exports = exports["default"];
+
+/***/ },
+/* 360 */
+/***/ function(module, exports) {
+
+	/**
+	 * Picks key-value pairs from an object where values satisfy a predicate.
+	 *
+	 * @param {Object} obj The object to pick from.
+	 * @param {Function} fn The predicate the values must satisfy to be copied.
+	 * @returns {Object} The object with the values that satisfied the predicate.
+	 */
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = pick;
+
+	function pick(obj, fn) {
+	  return Object.keys(obj).reduce(function (result, key) {
+	    if (fn(obj[key])) {
+	      result[key] = obj[key];
+	    }
+	    return result;
+	  }, {});
+	}
+
+	module.exports = exports["default"];
+
+/***/ },
+/* 361 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports['default'] = bindActionCreators;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _utilsMapValues = __webpack_require__(359);
+
+	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+
+	function bindActionCreator(actionCreator, dispatch) {
+	  return function () {
+	    return dispatch(actionCreator.apply(undefined, arguments));
+	  };
+	}
+
+	/**
+	 * Turns an object whose values are action creators, into an object with the
+	 * same keys, but with every function wrapped into a `dispatch` call so they
+	 * may be invoked directly. This is just a convenience method, as you can call
+	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+	 *
+	 * For convenience, you can also pass a single function as the first argument,
+	 * and get a function in return.
+	 *
+	 * @param {Function|Object} actionCreators An object whose values are action
+	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
+	 * syntax. You may also pass a single function.
+	 *
+	 * @param {Function} dispatch The `dispatch` function available on your Redux
+	 * store.
+	 *
+	 * @returns {Function|Object} The object mimicking the original object, but with
+	 * every action creator wrapped into the `dispatch` call. If you passed a
+	 * function as `actionCreators`, the return value will also be a single
+	 * function.
+	 */
+
+	function bindActionCreators(actionCreators, dispatch) {
+	  if (typeof actionCreators === 'function') {
+	    return bindActionCreator(actionCreators, dispatch);
+	  }
+
+	  if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
+	    // eslint-disable-line no-eq-null
+	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+	  }
+
+	  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
+	    return bindActionCreator(actionCreator, dispatch);
+	  });
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 362 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports['default'] = applyMiddleware;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _compose = __webpack_require__(363);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	/**
+	 * Creates a store enhancer that applies middleware to the dispatch method
+	 * of the Redux store. This is handy for a variety of tasks, such as expressing
+	 * asynchronous actions in a concise manner, or logging every action payload.
+	 *
+	 * See `redux-thunk` package as an example of the Redux middleware.
+	 *
+	 * Because middleware is potentially asynchronous, this should be the first
+	 * store enhancer in the composition chain.
+	 *
+	 * Note that each middleware will be given the `dispatch` and `getState` functions
+	 * as named arguments.
+	 *
+	 * @param {...Function} middlewares The middleware chain to be applied.
+	 * @returns {Function} A store enhancer applying the middleware.
+	 */
+
+	function applyMiddleware() {
+	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+	    middlewares[_key] = arguments[_key];
+	  }
+
+	  return function (next) {
+	    return function (reducer, initialState) {
+	      var store = next(reducer, initialState);
+	      var _dispatch = store.dispatch;
+	      var chain = [];
+
+	      var middlewareAPI = {
+	        getState: store.getState,
+	        dispatch: function dispatch(action) {
+	          return _dispatch(action);
+	        }
+	      };
+	      chain = middlewares.map(function (middleware) {
+	        return middleware(middlewareAPI);
+	      });
+	      _dispatch = _compose2['default'].apply(undefined, chain)(store.dispatch);
+
+	      return _extends({}, store, {
+	        dispatch: _dispatch
+	      });
+	    };
+	  };
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 363 */
+/***/ function(module, exports) {
+
+	/**
+	 * Composes single-argument functions from right to left.
+	 *
+	 * @param {...Function} funcs The functions to compose.
+	 * @returns {Function} A function obtained by composing functions from right to
+	 * left. For example, compose(f, g, h) is identical to arg => f(g(h(arg))).
+	 */
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = compose;
+
+	function compose() {
+	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+	    funcs[_key] = arguments[_key];
+	  }
+
+	  return function (arg) {
+	    return funcs.reduceRight(function (composed, f) {
+	      return f(composed);
+	    }, arg);
+	  };
+	}
+
+	module.exports = exports["default"];
 
 /***/ },
 /* 364 */
@@ -26028,18 +26079,32 @@
 	});
 
 	exports.default = function () {
-	    return createStoreWithMiddleware(_sign2.default);
+	    return createStoreWithMiddleware((0, _redux.combineReducers)({
+	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default
+	    }));
 	};
 
-	var _redux = __webpack_require__(348);
+	var _redux = __webpack_require__(355);
 
 	var _reduxThunk = __webpack_require__(367);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _sign = __webpack_require__(368);
+	var _cart = __webpack_require__(368);
 
-	var _sign2 = _interopRequireDefault(_sign);
+	var _cart2 = _interopRequireDefault(_cart);
+
+	var _address = __webpack_require__(387);
+
+	var _address2 = _interopRequireDefault(_address);
+
+	var _warehouse = __webpack_require__(388);
+
+	var _warehouse2 = _interopRequireDefault(_warehouse);
+
+	var _user = __webpack_require__(383);
+
+	var _user2 = _interopRequireDefault(_user);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26073,84 +26138,85 @@
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = cart;
 
-	var _ActionTypes = __webpack_require__(369);
+	var _ActionTypes = __webpack_require__(374);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _redux = __webpack_require__(348);
+	var _redux = __webpack_require__(355);
+
+	var _dish = __webpack_require__(373);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function signInValue() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        mobile: '',
-	        pwd: ''
-	    } : arguments[0];
+	function cart() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
-	        case types.SIGNIN_SEND:
-	            return _extends({}, action.data);
+	        case types.CART_PLUS_DISH:
+	            return state.map(function (item) {
+	                item._id == action.id && item.number++;
+	                return item;
+	            });
+	        case types.CART_MINUS_DISH:
+	            return state.map(function (item) {
+	                item._id == action.id && item.number--;
+	                return item;
+	            });
+	        case types.CART_DEL_DISH:
+	            return state.filter(function (item) {
+	                return item._id != action.id;
+	            });
+	        // todo: 这里应当是购物车的action,但是购物车又是挂在user对象上,随着user获取而获取的
+	        case types.FETCH_USER:
+	            if (action.status == 'success') {
+	                return action.user.shoppingCart.map(function (item) {
+	                    item.hasStock = (0, _dish.hasStock)(item, action.warehouse);
+	                    return item;
+	                });
+	            }
+	            return state;
+	        case types.SELECT_ADDRESS:
+	            return state.map(function (item) {
+	                item.hasStock = (0, _dish.hasStock)(item, action.warehouse);
+	                item.selected = item.selected && item.hasStock;
+	                return item;
+	            });
+	        case types.CART_SELECT_ONE:
+	            return state.map(function (item) {
+	                if (item._id == action.id) {
+	                    item.selected = !item.selected && item.hasStock;
+	                }
+	                return item;
+	            });
+	        case types.CART_SELECT_ALL:
+	            var dishList = state.filter(function (item) {
+	                return item.dish.cookingType == action.cookingType;
+	            });
+	            var isSelectedAll = !(dishList.every(function (item) {
+	                return item.selected || !item.hasStock;
+	            }) && dishList.some(function (item) {
+	                return item.selected;
+	            }));
+	            return state.map(function (item) {
+	                if (item.dish.cookingType == action.cookingType) {
+	                    item.selected = isSelectedAll && item.hasStock;
+	                }
+	                return item;
+	            });
+
 	        default:
 	            return state;
 	    }
 	}
-
-	function signUpValue() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        mobile: '',
-	        smsCode: '',
-	        pwd: ''
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SIGNUP_SEND:
-	            return _extends({}, action.data);
-	        default:
-	            return state;
-	    }
-	}
-
-	var signReducer = (0, _redux.combineReducers)({
-	    signInValue: signInValue, signUpValue: signUpValue
-	});
-
-	exports.default = signReducer;
 
 /***/ },
 /* 369 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// sign
-	var SIGNIN_SEND = exports.SIGNIN_SEND = 'SIGNIN_SEND';
-	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNUP_SEND';
-
-	// cart
-	var CART_SELECT_ONE = exports.CART_SELECT_ONE = 'CART_SELECT_ONE';
-	var CART_SELECT_ALL = exports.CART_SELECT_ALL = 'CART_SELECT_ALL';
-	var CART_MINUS_DISH = exports.CART_MINUS_DISH = 'CART_MINUS_DISH';
-	var CART_PLUS_DISH = exports.CART_PLUS_DISH = 'CART_PLUS_DISH';
-	var CART_DEL_DISH = exports.CART_DEL_DISH = 'CART_DEL_DISH';
-	var FETCH_CART = exports.FETCH_CART = 'FETCH_CART';
-	var SAVE_CART = exports.SAVE_CART = 'SAVE_CART';
-
-	// user
-	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
-
-/***/ },
-/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26158,64 +26224,126 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.signIn = signIn;
-	exports.signUp = signUp;
+	exports.getCart = getCart;
+	exports.selectOne = selectOne;
+	exports.selectAll = selectAll;
+	exports.plusDish = plusDish;
+	exports.minusDish = minusDish;
+	exports.delDish = delDish;
 
-	var _xwFetch = __webpack_require__(371);
+	var _xwFetch = __webpack_require__(370);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
-	var _ActionTypes = __webpack_require__(369);
+	var _dish = __webpack_require__(373);
+
+	var _ActionTypes = __webpack_require__(374);
 
 	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _user = __webpack_require__(375);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function signInSend(data) {
-	    return {
-	        type: types.SIGNIN_SEND,
-	        data: data
-	    };
-	}
-
-	// todo: 失败的原因
-	function signIn(data) {
+	// get user 即表示 get cart, 所以只能通过在cart中, case 'Fetch_USER'来对cart处理
+	function getCart() {
 	    return function (dispatch) {
-	        dispatch(signInSend(data));
-	        return (0, _xwFetch.post)("/api/user/token", {
-	            username: data.mobile,
-	            password: data.pwd,
-	            grant_type: 'password'
-	        });
+	        return dispatch((0, _user.getUserIfNeeded)());
 	    };
 	}
 
-	function signUpSend(data) {
+	function saveCartSuccess() {
 	    return {
-	        type: types.SIGNUP_SEND,
-	        data: data
+	        type: types.SAVE_CART,
+	        status: 'success'
 	    };
 	}
 
-	// todo: 失败的原因
-	function signUp(data) {
-	    return function (dispatch) {
-	        dispatch(signUpSend(data));
-	        return (0, _xwFetch.post)("/api/user/signup", {
-	            mobile: data.mobile,
-	            pwd: data.pwd,
-	            code: data.smsCode
-	        });
+	function saveCartStart() {
+	    return {
+	        type: types.SAVE_CART
+	    };
+	}
+
+	var timer = null;
+
+	function saveCart(dispatch, getState) {
+	    dispatch(saveCartStart());
+	    if (!timer) {
+	        timer = setTimeout(function () {
+	            timer = null;
+	            (0, _xwFetch.post)('/api/user/shoppingcart', {
+	                shoppingCart: getState().cart.map(_dish.toPostDish)
+	            }).then(function () {
+	                return dispatch(saveCartSuccess());
+	            });
+	        }, 2000);
+	    }
+	}
+
+	function selectOne(id) {
+	    return {
+	        type: types.CART_SELECT_ONE,
+	        id: id
+	    };
+	}
+
+	function selectAll(cookingType) {
+	    return {
+	        type: types.CART_SELECT_ALL,
+	        cookingType: cookingType
+	    };
+	}
+
+	function _plusDish(id) {
+	    return {
+	        type: types.CART_PLUS_DISH,
+	        id: id
+	    };
+	}
+
+	function _minusDish(id) {
+	    return {
+	        type: types.CART_MINUS_DISH,
+	        id: id
+	    };
+	}
+
+	function _delDish(id) {
+	    return {
+	        type: types.CART_DEL_DISH,
+	        id: id
+	    };
+	}
+
+	function plusDish(id) {
+	    return function (dispatch, getState) {
+	        dispatch(_plusDish(id));
+	        return saveCart(dispatch, getState);
+	    };
+	}
+	function minusDish(id) {
+	    return function (dispatch, getState) {
+	        dispatch(_minusDish(id));
+	        return dispatch(saveCart(dispatch, getState));
+	    };
+	}
+	function delDish(id) {
+	    return function (dispatch, getState) {
+	        dispatch(_delDish(id));
+	        return dispatch(saveCart(dispatch, getState));
 	    };
 	}
 
 /***/ },
-/* 371 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -26224,7 +26352,7 @@
 	exports.del = del;
 	exports.put = put;
 
-	var _isomorphicFetch = __webpack_require__(372);
+	var _isomorphicFetch = __webpack_require__(371);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -26235,20 +26363,21 @@
 	    if (!access_token) return (0, _isomorphicFetch2.default)(url, options);
 
 	    options = options || {};
-	    options.headers = {
+	    options.headers = options.headers = _extends({
 	        Authorization: 'Bearer ' + access_token
-	    };
-	    return (0, _isomorphicFetch2.default)(url, options);
+	    }, options.headers);
+	    return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
+	        return res.json();
+	    });
 	}
 
 	exports.default = _fetch;
 	function post(url, data) {
+
 	    return _fetch(url, {
 	        method: 'post',
 	        headers: { 'Content-Type': 'application/json' },
 	        body: JSON.stringify(data)
-	    }).then(function (res) {
-	        return res.json();
 	    }).then(function (json) {
 	        if (url == '/api/user/token' || url == '/api/user/signup') {
 	            localStorage.access_token = json.access_token;
@@ -26274,19 +26403,19 @@
 	}
 
 /***/ },
-/* 372 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(373);
+	__webpack_require__(372);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 373 */
+/* 372 */
 /***/ function(module, exports) {
 
 	(function() {
@@ -26673,148 +26802,314 @@
 
 
 /***/ },
-/* 374 */
-/***/ function(module, exports, __webpack_require__) {
+/* 373 */
+/***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.toPostDish = toPostDish;
+	exports.hasStock = hasStock;
+	function toPostDish(item) {
+	    return {
+	        dish: item.dish._id,
+	        number: item.number,
+	        subDish: item.subDish.map(function (it) {
+	            return {
+	                dish: it.dish._id,
+	                number: it.number
+	            };
+	        })
+	    };
+	}
 
-	var _react = __webpack_require__(191);
+	function hasStock(item, warehouse) {
+	    return item.dish.stockWarehouse.some(function (w) {
+	        return w.warehouse == warehouse && w.stock > 0;
+	    }) && item.subDish && item.subDish.every(function (it) {
+	        return hasStock(it, warehouse);
+	    });
+	}
 
-	var _react2 = _interopRequireDefault(_react);
+/***/ },
+/* 374 */
+/***/ function(module, exports) {
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	'use strict';
 
-	var SignIn = _react2.default.createClass({
-	    displayName: 'SignIn',
-
-	    getInitialState: function getInitialState() {
-	        var state = {
-	            isSending: false
-	        };
-	        ['mobile', 'pwd'].forEach(function (key) {
-	            return state[key + 'ValidateOn'] = false;
-	        });
-	        return state;
-	    },
-
-	    onSubmit: function onSubmit(e) {
-	        var _this = this;
-
-	        e.preventDefault();
-	        this.setState({
-	            mobileValidateOn: true,
-	            pwdValidateOn: true
-	        });
-	        if (['mobile', 'pwd'].every(function (t) {
-	            return _this.validate(t);
-	        })) {
-	            this.setState({
-	                isSending: true
-	            });
-	            this.props.signIn({
-	                mobile: this.refs.mobile.value,
-	                pwd: this.refs.pwd.value
-	            }).then(function () {
-	                return location = '/';
-	            }).catch(function () {
-	                return alert('Sign in failed, try it later');
-	            }).then(function () {
-	                _this.setState({ isSending: false });
-	            });
-	        }
-	    },
-
-	    validate: function validate(type) {
-	        switch (type) {
-	            case 'mobile':
-	                return (/^1\d{10}$/.test(this.refs.mobile.value)
-	                );
-	            case 'pwd':
-	                return (/^\w{6,}$/.test(this.refs.pwd.value)
-	                );
-
-	            default:
-	                return false;
-	        }
-	    },
-
-	    render: function render() {
-	        var _this2 = this;
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'signup' },
-	            _react2.default.createElement(
-	                'h6',
-	                { className: 'title' },
-	                '登录'
-	            ),
-	            _react2.default.createElement(
-	                'form',
-	                { onSubmit: this.onSubmit },
-	                _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'signin_tel', className: 'lab' },
-	                    '手机号'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onBlur: function onBlur() {
-	                            return _this2.setState({ mobileValidateOn: true });
-	                        }, id: 'signip_tel', type: 'text' }),
-	                    this.state.mobileValidateOn && !this.validate('mobile') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '请填写11位手机号码'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'signin_pwd', className: 'lab' },
-	                    '密码'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'pwd', defaultValue: this.props.pwd, onBlur: function onBlur() {
-	                            return _this2.setState({ pwdValidateOn: true });
-	                        }, id: 'signin_pwd', type: 'password' }),
-	                    this.state.pwdValidateOn && !this.validate('pwd') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '密码至少为6位'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'a',
-	                    { id: 'resetpwd', className: 'forgot', style: { display: 'none' } },
-	                    '忘记密码了?'
-	                ),
-	                this.state.isSending ? _react2.default.createElement(
-	                    'button',
-	                    { id: 'signin_btn', disabled: true, className: 'btn-login' },
-	                    '登录中···'
-	                ) : _react2.default.createElement(
-	                    'button',
-	                    { id: 'signin_btn', className: 'btn-login' },
-	                    '登录'
-	                )
-	            )
-	        );
-	    }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
+	// sign
+	var SIGNIN_SEND = exports.SIGNIN_SEND = 'SIGNIN_SEND';
+	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNUP_SEND';
 
-	exports.default = SignIn;
+	// cart
+	var CART_SELECT_ONE = exports.CART_SELECT_ONE = 'CART_SELECT_ONE';
+	var CART_SELECT_ALL = exports.CART_SELECT_ALL = 'CART_SELECT_ALL';
+	var CART_MINUS_DISH = exports.CART_MINUS_DISH = 'CART_MINUS_DISH';
+	var CART_PLUS_DISH = exports.CART_PLUS_DISH = 'CART_PLUS_DISH';
+	var CART_DEL_DISH = exports.CART_DEL_DISH = 'CART_DEL_DISH';
+	var FETCH_CART = exports.FETCH_CART = 'FETCH_CART'; // not used because `fetch_user`
+	var SAVE_CART = exports.SAVE_CART = 'SAVE_CART';
+
+	// address
+	var EDIT_ADDRESS = exports.EDIT_ADDRESS = 'EDIT_ADDRESS';
+	var SELECT_ADDRESS = exports.SELECT_ADDRESS = 'SELECT_ADDRESS';
+	var POST_ADDRESS = exports.POST_ADDRESS = 'POST_ADDRESS';
+	var DEL_ADDRESS = exports.DEL_ADDRESS = 'DEL_ADDRESS';
+	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
+	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
+
+	// user
+	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
+
+	// warehouse
 
 /***/ },
 /* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getUser = getUser;
+	exports.getUserIfNeeded = getUserIfNeeded;
+
+	var _xwFetch = __webpack_require__(370);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(374);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function requestUser() {
+	    return {
+	        type: types.FETCH_USER
+	    };
+	}
+
+	/**
+	 * 本来是给接收user用的,但是因为shoppingCart也挂在这个上面,所以也用来给购物车用
+	 * @param user
+	 * @param warehouse 只与购物车有关, 但是也要传递, 真的..
+	 * @returns {{type: FETCH_USER, status: string, user: *}}
+	 */
+	function receiveUser(user, warehouse) {
+	    return {
+	        type: types.FETCH_USER,
+	        status: 'success',
+	        user: user,
+	        warehouse: warehouse
+	    };
+	}
+
+	function getUser() {
+	    return function (dispatch, getState) {
+	        dispatch(requestUser());
+	        return (0, _xwFetch2.default)('/api/user').then(function (res) {
+	            dispatch(receiveUser(res, getState().warehouse));
+	        });
+	    };
+	}
+
+	function getUserIfNeeded() {
+	    return function (dispatch, getState) {
+	        var user = getState().user; //the user may be a promise
+	        return '_id' in user ? Promise.resolve(user) : dispatch(getUser());
+	    };
+	}
+
+/***/ },
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _cartDishList = __webpack_require__(382);
+
+	var _cartDishList2 = _interopRequireDefault(_cartDishList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Cart = _react2.default.createClass({
+	    displayName: 'Cart',
+
+	    render: function render() {
+	        var props = this.props;
+
+	        var dishList = { cookList: [], eatList: [] };
+	        props.cart.forEach(function (item) {
+	            if (item.dish.cookingType == 'ready to cook') {
+	                dishList.cookList.push(item);
+	            } else {
+	                dishList.eatList.push(item);
+	            }
+	        });
+
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            Object.keys(dishList).filter(function (name) {
+	                return dishList[name].length > 0;
+	            }).map(function (name) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: name },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'tabbtn clearfix' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { className: 'cook' },
+	                            name == 'cookList' ? '食材包' : '便当'
+	                        )
+	                    ),
+	                    _react2.default.createElement(_cartDishList2.default, _extends({}, props.methods, { dishList: name == 'cookList' ? dishList.cookList : dishList.eatList, warehouse: props.warehouse }))
+	                );
+	            })
+	        );
+	    }
+	});
+
+	exports.default = Cart;
+
+/***/ },
+/* 382 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _cartDish = __webpack_require__(384);
+
+	var _cartDish2 = _interopRequireDefault(_cartDish);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartDishList = _react2.default.createClass({
+	    displayName: 'CartDishList',
+
+	    render: function render() {
+	        var dishList = this.props.dishList;
+
+	        var props = this.props;
+	        var cookingType = dishList[0].dish.cookingType;
+	        var selectedAll = dishList.every(function (item) {
+	            return item.selected || !item.hasStock;
+	        }) && dishList.some(function (item) {
+	            return item.selected;
+	        });
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'cart-dish-list' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'header' },
+	                _react2.default.createElement('span', { onClick: function onClick() {
+	                        return props.selectAll(cookingType);
+	                    }, className: 'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o') }),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '全选'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '数量'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '价格'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'dish-list' },
+	                dishList.map(function (item) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: item._id },
+	                        _react2.default.createElement(_cartDish2.default, _extends({}, item, { minusDish: props.minusDish, plusDish: props.plusDish, delDish: props.delDish, selectOne: props.selectOne }))
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = CartDishList;
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = user;
+
+	var _ActionTypes = __webpack_require__(374);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function user() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.FETCH_USER:
+	            return action.status == 'success' ? action.user : state;
+
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 384 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -26827,172 +27122,489 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SignUp = _react2.default.createClass({
-	    displayName: 'SignUp',
-
-	    getInitialState: function getInitialState() {
-	        var state = {
-	            isSending: false
-	        };
-	        ['mobile', 'smsCode', 'pwd', 'rePwd'].forEach(function (key) {
-	            return state[key + 'ValidateOn'] = false;
-	        });
-	        return state;
-	    },
-
-	    onSubmit: function onSubmit(e) {
-	        var _this = this;
-
-	        e.preventDefault();
-	        this.setState({
-	            mobileValidateOn: true,
-	            smsCodeValidateOn: true,
-	            pwdValidateOn: true,
-	            rePwdValidateOn: true
-	        });
-	        if (['mobile', 'smsCode', 'pwd', 'rePwd'].every(function (t) {
-	            return _this.validate(t);
-	        })) {
-	            this.setState({
-	                isSending: true
-	            });
-	            this.props.signUp({
-	                mobile: this.refs.mobile.value,
-	                smsCode: this.refs.smsCode.value,
-	                pwd: this.refs.pwd.value
-	            }).then(function () {
-	                return location = '/';
-	            }).catch(function () {
-	                return alert('Sign up failed, try it later');
-	            }).then(function () {
-	                _this.setState({ isSending: false });
-	            });
-	        }
-	    },
-
-	    validate: function validate(type) {
-	        switch (type) {
-	            case 'mobile':
-	                return (/^1\d{10}$/.test(this.refs.mobile.value)
-	                );
-	            case 'smsCode':
-	                return (/^\w{6}$/.test(this.refs.smsCode.value)
-	                );
-	            case 'pwd':
-	                return (/^\w{6,}$/.test(this.refs.pwd.value)
-	                );
-	            case 'rePwd':
-	                return this.refs.pwd.value == this.refs.rePwd.value;
-
-	            default:
-	                return false;
-	        }
-	    },
-
-	    _mobileChange: function _mobileChange() {
-	        var mobile = this.refs.mobile.value;
-	        if (mobile) {
-	            localStorage.mobile = mobile;
-	        }
-	    },
+	var CartDish = _react2.default.createClass({
+	    displayName: 'CartDish',
 
 	    render: function render() {
-	        var _this2 = this;
+	        var _props = this.props;
+	        var dish = _props.dish;
+	        var number = _props.number;
+	        var subDish = _props.subDish;
+	        var selected = _props.selected;
+	        var _id = _props._id;
 
+	        var props = this.props;
+	        var price = subDish.reduce(function (sum, el) {
+	            return el.dish.priceOriginal + sum;
+	        }, dish.priceOriginal);
 	        return _react2.default.createElement(
 	            'div',
-	            { className: 'signup' },
+	            { className: 'cart-dish' },
+	            _react2.default.createElement('span', { onClick: function onClick() {
+	                    return props.selectOne(_id);
+	                }, className: selected ? 'fa fa-check-square-o' : 'fa fa-square-o' }),
 	            _react2.default.createElement(
-	                'h6',
-	                { className: 'title' },
-	                '注册'
+	                'div',
+	                { className: 'dish-info' },
+	                _react2.default.createElement('img', { src: dish.cover[0].zh }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'main-dish', title: dish.title.zh },
+	                    dish.title.zh
+	                ),
+	                subDish.map(function (el) {
+	                    return _react2.default.createElement(
+	                        'span',
+	                        { className: 'sub-dish', key: el.dish._id },
+	                        el.dish.title.zh + ' '
+	                    );
+	                })
 	            ),
 	            _react2.default.createElement(
-	                'form',
-	                { onSubmit: this.onSubmit },
+	                'div',
+	                { className: 'quantity' },
+	                _react2.default.createElement('span', { className: 'fa fa-minus-square-o', onClick: function onClick() {
+	                        return props.minusDish(_id);
+	                    } }),
 	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'lab' },
-	                    '手机号'
+	                    'span',
+	                    { className: 'number' },
+	                    number
+	                ),
+	                _react2.default.createElement('span', { className: 'fa-plus-square-o fa', onClick: function onClick() {
+	                        return props.plusDish(_id);
+	                    } })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'price rmb-char' },
+	                price
+	            ),
+	            _react2.default.createElement('span', { className: 'fa fa-times', onClick: function onClick() {
+	                    return props.delDish(_id);
+	                } })
+	        );
+	    }
+	});
+
+	exports.default = CartDish;
+
+/***/ },
+/* 385 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _staticAddress = __webpack_require__(386);
+
+	var _staticAddress2 = _interopRequireDefault(_staticAddress);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var AddressList = _react2.default.createClass({
+	    displayName: 'AddressList',
+
+	    render: function render() {
+	        var props = this.props;
+	        var title = props.title || '配送至';
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'address-section' },
+	            _react2.default.createElement(
+	                'h5',
+	                { className: 'header' },
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    title
 	                ),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'mobile', defaultValue: this.props.mobile, onChange: this._mobileChange, onBlur: function onBlur() {
-	                            return _this2.setState({ mobileValidateOn: true });
-	                        }, id: 'signup_tel', type: 'text' }),
-	                    this.state.mobileValidateOn && !this.validate('mobile') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '请填写11位手机号码'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'lab', id: 'sms-code', style: { marginTop: 87 } },
-	                    '验证码'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'smsCode', defaultValue: this.props.smsCode, onBlur: function onBlur() {
-	                            return _this2.setState({ smsCodeValidateOn: true });
-	                        }, id: 'signup_code', type: 'text' }),
-	                    this.state.smsCodeValidateOn && !this.validate('smsCode') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '请填写6位验证码'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'lab' },
-	                    '设置密码'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'pwd', defaultValue: this.props.pwd, onBlur: function onBlur() {
-	                            return _this2.setState({ pwdValidateOn: true });
-	                        }, id: 'signup_pwd', type: 'password' }),
-	                    this.state.pwdValidateOn && !this.validate('pwd') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '密码至少为6位'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'lab' },
-	                    '确认密码'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-control-group' },
-	                    _react2.default.createElement('input', { ref: 'rePwd', onBlur: function onBlur() {
-	                            return _this2.setState({ rePwdValidateOn: true });
-	                        }, id: 'signup_repwd', type: 'password' }),
-	                    this.state.rePwdValidateOn && !this.validate('rePwd') && _react2.default.createElement(
-	                        'span',
-	                        { className: 'err-tip' },
-	                        '两次输入的密码不一致'
-	                    )
-	                ),
-	                this.state.isSending ? _react2.default.createElement(
-	                    'button',
-	                    { id: 'signup_btn', disabled: true, className: 'btn-login' },
-	                    '注册中···'
-	                ) : _react2.default.createElement(
-	                    'button',
-	                    { id: 'signup_btn', className: 'btn-login' },
-	                    '注册'
+	                    'span',
+	                    { className: 'add-address', onClick: props.addOne },
+	                    _react2.default.createElement('i', { className: 'fa fa-plus-square-o' }),
+	                    ' 添加地址'
 	                )
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'address-list' },
+	                props.addresses.map(function (address) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: address._id },
+	                        _react2.default.createElement(_staticAddress2.default, _extends({}, address, { select: props.select }))
+	                    );
+	                })
 	            )
 	        );
 	    }
 	});
 
-	exports.default = SignUp;
+	exports.default = AddressList;
+
+/***/ },
+/* 386 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StaticAddress = _react2.default.createClass({
+	    displayName: 'StaticAddress',
+
+	    render: function render() {
+	        var props = this.props;
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'address', onClick: function onClick() {
+	                    return props.select(props._id, props.warehouse);
+	                } },
+	            _react2.default.createElement('span', { className: 'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o') }),
+	            _react2.default.createElement(
+	                'span',
+	                null,
+	                props.contactPerson
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'address-detail' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'table' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'cell' },
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.province
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.city
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.district
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.street
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.address
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'span',
+	                null,
+	                props.mobile
+	            )
+	        );
+	    }
+	});
+
+	exports.default = StaticAddress;
+
+/***/ },
+/* 387 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(374);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function addresses() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SELECT_ADDRESS:
+	            return state.map(function (item) {
+	                item.selected = item._id == action.id;
+	                return item;
+	            });
+	        case types.GET_ADDRESS:
+	            return action.status == 'success' ? action.addresses : state;
+	        case types.POST_ADDRESS:
+	            return state.concat([action.address]);
+	        case types.PUT_ADDRESS:
+	            if (action.status == 'success') {
+	                return state.map(function (item) {
+	                    return action.id == item._id ? action.address : item;
+	                });
+	            }
+	            return state;
+	        case types.DEL_ADDRESS:
+	            return state.filter(function (address) {
+	                return address._id != action.id;
+	            });
+	        default:
+	            return state;
+	    }
+	}
+
+	function addressEditingForm() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        show: false,
+	        id: ''
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.EDIT_ADDRESS:
+	            return {
+	                show: true,
+	                id: action.id || ''
+	            };
+	        case types.POST_ADDRESS:
+	        case types.PUT_ADDRESS:
+	            return action.status == 'success' ? { show: false } : state;
+	        default:
+	            return state;
+	    }
+	}
+
+	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm });
+
+	exports.default = addressReducer;
+
+/***/ },
+/* 388 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = warehouse;
+
+	var _ActionTypes = __webpack_require__(374);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function warehouse() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SELECT_ADDRESS:
+	            return action.warehouse;
+
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 389 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.select = select;
+	exports.editAddress = editAddress;
+	exports.getList = getList;
+	exports.postOne = postOne;
+	exports.putOne = putOne;
+	exports.delOne = delOne;
+
+	var _xwFetch = __webpack_require__(370);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(374);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function select(id, warehouse) {
+	    return {
+	        type: types.SELECT_ADDRESS,
+	        id: id, warehouse: warehouse
+	    };
+	}
+
+	function editAddress(id) {
+	    return {
+	        type: types.EDIT_ADDRESS,
+	        id: id
+	    };
+	}
+
+	function getStart() {
+	    return {
+	        type: types.GET_ADDRESS
+	    };
+	}
+	function getDone(addresses) {
+	    return {
+	        type: types.GET_ADDRESS,
+	        status: 'success',
+	        addresses: addresses
+	    };
+	}
+	function getFailed(error) {
+	    return {
+	        type: types.GET_ADDRESS,
+	        status: 'error',
+	        error: error
+	    };
+	}
+	function getList() {
+	    return function (dispatch) {
+	        dispatch(getStart());
+	        (0, _xwFetch2.default)('/api/user/address').then(function (addresses) {
+	            addresses.some(function (addr) {
+	                if (!addr.isDefault) return false;
+	                addr.selected = true;
+	                dispatch(select(addr._id, addr.warehouse));
+	                return true;
+	            });
+	            return addresses;
+	        }).then(function (addresses) {
+	            return dispatch(getDone(addresses));
+	        }).catch(function (err) {
+	            return dispatch(getFailed(err));
+	        });
+	    };
+	}
+
+	function postStart() {
+	    return {
+	        type: types.POST_ADDRESS
+	    };
+	}
+	function postDone(address) {
+	    return {
+	        type: types.POST_ADDRESS,
+	        status: 'success',
+	        address: address
+	    };
+	}
+	function postFailed(error) {
+	    return {
+	        type: types.POST_ADDRESS,
+	        status: 'error',
+	        error: error
+	    };
+	}
+	function postOne(address) {
+	    return function (dispatch) {
+	        dispatch(postStart());
+	        return (0, _xwFetch.post)('/api/user/address', address).then(function (addr) {
+	            return dispatch(postDone(addr));
+	        }).catch(function (err) {
+	            return dispatch(postFailed(err));
+	        });
+	    };
+	}
+
+	function putStart() {
+	    return {
+	        type: types.PUT_ADDRESS
+	    };
+	}
+	function putDone(address) {
+	    return {
+	        type: types.PUT_ADDRESS,
+	        status: 'success',
+	        address: address
+	    };
+	}
+	function putFailed(error) {
+	    return {
+	        type: types.PUT_ADDRESS,
+	        status: 'error',
+	        error: error
+	    };
+	}
+	function putOne(address) {
+	    return function (dispatch) {
+	        dispatch(putStart());
+	        return (0, _xwFetch.put)("/api/user/address/" + address._id, address).then(function (addr) {
+	            return dispatch(putDone(addr));
+	        }).catch(function (err) {
+	            return dispatch(putFailed(err));
+	        });
+	    };
+	}
+
+	function delStart() {
+	    return {
+	        type: types.DEL_ADDRESS
+	    };
+	}
+	function delDone() {
+	    return {
+	        type: types.DEL_ADDRESS,
+	        status: 'success'
+	    };
+	}
+	function delFailed(error) {
+	    return {
+	        type: types.DEL_ADDRESS,
+	        status: 'error',
+	        error: error
+	    };
+	}
+	function delOne(id) {
+	    return function (dispatch) {
+	        dispatch(delStart());
+	        (0, _xwFetch2.default)("/api/user/address/" + id).then(function (addresses) {
+	            return dispatch(delDone());
+	        }).catch(function (err) {
+	            return dispatch(delFailed(err));
+	        });
+	    };
+	}
 
 /***/ }
 /******/ ]);

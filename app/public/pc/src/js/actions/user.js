@@ -4,22 +4,30 @@ import * as types from "../constants/ActionTypes"
 
 function requestUser() {
     return {
-        type: types.REQUEST_USER
+        type: types.FETCH_USER
     }
 }
 
-function receiveUser(user) {
+/**
+ * 本来是给接收user用的,但是因为shoppingCart也挂在这个上面,所以也用来给购物车用
+ * @param user
+ * @param warehouse 只与购物车有关, 但是也要传递, 真的..
+ * @returns {{type: FETCH_USER, status: string, user: *}}
+ */
+function receiveUser(user, warehouse) {
     return {
-        type: types.RECEIVE_USER,
-        user
+        type: types.FETCH_USER,
+        status: 'success',
+        user,
+        warehouse
     }
 }
 
 export function getUser() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch(requestUser())
         return fetch('/api/user').then(res=>{
-            dispatch(receiveUser(res))
+            dispatch(receiveUser(res, getState().warehouse))
         })
     }
 }
@@ -27,7 +35,6 @@ export function getUser() {
 export function getUserIfNeeded() {
     return function (dispatch, getState) {
         var user = getState().user //the user may be a promise
-        return user ? Promise.resolve(user) : getUser()
+        return '_id' in user ? Promise.resolve(user) : dispatch(getUser())
     }
 }
-

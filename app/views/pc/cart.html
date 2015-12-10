@@ -5,7 +5,6 @@
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="/pc/src/css/style.css">
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
-    <script type="text/javascript" src="../public/javascripts/libs/jquery-2.1.1.min.js"></script>
 </head>
 <body>
 <header>
@@ -25,18 +24,97 @@
 <div class="headeremp"></div>
 <div class="cart">
     <div src="../public/images/carttitle.png" class="carttitle"></div>
-    <h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>
+    <!--<h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>-->
 
-    <div class="tabbtn clearfix"><a href="javascript:;" class="cook act">食材包</a><a href="javascript:;" class="eatcart">即食包</a></div>
-    <div class="tabs">
-        <div class="cart-main cook clearfix act">
-            <div class="products">
-                <div class="tabletitle clearfix"><input type="checkbox"></div>
-            </div>
-            <div class="userinfos"></div>
+    <div id="react-root"></div>
+
+    <div class="test" style="display: none;">
+        <div class="cart-main-right">
+            <form>
+                <div class="address-section">
+                    <h5 class="header">
+                        <span>配送至</span>
+                        <span class="add-address"><i class="fa fa-plus-square-o"></i> 添加地址</span>
+                    </h5>
+                    <ul class="address-list">
+                        <li>
+                            <div class="address">
+                                <span class="fa fa-dot-circle-o"></span>
+                                <span>美帝</span>
+                                <div>
+                                    <div class="table">
+                                        <div class="cell">上海市 长宁区 愚园路1032弄3号3楼 愚园路1032弄3号3楼</div>
+                                    </div>
+                                </div>
+                                <span>15900719671</span>
+                            </div>
+                            <div class="address">
+                                <span class="fa fa-circle-o"></span>
+                                <span>美帝</span>
+                                <div>
+                                    <div class="table">
+                                        <div class="cell">上海市 长宁区 愚园路1032弄3号3楼</div>
+                                    </div>
+                                </div>
+                                <span>15900719671</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="time-section">
+                    <h5 class="header">选择时间</h5>
+                    <div class="group">
+                        <span class="date">2015-5-6</span>
+                        <span class="time">上午</span>
+                        <i class="fa fa-angle-down"></i>
+                    </div>
+                </div>
+
+                <div class="comment-section">
+                    <div class="form-control-group">
+                        <label for="comment">留言：</label>
+                        <textarea rows="1" autocomplete="off" id="comment"></textarea>
+                    </div>
+                </div>
+
+                <div class="coupon-section">
+                    <div class="form-control-group">
+                        <label for="coupon-code">优惠码</label>
+                        <input autocomplete="off" placeholder="优惠码" class="coupon-code" type="text" id="coupon-code"/>
+                    </div>
+                    <div class="form-control-group">
+                        <label>优惠券</label>
+                        <span class="coupon-card"><i class="fa fa-angle-down"></i></span>
+                    </div>
+                    <div class="group">
+                        <span class="fa fa-check-square-o"></span>
+                        <span class="text">使用余额</span>
+                        <span class="rmb-char">300</span>
+                    </div>
+                </div>
+
+                <div class="price-section">
+                    <div class="item">
+                        <span>价格</span><span class="rmb-char">160.00</span>
+                    </div>
+                    <div class="item">
+                        <span>运费 <i>（满100免运费）</i></span><span class="rmb-char">0.00</span>
+                    </div>
+                    <div class="item">
+                        <span>总计</span><span><strong class="rmb-char">160</strong></span>
+                    </div>
+                </div>
+
+                <div class="confirm-section">
+                    <button>在线支付</button>
+                </div>
+
+            </form>
         </div>
     </div>
+
 </div>
-<script type="text/javascript" src="../public/javascripts/main.js"></script>
+<script type="text/javascript" src="/pc/dist/js/cart.js"></script>
 </body>
 </html>

@@ -2,7 +2,6 @@ import 'babel-polyfill'
 
 import React from "react"
 import ReactDom from "react-dom"
-import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 import configureSignStore from '../stores/configureSignStore'
 import {signUp, signIn} from "../actions/sign"
