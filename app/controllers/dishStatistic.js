@@ -692,10 +692,6 @@ exports.dishDailySales = function(req, res, next) {
 
 
 
-
-
-
-
 exports.dishDailySalesChart = function(req, res, next) {
 
     var query = {};
@@ -810,6 +806,109 @@ exports.dishDailySalesChart = function(req, res, next) {
         );
 
 
+        models.inventory.aggregateAsync( pipelinePerDay).then(function( resultInventroyPerDay){
+            res.status(200).json(resultInventroyPerDay);
+        }).catch(next);
+
+
+    }).catch(next);
+
+
+
+
+
+};
+
+
+
+
+
+exports.dishWeeklySalesChart = function(req, res, next) {
+
+    var query = {};
+
+    if (typeof req.query._id !== 'undefined' && req.query._id !== '') {
+        query._id = req.query._id;
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        query.cookingType = req.query.cookingType;
+    }
+
+    if (typeof req.query.sideDishType !== 'undefined' && req.query.sideDishType !== '') {
+        query.sideDishType = req.query.sideDishType;
+    }
+
+    if (typeof req.query.isPublished !== 'undefined' && req.query.isPublished !== '') {
+        query.isPublished = req.query.isPublished;
+    }
+
+
+    var matchQueryWarehouse  = '';
+
+    if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
+
+        if (req.query.showForWarehouse === 'xinweioffice') {
+            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
+
+        }else if (req.query.showForWarehouse === 'caohejing1'){
+            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
+
+        }else if (req.query.showForWarehouse === 'lujiazui1'){
+            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
+        }
+    }else{
+        matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
+    }
+
+
+
+    var dishIdList = [];
+
+    var pipelinePerDay = [];
+    var pipelinePerWeek = [];
+    var pipelinePerMonth = [];
+
+    var match = {
+        "warehouse" : matchQueryWarehouse,
+        "isPlus" : false,
+        "remark" : models.inventory.constantRemark().userOrder,
+        "deliveryDateTime" : { $exists: true}
+    };
+
+    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
+        match.createdAt = { $gte: new Date(req.query.searchDateFrom) };
+    }
+
+    var project = {
+        _id : 1,
+        createdAt : 1,
+        user : 1,
+        order: 1,
+        dish : 1,
+        quantity : 1,
+        isPlus : 1,
+        remark : 1,
+        deliveryDateTime : 1,
+        clientFrom : 1,
+
+        year: { $year: {$add:["$deliveryDateTime",28800000]} },
+        month: { $month: {$add:["$deliveryDateTime",28800000]} },
+        day: { $dayOfMonth: {$add:["$deliveryDateTime",28800000]} },
+        hour: { $hour: {$add:["$deliveryDateTime",28800000]} },
+        minutes: { $minute: {$add:["$deliveryDateTime",28800000]} },
+        dayOfYear: { $dayOfYear: {$add:["$deliveryDateTime",28800000]} },
+        dayOfWeek: { $dayOfWeek: {$add:["$deliveryDateTime",28800000]} },
+        week: { $week: {$add:["$deliveryDateTime",28800000]} }
+    };
+
+    models.dish.find(query).lean().execAsync().then(function(resultDishList){
+        dishIdList = resultDishList.map(function(dish){
+            return  ObjectId(dish._id.toString());
+        });
+
+        match.dish = {$in:dishIdList};
+
         pipelinePerWeek.push (
             { "$match":match},
 
@@ -865,15 +964,13 @@ exports.dishDailySalesChart = function(req, res, next) {
 
 
         var promiseList = [
-            models.inventory.aggregateAsync( pipelinePerDay),
             models.inventory.aggregateAsync( pipelinePerWeek),
             models.inventory.aggregateAsync( pipelinePerMonth)
         ];
 
-        Promise.all(promiseList).spread(function( resultInventroyPerDay, resultInventroyPerWeek, resultInventroyPerMonth){
+        Promise.all(promiseList).spread(function( resultInventroyPerWeek, resultInventroyPerMonth){
 
             res.status(200).json({
-                byDaily : resultInventroyPerDay,
                 byWeek : resultInventroyPerWeek,
                 byMonth : resultInventroyPerMonth
             });

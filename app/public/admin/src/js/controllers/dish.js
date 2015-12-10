@@ -472,18 +472,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         });
 
         Statistic.getDishStatisticChartByDaily(options).then(function (result) {
-            $scope.data.dishStatisticChartByDaily = result.data.byDaily;
-            $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
-            $scope.data.dishStatisticChartByMonth =  result.data.byMonth ;
+            $scope.data.dishStatisticChartByDaily = result.data;
 
             $scope.chartDaily.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
             $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
-
-            $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
-            $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
-
-            $scope.chartMonth.series = Util.chartDataFormat($scope.data.dishStatisticChartByMonth);
-            $scope.chartMonth.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByMonth);
 
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
@@ -502,27 +494,22 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Util.delProperty(options);
 
-        if ($scope.data.dishStatisticChartByDaily.length === 0){
-            Statistic.getDishStatisticChartByDaily(options).then(function (result) {
-                $scope.data.dishStatisticChartByDaily = result.data.byDaily;
-                $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
-                $scope.data.dishStatisticChartByMonth =  result.data.byMonth ;
+        Statistic.getDishStatisticChartByWeekly(options).then(function (result) {
+            $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
+            $scope.data.dishStatisticChartByMonth =  result.data.byMonth ;
 
-                $scope.chartDaily.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
-                $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+            $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
+            $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
 
-                $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
-                $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
+            $scope.chartMonth.series = Util.chartDataFormat($scope.data.dishStatisticChartByMonth);
+            $scope.chartMonth.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByMonth);
 
-                $scope.chartMonth.series = Util.chartDataFormat($scope.data.dishStatisticChartByMonth);
-                $scope.chartMonth.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByMonth);
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
 
-                Notification.success({message: 'Search Success! ', delay: 4000});
-            }).catch(function(err){
-                console.log(err);
-                Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
-            });
-        }
 
     };
 
