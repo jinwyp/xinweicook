@@ -17,10 +17,6 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
         query._id = req.query._id;
     }
 
-    // if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-    //     query.createdAt = { $gte: new Date(req.query.searchDateFrom)};
-    // }
-
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         query.cookingType = req.query.cookingType;
     }
@@ -332,10 +328,6 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
     Promise.all(promiseList).spread(function(resultDish, resultInventroyTotal, resultInventroyToday, resultInventroyYesterday, resultInventroyDayBeforeYesterday, resultInventroyLast3Day, resultInventroyLast7Day, resultInventroyLast15Day, resultInventroyLast30Day, resultInventroyLast60Day, resultInventroyLast90Day, resultInventroyPerDay, resultInventroyPerWeek){
 
         if (resultDish && resultDish.length > 0 && resultInventroyTotal.length > 0 && resultInventroyPerDay.length > 0) {
-            //dishIdList = resultDish.map(function(dish){
-            //    return dish._id.toString()
-            //});
-
 
             resultInventroyTotal.forEach(function(dishInventory){
                 dishHashListTotal[dishInventory._id.toString()] = dishInventory;
