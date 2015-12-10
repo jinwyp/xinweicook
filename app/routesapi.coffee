@@ -168,6 +168,7 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/initadminuser", initController.createAdmin)
   app.get("/api/administrator/initwarehouse", libs.auth("admin"), initController.createWarehouse)
+  app.get("/api/administrator/initfixinventorydeliveryDate", initController.fixDishInventoryForDeliveryDate)
   app.get("/api/administrator/initfixinventory", initController.fixDishInventoryForCaohejin1)
   app.get("/api/administrator/initfixuserclientfrom", initController.addUserStatisticsClientFrom)
   app.get("/api/administrator/initwarehousestock", libs.auth("admin"), initController.fixDishWarehouseStock)
@@ -219,6 +220,7 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/dish/stock", dishStatController.dishStatisticByStockLast7Day)
   app.get("/api/admin/statistic/dish/daily", dishStatController.dishDailySales)
   app.get("/api/admin/statistic/dish/daily/chart", dishStatController.dishDailySalesChart)
+  app.get("/api/admin/statistic/dish/weekly/chart", dishStatController.dishWeeklySalesChart)
 
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
   app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
@@ -230,6 +232,7 @@ expressRoutes = (app) ->
   app.get("/api/admin/cronjob/user/noorder", cronJobController.getNoOrderUserLast7Day)
   app.get("/api/admin/cronjob/user/noorder/test", cronJobController.getNoOrderUserLast7DayTest)
   app.get("/api/admin/cronjob/order/notpaid/cancel", cronJobController.cancelNotPaidOrder)
+  app.get("/api/admin/cronjob/user/account/employee", cronJobController.chargeAccountForEmployee)
 
 
 

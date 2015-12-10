@@ -139,36 +139,35 @@
         <thead>
             <tr>
                 <th>_id / 时间</th>
-                <th>用户ID</th>
-                <th>明细名称</th>
-                <th>备注</th>
+                <th>明细名称 / 用户ID </th>
+                <th>充值还是消费</th>
                 <th>充值类型</th>
+                <th>是否支付</th>
                 <th>充值RMB</th>
                 <th>新味币</th>
-                <th>是否支付</th>
-                <th>充值还是消费</th>
                 <th>消费订单ID</th>
-                <!--<th>操作</th>-->
+                <th>备注</th>
+                <!-- <th>操作</th> -->
 
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="account in data.accountDetailList | filter: data.searchFilter">
-                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} <br/> <button class="btn btn-info" ng-click="showAccountPayment(account._id)">查看支付状态</button> <br/>
+                <td>{{account._id}}<br/> {{account.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} <br/> <button class="btn btn-info" ng-show="account.isPlus" ng-click="showAccountPayment(account._id)">查看支付状态</button> <br/>
 
                     <span ng-repeat="payment in data.accountPaymentDetail" ng-show="data.currentDeleteIndex === account._id"> <pre> {{payment | json}}</pre></span>
                 </td>
 
-                <td><a ui-sref="menu.updateUser({ id: account.user })">{{account.user}}</a> </td>
-                <td>{{account.name.zh}}</td>
-                <td>{{account.remark}}</td>
-                <td>{{account.chargeType}}</td>
+                <td>{{account.name.zh}} <br/> <a ui-sref="menu.updateUser({ id: account.user })">{{account.user}}</a> </td>
+
+                <td>{{account.isPlus ? '充值' : '消费'}} </td>
+                <td>{{account.chargeType}} <br/> <a ui-sref="menu.updateCoupon({ id: account.coupon })" ng-show="account.coupon">充值码ID: {{account.coupon}}</a></td>
+                <td><span ng-show="account.isPlus">{{account.isPaid ? '已支付' : '未支付' }}</span></td>
                 <td>{{account.amount}}</td>
                 <td>{{account.amountXinwei}}</td>
-                <td><span ng-show="account.isPlus">{{account.isPaid ? '已支付' : '未支付' }}</span></td>
-                <td>{{account.isPlus ? '充值' : '消费'}} <br/> <a ui-sref="menu.updateCoupon({ id: account.coupon })" ng-show="account.coupon">充值码ID: {{account.coupon}}</a></td>
-                <td><a ui-sref="menu.updateOrder({ id: account.order })">{{account.order}}</a></td>
 
+                <td><a ui-sref="menu.updateOrder({ id: account.order })">{{account.order}}</a></td>
+                <td>{{account.remark}}</td>
                 <!--<td>-->
                     <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===account._id">确认真的删除吗？-->
                         <!--<button class="btn btn-danger" ng-click="delAccountDetail(account)">立即删除</button>-->

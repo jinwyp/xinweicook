@@ -45,6 +45,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         dishStatisticByDaily : [],
         dishStatisticChartByDaily : [],
         dishStatisticChartByWeek : [],
+        dishStatisticChartByMonth : [],
 
         currentTagFilter : '',
         currentPreferenceCategory : '',
@@ -388,6 +389,42 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         size: {}
     };
 
+    $scope.chartMonth = {
+        options: {
+            chart: {
+                type: 'column'
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '菜品月销量'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '月'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
 
     $scope.datePickerOpen = function($event) {
         $scope.data.datePickerIsOpen = true;
@@ -434,28 +471,38 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
+        Statistic.getDishStatisticChartByDaily(options).then(function (result) {
+            $scope.data.dishStatisticChartByDaily = result.data;
+
+            $scope.chartDaily.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
+            $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
     };
 
 
-
-
-    $scope.searchDishStatisticChartByDaily = function (form, sortBy) {
-        $scope.css.showTable = 'statisticChart';
+    $scope.searchDishStatisticByWeek= function (form, sortBy) {
+        $scope.css.showTable = 'statisticWeek';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
         var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
 
         Util.delProperty(options);
 
-        Statistic.getDishStatisticChartByDaily(options).then(function (result) {
-            $scope.data.dishStatisticChartByDaily = result.data.byDaily;
+        Statistic.getDishStatisticChartByWeekly(options).then(function (result) {
             $scope.data.dishStatisticChartByWeek =  result.data.byWeek ;
-
-            $scope.chartDaily.series = Util.chartDataFormat($scope.data.dishStatisticChartByDaily);
-            $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByDaily);
+            $scope.data.dishStatisticChartByMonth =  result.data.byMonth ;
 
             $scope.chartWeek.series = Util.chartDataFormat($scope.data.dishStatisticChartByWeek);
             $scope.chartWeek.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByWeek);
+
+            $scope.chartMonth.series = Util.chartDataFormat($scope.data.dishStatisticChartByMonth);
+            $scope.chartMonth.xAxis.categories = Util.chartxAxisFormat($scope.data.dishStatisticChartByMonth);
 
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
@@ -566,7 +613,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     if ($state.current.data.type === 'list'){
 
         if ($localStorage.dishSearchOptions){
-            $scope.data.searchOptions.query = $localStorage.dishSearchOptions
+            $scope.data.searchOptions.query = $localStorage.dishSearchOptions;
         }
 
         $scope.searchDish();
@@ -676,7 +723,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 zh : '',
                 en : ''
             }
-        )
+        );
     };
     $scope.addNewFeature = function (current) {
         current.push({
@@ -691,14 +738,14 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             },
             sortId : 100,
             linkTo : ''
-        })
+        });
 
     };
     $scope.addNewPriceWholesale = function (current) {
         current.push({
             quantity : '',
             price : ''
-        })
+        });
     };
 
     $scope.addNewTagFilter = function (pushArray, data) {
@@ -750,7 +797,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         angular.forEach(preference.foodMaterial, function(dish, dishIndex) {
 
             if (index !== dishIndex){
-                dish.default = false
+                dish.default = false;
             }
         });
 
@@ -786,15 +833,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
-
-    $scope.showChart = function(dishId){
+    $scope.showSingleDishDaily = function(dishId){
         $scope.data.searchOptions.query._id = dishId;
-
-        $scope.searchDishStatisticChartByDaily();
-
+        $scope.searchDishStatisticByDaily();
     };
 
 
 
-
-};
+}

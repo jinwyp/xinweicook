@@ -11,7 +11,7 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
                 }
 
                 return data;
-            })
+            });
         },
         logOut: function () {
             return $http.post('/api/user/logout', {
@@ -20,9 +20,9 @@ angular.module('RDash.models').factory('User', function ($http, $localStorage) {
             }).then(function (data) {
                 $localStorage.access_token = '';
                 return data;
-            })
+            });
         }
-    }
+    };
 });
 
 
@@ -43,17 +43,17 @@ angular.module('RDash.models').factory('Util', function ($http) {
                         }else{
                             angular.forEach(obj[p], function(subobj, index){
                                 if(!angular.isUndefined(subobj.zh) && subobj.zh == ''){
-                                    obj[p].splice(index, 1)
+                                    obj[p].splice(index, 1);
                                 }
 
                                 if(!angular.isUndefined(subobj.title) && subobj.title.zh == '' && !angular.isUndefined(subobj.value) && subobj.value.zh == ''){
-                                    obj[p].splice(index, 1)
+                                    obj[p].splice(index, 1);
                                 }
                                 if(!angular.isUndefined(subobj.quantity) && (subobj.quantity == '' || subobj.quantity == null)) {
-                                    obj[p].splice(index, 1)
+                                    obj[p].splice(index, 1);
                                 }
 
-                            })
+                            });
                         }
                     }else if (angular.isObject(obj[p])) {
                         //console.log(this);
@@ -69,7 +69,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                     }
                 }
             }
-            return obj
+            return obj;
         },
 
         delProperty: function (obj){
@@ -80,7 +80,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                     }
                 }
             }
-            return obj
+            return obj;
         },
 
         formatParam: function (options, isSort){
@@ -100,11 +100,9 @@ angular.module('RDash.models').factory('Util', function ($http) {
                 result.limit = options.limit;
             }
 
-
             //console.log(decodeURIComponent('http://localhost:3003/api/admin/accountdetails/count?limit=200&query=%7B%22isPlus%22:%22true%22%7D&sort=-createdAt'));
 
-
-            return result
+            return result;
         },
 
 
@@ -143,6 +141,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
             return result;
         },
 
+
         chartxAxisFormat : function(chartData){
 
             var simpleChartxAxis = {
@@ -177,9 +176,6 @@ angular.module('RDash.models').factory('Util', function ($http) {
                     }else if (typeof value.hour !== 'undefined') {
                         // order by hour
                         this.push( (value.hour < 16) ? (value.hour + 8 ):(value.hour - 16 ) );
-                    }else if (typeof value.week !== 'undefined') {
-                        // dish by week
-                        this.push('第' + value.week + '周('+ value.dishList[0].createdAt.substr(5,5) + ')');
                     }
 
                 }, result);
@@ -188,7 +184,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
             return result;
         }
 
-    }
+    };
 });
 
 
@@ -314,9 +310,13 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
                 params: params
             });
         },
-
         getDishStatisticChartByDaily: function (params) {
             return $http.get('/api/admin/statistic/dish/daily/chart', {
+                params: params
+            });
+        },
+        getDishStatisticChartByWeekly: function (params) {
+            return $http.get('/api/admin/statistic/dish/weekly/chart', {
                 params: params
             });
         },

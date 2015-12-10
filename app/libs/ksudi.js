@@ -77,7 +77,7 @@ function ksuDi(config) {
     //default config
     this.config = _.assign ({}, configKsuDi);
     if (typeof config === "object"){
-        this.config = _.assign ({}, configKsuDi, config)
+        this.config = _.assign ({}, configKsuDi, config);
     }
 
 }
@@ -154,7 +154,7 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         goodsInfo : item.dishHistory[0].dish.title.zh,
         actualcost : 0, //实际支付金额
-        weight : 5,
+        weight : 3,
         //order_remark : '',
 
         cityname : item.address.city,
@@ -168,7 +168,7 @@ ksuDi.prototype.createOrder = function (item, callback){
     };
 
     if (typeof item.expressComment !== 'undefined' && item.expressComment != ''){
-        newOrder.order_remark = item.expressComment
+        newOrder.order_remark = item.expressComment;
     }
 
     newOrder.sign = this.sign(newOrder) ;
@@ -204,8 +204,8 @@ ksuDi.prototype.createOrder = function (item, callback){
 
         try{
             result = JSON.parse(body);
-        }catch (err){
-            return  callback(err);
+        }catch (error){
+            return  callback(error);
         }
 
         if(result.code === 200 || result.code === '200'){
@@ -227,7 +227,7 @@ ksuDi.prototype.createOrder = function (item, callback){
         }
 
 
-    })
+    });
 };
 
 
@@ -287,8 +287,8 @@ ksuDi.prototype.searchOrder = function (item, callback){
         try{
             result = JSON.parse(body);
 
-        }catch (err){
-            return  callback(err);
+        }catch (error){
+            return  callback(error);
         }
 
 
@@ -327,5 +327,5 @@ ksuDi.prototype.searchOrder = function (item, callback){
             return  callback(result);
         }
 
-    })
+    });
 };

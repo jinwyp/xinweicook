@@ -123,10 +123,10 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
         UserAccountDetails.getList(Util.formatParam($scope.data.searchOptions, true)).then(function (result) {
             $scope.data.accountDetailList = result;
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
     };
@@ -144,12 +144,12 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
         $scope.data.accountDetailList[index].remove().then(function (resultDevice) {
             $scope.searchAccountDetailCount();
 
-            Notification.success({message : 'Delete Success', delay : 8000});
+            Notification.success({message : 'Delete Success', delay : 4000});
 
         }).catch(function (err) {
             Notification.error({
                 message : "Delete Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
+                delay   : 7000
             });
         });
 
@@ -205,13 +205,10 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
 
         $scope.data.user.put().then(function (resultAccountDetail) {
-            Notification.success({message : 'Update Success', delay : 8000});
+            Notification.success({message : 'Update Success', delay : 4000});
         }).catch(function (err) {
             console.log(err);
-            Notification.error({
-                message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,
-                delay   : 5000
-            });
+            Notification.error({message : "Update Failure! Status:" + err.status + " Reason: " + err.data.message,delay   : 7000});
         });
     };
 
@@ -221,14 +218,14 @@ function userAccountDetailController($scope, $timeout, $state, $stateParams, Not
 
         $scope.data.currentDeleteIndex = accountdetailId;
 
-        PaymentDetails.getList( {query : {accountDetail:"55ff96483c0b47cb3ef98fee"}}).then(function (result) {
+        PaymentDetails.getList( {query : {accountDetail:accountdetailId}}).then(function (result) {
             console.log(result);
             $scope.data.accountPaymentDetail = result;
 
-            Notification.success({message: 'Search Success! ', delay: 8000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
 
         }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 5000});
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
 

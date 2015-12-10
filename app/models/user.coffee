@@ -117,6 +117,7 @@ module.exports =
       type =
         admin : "admin"
         cs : "cs"
+        employee : "employee"
         partner : "partner"
         member : "member"
         courier : "courier"
