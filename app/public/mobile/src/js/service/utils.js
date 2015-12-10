@@ -148,6 +148,7 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
          */
         addressOptions: function (addresses, province, city) {
             var len = arguments.length;
+
             if (len == 1) {
                 return addresses.map(function (el) {return el.state})
 
@@ -162,11 +163,14 @@ angular.module('xw.services').factory('Utils', function ($localStorage) {
 
             } else if (len == 3) {
                 if (!city) return;
-                return addresses.filter(function(el) {
+                var cities = addresses.filter(function(el) {
                     return el.state == province
                 })[0].cities.filter(function (el) {
-                        return el.city
-                    })[0].areas
+                        return el.city == city
+                    })
+                if (cities && cities.length) {
+                    return cities[0].areas
+                }
             }
         },
 
