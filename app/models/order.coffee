@@ -211,15 +211,15 @@ module.exports =
       segment =
         time12:
           name : "12"
-          text : "10:00 - 12:00 AM"
+          text : "10:00-12:00"
           status : true
         time17:
           name : "17"
-          text : "12:00 - 17:00 PM"
+          text : "12:00-17:00"
           status : true
         time20:
           name : "20"
-          text : "17:00 - 20:00 PM"
+          text : "17:00-20:00"
           status : true
 
     constantDeliveryName : () ->
@@ -527,7 +527,7 @@ module.exports =
 
       for i in [1..5]
         segmentDay =
-          day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss A")
+          day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss")
 
         if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
           segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD")
