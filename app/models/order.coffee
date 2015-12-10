@@ -568,7 +568,7 @@ module.exports =
         # 如果计算出来的时间超过19点  将不在push进去
         if timeSectionTemp.isBefore(worktimeEnd)
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       # 处理第二天的时间段 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
@@ -576,7 +576,7 @@ module.exports =
         for i in [1..17]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       resultTime
@@ -611,7 +611,7 @@ module.exports =
         # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
         if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
@@ -619,7 +619,7 @@ module.exports =
         for i in [1..6]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       resultTime
@@ -654,7 +654,7 @@ module.exports =
         # 处理如果计算出来的时间超过19点  将不在push进去
         if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
@@ -662,7 +662,7 @@ module.exports =
         for i in [1..17]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
           segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm A")
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
 
       resultTime
