@@ -5,12 +5,17 @@ function _fetch(url, options) {
     if (!access_token) return fetch(url, options);
 
     options = options || {};
-    options.headers =
-    options.headers = {
-        Authorization: ('Bearer ' + access_token),
-        ...options.headers
-    }
-    return fetch(url, options).then(res => res.json())
+    options.headers = Object.assign({}, options.headers,
+        {Authorization: ('Bearer ' + access_token)})
+    return fetch(url, options).then(res => {
+        if (res.status >= 400) {
+            if (res.status == '401') {
+                location.href = '/sign'
+            }
+            return Promise.reject(res)
+        }
+        return res.json()
+    })
 }
 
 export default _fetch;

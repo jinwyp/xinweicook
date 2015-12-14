@@ -2,10 +2,20 @@ import React from 'react'
 
 var StaticAddress = React.createClass({
 
+    _select() {
+        var props = this.props
+        !props.outOfRange && props.select(props._id, {
+            isAvailableForEat: props.isAvailableForEat,
+            warehouse: props.warehouse,
+            city: props.city,
+            _id: props._id
+        })
+    },
+
     render: function () {
         var props = this.props
         return (
-            <div className="address" onClick={() => props.select(props._id, props.warehouse)}>
+            <div className={"address" + (props.outOfRange ? ' out-of-range' : '')} onClick={this._select}>
                 <span  className={'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o')}></span>
                 <span>{props.contactPerson}</span>
                 <div className="address-detail">
@@ -20,6 +30,7 @@ var StaticAddress = React.createClass({
                     </div>
                 </div>
                 <span>{props.mobile}</span>
+                <div className="out-of-range" style={{display: props.outOfRange ? 'block' : 'none'}}>该地址不在便当配送范围内</div>
             </div>
         )
     }

@@ -12,6 +12,23 @@ export function toPostDish(item) {
 }
 
 export function hasStock(item, warehouse) {
-    return item.dish.stockWarehouse.some(w => w.warehouse == warehouse && w.stock > 0)
+    if (item.dish.cookingType == 'ready to cook') {
+        return item.dish.stockWarehouse.some(el => el.stock > 0)
+    }
+    return item.dish.stockWarehouse.some(w => (!warehouse || w.warehouse == warehouse) && w.stock > 0)
         && item.subDish && item.subDish.every(it => hasStock(it, warehouse))
+}
+
+export function availableWarehouse(cartList) {
+    var warehouses= {}
+    cartList.forEach(item =>{
+        var dish = item.dish
+        dish.stockWarehouse.forEach(el => {
+            var w = el.warehouse
+            if (!(w in warehouses))
+                warehouses[w] = true
+            warehouses[w] = warehouses[w] && el.stock > 0
+        })
+    })
+    return warehouses
 }

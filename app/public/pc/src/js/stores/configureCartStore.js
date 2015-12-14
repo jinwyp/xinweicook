@@ -4,6 +4,7 @@ import { combineReducers } from 'redux'
 import cart from '../reducers/cart'
 import address from '../reducers/address'
 import warehouse from '../reducers/warehouse'
+import time from '../reducers/time'
 import user from '../reducers/user'
 
 var createStoreWithMiddleware = applyMiddleware(
@@ -12,6 +13,6 @@ var createStoreWithMiddleware = applyMiddleware(
 
 export default function () {
     return createStoreWithMiddleware(combineReducers({
-        cart, address, warehouse, user
+        cart, address, warehouse, user, time
     }))
 }

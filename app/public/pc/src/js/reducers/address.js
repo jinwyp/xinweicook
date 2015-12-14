@@ -22,6 +22,20 @@ function addresses(state = [], action) {
             return state
         case types.DEL_ADDRESS:
             return state.filter(address => address._id != action.id)
+        case types.CART_SELECTION_CHANGED:
+            // 根据菜品的库存状况过滤出可用地址(食材包,便当的种类信息, 便当的话还要提供都有货的仓库信息)
+            if (action.info['ready to eat']) {
+                return state.map(item => {
+                    item.outOfRange = !item.isAvailableForEat || !action.info.warehouse[item.warehouse]
+                    return item
+                })
+            } else {
+                return state.map(item => {
+                    item.outOfRange = false
+                    return item
+                })
+            }
+
         default: return state
     }
 }

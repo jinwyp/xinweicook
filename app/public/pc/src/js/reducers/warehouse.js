@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 export default function warehouse(state = '', action) {
     switch (action.type) {
         case types.SELECT_ADDRESS:
-            return action.warehouse
+            return action.address.warehouse
 
         default: return state
     }

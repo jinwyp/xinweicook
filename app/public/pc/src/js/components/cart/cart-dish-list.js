@@ -7,7 +7,7 @@ var CartDishList = React.createClass({
         const {dishList} = this.props
         const props = this.props
         var cookingType = dishList[0].dish.cookingType;
-        var selectedAll = dishList.every(item => item.selected || !item.hasStock)
+        var selectedAll = dishList.every(item => item.selected || item.noStock)
             && dishList.some(item => item.selected)
 
         return (

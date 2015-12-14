@@ -122,6 +122,7 @@ $border-block: 5px;
             left: 0;
             right: 0;
             margin: auto;
+            transition: 0.4s;
             background: url(../images/plusok.png) 100%/cover;
             &.show {
               opacity: 1;

@@ -10,6 +10,10 @@ $height_cart_dish: 47px;
 $height_cart_address: 59px;
 $color_cart_input_border: #898A8B;
 $color_cart_price_border: #e8e8e8;
+$color_cart_invalid_cover: rgba(0, 0, 0, 0.12);
+$color_cart_invalid_font:  #D6D6D6;
+$color_cart_checkbox: #777;
+$color_cart_list_hover: #EEEFF0;
 
 .cart {
   width: 100%;
@@ -63,7 +67,7 @@ $color_cart_price_border: #e8e8e8;
         span {
           display: inline-block;
           &:nth-child(1) {
-            color: $color_celeste_approx;
+            color: $color_cart_checkbox;
             padding-left:$width_cart_col1_offset;
             width: $width_cart_col1;
           }
@@ -93,7 +97,7 @@ $color_cart_price_border: #e8e8e8;
           vertical-align: top;
           font-size: 14px;
           &:nth-child(1) {
-            color: $color_celeste_approx;
+            color: $color_cart_checkbox;//$color_celeste_approx;
             padding-left:$width_cart_col1_offset;
             width: $width_cart_col1;
           }
@@ -101,6 +105,7 @@ $color_cart_price_border: #e8e8e8;
             width: $width_cart_col2;
             text-indent: 2px;
             overflow: hidden;
+            position: relative;
             img {
               width: 40px;
               height: 40px;
@@ -110,12 +115,40 @@ $color_cart_price_border: #e8e8e8;
               padding-left: 8px;
               display: inline-block;
             }
+            .no-stock-mask {
+              color: #888;
+              display: none;
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              left: 0;
+              top: 0;
+              text-align: center;
+              font-size: 20px;
+              line-height: 47px;
+              background-color: $color_cart_invalid_cover;
+            }
           }
           &:nth-child(3) {
             width: $width_cart_col3;
             text-align: center;
+            .icon {
+              border: 1px solid;
+              width: 14px;
+              display: inline-block;
+              height: 14px;
+              text-align: center;
+              line-height: 12px;
+              user-select: none;
+            }
+            .disabled {
+              color: $color_cart_invalid_font;
+            }
             .number {
-              padding: 5px;
+              display: inline-block;
+              width: 1.1em;
+              text-align: center;
+              padding: 0 5px;
             }
           }
           &:nth-child(4) {
@@ -125,6 +158,15 @@ $color_cart_price_border: #e8e8e8;
           &:nth-child(5) {
             width: $width_cart_col5;
             text-align: right;
+          }
+        }
+        &.no-stock {
+          color: $color_cart_invalid_font;
+          .no-stock-mask {
+            display: block;
+          }
+          > *:nth-child(1) {
+            color: $color_celeste_approx;
           }
         }
       }
@@ -155,9 +197,26 @@ $color_cart_price_border: #e8e8e8;
         .address-list {
           padding-left: 2px;
           .address {
+            transition: background-color .4s;
             cursor: pointer;
+            position:relative;
+            &.out-of-range {
+              color: $color_cart_invalid_font;
+            }
             &:hover {
-              background-color: #EEEFF0;
+              background-color: $color_cart_list_hover;
+            }
+            .out-of-range {
+              position:absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              text-align: center;
+              font-size: 20px;
+              line-height: $height_cart_address;
+              background-color: $color_cart_invalid_cover;
+              color: #888;
             }
             > * {
               float: left;
@@ -201,6 +260,7 @@ $color_cart_price_border: #e8e8e8;
 
       .time-section {
         margin-bottom: 2em;
+        position: relative;
         .header {
           text-align: left;
           margin-bottom: 5px;
@@ -223,6 +283,37 @@ $color_cart_price_border: #e8e8e8;
           .fa {
             position: absolute;
             right: 1em;
+            top: 8px;
+          }
+        }
+        .time-option-panel {
+          display: block;
+          position: absolute;
+          background: white;
+          z-index: 1;
+          width: 100%;
+          height: 334px;
+          text-align: center;
+          top: -50%;
+          border: 1px solid #CECECE;
+          border-radius: 4px;
+          h5 {
+            height: 33px;
+            line-height: 33px;
+            border-bottom: 1px solid #CECECE;
+          }
+          ul {
+            height: 300px;
+            overflow: auto;
+          }
+          li {
+            border-bottom: 1px solid #E8E8E8;
+            margin: 0 5px;
+            padding: 13px;
+            transition: .4s background-color;
+            &:hover {
+              background-color: $color_cart_list_hover;
+            }
           }
         }
       }

@@ -64,21 +64,33 @@
 
 	var _configureCartStore2 = _interopRequireDefault(_configureCartStore);
 
-	var _cart = __webpack_require__(369);
+	var _cart = __webpack_require__(375);
 
 	var cartAction = _interopRequireWildcard(_cart);
 
-	var _address = __webpack_require__(389);
+	var _address = __webpack_require__(380);
 
 	var addressAction = _interopRequireWildcard(_address);
 
-	var _cart2 = __webpack_require__(381);
+	var _time = __webpack_require__(381);
+
+	var timeAction = _interopRequireWildcard(_time);
+
+	var _cart2 = __webpack_require__(382);
 
 	var _cart3 = _interopRequireDefault(_cart2);
 
-	var _addressList = __webpack_require__(385);
+	var _addressList = __webpack_require__(386);
 
 	var _addressList2 = _interopRequireDefault(_addressList);
+
+	var _timeSelector = __webpack_require__(393);
+
+	var _timeSelector2 = _interopRequireDefault(_timeSelector);
+
+	var _cartCoupon = __webpack_require__(394);
+
+	var _cartCoupon2 = _interopRequireDefault(_cartCoupon);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -98,13 +110,16 @@
 	        var dispatch = _props.dispatch;
 	        var address = _props.address;
 	        var user = _props.user;
+	        var time = _props.time;
 
 	        var cartMethods = {
 	            selectOne: function selectOne(id) {
-	                return dispatch(cartAction.selectOne(id));
+	                dispatch(cartAction.selectOne(id));
+	                dispatch(timeAction.getTimeIfNeeded());
 	            },
 	            selectAll: function selectAll(cookingType) {
-	                return dispatch(cartAction.selectAll(cookingType));
+	                dispatch(cartAction.selectAll(cookingType));
+	                dispatch(timeAction.getTimeIfNeeded());
 	            },
 	            plusDish: function plusDish(id) {
 	                return dispatch(cartAction.plusDish(id));
@@ -113,15 +128,13 @@
 	                return dispatch(cartAction.minusDish(id));
 	            },
 	            delDish: function delDish(id) {
-	                return dispatch(cartAction.delDish(id));
+	                dispatch(cartAction.delDish(id));
+	                dispatch(timeAction.getTimeIfNeeded());
 	            }
 	        };
 	        var addressMethods = {
 	            addOne: function addOne() {
 	                return dispatch(addressAction.editAddress());
-	            },
-	            select: function select(id, warehouse) {
-	                return dispatch(addressAction.select(id, warehouse));
 	            },
 	            getList: function getList() {
 	                return dispatch(addressAction.getList());
@@ -134,8 +147,23 @@
 	            },
 	            delOne: function delOne(id) {
 	                return dispatch(addressAction.delOne(id));
+	            },
+	            select: function select(id, address) {
+	                dispatch(addressAction.select(id, address));
+	                dispatch(timeAction.getTimeIfNeeded());
 	            }
 	        };
+	        var timeMethods = {
+	            selectTime: function selectTime(time, cookingType) {
+	                return dispatch(timeAction.selectTime(time, cookingType));
+	            }
+	        };
+	        var hasEatDishSelected = cart.some(function (item) {
+	            return item.dish.cookingType == 'ready to eat' && item.selected;
+	        });
+	        var hasCookDishSelected = cart.some(function (item) {
+	            return item.dish.cookingType == 'ready to cook' && item.selected;
+	        });
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "cart-main" },
@@ -143,7 +171,10 @@
 	            _react2.default.createElement(
 	                "div",
 	                { className: "cart-main-right" },
-	                _react2.default.createElement(_addressList2.default, _extends({}, address, addressMethods, { warehouse: warehouse }))
+	                _react2.default.createElement(_addressList2.default, _extends({}, address, addressMethods, { warehouse: warehouse })),
+	                hasEatDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.eat)),
+	                hasCookDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.cook)),
+	                _react2.default.createElement(_cartCoupon2.default, null)
 	            )
 	        );
 	    }
@@ -26080,7 +26111,7 @@
 
 	exports.default = function () {
 	    return createStoreWithMiddleware((0, _redux.combineReducers)({
-	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default
+	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default, time: _time2.default
 	    }));
 	};
 
@@ -26094,15 +26125,19 @@
 
 	var _cart2 = _interopRequireDefault(_cart);
 
-	var _address = __webpack_require__(387);
+	var _address = __webpack_require__(371);
 
 	var _address2 = _interopRequireDefault(_address);
 
-	var _warehouse = __webpack_require__(388);
+	var _warehouse = __webpack_require__(372);
 
 	var _warehouse2 = _interopRequireDefault(_warehouse);
 
-	var _user = __webpack_require__(383);
+	var _time = __webpack_require__(373);
+
+	var _time2 = _interopRequireDefault(_time);
+
+	var _user = __webpack_require__(374);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -26143,13 +26178,13 @@
 	});
 	exports.default = cart;
 
-	var _ActionTypes = __webpack_require__(374);
+	var _ActionTypes = __webpack_require__(369);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
 	var _redux = __webpack_require__(355);
 
-	var _dish = __webpack_require__(373);
+	var _dish = __webpack_require__(370);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26176,22 +26211,22 @@
 	        case types.FETCH_USER:
 	            if (action.status == 'success') {
 	                return action.user.shoppingCart.map(function (item) {
-	                    item.hasStock = (0, _dish.hasStock)(item, action.warehouse);
+	                    item.noStock = !(0, _dish.hasStock)(item, action.warehouse);
 	                    return item;
 	                });
 	            }
 	            return state;
-	        case types.SELECT_ADDRESS:
-	            return state.map(function (item) {
-	                item.hasStock = (0, _dish.hasStock)(item, action.warehouse);
-	                item.selected = item.selected && item.hasStock;
-	                return item;
-	            });
 	        case types.CART_SELECT_ONE:
 	            return state.map(function (item) {
 	                if (item._id == action.id) {
-	                    item.selected = !item.selected && item.hasStock;
+	                    item.selected = !item.selected && !item.noStock;
 	                }
+	                return item;
+	            });
+	        case types.SELECT_ADDRESS:
+	            return state.map(function (item) {
+	                item.noStock = !(0, _dish.hasStock)(item, action.address.warehouse);
+	                item.selected = item.selected && !item.noStock;
 	                return item;
 	            });
 	        case types.CART_SELECT_ALL:
@@ -26199,13 +26234,13 @@
 	                return item.dish.cookingType == action.cookingType;
 	            });
 	            var isSelectedAll = !(dishList.every(function (item) {
-	                return item.selected || !item.hasStock;
+	                return item.selected || item.noStock;
 	            }) && dishList.some(function (item) {
 	                return item.selected;
 	            }));
 	            return state.map(function (item) {
 	                if (item.dish.cookingType == action.cookingType) {
-	                    item.selected = isSelectedAll && item.hasStock;
+	                    item.selected = isSelectedAll && !item.noStock;
 	                }
 	                return item;
 	            });
@@ -26217,6 +26252,309 @@
 
 /***/ },
 /* 369 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// sign
+	var SIGNIN_SEND = exports.SIGNIN_SEND = 'SIGNIN_SEND';
+	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNUP_SEND';
+
+	// cart
+	var CART_SELECT_ONE = exports.CART_SELECT_ONE = 'CART_SELECT_ONE';
+	var CART_SELECT_ALL = exports.CART_SELECT_ALL = 'CART_SELECT_ALL';
+	var CART_SELECTION_CHANGED = exports.CART_SELECTION_CHANGED = 'CART_SELECTION_CHANGED';
+	var CART_MINUS_DISH = exports.CART_MINUS_DISH = 'CART_MINUS_DISH';
+	var CART_PLUS_DISH = exports.CART_PLUS_DISH = 'CART_PLUS_DISH';
+	var CART_DEL_DISH = exports.CART_DEL_DISH = 'CART_DEL_DISH';
+	var FETCH_CART = exports.FETCH_CART = 'FETCH_CART'; // not used because `fetch_user`
+	var SAVE_CART = exports.SAVE_CART = 'SAVE_CART';
+
+	// address
+	var EDIT_ADDRESS = exports.EDIT_ADDRESS = 'EDIT_ADDRESS';
+	var SELECT_ADDRESS = exports.SELECT_ADDRESS = 'SELECT_ADDRESS';
+	var POST_ADDRESS = exports.POST_ADDRESS = 'POST_ADDRESS';
+	var DEL_ADDRESS = exports.DEL_ADDRESS = 'DEL_ADDRESS';
+	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
+	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
+
+	// time
+	var GET_TIME = exports.GET_TIME = 'GET_TIME';
+	var SELECT_TIME = exports.SELECT_TIME = 'SELECT_TIME';
+
+	// user
+	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
+
+	// warehouse
+
+/***/ },
+/* 370 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.toPostDish = toPostDish;
+	exports.hasStock = hasStock;
+	exports.availableWarehouse = availableWarehouse;
+	function toPostDish(item) {
+	    return {
+	        dish: item.dish._id,
+	        number: item.number,
+	        subDish: item.subDish.map(function (it) {
+	            return {
+	                dish: it.dish._id,
+	                number: it.number
+	            };
+	        })
+	    };
+	}
+
+	function hasStock(item, warehouse) {
+	    if (item.dish.cookingType == 'ready to cook') {
+	        return item.dish.stockWarehouse.some(function (el) {
+	            return el.stock > 0;
+	        });
+	    }
+	    return item.dish.stockWarehouse.some(function (w) {
+	        return (!warehouse || w.warehouse == warehouse) && w.stock > 0;
+	    }) && item.subDish && item.subDish.every(function (it) {
+	        return hasStock(it, warehouse);
+	    });
+	}
+
+	function availableWarehouse(cartList) {
+	    var warehouses = {};
+	    cartList.forEach(function (item) {
+	        var dish = item.dish;
+	        dish.stockWarehouse.forEach(function (el) {
+	            var w = el.warehouse;
+	            if (!(w in warehouses)) warehouses[w] = true;
+	            warehouses[w] = warehouses[w] && el.stock > 0;
+	        });
+	    });
+	    return warehouses;
+	}
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function addresses() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SELECT_ADDRESS:
+	            return state.map(function (item) {
+	                item.selected = item._id == action.id;
+	                return item;
+	            });
+	        case types.GET_ADDRESS:
+	            return action.status == 'success' ? action.addresses : state;
+	        case types.POST_ADDRESS:
+	            return state.concat([action.address]);
+	        case types.PUT_ADDRESS:
+	            if (action.status == 'success') {
+	                return state.map(function (item) {
+	                    return action.id == item._id ? action.address : item;
+	                });
+	            }
+	            return state;
+	        case types.DEL_ADDRESS:
+	            return state.filter(function (address) {
+	                return address._id != action.id;
+	            });
+	        case types.CART_SELECTION_CHANGED:
+	            // 根据菜品的库存状况过滤出可用地址(食材包,便当的种类信息, 便当的话还要提供都有货的仓库信息)
+	            if (action.info['ready to eat']) {
+	                return state.map(function (item) {
+	                    item.outOfRange = !item.isAvailableForEat || !action.info.warehouse[item.warehouse];
+	                    return item;
+	                });
+	            } else {
+	                return state.map(function (item) {
+	                    item.outOfRange = false;
+	                    return item;
+	                });
+	            }
+
+	        default:
+	            return state;
+	    }
+	}
+
+	function addressEditingForm() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        show: false,
+	        id: ''
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.EDIT_ADDRESS:
+	            return {
+	                show: true,
+	                id: action.id || ''
+	            };
+	        case types.POST_ADDRESS:
+	        case types.PUT_ADDRESS:
+	            return action.status == 'success' ? { show: false } : state;
+	        default:
+	            return state;
+	    }
+	}
+
+	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm });
+
+	exports.default = addressReducer;
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = warehouse;
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function warehouse() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SELECT_ADDRESS:
+	            return action.address.warehouse;
+
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 373 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function cook() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        timeList: [],
+	        selectedTime: null,
+	        cookingType: 'ready to cook'
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    return _reducer(state, action, 'ready to cook');
+	}
+
+	function eat() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        timeList: [],
+	        selectedTime: null,
+	        cookingType: 'ready to eat'
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    return _reducer(state, action, 'ready to eat');
+	}
+
+	function _reducer(state, action, cookingType) {
+	    switch (action.type) {
+	        case types.GET_TIME:
+	            if (action.status == 'success' && action.cookingType == cookingType) {
+	                return _extends({}, state, { timeList: action.timeList });
+	            }
+	            return state;
+	        case types.SELECT_TIME:
+	            if (action.cookingType == cookingType) {
+	                return _extends({}, state, { selectedTime: action.time });
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+	var timeReducer = (0, _redux.combineReducers)({ cook: cook, eat: eat });
+
+	exports.default = timeReducer;
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = user;
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function user() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.FETCH_USER:
+	            return action.status == 'success' ? action.user : state;
+
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26231,17 +26569,17 @@
 	exports.minusDish = minusDish;
 	exports.delDish = delDish;
 
-	var _xwFetch = __webpack_require__(370);
+	var _xwFetch = __webpack_require__(376);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
-	var _dish = __webpack_require__(373);
+	var _dish = __webpack_require__(370);
 
-	var _ActionTypes = __webpack_require__(374);
+	var _ActionTypes = __webpack_require__(369);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _user = __webpack_require__(375);
+	var _user = __webpack_require__(379);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26274,7 +26612,7 @@
 	    if (!timer) {
 	        timer = setTimeout(function () {
 	            timer = null;
-	            (0, _xwFetch.post)('/api/user/shoppingcart', {
+	            return (0, _xwFetch.post)('/api/user/shoppingcart', {
 	                shoppingCart: getState().cart.map(_dish.toPostDish)
 	            }).then(function () {
 	                return dispatch(saveCartSuccess());
@@ -26283,17 +26621,38 @@
 	    }
 	}
 
+	function selectionChanged(info) {
+	    return {
+	        type: types.CART_SELECTION_CHANGED,
+	        info: info
+	    };
+	}
+
 	function selectOne(id) {
+	    return function (dispatch, getState) {
+	        dispatch(_selectOne(id));
+	        return dispatch(selectionChanged(getCookingTypeAndWarehouse(getState().cart)));
+	    };
+	}
+
+	function _selectOne(id, info) {
 	    return {
 	        type: types.CART_SELECT_ONE,
-	        id: id
+	        id: id, info: info
 	    };
 	}
 
 	function selectAll(cookingType) {
+	    return function (dispatch, getState) {
+	        dispatch(_selectAll(cookingType));
+	        return dispatch(selectionChanged(getCookingTypeAndWarehouse(getState().cart)));
+	    };
+	}
+
+	function _selectAll(cookingType, info) {
 	    return {
 	        type: types.CART_SELECT_ALL,
-	        cookingType: cookingType
+	        cookingType: cookingType, info: info
 	    };
 	}
 
@@ -26311,10 +26670,10 @@
 	    };
 	}
 
-	function _delDish(id) {
+	function _delDish(id, info) {
 	    return {
 	        type: types.CART_DEL_DISH,
-	        id: id
+	        id: id, info: info
 	    };
 	}
 
@@ -26327,23 +26686,47 @@
 	function minusDish(id) {
 	    return function (dispatch, getState) {
 	        dispatch(_minusDish(id));
-	        return dispatch(saveCart(dispatch, getState));
+	        return saveCart(dispatch, getState);
 	    };
 	}
 	function delDish(id) {
 	    return function (dispatch, getState) {
+	        var cart = getState().cart;
+	        var isChanged = cart.some(function (item) {
+	            return item._id == id;
+	        });
 	        dispatch(_delDish(id));
-	        return dispatch(saveCart(dispatch, getState));
+	        isChanged && dispatch(selectionChanged(getCookingTypeAndWarehouse(cart)));
+	        return saveCart(dispatch, getState);
 	    };
 	}
 
+	/**
+	 * 从购物车中提取cookingType信息,以及warehouse信息
+	 * @param dishList
+	 * @returns {{}} - {'ready to cook': true, warehouse: {abcdefghijklmn: true, ..}}
+	 */
+	function getCookingTypeAndWarehouse(dishList) {
+	    var ret = {};
+	    var selectedCart = dishList.filter(function (item) {
+	        return item.selected;
+	    });
+	    selectedCart.forEach(function (item) {
+	        return ret[item.dish.cookingType] = true;
+	    });
+	    // 下面只过滤出便当的可配送库存
+	    ret.warehouse = (0, _dish.availableWarehouse)(selectedCart.filter(function (item) {
+	        return item.dish.cookingType == 'ready to eat';
+	    }));
+
+	    return ret;
+	}
+
 /***/ },
-/* 370 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -26352,7 +26735,7 @@
 	exports.del = del;
 	exports.put = put;
 
-	var _isomorphicFetch = __webpack_require__(371);
+	var _isomorphicFetch = __webpack_require__(377);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -26363,10 +26746,14 @@
 	    if (!access_token) return (0, _isomorphicFetch2.default)(url, options);
 
 	    options = options || {};
-	    options.headers = options.headers = _extends({
-	        Authorization: 'Bearer ' + access_token
-	    }, options.headers);
+	    options.headers = Object.assign({}, options.headers, { Authorization: 'Bearer ' + access_token });
 	    return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
+	        if (res.status >= 400) {
+	            if (res.status == '401') {
+	                location.href = '/sign';
+	            }
+	            return Promise.reject(res);
+	        }
 	        return res.json();
 	    });
 	}
@@ -26403,19 +26790,19 @@
 	}
 
 /***/ },
-/* 371 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(372);
+	__webpack_require__(378);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 372 */
+/* 378 */
 /***/ function(module, exports) {
 
 	(function() {
@@ -26802,74 +27189,7 @@
 
 
 /***/ },
-/* 373 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.toPostDish = toPostDish;
-	exports.hasStock = hasStock;
-	function toPostDish(item) {
-	    return {
-	        dish: item.dish._id,
-	        number: item.number,
-	        subDish: item.subDish.map(function (it) {
-	            return {
-	                dish: it.dish._id,
-	                number: it.number
-	            };
-	        })
-	    };
-	}
-
-	function hasStock(item, warehouse) {
-	    return item.dish.stockWarehouse.some(function (w) {
-	        return w.warehouse == warehouse && w.stock > 0;
-	    }) && item.subDish && item.subDish.every(function (it) {
-	        return hasStock(it, warehouse);
-	    });
-	}
-
-/***/ },
-/* 374 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// sign
-	var SIGNIN_SEND = exports.SIGNIN_SEND = 'SIGNIN_SEND';
-	var SIGNUP_SEND = exports.SIGNUP_SEND = 'SIGNUP_SEND';
-
-	// cart
-	var CART_SELECT_ONE = exports.CART_SELECT_ONE = 'CART_SELECT_ONE';
-	var CART_SELECT_ALL = exports.CART_SELECT_ALL = 'CART_SELECT_ALL';
-	var CART_MINUS_DISH = exports.CART_MINUS_DISH = 'CART_MINUS_DISH';
-	var CART_PLUS_DISH = exports.CART_PLUS_DISH = 'CART_PLUS_DISH';
-	var CART_DEL_DISH = exports.CART_DEL_DISH = 'CART_DEL_DISH';
-	var FETCH_CART = exports.FETCH_CART = 'FETCH_CART'; // not used because `fetch_user`
-	var SAVE_CART = exports.SAVE_CART = 'SAVE_CART';
-
-	// address
-	var EDIT_ADDRESS = exports.EDIT_ADDRESS = 'EDIT_ADDRESS';
-	var SELECT_ADDRESS = exports.SELECT_ADDRESS = 'SELECT_ADDRESS';
-	var POST_ADDRESS = exports.POST_ADDRESS = 'POST_ADDRESS';
-	var DEL_ADDRESS = exports.DEL_ADDRESS = 'DEL_ADDRESS';
-	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
-	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
-
-	// user
-	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
-
-	// warehouse
-
-/***/ },
-/* 375 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26880,11 +27200,11 @@
 	exports.getUser = getUser;
 	exports.getUserIfNeeded = getUserIfNeeded;
 
-	var _xwFetch = __webpack_require__(370);
+	var _xwFetch = __webpack_require__(376);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
-	var _ActionTypes = __webpack_require__(374);
+	var _ActionTypes = __webpack_require__(369);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
@@ -26930,515 +27250,7 @@
 	}
 
 /***/ },
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _cartDishList = __webpack_require__(382);
-
-	var _cartDishList2 = _interopRequireDefault(_cartDishList);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Cart = _react2.default.createClass({
-	    displayName: 'Cart',
-
-	    render: function render() {
-	        var props = this.props;
-
-	        var dishList = { cookList: [], eatList: [] };
-	        props.cart.forEach(function (item) {
-	            if (item.dish.cookingType == 'ready to cook') {
-	                dishList.cookList.push(item);
-	            } else {
-	                dishList.eatList.push(item);
-	            }
-	        });
-
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            Object.keys(dishList).filter(function (name) {
-	                return dishList[name].length > 0;
-	            }).map(function (name) {
-	                return _react2.default.createElement(
-	                    'div',
-	                    { key: name },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'tabbtn clearfix' },
-	                        _react2.default.createElement(
-	                            'a',
-	                            { className: 'cook' },
-	                            name == 'cookList' ? '食材包' : '便当'
-	                        )
-	                    ),
-	                    _react2.default.createElement(_cartDishList2.default, _extends({}, props.methods, { dishList: name == 'cookList' ? dishList.cookList : dishList.eatList, warehouse: props.warehouse }))
-	                );
-	            })
-	        );
-	    }
-	});
-
-	exports.default = Cart;
-
-/***/ },
-/* 382 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _cartDish = __webpack_require__(384);
-
-	var _cartDish2 = _interopRequireDefault(_cartDish);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CartDishList = _react2.default.createClass({
-	    displayName: 'CartDishList',
-
-	    render: function render() {
-	        var dishList = this.props.dishList;
-
-	        var props = this.props;
-	        var cookingType = dishList[0].dish.cookingType;
-	        var selectedAll = dishList.every(function (item) {
-	            return item.selected || !item.hasStock;
-	        }) && dishList.some(function (item) {
-	            return item.selected;
-	        });
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'cart-dish-list' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'header' },
-	                _react2.default.createElement('span', { onClick: function onClick() {
-	                        return props.selectAll(cookingType);
-	                    }, className: 'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o') }),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '全选'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '数量'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '价格'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                { className: 'dish-list' },
-	                dishList.map(function (item) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: item._id },
-	                        _react2.default.createElement(_cartDish2.default, _extends({}, item, { minusDish: props.minusDish, plusDish: props.plusDish, delDish: props.delDish, selectOne: props.selectOne }))
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
-
-	exports.default = CartDishList;
-
-/***/ },
-/* 383 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = user;
-
-	var _ActionTypes = __webpack_require__(374);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.FETCH_USER:
-	            return action.status == 'success' ? action.user : state;
-
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 384 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CartDish = _react2.default.createClass({
-	    displayName: 'CartDish',
-
-	    render: function render() {
-	        var _props = this.props;
-	        var dish = _props.dish;
-	        var number = _props.number;
-	        var subDish = _props.subDish;
-	        var selected = _props.selected;
-	        var _id = _props._id;
-
-	        var props = this.props;
-	        var price = subDish.reduce(function (sum, el) {
-	            return el.dish.priceOriginal + sum;
-	        }, dish.priceOriginal);
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'cart-dish' },
-	            _react2.default.createElement('span', { onClick: function onClick() {
-	                    return props.selectOne(_id);
-	                }, className: selected ? 'fa fa-check-square-o' : 'fa fa-square-o' }),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'dish-info' },
-	                _react2.default.createElement('img', { src: dish.cover[0].zh }),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'main-dish', title: dish.title.zh },
-	                    dish.title.zh
-	                ),
-	                subDish.map(function (el) {
-	                    return _react2.default.createElement(
-	                        'span',
-	                        { className: 'sub-dish', key: el.dish._id },
-	                        el.dish.title.zh + ' '
-	                    );
-	                })
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'quantity' },
-	                _react2.default.createElement('span', { className: 'fa fa-minus-square-o', onClick: function onClick() {
-	                        return props.minusDish(_id);
-	                    } }),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'number' },
-	                    number
-	                ),
-	                _react2.default.createElement('span', { className: 'fa-plus-square-o fa', onClick: function onClick() {
-	                        return props.plusDish(_id);
-	                    } })
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'price rmb-char' },
-	                price
-	            ),
-	            _react2.default.createElement('span', { className: 'fa fa-times', onClick: function onClick() {
-	                    return props.delDish(_id);
-	                } })
-	        );
-	    }
-	});
-
-	exports.default = CartDish;
-
-/***/ },
-/* 385 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _staticAddress = __webpack_require__(386);
-
-	var _staticAddress2 = _interopRequireDefault(_staticAddress);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var AddressList = _react2.default.createClass({
-	    displayName: 'AddressList',
-
-	    render: function render() {
-	        var props = this.props;
-	        var title = props.title || '配送至';
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'address-section' },
-	            _react2.default.createElement(
-	                'h5',
-	                { className: 'header' },
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    title
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'add-address', onClick: props.addOne },
-	                    _react2.default.createElement('i', { className: 'fa fa-plus-square-o' }),
-	                    ' 添加地址'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                { className: 'address-list' },
-	                props.addresses.map(function (address) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: address._id },
-	                        _react2.default.createElement(_staticAddress2.default, _extends({}, address, { select: props.select }))
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
-
-	exports.default = AddressList;
-
-/***/ },
-/* 386 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var StaticAddress = _react2.default.createClass({
-	    displayName: 'StaticAddress',
-
-	    render: function render() {
-	        var props = this.props;
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'address', onClick: function onClick() {
-	                    return props.select(props._id, props.warehouse);
-	                } },
-	            _react2.default.createElement('span', { className: 'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o') }),
-	            _react2.default.createElement(
-	                'span',
-	                null,
-	                props.contactPerson
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'address-detail' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'table' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'cell' },
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.province
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.city
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.district
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.street
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.address
-	                        )
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'span',
-	                null,
-	                props.mobile
-	            )
-	        );
-	    }
-	});
-
-	exports.default = StaticAddress;
-
-/***/ },
-/* 387 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _ActionTypes = __webpack_require__(374);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _redux = __webpack_require__(355);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function addresses() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SELECT_ADDRESS:
-	            return state.map(function (item) {
-	                item.selected = item._id == action.id;
-	                return item;
-	            });
-	        case types.GET_ADDRESS:
-	            return action.status == 'success' ? action.addresses : state;
-	        case types.POST_ADDRESS:
-	            return state.concat([action.address]);
-	        case types.PUT_ADDRESS:
-	            if (action.status == 'success') {
-	                return state.map(function (item) {
-	                    return action.id == item._id ? action.address : item;
-	                });
-	            }
-	            return state;
-	        case types.DEL_ADDRESS:
-	            return state.filter(function (address) {
-	                return address._id != action.id;
-	            });
-	        default:
-	            return state;
-	    }
-	}
-
-	function addressEditingForm() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        show: false,
-	        id: ''
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.EDIT_ADDRESS:
-	            return {
-	                show: true,
-	                id: action.id || ''
-	            };
-	        case types.POST_ADDRESS:
-	        case types.PUT_ADDRESS:
-	            return action.status == 'success' ? { show: false } : state;
-	        default:
-	            return state;
-	    }
-	}
-
-	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm });
-
-	exports.default = addressReducer;
-
-/***/ },
-/* 388 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = warehouse;
-
-	var _ActionTypes = __webpack_require__(374);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _redux = __webpack_require__(355);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function warehouse() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SELECT_ADDRESS:
-	            return action.warehouse;
-
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 389 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27453,11 +27265,11 @@
 	exports.putOne = putOne;
 	exports.delOne = delOne;
 
-	var _xwFetch = __webpack_require__(370);
+	var _xwFetch = __webpack_require__(376);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
-	var _ActionTypes = __webpack_require__(374);
+	var _ActionTypes = __webpack_require__(369);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
@@ -27465,10 +27277,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function select(id, warehouse) {
+	function select(id, address) {
 	    return {
 	        type: types.SELECT_ADDRESS,
-	        id: id, warehouse: warehouse
+	        id: id, address: address
 	    };
 	}
 
@@ -27502,14 +27314,6 @@
 	    return function (dispatch) {
 	        dispatch(getStart());
 	        (0, _xwFetch2.default)('/api/user/address').then(function (addresses) {
-	            addresses.some(function (addr) {
-	                if (!addr.isDefault) return false;
-	                addr.selected = true;
-	                dispatch(select(addr._id, addr.warehouse));
-	                return true;
-	            });
-	            return addresses;
-	        }).then(function (addresses) {
 	            return dispatch(getDone(addresses));
 	        }).catch(function (err) {
 	            return dispatch(getFailed(err));
@@ -27605,6 +27409,759 @@
 	        });
 	    };
 	}
+
+/***/ },
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.selectTime = selectTime;
+	exports.getTime = getTime;
+	exports.getTimeIfNeeded = getTimeIfNeeded;
+
+	var _xwFetch = __webpack_require__(376);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function selectTime(time, cookingType) {
+	    return {
+	        type: types.SELECT_TIME,
+	        time: time, cookingType: cookingType
+	    };
+	}
+
+	function getTimeStart() {
+	    return {
+	        type: types.GET_TIME
+	    };
+	}
+
+	function getTimeDone(timeList, cookingType) {
+	    return {
+	        type: types.GET_TIME,
+	        status: 'success',
+	        timeList: timeList, cookingType: cookingType
+	    };
+	}
+
+	function getTimeFailed(error) {
+	    return {
+	        type: types.GET_TIME,
+	        status: 'error',
+	        error: error
+	    };
+	}
+
+	/**
+	 * format date to {day: '2015-07-02', segment: '12:00'}
+	 * @param cookingType
+	 * @param address
+	 * @returns {Function}
+	 */
+	function getTime(cookingType, address) {
+	    return function (dispatch) {
+	        dispatch(getTimeStart());
+	        var promise;
+	        if (cookingType == 'ready to cook') {
+	            promise = (0, _xwFetch.post)('/api/orders/delivery/time', {
+	                cookingType: 'ready to cook',
+	                isCityShanghai: address.city.indexOf('上海') != -1,
+	                isInRange4KM: address.isAvailableForEat
+	            }).then(function (res) {
+	                if (!res.length) return res;
+	                var ret = [];
+	                res.forEach(function (time) {
+	                    if (time.segment) {
+	                        time.segment.forEach(function (s) {
+	                            ret.push({
+	                                day: time.day,
+	                                segment: s.text
+	                            });
+	                        });
+	                    } else {
+	                        ret.push({ day: time.day });
+	                    }
+	                });
+	                timeCache[cookingType + address._id] = ret;
+	                return ret;
+	            });
+	        } else {
+	            promise = (0, _xwFetch.post)('/api/orders/delivery/time/eat/warehouse', {
+	                _id: address.warehouse
+	            }).then(function (res) {
+	                return timeCache[cookingType + address._id] = res.timeList.map(function (time) {
+	                    return {
+	                        day: time.hour.substr(0, 10),
+	                        segment: time.hour.substr(11, 5)
+	                    };
+	                });
+	            });
+	        }
+	        return promise.then(function (timeList) {
+	            return dispatch(getTimeDone(timeList, cookingType));
+	        });
+	    };
+	}
+
+	var timeCache = {};
+
+	function getTimeIfNeeded() {
+	    return function (dispatch, getState) {
+	        var cookingTypes = {};
+	        getState().cart.filter(function (item) {
+	            return item.selected;
+	        }).forEach(function (item) {
+	            cookingTypes[item.dish.cookingType] = true;
+	        });
+	        cookingTypes = Object.keys(cookingTypes);
+	        if (!cookingTypes.length) return;
+
+	        var addresses = getState().address.addresses.filter(function (item) {
+	            return item.selected;
+	        });
+	        if (!addresses.length) return;
+
+	        for (var i = 0; i < cookingTypes.length; i++) {
+	            var type = cookingTypes[i];
+	            for (var j = 0; j < addresses.length; j++) {
+	                var address = addresses[j];
+	                var key = type + address._id;
+	                if (timeCache[key]) {
+	                    dispatch(getTimeDone(timeCache[key], type));
+	                } else {
+	                    dispatch(getTime(type, address));
+	                }
+	            }
+	        }
+	    };
+	}
+
+/***/ },
+/* 382 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _cartDishList = __webpack_require__(383);
+
+	var _cartDishList2 = _interopRequireDefault(_cartDishList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Cart = _react2.default.createClass({
+	    displayName: 'Cart',
+
+	    render: function render() {
+	        var props = this.props;
+
+	        var dishList = { cookList: [], eatList: [] };
+	        props.cart.forEach(function (item) {
+	            if (item.dish.cookingType == 'ready to cook') {
+	                dishList.cookList.push(item);
+	            } else {
+	                dishList.eatList.push(item);
+	            }
+	        });
+
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            Object.keys(dishList).filter(function (name) {
+	                return dishList[name].length > 0;
+	            }).map(function (name) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: name },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'tabbtn clearfix' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { className: 'cook' },
+	                            name == 'cookList' ? '食材包' : '便当'
+	                        )
+	                    ),
+	                    _react2.default.createElement(_cartDishList2.default, _extends({}, props.methods, { dishList: name == 'cookList' ? dishList.cookList : dishList.eatList, warehouse: props.warehouse }))
+	                );
+	            })
+	        );
+	    }
+	});
+
+	exports.default = Cart;
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _cartDish = __webpack_require__(384);
+
+	var _cartDish2 = _interopRequireDefault(_cartDish);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartDishList = _react2.default.createClass({
+	    displayName: 'CartDishList',
+
+	    render: function render() {
+	        var dishList = this.props.dishList;
+
+	        var props = this.props;
+	        var cookingType = dishList[0].dish.cookingType;
+	        var selectedAll = dishList.every(function (item) {
+	            return item.selected || item.noStock;
+	        }) && dishList.some(function (item) {
+	            return item.selected;
+	        });
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'cart-dish-list' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'header' },
+	                _react2.default.createElement('span', { onClick: function onClick() {
+	                        return props.selectAll(cookingType);
+	                    }, className: 'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o') }),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '全选'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '数量'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '价格'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'dish-list' },
+	                dishList.map(function (item) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: item._id },
+	                        _react2.default.createElement(_cartDish2.default, _extends({}, item, { minusDish: props.minusDish, plusDish: props.plusDish, delDish: props.delDish, selectOne: props.selectOne }))
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = CartDishList;
+
+/***/ },
+/* 384 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _className = __webpack_require__(385);
+
+	var _className2 = _interopRequireDefault(_className);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartDish = _react2.default.createClass({
+	    displayName: 'CartDish',
+
+	    render: function render() {
+	        var _props = this.props;
+	        var dish = _props.dish;
+	        var number = _props.number;
+	        var subDish = _props.subDish;
+	        var selected = _props.selected;
+	        var _id = _props._id;
+
+	        var props = this.props;
+	        var price = subDish.reduce(function (sum, el) {
+	            return el.dish.priceOriginal + sum;
+	        }, dish.priceOriginal);
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'cart-dish' + (props.noStock ? ' no-stock' : '') },
+	            _react2.default.createElement('span', { onClick: function onClick() {
+	                    return props.selectOne(_id);
+	                }, className: selected ? 'fa fa-check-square-o' : 'fa fa-square-o' }),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'dish-info' },
+	                _react2.default.createElement('img', { src: dish.cover[0].zh }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'main-dish', title: dish.title.zh },
+	                    dish.title.zh
+	                ),
+	                subDish.map(function (el) {
+	                    return _react2.default.createElement(
+	                        'span',
+	                        { className: 'sub-dish', key: el.dish._id },
+	                        el.dish.title.zh + ' '
+	                    );
+	                }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'no-stock-mask' },
+	                    '当前地址便当不可送达'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'quantity' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: "icon" + (number == 1 ? ' disabled' : ''), onClick: function onClick() {
+	                            return number != 1 && props.minusDish(_id);
+	                        } },
+	                    '-'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'number' },
+	                    number
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'icon', onClick: function onClick() {
+	                            return props.plusDish(_id);
+	                        } },
+	                    '+'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'price rmb-char' },
+	                price
+	            ),
+	            _react2.default.createElement('span', { className: 'fa fa-times', onClick: function onClick() {
+	                    return props.delDish(_id);
+	                } })
+	        );
+	    }
+	});
+
+	exports.default = CartDish;
+
+/***/ },
+/* 385 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function (constNames, nameObj) {
+	    if ((typeof constNames === 'undefined' ? 'undefined' : _typeof(constNames)) == 'object') {
+	        nameObj = constNames;
+	        constNames = '';
+	    }
+	    if (typeof nameObj == 'string') {
+	        return constNames + ' ' + nameObj;
+	    }
+	    return constNames + Object.keys(nameObj).map(function (name) {
+	        return nameObj[name] ? name : '';
+	    }).filter(function (n) {
+	        return !!n;
+	    }).join(' ');
+	};
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; } /**
+	                                                                                                                              * 类似于ng-class的utils函数
+	                                                                                                                              * @param constNames constNames 为不会变化的
+	                                                                                                                              * @param nameObj {object} {class1: boolean}, 或者
+	                                                                                                                              */
+
+/***/ },
+/* 386 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _staticAddress = __webpack_require__(387);
+
+	var _staticAddress2 = _interopRequireDefault(_staticAddress);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var AddressList = _react2.default.createClass({
+	    displayName: 'AddressList',
+
+	    render: function render() {
+	        var props = this.props;
+	        var title = props.title || '配送至';
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'address-section' },
+	            _react2.default.createElement(
+	                'h5',
+	                { className: 'header' },
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    title
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'add-address', onClick: props.addOne },
+	                    _react2.default.createElement('i', { className: 'fa fa-plus-square-o' }),
+	                    ' 添加地址'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'address-list' },
+	                props.addresses.map(function (address) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: address._id },
+	                        _react2.default.createElement(_staticAddress2.default, _extends({}, address, { select: props.select }))
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = AddressList;
+
+/***/ },
+/* 387 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StaticAddress = _react2.default.createClass({
+	    displayName: 'StaticAddress',
+	    _select: function _select() {
+	        var props = this.props;
+	        !props.outOfRange && props.select(props._id, {
+	            isAvailableForEat: props.isAvailableForEat,
+	            warehouse: props.warehouse,
+	            city: props.city,
+	            _id: props._id
+	        });
+	    },
+
+	    render: function render() {
+	        var props = this.props;
+	        return _react2.default.createElement(
+	            'div',
+	            { className: "address" + (props.outOfRange ? ' out-of-range' : ''), onClick: this._select },
+	            _react2.default.createElement('span', { className: 'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o') }),
+	            _react2.default.createElement(
+	                'span',
+	                null,
+	                props.contactPerson
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'address-detail' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'table' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'cell' },
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.province
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.city
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.district
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.street
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            props.address
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'span',
+	                null,
+	                props.mobile
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'out-of-range', style: { display: props.outOfRange ? 'block' : 'none' } },
+	                '该地址不在便当配送范围内'
+	            )
+	        );
+	    }
+	});
+
+	exports.default = StaticAddress;
+
+/***/ },
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _className = __webpack_require__(385);
+
+	var _className2 = _interopRequireDefault(_className);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TimeSelector = _react2.default.createClass({
+	    displayName: 'TimeSelector',
+	    getInitialState: function getInitialState() {
+	        return {
+	            showOptionPanel: false
+	        };
+	    },
+	    toggleOptionPanel: function toggleOptionPanel() {
+	        this.setState({
+	            showOptionPanel: !this.state.showOptionPanel
+	        });
+	    },
+	    selectTime: function selectTime(time) {
+	        this.props.selectTime(time, this.props.cookingType);
+	        this.toggleOptionPanel();
+	    },
+
+	    render: function render() {
+	        var props = this.props;
+	        var cookingType = props.cookingType;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'time-section' },
+	            _react2.default.createElement(TimeOptionPanel, { timeList: props.timeList, selectTime: this.selectTime, isShow: this.state.showOptionPanel }),
+	            _react2.default.createElement(
+	                'h5',
+	                { className: 'header' },
+	                cookingType == 'ready to cook' ? '选择食材包配送时间' : '选择便当配送时间'
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'group', onClick: this.toggleOptionPanel },
+	                props.selectedTime ? _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: (0, _className2.default)('date', { single: !props.selectedTime.segment }) },
+	                        props.selectedTime.day
+	                    ),
+	                    props.selectedTime.segment ? _react2.default.createElement(
+	                        'span',
+	                        { className: 'time' },
+	                        props.selectedTime.segment
+	                    ) : ''
+	                ) : _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    '请选择配送时间'
+	                ),
+	                _react2.default.createElement('i', { className: 'fa fa-angle-down' })
+	            )
+	        );
+	    }
+	});
+
+	var TimeOptionPanel = _react2.default.createClass({
+	    displayName: 'TimeOptionPanel',
+
+	    render: function render() {
+	        var props = this.props;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'time-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
+	            _react2.default.createElement(
+	                'h5',
+	                null,
+	                '选择配送时间'
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                props.timeList.map(function (time, i) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: i, onClick: function onClick() {
+	                                return props.selectTime(time);
+	                            } },
+	                        time.day + ' ' + time.segment
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = TimeSelector;
+
+/***/ },
+/* 394 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _className = __webpack_require__(385);
+
+	var _className2 = _interopRequireDefault(_className);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartCoupon = _react2.default.createClass({
+	    displayName: 'CartCoupon',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'coupon-section' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-control-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'coupon-code' },
+	                    '优惠码'
+	                ),
+	                _react2.default.createElement('input', { autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-control-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    '优惠券'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'coupon-card' },
+	                    _react2.default.createElement('i', { className: 'fa fa-angle-down' })
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'group' },
+	                _react2.default.createElement('span', { className: 'fa fa-check-square-o' }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'text' },
+	                    '使用余额'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'rmb-char' },
+	                    '300'
+	                )
+	            )
+	        );
+	    }
+	});
+
+	exports.default = CartCoupon;
 
 /***/ }
 /******/ ]);

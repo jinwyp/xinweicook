@@ -5,6 +5,7 @@ export const SIGNUP_SEND = 'SIGNUP_SEND';
 // cart
 export const CART_SELECT_ONE = 'CART_SELECT_ONE';
 export const CART_SELECT_ALL = 'CART_SELECT_ALL';
+export const CART_SELECTION_CHANGED = 'CART_SELECTION_CHANGED';
 export const CART_MINUS_DISH = 'CART_MINUS_DISH';
 export const CART_PLUS_DISH = 'CART_PLUS_DISH';
 export const CART_DEL_DISH = 'CART_DEL_DISH';
@@ -18,6 +19,10 @@ export const POST_ADDRESS = 'POST_ADDRESS';
 export const DEL_ADDRESS = 'DEL_ADDRESS';
 export const GET_ADDRESS = 'GET_ADDRESS';
 export const PUT_ADDRESS = 'PUT_ADDRESS';
+
+// time
+export const GET_TIME = 'GET_TIME';
+export const SELECT_TIME = 'SELECT_TIME';
 
 // user
 export const FETCH_USER = 'FETCH_USER';

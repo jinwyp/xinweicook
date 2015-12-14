@@ -1,10 +1,10 @@
 import fetch, {post as _post, put as _put} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 
-export function select(id, warehouse) {
+export function select(id, address) {
     return {
         type: types.SELECT_ADDRESS,
-        id, warehouse
+        id, address
     }
 }
 
@@ -39,15 +39,6 @@ export function getList() {
     return function (dispatch) {
         dispatch(getStart())
         fetch('/api/user/address')
-            .then(addresses => {
-                addresses.some(addr => {
-                    if (!addr.isDefault) return false
-                    addr.selected = true
-                    dispatch(select(addr._id, addr.warehouse))
-                    return true
-                })
-                return addresses;
-            })
             .then(addresses => dispatch(getDone(addresses)))
             .catch(err => dispatch(getFailed(err)))
     }
