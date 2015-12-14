@@ -24,6 +24,9 @@ export const PUT_ADDRESS = 'PUT_ADDRESS';
 export const GET_TIME = 'GET_TIME';
 export const SELECT_TIME = 'SELECT_TIME';
 
+export const GET_COUPON_CODE = 'GET_COUPON_CODE';
+export const SELECT_COUPON_CARD = 'SELECT_COUPON_CARD';
+
 // user
 export const FETCH_USER = 'FETCH_USER';
 
