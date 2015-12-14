@@ -1915,16 +1915,28 @@ html.order-address-html .address-list {
   border-radius: 50%;
   height: 60px;
   width: 60px;
-  background: url('../img/AvatarPlaceholder.png?1448531510') 50%/cover no-repeat;
+  background: url('../img/AvatarPlaceholder.png?1449043156') 50%/cover no-repeat;
   background-color: white;
 }
+/* line 18, ../sass/pages/_me.scss */
+.me-header .username {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  bottom: 14px;
+  width: 8em;
+  height: 1.6em;
+  line-height: 1.6em;
+  background: rgba(255, 255, 255, 0.82);
+}
 
-/* line 21, ../sass/pages/_me.scss */
+/* line 32, ../sass/pages/_me.scss */
 .me-items .me-item {
   line-height: 49px;
   height: 49px;
 }
-/* line 24, ../sass/pages/_me.scss */
+/* line 35, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container {
   display: inline-block;
   width: 16%;
@@ -1932,12 +1944,12 @@ html.order-address-html .address-list {
   max-width: 80px;
   position: relative;
 }
-/* line 30, ../sass/pages/_me.scss */
+/* line 41, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container::after {
   content: '_';
   color: white;
 }
-/* line 34, ../sass/pages/_me.scss */
+/* line 45, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .icon {
   display: inline-block;
   position: absolute;
@@ -1946,7 +1958,7 @@ html.order-address-html .address-list {
   right: 7px;
   margin: auto;
 }
-/* line 42, ../sass/pages/_me.scss */
+/* line 53, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .order {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -1958,7 +1970,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 45, ../sass/pages/_me.scss */
+/* line 56, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .address {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -1970,7 +1982,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 48, ../sass/pages/_me.scss */
+/* line 59, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .dish-like {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -1982,7 +1994,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 51, ../sass/pages/_me.scss */
+/* line 62, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .invitation {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -1994,7 +2006,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 54, ../sass/pages/_me.scss */
+/* line 65, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .payment {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -2006,7 +2018,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 57, ../sass/pages/_me.scss */
+/* line 68, ../sass/pages/_me.scss */
 .me-items .me-item .icon-container .promotion {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -2018,7 +2030,7 @@ html.order-address-html .address-list {
   -webkit-background-size: 98px auto;
   background-size: 98px auto;
 }
-/* line 61, ../sass/pages/_me.scss */
+/* line 72, ../sass/pages/_me.scss */
 .me-items .me-item .text-container {
   color: #4b4b4c;
   -webkit-transition: .3s all ease;
@@ -2027,17 +2039,17 @@ html.order-address-html .address-list {
   width: 80%;
   border-bottom: 1px solid #e0e0e0;
 }
-/* line 68, ../sass/pages/_me.scss */
+/* line 79, ../sass/pages/_me.scss */
 .me-items .me-item .text-container i {
   margin-left: .5em;
   color: #F38F8F;
 }
-/* line 72, ../sass/pages/_me.scss */
+/* line 83, ../sass/pages/_me.scss */
 .me-items .me-item .text-container:active {
   color: white;
   background-color: gray;
 }
-/* line 79, ../sass/pages/_me.scss */
+/* line 90, ../sass/pages/_me.scss */
 .me-items .me-item:last-child .text-container {
   border: none;
 }

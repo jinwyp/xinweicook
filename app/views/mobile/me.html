@@ -12,6 +12,7 @@
     <div class="avatar">
         <span class="img"></span>
     </div>
+    <span class="username">{{mobile}}</span>
 </header>
 <section class="me-items">
     <ul style="margin-bottom: 90px;">
@@ -40,6 +41,10 @@
             <a href="/mobile/favlist"><div class="text-container"><span class="text">赞过的菜</span></div></a>
         </li>
         <li class="me-item">
+            <div class="icon-container"><span class="icon"></span></div>
+            <a href="/mobile/resetpwd"><div class="text-container"><span class="text">修改密码</span></div></a>
+        </li>
+        <li class="me-item">
             <div class="icon-container"><span class="icon sign-out"></span></div>
             <a href="javascript:;" ng-click="logout()"><div class="text-container"><span class="text">退出登录</span></div></a>
         </li>
@@ -52,6 +57,6 @@
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/me-26e0e22d04.js"></script>
+<script src="/mobile/dist/js/controllers/me-3ba9c47274.js"></script>
 
 </html>

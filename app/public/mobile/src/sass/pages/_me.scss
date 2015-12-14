@@ -15,6 +15,17 @@
     @include retina-background("AvatarPlaceholder.png");
     background-color: white;
   }
+  .username {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 14px;
+    width: 8em;
+    height: 1.6em;
+    line-height: 1.6em;
+    background: rgba(255, 255, 255, 0.82);
+  }
 }
 
 .me-items {

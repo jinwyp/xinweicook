@@ -15,7 +15,10 @@ function meCtrl($scope, User, $localStorage, Debug) {
     };
 
     function init() {
-        User.getUserInfo();
+        User.getUserInfo().then(function (res) {
+            var mobile = res.data.mobile;
+            $scope.mobile = mobile.substr(0, 3) + '*****' + mobile.substr(8, 3)
+        })
     }
 
     init();
