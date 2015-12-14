@@ -155,6 +155,15 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                     })
                 }
 
+                // 如果是微信用户, 但是并没有获取到用户的微信信息, 则提示用户重新登录以获取用户信息
+                if (Weixin.isWeixin && (!res.data.weixinId || !res.data.weixinId.openid)) {
+                    if (confirm('亲,我们没有获取到您的微信支付信息.除非您重新登录以授权我们获取,否则您将无法通过微信支付完成付款.您愿意重新登录吗?')) {
+                        User.logout().then(function () {
+                            location.href = '/mobile/login'
+                        })
+                    }
+                }
+
                 return $scope.user = res.data;
             })
         ]).then(function (results) {
