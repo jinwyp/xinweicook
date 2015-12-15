@@ -10,7 +10,7 @@ module.exports = {
         notFound      : 1113,
 
         userReferrerWrong : 1140,
-        
+
         userIdWrong : 1150,
         userGenderWrong : 1152,
         userOldAddressWrong : 1155,
@@ -19,6 +19,7 @@ module.exports = {
 
         addressIdWrong : 1210,
         addressNotFound : 1212,
+        addressNotInUser : 1214,
 
         addressLatitudeWrong  : 1220,
         addressLongitudeWrong : 1221,

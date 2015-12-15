@@ -475,6 +475,9 @@ exports.addNewOrder = (req, res, next) ->
   .then (resultAddress) ->
 
     if resultAddress
+      if resultAddress.user.toString() isnt req.u._id.toString()
+        throw new Err "Field validation error,  user address is not in this user", 400, Err.code.user.addressNotInUser
+
       if newOrder.cookingType is models.dish.constantCookingType().eat and not resultAddress.isAvailableForEat
         throw new Err "Field validation error,  user address not deliver", 400, Err.code.user.addressNotDeliver
 

@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>640</integer>
+                    <integer>641</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z315 z313 z314 z311 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Cp:FF3iIbWOIS92MkOGy7LH52GNHFEzgDCD</attribute>
+        <attribute name="value" type="string">Bearer 2Cp:yZZ8hVCs43X4HyQW4rCRhQkK2WwImjK4</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2368,12 +2368,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to eat\\",\\n  \\"clientFrom\\": \\"wechat\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 5,\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateEat\\": \\"2015-12-09\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n \\n  \\"addressId\\": \\"566538ed4a288aae4d8afe5b\\",\\n    \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"56440123eeb6dde1379430bb\\",\\n      \\"number\\": 2,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"55cd9fed9cbe20902858618e\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to eat\\",\\n  \\"clientFrom\\": \\"wechat\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 5,\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateEat\\": \\"2015-12-09\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n \\n  \\"addressId\\": \\"565e6fff0c8d535120c4b3b3\\",\\n    \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"56440123eeb6dde1379430bb\\",\\n      \\"number\\": 2,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"55cd9fed9cbe20902858618e\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
         <attribute name="order" type="int64">39</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z376 z378 z381 z380 z383 z382 z379"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z376 z380 z383 z382 z381 z379 z378"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z378">
         <attribute name="value" type="string">application/json</attribute>
