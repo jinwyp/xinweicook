@@ -60,17 +60,17 @@
 
 	var _reactRedux = __webpack_require__(348);
 
-	var _configureSignStore = __webpack_require__(388);
+	var _configureSignStore = __webpack_require__(404);
 
 	var _configureSignStore2 = _interopRequireDefault(_configureSignStore);
 
-	var _sign = __webpack_require__(390);
+	var _sign = __webpack_require__(406);
 
-	var _signin = __webpack_require__(391);
+	var _signin = __webpack_require__(407);
 
 	var _signin2 = _interopRequireDefault(_signin);
 
-	var _signup = __webpack_require__(392);
+	var _signup = __webpack_require__(408);
 
 	var _signup2 = _interopRequireDefault(_signup);
 
@@ -26071,10 +26071,28 @@
 	var DEL_ADDRESS = exports.DEL_ADDRESS = 'DEL_ADDRESS';
 	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
 	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
+	var CLOSE_EDIT_ADDRESS = exports.CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
 
 	// time
 	var GET_TIME = exports.GET_TIME = 'GET_TIME';
 	var SELECT_TIME = exports.SELECT_TIME = 'SELECT_TIME';
+
+	// feight
+	var GET_FREIGHT = exports.GET_FREIGHT = 'GET_FREIGHT';
+
+	// coupon
+	var GET_COUPON_CODE = exports.GET_COUPON_CODE = 'GET_COUPON_CODE';
+	var SELECT_COUPON_CARD = exports.SELECT_COUPON_CARD = 'SELECT_COUPON_CARD';
+
+	// balance
+	var TOGGLE_BALANCE = exports.TOGGLE_BALANCE = 'TOGGLE_BALANCE';
+	var GET_BALANCE = exports.GET_BALANCE = 'GET_BALANCE';
+
+	// order
+	var POST_ORDER = exports.POST_ORDER = 'POST_ORDER';
+
+	// comment
+	var CHANGE_COMMENT = exports.CHANGE_COMMENT = 'CHANGE_COMMENT';
 
 	// user
 	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
@@ -26088,7 +26106,12 @@
 /* 373 */,
 /* 374 */,
 /* 375 */,
-/* 376 */
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26100,7 +26123,7 @@
 	exports.del = del;
 	exports.put = put;
 
-	var _isomorphicFetch = __webpack_require__(377);
+	var _isomorphicFetch = __webpack_require__(382);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -26155,19 +26178,19 @@
 	}
 
 /***/ },
-/* 377 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(378);
+	__webpack_require__(383);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 378 */
+/* 383 */
 /***/ function(module, exports) {
 
 	(function() {
@@ -26554,16 +26577,27 @@
 
 
 /***/ },
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
 /* 384 */,
 /* 385 */,
 /* 386 */,
 /* 387 */,
-/* 388 */
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26582,7 +26616,7 @@
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _sign = __webpack_require__(389);
+	var _sign = __webpack_require__(405);
 
 	var _sign2 = _interopRequireDefault(_sign);
 
@@ -26591,7 +26625,7 @@
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
 /***/ },
-/* 389 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26648,7 +26682,7 @@
 	exports.default = signReducer;
 
 /***/ },
-/* 390 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26659,7 +26693,7 @@
 	exports.signIn = signIn;
 	exports.signUp = signUp;
 
-	var _xwFetch = __webpack_require__(376);
+	var _xwFetch = __webpack_require__(381);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
@@ -26710,7 +26744,7 @@
 	}
 
 /***/ },
-/* 391 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26849,7 +26883,7 @@
 	exports.default = SignIn;
 
 /***/ },
-/* 392 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

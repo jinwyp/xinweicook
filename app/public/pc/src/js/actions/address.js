@@ -15,6 +15,12 @@ export function editAddress(id) {
     }
 }
 
+export function closeEditAddress() {
+    return {
+        type: types.CLOSE_EDIT_ADDRESS
+    }
+}
+
 
 function getStart() {
     return {
@@ -68,7 +74,10 @@ export function postOne(address) {
     return function (dispatch) {
         dispatch(postStart())
         return _post('/api/user/address', address)
-        .then(addr => dispatch(postDone(addr)))
+        .then(addr => {
+                dispatch(postDone(addr))
+                dispatch(closeEditAddress())
+            })
         .catch(err => dispatch(postFailed(err)))
     }
 }
@@ -97,7 +106,10 @@ export function putOne(address) {
     return function (dispatch) {
         dispatch(putStart())
         return _put(`/api/user/address/${address._id}`, address)
-            .then(addr => dispatch(putDone(addr)))
+            .then(addr => {
+                dispatch(putDone(addr))
+                dispatch(closeEditAddress())
+            })
             .catch(err => dispatch(putFailed(err)))
     }
 }

@@ -12,11 +12,13 @@ var CartDish = React.createClass({
             <div className={'cart-dish' + (props.noStock ? ' no-stock': '')}>
                 <span onClick={() => props.selectOne(_id)} className={selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}></span>
                 <div className="dish-info">
-                    <img src={dish.cover[0].zh}/>
-                    <span className="main-dish" title={dish.title.zh}>{dish.title.zh}</span>
-                    {
-                        subDish.map((el) => <span className="sub-dish" key={el.dish._id}>{el.dish.title.zh + ' '}</span>)
-                    }
+                    <div className="content-wrapper">
+                        <img src={dish.cover[0].zh}/>
+                        <span className="main-dish" title={dish.title.zh}>{dish.title.zh}</span>
+                        {
+                            subDish.map((el) => <span className="sub-dish" key={el.dish._id}>{el.dish.title.zh + ' '}</span>)
+                        }
+                    </div>
                     <div className="no-stock-mask">当前地址便当不可送达</div>
                 </div>
                 <div className="quantity">

@@ -44,6 +44,9 @@ body {
 .rmb-char::before {
   content: '¥ '
 }
+.rmb-char.negative {
+  text-indent: -0.65em
+}
 .rmb-char.negative::before {
   content: '- ¥ '
 }

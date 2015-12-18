@@ -32,3 +32,8 @@ export function availableWarehouse(cartList) {
     })
     return warehouses
 }
+
+export function price(item) {
+    return item.number * (item.dish.priceOriginal + (!item.subDish ? 0 :
+        item.subDish.reduce((p, el) => p + el.dish.priceOrigianl, 0)))
+}

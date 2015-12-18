@@ -19,13 +19,28 @@ export const POST_ADDRESS = 'POST_ADDRESS';
 export const DEL_ADDRESS = 'DEL_ADDRESS';
 export const GET_ADDRESS = 'GET_ADDRESS';
 export const PUT_ADDRESS = 'PUT_ADDRESS';
+export const CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
 
 // time
 export const GET_TIME = 'GET_TIME';
 export const SELECT_TIME = 'SELECT_TIME';
 
+// feight
+export const GET_FREIGHT = 'GET_FREIGHT';
+
+// coupon
 export const GET_COUPON_CODE = 'GET_COUPON_CODE';
 export const SELECT_COUPON_CARD = 'SELECT_COUPON_CARD';
+
+// balance
+export const TOGGLE_BALANCE = 'TOGGLE_BALANCE';
+export const GET_BALANCE = 'GET_BALANCE';
+
+// order
+export const POST_ORDER = 'POST_ORDER';
+
+// comment
+export const CHANGE_COMMENT = 'CHANGE_COMMENT';
 
 // user
 export const FETCH_USER = 'FETCH_USER';

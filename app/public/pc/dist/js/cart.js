@@ -64,33 +64,63 @@
 
 	var _configureCartStore2 = _interopRequireDefault(_configureCartStore);
 
-	var _cart = __webpack_require__(375);
+	var _cart = __webpack_require__(380);
 
 	var cartAction = _interopRequireWildcard(_cart);
 
-	var _address = __webpack_require__(380);
+	var _address2 = __webpack_require__(385);
 
-	var addressAction = _interopRequireWildcard(_address);
+	var addressAction = _interopRequireWildcard(_address2);
 
-	var _time = __webpack_require__(381);
+	var _time = __webpack_require__(386);
 
 	var timeAction = _interopRequireWildcard(_time);
 
-	var _cart2 = __webpack_require__(382);
+	var _coupon = __webpack_require__(387);
+
+	var couponAction = _interopRequireWildcard(_coupon);
+
+	var _balance = __webpack_require__(388);
+
+	var balanceAction = _interopRequireWildcard(_balance);
+
+	var _freight = __webpack_require__(389);
+
+	var freightAction = _interopRequireWildcard(_freight);
+
+	var _comment = __webpack_require__(391);
+
+	var commentAction = _interopRequireWildcard(_comment);
+
+	var _order = __webpack_require__(392);
+
+	var orderAction = _interopRequireWildcard(_order);
+
+	var _cart2 = __webpack_require__(393);
 
 	var _cart3 = _interopRequireDefault(_cart2);
 
-	var _addressList = __webpack_require__(386);
+	var _addressList = __webpack_require__(397);
 
 	var _addressList2 = _interopRequireDefault(_addressList);
 
-	var _timeSelector = __webpack_require__(393);
+	var _timeSelector = __webpack_require__(400);
 
 	var _timeSelector2 = _interopRequireDefault(_timeSelector);
 
-	var _cartCoupon = __webpack_require__(394);
+	var _cartCoupon = __webpack_require__(401);
 
 	var _cartCoupon2 = _interopRequireDefault(_cartCoupon);
+
+	var _orderPrice = __webpack_require__(402);
+
+	var _orderPrice2 = _interopRequireDefault(_orderPrice);
+
+	var _comment2 = __webpack_require__(403);
+
+	var _comment3 = _interopRequireDefault(_comment2);
+
+	var _dish = __webpack_require__(370);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -102,8 +132,35 @@
 	    componentDidMount: function componentDidMount() {
 	        this.props.dispatch(cartAction.getCart());
 	        this.props.dispatch(addressAction.getList());
+	        this.props.dispatch(balanceAction.getBalance());
+	    },
+	    getFreightIfNeeded: function getFreightIfNeeded(cart, address, dispatch) {
+	        return cart.some(function (el) {
+	            return el.selected;
+	        }) && address.addresses.some(function (el) {
+	            return el.selected;
+	        }) && dispatch(freightAction.getFreight());
+	    },
+	    postOrder: function postOrder(cart, address, time, dispatch) {
+	        cart = cart.filter(function (item) {
+	            return item.selected;
+	        });
+	        if (!cart.length) return;
+	        if (!address.addresses.some(function (item) {
+	            return item.selected;
+	        })) return;
+	        var cookingTypes = {};
+	        cart.forEach(function (item) {
+	            cookingTypes[item.dish.cookingType] = true;
+	        });
+	        Object.keys(cookingTypes).every(function (type) {
+	            type = type == 'ready to cook' ? 'cook' : 'eat';
+	            return !!time[type].selectedTime;
+	        }) && dispatch(orderAction.postOrder());
 	    },
 	    render: function render() {
+	        var _this = this;
+
 	        var _props = this.props;
 	        var warehouse = _props.warehouse;
 	        var cart = _props.cart;
@@ -111,25 +168,31 @@
 	        var address = _props.address;
 	        var user = _props.user;
 	        var time = _props.time;
+	        var coupon = _props.coupon;
+	        var balance = _props.balance;
+	        var freight = _props.freight;
 
 	        var cartMethods = {
 	            selectOne: function selectOne(id) {
 	                dispatch(cartAction.selectOne(id));
 	                dispatch(timeAction.getTimeIfNeeded());
+	                _this.getFreightIfNeeded(cart, address, dispatch);
 	            },
 	            selectAll: function selectAll(cookingType) {
 	                dispatch(cartAction.selectAll(cookingType));
 	                dispatch(timeAction.getTimeIfNeeded());
+	                _this.getFreightIfNeeded(cart, address, dispatch);
 	            },
 	            plusDish: function plusDish(id) {
-	                return dispatch(cartAction.plusDish(id));
+	                dispatch(cartAction.plusDish(id));
 	            },
 	            minusDish: function minusDish(id) {
-	                return dispatch(cartAction.minusDish(id));
+	                dispatch(cartAction.minusDish(id));
 	            },
 	            delDish: function delDish(id) {
 	                dispatch(cartAction.delDish(id));
 	                dispatch(timeAction.getTimeIfNeeded());
+	                _this.getFreightIfNeeded(cart, address, dispatch);
 	            }
 	        };
 	        var addressMethods = {
@@ -148,9 +211,13 @@
 	            delOne: function delOne(id) {
 	                return dispatch(addressAction.delOne(id));
 	            },
-	            select: function select(id, address) {
-	                dispatch(addressAction.select(id, address));
+	            close: function close() {
+	                return dispatch(addressAction.closeEditAddress());
+	            },
+	            select: function select(id, _address) {
+	                dispatch(addressAction.select(id, _address));
 	                dispatch(timeAction.getTimeIfNeeded());
+	                _this.getFreightIfNeeded(cart, address, dispatch);
 	            }
 	        };
 	        var timeMethods = {
@@ -158,12 +225,42 @@
 	                return dispatch(timeAction.selectTime(time, cookingType));
 	            }
 	        };
+	        var commentMethods = {
+	            changeComment: function changeComment(text) {
+	                return dispatch(commentAction.changeComment(text));
+	            }
+	        };
+	        var couponMethods = {
+	            selectCard: function selectCard(id) {
+	                return dispatch(couponAction.selectCard(id, price.payPrice));
+	            },
+	            getCouponCode: function getCouponCode(code) {
+	                return dispatch(couponAction.getCouponCode(code));
+	            },
+	            toggleBalance: function toggleBalance() {
+	                return dispatch(balanceAction.toggleBalance(price.payPrice));
+	            }
+	        };
+
+	        // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
+	        var price = {
+	            cartPrice: cart.filter(function (el) {
+	                return el.selected;
+	            }).reduce(function (p, el) {
+	                return p + (0, _dish.price)(el);
+	            }, 0),
+	            freight: freight,
+	            couponPrice: coupon.card.selectedCard && coupon.card.selectedCard.price + coupon.code.price || 0
+	        };
+	        price.payPrice = price.cartPrice + price.freight - price.couponPrice;
+
 	        var hasEatDishSelected = cart.some(function (item) {
 	            return item.dish.cookingType == 'ready to eat' && item.selected;
 	        });
 	        var hasCookDishSelected = cart.some(function (item) {
 	            return item.dish.cookingType == 'ready to cook' && item.selected;
 	        });
+
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "cart-main" },
@@ -174,7 +271,20 @@
 	                _react2.default.createElement(_addressList2.default, _extends({}, address, addressMethods, { warehouse: warehouse })),
 	                hasEatDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.eat)),
 	                hasCookDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.cook)),
-	                _react2.default.createElement(_cartCoupon2.default, null)
+	                _react2.default.createElement(_comment3.default, commentMethods),
+	                _react2.default.createElement(_cartCoupon2.default, _extends({}, couponMethods, coupon, balance, { payPrice: price.payPrice })),
+	                _react2.default.createElement(_orderPrice2.default, price),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "confirm-section" },
+	                    _react2.default.createElement(
+	                        "button",
+	                        { onClick: function onClick() {
+	                                return _this.postOrder(cart, address, time, dispatch);
+	                            } },
+	                        "在线支付"
+	                    )
+	                )
 	            )
 	        );
 	    }
@@ -26111,7 +26221,7 @@
 
 	exports.default = function () {
 	    return createStoreWithMiddleware((0, _redux.combineReducers)({
-	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default, time: _time2.default
+	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default, time: _time2.default, coupon: _coupon2.default, balance: _balance2.default, freight: _freight2.default, comment: _comment2.default
 	    }));
 	};
 
@@ -26140,6 +26250,26 @@
 	var _user = __webpack_require__(374);
 
 	var _user2 = _interopRequireDefault(_user);
+
+	var _coupon = __webpack_require__(375);
+
+	var _coupon2 = _interopRequireDefault(_coupon);
+
+	var _balance = __webpack_require__(376);
+
+	var _balance2 = _interopRequireDefault(_balance);
+
+	var _freight = __webpack_require__(377);
+
+	var _freight2 = _interopRequireDefault(_freight);
+
+	var _comment = __webpack_require__(378);
+
+	var _comment2 = _interopRequireDefault(_comment);
+
+	var _order = __webpack_require__(379);
+
+	var _order2 = _interopRequireDefault(_order);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26280,10 +26410,28 @@
 	var DEL_ADDRESS = exports.DEL_ADDRESS = 'DEL_ADDRESS';
 	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
 	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
+	var CLOSE_EDIT_ADDRESS = exports.CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
 
 	// time
 	var GET_TIME = exports.GET_TIME = 'GET_TIME';
 	var SELECT_TIME = exports.SELECT_TIME = 'SELECT_TIME';
+
+	// feight
+	var GET_FREIGHT = exports.GET_FREIGHT = 'GET_FREIGHT';
+
+	// coupon
+	var GET_COUPON_CODE = exports.GET_COUPON_CODE = 'GET_COUPON_CODE';
+	var SELECT_COUPON_CARD = exports.SELECT_COUPON_CARD = 'SELECT_COUPON_CARD';
+
+	// balance
+	var TOGGLE_BALANCE = exports.TOGGLE_BALANCE = 'TOGGLE_BALANCE';
+	var GET_BALANCE = exports.GET_BALANCE = 'GET_BALANCE';
+
+	// order
+	var POST_ORDER = exports.POST_ORDER = 'POST_ORDER';
+
+	// comment
+	var CHANGE_COMMENT = exports.CHANGE_COMMENT = 'CHANGE_COMMENT';
 
 	// user
 	var FETCH_USER = exports.FETCH_USER = 'FETCH_USER';
@@ -26302,6 +26450,7 @@
 	exports.toPostDish = toPostDish;
 	exports.hasStock = hasStock;
 	exports.availableWarehouse = availableWarehouse;
+	exports.price = price;
 	function toPostDish(item) {
 	    return {
 	        dish: item.dish._id,
@@ -26339,6 +26488,12 @@
 	        });
 	    });
 	    return warehouses;
+	}
+
+	function price(item) {
+	    return item.number * (item.dish.priceOriginal + (!item.subDish ? 0 : item.subDish.reduce(function (p, el) {
+	        return p + el.dish.priceOrigianl;
+	    }, 0)));
 	}
 
 /***/ },
@@ -26419,6 +26574,8 @@
 	        case types.POST_ADDRESS:
 	        case types.PUT_ADDRESS:
 	            return action.status == 'success' ? { show: false } : state;
+	        case types.CLOSE_EDIT_ADDRESS:
+	            return { show: false };
 	        default:
 	            return state;
 	    }
@@ -26557,6 +26714,242 @@
 /* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _redux = __webpack_require__(355);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function card() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        cardList: [],
+	        selectedCard: null
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SELECT_COUPON_CARD:
+	            return _extends({}, state, {
+	                selectedCard: action.id ? state.cardList.filter(function (card) {
+	                    return card._id == action.id;
+	                })[0] : null
+	            });
+	        case types.FETCH_USER:
+	            if (action.status == 'success') {
+	                return {
+	                    cardList: action.user.couponList.filter(function (card) {
+	                        return !card.isUsed;
+	                    })
+	                };
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+	function code() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        code: '',
+	        price: 0,
+	        errInfo: ''
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.GET_COUPON_CODE:
+	            if (action.status == 'success') {
+	                var now = Date.now();
+	                var begin = new Date(action.info.startDate);
+	                var end = new Date(action.info.endDate);
+	                if (now >= begin && now < end) return {
+	                    code: action.info.code,
+	                    price: action.info.price
+	                };else return _extends({}, state, { errInfo: '优惠码不在使用期限内'
+	                });
+	            }
+	            return state;
+
+	        default:
+	            return state;
+	    }
+	}
+
+	var couponReducer = (0, _redux.combineReducers)({ card: card, code: code });
+
+	exports.default = couponReducer;
+
+/***/ },
+/* 376 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function balance() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        totalBalance: 0,
+	        useBalance: false
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.TOGGLE_BALANCE:
+	            // 如果需要支付的价格小于等于0,那么不要使用余额
+	            if (action.payPrice <= 0) {
+	                return state;
+	            }
+
+	            return _extends({}, state, {
+	                useBalance: !state.useBalance
+	            });
+
+	        case types.GET_BALANCE:
+	            if (action.status == 'success') {
+	                return {
+	                    totalBalance: action.balance,
+	                    useBalance: false
+	                };
+	            }
+	            return state;
+
+	        default:
+	            return state;
+	    }
+	}
+
+	exports.default = balance;
+
+/***/ },
+/* 377 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function freight() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.GET_FREIGHT:
+	            if (action.status == 'success') {
+	                return action.freight;
+	            }
+	            return state;
+
+	        default:
+	            return state;
+	    }
+	}
+
+	exports.default = freight;
+
+/***/ },
+/* 378 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function comment() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.CHANGE_COMMENT:
+	            return action.text;
+	        default:
+	            return state;
+	    }
+	}
+
+	exports.default = comment;
+
+/***/ },
+/* 379 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function order() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        isSending: false,
+	        errInfo: ''
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.POST_ORDER:
+	            if (action.status == 'success') return {
+	                isSending: false
+	            };else if (action.status == 'error') return {
+	                isSending: false,
+	                errInfo: action.error
+	            };else return {
+	                isSending: true
+	            };
+
+	        default:
+	            return state;
+	    }
+	}
+
+	exports.default = order;
+
+/***/ },
+/* 380 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -26569,7 +26962,7 @@
 	exports.minusDish = minusDish;
 	exports.delDish = delDish;
 
-	var _xwFetch = __webpack_require__(376);
+	var _xwFetch = __webpack_require__(381);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
@@ -26579,7 +26972,7 @@
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _user = __webpack_require__(379);
+	var _user = __webpack_require__(384);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26723,7 +27116,7 @@
 	}
 
 /***/ },
-/* 376 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26735,7 +27128,7 @@
 	exports.del = del;
 	exports.put = put;
 
-	var _isomorphicFetch = __webpack_require__(377);
+	var _isomorphicFetch = __webpack_require__(382);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -26790,19 +27183,19 @@
 	}
 
 /***/ },
-/* 377 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(378);
+	__webpack_require__(383);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 378 */
+/* 383 */
 /***/ function(module, exports) {
 
 	(function() {
@@ -27189,7 +27582,7 @@
 
 
 /***/ },
-/* 379 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27200,7 +27593,7 @@
 	exports.getUser = getUser;
 	exports.getUserIfNeeded = getUserIfNeeded;
 
-	var _xwFetch = __webpack_require__(376);
+	var _xwFetch = __webpack_require__(381);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
@@ -27221,7 +27614,7 @@
 	/**
 	 * 本来是给接收user用的,但是因为shoppingCart也挂在这个上面,所以也用来给购物车用
 	 * @param user
-	 * @param warehouse 只与购物车有关, 但是也要传递, 真的..
+	 * @param warehouse 只与购物车有关, 但是也要传递, 真的OTZ..
 	 * @returns {{type: FETCH_USER, status: string, user: *}}
 	 */
 	function receiveUser(user, warehouse) {
@@ -27250,7 +27643,7 @@
 	}
 
 /***/ },
-/* 380 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27260,12 +27653,13 @@
 	});
 	exports.select = select;
 	exports.editAddress = editAddress;
+	exports.closeEditAddress = closeEditAddress;
 	exports.getList = getList;
 	exports.postOne = postOne;
 	exports.putOne = putOne;
 	exports.delOne = delOne;
 
-	var _xwFetch = __webpack_require__(376);
+	var _xwFetch = __webpack_require__(381);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
@@ -27288,6 +27682,12 @@
 	    return {
 	        type: types.EDIT_ADDRESS,
 	        id: id
+	    };
+	}
+
+	function closeEditAddress() {
+	    return {
+	        type: types.CLOSE_EDIT_ADDRESS
 	    };
 	}
 
@@ -27344,7 +27744,8 @@
 	    return function (dispatch) {
 	        dispatch(postStart());
 	        return (0, _xwFetch.post)('/api/user/address', address).then(function (addr) {
-	            return dispatch(postDone(addr));
+	            dispatch(postDone(addr));
+	            dispatch(closeEditAddress());
 	        }).catch(function (err) {
 	            return dispatch(postFailed(err));
 	        });
@@ -27374,7 +27775,8 @@
 	    return function (dispatch) {
 	        dispatch(putStart());
 	        return (0, _xwFetch.put)("/api/user/address/" + address._id, address).then(function (addr) {
-	            return dispatch(putDone(addr));
+	            dispatch(putDone(addr));
+	            dispatch(closeEditAddress());
 	        }).catch(function (err) {
 	            return dispatch(putFailed(err));
 	        });
@@ -27411,7 +27813,7 @@
 	}
 
 /***/ },
-/* 381 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27423,7 +27825,7 @@
 	exports.getTime = getTime;
 	exports.getTimeIfNeeded = getTimeIfNeeded;
 
-	var _xwFetch = __webpack_require__(376);
+	var _xwFetch = __webpack_require__(381);
 
 	var _xwFetch2 = _interopRequireDefault(_xwFetch);
 
@@ -27549,7 +27951,323 @@
 	}
 
 /***/ },
-/* 382 */
+/* 387 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.selectCard = selectCard;
+	exports.getCouponCode = getCouponCode;
+
+	var _xwFetch = __webpack_require__(381);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function selectCard(id, payPrice) {
+	    return {
+	        type: types.SELECT_COUPON_CARD,
+	        id: id, payPrice: payPrice
+	    };
+	}
+
+	function getCouponCodeStart(code) {
+	    return {
+	        type: types.GET_COUPON_CODE,
+	        code: code
+	    };
+	}
+
+	function getCouponCodeDone(info) {
+	    return {
+	        type: types.GET_COUPON_CODE,
+	        status: 'success',
+	        info: info
+	    };
+	}
+
+	function getCouponCode(code) {
+	    return function (dispatch) {
+	        dispatch(getCouponCodeStart(code));
+	        return (0, _xwFetch2.default)("/api/coupons/code/" + code).then(function (res) {
+	            return dispatch(getCouponCodeDone(res));
+	        });
+	    };
+	}
+
+/***/ },
+/* 388 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.toggleBalance = toggleBalance;
+	exports.getBalance = getBalance;
+
+	var _xwFetch = __webpack_require__(381);
+
+	var _xwFetch2 = _interopRequireDefault(_xwFetch);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function toggleBalance(payPrice) {
+	    return {
+	        type: types.TOGGLE_BALANCE,
+	        payPrice: payPrice
+	    };
+	}
+
+	function getBalanceStart() {
+	    return {
+	        type: types.GET_BALANCE
+	    };
+	}
+
+	function getBalanceDone(balance) {
+	    return {
+	        type: types.GET_BALANCE,
+	        status: 'success',
+	        balance: balance
+	    };
+	}
+
+	function getBalance() {
+	    return function (dispatch) {
+	        dispatch(getBalanceStart());
+	        return (0, _xwFetch2.default)('/api/user/account').then(function (res) {
+	            return dispatch(getBalanceDone(res.balance));
+	        });
+	    };
+	}
+
+/***/ },
+/* 389 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getFreight = getFreight;
+
+	var _xwFetch = __webpack_require__(381);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _order = __webpack_require__(390);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function getFreightStart() {
+	    return {
+	        type: types.GET_FREIGHT
+	    };
+	}
+
+	function getFreightDone(freight) {
+	    return {
+	        type: types.GET_FREIGHT,
+	        status: 'success',
+	        freight: freight
+	    };
+	}
+
+	function getFreight() {
+	    return function (dispatch, getState) {
+	        getFreightStart();
+	        (0, _xwFetch.post)('/api/orderprice', (0, _order.orderData)(getState())).then(function (res) {
+	            dispatch(getFreightDone(res.freight));
+	        });
+	    };
+	}
+
+/***/ },
+/* 390 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.orderData = orderData;
+	function orderData(state, isOrder) {
+	    var cart = state.cart;
+	    var coupon = state.coupon;
+	    var balance = state.balance;
+	    var address = state.address;
+	    var freight = state.freight;
+	    var time = state.time;
+	    var comment = state.comment;
+	    var warehouse = state.warehouse;
+
+	    var cookingType = {};
+	    var dishList = [];
+	    cart.forEach(function (item) {
+	        if (item.selected) {
+	            var dish = item.dish;
+	            cookingType[dish.cookingType] = true;
+	            dishList.push({
+	                dish: dish._id,
+	                number: item.number,
+	                subDish: !item.subDish ? [] : item.subDish.map(function (el) {
+	                    return {
+	                        dish: el.dish._id,
+	                        number: el.number
+	                    };
+	                })
+	            });
+	        }
+	    });
+	    cookingType = Object.keys(cookingType);
+	    cookingType = cookingType.length > 1 ? 'ready to cook' : cookingType[0];
+
+	    var selectedAddress = address.addresses.filter(function (el) {
+	        return el.selected;
+	    })[0];
+	    var ret = {
+	        cookingType: cookingType,
+	        usedAccountBalance: balance.usedBalance > 0,
+	        addressId: selectedAddress._id,
+	        clientFrom: 'website',
+	        dishList: dishList
+	    };
+	    if (coupon.card.selectedCard) {
+	        ret.coupon = coupon.card.selectedCard._id;
+	    }
+	    if (coupon.code.code) {
+	        ret.promotionCode = coupon.code.code;
+	    }
+
+	    // 以上为生成订单和生成计算快递的公共部分的数据生成,以下为生成订单部分的数据.
+	    if (isOrder) {
+	        ret.payment = 'alipay direct';
+	        ret.userComment = comment;
+	        ret.warehouseId = warehouse;
+	        ret.freight = freight;
+	        ret.credit = 0;
+	        ret.paymentUsedCash = false;
+
+	        if (time.eat.selectedTime) {
+	            ret.deliveryDateEat = time.eat.selectedTime.day;
+	            ret.deliveryTimeEat = time.eat.selectedTime.segment;
+	        }
+
+	        if (time.cook.selectedTime) {
+	            var segment = time.cook.selectedTime.segment;
+	            ret.deliveryDateCook = time.cook.selectedTime.day;
+	            ret.deliveryTimeCook = !segment ? '12:00' : segment.substr(8, 5); // see actions/time.js
+	        }
+	    }
+
+	    return ret;
+	}
+
+/***/ },
+/* 391 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.changeComment = changeComment;
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function changeComment(text) {
+	    return {
+	        type: types.CHANGE_COMMENT,
+	        text: text
+	    };
+	}
+
+/***/ },
+/* 392 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.postOrder = postOrder;
+
+	var _xwFetch = __webpack_require__(381);
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	var _order = __webpack_require__(390);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function postOrderStart() {
+	    return {
+	        type: types.POST_ORDER
+	    };
+	}
+
+	function postOrderDone(data) {
+	    return {
+	        type: types.POST_ORDER,
+	        status: 'success',
+	        data: data
+	    };
+	}
+
+	function postOrderError(error) {
+	    return {
+	        type: types.POST_ORDER,
+	        status: 'error',
+	        error: error
+	    };
+	}
+
+	function postOrder() {
+	    return function (dispatch, getState) {
+	        postOrderStart();
+	        (0, _xwFetch.post)('/api/orders', (0, _order.orderData)(getState(), true)).then(function (res) {
+	            dispatch(postOrderDone(res));
+	            setTimeout(function () {
+	                location.href = res.aliPaySign.fullurl;
+	            });
+	        }).catch(function (res) {
+	            return dispatch(postOrderError(res));
+	        });
+	    };
+	}
+
+/***/ },
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27564,7 +28282,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _cartDishList = __webpack_require__(383);
+	var _cartDishList = __webpack_require__(394);
 
 	var _cartDishList2 = _interopRequireDefault(_cartDishList);
 
@@ -27613,7 +28331,7 @@
 	exports.default = Cart;
 
 /***/ },
-/* 383 */
+/* 394 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27628,7 +28346,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _cartDish = __webpack_require__(384);
+	var _cartDish = __webpack_require__(395);
 
 	var _cartDish2 = _interopRequireDefault(_cartDish);
 
@@ -27691,7 +28409,7 @@
 	exports.default = CartDishList;
 
 /***/ },
-/* 384 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27704,7 +28422,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _className = __webpack_require__(385);
+	var _className = __webpack_require__(396);
 
 	var _className2 = _interopRequireDefault(_className);
 
@@ -27734,19 +28452,23 @@
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'dish-info' },
-	                _react2.default.createElement('img', { src: dish.cover[0].zh }),
 	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'main-dish', title: dish.title.zh },
-	                    dish.title.zh
-	                ),
-	                subDish.map(function (el) {
-	                    return _react2.default.createElement(
+	                    'div',
+	                    { className: 'content-wrapper' },
+	                    _react2.default.createElement('img', { src: dish.cover[0].zh }),
+	                    _react2.default.createElement(
 	                        'span',
-	                        { className: 'sub-dish', key: el.dish._id },
-	                        el.dish.title.zh + ' '
-	                    );
-	                }),
+	                        { className: 'main-dish', title: dish.title.zh },
+	                        dish.title.zh
+	                    ),
+	                    subDish.map(function (el) {
+	                        return _react2.default.createElement(
+	                            'span',
+	                            { className: 'sub-dish', key: el.dish._id },
+	                            el.dish.title.zh + ' '
+	                        );
+	                    })
+	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'no-stock-mask' },
@@ -27791,7 +28513,7 @@
 	exports.default = CartDish;
 
 /***/ },
-/* 385 */
+/* 396 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27822,7 +28544,7 @@
 	                                                                                                                              */
 
 /***/ },
-/* 386 */
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27837,11 +28559,39 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _staticAddress = __webpack_require__(387);
+	var _staticAddress = __webpack_require__(398);
 
 	var _staticAddress2 = _interopRequireDefault(_staticAddress);
 
+	var _editingAddress = __webpack_require__(399);
+
+	var _editingAddress2 = _interopRequireDefault(_editingAddress);
+
+	var _reactModal = __webpack_require__(409);
+
+	var _reactModal2 = _interopRequireDefault(_reactModal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var modalStyle = {
+	    content: {
+	        position: 'absolute',
+	        top: '0',
+	        left: '0',
+	        right: '0',
+	        bottom: '0',
+	        border: 'none',
+	        width: '470px',
+	        height: '461px',
+	        background: '#fff',
+	        overflow: 'visible',
+	        WebkitOverflowScrolling: 'touch',
+	        borderRadius: '0',
+	        outline: 'none',
+	        padding: '0',
+	        margin: 'auto'
+	    }
+	};
 
 	var AddressList = _react2.default.createClass({
 	    displayName: 'AddressList',
@@ -27849,6 +28599,9 @@
 	    render: function render() {
 	        var props = this.props;
 	        var title = props.title || '配送至';
+	        var editingAddress = props.addresses.filter(function (address) {
+	            return address._id == props.addressEditingForm.id;
+	        })[0] || {};
 	        return _react2.default.createElement(
 	            'div',
 	            { className: 'address-section' },
@@ -27865,6 +28618,11 @@
 	                    { className: 'add-address', onClick: props.addOne },
 	                    _react2.default.createElement('i', { className: 'fa fa-plus-square-o' }),
 	                    ' 添加地址'
+	                ),
+	                _react2.default.createElement(
+	                    _reactModal2.default,
+	                    { style: modalStyle, isOpen: props.addressEditingForm.show, onRequestClose: props.close, closeTimeoutMS: 250 },
+	                    _react2.default.createElement(_editingAddress2.default, { address: editingAddress, close: props.close })
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -27885,7 +28643,7 @@
 	exports.default = AddressList;
 
 /***/ },
-/* 387 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27917,53 +28675,57 @@
 	        return _react2.default.createElement(
 	            'div',
 	            { className: "address" + (props.outOfRange ? ' out-of-range' : ''), onClick: this._select },
-	            _react2.default.createElement('span', { className: 'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o') }),
-	            _react2.default.createElement(
-	                'span',
-	                null,
-	                props.contactPerson
-	            ),
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'address-detail' },
+	                { className: 'content-wrapper' },
+	                _react2.default.createElement('span', { className: 'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o') }),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    props.contactPerson
+	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'table' },
+	                    { className: 'address-detail' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'cell' },
+	                        { className: 'table' },
 	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.province
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.city
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.district
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.street
-	                        ),
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            props.address
+	                            'div',
+	                            { className: 'cell' },
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                props.province
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                props.city
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                props.district
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                props.street
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                props.address
+	                            )
 	                        )
 	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    props.mobile
 	                )
-	            ),
-	            _react2.default.createElement(
-	                'span',
-	                null,
-	                props.mobile
 	            ),
 	            _react2.default.createElement(
 	                'div',
@@ -27977,12 +28739,153 @@
 	exports.default = StaticAddress;
 
 /***/ },
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */
+/* 399 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var EditingAddress = _react2.default.createClass({
+	    displayName: "EditingAddress",
+	    render: function render() {
+	        var props = this.props;
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "editing-address" },
+	            _react2.default.createElement("div", { onClick: props.close, className: "close fa fa-times" }),
+	            _react2.default.createElement(
+	                "h5",
+	                null,
+	                props.address._id ? '修改地址' : '添加新地址'
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-field" },
+	                    _react2.default.createElement(
+	                        "label",
+	                        { htmlFor: "name" },
+	                        "姓名"
+	                    ),
+	                    _react2.default.createElement("input", { type: "text", id: "name", placeholder: "请填写您的姓名" }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "tips" },
+	                        _react2.default.createElement(
+	                            "span",
+	                            { className: "error" },
+	                            "姓名不能少于2个字"
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-field error" },
+	                    _react2.default.createElement(
+	                        "label",
+	                        { htmlFor: "mobile" },
+	                        "手机号"
+	                    ),
+	                    _react2.default.createElement("input", { type: "text", id: "mobile", placeholder: "请填写您的手机号" }),
+	                    _react2.default.createElement("div", { className: "tips" })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-field" },
+	                    _react2.default.createElement(
+	                        "label",
+	                        { htmlFor: "province" },
+	                        "省,市,区"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "select-group" },
+	                        _react2.default.createElement(
+	                            "select",
+	                            { id: "province" },
+	                            _react2.default.createElement(
+	                                "option",
+	                                { value: "上海" },
+	                                "上海市"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "select",
+	                            null,
+	                            _react2.default.createElement(
+	                                "option",
+	                                { value: "上海" },
+	                                "上海市"
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "select",
+	                            null,
+	                            _react2.default.createElement(
+	                                "option",
+	                                { value: "上海" },
+	                                "上海市"
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement("div", { className: "tips" })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-field" },
+	                    _react2.default.createElement(
+	                        "label",
+	                        { htmlFor: "street" },
+	                        "街道"
+	                    ),
+	                    _react2.default.createElement("input", { type: "text", id: "street", placeholder: "请填写您的街道地址" }),
+	                    _react2.default.createElement("div", { className: "tips" })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-field" },
+	                    _react2.default.createElement(
+	                        "label",
+	                        { htmlFor: "address" },
+	                        "楼层,门牌号"
+	                    ),
+	                    _react2.default.createElement("input", { type: "text", id: "address", placeholder: "请填写您的楼层,门牌号" }),
+	                    _react2.default.createElement("div", { className: "tips" })
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "buttons" },
+	                _react2.default.createElement(
+	                    "button",
+	                    null,
+	                    "保存"
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    null,
+	                    "取消"
+	                )
+	            )
+	        );
+	    }
+	});
+
+	exports.default = EditingAddress;
+
+/***/ },
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27995,7 +28898,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _className = __webpack_require__(385);
+	var _className = __webpack_require__(396);
 
 	var _className2 = _interopRequireDefault(_className);
 
@@ -28092,7 +28995,7 @@
 	exports.default = TimeSelector;
 
 /***/ },
-/* 394 */
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28105,7 +29008,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _className = __webpack_require__(385);
+	var _className = __webpack_require__(396);
 
 	var _className2 = _interopRequireDefault(_className);
 
@@ -28113,8 +29016,59 @@
 
 	var CartCoupon = _react2.default.createClass({
 	    displayName: 'CartCoupon',
+	    getInitialState: function getInitialState() {
+	        return {
+	            isPending: false,
+	            error: {
+	                couponCode: {
+	                    format: false,
+	                    mightInviteCode: false
+	                }
+	            },
+	            showOptionPanel: false
+	        };
+	    },
+	    toggleOptionPanel: function toggleOptionPanel() {
+	        this.setState({
+	            showOptionPanel: !this.state.showOptionPanel
+	        });
+	    },
+	    selectCard: function selectCard(id) {
+	        this.props.selectCard(id);
+	        this.toggleOptionPanel();
+	    },
+	    onBlur: function onBlur() {
+	        this.validate();
+	        var couponCode = this.state.error.couponCode;
+	        var value = this.refs.couponCode.value;
+	        if (value && Object.keys(couponCode).every(function (key) {
+	            return !couponCode[key];
+	        })) {
+	            this.props.getCouponCode(this.refs.couponCode.value);
+	        }
+	    },
+	    validate: function validate() {
+	        var code = this.refs.couponCode.value;
+	        if (!code) return;
+	        if (!/^1a\w{6}$|^\w{10}$/.test(code)) {
+	            var error = {};
+	            if (code.length == 8) {
+	                error.mightInviteCode = true;
+	            } else {
+	                error.format = true;
+	            }
+	            this.setState({
+	                error: Object.assign({}, this.state.error, { couponCode: error })
+	            });
+	        } else {
+	            this.setState({ error: { couponCode: {} } });
+	        }
+	    },
 
+	    // todo: 增加兑换邀请码链接, 30天内有108个用户点击了微信端的那个提示链接, 说明这个无心添加很有用啊
 	    render: function render() {
+	        var props = this.props;
+	        var usedBalance = props.totalBalance >= props.payPrice ? props.payPrice : props.totalBalance;
 	        return _react2.default.createElement(
 	            'div',
 	            { className: 'coupon-section' },
@@ -28126,11 +29080,27 @@
 	                    { htmlFor: 'coupon-code' },
 	                    '优惠码'
 	                ),
-	                _react2.default.createElement('input', { autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' })
+	                _react2.default.createElement('input', { ref: 'couponCode', onBlur: this.onBlur, autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' }),
+	                this.state.error.couponCode.mightInviteCode && _react2.default.createElement(
+	                    'span',
+	                    { className: 'err-tip exchange-invite-code' },
+	                    '优惠码无效',
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: "/pc/coupons?code=" + this.refs.couponCode.value },
+	                        '(兑换邀请码?)'
+	                    )
+	                ),
+	                this.state.error.couponCode.format && _react2.default.createElement(
+	                    'span',
+	                    { className: 'err-tip' },
+	                    '优惠码无效'
+	                )
 	            ),
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'form-control-group' },
+	                { style: { display: props.card.cardList.length ? 'block' : 'none' }, className: 'form-control-group coupon-card-group' },
+	                _react2.default.createElement(CardOptionPanel, { cardList: props.card.cardList, selectCard: this.selectCard, isShow: this.state.showOptionPanel }),
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
@@ -28138,23 +29108,36 @@
 	                ),
 	                _react2.default.createElement(
 	                    'span',
-	                    { className: 'coupon-card' },
+	                    { className: 'coupon-card', onClick: this.toggleOptionPanel },
+	                    props.card.selectedCard ? _react2.default.createElement(
+	                        'span',
+	                        null,
+	                        props.card.selectedCard.name.zh + ('(' + props.card.selectedCard.price + '¥)')
+	                    ) : _react2.default.createElement(
+	                        'span',
+	                        null,
+	                        '请选择一张优惠券'
+	                    ),
 	                    _react2.default.createElement('i', { className: 'fa fa-angle-down' })
 	                )
 	            ),
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'group' },
-	                _react2.default.createElement('span', { className: 'fa fa-check-square-o' }),
+	                _react2.default.createElement('span', { onClick: props.toggleBalance, className: 'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o') }),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'text' },
 	                    '使用余额'
 	                ),
-	                _react2.default.createElement(
+	                props.useBalance ? _react2.default.createElement(
 	                    'span',
 	                    { className: 'rmb-char' },
-	                    '300'
+	                    usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'
+	                ) : _react2.default.createElement(
+	                    'span',
+	                    { className: 'rmb-char' },
+	                    props.totalBalance
 	                )
 	            )
 	        );
@@ -28162,6 +29145,1980 @@
 	});
 
 	exports.default = CartCoupon;
+
+	var CardOptionPanel = _react2.default.createClass({
+	    displayName: 'CardOptionPanel',
+
+	    render: function render() {
+	        var props = this.props;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'card-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
+	            _react2.default.createElement(
+	                'h5',
+	                null,
+	                '选择一张优惠券'
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                _react2.default.createElement(
+	                    'li',
+	                    { onClick: function onClick() {
+	                            return props.selectCard();
+	                        } },
+	                    '不使用'
+	                ),
+	                props.cardList.map(function (card, i) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: card._id, onClick: function onClick() {
+	                                return props.selectCard(card._id);
+	                            } },
+	                        card.name.zh + ('(' + card.price + '¥)')
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 402 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function fixed(number, digit) {
+	    digit = digit != undefined ? digit : 1;
+	    return number.toFixed(digit);
+	}
+
+	var OrderPrice = _react2.default.createClass({
+	    displayName: "OrderPrice",
+	    render: function render() {
+	        var props = this.props;
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "price-section" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "价格"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char" },
+	                    fixed(props.cartPrice)
+	                )
+	            ),
+	            props.couponPrice ? _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "优惠"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char negative" },
+	                    fixed(props.couponPrice)
+	                )
+	            ) : '',
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    _react2.default.createElement(
+	                        "span",
+	                        null,
+	                        "运费"
+	                    ),
+	                    _react2.default.createElement(
+	                        "i",
+	                        null,
+	                        "（满100免运费）"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char" },
+	                    fixed(props.freight)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "总计"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    _react2.default.createElement(
+	                        "strong",
+	                        { className: "rmb-char" },
+	                        fixed(props.payPrice)
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	exports.default = OrderPrice;
+
+/***/ },
+/* 403 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Comment = _react2.default.createClass({
+	    displayName: "Comment",
+	    handleChange: function handleChange() {
+	        this.props.changeComment(this.refs.comment.value);
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "comment-section" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "form-control-group" },
+	                _react2.default.createElement(
+	                    "label",
+	                    { htmlFor: "comment" },
+	                    "留言："
+	                ),
+	                _react2.default.createElement("textarea", { ref: "comment", rows: "1", autoComplete: "off", id: "comment" })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = Comment;
+
+/***/ },
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(410);
+
+
+
+/***/ },
+/* 410 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(191);
+	var ReactDOM = __webpack_require__(347);
+	var ExecutionEnvironment = __webpack_require__(411);
+	var ModalPortal = React.createFactory(__webpack_require__(412));
+	var ariaAppHider = __webpack_require__(427);
+	var elementClass = __webpack_require__(428);
+	var renderSubtreeIntoContainer = __webpack_require__(347).unstable_renderSubtreeIntoContainer;
+
+	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
+
+	var Modal = module.exports = React.createClass({
+
+	  displayName: 'Modal',
+	  statics: {
+	    setAppElement: ariaAppHider.setElement,
+	    injectCSS: function() {
+	      "production" !== process.env.NODE_ENV
+	        && console.warn('React-Modal: injectCSS has been deprecated ' +
+	                        'and no longer has any effect. It will be removed in a later version');
+	    }
+	  },
+
+	  propTypes: {
+	    isOpen: React.PropTypes.bool.isRequired,
+	    style: React.PropTypes.shape({
+	      content: React.PropTypes.object,
+	      overlay: React.PropTypes.object
+	    }),
+	    appElement: React.PropTypes.instanceOf(SafeHTMLElement),
+	    onRequestClose: React.PropTypes.func,
+	    closeTimeoutMS: React.PropTypes.number,
+	    ariaHideApp: React.PropTypes.bool
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      isOpen: false,
+	      ariaHideApp: true,
+	      closeTimeoutMS: 0
+	    };
+	  },
+
+	  componentDidMount: function() {
+	    this.node = document.createElement('div');
+	    this.node.className = 'ReactModalPortal';
+	    document.body.appendChild(this.node);
+	    this.renderPortal(this.props);
+	  },
+
+	  componentWillReceiveProps: function(newProps) {
+	    this.renderPortal(newProps);
+	  },
+
+	  componentWillUnmount: function() {
+	    ReactDOM.unmountComponentAtNode(this.node);
+	    document.body.removeChild(this.node);
+	  },
+
+	  renderPortal: function(props) {
+	    if (props.isOpen) {
+	      elementClass(document.body).add('ReactModal__Body--open');
+	    } else {
+	      elementClass(document.body).remove('ReactModal__Body--open');
+	    }
+
+	    if (props.ariaHideApp) {
+	      ariaAppHider.toggle(props.isOpen, props.appElement);
+	    }
+	    sanitizeProps(props);
+	    this.portal = renderSubtreeIntoContainer(this, ModalPortal(props), this.node);
+	  },
+
+	  render: function () {
+	    return React.DOM.noscript();
+	  }
+	});
+
+	function sanitizeProps(props) {
+	  delete props.ref;
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
+
+/***/ },
+/* 411 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Based on code that is Copyright 2013-2015, Facebook, Inc.
+	  All rights reserved.
+	*/
+
+	(function () {
+		'use strict';
+
+		var canUseDOM = !!(
+			typeof window !== 'undefined' &&
+			window.document &&
+			window.document.createElement
+		);
+
+		var ExecutionEnvironment = {
+
+			canUseDOM: canUseDOM,
+
+			canUseWorkers: typeof Worker !== 'undefined',
+
+			canUseEventListeners:
+				canUseDOM && !!(window.addEventListener || window.attachEvent),
+
+			canUseViewport: canUseDOM && !!window.screen
+
+		};
+
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return ExecutionEnvironment;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = ExecutionEnvironment;
+		} else {
+			window.ExecutionEnvironment = ExecutionEnvironment;
+		}
+
+	}());
+
+
+/***/ },
+/* 412 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(191);
+	var div = React.DOM.div;
+	var focusManager = __webpack_require__(413);
+	var scopeTab = __webpack_require__(415);
+	var Assign = __webpack_require__(416);
+
+
+	// so that our CSS is statically analyzable
+	var CLASS_NAMES = {
+	  overlay: {
+	    base: 'ReactModal__Overlay',
+	    afterOpen: 'ReactModal__Overlay--after-open',
+	    beforeClose: 'ReactModal__Overlay--before-close'
+	  },
+	  content: {
+	    base: 'ReactModal__Content',
+	    afterOpen: 'ReactModal__Content--after-open',
+	    beforeClose: 'ReactModal__Content--before-close'
+	  }
+	};
+
+	var defaultStyles = {
+	  overlay: {
+	    position        : 'fixed',
+	    top             : 0,
+	    left            : 0,
+	    right           : 0,
+	    bottom          : 0,
+	    backgroundColor : 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    position                : 'absolute',
+	    top                     : '40px',
+	    left                    : '40px',
+	    right                   : '40px',
+	    bottom                  : '40px',
+	    border                  : '1px solid #ccc',
+	    background              : '#fff',
+	    overflow                : 'auto',
+	    WebkitOverflowScrolling : 'touch',
+	    borderRadius            : '4px',
+	    outline                 : 'none',
+	    padding                 : '20px'
+	  }
+	};
+
+	function stopPropagation(event) {
+	  event.stopPropagation();
+	}
+
+	var ModalPortal = module.exports = React.createClass({
+
+	  displayName: 'ModalPortal',
+
+	  getDefaultProps: function() {
+	    return {
+	      style: {
+	        overlay: {},
+	        content: {}
+	      }
+	    };
+	  },
+
+	  getInitialState: function() {
+	    return {
+	      afterOpen: false,
+	      beforeClose: false
+	    };
+	  },
+
+	  componentDidMount: function() {
+	    // Focus needs to be set when mounting and already open
+	    if (this.props.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    }
+	  },
+
+	  componentWillUnmount: function() {
+	    clearTimeout(this.closeTimer);
+	  },
+
+	  componentWillReceiveProps: function(newProps) {
+	    // Focus only needs to be set once when the modal is being opened
+	    if (!this.props.isOpen && newProps.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    } else if (this.props.isOpen && !newProps.isOpen) {
+	      this.close();
+	    }
+	  },
+
+	  componentDidUpdate: function () {
+	    if (this.focusAfterRender) {
+	      this.focusContent();
+	      this.setFocusAfterRender(false);
+	    }
+	  },
+
+	  setFocusAfterRender: function (focus) {
+	    this.focusAfterRender = focus;
+	  },
+
+	  open: function() {
+	    focusManager.setupScopedFocus(this.node);
+	    focusManager.markForFocusLater();
+	    this.setState({isOpen: true}, function() {
+	      this.setState({afterOpen: true});
+	    }.bind(this));
+	  },
+
+	  close: function() {
+	    if (!this.ownerHandlesClose())
+	      return;
+	    if (this.props.closeTimeoutMS > 0)
+	      this.closeWithTimeout();
+	    else
+	      this.closeWithoutTimeout();
+	  },
+
+	  focusContent: function() {
+	    this.refs.content.focus();
+	  },
+
+	  closeWithTimeout: function() {
+	    this.setState({beforeClose: true}, function() {
+	      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.props.closeTimeoutMS);
+	    }.bind(this));
+	  },
+
+	  closeWithoutTimeout: function() {
+	    this.setState({
+	      afterOpen: false,
+	      beforeClose: false
+	    }, this.afterClose);
+	  },
+
+	  afterClose: function() {
+	    focusManager.returnFocus();
+	    focusManager.teardownScopedFocus();
+	  },
+
+	  handleKeyDown: function(event) {
+	    if (event.keyCode == 9 /*tab*/) scopeTab(this.refs.content, event);
+	    if (event.keyCode == 27 /*esc*/) this.requestClose();
+	  },
+
+	  handleOverlayClick: function() {
+	    if (this.ownerHandlesClose())
+	      this.requestClose();
+	    else
+	      this.focusContent();
+	  },
+
+	  requestClose: function() {
+	    if (this.ownerHandlesClose())
+	      this.props.onRequestClose();
+	  },
+
+	  ownerHandlesClose: function() {
+	    return this.props.onRequestClose;
+	  },
+
+	  shouldBeClosed: function() {
+	    return !this.props.isOpen && !this.state.beforeClose;
+	  },
+
+	  buildClassName: function(which, additional) {
+	    var className = CLASS_NAMES[which].base;
+	    if (this.state.afterOpen)
+	      className += ' '+CLASS_NAMES[which].afterOpen;
+	    if (this.state.beforeClose)
+	      className += ' '+CLASS_NAMES[which].beforeClose;
+	    return additional ? className + ' ' + additional : className;
+	  },
+
+	  render: function() {
+	    return this.shouldBeClosed() ? div() : (
+	      div({
+	        ref: "overlay",
+	        className: this.buildClassName('overlay', this.props.overlayClassName),
+	        style: Assign({}, defaultStyles.overlay, this.props.style.overlay || {}),
+	        onClick: this.handleOverlayClick
+	      },
+	        div({
+	          ref: "content",
+	          style: Assign({}, defaultStyles.content, this.props.style.content || {}),
+	          className: this.buildClassName('content', this.props.className),
+	          tabIndex: "-1",
+	          onClick: stopPropagation,
+	          onKeyDown: this.handleKeyDown
+	        },
+	          this.props.children
+	        )
+	      )
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 413 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(414);
+	var modalElement = null;
+	var focusLaterElement = null;
+	var needToFocus = false;
+
+	function handleBlur(event) {
+	  needToFocus = true;
+	}
+
+	function handleFocus(event) {
+	  if (needToFocus) {
+	    needToFocus = false;
+	    if (!modalElement) {
+	      return;
+	    }
+	    // need to see how jQuery shims document.on('focusin') so we don't need the
+	    // setTimeout, firefox doesn't support focusin, if it did, we could focus
+	    // the element outside of a setTimeout. Side-effect of this implementation 
+	    // is that the document.body gets focus, and then we focus our element right 
+	    // after, seems fine.
+	    setTimeout(function() {
+	      if (modalElement.contains(document.activeElement))
+	        return;
+	      var el = (findTabbable(modalElement)[0] || modalElement);
+	      el.focus();
+	    }, 0);
+	  }
+	}
+
+	exports.markForFocusLater = function() {
+	  focusLaterElement = document.activeElement;
+	};
+
+	exports.returnFocus = function() {
+	  try {
+	    focusLaterElement.focus();
+	  }
+	  catch (e) {
+	    console.warn('You tried to return focus to '+focusLaterElement+' but it is not in the DOM anymore');
+	  }
+	  focusLaterElement = null;
+	};
+
+	exports.setupScopedFocus = function(element) {
+	  modalElement = element;
+
+	  if (window.addEventListener) {
+	    window.addEventListener('blur', handleBlur, false);
+	    document.addEventListener('focus', handleFocus, true);
+	  } else {
+	    window.attachEvent('onBlur', handleBlur);
+	    document.attachEvent('onFocus', handleFocus);
+	  }
+	};
+
+	exports.teardownScopedFocus = function() {
+	  modalElement = null;
+
+	  if (window.addEventListener) {
+	    window.removeEventListener('blur', handleBlur);
+	    document.removeEventListener('focus', handleFocus);
+	  } else {
+	    window.detachEvent('onBlur', handleBlur);
+	    document.detachEvent('onFocus', handleFocus);
+	  }
+	};
+
+
+
+
+/***/ },
+/* 414 */
+/***/ function(module, exports) {
+
+	/*!
+	 * Adapted from jQuery UI core
+	 *
+	 * http://jqueryui.com
+	 *
+	 * Copyright 2014 jQuery Foundation and other contributors
+	 * Released under the MIT license.
+	 * http://jquery.org/license
+	 *
+	 * http://api.jqueryui.com/category/ui-core/
+	 */
+
+	function focusable(element, isTabIndexNotNaN) {
+	  var nodeName = element.nodeName.toLowerCase();
+	  return (/input|select|textarea|button|object/.test(nodeName) ?
+	    !element.disabled :
+	    "a" === nodeName ?
+	      element.href || isTabIndexNotNaN :
+	      isTabIndexNotNaN) && visible(element);
+	}
+
+	function hidden(el) {
+	  return (el.offsetWidth <= 0 && el.offsetHeight <= 0) ||
+	    el.style.display === 'none';
+	}
+
+	function visible(element) {
+	  while (element) {
+	    if (element === document.body) break;
+	    if (hidden(element)) return false;
+	    element = element.parentNode;
+	  }
+	  return true;
+	}
+
+	function tabbable(element) {
+	  var tabIndex = element.getAttribute('tabindex');
+	  if (tabIndex === null) tabIndex = undefined;
+	  var isTabIndexNaN = isNaN(tabIndex);
+	  return (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN);
+	}
+
+	function findTabbableDescendants(element) {
+	  return [].slice.call(element.querySelectorAll('*'), 0).filter(function(el) {
+	    return tabbable(el);
+	  });
+	}
+
+	module.exports = findTabbableDescendants;
+
+
+
+/***/ },
+/* 415 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(414);
+
+	module.exports = function(node, event) {
+	  var tabbable = findTabbable(node);
+	  var finalTabbable = tabbable[event.shiftKey ? 0 : tabbable.length - 1];
+	  var leavingFinalTabbable = (
+	    finalTabbable === document.activeElement ||
+	    // handle immediate shift+tab after opening with mouse
+	    node === document.activeElement
+	  );
+	  if (!leavingFinalTabbable) return;
+	  event.preventDefault();
+	  var target = tabbable[event.shiftKey ? tabbable.length - 1 : 0];
+	  target.focus();
+	};
+
+
+/***/ },
+/* 416 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseAssign = __webpack_require__(417),
+	    createAssigner = __webpack_require__(423),
+	    keys = __webpack_require__(419);
+
+	/**
+	 * A specialized version of `_.assign` for customizing assigned values without
+	 * support for argument juggling, multiple sources, and `this` binding `customizer`
+	 * functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @param {Function} customizer The function to customize assigned values.
+	 * @returns {Object} Returns `object`.
+	 */
+	function assignWith(object, source, customizer) {
+	  var index = -1,
+	      props = keys(source),
+	      length = props.length;
+
+	  while (++index < length) {
+	    var key = props[index],
+	        value = object[key],
+	        result = customizer(value, source[key], key, object, source);
+
+	    if ((result === result ? (result !== value) : (value === value)) ||
+	        (value === undefined && !(key in object))) {
+	      object[key] = result;
+	    }
+	  }
+	  return object;
+	}
+
+	/**
+	 * Assigns own enumerable properties of source object(s) to the destination
+	 * object. Subsequent sources overwrite property assignments of previous sources.
+	 * If `customizer` is provided it is invoked to produce the assigned values.
+	 * The `customizer` is bound to `thisArg` and invoked with five arguments:
+	 * (objectValue, sourceValue, key, object, source).
+	 *
+	 * **Note:** This method mutates `object` and is based on
+	 * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @alias extend
+	 * @category Object
+	 * @param {Object} object The destination object.
+	 * @param {...Object} [sources] The source objects.
+	 * @param {Function} [customizer] The function to customize assigned values.
+	 * @param {*} [thisArg] The `this` binding of `customizer`.
+	 * @returns {Object} Returns `object`.
+	 * @example
+	 *
+	 * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+	 * // => { 'user': 'fred', 'age': 40 }
+	 *
+	 * // using a customizer callback
+	 * var defaults = _.partialRight(_.assign, function(value, other) {
+	 *   return _.isUndefined(value) ? other : value;
+	 * });
+	 *
+	 * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+	 * // => { 'user': 'barney', 'age': 36 }
+	 */
+	var assign = createAssigner(function(object, source, customizer) {
+	  return customizer
+	    ? assignWith(object, source, customizer)
+	    : baseAssign(object, source);
+	});
+
+	module.exports = assign;
+
+
+/***/ },
+/* 417 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseCopy = __webpack_require__(418),
+	    keys = __webpack_require__(419);
+
+	/**
+	 * The base implementation of `_.assign` without support for argument juggling,
+	 * multiple sources, and `customizer` functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseAssign(object, source) {
+	  return source == null
+	    ? object
+	    : baseCopy(source, keys(source), object);
+	}
+
+	module.exports = baseAssign;
+
+
+/***/ },
+/* 418 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
+	 * Copies properties of `source` to `object`.
+	 *
+	 * @private
+	 * @param {Object} source The object to copy properties from.
+	 * @param {Array} props The property names to copy.
+	 * @param {Object} [object={}] The object to copy properties to.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseCopy(source, props, object) {
+	  object || (object = {});
+
+	  var index = -1,
+	      length = props.length;
+
+	  while (++index < length) {
+	    var key = props[index];
+	    object[key] = source[key];
+	  }
+	  return object;
+	}
+
+	module.exports = baseCopy;
+
+
+/***/ },
+/* 419 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var getNative = __webpack_require__(420),
+	    isArguments = __webpack_require__(421),
+	    isArray = __webpack_require__(422);
+
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeKeys = getNative(Object, 'keys');
+
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * A fallback implementation of `Object.keys` which creates an array of the
+	 * own enumerable property names of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 */
+	function shimKeys(object) {
+	  var props = keysIn(object),
+	      propsLength = props.length,
+	      length = propsLength && object.length;
+
+	  var allowIndexes = !!length && isLength(length) &&
+	    (isArray(object) || isArguments(object));
+
+	  var index = -1,
+	      result = [];
+
+	  while (++index < propsLength) {
+	    var key = props[index];
+	    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Creates an array of the own enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects. See the
+	 * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+	 * for more details.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keys(new Foo);
+	 * // => ['a', 'b'] (iteration order is not guaranteed)
+	 *
+	 * _.keys('hi');
+	 * // => ['0', '1']
+	 */
+	var keys = !nativeKeys ? shimKeys : function(object) {
+	  var Ctor = object == null ? undefined : object.constructor;
+	  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+	      (typeof object != 'function' && isArrayLike(object))) {
+	    return shimKeys(object);
+	  }
+	  return isObject(object) ? nativeKeys(object) : [];
+	};
+
+	/**
+	 * Creates an array of the own and inherited enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keysIn(new Foo);
+	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	 */
+	function keysIn(object) {
+	  if (object == null) {
+	    return [];
+	  }
+	  if (!isObject(object)) {
+	    object = Object(object);
+	  }
+	  var length = object.length;
+	  length = (length && isLength(length) &&
+	    (isArray(object) || isArguments(object)) && length) || 0;
+
+	  var Ctor = object.constructor,
+	      index = -1,
+	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+	      result = Array(length),
+	      skipIndexes = length > 0;
+
+	  while (++index < length) {
+	    result[index] = (index + '');
+	  }
+	  for (var key in object) {
+	    if (!(skipIndexes && isIndex(key, length)) &&
+	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+
+	module.exports = keys;
+
+
+/***/ },
+/* 420 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.9.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** `Object#toString` result references. */
+	var funcTag = '[object Function]';
+
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+
+	module.exports = getNative;
+
+
+/***/ },
+/* 421 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Native method references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is classified as an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  return isObjectLike(value) && isArrayLike(value) &&
+	    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+	}
+
+	module.exports = isArguments;
+
+
+/***/ },
+/* 422 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** `Object#toString` result references. */
+	var arrayTag = '[object Array]',
+	    funcTag = '[object Function]';
+
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeIsArray = getNative(Array, 'isArray');
+
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(function() { return arguments; }());
+	 * // => false
+	 */
+	var isArray = nativeIsArray || function(value) {
+	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	};
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+
+	module.exports = isArray;
+
+
+/***/ },
+/* 423 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var bindCallback = __webpack_require__(424),
+	    isIterateeCall = __webpack_require__(425),
+	    restParam = __webpack_require__(426);
+
+	/**
+	 * Creates a function that assigns properties of source object(s) to a given
+	 * destination object.
+	 *
+	 * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
+	 *
+	 * @private
+	 * @param {Function} assigner The function to assign values.
+	 * @returns {Function} Returns the new assigner function.
+	 */
+	function createAssigner(assigner) {
+	  return restParam(function(object, sources) {
+	    var index = -1,
+	        length = object == null ? 0 : sources.length,
+	        customizer = length > 2 ? sources[length - 2] : undefined,
+	        guard = length > 2 ? sources[2] : undefined,
+	        thisArg = length > 1 ? sources[length - 1] : undefined;
+
+	    if (typeof customizer == 'function') {
+	      customizer = bindCallback(customizer, thisArg, 5);
+	      length -= 2;
+	    } else {
+	      customizer = typeof thisArg == 'function' ? thisArg : undefined;
+	      length -= (customizer ? 1 : 0);
+	    }
+	    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+	      customizer = length < 3 ? undefined : customizer;
+	      length = 1;
+	    }
+	    while (++index < length) {
+	      var source = sources[index];
+	      if (source) {
+	        assigner(object, source, customizer);
+	      }
+	    }
+	    return object;
+	  });
+	}
+
+	module.exports = createAssigner;
+
+
+/***/ },
+/* 424 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/**
+	 * A specialized version of `baseCallback` which only supports `this` binding
+	 * and specifying the number of arguments to provide to `func`.
+	 *
+	 * @private
+	 * @param {Function} func The function to bind.
+	 * @param {*} thisArg The `this` binding of `func`.
+	 * @param {number} [argCount] The number of arguments to provide to `func`.
+	 * @returns {Function} Returns the callback.
+	 */
+	function bindCallback(func, thisArg, argCount) {
+	  if (typeof func != 'function') {
+	    return identity;
+	  }
+	  if (thisArg === undefined) {
+	    return func;
+	  }
+	  switch (argCount) {
+	    case 1: return function(value) {
+	      return func.call(thisArg, value);
+	    };
+	    case 3: return function(value, index, collection) {
+	      return func.call(thisArg, value, index, collection);
+	    };
+	    case 4: return function(accumulator, value, index, collection) {
+	      return func.call(thisArg, accumulator, value, index, collection);
+	    };
+	    case 5: return function(value, other, key, object, source) {
+	      return func.call(thisArg, value, other, key, object, source);
+	    };
+	  }
+	  return function() {
+	    return func.apply(thisArg, arguments);
+	  };
+	}
+
+	/**
+	 * This method returns the first argument provided to it.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Utility
+	 * @param {*} value Any value.
+	 * @returns {*} Returns `value`.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 *
+	 * _.identity(object) === object;
+	 * // => true
+	 */
+	function identity(value) {
+	  return value;
+	}
+
+	module.exports = bindCallback;
+
+
+/***/ },
+/* 425 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.9 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+
+	/**
+	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+
+	/**
+	 * Checks if the provided arguments are from an iteratee call.
+	 *
+	 * @private
+	 * @param {*} value The potential iteratee value argument.
+	 * @param {*} index The potential iteratee index or key argument.
+	 * @param {*} object The potential iteratee object argument.
+	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+	 */
+	function isIterateeCall(value, index, object) {
+	  if (!isObject(object)) {
+	    return false;
+	  }
+	  var type = typeof index;
+	  if (type == 'number'
+	      ? (isArrayLike(object) && isIndex(index, object.length))
+	      : (type == 'string' && index in object)) {
+	    var other = object[index];
+	    return value === value ? (value === other) : (other !== other);
+	  }
+	  return false;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	module.exports = isIterateeCall;
+
+
+/***/ },
+/* 426 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.6.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+
+	/** Used as the `TypeError` message for "Functions" methods. */
+	var FUNC_ERROR_TEXT = 'Expected a function';
+
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeMax = Math.max;
+
+	/**
+	 * Creates a function that invokes `func` with the `this` binding of the
+	 * created function and arguments from `start` and beyond provided as an array.
+	 *
+	 * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Function
+	 * @param {Function} func The function to apply a rest parameter to.
+	 * @param {number} [start=func.length-1] The start position of the rest parameter.
+	 * @returns {Function} Returns the new function.
+	 * @example
+	 *
+	 * var say = _.restParam(function(what, names) {
+	 *   return what + ' ' + _.initial(names).join(', ') +
+	 *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+	 * });
+	 *
+	 * say('hello', 'fred', 'barney', 'pebbles');
+	 * // => 'hello fred, barney, & pebbles'
+	 */
+	function restParam(func, start) {
+	  if (typeof func != 'function') {
+	    throw new TypeError(FUNC_ERROR_TEXT);
+	  }
+	  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+	  return function() {
+	    var args = arguments,
+	        index = -1,
+	        length = nativeMax(args.length - start, 0),
+	        rest = Array(length);
+
+	    while (++index < length) {
+	      rest[index] = args[start + index];
+	    }
+	    switch (start) {
+	      case 0: return func.call(this, rest);
+	      case 1: return func.call(this, args[0], rest);
+	      case 2: return func.call(this, args[0], args[1], rest);
+	    }
+	    var otherArgs = Array(start + 1);
+	    index = -1;
+	    while (++index < start) {
+	      otherArgs[index] = args[index];
+	    }
+	    otherArgs[start] = rest;
+	    return func.apply(this, otherArgs);
+	  };
+	}
+
+	module.exports = restParam;
+
+
+/***/ },
+/* 427 */
+/***/ function(module, exports) {
+
+	var _element = typeof document !== 'undefined' ? document.body : null;
+
+	function setElement(element) {
+	  if (typeof element === 'string') {
+	    var el = document.querySelectorAll(element);
+	    element = 'length' in el ? el[0] : el;
+	  }
+	  _element = element || _element;
+	}
+
+	function hide(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).setAttribute('aria-hidden', 'true');
+	}
+
+	function show(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).removeAttribute('aria-hidden');
+	}
+
+	function toggle(shouldHide, appElement) {
+	  if (shouldHide)
+	    hide(appElement);
+	  else
+	    show(appElement);
+	}
+
+	function validateElement(appElement) {
+	  if (!appElement && !_element)
+	    throw new Error('react-modal: You must set an element with `Modal.setAppElement(el)` to make this accessible');
+	}
+
+	function resetForTesting() {
+	  _element = document.body;
+	}
+
+	exports.toggle = toggle;
+	exports.setElement = setElement;
+	exports.show = show;
+	exports.hide = hide;
+	exports.resetForTesting = resetForTesting;
+
+
+/***/ },
+/* 428 */
+/***/ function(module, exports) {
+
+	module.exports = function(opts) {
+	  return new ElementClass(opts)
+	}
+
+	function indexOf(arr, prop) {
+	  if (arr.indexOf) return arr.indexOf(prop)
+	  for (var i = 0, len = arr.length; i < len; i++)
+	    if (arr[i] === prop) return i
+	  return -1
+	}
+
+	function ElementClass(opts) {
+	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
+	  var self = this
+	  if (!opts) opts = {}
+
+	  // similar doing instanceof HTMLElement but works in IE8
+	  if (opts.nodeType) opts = {el: opts}
+
+	  this.opts = opts
+	  this.el = opts.el || document.body
+	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
+	}
+
+	ElementClass.prototype.add = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return el.className = className
+	  var classes = el.className.split(' ')
+	  if (indexOf(classes, className) > -1) return classes
+	  classes.push(className)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+	ElementClass.prototype.remove = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return
+	  var classes = el.className.split(' ')
+	  var idx = indexOf(classes, className)
+	  if (idx > -1) classes.splice(idx, 1)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+	ElementClass.prototype.has = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  var classes = el.className.split(' ')
+	  return indexOf(classes, className) > -1
+	}
+
+	ElementClass.prototype.toggle = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (this.has(className)) this.remove(className)
+	  else this.add(className)
+	}
+
 
 /***/ }
 /******/ ]);

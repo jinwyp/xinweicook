@@ -26,91 +26,53 @@
     <div src="../public/images/carttitle.png" class="carttitle"></div>
     <!--<h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>-->
 
-    <div id="react-root"></div>
+    <div id="react-root" style="display: block;"></div>
 
-    <div class="test" style="display: none;">
-        <div class="cart-main-right">
-            <form>
-                <div class="address-section">
-                    <h5 class="header">
-                        <span>配送至</span>
-                        <span class="add-address"><i class="fa fa-plus-square-o"></i> 添加地址</span>
-                    </h5>
-                    <ul class="address-list">
-                        <li>
-                            <div class="address">
-                                <span class="fa fa-dot-circle-o"></span>
-                                <span>美帝</span>
-                                <div>
-                                    <div class="table">
-                                        <div class="cell">上海市 长宁区 愚园路1032弄3号3楼 愚园路1032弄3号3楼</div>
-                                    </div>
-                                </div>
-                                <span>15900719671</span>
-                            </div>
-                            <div class="address">
-                                <span class="fa fa-circle-o"></span>
-                                <span>美帝</span>
-                                <div>
-                                    <div class="table">
-                                        <div class="cell">上海市 长宁区 愚园路1032弄3号3楼</div>
-                                    </div>
-                                </div>
-                                <span>15900719671</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="time-section">
-                    <h5 class="header">选择时间</h5>
-                    <div class="group">
-                        <span class="date">2015-5-6</span>
-                        <span class="time">上午</span>
-                        <i class="fa fa-angle-down"></i>
+    <div class="test" style="display: none">
+        <div class="editing-address">
+            <div class="close fa fa-times"></div>
+            <h5>添加新地址</h5>
+            <div class="content">
+                <div class="form-field">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" placeholder="请填写您的姓名"/>
+                    <div class="tips">
+                        <span class="error">姓名不能少于2个字</span>
                     </div>
                 </div>
-
-                <div class="comment-section">
-                    <div class="form-control-group">
-                        <label for="comment">留言：</label>
-                        <textarea rows="1" autocomplete="off" id="comment"></textarea>
+                <div class="form-field error">
+                    <label for="mobile">手机号</label>
+                    <input type="text" id="mobile" placeholder="请填写您的手机号"/>
+                    <div class="tips">
                     </div>
                 </div>
-
-                <div class="coupon-section">
-                    <div class="form-control-group">
-                        <label for="coupon-code">优惠码</label>
-                        <input autocomplete="off" placeholder="优惠码" class="coupon-code" type="text" id="coupon-code"/>
+                <div class="form-field">
+                    <label for="province">省,市,区</label>
+                    <div class="select-group">
+                        <select id="province"><option value="上海">上海市</option></select>
+                        <select><option value="上海">上海市</option></select>
+                        <select><option value="上海">上海市</option></select>
                     </div>
-                    <div class="form-control-group">
-                        <label>优惠券</label>
-                        <span class="coupon-card"><i class="fa fa-angle-down"></i></span>
-                    </div>
-                    <div class="group">
-                        <span class="fa fa-check-square-o"></span>
-                        <span class="text">使用余额</span>
-                        <span class="rmb-char">300</span>
+                    <div class="tips">
                     </div>
                 </div>
-
-                <div class="price-section">
-                    <div class="item">
-                        <span>价格</span><span class="rmb-char">160.00</span>
-                    </div>
-                    <div class="item">
-                        <span>运费 <i>（满100免运费）</i></span><span class="rmb-char">0.00</span>
-                    </div>
-                    <div class="item">
-                        <span>总计</span><span><strong class="rmb-char">160</strong></span>
+                <div class="form-field">
+                    <label for="street">街道</label>
+                    <input type="text" id="street" placeholder="请填写您的街道地址"/>
+                    <div class="tips">
                     </div>
                 </div>
-
-                <div class="confirm-section">
-                    <button>在线支付</button>
+                <div class="form-field">
+                    <label for="address">楼层,门牌号</label>
+                    <input type="text" id="address" placeholder="请填写您的楼层,门牌号"/>
+                    <div class="tips">
+                    </div>
                 </div>
-
-            </form>
+            </div>
+            <div class="buttons">
+                <button>保存</button>
+                <button>取消</button>
+            </div>
         </div>
     </div>
 

@@ -53,6 +53,8 @@ function addressEditingForm(state = {
         case types.POST_ADDRESS:
         case types.PUT_ADDRESS:
             return action.status == 'success' ? {show: false} : state
+        case types.CLOSE_EDIT_ADDRESS:
+            return {show: false}
         default: return state
     }
 }
