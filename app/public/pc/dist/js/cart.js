@@ -28898,6 +28898,7 @@
 	            _this.props.getStreet(val, _this.refs.city.value || '全国');
 	        }, 500);
 	    },
+	    _streetForInput: function _streetForInput() {},
 	    render: function render() {
 	        var _this2 = this;
 
@@ -31387,7 +31388,9 @@
 	            props.streets.map(function (street, i) {
 	                return _react2.default.createElement(
 	                    "li",
-	                    { key: street.uid || i, onClick: props.select },
+	                    { key: street.uid || i, onClick: function onClick() {
+	                            return props.select(street);
+	                        } },
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "name" },

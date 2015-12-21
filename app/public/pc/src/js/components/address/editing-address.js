@@ -62,6 +62,10 @@ var EditingAddress = React.createClass({
             this.props.getStreet(val, this.refs.city.value || '全国')
         }, 500)
     },
+
+    _streetForInput() {
+
+    },
     
     render() {
         var props = this.props
