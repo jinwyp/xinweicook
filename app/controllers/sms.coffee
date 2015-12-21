@@ -56,7 +56,7 @@ exports.sendSMS = (req, res, next) ->
 
   .then (result) ->
     if result and result.code isnt 0
-      throw new Err "Send SMS failed, type:" + type + ", "+ err.msg, 400, Err.code.sms.sendFailed
+      throw new Err "Send SMS failed, type:" + type + ", "+ result.msg, 400, Err.code.sms.sendFailed
 
     if conf.debug
       res.json code: tempCode
@@ -92,7 +92,7 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
 
       yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
         if result and result.code isnt 0
-          throw new Err "Send SMS CSToUser failed:" + type + ", "+ err.msg, 400, Err.code.sms.sendFailed
+          throw new Err "Send SMS CSToUser failed:" + type + ", "+ result.msg, 400, Err.code.sms.sendFailed
 
         res.json {status:"ok", message:result}
       .catch( next)
