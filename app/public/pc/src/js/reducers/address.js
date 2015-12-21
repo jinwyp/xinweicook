@@ -59,6 +59,26 @@ function addressEditingForm(state = {
     }
 }
 
-var addressReducer = combineReducers({addresses, addressEditingForm})
+function streetList(state = {
+    show: false,
+    streets: []
+}, action) {
+    switch (action.type) {
+        case types.GET_STREET:
+            if (action.status == 'success') {
+                return {
+                    show: true,
+                    streets: action.streets
+                }
+            }
+            return state
+        case types.TOGGLE_STREET:
+            return {...state, show: !state.show}
+
+        default: return state
+    }
+}
+
+var addressReducer = combineReducers({addresses, addressEditingForm, streetList})
 
 export default addressReducer

@@ -81,6 +81,8 @@ var App = React.createClass({
             postOne: address => dispatch(addressAction.postOne(address)),
             delOne: id => dispatch(addressAction.delOne(id)),
             close: () => dispatch(addressAction.closeEditAddress()),
+            toggleStreet: () => dispatch(addressAction.toggleStreet()),
+            getStreet: (query, region) => dispatch(addressAction.getStreet(query, region)),
             select: (id, _address) => {
                 dispatch(addressAction.select(id, _address))
                 dispatch(timeAction.getTimeIfNeeded())

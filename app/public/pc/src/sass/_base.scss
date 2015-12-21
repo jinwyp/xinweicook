@@ -41,6 +41,16 @@ body {
   }
 }
 
+.square-icon {
+  border: 1px solid;
+  width: 14px;
+  display: inline-block;
+  height: 14px;
+  text-align: center;
+  line-height: 12px;
+  user-select: none;
+}
+
 .rmb-char::before {
   content: '¥ '
 }

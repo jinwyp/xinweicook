@@ -133,15 +133,6 @@ $color_cart_list_hover: #EEEFF0;
           &:nth-child(3) {
             width: $width_cart_col3;
             text-align: center;
-            .icon {
-              border: 1px solid;
-              width: 14px;
-              display: inline-block;
-              height: 14px;
-              text-align: center;
-              line-height: 12px;
-              user-select: none;
-            }
             .disabled {
               color: $color_cart_invalid_font;
             }
@@ -197,6 +188,11 @@ $color_cart_list_hover: #EEEFF0;
             position: absolute;
             right: 0;
             color: $color_sunset_orange_approx;
+            font-size: 14px;
+            cursor: pointer;
+            span {
+              vertical-align: middle;
+            }
           }
         }
         .address-list {

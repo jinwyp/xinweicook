@@ -141,3 +141,33 @@ export function delOne(id) {
         .catch(err => dispatch(delFailed(err)))
     }
 }
+
+export function toggleStreet() {
+    return {
+        type: types.TOGGLE_STREET
+    }
+}
+
+
+function getStreetStart() {
+    return {
+        type: types.GET_STREET
+    }
+}
+
+function getStreetDone(streets) {
+    return {
+        type: types.GET_STREET,
+        status: 'success',
+        streets
+    }
+}
+
+export function getStreet(query, region) {
+    return function (dispatch) {
+        dispatch(getStreetStart())
+        fetch(`/mobile/placesearch?query=${query}&region=${region}`).then(res => {
+            return dispatch(getStreetDone(res.results))
+        })
+    }
+}

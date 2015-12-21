@@ -2,6 +2,7 @@ import React from 'react'
 import StaticAddress from './static-address'
 import EditingAddress from './editing-address'
 import Modal from 'react-modal'
+
 var modalStyle = {
     content: {
         position                   : 'absolute',
@@ -23,6 +24,11 @@ var modalStyle = {
 }
 
 var AddressList = React.createClass({
+    getInitialState() {
+        return {
+            mobile: '159006719671'
+        }
+    },
 
     render: function () {
         var props = this.props
@@ -32,9 +38,10 @@ var AddressList = React.createClass({
             <div className="address-section">
                 <h5 className="header">
                     <span>{title}</span>
-                    <span className="add-address" onClick={props.addOne}><i className="fa fa-plus-square-o"></i> 添加地址</span>
+                    <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> 添加地址</span>
                     <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
-                        <EditingAddress address={editingAddress} close={props.close}/>
+                        <EditingAddress streetList={props.streetList} {...editingAddress} close={props.close} getStreet={props.getStreet}
+                                                            toggleStreet={props.toggleStreet}/>
                     </Modal>
                 </h5>
                 <ul className="address-list">

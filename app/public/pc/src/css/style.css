@@ -115,6 +115,18 @@ body {
     color: #f44d4d;
     position: absolute; }
 
+.square-icon {
+  border: 1px solid;
+  width: 14px;
+  display: inline-block;
+  height: 14px;
+  text-align: center;
+  line-height: 12px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+
 .rmb-char::before {
   content: '¥ '; }
 
@@ -1556,17 +1568,6 @@ header {
         .cart .cart-main .cart-dish-list .cart-dish > *:nth-child(3) {
           width: 64px;
           text-align: center; }
-          .cart .cart-main .cart-dish-list .cart-dish > *:nth-child(3) .icon {
-            border: 1px solid;
-            width: 14px;
-            display: inline-block;
-            height: 14px;
-            text-align: center;
-            line-height: 12px;
-            -webkit-user-select: none;
-               -moz-user-select: none;
-                -ms-user-select: none;
-                    user-select: none; }
           .cart .cart-main .cart-dish-list .cart-dish > *:nth-child(3) .disabled {
             color: #D6D6D6; }
           .cart .cart-main .cart-dish-list .cart-dish > *:nth-child(3) .number {
@@ -1609,7 +1610,11 @@ header {
           .cart .cart-main .cart-main-right .address-section .header .add-address {
             position: absolute;
             right: 0;
-            color: #f44d4d; }
+            color: #f44d4d;
+            font-size: 14px;
+            cursor: pointer; }
+            .cart .cart-main .cart-main-right .address-section .header .add-address span {
+              vertical-align: middle; }
         .cart .cart-main .cart-main-right .address-section .address-list {
           padding-left: 2px; }
           .cart .cart-main .cart-main-right .address-section .address-list .address {

@@ -214,6 +214,12 @@
 	            close: function close() {
 	                return dispatch(addressAction.closeEditAddress());
 	            },
+	            toggleStreet: function toggleStreet() {
+	                return dispatch(addressAction.toggleStreet());
+	            },
+	            getStreet: function getStreet(query, region) {
+	                return dispatch(addressAction.getStreet(query, region));
+	            },
 	            select: function select(id, _address) {
 	                dispatch(addressAction.select(id, _address));
 	                dispatch(timeAction.getTimeIfNeeded());
@@ -26411,6 +26417,9 @@
 	var GET_ADDRESS = exports.GET_ADDRESS = 'GET_ADDRESS';
 	var PUT_ADDRESS = exports.PUT_ADDRESS = 'PUT_ADDRESS';
 	var CLOSE_EDIT_ADDRESS = exports.CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
+	// street
+	var TOGGLE_STREET = exports.TOGGLE_STREET = 'TOGGLE_STREET';
+	var GET_STREET = exports.GET_STREET = 'GET_STREET';
 
 	// time
 	var GET_TIME = exports.GET_TIME = 'GET_TIME';
@@ -26502,6 +26511,8 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -26581,7 +26592,31 @@
 	    }
 	}
 
-	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm });
+	function streetList() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        show: false,
+	        streets: []
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.GET_STREET:
+	            if (action.status == 'success') {
+	                return {
+	                    show: true,
+	                    streets: action.streets
+	                };
+	            }
+	            return state;
+	        case types.TOGGLE_STREET:
+	            return _extends({}, state, { show: !state.show });
+
+	        default:
+	            return state;
+	    }
+	}
+
+	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm, streetList: streetList });
 
 	exports.default = addressReducer;
 
@@ -27658,6 +27693,8 @@
 	exports.postOne = postOne;
 	exports.putOne = putOne;
 	exports.delOne = delOne;
+	exports.toggleStreet = toggleStreet;
+	exports.getStreet = getStreet;
 
 	var _xwFetch = __webpack_require__(381);
 
@@ -27808,6 +27845,35 @@
 	            return dispatch(delDone());
 	        }).catch(function (err) {
 	            return dispatch(delFailed(err));
+	        });
+	    };
+	}
+
+	function toggleStreet() {
+	    return {
+	        type: types.TOGGLE_STREET
+	    };
+	}
+
+	function getStreetStart() {
+	    return {
+	        type: types.GET_STREET
+	    };
+	}
+
+	function getStreetDone(streets) {
+	    return {
+	        type: types.GET_STREET,
+	        status: 'success',
+	        streets: streets
+	    };
+	}
+
+	function getStreet(query, region) {
+	    return function (dispatch) {
+	        dispatch(getStreetStart());
+	        (0, _xwFetch2.default)("/mobile/placesearch?query=" + query + "&region=" + region).then(function (res) {
+	            return dispatch(getStreetDone(res.results));
 	        });
 	    };
 	}
@@ -28480,7 +28546,7 @@
 	                { className: 'quantity' },
 	                _react2.default.createElement(
 	                    'span',
-	                    { className: "icon" + (number == 1 ? ' disabled' : ''), onClick: function onClick() {
+	                    { className: "square-icon" + (number == 1 ? ' disabled' : ''), onClick: function onClick() {
 	                            return number != 1 && props.minusDish(_id);
 	                        } },
 	                    '-'
@@ -28492,7 +28558,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'span',
-	                    { className: 'icon', onClick: function onClick() {
+	                    { className: 'square-icon', onClick: function onClick() {
 	                            return props.plusDish(_id);
 	                        } },
 	                    '+'
@@ -28595,6 +28661,11 @@
 
 	var AddressList = _react2.default.createClass({
 	    displayName: 'AddressList',
+	    getInitialState: function getInitialState() {
+	        return {
+	            mobile: '159006719671'
+	        };
+	    },
 
 	    render: function render() {
 	        var props = this.props;
@@ -28616,13 +28687,18 @@
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'add-address', onClick: props.addOne },
-	                    _react2.default.createElement('i', { className: 'fa fa-plus-square-o' }),
+	                    _react2.default.createElement(
+	                        'i',
+	                        { className: 'square-icon' },
+	                        '+'
+	                    ),
 	                    ' 添加地址'
 	                ),
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    { style: modalStyle, isOpen: props.addressEditingForm.show, onRequestClose: props.close, closeTimeoutMS: 250 },
-	                    _react2.default.createElement(_editingAddress2.default, { address: editingAddress, close: props.close })
+	                    _react2.default.createElement(_editingAddress2.default, _extends({ streetList: props.streetList }, editingAddress, { close: props.close, getStreet: props.getStreet,
+	                        toggleStreet: props.toggleStreet }))
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -28744,6 +28820,8 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -28752,12 +28830,79 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _utils = __webpack_require__(429);
+
+	var _streetList = __webpack_require__(430);
+
+	var _streetList2 = _interopRequireDefault(_streetList);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	var EditingAddress = _react2.default.createClass({
 	    displayName: "EditingAddress",
+	    getInitialState: function getInitialState() {
+	        return {
+	            error: {},
+	            selectedStreet: null
+	        };
+	    },
+	    validate: function validate(key) {
+	        if (!this.validate.validator) {
+	            this.validate.validator = (0, _utils.getValidator)(function (refs, key) {
+	                switch (key) {
+	                    // fall through
+	                    case 'address':
+	                    case 'name':
+	                        // 返回一个对象(作为error的属性),或者将这个对象合并到error,setState
+	                        return _defineProperty({}, key, { format: refs[key].value.length < 2 });
+
+	                    case 'mobile':
+	                        return { mobile: { format: /1\d{10}/.test(refs.mobile.value) } };
+
+	                    // fall through
+	                    case 'district':
+	                    case 'city':
+	                    case 'province':
+	                        return _defineProperty({}, key, { required: !refs[key].value });
+
+	                    case 'street':
+	                        return {};
+
+	                    default:
+	                        return {};
+	                }
+	            });
+	        }
+	        this.setState(this.validate.validator(this.refs, key));
+	    },
+	    isError: function isError(key) {
+	        return (0, _utils.truthy)(this.state.error, key);
+	    },
+	    selectStreet: function selectStreet(street) {
+	        this.setState({ selectedStreet: street });
+	        this.props.toggleStreet();
+	    },
+
+	    streetChangeTimer: null,
+
+	    onStreetChange: function onStreetChange(e) {
+	        var _this = this;
+
+	        var val = e.target.value;
+	        if (val.length < 2) return;
+
+	        clearTimeout(this.streetChangeTimer);
+	        this.streetChangeTimer = setTimeout(function () {
+	            _this.props.getStreet(val, _this.refs.city.value || '全国');
+	        }, 500);
+	    },
 	    render: function render() {
+	        var _this2 = this;
+
 	        var props = this.props;
+	        var isError = this.isError;
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "editing-address" },
@@ -28765,7 +28910,7 @@
 	            _react2.default.createElement(
 	                "h5",
 	                null,
-	                props.address._id ? '修改地址' : '添加新地址'
+	                props._id ? '修改地址' : '添加新地址'
 	            ),
 	            _react2.default.createElement(
 	                "div",
@@ -28778,11 +28923,13 @@
 	                        { htmlFor: "name" },
 	                        "姓名"
 	                    ),
-	                    _react2.default.createElement("input", { type: "text", id: "name", placeholder: "请填写您的姓名" }),
+	                    _react2.default.createElement("input", { ref: "name", onBlur: function onBlur() {
+	                            return _this2.validate('name');
+	                        }, defaultValue: props.contactPerson, type: "text", id: "name", placeholder: "请填写您的姓名" }),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "tips" },
-	                        _react2.default.createElement(
+	                        isError('name.format') && _react2.default.createElement(
 	                            "span",
 	                            { className: "error" },
 	                            "姓名不能少于2个字"
@@ -28797,8 +28944,19 @@
 	                        { htmlFor: "mobile" },
 	                        "手机号"
 	                    ),
-	                    _react2.default.createElement("input", { type: "text", id: "mobile", placeholder: "请填写您的手机号" }),
-	                    _react2.default.createElement("div", { className: "tips" })
+	                    _react2.default.createElement("input", { type: "text", ref: "mobile", id: "mobile", onBlur: function onBlur() {
+	                            return _this2.validate('mobile');
+	                        },
+	                        defaultValue: props.mobile, onChange: props.handleChange, placeholder: "请填写您的手机号" }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "tips" },
+	                        isError('mobile.format') && _react2.default.createElement(
+	                            "span",
+	                            { className: "error" },
+	                            "请输入正确的手机号"
+	                        )
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    "div",
@@ -28813,7 +28971,7 @@
 	                        { className: "select-group" },
 	                        _react2.default.createElement(
 	                            "select",
-	                            { id: "province" },
+	                            { ref: "province", id: "province", defaultValue: props.province },
 	                            _react2.default.createElement(
 	                                "option",
 	                                { value: "上海" },
@@ -28822,7 +28980,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            "select",
-	                            null,
+	                            { ref: "city", defaultValue: props.city },
 	                            _react2.default.createElement(
 	                                "option",
 	                                { value: "上海" },
@@ -28831,7 +28989,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            "select",
-	                            null,
+	                            { ref: "district", defaultValue: props.district },
 	                            _react2.default.createElement(
 	                                "option",
 	                                { value: "上海" },
@@ -28839,7 +28997,15 @@
 	                            )
 	                        )
 	                    ),
-	                    _react2.default.createElement("div", { className: "tips" })
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "tips" },
+	                        isError('district.required') && _react2.default.createElement(
+	                            "span",
+	                            { className: "error" },
+	                            "请输入正确的信息"
+	                        )
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    "div",
@@ -28849,8 +29015,20 @@
 	                        { htmlFor: "street" },
 	                        "街道"
 	                    ),
-	                    _react2.default.createElement("input", { type: "text", id: "street", placeholder: "请填写您的街道地址" }),
-	                    _react2.default.createElement("div", { className: "tips" })
+	                    _react2.default.createElement("input", { defaultValue: props.street, onChange: this.onStreetChange, onBlur: function onBlur() {
+	                            return _this2.validate('street');
+	                        },
+	                        type: "text", id: "street", placeholder: "请填写您的街道地址" }),
+	                    _react2.default.createElement(_streetList2.default, _extends({}, props.streetList, { select: this.selectStreet })),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "tips" },
+	                        isError('street.fromSelect') && _react2.default.createElement(
+	                            "span",
+	                            { className: "error" },
+	                            "请输入正确的信息"
+	                        )
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    "div",
@@ -28860,8 +29038,19 @@
 	                        { htmlFor: "address" },
 	                        "楼层,门牌号"
 	                    ),
-	                    _react2.default.createElement("input", { type: "text", id: "address", placeholder: "请填写您的楼层,门牌号" }),
-	                    _react2.default.createElement("div", { className: "tips" })
+	                    _react2.default.createElement("input", { defaultValue: props.address, onBlur: function onBlur() {
+	                            return _this2.validate('address');
+	                        },
+	                        type: "text", id: "address", placeholder: "请填写您的楼层,门牌号" }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "tips" },
+	                        isError('address.format') && _react2.default.createElement(
+	                            "span",
+	                            { className: "error" },
+	                            "不能少于2个字"
+	                        )
+	                    )
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -28874,7 +29063,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    "button",
-	                    null,
+	                    { onClick: props.close },
 	                    "取消"
 	                )
 	            )
@@ -31119,6 +31308,103 @@
 	  else this.add(className)
 	}
 
+
+/***/ },
+/* 429 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.truthy = truthy;
+	exports.getValidator = getValidator;
+	/**
+	 * 作为对Obj.a.b.c的简写,
+	 * @param obj - {a: {b: 1}}
+	 * @param properties - 'a.b'
+	 * @returns {boolean}
+	 */
+	function truthy(obj, properties) {
+	    if (!obj || !properties) return false;
+	    properties = properties.split('.');
+	    for (var i = 0; i < properties.length; i++) {
+	        var p = properties[i];
+	        if (!obj[p]) return false;
+	        obj = obj[p];
+	    }
+	    return true;
+	}
+
+	/**
+	 * (同步)接收一个验证函数a, 返回一个验证函数b, b在没有提供key时,会对所有refs的所有key进行验证
+	 * @param validate - (refs, key) => {key: err}
+	 * @returns {*} (refs[, key]) => {key1: err1[, key2: err2]}
+	 */
+	function getValidator(validate) {
+	    return function _validate(refs, key) {
+	        var error;
+	        if (!key) {
+	            error = {};
+	            Object.keys(refs).forEach(function (k) {
+	                Object.assign(error, _validate(k));
+	            });
+	            return error;
+	        }
+
+	        error = validate(refs, key);
+
+	        return error;
+	    };
+	}
+
+/***/ },
+/* 430 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StreetList = _react2.default.createClass({
+	    displayName: "StreetList",
+
+	    render: function render() {
+	        var props = this.props;
+	        if (!props.show) return null;
+	        return _react2.default.createElement(
+	            "ul",
+	            { className: "street-list" },
+	            props.streets.map(function (street, i) {
+	                return _react2.default.createElement(
+	                    "li",
+	                    { key: street.uid || i, onClick: props.select },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "name" },
+	                        street.name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "address" },
+	                        street.address
+	                    )
+	                );
+	            })
+	        );
+	    }
+	});
+
+	exports.default = StreetList;
 
 /***/ }
 /******/ ]);

@@ -22,9 +22,9 @@ var CartDish = React.createClass({
                     <div className="no-stock-mask">当前地址便当不可送达</div>
                 </div>
                 <div className="quantity">
-                    <span className={"icon" + (number == 1 ? ' disabled' : '')} onClick={() => number != 1 && props.minusDish(_id)}>-</span>
+                    <span className={"square-icon" + (number == 1 ? ' disabled' : '')} onClick={() => number != 1 && props.minusDish(_id)}>-</span>
                     <span className="number">{number}</span>
-                    <span className="icon" onClick={() => props.plusDish(_id)}>+</span>
+                    <span className="square-icon" onClick={() => props.plusDish(_id)}>+</span>
                 </div>
                 <div className="price rmb-char">{price}</div>
                 <span className="fa fa-times" onClick={() => props.delDish(_id)}></span>

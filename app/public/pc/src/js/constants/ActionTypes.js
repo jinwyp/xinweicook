@@ -20,6 +20,9 @@ export const DEL_ADDRESS = 'DEL_ADDRESS';
 export const GET_ADDRESS = 'GET_ADDRESS';
 export const PUT_ADDRESS = 'PUT_ADDRESS';
 export const CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
+// street
+export const TOGGLE_STREET = 'TOGGLE_STREET';
+export const GET_STREET = 'GET_STREET';
 
 // time
 export const GET_TIME = 'GET_TIME';
