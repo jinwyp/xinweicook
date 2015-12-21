@@ -1094,6 +1094,9 @@ exports.userAccountDetail = (req, res, next) ->
   .catch next
 
 
+
+
+
 # 用户账户余额充值 先生成充值记录明细
 exports.chargeAccount = (req, res, next) ->
 
@@ -1104,6 +1107,9 @@ exports.chargeAccount = (req, res, next) ->
   if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
     models.order.validationWeixinPayUnifiedOrder req.body
     chargeType = models.accountdetail.constantChargeType().weixinpay
+
+
+  WXPayCharge = WXPay(configWeiXinPay)
 
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
@@ -1116,7 +1122,7 @@ exports.chargeAccount = (req, res, next) ->
       # 微信支付生成统一订单
 
       if req.body.trade_type is "APP"
-        weixinpay = WXPay(configWeiXinAppPay)
+        WXPayCharge = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultAccountDetail._id.toString()
@@ -1146,7 +1152,7 @@ exports.chargeAccount = (req, res, next) ->
 
 
       console.log "------------------Weixinpay Unified Order For AccountDetail: ", weixinpayOrder
-      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+      WXPayCharge.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next (new Err err)
 
@@ -1168,8 +1174,8 @@ exports.chargeAccount = (req, res, next) ->
             timeStamp: parseInt(+new Date() / 1000, 10) + ""
             nonceStr: weixinpay.util.generateNonceString()
 
-          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+          weixinpayNativeSign.sign = WXPayCharge.sign(weixinpayNativeSign);
+          weixinpayMobileSign.paySign = WXPayCharge.sign(weixinpayMobileSign);
 
 
           newPaymentDetail =
