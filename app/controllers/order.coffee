@@ -146,10 +146,6 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
 
 
 
-
-
-
-
 exports.orderListByUser = (req, res, next) ->
   # 获取该用户所有订单
   models.order.validationGetOrderList req.query
