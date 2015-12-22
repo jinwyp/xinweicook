@@ -299,7 +299,7 @@ exports.orderExportList = function(req, res, next) {
 exports.orderList = function(req, res, next) {
 
 
-    models.order.find({}).sort("-createdAt").limit (800).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
+    models.order.find({}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
 
         res.send(resultOrderList);
 
