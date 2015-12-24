@@ -76,7 +76,7 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) + " ----- " + JSON.stringify(req.u.mobile) if req.u )
   code = req.query.code
   order_number_state = req.query.state
 
