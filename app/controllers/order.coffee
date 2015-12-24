@@ -447,7 +447,7 @@ exports.addNewOrder = (req, res, next) ->
               en : "Mengniu Promotion Code"
             price : 50
             priceLimit : 150
-            endDate: moment().endOf("year")
+            endDate: moment("2016-12-25").endOf("year")
             couponType : models.coupon.constantCouponType().promocode
             code : req.body.promotionCode
             usedTime : 0
