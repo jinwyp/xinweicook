@@ -372,7 +372,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
         angular.forEach(polygonPointList, function(address, addressIndex){
 
-                console.log(address.longitude, address.latitude);
+                console.log("陆家嘴多边形点:", addressIndex, address.longitude, address.latitude);
 
                 var pointOrder = new BMap.Point( address.longitude, address.latitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
@@ -380,7 +380,6 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
                 var content = '地址: ' ;
                 addMarker(pointOrder, title, content, 3);
         });
-
 
 
     };
