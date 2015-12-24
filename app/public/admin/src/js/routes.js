@@ -125,10 +125,10 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                             //    }
                             //})
 
-
-                            $http.post('/api/user/sms', data).success(function(result) {
-                                console.log("success")
-                            });
+                            //
+                            //$http.post('/api/user/sms', data).success(function(result) {
+                            //    console.log("success")
+                            //});
                         }
                     }
 
