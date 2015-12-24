@@ -152,6 +152,29 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$valid, 'has-error':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$invalid}">
+                    <label class="col-lg-2 control-label" >来源</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'website'" ng-model="data.user.statisticsClientFrom">PC版网站
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'mobileweb'" ng-model="data.user.statisticsClientFrom">移动版网站
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'wechat'" ng-model="data.user.statisticsClientFrom">微信公众平台
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'ios'" ng-model="data.user.statisticsClientFrom">iOS 原生APP
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'android'" ng-model="data.user.statisticsClientFrom">安卓 原生APP
+                        </label>
+                    </div>
+                </div>
+
+
                 <hr/>
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
@@ -422,7 +445,23 @@
                             <div class="form-group has-feedback" >
                                 <label class="col-lg-2 control-label" > 距离 / 仓库 / 便当可送</label>
                                 <div class="col-lg-6" >
-                                    <span class="form-validation help-block"> {{address.distanceFrom}} 米 / <a ui-sref="menu.updateWarehouse({ id: warehouse._id })">{{address.warehouse | warehousefilter}} </a> / {{address.isAvailableForEat ? '便当可送达' : '便当不可送'}} </span>
+                                    <span class="form-validation help-block"> {{address.distanceFrom}} 米 / <a ui-sref="menu.updateWarehouse({ id: address.warehouse })">{{address.warehouse | warehousefilter}} </a> / {{address.isAvailableForEat ? '便当可送达' : '便当不可送'}} </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$valid, 'has-error':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$invalid}">
+                                <label class="col-lg-2 control-label" >可送达的仓库</label>
+
+                                <div class="col-lg-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'56332187594b09af6e6c7dd2'" ng-model="address.warehouse">新味办公室
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'56332196594b09af6e6c7dd7'" ng-model="address.warehouse">漕河泾仓库
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'564ab6de2bde80bd10a9bc60'" ng-model="address.warehouse">陆家嘴仓库
+                                    </label>
                                 </div>
                             </div>
 
@@ -475,7 +514,7 @@
                             </div>
 
                             <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$valid, 'has-error':uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$invalid}">
-                                <label for="inputUAStreet_{{$index}}" class="col-lg-2 control-label" > 街道 / 百度街道号(获取的地址)</label>
+                                <label for="inputUAStreet_{{$index}}" class="col-lg-2 control-label" > 街道 / 街道号(百度获取的地址)</label>
 
                                 <div class="col-lg-6" >
                                     <input type="text" class="form-control" id="inputUAStreet_{{$index}}" name="addressStreet_{{$index}}" ng-model="address.street" required ng-minlength="2" ng-maxlength="500">
