@@ -799,7 +799,7 @@ exports.addNewAddress = (req, res, next) ->
 
   tempWarehouse = {}
 
-  models.warehouse.find99({}).then (resultWarehouseList) ->
+  models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
 
     baiduMapQuery =
       origins : []
@@ -913,7 +913,7 @@ exports.updateAddress = (req, res, next) ->
 
     tempWarehouse = {}
 
-    models.warehouse.find99({}).then (resultWarehouseList) ->
+    models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
 
       baiduMapQuery =
         origins : []
