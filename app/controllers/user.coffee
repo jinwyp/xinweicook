@@ -466,7 +466,8 @@ exports.userSignUp = (req, res, next) ->
       ua = req.get("user-agent")
       re = /MicroMessenger/
 
-      if ua is "Xinwei Cook" and req.get("iOSAppVersion")
+#      if ua is "Xinwei Cook" or req.get("iOSAppVersion")
+      if ua is "Xinwei Cook"
         newUser.statisticsClientFrom = models.order.constantClientFrom().ios
       else if re.test(ua)
         newUser.statisticsClientFrom = models.order.constantClientFrom().wechat
