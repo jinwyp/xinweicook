@@ -15,8 +15,10 @@ function card(state = {
             }
         case types.FETCH_USER:
             if (action.status == 'success') {
+                action.user.couponList.forEach(card =>
+                    card.isExpired = action.now > new Date(card.endDate))
                 return {
-                    cardList: action.user.couponList.filter(card => !card.isUsed)
+                    cardList: action.user.couponList
                 }
             }
             return state

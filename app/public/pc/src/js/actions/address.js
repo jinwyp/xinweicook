@@ -142,9 +142,10 @@ export function delOne(id) {
     }
 }
 
-export function toggleStreet() {
+export function toggleStreet(show) {
     return {
-        type: types.TOGGLE_STREET
+        type: types.TOGGLE_STREET,
+        show: show
     }
 }
 
@@ -169,5 +170,37 @@ export function getStreet(query, region) {
         fetch(`/mobile/placesearch?query=${query}&region=${region}`).then(res => {
             return dispatch(getStreetDone(res.results))
         })
+    }
+}
+
+
+function getRangeStart() {
+    return {
+        type: types.GET_RANGE
+    }
+}
+
+function getRangeDone(range) {
+    return {
+        type: types.GET_RANGE,
+        status: 'success',
+        range
+    }
+}
+
+export function getRange() {
+    return function (dispatch) {
+        dispatch(getRangeStart())
+        fetch('/api/orders/delivery/range').then(res => {
+            dispatch(getRangeDone(res))
+        })
+    }
+}
+
+export function getRangeIfNeeded() {
+    return function (dispatch, getState) {
+        var range = getState().address.range
+        if (range.length) return
+        dispatch(getRange())
     }
 }

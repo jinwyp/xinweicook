@@ -23,6 +23,8 @@ export const CLOSE_EDIT_ADDRESS = 'CLOSE_EDIT_ADDRESS';
 // street
 export const TOGGLE_STREET = 'TOGGLE_STREET';
 export const GET_STREET = 'GET_STREET';
+// range
+export const GET_RANGE = 'GET_RANGE';
 
 // time
 export const GET_TIME = 'GET_TIME';

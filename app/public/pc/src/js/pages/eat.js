@@ -13,21 +13,20 @@
                 obj[id] = item
             }
             return obj
-        }, {});
+        }, {})
 
-        $('.menus > li, .eatlist > li, .product-info').each(function () {
-            var $li = $(this);
-            var id = $li.data('id');
+        $('.menus > li').each(function () {
+            var $li = $(this)
+            var id = $li.data('id')
             if (cartObj[id]) {
                 $li.find('.plusok')
-                    .html(cartObj[id].number).addClass('show');
-                $li.find('.mius').show();
+                    .html(cartObj[id].number).addClass('show')
             }
-        });
+        })
 
-        var mobile = res.mobile;
+        var mobile = res.mobile
         $('#signin').html(mobile.substr(0, 3) + '****' + mobile.substr(7, 4))
-    });
+    })
 
     function postCart(_cart) {
         $.post('/api/user/shoppingcart', JSON.stringify({
@@ -38,21 +37,19 @@
     }
 
     $(document).ready(function () {
-        // 添加值购物车事件绑定
-        $('.menus, .eatlist, .buy').on('click', '.plus, .mius', function () {
+        $('.menus, .eatlist').on('click', '.plus, .mius', function (event) {
             var _cart;
-            var $btn = $(this);
             if (!cart) {
                 location.href = '/sign';
                 return;
             }
 
-            var $li = $btn.closest('li, .product-info');
+            var $li = $(this).closest('li');
             var id = $li.data('id');
             var exist = false;
             var emptyArray = [];
 
-            var isAdd = $btn.hasClass('plus');
+            var isAdd = $(event.target).hasClass('plus');
             var _number;
             var oldLength = cart.length;
             var newLength;
@@ -81,8 +78,7 @@
                     number: 1,
                     subDish: emptyArray
                 });
-                _number = 1;
-                $btn.siblings('.mius').show();
+                _number = 1
             }
 
             // 减去一个购物车中不存在的菜品
@@ -93,21 +89,12 @@
 
             // 如果购物车中的商品被删掉了
             if (oldLength > newLength) {
-                el.removeClass('show');
-                $btn.hide();
+                el.removeClass('show')
             }
 
             postCart(_cart)
         })
-
-        // tab切换事件绑定
-        var $tabs = $('.tabs > div');
-        var $tabBtnContainer = $('.tabbtn');
-        var $tabBtns = $tabBtnContainer.children()
-        $tabBtnContainer.on('click', function (e) {
-            var index = $(e.target).index()
-            $tabBtns.removeClass('act').eq(index).addClass('act')
-            $tabs.hide().eq(index).show()
-        })
     })
 }())
+
+

@@ -104,19 +104,19 @@
 
 	var _addressList2 = _interopRequireDefault(_addressList);
 
-	var _timeSelector = __webpack_require__(400);
+	var _timeSelector = __webpack_require__(422);
 
 	var _timeSelector2 = _interopRequireDefault(_timeSelector);
 
-	var _cartCoupon = __webpack_require__(401);
+	var _cartCoupon = __webpack_require__(423);
 
 	var _cartCoupon2 = _interopRequireDefault(_cartCoupon);
 
-	var _orderPrice = __webpack_require__(402);
+	var _orderPrice = __webpack_require__(424);
 
 	var _orderPrice2 = _interopRequireDefault(_orderPrice);
 
-	var _comment2 = __webpack_require__(403);
+	var _comment2 = __webpack_require__(425);
 
 	var _comment3 = _interopRequireDefault(_comment2);
 
@@ -214,11 +214,14 @@
 	            close: function close() {
 	                return dispatch(addressAction.closeEditAddress());
 	            },
-	            toggleStreet: function toggleStreet() {
-	                return dispatch(addressAction.toggleStreet());
+	            toggleStreet: function toggleStreet(show) {
+	                return dispatch(addressAction.toggleStreet(show));
 	            },
 	            getStreet: function getStreet(query, region) {
 	                return dispatch(addressAction.getStreet(query, region));
+	            },
+	            getRange: function getRange() {
+	                return dispatch(addressAction.getRangeIfNeeded());
 	            },
 	            select: function select(id, _address) {
 	                dispatch(addressAction.select(id, _address));
@@ -26420,6 +26423,8 @@
 	// street
 	var TOGGLE_STREET = exports.TOGGLE_STREET = 'TOGGLE_STREET';
 	var GET_STREET = exports.GET_STREET = 'GET_STREET';
+	// range
+	var GET_RANGE = exports.GET_RANGE = 'GET_RANGE';
 
 	// time
 	var GET_TIME = exports.GET_TIME = 'GET_TIME';
@@ -26538,7 +26543,10 @@
 	        case types.GET_ADDRESS:
 	            return action.status == 'success' ? action.addresses : state;
 	        case types.POST_ADDRESS:
-	            return state.concat([action.address]);
+	            if (action.status == 'success') {
+	                return state.concat([action.address]);
+	            }
+	            return state;
 	        case types.PUT_ADDRESS:
 	            if (action.status == 'success') {
 	                return state.map(function (item) {
@@ -26573,6 +26581,7 @@
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
 	        show: false,
 	        id: ''
+
 	    } : arguments[0];
 	    var action = arguments[1];
 
@@ -26609,14 +26618,31 @@
 	            }
 	            return state;
 	        case types.TOGGLE_STREET:
-	            return _extends({}, state, { show: !state.show });
+	            return _extends({}, state, {
+	                show: action.show === undefined ? !state.show : action.show
+	            });
 
 	        default:
 	            return state;
 	    }
 	}
 
-	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm, streetList: streetList });
+	function range() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.GET_RANGE:
+	            if (action.status == 'success') {
+	                return action.range;
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+	var addressReducer = (0, _redux.combineReducers)({ addresses: addresses, addressEditingForm: addressEditingForm, streetList: streetList, range: range });
 
 	exports.default = addressReducer;
 
@@ -26781,10 +26807,11 @@
 	            });
 	        case types.FETCH_USER:
 	            if (action.status == 'success') {
+	                action.user.couponList.forEach(function (card) {
+	                    return card.isExpired = action.now > new Date(card.endDate);
+	                });
 	                return {
-	                    cardList: action.user.couponList.filter(function (card) {
-	                        return !card.isUsed;
-	                    })
+	                    cardList: action.user.couponList
 	                };
 	            }
 	            return state;
@@ -27176,6 +27203,8 @@
 	    options = options || {};
 	    options.headers = Object.assign({}, options.headers, { Authorization: 'Bearer ' + access_token });
 	    return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
+	        // headers.get('Date')
+	        _fetch.headers = res.headers;
 	        if (res.status >= 400) {
 	            if (res.status == '401') {
 	                location.href = '/sign';
@@ -27194,6 +27223,7 @@
 	        headers: { 'Content-Type': 'application/json' },
 	        body: JSON.stringify(data)
 	    }).then(function (json) {
+	        post.headers = _fetch.headers;
 	        if (url == '/api/user/token' || url == '/api/user/signup') {
 	            localStorage.access_token = json.access_token;
 	        }
@@ -27652,12 +27682,13 @@
 	 * @param warehouse 只与购物车有关, 但是也要传递, 真的OTZ..
 	 * @returns {{type: FETCH_USER, status: string, user: *}}
 	 */
-	function receiveUser(user, warehouse) {
+	function receiveUser(user, warehouse, now) {
 	    return {
 	        type: types.FETCH_USER,
 	        status: 'success',
 	        user: user,
-	        warehouse: warehouse
+	        warehouse: warehouse,
+	        now: now
 	    };
 	}
 
@@ -27665,7 +27696,7 @@
 	    return function (dispatch, getState) {
 	        dispatch(requestUser());
 	        return (0, _xwFetch2.default)('/api/user').then(function (res) {
-	            dispatch(receiveUser(res, getState().warehouse));
+	            dispatch(receiveUser(res, getState().warehouse, new Date(_xwFetch2.default.headers.get('Date'))));
 	        });
 	    };
 	}
@@ -27695,6 +27726,8 @@
 	exports.delOne = delOne;
 	exports.toggleStreet = toggleStreet;
 	exports.getStreet = getStreet;
+	exports.getRange = getRange;
+	exports.getRangeIfNeeded = getRangeIfNeeded;
 
 	var _xwFetch = __webpack_require__(381);
 
@@ -27849,9 +27882,10 @@
 	    };
 	}
 
-	function toggleStreet() {
+	function toggleStreet(show) {
 	    return {
-	        type: types.TOGGLE_STREET
+	        type: types.TOGGLE_STREET,
+	        show: show
 	    };
 	}
 
@@ -27875,6 +27909,37 @@
 	        (0, _xwFetch2.default)("/mobile/placesearch?query=" + query + "&region=" + region).then(function (res) {
 	            return dispatch(getStreetDone(res.results));
 	        });
+	    };
+	}
+
+	function getRangeStart() {
+	    return {
+	        type: types.GET_RANGE
+	    };
+	}
+
+	function getRangeDone(range) {
+	    return {
+	        type: types.GET_RANGE,
+	        status: 'success',
+	        range: range
+	    };
+	}
+
+	function getRange() {
+	    return function (dispatch) {
+	        dispatch(getRangeStart());
+	        (0, _xwFetch2.default)('/api/orders/delivery/range').then(function (res) {
+	            dispatch(getRangeDone(res));
+	        });
+	    };
+	}
+
+	function getRangeIfNeeded() {
+	    return function (dispatch, getState) {
+	        var range = getState().address.range;
+	        if (range.length) return;
+	        dispatch(getRange());
 	    };
 	}
 
@@ -28633,7 +28698,7 @@
 
 	var _editingAddress2 = _interopRequireDefault(_editingAddress);
 
-	var _reactModal = __webpack_require__(409);
+	var _reactModal = __webpack_require__(402);
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
@@ -28661,11 +28726,6 @@
 
 	var AddressList = _react2.default.createClass({
 	    displayName: 'AddressList',
-	    getInitialState: function getInitialState() {
-	        return {
-	            mobile: '159006719671'
-	        };
-	    },
 
 	    render: function render() {
 	        var props = this.props;
@@ -28697,8 +28757,10 @@
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    { style: modalStyle, isOpen: props.addressEditingForm.show, onRequestClose: props.close, closeTimeoutMS: 250 },
-	                    _react2.default.createElement(_editingAddress2.default, _extends({ streetList: props.streetList }, editingAddress, { close: props.close, getStreet: props.getStreet,
-	                        toggleStreet: props.toggleStreet }))
+	                    _react2.default.createElement(_editingAddress2.default, _extends({ range: props.range, streetList: props.streetList
+	                    }, editingAddress, { postOne: props.postOne,
+	                        close: props.close, getStreet: props.getStreet,
+	                        toggleStreet: props.toggleStreet, getRange: props.getRange }))
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -28830,9 +28892,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _utils = __webpack_require__(429);
+	var _utils = __webpack_require__(400);
 
-	var _streetList = __webpack_require__(430);
+	var _streetList = __webpack_require__(401);
 
 	var _streetList2 = _interopRequireDefault(_streetList);
 
@@ -28842,71 +28904,184 @@
 
 	var EditingAddress = _react2.default.createClass({
 	    displayName: "EditingAddress",
+	    componentDidMount: function componentDidMount() {
+	        this.props.getRange();
+	    },
 	    getInitialState: function getInitialState() {
 	        return {
 	            error: {},
-	            selectedStreet: null
+	            selectedStreet: null,
+	            province: this.props.province || '',
+	            city: this.props.city || '',
+	            district: this.props.district || ''
 	        };
 	    },
+
+	    /**
+	     * 如果指定key,则验证refs中的相应值,如果没有则验证所有值
+	     * @return {boolean} - true 表示有错, false 表示无错
+	     */
 	    validate: function validate(key) {
+	        var _this = this;
+
 	        if (!this.validate.validator) {
 	            this.validate.validator = (0, _utils.getValidator)(function (refs, key) {
+	                // 返回的value值为true就表示验证失败
 	                switch (key) {
 	                    // fall through
 	                    case 'address':
-	                    case 'name':
+	                    case 'contactPerson':
 	                        // 返回一个对象(作为error的属性),或者将这个对象合并到error,setState
 	                        return _defineProperty({}, key, { format: refs[key].value.length < 2 });
 
 	                    case 'mobile':
-	                        return { mobile: { format: /1\d{10}/.test(refs.mobile.value) } };
+	                        return { mobile: { format: !/^1\d{10}$/.test(refs.mobile.value) } };
 
 	                    // fall through
 	                    case 'district':
 	                    case 'city':
 	                    case 'province':
-	                        return _defineProperty({}, key, { required: !refs[key].value });
+	                        return { district: { required: !refs.district.value } };
 
 	                    case 'street':
-	                        return {};
+	                        return { street: { format: !_this.state.selectedStreet } };
 
 	                    default:
 	                        return {};
 	                }
 	            });
 	        }
-	        this.setState(this.validate.validator(this.refs, key));
+
+	        var error = this.validate.validator(this.refs, key);
+	        this.setState({ error: Object.assign({}, this.state.error, error) });
+	        return !Object.keys(error).some(function (key) {
+	            return Object.keys(error[key]).some(function (el) {
+	                return error[key][el];
+	            });
+	        });
 	    },
 	    isError: function isError(key) {
 	        return (0, _utils.truthy)(this.state.error, key);
 	    },
 	    selectStreet: function selectStreet(street) {
-	        this.setState({ selectedStreet: street });
+	        var _this2 = this;
+
+	        this.setState({ selectedStreet: street }, function () {
+	            return _this2.validate('street');
+	        });
+	        // change dom. Not elegant but simple, simple is beautiful
+	        this.refs.street.value = street.name;
+	        this.onStreetChange.ignore = true;
 	        this.props.toggleStreet();
 	    },
 
 	    streetChangeTimer: null,
 
 	    onStreetChange: function onStreetChange(e) {
-	        var _this = this;
-
+	        if (this.onStreetChange.ignore) {
+	            this.onStreetChange.ignore = false;
+	            return;
+	        }
 	        var val = e.target.value;
 	        if (val.length < 2) return;
 
+	        this.setState({ selectedStreet: null });
+	        this.getStreetList(val);
+	    },
+	    onStreetClick: function onStreetClick(e) {
+	        e.stopPropagation();
+	        var val = e.target.value;
+	        if (val.length < 2) return;
+
+	        this.getStreetList(val);
+	    },
+	    getStreetList: function getStreetList(val) {
+	        var _this3 = this;
+
 	        clearTimeout(this.streetChangeTimer);
 	        this.streetChangeTimer = setTimeout(function () {
-	            _this.props.getStreet(val, _this.refs.city.value || '全国');
+	            _this3.props.getStreet(val, _this3.refs.city.value || '全国');
 	        }, 500);
 	    },
-	    _streetForInput: function _streetForInput() {},
+	    onStreetHideClick: function onStreetHideClick() {
+	        this.props.toggleStreet(false);
+	    },
+	    onChangeSelect: function onChangeSelect(e, type) {
+	        var value = e.target.value || '';
+	        if (type == 'district') {
+	            this.setState({ district: value });
+	        }
+	        if (type == 'city') {
+	            this.setState({ city: value, district: '' });
+	        }
+	        if (type == 'province') {
+	            this.setState({ province: value, city: '', district: '' });
+	        }
+	    },
+	    save: function save() {
+	        var _this4 = this;
+
+	        if (!this.validate()) return;
+	        this.props.postOne(Object.assign({}, Object.keys(this.refs).reduce(function (obj, key) {
+	            obj[key] = _this4.refs[key].value;
+	            return obj;
+	        }, {}), {
+	            geoLatitude: this.state.selectedStreet.location.lat,
+	            geoLongitude: this.state.selectedStreet.location.lng,
+	            sortOrder: 0
+	        })).catch(function (err) {
+	            return (0, _utils.log)(err);
+	        });
+	    },
 	    render: function render() {
-	        var _this2 = this;
+	        var _this5 = this;
 
 	        var props = this.props;
 	        var isError = this.isError;
+	        var emptyOption = _react2.default.createElement(
+	            "option",
+	            { key: "#", value: "" },
+	            "请选择"
+	        );
+
+	        var provinceOptions = props.range.map(function (province, i) {
+	            return _react2.default.createElement(
+	                "option",
+	                { key: i, value: province.state },
+	                province.state
+	            );
+	        });
+	        provinceOptions.unshift(emptyOption);
+
+	        var cities = !this.state.province ? [] : props.range.filter(function (p) {
+	            return p.state == _this5.state.province;
+	        })[0].cities;
+	        var cityOptions = cities.map(function (city) {
+	            return _react2.default.createElement(
+	                "option",
+	                { key: city.city, value: city.city },
+	                city.city
+	            );
+	        });
+	        cityOptions.unshift(emptyOption);
+
+	        var districts = !this.state.province || !this.state.city ? [] : props.range.filter(function (p) {
+	            return p.state == _this5.state.province;
+	        })[0].cities.filter(function (c) {
+	            return c.city == _this5.state.city;
+	        })[0].areas;
+	        var districtOptions = districts.map(function (district) {
+	            return _react2.default.createElement(
+	                "option",
+	                { key: district, value: district },
+	                district
+	            );
+	        });
+	        districtOptions.unshift(emptyOption);
+
 	        return _react2.default.createElement(
 	            "div",
-	            { className: "editing-address" },
+	            { className: "editing-address", onClick: this.onStreetHideClick },
 	            _react2.default.createElement("div", { onClick: props.close, className: "close fa fa-times" }),
 	            _react2.default.createElement(
 	                "h5",
@@ -28918,19 +29093,20 @@
 	                { className: "content" },
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "form-field" },
+	                    { className: 'form-field' + (isError('contactPerson.format') ? ' error' : '') },
 	                    _react2.default.createElement(
 	                        "label",
-	                        { htmlFor: "name" },
+	                        { htmlFor: "contactPerson" },
 	                        "姓名"
 	                    ),
-	                    _react2.default.createElement("input", { ref: "name", onBlur: function onBlur() {
-	                            return _this2.validate('name');
-	                        }, defaultValue: props.contactPerson, type: "text", id: "name", placeholder: "请填写您的姓名" }),
+	                    _react2.default.createElement("input", { ref: "contactPerson", onBlur: function onBlur() {
+	                            return _this5.validate('contactPerson');
+	                        },
+	                        defaultValue: props.contactPerson, type: "text", id: "contactPerson", placeholder: "请填写您的姓名" }),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "tips" },
-	                        isError('name.format') && _react2.default.createElement(
+	                        isError('contactPerson.format') && _react2.default.createElement(
 	                            "span",
 	                            { className: "error" },
 	                            "姓名不能少于2个字"
@@ -28939,14 +29115,14 @@
 	                ),
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "form-field error" },
+	                    { className: 'form-field' + (isError('mobile.format') ? ' error' : '') },
 	                    _react2.default.createElement(
 	                        "label",
 	                        { htmlFor: "mobile" },
 	                        "手机号"
 	                    ),
 	                    _react2.default.createElement("input", { type: "text", ref: "mobile", id: "mobile", onBlur: function onBlur() {
-	                            return _this2.validate('mobile');
+	                            return _this5.validate('mobile');
 	                        },
 	                        defaultValue: props.mobile, onChange: props.handleChange, placeholder: "请填写您的手机号" }),
 	                    _react2.default.createElement(
@@ -28961,7 +29137,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "form-field" },
+	                    { className: 'form-field' + (isError('district.required') ? ' error' : '') },
 	                    _react2.default.createElement(
 	                        "label",
 	                        { htmlFor: "province" },
@@ -28972,30 +29148,24 @@
 	                        { className: "select-group" },
 	                        _react2.default.createElement(
 	                            "select",
-	                            { ref: "province", id: "province", defaultValue: props.province },
-	                            _react2.default.createElement(
-	                                "option",
-	                                { value: "上海" },
-	                                "上海市"
-	                            )
+	                            { ref: "province", id: "province", value: this.state.province, onChange: function onChange(e) {
+	                                    return _this5.onChangeSelect(e, 'province');
+	                                } },
+	                            provinceOptions
 	                        ),
 	                        _react2.default.createElement(
 	                            "select",
-	                            { ref: "city", defaultValue: props.city },
-	                            _react2.default.createElement(
-	                                "option",
-	                                { value: "上海" },
-	                                "上海市"
-	                            )
+	                            { ref: "city", value: this.state.city, onChange: function onChange(e) {
+	                                    return _this5.onChangeSelect(e, 'city');
+	                                } },
+	                            cityOptions
 	                        ),
 	                        _react2.default.createElement(
 	                            "select",
-	                            { ref: "district", defaultValue: props.district },
-	                            _react2.default.createElement(
-	                                "option",
-	                                { value: "上海" },
-	                                "上海市"
-	                            )
+	                            { ref: "district", value: this.state.district, onChange: function onChange(e) {
+	                                    return _this5.onChangeSelect(e, 'district');
+	                                } },
+	                            districtOptions
 	                        )
 	                    ),
 	                    _react2.default.createElement(
@@ -29004,45 +29174,46 @@
 	                        isError('district.required') && _react2.default.createElement(
 	                            "span",
 	                            { className: "error" },
-	                            "请输入正确的信息"
+	                            "请选择地区"
 	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "form-field" },
+	                    { className: 'form-field' + (isError('street.format') ? ' error' : '') },
 	                    _react2.default.createElement(
 	                        "label",
 	                        { htmlFor: "street" },
 	                        "街道"
 	                    ),
-	                    _react2.default.createElement("input", { defaultValue: props.street, onChange: this.onStreetChange, onBlur: function onBlur() {
-	                            return _this2.validate('street');
+	                    _react2.default.createElement("input", { ref: "street", defaultValue: props.street, onClick: this.onStreetClick,
+	                        onChange: this.onStreetChange, onBlur: function onBlur() {
+	                            return _this5.validate('street');
 	                        },
 	                        type: "text", id: "street", placeholder: "请填写您的街道地址" }),
 	                    _react2.default.createElement(_streetList2.default, _extends({}, props.streetList, { select: this.selectStreet })),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "tips" },
-	                        isError('street.fromSelect') && _react2.default.createElement(
+	                        isError('street.format') && _react2.default.createElement(
 	                            "span",
 	                            { className: "error" },
-	                            "请输入正确的信息"
+	                            "请输入位置信息并在下拉框中选择"
 	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    "div",
-	                    { className: "form-field" },
+	                    { className: 'form-field' + (isError('address.format') ? ' error' : '') },
 	                    _react2.default.createElement(
 	                        "label",
 	                        { htmlFor: "address" },
 	                        "楼层,门牌号"
 	                    ),
 	                    _react2.default.createElement("input", { defaultValue: props.address, onBlur: function onBlur() {
-	                            return _this2.validate('address');
+	                            return _this5.validate('address');
 	                        },
-	                        type: "text", id: "address", placeholder: "请填写您的楼层,门牌号" }),
+	                        type: "text", id: "address", placeholder: "请填写您的楼层,门牌号", ref: "address" }),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "tips" },
@@ -29059,7 +29230,7 @@
 	                { className: "buttons" },
 	                _react2.default.createElement(
 	                    "button",
-	                    null,
+	                    { onClick: this.save },
 	                    "保存"
 	                ),
 	                _react2.default.createElement(
@@ -29083,112 +29254,59 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _className = __webpack_require__(396);
-
-	var _className2 = _interopRequireDefault(_className);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var TimeSelector = _react2.default.createClass({
-	    displayName: 'TimeSelector',
-	    getInitialState: function getInitialState() {
-	        return {
-	            showOptionPanel: false
-	        };
-	    },
-	    toggleOptionPanel: function toggleOptionPanel() {
-	        this.setState({
-	            showOptionPanel: !this.state.showOptionPanel
-	        });
-	    },
-	    selectTime: function selectTime(time) {
-	        this.props.selectTime(time, this.props.cookingType);
-	        this.toggleOptionPanel();
-	    },
-
-	    render: function render() {
-	        var props = this.props;
-	        var cookingType = props.cookingType;
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'time-section' },
-	            _react2.default.createElement(TimeOptionPanel, { timeList: props.timeList, selectTime: this.selectTime, isShow: this.state.showOptionPanel }),
-	            _react2.default.createElement(
-	                'h5',
-	                { className: 'header' },
-	                cookingType == 'ready to cook' ? '选择食材包配送时间' : '选择便当配送时间'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'group', onClick: this.toggleOptionPanel },
-	                props.selectedTime ? _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: (0, _className2.default)('date', { single: !props.selectedTime.segment }) },
-	                        props.selectedTime.day
-	                    ),
-	                    props.selectedTime.segment ? _react2.default.createElement(
-	                        'span',
-	                        { className: 'time' },
-	                        props.selectedTime.segment
-	                    ) : ''
-	                ) : _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    '请选择配送时间'
-	                ),
-	                _react2.default.createElement('i', { className: 'fa fa-angle-down' })
-	            )
-	        );
+	exports.truthy = truthy;
+	exports.getValidator = getValidator;
+	exports.log = log;
+	/**
+	 * 作为对Obj.a.b.c的简写,
+	 * @param obj - {a: {b: 1}}
+	 * @param properties - 'a.b'
+	 * @returns {boolean}
+	 */
+	function truthy(obj, properties) {
+	    if (!obj || !properties) return false;
+	    properties = properties.split('.');
+	    for (var i = 0; i < properties.length; i++) {
+	        var p = properties[i];
+	        if (!obj[p]) return false;
+	        obj = obj[p];
 	    }
-	});
+	    return true;
+	}
 
-	var TimeOptionPanel = _react2.default.createClass({
-	    displayName: 'TimeOptionPanel',
+	/**
+	 * (同步)接收一个验证函数a, 返回一个验证函数b, b在没有提供key时,会对所有refs的所有key进行验证
+	 * @param validate - (refs, key) => {key: err}
+	 * @returns {*} (refs[, key]) => {key1: err1[, key2: err2]}
+	 */
+	function getValidator(validate) {
+	    return function _validate(refs, key) {
+	        var error;
+	        if (!key) {
+	            error = {};
+	            Object.keys(refs).forEach(function (k) {
+	                Object.assign(error, _validate(refs, k));
+	            });
+	            return error;
+	        }
 
-	    render: function render() {
-	        var props = this.props;
+	        error = validate(refs, key);
 
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'time-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
-	            _react2.default.createElement(
-	                'h5',
-	                null,
-	                '选择配送时间'
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                null,
-	                props.timeList.map(function (time, i) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: i, onClick: function onClick() {
-	                                return props.selectTime(time);
-	                            } },
-	                        time.day + ' ' + time.segment
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
+	        return error;
+	    };
+	}
 
-	exports.default = TimeSelector;
+	function log() {
+	    var _console;
+
+	    (true) && (_console = console).log.apply(_console, ['[xw.debug]:'].concat(Array.prototype.slice.call(arguments)));
+	}
 
 /***/ },
 /* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -29198,349 +29316,59 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _className = __webpack_require__(396);
-
-	var _className2 = _interopRequireDefault(_className);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CartCoupon = _react2.default.createClass({
-	    displayName: 'CartCoupon',
-	    getInitialState: function getInitialState() {
-	        return {
-	            isPending: false,
-	            error: {
-	                couponCode: {
-	                    format: false,
-	                    mightInviteCode: false
-	                }
-	            },
-	            showOptionPanel: false
-	        };
-	    },
-	    toggleOptionPanel: function toggleOptionPanel() {
-	        this.setState({
-	            showOptionPanel: !this.state.showOptionPanel
-	        });
-	    },
-	    selectCard: function selectCard(id) {
-	        this.props.selectCard(id);
-	        this.toggleOptionPanel();
-	    },
-	    onBlur: function onBlur() {
-	        this.validate();
-	        var couponCode = this.state.error.couponCode;
-	        var value = this.refs.couponCode.value;
-	        if (value && Object.keys(couponCode).every(function (key) {
-	            return !couponCode[key];
-	        })) {
-	            this.props.getCouponCode(this.refs.couponCode.value);
-	        }
-	    },
-	    validate: function validate() {
-	        var code = this.refs.couponCode.value;
-	        if (!code) return;
-	        if (!/^1a\w{6}$|^\w{10}$/.test(code)) {
-	            var error = {};
-	            if (code.length == 8) {
-	                error.mightInviteCode = true;
-	            } else {
-	                error.format = true;
-	            }
-	            this.setState({
-	                error: Object.assign({}, this.state.error, { couponCode: error })
-	            });
-	        } else {
-	            this.setState({ error: { couponCode: {} } });
-	        }
-	    },
-
-	    // todo: 增加兑换邀请码链接, 30天内有108个用户点击了微信端的那个提示链接, 说明这个无心添加很有用啊
-	    render: function render() {
-	        var props = this.props;
-	        var usedBalance = props.totalBalance >= props.payPrice ? props.payPrice : props.totalBalance;
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'coupon-section' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'coupon-code' },
-	                    '优惠码'
-	                ),
-	                _react2.default.createElement('input', { ref: 'couponCode', onBlur: this.onBlur, autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' }),
-	                this.state.error.couponCode.mightInviteCode && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip exchange-invite-code' },
-	                    '优惠码无效',
-	                    _react2.default.createElement(
-	                        'a',
-	                        { href: "/pc/coupons?code=" + this.refs.couponCode.value },
-	                        '(兑换邀请码?)'
-	                    )
-	                ),
-	                this.state.error.couponCode.format && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip' },
-	                    '优惠码无效'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { style: { display: props.card.cardList.length ? 'block' : 'none' }, className: 'form-control-group coupon-card-group' },
-	                _react2.default.createElement(CardOptionPanel, { cardList: props.card.cardList, selectCard: this.selectCard, isShow: this.state.showOptionPanel }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    '优惠券'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'coupon-card', onClick: this.toggleOptionPanel },
-	                    props.card.selectedCard ? _react2.default.createElement(
-	                        'span',
-	                        null,
-	                        props.card.selectedCard.name.zh + ('(' + props.card.selectedCard.price + '¥)')
-	                    ) : _react2.default.createElement(
-	                        'span',
-	                        null,
-	                        '请选择一张优惠券'
-	                    ),
-	                    _react2.default.createElement('i', { className: 'fa fa-angle-down' })
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'group' },
-	                _react2.default.createElement('span', { onClick: props.toggleBalance, className: 'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o') }),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'text' },
-	                    '使用余额'
-	                ),
-	                props.useBalance ? _react2.default.createElement(
-	                    'span',
-	                    { className: 'rmb-char' },
-	                    usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'
-	                ) : _react2.default.createElement(
-	                    'span',
-	                    { className: 'rmb-char' },
-	                    props.totalBalance
-	                )
-	            )
-	        );
-	    }
-	});
-
-	exports.default = CartCoupon;
-
-	var CardOptionPanel = _react2.default.createClass({
-	    displayName: 'CardOptionPanel',
+	var StreetList = _react2.default.createClass({
+	    displayName: "StreetList",
 
 	    render: function render() {
 	        var props = this.props;
-
+	        if (!props.show) return null;
 	        return _react2.default.createElement(
-	            'div',
-	            { className: 'card-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
-	            _react2.default.createElement(
-	                'h5',
-	                null,
-	                '选择一张优惠券'
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                null,
-	                _react2.default.createElement(
-	                    'li',
-	                    { onClick: function onClick() {
-	                            return props.selectCard();
+	            "ul",
+	            { className: "street-list" },
+	            props.streets.map(function (street, i) {
+	                return _react2.default.createElement(
+	                    "li",
+	                    { key: street.uid || i, onClick: function onClick(e) {
+	                            e.stopPropagation();props.select(street);
 	                        } },
-	                    '不使用'
-	                ),
-	                props.cardList.map(function (card, i) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: card._id, onClick: function onClick() {
-	                                return props.selectCard(card._id);
-	                            } },
-	                        card.name.zh + ('(' + card.price + '¥)')
-	                    );
-	                })
-	            )
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "name" },
+	                        street.name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "address" },
+	                        street.address
+	                    )
+	                );
+	            })
 	        );
 	    }
 	});
+
+	exports.default = StreetList;
 
 /***/ },
 /* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	module.exports = __webpack_require__(403);
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
 
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function fixed(number, digit) {
-	    digit = digit != undefined ? digit : 1;
-	    return number.toFixed(digit);
-	}
-
-	var OrderPrice = _react2.default.createClass({
-	    displayName: "OrderPrice",
-	    render: function render() {
-	        var props = this.props;
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "price-section" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "价格"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char" },
-	                    fixed(props.cartPrice)
-	                )
-	            ),
-	            props.couponPrice ? _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "优惠"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char negative" },
-	                    fixed(props.couponPrice)
-	                )
-	            ) : '',
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    _react2.default.createElement(
-	                        "span",
-	                        null,
-	                        "运费"
-	                    ),
-	                    _react2.default.createElement(
-	                        "i",
-	                        null,
-	                        "（满100免运费）"
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char" },
-	                    fixed(props.freight)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "总计"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    _react2.default.createElement(
-	                        "strong",
-	                        { className: "rmb-char" },
-	                        fixed(props.payPrice)
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-	exports.default = OrderPrice;
 
 /***/ },
 /* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Comment = _react2.default.createClass({
-	    displayName: "Comment",
-	    handleChange: function handleChange() {
-	        this.props.changeComment(this.refs.comment.value);
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "comment-section" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "form-control-group" },
-	                _react2.default.createElement(
-	                    "label",
-	                    { htmlFor: "comment" },
-	                    "留言："
-	                ),
-	                _react2.default.createElement("textarea", { ref: "comment", rows: "1", autoComplete: "off", id: "comment" })
-	            )
-	        );
-	    }
-	});
-
-	exports.default = Comment;
-
-/***/ },
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(410);
-
-
-
-/***/ },
-/* 410 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(191);
 	var ReactDOM = __webpack_require__(347);
-	var ExecutionEnvironment = __webpack_require__(411);
-	var ModalPortal = React.createFactory(__webpack_require__(412));
-	var ariaAppHider = __webpack_require__(427);
-	var elementClass = __webpack_require__(428);
+	var ExecutionEnvironment = __webpack_require__(404);
+	var ModalPortal = React.createFactory(__webpack_require__(405));
+	var ariaAppHider = __webpack_require__(420);
+	var elementClass = __webpack_require__(421);
 	var renderSubtreeIntoContainer = __webpack_require__(347).unstable_renderSubtreeIntoContainer;
 
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -29619,7 +29447,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
 
 /***/ },
-/* 411 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -29664,14 +29492,14 @@
 
 
 /***/ },
-/* 412 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(191);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(413);
-	var scopeTab = __webpack_require__(415);
-	var Assign = __webpack_require__(416);
+	var focusManager = __webpack_require__(406);
+	var scopeTab = __webpack_require__(408);
+	var Assign = __webpack_require__(409);
 
 
 	// so that our CSS is statically analyzable
@@ -29868,10 +29696,10 @@
 
 
 /***/ },
-/* 413 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(414);
+	var findTabbable = __webpack_require__(407);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -29942,7 +29770,7 @@
 
 
 /***/ },
-/* 414 */
+/* 407 */
 /***/ function(module, exports) {
 
 	/*!
@@ -29998,10 +29826,10 @@
 
 
 /***/ },
-/* 415 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(414);
+	var findTabbable = __webpack_require__(407);
 
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -30019,7 +29847,7 @@
 
 
 /***/ },
-/* 416 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30030,9 +29858,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(417),
-	    createAssigner = __webpack_require__(423),
-	    keys = __webpack_require__(419);
+	var baseAssign = __webpack_require__(410),
+	    createAssigner = __webpack_require__(416),
+	    keys = __webpack_require__(412);
 
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -30105,7 +29933,7 @@
 
 
 /***/ },
-/* 417 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30116,8 +29944,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(418),
-	    keys = __webpack_require__(419);
+	var baseCopy = __webpack_require__(411),
+	    keys = __webpack_require__(412);
 
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -30138,7 +29966,7 @@
 
 
 /***/ },
-/* 418 */
+/* 411 */
 /***/ function(module, exports) {
 
 	/**
@@ -30176,7 +30004,7 @@
 
 
 /***/ },
-/* 419 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30187,9 +30015,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(420),
-	    isArguments = __webpack_require__(421),
-	    isArray = __webpack_require__(422);
+	var getNative = __webpack_require__(413),
+	    isArguments = __webpack_require__(414),
+	    isArray = __webpack_require__(415);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -30418,7 +30246,7 @@
 
 
 /***/ },
-/* 420 */
+/* 413 */
 /***/ function(module, exports) {
 
 	/**
@@ -30561,7 +30389,7 @@
 
 
 /***/ },
-/* 421 */
+/* 414 */
 /***/ function(module, exports) {
 
 	/**
@@ -30673,7 +30501,7 @@
 
 
 /***/ },
-/* 422 */
+/* 415 */
 /***/ function(module, exports) {
 
 	/**
@@ -30859,7 +30687,7 @@
 
 
 /***/ },
-/* 423 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30870,9 +30698,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(424),
-	    isIterateeCall = __webpack_require__(425),
-	    restParam = __webpack_require__(426);
+	var bindCallback = __webpack_require__(417),
+	    isIterateeCall = __webpack_require__(418),
+	    restParam = __webpack_require__(419);
 
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -30917,7 +30745,7 @@
 
 
 /***/ },
-/* 424 */
+/* 417 */
 /***/ function(module, exports) {
 
 	/**
@@ -30988,7 +30816,7 @@
 
 
 /***/ },
-/* 425 */
+/* 418 */
 /***/ function(module, exports) {
 
 	/**
@@ -31126,7 +30954,7 @@
 
 
 /***/ },
-/* 426 */
+/* 419 */
 /***/ function(module, exports) {
 
 	/**
@@ -31199,7 +31027,7 @@
 
 
 /***/ },
-/* 427 */
+/* 420 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -31246,7 +31074,7 @@
 
 
 /***/ },
-/* 428 */
+/* 421 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -31311,57 +31139,310 @@
 
 
 /***/ },
-/* 429 */
-/***/ function(module, exports) {
+/* 422 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.truthy = truthy;
-	exports.getValidator = getValidator;
-	/**
-	 * 作为对Obj.a.b.c的简写,
-	 * @param obj - {a: {b: 1}}
-	 * @param properties - 'a.b'
-	 * @returns {boolean}
-	 */
-	function truthy(obj, properties) {
-	    if (!obj || !properties) return false;
-	    properties = properties.split('.');
-	    for (var i = 0; i < properties.length; i++) {
-	        var p = properties[i];
-	        if (!obj[p]) return false;
-	        obj = obj[p];
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _className = __webpack_require__(396);
+
+	var _className2 = _interopRequireDefault(_className);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TimeSelector = _react2.default.createClass({
+	    displayName: 'TimeSelector',
+	    getInitialState: function getInitialState() {
+	        return {
+	            showOptionPanel: false
+	        };
+	    },
+	    toggleOptionPanel: function toggleOptionPanel() {
+	        this.setState({
+	            showOptionPanel: !this.state.showOptionPanel
+	        });
+	    },
+	    selectTime: function selectTime(time) {
+	        this.props.selectTime(time, this.props.cookingType);
+	        this.toggleOptionPanel();
+	    },
+
+	    render: function render() {
+	        var props = this.props;
+	        var cookingType = props.cookingType;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'time-section' },
+	            _react2.default.createElement(TimeOptionPanel, { timeList: props.timeList, selectTime: this.selectTime, isShow: this.state.showOptionPanel }),
+	            _react2.default.createElement(
+	                'h5',
+	                { className: 'header' },
+	                cookingType == 'ready to cook' ? '选择食材包配送时间' : '选择便当配送时间'
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'group', onClick: this.toggleOptionPanel },
+	                props.selectedTime ? _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: (0, _className2.default)('date', { single: !props.selectedTime.segment }) },
+	                        props.selectedTime.day
+	                    ),
+	                    props.selectedTime.segment ? _react2.default.createElement(
+	                        'span',
+	                        { className: 'time' },
+	                        props.selectedTime.segment
+	                    ) : ''
+	                ) : _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    '请选择配送时间'
+	                ),
+	                _react2.default.createElement('i', { className: 'fa fa-angle-down' })
+	            )
+	        );
 	    }
-	    return true;
-	}
+	});
 
-	/**
-	 * (同步)接收一个验证函数a, 返回一个验证函数b, b在没有提供key时,会对所有refs的所有key进行验证
-	 * @param validate - (refs, key) => {key: err}
-	 * @returns {*} (refs[, key]) => {key1: err1[, key2: err2]}
-	 */
-	function getValidator(validate) {
-	    return function _validate(refs, key) {
-	        var error;
-	        if (!key) {
-	            error = {};
-	            Object.keys(refs).forEach(function (k) {
-	                Object.assign(error, _validate(k));
-	            });
-	            return error;
-	        }
+	var TimeOptionPanel = _react2.default.createClass({
+	    displayName: 'TimeOptionPanel',
 
-	        error = validate(refs, key);
+	    render: function render() {
+	        var props = this.props;
 
-	        return error;
-	    };
-	}
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'time-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
+	            _react2.default.createElement(
+	                'h5',
+	                null,
+	                '选择配送时间'
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                props.timeList.map(function (time, i) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: i, onClick: function onClick() {
+	                                return props.selectTime(time);
+	                            } },
+	                        time.day + ' ' + time.segment
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = TimeSelector;
 
 /***/ },
-/* 430 */
+/* 423 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _className = __webpack_require__(396);
+
+	var _className2 = _interopRequireDefault(_className);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartCoupon = _react2.default.createClass({
+	    displayName: 'CartCoupon',
+	    getInitialState: function getInitialState() {
+	        return {
+	            isPending: false,
+	            error: {
+	                couponCode: {
+	                    format: false,
+	                    mightInviteCode: false
+	                }
+	            },
+	            showOptionPanel: false
+	        };
+	    },
+	    toggleOptionPanel: function toggleOptionPanel() {
+	        this.setState({
+	            showOptionPanel: !this.state.showOptionPanel
+	        });
+	    },
+	    selectCard: function selectCard(id) {
+	        this.props.selectCard(id);
+	        this.toggleOptionPanel();
+	    },
+	    onBlur: function onBlur() {
+	        this.validate();
+	        var couponCode = this.state.error.couponCode;
+	        var value = this.refs.couponCode.value;
+	        if (value && Object.keys(couponCode).every(function (key) {
+	            return !couponCode[key];
+	        })) {
+	            this.props.getCouponCode(this.refs.couponCode.value);
+	        }
+	    },
+	    validate: function validate() {
+	        var code = this.refs.couponCode.value;
+	        if (!code) return;
+	        if (!/^1a\w{6}$|^\w{10}$/.test(code)) {
+	            var error = {};
+	            if (code.length == 8) {
+	                error.mightInviteCode = true;
+	            } else {
+	                error.format = true;
+	            }
+	            this.setState({
+	                error: Object.assign({}, this.state.error, { couponCode: error })
+	            });
+	        } else {
+	            this.setState({ error: { couponCode: {} } });
+	        }
+	    },
+
+	    // todo: 增加兑换邀请码链接, 30天内有108个用户点击了微信端的那个提示链接, 说明这个无心添加很有用啊
+	    render: function render() {
+	        var props = this.props;
+	        var cardList = this.props.card.cardList.filter(function (card) {
+	            return !card.isExpired && !card.isUsed;
+	        });
+	        var usedBalance = props.totalBalance >= props.payPrice ? props.payPrice : props.totalBalance;
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'coupon-section' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-control-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'coupon-code' },
+	                    '优惠码'
+	                ),
+	                _react2.default.createElement('input', { ref: 'couponCode', onBlur: this.onBlur, autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' }),
+	                this.state.error.couponCode.mightInviteCode && _react2.default.createElement(
+	                    'span',
+	                    { className: 'err-tip exchange-invite-code' },
+	                    '优惠码无效',
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: "/pc/coupons?code=" + this.refs.couponCode.value },
+	                        '(兑换邀请码?)'
+	                    )
+	                ),
+	                this.state.error.couponCode.format && _react2.default.createElement(
+	                    'span',
+	                    { className: 'err-tip' },
+	                    '优惠码无效'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { style: { display: cardList.length ? 'block' : 'none' }, className: 'form-control-group coupon-card-group' },
+	                _react2.default.createElement(CardOptionPanel, { cardList: cardList, selectCard: this.selectCard, isShow: this.state.showOptionPanel }),
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    '优惠券'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'coupon-card', onClick: this.toggleOptionPanel },
+	                    props.card.selectedCard ? _react2.default.createElement(
+	                        'span',
+	                        null,
+	                        props.card.selectedCard.name.zh + ('(¥' + props.card.selectedCard.price + ')')
+	                    ) : _react2.default.createElement(
+	                        'span',
+	                        null,
+	                        '请选择一张优惠券'
+	                    ),
+	                    _react2.default.createElement('i', { className: 'fa fa-angle-down' })
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'group' },
+	                _react2.default.createElement('span', { onClick: props.toggleBalance, className: 'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o') }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'text' },
+	                    '使用余额'
+	                ),
+	                props.useBalance ? _react2.default.createElement(
+	                    'span',
+	                    { className: 'rmb-char' },
+	                    usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'
+	                ) : _react2.default.createElement(
+	                    'span',
+	                    { className: 'rmb-char' },
+	                    props.totalBalance
+	                )
+	            )
+	        );
+	    }
+	});
+
+	exports.default = CartCoupon;
+
+	var CardOptionPanel = _react2.default.createClass({
+	    displayName: 'CardOptionPanel',
+
+	    render: function render() {
+	        var props = this.props;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'card-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
+	            _react2.default.createElement(
+	                'h5',
+	                null,
+	                '选择一张优惠券'
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                _react2.default.createElement(
+	                    'li',
+	                    { onClick: function onClick() {
+	                            return props.selectCard();
+	                        } },
+	                    '不使用'
+	                ),
+	                props.cardList.map(function (card, i) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: card._id, onClick: function onClick() {
+	                                return props.selectCard(card._id);
+	                            } },
+	                        card.name.zh + ('(¥' + card.price + ')')
+	                    );
+	                })
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31376,38 +31457,133 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var StreetList = _react2.default.createClass({
-	    displayName: "StreetList",
+	function fixed(number, digit) {
+	    digit = digit != undefined ? digit : 1;
+	    return number.toFixed(digit);
+	}
 
+	var OrderPrice = _react2.default.createClass({
+	    displayName: "OrderPrice",
 	    render: function render() {
 	        var props = this.props;
-	        if (!props.show) return null;
 	        return _react2.default.createElement(
-	            "ul",
-	            { className: "street-list" },
-	            props.streets.map(function (street, i) {
-	                return _react2.default.createElement(
-	                    "li",
-	                    { key: street.uid || i, onClick: function onClick() {
-	                            return props.select(street);
-	                        } },
+	            "div",
+	            { className: "price-section" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "价格"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char" },
+	                    fixed(props.cartPrice)
+	                )
+	            ),
+	            props.couponPrice ? _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "优惠"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char negative" },
+	                    fixed(props.couponPrice)
+	                )
+	            ) : '',
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
 	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "name" },
-	                        street.name
+	                        "span",
+	                        null,
+	                        "运费"
 	                    ),
 	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "address" },
-	                        street.address
+	                        "i",
+	                        null,
+	                        "（满100免运费）"
 	                    )
-	                );
-	            })
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    { className: "rmb-char" },
+	                    fixed(props.freight)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "item" },
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    "总计"
+	                ),
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    _react2.default.createElement(
+	                        "strong",
+	                        { className: "rmb-char" },
+	                        fixed(props.payPrice)
+	                    )
+	                )
+	            )
 	        );
 	    }
 	});
 
-	exports.default = StreetList;
+	exports.default = OrderPrice;
+
+/***/ },
+/* 425 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Comment = _react2.default.createClass({
+	    displayName: "Comment",
+	    handleChange: function handleChange() {
+	        this.props.changeComment(this.refs.comment.value);
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "comment-section" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "form-control-group" },
+	                _react2.default.createElement(
+	                    "label",
+	                    { htmlFor: "comment" },
+	                    "留言："
+	                ),
+	                _react2.default.createElement("textarea", { ref: "comment", onChange: this.handleChange, rows: "1", autoComplete: "off", id: "comment" })
+	            )
+	        );
+	    }
+	});
+
+	exports.default = Comment;
 
 /***/ }
 /******/ ]);

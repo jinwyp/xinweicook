@@ -24,11 +24,6 @@ var modalStyle = {
 }
 
 var AddressList = React.createClass({
-    getInitialState() {
-        return {
-            mobile: '159006719671'
-        }
-    },
 
     render: function () {
         var props = this.props
@@ -40,8 +35,10 @@ var AddressList = React.createClass({
                     <span>{title}</span>
                     <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> 添加地址</span>
                     <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
-                        <EditingAddress streetList={props.streetList} {...editingAddress} close={props.close} getStreet={props.getStreet}
-                                                            toggleStreet={props.toggleStreet}/>
+                        <EditingAddress range={props.range} streetList={props.streetList}
+                                        {...editingAddress} postOne={props.postOne}
+                                        close={props.close} getStreet={props.getStreet}
+                                        toggleStreet={props.toggleStreet} getRange={props.getRange}/>
                     </Modal>
                 </h5>
                 <ul className="address-list">

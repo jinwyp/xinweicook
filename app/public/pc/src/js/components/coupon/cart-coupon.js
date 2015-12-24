@@ -57,6 +57,7 @@ var CartCoupon = React.createClass({
     // todo: 增加兑换邀请码链接, 30天内有108个用户点击了微信端的那个提示链接, 说明这个无心添加很有用啊
     render: function () {
         var props = this.props
+        var cardList = this.props.card.cardList.filter(card => !card.isExpired && !card.isUsed)
         var usedBalance = props.totalBalance >= props.payPrice ?
                 props.payPrice : props.totalBalance
         return (
@@ -70,13 +71,13 @@ var CartCoupon = React.createClass({
                     }
                     { this.state.error.couponCode.format && <span className="err-tip">优惠码无效</span> }
                 </div>
-                <div style={{display: props.card.cardList.length ? 'block' : 'none'}} className="form-control-group coupon-card-group">
-                    <CardOptionPanel cardList={props.card.cardList} selectCard={this.selectCard} isShow={this.state.showOptionPanel}/>
+                <div style={{display: cardList.length ? 'block' : 'none'}} className="form-control-group coupon-card-group">
+                    <CardOptionPanel cardList={cardList} selectCard={this.selectCard} isShow={this.state.showOptionPanel}/>
                     <label>优惠券</label>
                     <span className="coupon-card" onClick={this.toggleOptionPanel}>
                         {
                             props.card.selectedCard ?
-                                <span>{props.card.selectedCard.name.zh + `(${props.card.selectedCard.price}¥)`}</span> :
+                                <span>{props.card.selectedCard.name.zh + `(¥${props.card.selectedCard.price})`}</span> :
                                 <span>请选择一张优惠券</span>
                         }
                         <i className="fa fa-angle-down"></i>
@@ -109,7 +110,7 @@ var CardOptionPanel = React.createClass({
                     <li onClick={() => props.selectCard()}>不使用</li>
                     {
                         props.cardList.map((card, i) =>
-                            <li key={card._id} onClick={() => props.selectCard(card._id)}>{card.name.zh + `(${card.price}¥)`}</li>)
+                            <li key={card._id} onClick={() => props.selectCard(card._id)}>{card.name.zh + `(¥${card.price})`}</li>)
                     }
                 </ul>
             </div>

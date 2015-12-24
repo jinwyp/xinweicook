@@ -14,12 +14,13 @@ function requestUser() {
  * @param warehouse 只与购物车有关, 但是也要传递, 真的OTZ..
  * @returns {{type: FETCH_USER, status: string, user: *}}
  */
-function receiveUser(user, warehouse) {
+function receiveUser(user, warehouse, now) {
     return {
         type: types.FETCH_USER,
         status: 'success',
         user,
-        warehouse
+        warehouse,
+        now
     }
 }
 
@@ -27,7 +28,10 @@ export function getUser() {
     return function (dispatch, getState) {
         dispatch(requestUser())
         return fetch('/api/user').then(res=>{
-            dispatch(receiveUser(res, getState().warehouse))
+            dispatch(receiveUser(res,
+                getState().warehouse,
+                new Date(fetch.headers.get('Date'))
+            ))
         })
     }
 }

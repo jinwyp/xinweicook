@@ -231,6 +231,35 @@ body {
       background-color: #f44d4d;
       color: #fff;
       width: 160px; }
+  .editing-address .street-list {
+    position: absolute;
+    top: 44px;
+    left: 95px;
+    width: 322px;
+    height: 150px;
+    background: white;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    overflow: auto;
+    z-index: 1; }
+    .editing-address .street-list li {
+      line-height: 16px;
+      cursor: pointer;
+      height: 50px; }
+      .editing-address .street-list li:hover {
+        background-color: #eee; }
+      .editing-address .street-list li .name {
+        padding: 6px 12px;
+        font-size: 14px;
+        color: #666; }
+      .editing-address .street-list li .address {
+        font-size: 12px;
+        color: #999;
+        padding: 0 12px; }
+      .editing-address .street-list li .name, .editing-address .street-list li .address {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
 
 .ReactModal__Overlay {
   opacity: 0;
@@ -257,6 +286,115 @@ body {
 .ReactModal__Content--before-close {
   -webkit-transform: scale(0.7);
   transition: all 250ms ease-out; }
+
+.menus .plusok, .eatlist .plusok, .img-wrapper .plusok {
+  opacity: 0;
+  display: block;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  position: absolute;
+  color: white;
+  font-size: 21px;
+  text-align: center;
+  text-indent: 2em;
+  font-weight: 400;
+  line-height: 95px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transition: 0.4s;
+  background: url(../images/indexcartemp.png) 25%/40% rgba(244, 77, 77, 0.87) no-repeat;
+  margin-bottom: -47px; }
+  .menus .plusok::before, .eatlist .plusok::before, .img-wrapper .plusok::before {
+    content: '+'; }
+  .menus .plusok.show, .eatlist .plusok.show, .img-wrapper .plusok.show {
+    opacity: 1;
+    bottom: 50%; }
+
+.menus, .eatlist {
+  margin: 32px auto 20px;
+  width: 1000px;
+  overflow: hidden;
+  font-size: 14px; }
+  .menus li, .eatlist li {
+    float: left;
+    display: inline;
+    width: 316px;
+    height: 280px;
+    overflow: hidden;
+    margin-right: 26px;
+    margin-bottom: 30px;
+    position: relative; }
+    .menus li:nth-child(3n), .eatlist li:nth-child(3n) {
+      margin-right: 0; }
+    .menus li a, .menus li .img, .eatlist li a, .eatlist li .img {
+      display: block;
+      position: relative; }
+      .menus li a.img-wrapper, .menus li .img.img-wrapper, .eatlist li a.img-wrapper, .eatlist li .img.img-wrapper {
+        font-size: 0; }
+      .menus li a img, .menus li .img img, .eatlist li a img, .eatlist li .img img {
+        width: 100%; }
+    .menus li .info, .eatlist li .info {
+      height: 65px;
+      padding: 5px 0;
+      overflow: hidden; }
+      .menus li .info .name-price, .eatlist li .info .name-price {
+        float: left;
+        display: inline;
+        width: 262px; }
+        .menus li .info .name-price .name, .eatlist li .info .name-price .name {
+          width: 100%;
+          height: 25px;
+          border-bottom: 1px solid #3c3c3c;
+          line-height: 20px; }
+          .menus li .info .name-price .name span.person, .eatlist li .info .name-price .name span.person {
+            float: left;
+            display: inline;
+            height: 18px;
+            background: #f44d4d;
+            padding: 0 5px;
+            font-size: 13px;
+            line-height: 18px;
+            margin-right: 5px;
+            color: #fff; }
+          .menus li .info .name-price .name a.menuname, .eatlist li .info .name-price .name a.menuname {
+            float: left;
+            display: inline;
+            width: 220px;
+            height: 20px;
+            cursor: pointer;
+            color: #666; }
+            .menus li .info .name-price .name a.menuname:hover, .eatlist li .info .name-price .name a.menuname:hover {
+              color: #f44d4d; }
+        .menus li .info .name-price .price, .eatlist li .info .name-price .price {
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: .1em; }
+      .menus li .info .btns, .eatlist li .info .btns {
+        float: right;
+        display: inline;
+        width: 49px;
+        height: 65px;
+        margin-top: 15px; }
+        .menus li .info .btns a, .eatlist li .info .btns a {
+          cursor: pointer;
+          float: right;
+          display: inline;
+          background: #333;
+          width: 22px;
+          height: 22px;
+          color: #fff;
+          font-size: 22px;
+          line-height: 19px;
+          text-align: center; }
+          .menus li .info .btns a.mius, .eatlist li .info .btns a.mius {
+            display: none;
+            background-color: #f44d4d;
+            margin-right: 5px; }
+          .menus li .info .btns a:active, .eatlist li .info .btns a:active {
+            background-color: #f44d4d; }
 
 header {
   position: fixed;
@@ -421,97 +559,6 @@ header {
           width: 300px;
           margin: auto;
           line-height: 1.2; }
-    .index-main .main-top .menus {
-      margin: 32px auto 20px;
-      width: 1000px;
-      overflow: hidden;
-      font-size: 14px; }
-      .index-main .main-top .menus li {
-        float: left;
-        display: inline;
-        width: 316px;
-        height: 280px;
-        overflow: hidden;
-        margin-right: 26px;
-        margin-bottom: 30px;
-        position: relative; }
-        .index-main .main-top .menus li:nth-child(3n) {
-          margin-right: 0; }
-        .index-main .main-top .menus li a {
-          display: block;
-          position: relative; }
-          .index-main .main-top .menus li a img {
-            width: 100%; }
-          .index-main .main-top .menus li a .plusok {
-            opacity: 0;
-            display: block;
-            width: 95px;
-            height: 95px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-            transition: 0.4s;
-            background: url(../images/plusok.png) 100%/cover; }
-            .index-main .main-top .menus li a .plusok.show {
-              opacity: 1;
-              bottom: 59px; }
-        .index-main .main-top .menus li .info {
-          height: 65px;
-          padding: 5px 0;
-          overflow: hidden; }
-          .index-main .main-top .menus li .info .name-price {
-            float: left;
-            display: inline;
-            width: 262px; }
-            .index-main .main-top .menus li .info .name-price .name {
-              width: 100%;
-              height: 25px;
-              border-bottom: 1px solid #3c3c3c;
-              line-height: 20px; }
-              .index-main .main-top .menus li .info .name-price .name span.person {
-                float: left;
-                display: inline;
-                height: 18px;
-                background: #f44d4d;
-                padding: 0 5px;
-                font-size: 13px;
-                line-height: 18px;
-                margin-right: 5px;
-                color: #fff; }
-              .index-main .main-top .menus li .info .name-price .name a.menuname {
-                float: left;
-                display: inline;
-                width: 220px;
-                height: 20px;
-                cursor: pointer;
-                color: #666; }
-                .index-main .main-top .menus li .info .name-price .name a.menuname:hover {
-                  color: #f44d4d; }
-            .index-main .main-top .menus li .info .name-price .price {
-              font-size: 16px;
-              line-height: 24px;
-              letter-spacing: .1em; }
-          .index-main .main-top .menus li .info .btns {
-            float: right;
-            display: inline;
-            width: 49px;
-            height: 65px;
-            margin-top: 15px; }
-            .index-main .main-top .menus li .info .btns a {
-              cursor: pointer;
-              float: right;
-              display: inline;
-              background: #333;
-              width: 22px;
-              height: 22px;
-              color: #fff;
-              font-size: 22px;
-              line-height: 19px;
-              text-align: center; }
-              .index-main .main-top .menus li .info .btns a:active {
-                background-color: #f44d4d; }
     .index-main .main-top .app {
       width: 1000px;
       height: 314px;
@@ -641,239 +688,47 @@ header {
         border-left: 0.55em solid #333;
         right: -0.55em; }
 
-.menu {
-  width: 100%;
-  margin: 0 auto; }
-  .menu .tools {
-    width: 100%;
-    height: 58px;
-    border-bottom: 1px solid #c9caca;
-    position: fixed;
-    z-index: 100;
-    top: 68px;
-    background: #fff; }
-    .menu .tools .tools-main {
-      width: 1024px;
-      position: absolute;
-      left: 50%;
-      margin-left: -512px;
-      font-size: 14px; }
-      .menu .tools .tools-main div {
-        height: 38px;
-        overflow: hidden;
-        line-height: 38px;
-        float: left;
-        display: inline;
-        cursor: pointer;
-        text-indent: 2em;
-        margin-top: 10px; }
-      .menu .tools .tools-main .orders {
-        width: 220px;
-        border-right: 1px solid #c9caca; }
-      .menu .tools .tools-main .screen {
-        width: 580px;
-        border-right: 1px solid #c9caca; }
-      .menu .tools .tools-main .diy {
-        width: 220px; }
-        .menu .tools .tools-main .diy a:hover {
-          color: #f44d4d; }
-  .menu .banner {
-    display: block;
-    width: 1024px;
-    height: 348px;
-    overflow: hidden;
-    margin: 59px auto; }
-    .menu .banner img {
-      width: 100%;
-      height: 100%; }
-  .menu .menus {
-    margin: 60px auto 20px;
-    width: 1024px;
-    overflow: hidden;
-    font-size: 14px; }
-    .menu .menus li {
-      float: left;
-      display: inline;
-      width: 330px;
-      height: 280px;
-      overflow: hidden;
-      margin-right: 17px;
-      margin-bottom: 30px;
-      position: relative; }
-      .menu .menus li:nth-child(3n) {
-        margin-right: 0; }
-      .menu .menus li a {
-        display: block;
-        width: 100%;
-        height: 220px;
-        overflow: hidden; }
-        .menu .menus li a img {
-          width: 100%;
-          height: 100%; }
-      .menu .menus li .info {
-        height: 65px;
-        padding: 5px 0;
-        overflow: hidden; }
-        .menu .menus li .info .name-price {
-          float: left;
-          display: inline;
-          width: 270px; }
-          .menu .menus li .info .name-price .name {
-            width: 100%;
-            height: 25px;
-            border-bottom: 1px solid #3c3c3c;
-            line-height: 20px; }
-            .menu .menus li .info .name-price .name span.person {
-              float: left;
-              display: inline;
-              height: 18px;
-              background: #f44d4d;
-              padding: 0 5px;
-              font-size: 13px;
-              line-height: 18px;
-              margin-right: 5px;
-              color: #fff; }
-            .menu .menus li .info .name-price .name a.menuname {
-              float: left;
-              display: inline;
-              width: 200px;
-              height: 20px;
-              cursor: pointer;
-              color: #666; }
-              .menu .menus li .info .name-price .name a.menuname:hover {
-                color: #f44d4d; }
-          .menu .menus li .info .name-price .price {
-            font-size: 16px;
-            line-height: 24px;
-            letter-spacing: .1em; }
-        .menu .menus li .info .btns {
-          float: right;
-          display: inline;
-          width: 49px;
-          height: 65px;
-          margin-top: 15px; }
-          .menu .menus li .info .btns a {
-            cursor: pointer;
-            float: left;
-            display: inline;
-            background: #f44d4d;
-            width: 22px;
-            height: 22px;
-            color: #fff;
-            font-size: 22px;
-            line-height: 19px;
-            text-align: center; }
-            .menu .menus li .info .btns a.plus {
-              margin-left: 5px;
-              background: #3c3c3c; }
-      .menu .menus li img.plusok {
-        display: block;
-        width: 95px;
-        height: 95px;
-        position: absolute;
-        top: 60px;
-        left: 50%;
-        margin-left: -42px;
-        display: none; }
-  .menu .hl-menu {
-    width: 1024px;
-    height: 458px;
-    margin: 0 auto; }
-    .menu .hl-menu img {
-      float: left;
-      display: inline;
-      width: 688px;
-      height: 458px; }
-    .menu .hl-menu .info {
-      float: right;
-      display: inline;
-      width: 300px;
-      height: 446px;
-      overflow: hidden;
-      border-top: 1px solid #231815;
-      border-bottom: 1px solid #231815;
-      padding: 5px 0; }
-      .menu .hl-menu .info .info-border {
-        width: 300px;
-        height: 440px;
-        overflow: hidden;
-        border-top: 3px solid #231815;
-        border-bottom: 3px solid #231815; }
-        .menu .hl-menu .info .info-border h3 {
-          text-align: center;
-          font-size: 19px;
-          margin-top: 30px; }
-        .menu .hl-menu .info .info-border .chef {
-          width: 130px;
-          height: 33px;
-          overflow: hidden;
-          margin: 30px auto; }
-          .menu .hl-menu .info .info-border .chef img {
-            float: left;
-            display: inline;
-            width: 33px;
-            height: 33px; }
-          .menu .hl-menu .info .info-border .chef h6 {
-            float: right;
-            display: inline;
-            line-height: 33px;
-            font-size: 14px; }
-        .menu .hl-menu .info .info-border p {
-          width: 100%;
-          height: 250px;
-          text-align: center;
-          overflow: hidden;
-          line-height: 25px;
-          font-size: 15px; }
-        .menu .hl-menu .info .info-border .buy {
-          width: 100%;
-          height: 50px;
-          border-top: 1px solid #ccc; }
-          .menu .hl-menu .info .info-border .buy .price {
-            float: left;
-            display: inline;
-            line-height: 50px; }
-          .menu .hl-menu .info .info-border .buy a.plus {
-            cursor: pointer;
-            float: right;
-            display: inline;
-            width: 22px;
-            height: 22px;
-            color: #fff;
-            font-size: 22px;
-            line-height: 19px;
-            text-align: center;
-            margin-top: 15px;
-            background: #3c3c3c; }
-  .menu img.pcg {
-    display: block;
-    width: 1024px;
-    height: 355px;
-    margin: 10px auto; }
+.cook-banner {
+  width: 1000px;
+  margin: 0 auto 60px;
+  height: 333px;
+  background-color: #A5A6A8; }
+
+.cook .pcg {
+  display: block;
+  width: 1000px;
+  height: 355px;
+  margin: 10px auto; }
 
 .product {
   margin: 0 auto; }
   .product .product-info {
-    width: 1024px;
+    width: 1000px;
     height: 458px;
     margin: 40px auto; }
-    .product .product-info img {
+    .product .product-info .img-wrapper {
+      width: 658px;
+      height: 438px;
+      position: relative;
       float: left;
-      display: inline;
-      width: 688px;
-      height: 458px; }
+      display: inline; }
+    .product .product-info img {
+      width: 658px;
+      height: 438px; }
     .product .product-info .info {
       float: right;
       display: inline;
-      width: 300px;
-      height: 446px;
+      width: 315px;
+      height: 438px;
+      box-sizing: border-box;
       overflow: hidden;
       border-top: 1px solid #231815;
       border-bottom: 1px solid #231815;
       padding: 5px 0; }
       .product .product-info .info .info-border {
-        width: 300px;
-        height: 440px;
+        position: relative;
+        width: 315px;
+        height: 420px;
         overflow: hidden;
         border-top: 3px solid #231815;
         border-bottom: 3px solid #231815; }
@@ -932,7 +787,7 @@ header {
             width: 100%;
             font-size: 15px;
             height: 155px;
-            overflow-y: scroll;
+            overflow-y: auto;
             display: none; }
             .product .product-info .info .info-border .tabs .ingre li {
               float: left;
@@ -966,6 +821,8 @@ header {
               height: 30px;
               color: #fff; }
         .product .product-info .info .info-border .buy {
+          position: absolute;
+          bottom: 0;
           width: 100%;
           height: 50px;
           border-top: 1px solid #ccc; }
@@ -1011,7 +868,6 @@ header {
       border-bottom: 1px solid #ccc; }
     .product .dyn img {
       display: block;
-      width: 100%;
       margin: 20px auto; }
     .product .dyn p {
       width: 700px;
@@ -1159,17 +1015,10 @@ header {
               font-size: 22px;
               line-height: 19px;
               text-align: center; }
+              .eat .drinks ul.menus li .info .btns a.mius {
+                display: none; }
               .eat .drinks ul.menus li .info .btns a.plus {
                 background: #3c3c3c; }
-        .eat .drinks ul.menus li img.plusok {
-          display: block;
-          width: 95px;
-          height: 95px;
-          position: absolute;
-          top: 60px;
-          left: 50%;
-          margin-left: -42px;
-          display: none; }
   .eat .shopnow {
     width: 100%;
     margin: 40px auto 100px;
@@ -1190,14 +1039,18 @@ header {
       height: 430px;
       overflow: hidden;
       margin: 40px auto; }
-      .eat ul.eatlist li img {
+      .eat ul.eatlist li .img {
         width: 340px;
         height: 430px;
         float: left;
-        display: inline; }
-        .eat ul.eatlist li img.right {
+        display: inline;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center; }
+        .eat ul.eatlist li .img.right {
           float: right; }
       .eat ul.eatlist li .info {
+        position: relative;
         float: left;
         display: inline;
         width: 320px;
@@ -1209,15 +1062,33 @@ header {
           display: block;
           width: 130px;
           height: 148px;
-          margin: 50px auto 30px; }
+          margin: 50px auto 20px; }
         .eat ul.eatlist li .info h6 {
           text-align: center;
           line-height: 20px;
+          width: 267px;
           font-size: 15px; }
+          .eat ul.eatlist li .info h6.text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            text-align: left;
+            margin-top: 5px;
+            color: #656565;
+            font-size: 13px;
+            height: 60px; }
         .eat ul.eatlist li .info .btns {
-          width: 300px;
+          position: absolute;
+          bottom: 12px;
+          width: 305px;
+          padding: 0 10px;
+          box-sizing: border-box;
           margin: 0 auto;
-          border-top: 1px solid #ccc; }
+          border-top: 1px solid #ccc;
+          left: 0;
+          right: 0; }
           .eat ul.eatlist li .info .btns a.gotobuy {
             float: left;
             display: inline;
@@ -1242,9 +1113,9 @@ header {
             margin-top: 15px;
             background: #3c3c3c; }
           .eat ul.eatlist li .info .btns a.mius {
+            display: none;
             cursor: pointer;
             float: right;
-            display: inline;
             width: 30px;
             height: 30px;
             color: #fff;
@@ -1257,7 +1128,10 @@ header {
         .eat ul.eatlist li .info p.price {
           font-size: 30px;
           text-align: center;
-          line-height: 80px; }
+          line-height: 80px;
+          position: absolute;
+          width: 100%;
+          bottom: 66px; }
   .eat img.pcg {
     display: block;
     width: 1000px;
@@ -1935,5 +1809,95 @@ ul.bloglist {
       font-weight: bold; }
       ul.bloglist li a.read:hover {
         color: #f44d4d; }
+
+.me .title {
+  text-align: center;
+  margin: 30px auto 0; }
+
+.me h5 {
+  margin: 10px auto 23px;
+  font-size: 14px;
+  font-weight: 600; }
+
+.me .main {
+  margin: auto;
+  width: 1000px;
+  border-top: solid 1px #c9caca;
+  font-size: 0; }
+  .me .main > * {
+    display: inline-block;
+    vertical-align: top; }
+  .me .main .nav {
+    width: 130px;
+    text-align: left;
+    padding-top: 15px;
+    font-size: 16px; }
+    .me .main .nav li {
+      line-height: 48px; }
+      .me .main .nav li.act a {
+        color: #f44d4d;
+        font-weight: 600; }
+        .me .main .nav li.act a::after {
+          content: '';
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          border: 2px #f44d4d solid;
+          border-left: transparent;
+          border-top: transparent;
+          -webkit-transform: rotate(-45deg);
+              -ms-transform: rotate(-45deg);
+                  transform: rotate(-45deg);
+          position: relative;
+          top: -2px;
+          left: 3px; }
+  .me .main .content {
+    border-left: 1px solid #c9caca;
+    min-height: 303px;
+    width: 870px;
+    box-sizing: border-box; }
+    .me .main .content .orders h4, .me .main .content .orders li .dish {
+      padding-left: 25px;
+      font-size: 0; }
+      .me .main .content .orders h4 > *, .me .main .content .orders li .dish > * {
+        display: inline-block;
+        vertical-align: top; }
+      .me .main .content .orders h4 > :nth-child(1), .me .main .content .orders li .dish > :nth-child(1) {
+        width: 203px; }
+      .me .main .content .orders h4 > :nth-child(2), .me .main .content .orders li .dish > :nth-child(2) {
+        width: 210px; }
+      .me .main .content .orders h4 > :nth-child(3), .me .main .content .orders li .dish > :nth-child(3) {
+        width: 150px; }
+      .me .main .content .orders h4 > :nth-child(4), .me .main .content .orders li .dish > :nth-child(4) {
+        width: 95px; }
+      .me .main .content .orders h4 > :nth-child(5), .me .main .content .orders li .dish > :nth-child(5) {
+        width: 75px; }
+      .me .main .content .orders h4 > :nth-child(6), .me .main .content .orders li .dish > :nth-child(6) {
+        width: 90px; }
+    .me .main .content .orders h4 {
+      padding-top: 19px;
+      padding-bottom: 19px; }
+      .me .main .content .orders h4 > span {
+        font-size: 16px; }
+    .me .main .content .orders li {
+      padding: 7px 0;
+      border-top: 1px solid #efefef; }
+      .me .main .content .orders li:last-child {
+        border-bottom: 2px solid #efefef; }
+    .me .main .content .orders .dish {
+      height: 41px;
+      line-height: 41px; }
+      .me .main .content .orders .dish > div {
+        font-size: 15px; }
+      .me .main .content .orders .dish:not(:first-child) {
+        margin-top: 5px; }
+    .me .main .content .orders .detail > span {
+      display: inline-block;
+      vertical-align: top; }
+    .me .main .content .orders .detail .img {
+      width: 41px;
+      height: 41px;
+      background-color: gray;
+      margin-right: 5px; }
 
 /*# sourceMappingURL=maps/style.css.map */

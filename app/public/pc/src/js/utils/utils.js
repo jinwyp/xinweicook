@@ -26,7 +26,7 @@ export function getValidator(validate) {
         if (!key) {
             error = {}
             Object.keys(refs).forEach(k => {
-                Object.assign(error, _validate(k))
+                Object.assign(error, _validate(refs, k))
             })
             return error
         }
@@ -35,4 +35,8 @@ export function getValidator(validate) {
 
         return error
     }
+}
+
+export function log() {
+    __DEV__ && console.log('[xw.debug]:', ...arguments)
 }

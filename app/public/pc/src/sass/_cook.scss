@@ -1,27 +1,34 @@
 .product {
   margin: 0 auto;
   .product-info {
-    width: 1024px;
+    width: 1000px;
     height: 458px;
     margin: 40px auto;
-    img {
+    .img-wrapper {
+      width: 658px;
+      height: 438px;
+      position: relative;
       float: left;
       display: inline;
-      width: 688px;
-      height: 458px;
+    }
+    img {
+      width: 658px;
+      height: 438px;
     }
     .info {
       float: right;
       display: inline;
-      width: 300px;
-      height: 446px;
+      width: 315px;
+      height: 438px;
+      box-sizing: border-box;
       overflow: hidden;
       border-top: 1px solid $color_gondola_approx;
       border-bottom: 1px solid $color_gondola_approx;
       padding: 5px 0;
       .info-border {
-        width: 300px;
-        height: 440px;
+        position: relative;
+        width: 315px;
+        height: 420px;
         overflow: hidden;
         border-top: 3px solid $color_gondola_approx;
         border-bottom: 3px solid $color_gondola_approx;
@@ -90,7 +97,7 @@
             width: 100%;
             font-size: 15px;
             height: 155px;
-            overflow-y: scroll;
+            overflow-y: auto;
             display: none;
             li {
               float: left;
@@ -133,6 +140,8 @@
           }
         }
         .buy {
+          position: absolute;
+          bottom: 0;
           width: 100%;
           height: 50px;
           border-top: 1px solid $color_celeste_approx;
@@ -188,7 +197,6 @@
     }
     img {
       display: block;
-      width: 100%;
       margin: 20px auto;
     }
     p {

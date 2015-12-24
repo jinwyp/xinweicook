@@ -85,21 +85,14 @@
               font-size: 22px;
               line-height: 19px;
               text-align: center;
+              &.mius {
+                display: none;
+              }
               &.plus {
                 background: $color_masala_approx;
               }
             }
           }
-        }
-        img.plusok {
-          display: block;
-          width: 95px;
-          height: 95px;
-          position: absolute;
-          top: 60px;
-          left: 50%;
-          margin-left: -42px;
-          display: none;
         }
       }
     }
@@ -126,16 +119,20 @@
       height: 430px;
       overflow: hidden;
       margin: 40px auto;
-      img {
+      .img {
         width: 340px;
         height: 430px;
         float: left;
         display: inline;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
         &.right {
           float: right;
         }
       }
       .info {
+        position: relative;
         float: left;
         display: inline;
         width: 320px;
@@ -147,17 +144,36 @@
           display: block;
           width: 130px;
           height: 148px;
-          margin: 50px auto 30px;
+          margin: 50px auto 20px;
         }
         h6 {
           text-align: center;
           line-height: 20px;
+          width: 267px;
           font-size: 15px;
+          &.text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            text-align: left;
+            margin-top: 5px;
+            color: #656565;
+            font-size: 13px;
+            height: 60px;
+          }
         }
         .btns {
-          width: 300px;
+          position: absolute;
+          bottom: 12px;
+          width: 305px;
+          padding: 0 10px;
+          box-sizing: border-box;
           margin: 0 auto;
           border-top: 1px solid $color_celeste_approx;
+          left: 0;
+          right: 0;
           a {
             &.gotobuy {
               float: left;
@@ -185,9 +201,9 @@
               background: $color_masala_approx;
             }
             &.mius {
+              display: none;
               cursor: pointer;
               float: right;
-              display: inline;
               width: 30px;
               height: 30px;
               color: $white;
@@ -204,6 +220,9 @@
           font-size: 30px;
           text-align: center;
           line-height: 80px;
+          position: absolute;
+          width: 100%;
+          bottom: 66px;
         }
       }
     }

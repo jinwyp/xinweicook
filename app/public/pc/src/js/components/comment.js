@@ -11,7 +11,7 @@ var Comment = React.createClass({
             <div className="comment-section">
                 <div className="form-control-group">
                     <label htmlFor="comment">留言：</label>
-                    <textarea ref="comment" rows="1" autoComplete="off" id="comment"></textarea>
+                    <textarea ref="comment" onChange={this.handleChange} rows="1" autoComplete="off" id="comment"></textarea>
                 </div>
             </div>
         )

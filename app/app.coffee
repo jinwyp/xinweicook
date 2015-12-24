@@ -26,10 +26,15 @@ app.engine("nunj", nunjucks.render);
 app.engine("html", require('ejs').renderFile);
 app.engine("jade", require('jade').__express);
 
-nunjucks.configure({
+env = nunjucks.configure({
 #  watch: process.env.NODE_ENV == 'development' # caused 100% used of cpu.
   noCache: process.env.NODE_ENV == 'development'
 });
+env.addFilter('img', (src, width, height) ->
+  width = width || 640
+  height = height || 427
+  return src + '?imageView2/1/w/' + width + '/h/' + height
+)
 
 # i18n setup
 i18n.configure({

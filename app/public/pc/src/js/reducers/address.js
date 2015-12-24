@@ -12,7 +12,10 @@ function addresses(state = [], action) {
         case types.GET_ADDRESS:
             return action.status == 'success' ? action.addresses : state
         case types.POST_ADDRESS:
-            return state.concat([action.address])
+            if (action.status == 'success') {
+                return state.concat([action.address])
+            }
+            return state
         case types.PUT_ADDRESS:
             if (action.status == 'success') {
                 return state.map (item =>
@@ -26,7 +29,8 @@ function addresses(state = [], action) {
             // 根据菜品的库存状况过滤出可用地址(食材包,便当的种类信息, 便当的话还要提供都有货的仓库信息)
             if (action.info['ready to eat']) {
                 return state.map(item => {
-                    item.outOfRange = !item.isAvailableForEat || !action.info.warehouse[item.warehouse]
+                    item.outOfRange = !item.isAvailableForEat
+                        || !action.info.warehouse[item.warehouse]
                     return item
                 })
             } else {
@@ -43,6 +47,7 @@ function addresses(state = [], action) {
 function addressEditingForm(state = {
     show: false,
     id: ''
+
 }, action) {
     switch (action.type) {
         case types.EDIT_ADDRESS:
@@ -73,12 +78,26 @@ function streetList(state = {
             }
             return state
         case types.TOGGLE_STREET:
-            return {...state, show: !state.show}
+            return {
+                ...state,
+                show: action.show === undefined ? !state.show : action.show
+            }
 
         default: return state
     }
 }
 
-var addressReducer = combineReducers({addresses, addressEditingForm, streetList})
+function range(state = [], action) {
+    switch (action.type) {
+        case types.GET_RANGE:
+            if (action.status == 'success') {
+                return action.range
+            }
+            return state
+        default: return state
+    }
+}
+
+var addressReducer = combineReducers({addresses, addressEditingForm, streetList, range})
 
 export default addressReducer
