@@ -108,21 +108,6 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
 
 
-    if ($state.current.data.type === 'list') {
-
-        $scope.searchWarehouse();
-    }
-
-
-    if ($state.current.data.type === 'update') {
-        $scope.css.isAddNewStatus = false;
-
-        Warehouses.one($stateParams.id).get().then(function (resultWarehouse) {
-            $scope.data.warehouse = resultWarehouse;
-
-        });
-
-    }
 
 
 
@@ -385,7 +370,23 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
     };
 
 
-    $scope.showBaiduMap();
+
+    if ($state.current.data.type === 'list') {
+
+        $scope.searchWarehouse();
+        $scope.showBaiduMap();
+    }
+
+
+    if ($state.current.data.type === 'update') {
+        $scope.css.isAddNewStatus = false;
+
+        Warehouses.one($stateParams.id).get().then(function (resultWarehouse) {
+            $scope.data.warehouse = resultWarehouse;
+
+        });
+
+    }
 
 
 }
