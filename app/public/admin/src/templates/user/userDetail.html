@@ -534,7 +534,7 @@
                                 <label for="inputUAAddress_{{$index}}" class="col-lg-2 control-label" > 详细地址(人工填写的地址) </label>
 
                                 <div class="col-lg-6" >
-                                    <input type="text" class="form-control" id="inputUAAddress_{{$index}}" name="addressAddress_{{$index}}" ng-model="address.address" required ng-minlength="4" ng-maxlength="500" >
+                                    <input type="text" class="form-control" id="inputUAAddress_{{$index}}" name="addressAddress_{{$index}}" ng-model="address.address" required ng-minlength="3" ng-maxlength="500" >
                                     <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$valid"></span>
                                     <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$invalid"></span>
                                 </div>
