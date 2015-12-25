@@ -336,7 +336,8 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
-  logger.error("-------- User Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)  + " ----- " + JSON.stringify(req.u.mobile) if req.u )
+  logger.error("-------- User Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)   )
+  logger.error("-------- User " + JSON.stringify(req.u)  ) if req.u
 
   userId = req.query.userId
   redirectUrl = req.query.redirectUrl
@@ -366,7 +367,8 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("-------- User Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) + " ----- " + JSON.stringify(req.u.mobile) if req.u )
+  logger.error("-------- User Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- User " + JSON.stringify(req.u)  ) if req.u
 
   code = req.query.code
   state = req.query.state
