@@ -119,6 +119,7 @@ expressRoutes = (app) ->
   app.get("/api/orders/:_id", libs.auth("member"), orderController.orderSingleInfo)
 
 
+
   app.post("/api/orderprice", libs.auth("member"), orderController.calculateOrderPrice)
   app.post("/api/orders", libs.auth("member"), orderController.addNewOrder)
   app.post("/api/orders/payment/weixinpay/unifiedorder", libs.auth("member"), orderController.generateWeixinPayUnifiedOrder)
@@ -150,6 +151,7 @@ expressRoutes = (app) ->
   app.get("/api/administrator/export/orderall", orderStatController.orderList)
   app.get("/api/administrator/export/orders", orderStatController.orderExportList)
   app.get("/api/administrator/export/ordersinternal", orderStatController.orderExportInternalList)
+  app.get("/api/administrator/export/orderadmin", orderStatController.orderListByAdmin)
 
   app.get("/api/administrator/shiplist/:orderId", orderStatController.orderPrintShippingList)
   app.get("/api/administrator/shiplist/orders", orderStatController.orderPrintShippingList)
@@ -170,7 +172,8 @@ expressRoutes = (app) ->
   app.get("/api/administrator/initwarehouse", libs.auth("admin"), initController.createWarehouse)
   app.get("/api/administrator/initfixinventorydeliveryDate", initController.fixDishInventoryForDeliveryDate)
   app.get("/api/administrator/initfixinventory", initController.fixDishInventoryForCaohejin1)
-  app.get("/api/administrator/initfixuserclientfrom", initController.addUserStatisticsClientFrom)
+  app.get("/api/administrator/initfixuserclientfrom", initController.fixAddUserStatisticsClientFrom)
+  app.get("/api/administrator/initfixcouponenddate", initController.fixCouponEndDate)
   app.get("/api/administrator/initwarehousestock", libs.auth("admin"), initController.fixDishWarehouseStock)
   app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishAndTag)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDishMigrate)
@@ -204,7 +207,6 @@ expressRoutes = (app) ->
   app.post("/api/administrator/dishes", dishController.addNewDish)
   app.post("/api/administrator/cooks", cookController.addNewCook)
   app.post("/api/administrator/tags", tagController.addNewTag)
-
 
 
 

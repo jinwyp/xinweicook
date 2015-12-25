@@ -336,6 +336,8 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
+  logger.error("-------- User Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)  + " ----- " + JSON.stringify(req.u.mobile) if req.u )
+
   userId = req.query.userId
   redirectUrl = req.query.redirectUrl
 
@@ -364,6 +366,7 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
+  logger.error("-------- User Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) + " ----- " + JSON.stringify(req.u.mobile) if req.u )
 
   code = req.query.code
   state = req.query.state
@@ -463,7 +466,8 @@ exports.userSignUp = (req, res, next) ->
       ua = req.get("user-agent")
       re = /MicroMessenger/
 
-      if ua is "Xinwei Cook" and req.get("iOSAppVersion")
+#      if ua is "Xinwei Cook" or req.get("iOSAppVersion")
+      if ua is "Xinwei Cook"
         newUser.statisticsClientFrom = models.order.constantClientFrom().ios
       else if re.test(ua)
         newUser.statisticsClientFrom = models.order.constantClientFrom().wechat
@@ -799,7 +803,7 @@ exports.addNewAddress = (req, res, next) ->
 
   tempWarehouse = {}
 
-  models.warehouse.find99({}).then (resultWarehouseList) ->
+  models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
 
     baiduMapQuery =
       origins : []
@@ -913,7 +917,7 @@ exports.updateAddress = (req, res, next) ->
 
     tempWarehouse = {}
 
-    models.warehouse.find99({}).then (resultWarehouseList) ->
+    models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
 
       baiduMapQuery =
         origins : []
@@ -1094,6 +1098,9 @@ exports.userAccountDetail = (req, res, next) ->
   .catch next
 
 
+
+
+
 # 用户账户余额充值 先生成充值记录明细
 exports.chargeAccount = (req, res, next) ->
 
@@ -1104,6 +1111,9 @@ exports.chargeAccount = (req, res, next) ->
   if req.body.payment and req.body.payment is models.order.constantPayment().weixinpay
     models.order.validationWeixinPayUnifiedOrder req.body
     chargeType = models.accountdetail.constantChargeType().weixinpay
+
+
+  WXPayCharge = WXPay(configWeiXinPay)
 
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
@@ -1116,7 +1126,7 @@ exports.chargeAccount = (req, res, next) ->
       # 微信支付生成统一订单
 
       if req.body.trade_type is "APP"
-        weixinpay = WXPay(configWeiXinAppPay)
+        WXPayCharge = WXPay(configWeiXinAppPay)
 
       weixinpayOrder =
         out_trade_no: resultAccountDetail._id.toString()
@@ -1146,7 +1156,7 @@ exports.chargeAccount = (req, res, next) ->
 
 
       console.log "------------------Weixinpay Unified Order For AccountDetail: ", weixinpayOrder
-      weixinpay.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
+      WXPayCharge.createUnifiedOrder weixinpayOrder, (err, resultWeixinPay) ->
         if err
           next (new Err err)
 
@@ -1168,8 +1178,8 @@ exports.chargeAccount = (req, res, next) ->
             timeStamp: parseInt(+new Date() / 1000, 10) + ""
             nonceStr: weixinpay.util.generateNonceString()
 
-          weixinpayNativeSign.sign = weixinpay.sign(weixinpayNativeSign);
-          weixinpayMobileSign.paySign = weixinpay.sign(weixinpayMobileSign);
+          weixinpayNativeSign.sign = WXPayCharge.sign(weixinpayNativeSign);
+          weixinpayMobileSign.paySign = WXPayCharge.sign(weixinpayMobileSign);
 
 
           newPaymentDetail =

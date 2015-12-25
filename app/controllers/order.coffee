@@ -76,7 +76,7 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinPayUserOpenId = (req, res, next) ->
-  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- Order Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) + " ----- " + JSON.stringify(req.u.mobile) if req.u )
   code = req.query.code
   order_number_state = req.query.state
 
@@ -139,10 +139,6 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
   .catch (err)->
       logger.error("Order OpenID Failed Search OrderId mongo error:", JSON.stringify(err))
       return res.redirect("/mobile/wxpay/" + encodeURIComponent("Weixin Pay Open Id Request access_token 400 Error") + encodeURIComponent(JSON.stringify(err)) )
-
-
-
-
 
 
 
@@ -451,7 +447,7 @@ exports.addNewOrder = (req, res, next) ->
               en : "Mengniu Promotion Code"
             price : 50
             priceLimit : 150
-            endDate: moment().endOf("year")
+            endDate: moment("2016-12-25").endOf("year")
             couponType : models.coupon.constantCouponType().promocode
             code : req.body.promotionCode
             usedTime : 0

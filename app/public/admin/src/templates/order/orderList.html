@@ -303,7 +303,9 @@
 
                     {{order.address.city}} {{order.address.district}}<br/>
                     {{order.address.street}} / {{order.address.address}}
-                    <a target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.195693,121.467155|name:新味&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味|定位&amp;destination_region={{order.address.city}}"><i class="fa fa-search-plus"></i>{{order.address.distanceFrom}}米</a>
+                    <a ng-if="order.warehouse === '56332187594b09af6e6c7dd2'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.195693,121.467155|name:新味办公室&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味办公室|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
+                    <a ng-if="order.warehouse === '56332196594b09af6e6c7dd7'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.175474,121.40523|name:新味漕河泾&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味漕河泾|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
+                    <a ng-if="order.warehouse === '564ab6de2bde80bd10a9bc60'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.243494,121.527943|name:新味陆家嘴&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味陆家嘴|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
                 </td>
 
                 <td>{{order.userComment}}</td>

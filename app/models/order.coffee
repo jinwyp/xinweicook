@@ -221,6 +221,10 @@ module.exports =
           name : "20"
           text : "17:00-20:00"
           status : true
+        time24:
+          name : "10"
+          text : "10:00-20:00"
+          status : true
 
     constantDeliveryName : () ->
       deliveryName =
@@ -465,59 +469,34 @@ module.exports =
       resultTime = []
 
       if isInRange4KM
-
         if timeNow.hour() < 17 # 公司6公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
-          for i in [1..5]
-            segmentDay =
-              day : timeNow.clone().add(i-1, 'days').format(timeFormat2)
-              segment : []
-
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
-
-            resultTime.push(segmentDay)
-#          resultTime[0].segment[0].status = false
-
-          if timeNow.hour() < 12
-            resultTime[0].segment.splice(0, 1)
-          else
-            resultTime[0].segment.splice(0, 2)
+          startPoint = timeNow.clone()
         else
-          for i in [1..5]
-            segmentDay =
-              day : timeNow.clone().add(i, 'days').format(timeFormat2)
-              segment : []
+          startPoint = timeNow.clone().add(1, 'days')
 
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
-
-            resultTime.push(segmentDay)
       else
-
         if timeNow.hour() < 17 # 公司6公里范围外： 当天17:00前下单，可以选择明天在内的5天的任何时间段。 当天17:00后下单，可以选择后天在内的5天的任何时间段。
-          for i in [1..5]
-            segmentDay =
-              day : timeNow.clone().add(i, 'days').format(timeFormat2)
-              segment : []
-
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
-
-            resultTime.push(segmentDay)
+          startPoint = timeNow.clone().add(1, 'days')
         else
-          for i in [1..5]
-            segmentDay =
-              day : timeNow.clone().add(i+1, 'days').format(timeFormat2)
-              segment : []
+          startPoint = timeNow.clone().add(2, 'days')
 
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
-            segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+      for i in [1..5]
+        segmentDay =
+          day : startPoint.clone().add(i-1, 'days').format(timeFormat2)
+          segment : []
 
-            resultTime.push(segmentDay)
+        segmentDay.segment.push(models.order.constantDeliverTimeSegment().time12)
+        segmentDay.segment.push(models.order.constantDeliverTimeSegment().time17)
+        segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
+
+        resultTime.push(segmentDay)
+
+      if isInRange4KM and timeNow.hour() < 17
+        if timeNow.hour() < 12
+          resultTime[0].segment.splice(0, 1)
+        else
+          resultTime[0].segment.splice(0, 2)
+
 
       resultTime
 
@@ -528,6 +507,7 @@ module.exports =
       for i in [1..5]
         segmentDay =
           day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss")
+          segment : [models.order.constantDeliverTimeSegment().time24]
 
         if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
           segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD")

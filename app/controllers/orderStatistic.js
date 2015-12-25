@@ -299,14 +299,40 @@ exports.orderExportList = function(req, res, next) {
 exports.orderList = function(req, res, next) {
 
 
-    models.order.find({}).sort("-createdAt").limit (500).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
+    models.order.find({}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
 
-        res.send(resultOrderList)
+        res.send(resultOrderList);
 
     })
-    .catch(next)
+    .catch(next);
 
 };
+
+
+
+
+
+exports.orderListByAdmin = function (req, res, next) {
+    // 获取员工福利所有订单
+
+    var userIdList = [];
+
+    models.user.findAsync({group : {$in:["admin", "cs", "employee"]} }).then(function(resultUserList){
+        if (resultUserList.length > 0){
+            userIdList = resultUserList.map(function(user) {
+                return user._id.toString();
+            });
+        }
+
+        return models.order.find({user: {$in:userIdList}, status:{$in:['paid', 'shipped', 'finished']}}).sort("-createdAt").execAsync();
+    })
+    .then(function(orders){
+        res.json(orders);
+    })
+    .catch(next);
+
+};
+
 
 
 

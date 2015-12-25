@@ -108,21 +108,6 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
 
 
-    if ($state.current.data.type === 'list') {
-
-        $scope.searchWarehouse();
-    }
-
-
-    if ($state.current.data.type === 'update') {
-        $scope.css.isAddNewStatus = false;
-
-        Warehouses.one($stateParams.id).get().then(function (resultWarehouse) {
-            $scope.data.warehouse = resultWarehouse;
-
-        });
-
-    }
 
 
 
@@ -163,14 +148,14 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
     $scope.showBaiduMap = function (array) {
 
-        var map = new BMap.Map("baidumapwarehouse");          // 创建地图实例
+        var map = new BMap.Map("baidumap_warehouse");          // 创建地图实例
 
         var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
         var pointXinWeiOffice = new BMap.Point( 121.467155, 31.195693);  // 创建点坐标 longitude 经度 / latitude 纬度
         var pointXinWeiCaohejing = new BMap.Point( 121.40523, 31.175474);  // 创建点坐标 longitude 经度 / latitude 纬度  //经度 ( 121.4051452465212 ) / 纬度 ( 31.17546886907618 )
-        var pointLujiazui = new BMap.Point( 121.527943, 31.243494);  // 创建点坐标 longitude 经度 / latitude 纬度  //经度 ( 121.4051452465212 ) / 纬度 ( 31.17546886907618 )
+        var pointXinWeiLujiazui = new BMap.Point( 121.527943, 31.243494);
 
-        map.centerAndZoom(pointLujiazui, 15);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
+        map.centerAndZoom(pointXinWeiOffice, 15);                 // 初始化地图，设置中心点坐标和地图级别 . 如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以忽略，地图将自动根据center适配最佳zoom级别。
 
 
         map.addControl(new BMap.NavigationControl());   // 平移缩放控件
@@ -253,7 +238,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
         addMarker(pointXinWeiOffice, '新味办公室', '地址:中山南二路510号3楼', 100);
         addMarker(pointXinWeiCaohejing, '新味漕河泾仓库', '地址:虹梅路2008号红梅大楼', 100);
-        addMarker(pointLujiazui, '新味陆家嘴仓库', '地址:东方路227号', 100);
+        addMarker(pointXinWeiLujiazui, '新味陆家嘴仓库', '地址:东方路227号', 100);
 
 
         var polygonPointList = [
@@ -372,7 +357,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
         angular.forEach(polygonPointList, function(address, addressIndex){
 
-                console.log(address.longitude, address.latitude);
+                console.log("陆家嘴多边形点:", addressIndex, address.longitude, address.latitude);
 
                 var pointOrder = new BMap.Point( address.longitude, address.latitude);  // 创建点坐标 longitude 经度 / latitude 纬度
 
@@ -382,11 +367,26 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
         });
 
 
-
     };
 
 
 
+    if ($state.current.data.type === 'list') {
+
+        $scope.searchWarehouse();
+        $scope.showBaiduMap();
+    }
+
+
+    if ($state.current.data.type === 'update') {
+        $scope.css.isAddNewStatus = false;
+
+        Warehouses.one($stateParams.id).get().then(function (resultWarehouse) {
+            $scope.data.warehouse = resultWarehouse;
+
+        });
+
+    }
 
 
 }

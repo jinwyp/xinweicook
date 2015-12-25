@@ -128,7 +128,7 @@ exports.createAdmin = (req, res, next) ->
 
 
 
-exports.addUserStatisticsClientFrom = (req, res, next) ->
+exports.fixAddUserStatisticsClientFrom = (req, res, next) ->
 
   models.user.find({ statisticsClientFrom: { $exists: false } }).sort("createdAt").execAsync().then (resultUserList) ->
 
@@ -148,6 +148,27 @@ exports.addUserStatisticsClientFrom = (req, res, next) ->
     res.json 'ok'
 
   .catch next
+
+
+
+
+
+exports.fixCouponEndDate = (req, res, next) ->
+
+  query = { "name.zh": "蒙牛活动优惠码", couponType:"promocode"}
+
+
+  models.coupon.find({query}).limit(3000).execAsync().then (resultList) ->
+
+    for coupon, couponIndex in resultList
+      coupon.endDate = moment("2016-12-25").endOf("year")
+      coupon.save()
+
+    res.json resultList
+
+  .catch next
+
+
 
 
 
