@@ -80,7 +80,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
 
                 $scope.hide();
 
-                User.postCart(localBag.map(postDishFilter));
+                User.postCart(localBag.filter(function(item){return !!item.dish}).map(postDishFilter));
 
                 $scope.totalPrice();
             };
@@ -88,7 +88,7 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
             var postDishFilter = $filter('postDish');
 
             $scope.totalPrice = function () {
-                var p = localBag.reduce(function price(total, cur) {
+                var p = localBag.filter(function(item){return !!item.dish}).reduce(function price(total, cur) {
                     total += cur.dish.priceOriginal * cur.number;
                     if (cur.subDish) {
                         total += cur.subDish.reduce(price, 0)
