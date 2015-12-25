@@ -127,6 +127,8 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
     if resultOrderList.length > 0
 
+      tempOrderIndex = {}
+
       for order, orderIndex in resultOrderList
 
         order.status = models.order.constantStatus().canceled
@@ -155,10 +157,12 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
         # 撤销余额使用
         if order.accountUsedDiscount and order.accountUsedDiscount > 0
-
+          logger.error("cronjob refund account balance order id:", JSON.stringify(order._id), JSON.stringify(order.accountUsedDiscount) )
+          tempOrderIndex[order.user.toString()] = order
           models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
             if resultAccount
-              resultAccount.addMoney(order.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", order._id.toString()).catch( (err) -> logger.error("cronjob refund account error:", order._id, order.accountUsedDiscount, JSON.stringify(resultAccount)))
+              orderTemp = tempOrderIndex[resultAccount.user.toString()]
+              resultAccount.addMoney(orderTemp.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", orderTemp._id.toString()).catch( (err) -> logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount)))
 
 
     res.send resultOrderList
