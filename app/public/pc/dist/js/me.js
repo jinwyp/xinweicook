@@ -60,21 +60,13 @@
 
 	var _reactRedux = __webpack_require__(348);
 
-	var _configureCartStore = __webpack_require__(366);
+	var _configureMeStore = __webpack_require__(425);
 
-	var _configureCartStore2 = _interopRequireDefault(_configureCartStore);
+	var _configureMeStore2 = _interopRequireDefault(_configureMeStore);
 
-	var _cart = __webpack_require__(379);
+	var _address = __webpack_require__(384);
 
-	var cartAction = _interopRequireWildcard(_cart);
-
-	var _address2 = __webpack_require__(384);
-
-	var addressAction = _interopRequireWildcard(_address2);
-
-	var _time = __webpack_require__(385);
-
-	var timeAction = _interopRequireWildcard(_time);
+	var addressAction = _interopRequireWildcard(_address);
 
 	var _coupon = __webpack_require__(386);
 
@@ -84,43 +76,21 @@
 
 	var balanceAction = _interopRequireWildcard(_balance);
 
-	var _freight = __webpack_require__(388);
-
-	var freightAction = _interopRequireWildcard(_freight);
-
-	var _comment = __webpack_require__(390);
-
-	var commentAction = _interopRequireWildcard(_comment);
-
 	var _order = __webpack_require__(391);
 
 	var orderAction = _interopRequireWildcard(_order);
 
-	var _cart2 = __webpack_require__(392);
+	var _route = __webpack_require__(428);
 
-	var _cart3 = _interopRequireDefault(_cart2);
+	var routeAction = _interopRequireWildcard(_route);
 
 	var _addressList = __webpack_require__(396);
 
 	var _addressList2 = _interopRequireDefault(_addressList);
 
-	var _timeSelector = __webpack_require__(421);
+	var _orderList = __webpack_require__(429);
 
-	var _timeSelector2 = _interopRequireDefault(_timeSelector);
-
-	var _cartCoupon = __webpack_require__(422);
-
-	var _cartCoupon2 = _interopRequireDefault(_cartCoupon);
-
-	var _orderPrice = __webpack_require__(423);
-
-	var _orderPrice2 = _interopRequireDefault(_orderPrice);
-
-	var _comment2 = __webpack_require__(424);
-
-	var _comment3 = _interopRequireDefault(_comment2);
-
-	var _dish = __webpack_require__(370);
+	var _orderList2 = _interopRequireDefault(_orderList);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -130,169 +100,143 @@
 	    displayName: "App",
 
 	    componentDidMount: function componentDidMount() {
-	        this.props.dispatch(cartAction.getCart());
-	        this.props.dispatch(balanceAction.getBalance());
-	    },
-	    getFreightIfNeeded: function getFreightIfNeeded(cart, address, dispatch) {
-	        return cart.some(function (el) {
-	            return el.selected;
-	        }) && address.addresses.some(function (el) {
-	            return el.selected;
-	        }) && dispatch(freightAction.getFreight());
-	    },
-	    postOrder: function postOrder(cart, address, time, dispatch) {
-	        cart = cart.filter(function (item) {
-	            return item.selected;
-	        });
-	        if (!cart.length) return;
-	        if (!address.addresses.some(function (item) {
-	            return item.selected;
-	        })) return;
-	        var cookingTypes = {};
-	        cart.forEach(function (item) {
-	            cookingTypes[item.dish.cookingType] = true;
-	        });
-	        Object.keys(cookingTypes).every(function (type) {
-	            type = type == 'ready to cook' ? 'cook' : 'eat';
-	            return !!time[type].selectedTime;
-	        }) && dispatch(orderAction.postOrder());
-	    },
-	    render: function render() {
 	        var _this = this;
 
+	        window.addEventListener('hashchange', function () {
+	            _this.props.dispatch(routeAction.changeRoute(window.location.hash.substr(1)));
+	        });
+	    },
+
+	    methods: {},
+
+	    render: function render() {
 	        var _props = this.props;
-	        var warehouse = _props.warehouse;
-	        var cart = _props.cart;
 	        var dispatch = _props.dispatch;
 	        var address = _props.address;
 	        var user = _props.user;
-	        var time = _props.time;
 	        var coupon = _props.coupon;
 	        var balance = _props.balance;
-	        var freight = _props.freight;
+	        var route = _props.route;
+	        var order = _props.order;
 
-	        var cartMethods = {
-	            selectOne: function selectOne(id) {
-	                dispatch(cartAction.selectOne(id));
-	                dispatch(timeAction.getTimeIfNeeded());
-	                _this.getFreightIfNeeded(cart, address, dispatch);
-	            },
-	            selectAll: function selectAll(cookingType) {
-	                dispatch(cartAction.selectAll(cookingType));
-	                dispatch(timeAction.getTimeIfNeeded());
-	                _this.getFreightIfNeeded(cart, address, dispatch);
-	            },
-	            plusDish: function plusDish(id) {
-	                dispatch(cartAction.plusDish(id));
-	            },
-	            minusDish: function minusDish(id) {
-	                dispatch(cartAction.minusDish(id));
-	            },
-	            delDish: function delDish(id) {
-	                dispatch(cartAction.delDish(id));
-	                dispatch(timeAction.getTimeIfNeeded());
-	                _this.getFreightIfNeeded(cart, address, dispatch);
-	            }
-	        };
-	        var addressMethods = {
-	            addOne: function addOne() {
-	                return dispatch(addressAction.editAddress());
-	            },
-	            getList: function getList() {
-	                return dispatch(addressAction.getList());
-	            },
-	            putOne: function putOne(address) {
-	                return dispatch(addressAction.putOne(address));
-	            },
-	            postOne: function postOne(address) {
-	                return dispatch(addressAction.postOne(address));
-	            },
-	            delOne: function delOne(id) {
-	                return dispatch(addressAction.delOne(id));
-	            },
-	            close: function close() {
-	                return dispatch(addressAction.closeEditAddress());
-	            },
-	            toggleStreet: function toggleStreet(show) {
-	                return dispatch(addressAction.toggleStreet(show));
-	            },
-	            getStreet: function getStreet(query, region) {
-	                return dispatch(addressAction.getStreet(query, region));
-	            },
-	            getRange: function getRange() {
-	                return dispatch(addressAction.getRangeIfNeeded());
-	            },
-	            select: function select(id, _address) {
-	                dispatch(addressAction.select(id, _address));
-	                dispatch(timeAction.getTimeIfNeeded());
-	                _this.getFreightIfNeeded(cart, address, dispatch);
-	            }
-	        };
-	        var timeMethods = {
-	            selectTime: function selectTime(time, cookingType) {
-	                return dispatch(timeAction.selectTime(time, cookingType));
-	            }
-	        };
-	        var commentMethods = {
-	            changeComment: function changeComment(text) {
-	                return dispatch(commentAction.changeComment(text));
-	            }
-	        };
-	        var couponMethods = {
-	            selectCard: function selectCard(id) {
-	                return dispatch(couponAction.selectCard(id, price.payPrice));
-	            },
-	            getCouponCode: function getCouponCode(code) {
-	                return dispatch(couponAction.getCouponCode(code));
-	            },
-	            toggleBalance: function toggleBalance() {
-	                return dispatch(balanceAction.toggleBalance(price.payPrice));
-	            }
-	        };
+	        if (!this.methods.order) {
+	            this.methods.order = {
+	                getOrders: function getOrders(skip, limit) {
+	                    dispatch(orderAction.getOrders(skip, limit));
+	                }
+	            };
+	            this.methods.addressList = {
+	                addOne: function addOne() {
+	                    return dispatch(addressAction.editAddress());
+	                },
+	                getList: function getList() {
+	                    return dispatch(addressAction.getList());
+	                },
+	                putOne: function putOne(address) {
+	                    return dispatch(addressAction.putOne(address));
+	                },
+	                postOne: function postOne(address) {
+	                    return dispatch(addressAction.postOne(address));
+	                },
+	                delOne: function delOne(id) {
+	                    return dispatch(addressAction.delOne(id));
+	                },
+	                close: function close() {
+	                    return dispatch(addressAction.closeEditAddress());
+	                },
+	                toggleStreet: function toggleStreet(show) {
+	                    return dispatch(addressAction.toggleStreet(show));
+	                },
+	                getStreet: function getStreet(query, region) {
+	                    return dispatch(addressAction.getStreet(query, region));
+	                },
+	                getRange: function getRange() {
+	                    return dispatch(addressAction.getRangeIfNeeded());
+	                }
+	            };
+	        }
 
-	        // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
-	        var price = {
-	            cartPrice: cart.filter(function (el) {
-	                return el.selected;
-	            }).reduce(function (p, el) {
-	                return p + (0, _dish.price)(el);
-	            }, 0),
-	            freight: freight,
-	            couponPrice: coupon.card.selectedCard && coupon.card.selectedCard.price + coupon.code.price || 0
-	        };
-	        price.payPrice = price.cartPrice + price.freight - price.couponPrice;
-
-	        var hasEatDishSelected = cart.some(function (item) {
-	            return item.dish.cookingType == 'ready to eat' && item.selected;
-	        });
-	        var hasCookDishSelected = cart.some(function (item) {
-	            return item.dish.cookingType == 'ready to cook' && item.selected;
-	        });
+	        var Child;
+	        switch (route) {
+	            case 'orders':
+	                Child = _react2.default.createElement(_orderList2.default, _extends({}, this.methods.order, { orders: order.orders }));
+	                break;
+	            case 'userinfo':
+	                Child = _react2.default.createElement(_addressList2.default, _extends({}, this.methods.addressList, address));
+	                break;
+	            default:
+	                Child = null;
+	        }
 
 	        return _react2.default.createElement(
 	            "div",
-	            { className: "cart-main" },
-	            _react2.default.createElement(_cart3.default, { methods: cartMethods, cart: cart, warehouse: warehouse }),
+	            { className: "main" },
 	            _react2.default.createElement(
-	                "div",
-	                { className: "cart-main-right" },
-	                _react2.default.createElement(_addressList2.default, _extends({}, address, addressMethods)),
-	                hasEatDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.eat)),
-	                hasCookDishSelected && _react2.default.createElement(_timeSelector2.default, _extends({}, timeMethods, time.cook)),
-	                _react2.default.createElement(_comment3.default, commentMethods),
-	                _react2.default.createElement(_cartCoupon2.default, _extends({}, couponMethods, coupon, balance, { payPrice: price.payPrice })),
-	                _react2.default.createElement(_orderPrice2.default, price),
+	                "nav",
+	                { className: "nav" },
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "confirm-section" },
+	                    "ul",
+	                    null,
 	                    _react2.default.createElement(
-	                        "button",
-	                        { onClick: function onClick() {
-	                                return _this.postOrder(cart, address, time, dispatch);
-	                            } },
-	                        "在线支付"
+	                        "li",
+	                        { className: route == 'orders' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#orders" },
+	                            "我的订单"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        { className: route == 'charge' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#charge" },
+	                            "我要充值"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        { className: route == 'consumption' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#consumption" },
+	                            "交易明细"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        { className: route == 'userinfo' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#userinfo" },
+	                            "我的信息"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        { className: route == 'custom' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#custom" },
+	                            "私人定制"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "li",
+	                        { className: route == 'ratings' && 'act' },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { href: "#ratings" },
+	                            "评过的菜"
+	                        )
 	                    )
 	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                Child
 	            )
 	        );
 	    }
@@ -302,7 +246,7 @@
 	    return state;
 	})(App);
 
-	var store = (0, _configureCartStore2.default)();
+	var store = (0, _configureMeStore2.default)();
 
 	var rootElement = document.getElementById('react-root');
 
@@ -26218,68 +26162,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
 
 /***/ },
-/* 366 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	exports.default = function () {
-	    return createStoreWithMiddleware((0, _redux.combineReducers)({
-	        cart: _cart2.default, address: _address2.default, warehouse: _warehouse2.default, user: _user2.default, time: _time2.default, coupon: _coupon2.default, balance: _balance2.default, freight: _freight2.default, comment: _comment2.default
-	    }));
-	};
-
-	var _redux = __webpack_require__(355);
-
-	var _reduxThunk = __webpack_require__(367);
-
-	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
-	var _cart = __webpack_require__(368);
-
-	var _cart2 = _interopRequireDefault(_cart);
-
-	var _address = __webpack_require__(371);
-
-	var _address2 = _interopRequireDefault(_address);
-
-	var _warehouse = __webpack_require__(372);
-
-	var _warehouse2 = _interopRequireDefault(_warehouse);
-
-	var _time = __webpack_require__(373);
-
-	var _time2 = _interopRequireDefault(_time);
-
-	var _user = __webpack_require__(374);
-
-	var _user2 = _interopRequireDefault(_user);
-
-	var _coupon = __webpack_require__(375);
-
-	var _coupon2 = _interopRequireDefault(_coupon);
-
-	var _balance = __webpack_require__(376);
-
-	var _balance2 = _interopRequireDefault(_balance);
-
-	var _freight = __webpack_require__(377);
-
-	var _freight2 = _interopRequireDefault(_freight);
-
-	var _comment = __webpack_require__(378);
-
-	var _comment2 = _interopRequireDefault(_comment);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
-
-/***/ },
+/* 366 */,
 /* 367 */
 /***/ function(module, exports) {
 
@@ -26302,87 +26185,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 368 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = cart;
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _dish = __webpack_require__(370);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function cart() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.CART_PLUS_DISH:
-	            return state.map(function (item) {
-	                item._id == action.id && item.number++;
-	                return item;
-	            });
-	        case types.CART_MINUS_DISH:
-	            return state.map(function (item) {
-	                item._id == action.id && item.number--;
-	                return item;
-	            });
-	        case types.CART_DEL_DISH:
-	            return state.filter(function (item) {
-	                return item._id != action.id;
-	            });
-	        // todo: 这里应当是购物车的action,但是购物车又是挂在user对象上,随着user获取而获取的
-	        case types.FETCH_USER:
-	            if (action.status == 'success') {
-	                return action.user.shoppingCart.map(function (item) {
-	                    item.noStock = !(0, _dish.hasStock)(item, action.warehouse);
-	                    return item;
-	                });
-	            }
-	            return state;
-	        case types.CART_SELECT_ONE:
-	            return state.map(function (item) {
-	                if (item._id == action.id) {
-	                    item.selected = !item.selected && !item.noStock;
-	                }
-	                return item;
-	            });
-	        case types.SELECT_ADDRESS:
-	            return state.map(function (item) {
-	                item.noStock = !(0, _dish.hasStock)(item, action.address.warehouse);
-	                item.selected = item.selected && !item.noStock;
-	                return item;
-	            });
-	        case types.CART_SELECT_ALL:
-	            var dishList = state.filter(function (item) {
-	                return item.dish.cookingType == action.cookingType;
-	            });
-	            var isSelectedAll = !(dishList.every(function (item) {
-	                return item.selected || item.noStock;
-	            }) && dishList.some(function (item) {
-	                return item.selected;
-	            }));
-	            return state.map(function (item) {
-	                if (item.dish.cookingType == action.cookingType) {
-	                    item.selected = isSelectedAll && !item.noStock;
-	                }
-	                return item;
-	            });
-
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
+/* 368 */,
 /* 369 */
 /***/ function(module, exports) {
 
@@ -26644,101 +26447,8 @@
 	exports.default = addressReducer;
 
 /***/ },
-/* 372 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = warehouse;
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _redux = __webpack_require__(355);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function warehouse() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SELECT_ADDRESS:
-	            return action.address.warehouse;
-
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 373 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _redux = __webpack_require__(355);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function cook() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        timeList: [],
-	        selectedTime: null,
-	        cookingType: 'ready to cook'
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    return _reducer(state, action, 'ready to cook');
-	}
-
-	function eat() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
-	        timeList: [],
-	        selectedTime: null,
-	        cookingType: 'ready to eat'
-	    } : arguments[0];
-	    var action = arguments[1];
-
-	    return _reducer(state, action, 'ready to eat');
-	}
-
-	function _reducer(state, action, cookingType) {
-	    switch (action.type) {
-	        case types.GET_TIME:
-	            if (action.status == 'success' && action.cookingType == cookingType) {
-	                return _extends({}, state, { timeList: action.timeList });
-	            }
-	            return state;
-	        case types.SELECT_TIME:
-	            if (action.cookingType == cookingType) {
-	                return _extends({}, state, { selectedTime: action.time });
-	            }
-	            return state;
-	        default:
-	            return state;
-	    }
-	}
-
-	var timeReducer = (0, _redux.combineReducers)({ cook: cook, eat: eat });
-
-	exports.default = timeReducer;
-
-/***/ },
+/* 372 */,
+/* 373 */,
 /* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -26901,239 +26611,9 @@
 	exports.default = balance;
 
 /***/ },
-/* 377 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function freight() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.GET_FREIGHT:
-	            if (action.status == 'success') {
-	                return action.freight;
-	            }
-	            return state;
-
-	        default:
-	            return state;
-	    }
-	}
-
-	exports.default = freight;
-
-/***/ },
-/* 378 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function comment() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.CHANGE_COMMENT:
-	            return action.text;
-	        default:
-	            return state;
-	    }
-	}
-
-	exports.default = comment;
-
-/***/ },
-/* 379 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.getCart = getCart;
-	exports.selectOne = selectOne;
-	exports.selectAll = selectAll;
-	exports.plusDish = plusDish;
-	exports.minusDish = minusDish;
-	exports.delDish = delDish;
-
-	var _xwFetch = __webpack_require__(380);
-
-	var _xwFetch2 = _interopRequireDefault(_xwFetch);
-
-	var _dish = __webpack_require__(370);
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _user = __webpack_require__(383);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// get user 即表示 get cart, 所以只能通过在cart中, case 'Fetch_USER'来对cart处理
-	function getCart() {
-	    return function (dispatch) {
-	        return dispatch((0, _user.getUserIfNeeded)());
-	    };
-	}
-
-	function saveCartSuccess() {
-	    return {
-	        type: types.SAVE_CART,
-	        status: 'success'
-	    };
-	}
-
-	function saveCartStart() {
-	    return {
-	        type: types.SAVE_CART
-	    };
-	}
-
-	var timer = null;
-
-	function saveCart(dispatch, getState) {
-	    dispatch(saveCartStart());
-	    if (!timer) {
-	        timer = setTimeout(function () {
-	            timer = null;
-	            return (0, _xwFetch.post)('/api/user/shoppingcart', {
-	                shoppingCart: getState().cart.map(_dish.toPostDish)
-	            }).then(function () {
-	                return dispatch(saveCartSuccess());
-	            });
-	        }, 2000);
-	    }
-	}
-
-	function selectionChanged(info) {
-	    return {
-	        type: types.CART_SELECTION_CHANGED,
-	        info: info
-	    };
-	}
-
-	function selectOne(id) {
-	    return function (dispatch, getState) {
-	        dispatch(_selectOne(id));
-	        return dispatch(selectionChanged(getCookingTypeAndWarehouse(getState().cart)));
-	    };
-	}
-
-	function _selectOne(id, info) {
-	    return {
-	        type: types.CART_SELECT_ONE,
-	        id: id, info: info
-	    };
-	}
-
-	function selectAll(cookingType) {
-	    return function (dispatch, getState) {
-	        dispatch(_selectAll(cookingType));
-	        return dispatch(selectionChanged(getCookingTypeAndWarehouse(getState().cart)));
-	    };
-	}
-
-	function _selectAll(cookingType, info) {
-	    return {
-	        type: types.CART_SELECT_ALL,
-	        cookingType: cookingType, info: info
-	    };
-	}
-
-	function _plusDish(id) {
-	    return {
-	        type: types.CART_PLUS_DISH,
-	        id: id
-	    };
-	}
-
-	function _minusDish(id) {
-	    return {
-	        type: types.CART_MINUS_DISH,
-	        id: id
-	    };
-	}
-
-	function _delDish(id, info) {
-	    return {
-	        type: types.CART_DEL_DISH,
-	        id: id, info: info
-	    };
-	}
-
-	function plusDish(id) {
-	    return function (dispatch, getState) {
-	        dispatch(_plusDish(id));
-	        return saveCart(dispatch, getState);
-	    };
-	}
-	function minusDish(id) {
-	    return function (dispatch, getState) {
-	        dispatch(_minusDish(id));
-	        return saveCart(dispatch, getState);
-	    };
-	}
-	function delDish(id) {
-	    return function (dispatch, getState) {
-	        var cart = getState().cart;
-	        var isChanged = cart.some(function (item) {
-	            return item._id == id;
-	        });
-	        dispatch(_delDish(id));
-	        isChanged && dispatch(selectionChanged(getCookingTypeAndWarehouse(cart)));
-	        return saveCart(dispatch, getState);
-	    };
-	}
-
-	/**
-	 * 从购物车中提取cookingType信息,以及warehouse信息
-	 * @param dishList
-	 * @returns {{}} - {'ready to cook': true, warehouse: {abcdefghijklmn: true, ..}}
-	 */
-	function getCookingTypeAndWarehouse(dishList) {
-	    var ret = {};
-	    var selectedCart = dishList.filter(function (item) {
-	        return item.selected;
-	    });
-	    selectedCart.forEach(function (item) {
-	        return ret[item.dish.cookingType] = true;
-	    });
-	    // 下面只过滤出便当的可配送库存
-	    ret.warehouse = (0, _dish.availableWarehouse)(selectedCart.filter(function (item) {
-	        return item.dish.cookingType == 'ready to eat';
-	    }));
-
-	    return ret;
-	}
-
-/***/ },
+/* 377 */,
+/* 378 */,
+/* 379 */,
 /* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27603,68 +27083,7 @@
 
 
 /***/ },
-/* 383 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.getUser = getUser;
-	exports.getUserIfNeeded = getUserIfNeeded;
-
-	var _xwFetch = __webpack_require__(380);
-
-	var _xwFetch2 = _interopRequireDefault(_xwFetch);
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function requestUser() {
-	    return {
-	        type: types.FETCH_USER
-	    };
-	}
-
-	/**
-	 * 本来是给接收user用的,但是因为shoppingCart也挂在这个上面,所以也用来给购物车用
-	 * @param user
-	 * @param warehouse 只与购物车有关, 但是也要传递, 真的OTZ..
-	 * @returns {{type: FETCH_USER, status: string, user: *}}
-	 */
-	function receiveUser(user, warehouse, now) {
-	    return {
-	        type: types.FETCH_USER,
-	        status: 'success',
-	        user: user,
-	        warehouse: warehouse,
-	        now: now
-	    };
-	}
-
-	function getUser() {
-	    return function (dispatch, getState) {
-	        dispatch(requestUser());
-	        return (0, _xwFetch2.default)('/api/user').then(function (res) {
-	            dispatch(receiveUser(res, getState().warehouse, new Date(_xwFetch2.default.headers.get('Date'))));
-	        });
-	    };
-	}
-
-	function getUserIfNeeded() {
-	    return function (dispatch, getState) {
-	        var user = getState().user; //the user may be a promise
-	        return '_id' in user ? Promise.resolve(user) : dispatch(getUser());
-	    };
-	}
-
-/***/ },
+/* 383 */,
 /* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27900,144 +27319,7 @@
 	}
 
 /***/ },
-/* 385 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.selectTime = selectTime;
-	exports.getTime = getTime;
-	exports.getTimeIfNeeded = getTimeIfNeeded;
-
-	var _xwFetch = __webpack_require__(380);
-
-	var _xwFetch2 = _interopRequireDefault(_xwFetch);
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function selectTime(time, cookingType) {
-	    return {
-	        type: types.SELECT_TIME,
-	        time: time, cookingType: cookingType
-	    };
-	}
-
-	function getTimeStart() {
-	    return {
-	        type: types.GET_TIME
-	    };
-	}
-
-	function getTimeDone(timeList, cookingType) {
-	    return {
-	        type: types.GET_TIME,
-	        status: 'success',
-	        timeList: timeList, cookingType: cookingType
-	    };
-	}
-
-	function getTimeFailed(error) {
-	    return {
-	        type: types.GET_TIME,
-	        status: 'error',
-	        error: error
-	    };
-	}
-
-	/**
-	 * format date to {day: '2015-07-02', segment: '12:00'}
-	 * @param cookingType
-	 * @param address
-	 * @returns {Function}
-	 */
-	function getTime(cookingType, address) {
-	    return function (dispatch) {
-	        dispatch(getTimeStart());
-	        var promise;
-	        if (cookingType == 'ready to cook') {
-	            promise = (0, _xwFetch.post)('/api/orders/delivery/time', {
-	                cookingType: 'ready to cook',
-	                isCityShanghai: address.city.indexOf('上海') != -1,
-	                isInRange4KM: address.isAvailableForEat
-	            }).then(function (res) {
-	                if (!res.length) return res;
-	                var ret = [];
-	                res.forEach(function (time) {
-	                    if (time.segment) {
-	                        time.segment.forEach(function (s) {
-	                            ret.push({
-	                                day: time.day,
-	                                segment: s.text
-	                            });
-	                        });
-	                    } else {
-	                        ret.push({ day: time.day });
-	                    }
-	                });
-	                timeCache[cookingType + address._id] = ret;
-	                return ret;
-	            });
-	        } else {
-	            promise = (0, _xwFetch.post)('/api/orders/delivery/time/eat/warehouse', {
-	                _id: address.warehouse
-	            }).then(function (res) {
-	                return timeCache[cookingType + address._id] = res.timeList.map(function (time) {
-	                    return {
-	                        day: time.hour.substr(0, 10),
-	                        segment: time.hour.substr(11, 5)
-	                    };
-	                });
-	            });
-	        }
-	        return promise.then(function (timeList) {
-	            return dispatch(getTimeDone(timeList, cookingType));
-	        });
-	    };
-	}
-
-	var timeCache = {};
-
-	function getTimeIfNeeded() {
-	    return function (dispatch, getState) {
-	        var cookingTypes = {};
-	        getState().cart.filter(function (item) {
-	            return item.selected;
-	        }).forEach(function (item) {
-	            cookingTypes[item.dish.cookingType] = true;
-	        });
-	        cookingTypes = Object.keys(cookingTypes);
-	        if (!cookingTypes.length) return;
-
-	        var addresses = getState().address.addresses.filter(function (item) {
-	            return item.selected;
-	        });
-	        if (!addresses.length) return;
-
-	        for (var i = 0; i < cookingTypes.length; i++) {
-	            var type = cookingTypes[i];
-	            for (var j = 0; j < addresses.length; j++) {
-	                var address = addresses[j];
-	                var key = type + address._id;
-	                if (timeCache[key]) {
-	                    dispatch(getTimeDone(timeCache[key], type));
-	                } else {
-	                    dispatch(getTime(type, address));
-	                }
-	            }
-	        }
-	    };
-	}
-
-/***/ },
+/* 385 */,
 /* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28147,50 +27429,7 @@
 	}
 
 /***/ },
-/* 388 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.getFreight = getFreight;
-
-	var _xwFetch = __webpack_require__(380);
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	var _order = __webpack_require__(389);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function getFreightStart() {
-	    return {
-	        type: types.GET_FREIGHT
-	    };
-	}
-
-	function getFreightDone(freight) {
-	    return {
-	        type: types.GET_FREIGHT,
-	        status: 'success',
-	        freight: freight
-	    };
-	}
-
-	function getFreight() {
-	    return function (dispatch, getState) {
-	        getFreightStart();
-	        (0, _xwFetch.post)('/api/orderprice', (0, _order.orderData)(getState())).then(function (res) {
-	            dispatch(getFreightDone(res.freight));
-	        });
-	    };
-	}
-
-/***/ },
+/* 388 */,
 /* 389 */
 /***/ function(module, exports) {
 
@@ -28273,30 +27512,7 @@
 	}
 
 /***/ },
-/* 390 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.changeComment = changeComment;
-
-	var _ActionTypes = __webpack_require__(369);
-
-	var types = _interopRequireWildcard(_ActionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function changeComment(text) {
-	    return {
-	        type: types.CHANGE_COMMENT,
-	        text: text
-	    };
-	}
-
-/***/ },
+/* 390 */,
 /* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28385,283 +27601,10 @@
 	}
 
 /***/ },
-/* 392 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _cartDishList = __webpack_require__(393);
-
-	var _cartDishList2 = _interopRequireDefault(_cartDishList);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Cart = _react2.default.createClass({
-	    displayName: 'Cart',
-
-	    render: function render() {
-	        var props = this.props;
-
-	        var dishList = { cookList: [], eatList: [] };
-	        props.cart.forEach(function (item) {
-	            if (item.dish.cookingType == 'ready to cook') {
-	                dishList.cookList.push(item);
-	            } else {
-	                dishList.eatList.push(item);
-	            }
-	        });
-
-	        return _react2.default.createElement(
-	            'div',
-	            null,
-	            Object.keys(dishList).filter(function (name) {
-	                return dishList[name].length > 0;
-	            }).map(function (name) {
-	                return _react2.default.createElement(
-	                    'div',
-	                    { key: name },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'tabbtn clearfix' },
-	                        _react2.default.createElement(
-	                            'a',
-	                            { className: 'cook' },
-	                            name == 'cookList' ? '食材包' : '便当'
-	                        )
-	                    ),
-	                    _react2.default.createElement(_cartDishList2.default, _extends({}, props.methods, { dishList: name == 'cookList' ? dishList.cookList : dishList.eatList, warehouse: props.warehouse }))
-	                );
-	            })
-	        );
-	    }
-	});
-
-	exports.default = Cart;
-
-/***/ },
-/* 393 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _cartDish = __webpack_require__(394);
-
-	var _cartDish2 = _interopRequireDefault(_cartDish);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CartDishList = _react2.default.createClass({
-	    displayName: 'CartDishList',
-
-	    render: function render() {
-	        var dishList = this.props.dishList;
-
-	        var props = this.props;
-	        var cookingType = dishList[0].dish.cookingType;
-	        var selectedAll = dishList.every(function (item) {
-	            return item.selected || item.noStock;
-	        }) && dishList.some(function (item) {
-	            return item.selected;
-	        });
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'cart-dish-list' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'header' },
-	                _react2.default.createElement('span', { onClick: function onClick() {
-	                        return props.selectAll(cookingType);
-	                    }, className: 'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o') }),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '全选'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '数量'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    '价格'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                { className: 'dish-list' },
-	                dishList.map(function (item) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: item._id },
-	                        _react2.default.createElement(_cartDish2.default, _extends({}, item, { minusDish: props.minusDish, plusDish: props.plusDish, delDish: props.delDish, selectOne: props.selectOne }))
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
-
-	exports.default = CartDishList;
-
-/***/ },
-/* 394 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _className = __webpack_require__(395);
-
-	var _className2 = _interopRequireDefault(_className);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CartDish = _react2.default.createClass({
-	    displayName: 'CartDish',
-
-	    render: function render() {
-	        var _props = this.props;
-	        var dish = _props.dish;
-	        var number = _props.number;
-	        var subDish = _props.subDish;
-	        var selected = _props.selected;
-	        var _id = _props._id;
-
-	        var props = this.props;
-	        var price = subDish.reduce(function (sum, el) {
-	            return el.dish.priceOriginal + sum;
-	        }, dish.priceOriginal);
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'cart-dish' + (props.noStock ? ' no-stock' : '') },
-	            _react2.default.createElement('span', { onClick: function onClick() {
-	                    return props.selectOne(_id);
-	                }, className: selected ? 'fa fa-check-square-o' : 'fa fa-square-o' }),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'dish-info' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'content-wrapper' },
-	                    _react2.default.createElement('img', { src: dish.cover[0].zh }),
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'main-dish', title: dish.title.zh },
-	                        dish.title.zh
-	                    ),
-	                    subDish.map(function (el) {
-	                        return _react2.default.createElement(
-	                            'span',
-	                            { className: 'sub-dish', key: el.dish._id },
-	                            el.dish.title.zh + ' '
-	                        );
-	                    })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'no-stock-mask' },
-	                    '当前地址便当不可送达'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'quantity' },
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: "square-icon" + (number == 1 ? ' disabled' : ''), onClick: function onClick() {
-	                            return number != 1 && props.minusDish(_id);
-	                        } },
-	                    '-'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'number' },
-	                    number
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'square-icon', onClick: function onClick() {
-	                            return props.plusDish(_id);
-	                        } },
-	                    '+'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'price rmb-char' },
-	                price
-	            ),
-	            _react2.default.createElement('span', { className: 'fa fa-times', onClick: function onClick() {
-	                    return props.delDish(_id);
-	                } })
-	        );
-	    }
-	});
-
-	exports.default = CartDish;
-
-/***/ },
-/* 395 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	exports.default = function (constNames, nameObj) {
-	    if ((typeof constNames === 'undefined' ? 'undefined' : _typeof(constNames)) == 'object') {
-	        nameObj = constNames;
-	        constNames = '';
-	    }
-	    if (typeof nameObj == 'string') {
-	        return constNames + ' ' + nameObj;
-	    }
-	    return constNames + Object.keys(nameObj).map(function (name) {
-	        return nameObj[name] ? name : '';
-	    }).filter(function (n) {
-	        return !!n;
-	    }).join(' ');
-	};
-
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; } /**
-	                                                                                                                              * 类似于ng-class的utils函数
-	                                                                                                                              * @param constNames constNames 为不会变化的
-	                                                                                                                              * @param nameObj {object} {class1: boolean}, 或者
-	                                                                                                                              */
-
-/***/ },
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
 /* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31155,7 +30098,11 @@
 
 
 /***/ },
-/* 421 */
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31164,301 +30111,48 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(191);
+	exports.default = function () {
+	    return createStoreWithMiddleware((0, _redux.combineReducers)({
+	        order: _order2.default, address: _address2.default, user: _user2.default, coupon: _coupon2.default, balance: _balance2.default, route: _route2.default
+	    }));
+	};
 
-	var _react2 = _interopRequireDefault(_react);
+	var _redux = __webpack_require__(355);
 
-	var _className = __webpack_require__(395);
+	var _reduxThunk = __webpack_require__(367);
 
-	var _className2 = _interopRequireDefault(_className);
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _address = __webpack_require__(371);
 
-	var TimeSelector = _react2.default.createClass({
-	    displayName: 'TimeSelector',
-	    getInitialState: function getInitialState() {
-	        return {
-	            showOptionPanel: false
-	        };
-	    },
-	    toggleOptionPanel: function toggleOptionPanel() {
-	        this.setState({
-	            showOptionPanel: !this.state.showOptionPanel
-	        });
-	    },
-	    selectTime: function selectTime(time) {
-	        this.props.selectTime(time, this.props.cookingType);
-	        this.toggleOptionPanel();
-	    },
+	var _address2 = _interopRequireDefault(_address);
 
-	    render: function render() {
-	        var props = this.props;
-	        var cookingType = props.cookingType;
+	var _user = __webpack_require__(374);
 
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'time-section' },
-	            _react2.default.createElement(TimeOptionPanel, { timeList: props.timeList, selectTime: this.selectTime, isShow: this.state.showOptionPanel }),
-	            _react2.default.createElement(
-	                'h5',
-	                { className: 'header' },
-	                cookingType == 'ready to cook' ? '选择食材包配送时间' : '选择便当配送时间'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'group', onClick: this.toggleOptionPanel },
-	                props.selectedTime ? _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: (0, _className2.default)('date', { single: !props.selectedTime.segment }) },
-	                        props.selectedTime.day
-	                    ),
-	                    props.selectedTime.segment ? _react2.default.createElement(
-	                        'span',
-	                        { className: 'time' },
-	                        props.selectedTime.segment
-	                    ) : ''
-	                ) : _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    '请选择配送时间'
-	                ),
-	                _react2.default.createElement('i', { className: 'fa fa-angle-down' })
-	            )
-	        );
-	    }
-	});
+	var _user2 = _interopRequireDefault(_user);
 
-	var TimeOptionPanel = _react2.default.createClass({
-	    displayName: 'TimeOptionPanel',
+	var _coupon = __webpack_require__(375);
 
-	    render: function render() {
-	        var props = this.props;
+	var _coupon2 = _interopRequireDefault(_coupon);
 
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'time-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
-	            _react2.default.createElement(
-	                'h5',
-	                null,
-	                '选择配送时间'
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                null,
-	                props.timeList.map(function (time, i) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: i, onClick: function onClick() {
-	                                return props.selectTime(time);
-	                            } },
-	                        time.day + ' ' + time.segment
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
+	var _balance = __webpack_require__(376);
 
-	exports.default = TimeSelector;
+	var _balance2 = _interopRequireDefault(_balance);
 
-/***/ },
-/* 422 */
-/***/ function(module, exports, __webpack_require__) {
+	var _order = __webpack_require__(426);
 
-	'use strict';
+	var _order2 = _interopRequireDefault(_order);
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
+	var _route = __webpack_require__(427);
 
-	var _react = __webpack_require__(191);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _className = __webpack_require__(395);
-
-	var _className2 = _interopRequireDefault(_className);
+	var _route2 = _interopRequireDefault(_route);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CartCoupon = _react2.default.createClass({
-	    displayName: 'CartCoupon',
-	    getInitialState: function getInitialState() {
-	        return {
-	            isPending: false,
-	            error: {
-	                couponCode: {
-	                    format: false,
-	                    mightInviteCode: false
-	                }
-	            },
-	            showOptionPanel: false
-	        };
-	    },
-	    toggleOptionPanel: function toggleOptionPanel() {
-	        this.setState({
-	            showOptionPanel: !this.state.showOptionPanel
-	        });
-	    },
-	    selectCard: function selectCard(id) {
-	        this.props.selectCard(id);
-	        this.toggleOptionPanel();
-	    },
-	    onBlur: function onBlur() {
-	        this.validate();
-	        var couponCode = this.state.error.couponCode;
-	        var value = this.refs.couponCode.value;
-	        if (value && Object.keys(couponCode).every(function (key) {
-	            return !couponCode[key];
-	        })) {
-	            this.props.getCouponCode(this.refs.couponCode.value);
-	        }
-	    },
-	    validate: function validate() {
-	        var code = this.refs.couponCode.value;
-	        if (!code) return;
-	        if (!/^1a\w{6}$|^\w{10}$/.test(code)) {
-	            var error = {};
-	            if (code.length == 8) {
-	                error.mightInviteCode = true;
-	            } else {
-	                error.format = true;
-	            }
-	            this.setState({
-	                error: Object.assign({}, this.state.error, { couponCode: error })
-	            });
-	        } else {
-	            this.setState({ error: { couponCode: {} } });
-	        }
-	    },
-
-	    // todo: 增加兑换邀请码链接, 30天内有108个用户点击了微信端的那个提示链接, 说明这个无心添加很有用啊
-	    render: function render() {
-	        var props = this.props;
-	        var cardList = this.props.card.cardList.filter(function (card) {
-	            return !card.isExpired && !card.isUsed;
-	        });
-	        var usedBalance = props.totalBalance >= props.payPrice ? props.payPrice : props.totalBalance;
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'coupon-section' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'form-control-group' },
-	                _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'coupon-code' },
-	                    '优惠码'
-	                ),
-	                _react2.default.createElement('input', { ref: 'couponCode', onBlur: this.onBlur, autoComplete: 'off', placeholder: '优惠码', className: 'coupon-code', type: 'text', id: 'coupon-code' }),
-	                this.state.error.couponCode.mightInviteCode && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip exchange-invite-code' },
-	                    '优惠码无效',
-	                    _react2.default.createElement(
-	                        'a',
-	                        { href: "/pc/coupons?code=" + this.refs.couponCode.value },
-	                        '(兑换邀请码?)'
-	                    )
-	                ),
-	                this.state.error.couponCode.format && _react2.default.createElement(
-	                    'span',
-	                    { className: 'err-tip' },
-	                    '优惠码无效'
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { style: { display: cardList.length ? 'block' : 'none' }, className: 'form-control-group coupon-card-group' },
-	                _react2.default.createElement(CardOptionPanel, { cardList: cardList, selectCard: this.selectCard, isShow: this.state.showOptionPanel }),
-	                _react2.default.createElement(
-	                    'label',
-	                    null,
-	                    '优惠券'
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'coupon-card', onClick: this.toggleOptionPanel },
-	                    props.card.selectedCard ? _react2.default.createElement(
-	                        'span',
-	                        null,
-	                        props.card.selectedCard.name.zh + ('(¥' + props.card.selectedCard.price + ')')
-	                    ) : _react2.default.createElement(
-	                        'span',
-	                        null,
-	                        '请选择一张优惠券'
-	                    ),
-	                    _react2.default.createElement('i', { className: 'fa fa-angle-down' })
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'group' },
-	                _react2.default.createElement('span', { onClick: props.toggleBalance, className: 'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o') }),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'text' },
-	                    '使用余额'
-	                ),
-	                props.useBalance ? _react2.default.createElement(
-	                    'span',
-	                    { className: 'rmb-char' },
-	                    usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'
-	                ) : _react2.default.createElement(
-	                    'span',
-	                    { className: 'rmb-char' },
-	                    props.totalBalance
-	                )
-	            )
-	        );
-	    }
-	});
-
-	exports.default = CartCoupon;
-
-	var CardOptionPanel = _react2.default.createClass({
-	    displayName: 'CardOptionPanel',
-
-	    render: function render() {
-	        var props = this.props;
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'card-option-panel', style: { display: props.isShow ? 'block' : 'none' } },
-	            _react2.default.createElement(
-	                'h5',
-	                null,
-	                '选择一张优惠券'
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                null,
-	                _react2.default.createElement(
-	                    'li',
-	                    { onClick: function onClick() {
-	                            return props.selectCard();
-	                        } },
-	                    '不使用'
-	                ),
-	                props.cardList.map(function (card, i) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: card._id, onClick: function onClick() {
-	                                return props.selectCard(card._id);
-	                            } },
-	                        card.name.zh + ('(¥' + card.price + ')')
-	                    );
-	                })
-	            )
-	        );
-	    }
-	});
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
 /***/ },
-/* 423 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31467,104 +30161,118 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(191);
+	var _ActionTypes = __webpack_require__(369);
 
-	var _react2 = _interopRequireDefault(_react);
+	var types = _interopRequireWildcard(_ActionTypes);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _redux = __webpack_require__(355);
 
-	function fixed(number, digit) {
-	    digit = digit != undefined ? digit : 1;
-	    return number.toFixed(digit);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function postStatus() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        isSending: false,
+	        errInfo: ''
+	    } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.POST_ORDER:
+	            if (action.status == 'success') return {
+	                isSending: false
+	            };else if (action.status == 'error') return {
+	                isSending: false,
+	                errInfo: action.error
+	            };else return {
+	                isSending: true
+	            };
+
+	        default:
+	            return state;
+	    }
 	}
 
-	var OrderPrice = _react2.default.createClass({
-	    displayName: "OrderPrice",
-	    render: function render() {
-	        var props = this.props;
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "price-section" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "价格"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char" },
-	                    fixed(props.cartPrice)
-	                )
-	            ),
-	            props.couponPrice ? _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "优惠"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char negative" },
-	                    fixed(props.couponPrice)
-	                )
-	            ) : '',
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    _react2.default.createElement(
-	                        "span",
-	                        null,
-	                        "运费"
-	                    ),
-	                    _react2.default.createElement(
-	                        "i",
-	                        null,
-	                        "（满100免运费）"
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    { className: "rmb-char" },
-	                    fixed(props.freight)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "item" },
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "总计"
-	                ),
-	                _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    _react2.default.createElement(
-	                        "strong",
-	                        { className: "rmb-char" },
-	                        fixed(props.payPrice)
-	                    )
-	                )
-	            )
-	        );
+	function orders() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.GET_ORDERS:
+	            if (action.status == 'success') {
+	                return action.orders;
+	            }
+	            return state;
+	        default:
+	            return state;
 	    }
+	}
+
+	var orderReducer = (0, _redux.combineReducers)({
+	    postStatus: postStatus, orders: orders
 	});
 
-	exports.default = OrderPrice;
+	exports.default = orderReducer;
 
 /***/ },
-/* 424 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function route() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? window.location.hash.substr(1) || 'orders' : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.CHANGE_ROUTE:
+	            return action.route;
+
+	        default:
+	            return state;
+	    }
+	}
+
+	exports.default = route;
+
+/***/ },
+/* 428 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.changeRoute = changeRoute;
+
+	var _ActionTypes = __webpack_require__(369);
+
+	var types = _interopRequireWildcard(_ActionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function changeRoute(route) {
+	    return {
+	        type: types.CHANGE_ROUTE,
+	        route: route
+	    };
+	}
+
+/***/ },
+/* 429 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -31574,32 +30282,174 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _order = __webpack_require__(430);
+
+	var _order2 = _interopRequireDefault(_order);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Comment = _react2.default.createClass({
-	    displayName: "Comment",
-	    handleChange: function handleChange() {
-	        this.props.changeComment(this.refs.comment.value);
+	var OrderList = _react2.default.createClass({
+	    displayName: 'OrderList',
+	    componentDidMount: function componentDidMount() {
+	        this.props.getOrders();
 	    },
 	    render: function render() {
+	        var props = this.props;
 	        return _react2.default.createElement(
-	            "div",
-	            { className: "comment-section" },
+	            'section',
+	            { className: 'orders' },
 	            _react2.default.createElement(
-	                "div",
-	                { className: "form-control-group" },
+	                'h4',
+	                null,
 	                _react2.default.createElement(
-	                    "label",
-	                    { htmlFor: "comment" },
-	                    "留言："
+	                    'span',
+	                    null,
+	                    '订单'
 	                ),
-	                _react2.default.createElement("textarea", { ref: "comment", onChange: this.handleChange, rows: "1", autoComplete: "off", id: "comment" })
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '菜品'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '配送时间'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '金额'
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    '状态'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                null,
+	                props.orders.map(function (order) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { key: order._id },
+	                        _react2.default.createElement(_order2.default, order)
+	                    );
+	                })
 	            )
 	        );
 	    }
 	});
 
-	exports.default = Comment;
+	exports.default = OrderList;
+
+/***/ },
+/* 430 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(191);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _filters = __webpack_require__(431);
+
+	var _dish = __webpack_require__(370);
+
+	var _utils = __webpack_require__(399);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Order = _react2.default.createClass({
+	    displayName: 'Order',
+	    render: function render() {
+	        var props = this.props;
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            props.dishList.map(function (item, i) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: i, className: 'dish' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        i === 0 && props.orderNumber
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'detail' },
+	                        _react2.default.createElement('span', { className: 'img', style: { backgroundImage: 'url(' + (0, _filters.imgAdapt)(item.dish.cover[0].zh, 75, 50) + ')' } }),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'name', title: item.dish.title.zh },
+	                            item.dish.title.zh
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'number cross-char' },
+	                            item.number
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        (0, _utils.dateFormat)(props.deliveryDateTime)
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'rmb-char' },
+	                        (0, _dish.price)(item)
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        i === 0 && (0, _filters.orderStatus)(props.status)
+	                    )
+	                );
+	            })
+	        );
+	    }
+	});
+
+	exports.default = Order;
+
+/***/ },
+/* 431 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.imgAdapt = imgAdapt;
+	exports.orderStatus = orderStatus;
+	function imgAdapt(url, width, height) {
+	    return url + '?imageView2/1/w/' + (width || 640) + '/h/' + (height || 427);
+	}
+
+	function orderStatus(status) {
+	    if (!orderStatus.status) {
+	        orderStatus.status = {
+	            'not paid': '未支付',
+	            'paid': '已支付',
+	            'confirmed': '已确认',
+	            'dish finished': '已制作完成',
+	            'packaged': '已打包',
+	            shipped: '已发货',
+	            finished: '已完成',
+	            canceled: '已取消'
+	        };
+	    }
+	    return orderStatus.status[status] || '';
+	}
 
 /***/ }
 /******/ ]);

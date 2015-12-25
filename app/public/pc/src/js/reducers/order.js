@@ -1,6 +1,9 @@
-import * as types from '../constants/ActionTypes'
+"use strict";
 
-function order(state = {
+import * as types from '../constants/ActionTypes'
+import { combineReducers } from 'redux'
+
+function postStatus(state = {
     isSending: false,
     errInfo: ''
 }, action) {
@@ -23,4 +26,19 @@ function order(state = {
     }
 }
 
-export default order
+function orders(state = [], action) {
+    switch (action.type) {
+        case types.GET_ORDERS:
+            if (action.status == 'success') {
+                return action.orders
+            }
+            return state
+        default: return state
+    }
+}
+
+var orderReducer = combineReducers({
+    postStatus, orders
+})
+
+export default orderReducer

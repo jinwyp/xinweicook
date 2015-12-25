@@ -27,7 +27,10 @@
         <img src="/pc/src/images/me.jpg" alt="me"/>
         <h5>我的账户</h5>
     </div>
-    <div class="main">
+    <div id="react-root"></div>
+
+    {#
+        <div class="main">
         <nav class="nav">
             <ul>
                 <li class="act"><a href="#orders">我的订单</a></li>
@@ -38,7 +41,9 @@
                 <li><a href="#ratings">评过的菜</a></li>
             </ul>
         </nav>
-        <div class="content">
+        <div class="content" id="react-root"></div>
+
+        <div style="display: none;" class="content">
             <section class="orders">
                 <h4>
                     <span>订单</span>
@@ -116,7 +121,9 @@
             </section>
         </div>
     </div>
+    #}
 
 </div>
+<script type="text/javascript" src="/pc/dist/js/me.js"></script>
 </body>
 </html>

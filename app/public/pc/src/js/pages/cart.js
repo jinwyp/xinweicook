@@ -26,7 +26,6 @@ import {price as dishPrice} from "../utils/dish"
 var App = React.createClass({
     componentDidMount: function () {
         this.props.dispatch(cartAction.getCart())
-        this.props.dispatch(addressAction.getList())
         this.props.dispatch(balanceAction.getBalance())
     },
     getFreightIfNeeded: function (cart, address, dispatch) {
@@ -117,7 +116,7 @@ var App = React.createClass({
             <div className="cart-main">
                 <Cart methods={cartMethods} cart={cart} warehouse={warehouse}/>
                 <div className="cart-main-right">
-                    <AddressList {...address} {...addressMethods} warehouse={warehouse}/>
+                    <AddressList {...address} {...addressMethods}/>
                     {hasEatDishSelected && <TimeSelector {...timeMethods} {...time.eat}/>}
                     {hasCookDishSelected && <TimeSelector {...timeMethods} {...time.cook}/>}
                     <Comment {...commentMethods}/>

@@ -25,6 +25,10 @@ var modalStyle = {
 
 var AddressList = React.createClass({
 
+    componentDidMount() {
+        this.props.getList()
+    },
+
     render: function () {
         var props = this.props
         var title = props.title || '配送至'

@@ -1,4 +1,4 @@
-import {post} from "../utils/xw-fetch"
+import fetch, {post} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 import {orderData} from "../utils/order"
 
@@ -33,5 +33,29 @@ export function postOrder() {
                 location.href = res.aliPaySign.fullurl
             })
         }).catch(res => dispatch(postOrderError(res)))
+    }
+}
+
+
+function getOrdersStart() {
+    return {
+        type: types.GET_ORDERS
+    }
+}
+
+function getOrdersDone(orders) {
+    return {
+        type: types.GET_ORDERS,
+        status: 'success',
+        orders
+    }
+}
+
+export function getOrders(skip = 0, limit = 100) {
+    return function (dispatch) {
+        dispatch(getOrdersStart())
+        return fetch(`/api/orders?skip=${skip}&limit=${limit}`).then(orders => {
+            return dispatch(getOrdersDone(orders))
+        })
     }
 }

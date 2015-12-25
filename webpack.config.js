@@ -9,7 +9,8 @@ module.exports = {
     context: path.join(__dirname, "./app/public/pc/src/js"),
     entry: {
         sign: './pages/sign.js',
-        cart: './pages/cart.js'
+        cart: './pages/cart.js',
+        me: './pages/me.js'
     },
     output: {
         path: path.join(__dirname, "./app/public/pc/dist/js"),

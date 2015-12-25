@@ -136,6 +136,9 @@ body {
 .rmb-char.negative::before {
   content: '- ¥ '; }
 
+.cross-char::before {
+  content: 'X '; }
+
 .editing-address {
   position: relative;
   width: 450px;
@@ -1821,7 +1824,7 @@ ul.bloglist {
 
 .me .main {
   margin: auto;
-  width: 1000px;
+  width: 1100px;
   border-top: solid 1px #c9caca;
   font-size: 0; }
   .me .main > * {
@@ -1851,10 +1854,12 @@ ul.bloglist {
           position: relative;
           top: -2px;
           left: 3px; }
+      .me .main .nav li:hover a {
+        color: #f44d4d; }
   .me .main .content {
     border-left: 1px solid #c9caca;
     min-height: 303px;
-    width: 870px;
+    width: 970px;
     box-sizing: border-box; }
     .me .main .content .orders h4, .me .main .content .orders li .dish {
       padding-left: 25px;
@@ -1863,13 +1868,13 @@ ul.bloglist {
         display: inline-block;
         vertical-align: top; }
       .me .main .content .orders h4 > :nth-child(1), .me .main .content .orders li .dish > :nth-child(1) {
-        width: 203px; }
+        width: 223px; }
       .me .main .content .orders h4 > :nth-child(2), .me .main .content .orders li .dish > :nth-child(2) {
-        width: 210px; }
+        width: 260px; }
       .me .main .content .orders h4 > :nth-child(3), .me .main .content .orders li .dish > :nth-child(3) {
-        width: 150px; }
+        width: 185px; }
       .me .main .content .orders h4 > :nth-child(4), .me .main .content .orders li .dish > :nth-child(4) {
-        width: 95px; }
+        width: 90px; }
       .me .main .content .orders h4 > :nth-child(5), .me .main .content .orders li .dish > :nth-child(5) {
         width: 75px; }
       .me .main .content .orders h4 > :nth-child(6), .me .main .content .orders li .dish > :nth-child(6) {
@@ -1881,7 +1886,10 @@ ul.bloglist {
         font-size: 16px; }
     .me .main .content .orders li {
       padding: 7px 0;
-      border-top: 1px solid #efefef; }
+      border-top: 1px solid #efefef;
+      transition: background-color 0.4s; }
+      .me .main .content .orders li:hover {
+        background-color: #EEEFF0; }
       .me .main .content .orders li:last-child {
         border-bottom: 2px solid #efefef; }
     .me .main .content .orders .dish {
@@ -1894,10 +1902,18 @@ ul.bloglist {
     .me .main .content .orders .detail > span {
       display: inline-block;
       vertical-align: top; }
+    .me .main .content .orders .detail .name {
+      width: 140px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-right: 5px; }
     .me .main .content .orders .detail .img {
       width: 41px;
       height: 41px;
-      background-color: gray;
-      margin-right: 5px; }
+      margin-right: 5px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat; }
 
 /*# sourceMappingURL=maps/style.css.map */

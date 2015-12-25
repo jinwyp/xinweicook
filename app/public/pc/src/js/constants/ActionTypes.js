@@ -43,11 +43,15 @@ export const GET_BALANCE = 'GET_BALANCE';
 
 // order
 export const POST_ORDER = 'POST_ORDER';
+export const GET_ORDERS = 'GET_ORDERS';
 
 // comment
 export const CHANGE_COMMENT = 'CHANGE_COMMENT';
 
 // user
 export const FETCH_USER = 'FETCH_USER';
+
+// location.hash
+export const CHANGE_ROUTE = 'CHANGE_ROUTE';
 
 // warehouse

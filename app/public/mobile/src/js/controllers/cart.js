@@ -138,7 +138,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var warehouse = $localStorage.warehouse;
         var isAvailableForEat = $localStorage.orderAddress.isAvailableForEat;
 
-        cart.forEach(function (el) {
+        cart.filter(function(item){return !!item.dish}).forEach(function (el) {
             var dish = el.dish;
 
             // postCart的dish和list上的引用的是同一个对象

@@ -1,5 +1,4 @@
 import * as types from '../constants/ActionTypes'
-import { combineReducers } from 'redux'
 import { hasStock } from '../utils/dish'
 
 export default function cart(state = [], action) {
