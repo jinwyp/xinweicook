@@ -2,11 +2,11 @@ import fetch from "isomorphic-fetch"
 
 function _fetch(url, options) {
     var access_token = localStorage.access_token;
-    if (!access_token) return fetch(url, options);
+    var auth = {};
+    if (access_token) auth.Authorization = 'Bearer ' + access_token;
 
     options = options || {};
-    options.headers = Object.assign({}, options.headers,
-        {Authorization: ('Bearer ' + access_token)})
+    options.headers = Object.assign({}, options.headers, auth)
     return fetch(url, options).then(res => {
         // headers.get('Date')
         _fetch.headers = res.headers
@@ -16,6 +16,7 @@ function _fetch(url, options) {
             }
             return Promise.reject(res)
         }
+        console.log('nani')
         return res.json()
     })
 }

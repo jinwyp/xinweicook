@@ -26299,10 +26299,11 @@
 
 	function _fetch(url, options) {
 	    var access_token = localStorage.access_token;
-	    if (!access_token) return (0, _isomorphicFetch2.default)(url, options);
+	    var auth = {};
+	    if (access_token) auth.Authorization = 'Bearer ' + access_token;
 
 	    options = options || {};
-	    options.headers = Object.assign({}, options.headers, { Authorization: 'Bearer ' + access_token });
+	    options.headers = Object.assign({}, options.headers, auth);
 	    return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
 	        // headers.get('Date')
 	        _fetch.headers = res.headers;
@@ -26312,6 +26313,7 @@
 	            }
 	            return Promise.reject(res);
 	        }
+	        console.log('nani');
 	        return res.json();
 	    });
 	}
