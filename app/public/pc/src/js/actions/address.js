@@ -1,4 +1,4 @@
-import fetch, {post as _post, put as _put} from "../utils/xw-fetch"
+import fetch, {post as _post, put as _put, del as _del} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 
 export function select(id, address) {
@@ -120,10 +120,11 @@ function delStart() {
         type: types.DEL_ADDRESS
     }
 }
-function delDone() {
+function delDone(id) {
     return {
         type: types.DEL_ADDRESS,
-        status: 'success'
+        status: 'success',
+        id
     }
 }
 function delFailed(error) {
@@ -136,8 +137,8 @@ function delFailed(error) {
 export function delOne(id) {
     return function (dispatch) {
         dispatch(delStart())
-        fetch(`/api/user/address/${id}`)
-        .then(addresses => dispatch(delDone()))
+        _del(`/api/user/address/${id}`)
+        .then(addresses => dispatch(delDone(id)))
         .catch(err => dispatch(delFailed(err)))
     }
 }

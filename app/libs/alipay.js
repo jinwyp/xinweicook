@@ -30,7 +30,7 @@ var configAlipay = {
     notify_url: 'http://m.xinweicook.com/api/orders/payment/alipay/mobile',
 
     mobile_return_url: 'http://m.xinweicook.com/mobile/alipay/return',
-    website_return_url: '/alipay/return',
+    website_return_url: '',
 
 
 
@@ -203,6 +203,10 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
         //body : order.dishHistory[0].dish.title.zh
 
     };
+
+    if (typeof order.clientFrom != 'undefined' && order.clientFrom == 'website') {
+        urlParams.return_url = this.config.website_return_url
+    }
 
     //除去待签名参数数组中的空值和签名参数
     var para_filter = signFilter(urlParams);

@@ -118,33 +118,65 @@ var EditingAddress = React.createClass({
 
     save() {
         if (!this.validate()) return
-        this.props.postOne(Object.assign({},
-            Object.keys(this.refs).reduce((obj, key) => {
-                obj[key] = this.refs[key].value
-                return obj
-            }, {}),
-            {
+
+        var props = this.props
+        var method, target
+
+        if (props._id) {
+            method = 'putOne'
+            target = {
+                _id: props._id,
+                geoLatitude: props.geoLatitude,
+                geoLongitude: props.geoLongitude,
+                sortOrder: props.sortOrder
+            }
+        } else {
+            method = 'postOne'
+            target = {
                 geoLatitude: this.state.selectedStreet.location.lat,
                 geoLongitude: this.state.selectedStreet.location.lng,
                 sortOrder: 0
             }
+        }
+
+        this.props[method](Object.assign(target,
+            Object.keys(this.refs).reduce((obj, key) => {
+                obj[key] = this.refs[key].value
+                return obj
+            }, {})
         )).catch(err => log(err))
     },
 
     render() {
         var props = this.props
+        var range = this.props.range;
         var isError = this.isError
         var emptyOption = <option key="#" value="">请选择</option>
 
-        var provinceOptions = props.range.map((province, i) => <option key={i} value={province.state}>{province.state}</option>)
+        // range 未加载好,如果是在编辑状态,使用编辑状态的地址构造临时的range
+        if (!range.length && props._id) {
+            range = [
+                {
+                    state: props.province,
+                    cities: [
+                        {
+                            city: props.city,
+                            areas: [props.district]
+                        }
+                    ]
+                }
+            ]
+        }
+
+        var provinceOptions = range.map((province, i) => <option key={i} value={province.state}>{province.state}</option>)
         provinceOptions.unshift(emptyOption)
 
-        var cities = !this.state.province ? [] : props.range.filter(p => p.state == this.state.province)[0].cities
+        var cities = !this.state.province ? [] : range.filter(p => p.state == this.state.province)[0].cities
         var cityOptions = cities.map((city) => <option key={city.city} value={city.city}>{city.city}</option>)
         cityOptions.unshift(emptyOption)
 
         var districts = (!this.state.province || !this.state.city) ? [] :
-            props.range.filter(p => p.state == this.state.province)[0].cities.filter(c => c.city == this.state.city)[0].areas
+            range.filter(p => p.state == this.state.province)[0].cities.filter(c => c.city == this.state.city)[0].areas
         var districtOptions = districts.map((district) => <option key={district} value={district}>{district}</option>)
         districtOptions.unshift(emptyOption)
 

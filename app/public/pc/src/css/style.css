@@ -291,6 +291,7 @@ body {
   transition: all 250ms ease-out; }
 
 .menus .plusok, .eatlist .plusok, .img-wrapper .plusok {
+  z-index: 1;
   opacity: 0;
   display: block;
   width: 95px;
@@ -319,26 +320,36 @@ body {
 .menus, .eatlist {
   margin: 32px auto 20px;
   width: 1000px;
-  overflow: hidden;
   font-size: 14px; }
   .menus li, .eatlist li {
     float: left;
     display: inline;
     width: 316px;
     height: 280px;
-    overflow: hidden;
     margin-right: 26px;
     margin-bottom: 30px;
     position: relative; }
     .menus li:nth-child(3n), .eatlist li:nth-child(3n) {
       margin-right: 0; }
     .menus li a, .menus li .img, .eatlist li a, .eatlist li .img {
+      width: 316px;
+      height: 211px;
+      overflow: hidden;
       display: block;
-      position: relative; }
+      position: relative;
+      background-color: white; }
       .menus li a.img-wrapper, .menus li .img.img-wrapper, .eatlist li a.img-wrapper, .eatlist li .img.img-wrapper {
         font-size: 0; }
       .menus li a img, .menus li .img img, .eatlist li a img, .eatlist li .img img {
-        width: 100%; }
+        width: 100%;
+        opacity: 1;
+        transition: opacity 0.2s, -webkit-transform 1s;
+        transition: opacity 0.2s, transform 1s; }
+      .menus li a:hover img, .menus li .img:hover img, .eatlist li a:hover img, .eatlist li .img:hover img {
+        opacity: .9;
+        -webkit-transform: scale(1.05);
+            -ms-transform: scale(1.05);
+                transform: scale(1.05); }
     .menus li .info, .eatlist li .info {
       height: 65px;
       padding: 5px 0;
@@ -440,6 +451,8 @@ header {
         header .header-main .nav li a:hover {
           display: block;
           color: #f44d4d; }
+        header .header-main .nav li.act a {
+          color: #f44d4d; }
     header .header-main .sign {
       display: block;
       position: absolute;
@@ -476,8 +489,8 @@ header {
         color: #fff; }
     header.indexhd .sign {
       color: #fff; }
-      header.indexhd .sign a {
-        color: #fff; }
+      header.indexhd .sign:hover {
+        color: #f44d4d; }
     header.indexhd .city {
       color: #fff !important; }
       header.indexhd .city span {
@@ -870,6 +883,7 @@ header {
       line-height: 60px;
       border-bottom: 1px solid #ccc; }
     .product .dyn img {
+      max-width: 570px;
       display: block;
       margin: 20px auto; }
     .product .dyn p {
@@ -1040,16 +1054,21 @@ header {
     .eat ul.eatlist li {
       width: 1000px;
       height: 430px;
-      overflow: hidden;
       margin: 40px auto; }
       .eat ul.eatlist li .img {
+        z-index: 1;
         width: 340px;
         height: 430px;
         float: left;
         display: inline;
         background-repeat: no-repeat;
         background-size: cover;
-        background-position: center; }
+        background-position: center;
+        box-shadow: 0 0 0;
+        transition: opacity 0.2s, box-shadow 0.2s; }
+        .eat ul.eatlist li .img:hover {
+          opacity: .9;
+          box-shadow: 0 0 7px gray; }
         .eat ul.eatlist li .img.right {
           float: right; }
       .eat ul.eatlist li .info {
@@ -1816,11 +1835,10 @@ ul.bloglist {
 .me .title {
   text-align: center;
   margin: 30px auto 0; }
-
-.me h5 {
-  margin: 10px auto 23px;
-  font-size: 14px;
-  font-weight: 600; }
+  .me .title h5 {
+    margin: 10px auto 23px;
+    font-size: 14px;
+    font-weight: 600; }
 
 .me .main {
   margin: auto;
@@ -1915,5 +1933,47 @@ ul.bloglist {
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat; }
+
+.me .address-section {
+  font-size: 16px; }
+  .me .address-section .header {
+    line-height: 25px;
+    font-size: 16px;
+    position: relative;
+    border-bottom: 1px solid;
+    padding: 8px 0 8px 24px; }
+    .me .address-section .header .add-address {
+      color: #f44d4d;
+      position: absolute;
+      right: 0;
+      font-size: 14px;
+      cursor: pointer; }
+      .me .address-section .header .add-address span {
+        vertical-align: middle; }
+  .me .address-section .address-list li {
+    padding-left: 24px;
+    font-size: 14px;
+    height: 80px;
+    line-height: 80px;
+    transition: background-color 0.4s; }
+    .me .address-section .address-list li:hover {
+      background-color: #EEEFF0; }
+  .me .address-section .address-list .content-wrapper {
+    border-bottom: 1px solid #efefef; }
+    .me .address-section .address-list .content-wrapper > * {
+      display: inline-block; }
+    .me .address-section .address-list .content-wrapper > :nth-child(1) {
+      width: 120px; }
+    .me .address-section .address-list .content-wrapper > :nth-child(2) {
+      width: 470px; }
+    .me .address-section .address-list .content-wrapper > :nth-child(3) {
+      width: 270px; }
+    .me .address-section .address-list .content-wrapper .modify-address {
+      color: #A2A2A2;
+      cursor: pointer; }
+      .me .address-section .address-list .content-wrapper .modify-address span, .me .address-section .address-list .content-wrapper .modify-address i {
+        margin-right: 7px; }
+      .me .address-section .address-list .content-wrapper .modify-address span:hover, .me .address-section .address-list .content-wrapper .modify-address i:hover {
+        color: #f44d4d; }
 
 /*# sourceMappingURL=maps/style.css.map */

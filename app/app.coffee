@@ -75,6 +75,8 @@ app.use models.Router
 # i18n setup
 app.use(i18n.init);
 app.use (req, res, next)->
+  #todo: 到底要不要这个东西,要的话是不是放到conf.coffee中更合适
+  res.locals.pcPrefix = conf.pcPrefix
   res.locals.__DEV__ = app.get('env') != 'production';
   next()
 

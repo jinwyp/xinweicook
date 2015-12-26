@@ -17,6 +17,7 @@ conf =
     { host: "127.0.0.1", port: "6379" }
     { host: "127.0.0.1", port: "6379" }
   ]
+  pcPrefix: '/pc'
   url:
     base: ENV.BASE or "http://#{host}:#{port}"
   talk:

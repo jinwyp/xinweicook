@@ -25,7 +25,7 @@ var SignIn = React.createClass({
                 mobile: this.refs.mobile.value,
                 pwd: this.refs.pwd.value
             })
-            .then(()=>location='/')
+            .then(()=>location.href = __PCPREFIX__ + '/')
             .catch(()=>alert('Sign in failed, try it later'))
             .then(()=>{this.setState({isSending: false})})
         }

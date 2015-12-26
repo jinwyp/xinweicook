@@ -10,7 +10,8 @@ module.exports = {
     entry: {
         sign: './pages/sign.js',
         cart: './pages/cart.js',
-        me: './pages/me.js'
+        me: './pages/me.js',
+        common: './pages/common.js'
     },
     output: {
         path: path.join(__dirname, "./app/public/pc/dist/js"),
@@ -35,12 +36,19 @@ module.exports = {
         //root: [path.join(__dirname, "./app/public/components")]
     },
 
+    externals: {
+        // require("jquery") is external and available
+        //  on the global var jQuery
+        jquery: "jQuery"
+    },
+
     plugins: [
         //new webpack.ResolverPlugin(
         //    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
         //),
         new webpack.DefinePlugin({
-            __DEV__: BUILD_DEV
+            __DEV__: BUILD_DEV,
+            __PCPREFIX__: "'/pc'"
         })
     ]
 };

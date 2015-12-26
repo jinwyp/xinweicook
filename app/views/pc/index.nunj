@@ -4,7 +4,6 @@
     <title>新味</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/pc/src/css/style.css">
-    <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
 <div class="hidevideo">
@@ -15,22 +14,7 @@
     </video>
 </div>
 
-<header class="indexhd">
-    <div class="header-main">
-        <a class="logo"></a>
-        <div class="city">{{ __('City:') }} <span>上海</span></div>
-        <ul class="nav">
-            <li><a href="javascript:;">{{ __('Cook') }}</a></li>
-            <li><a href="javascript:;">{{ __('Bento') }}</a></li>
-            <li><a href="javascript:;">{{ __('Why choose us') }}</a></li>
-            <li><a href="javascript:;">{{ __('About Xinwei') }}</a></li>
-            <li><a href="javascript:;">Q & A</a></li>
-            <li><a href="javascript:;">BLOG </a></li>
-        </ul>
-        <a id="signin" href="/sign" class="sign">登陆</a>
-        <a href="/cart" class="cart"></a>
-    </div>
-</header>
+{% include "./includes/header.nunj" %}
 
 <div class="video">
     <div class="vdtitle"></div>
@@ -56,14 +40,15 @@
         <ul class="menus clearfix">
             {% for dish in cooks %}
                 <li data-id="{{ dish._id }}">
-                    <a class="img-wrapper" href="/cook/{{ dish._id }}">
+                    <a class="img-wrapper" href="{{ pcPrefix }}/cook/{{ dish._id }}">
                         <div class="plusok"></div>
-                        <img src="{{ dish.cover[0][locale] }}">
+                        <img src="{{ dish.cover[0][locale] | img }}">
                     </a>
                     <div class="info clearfix">
                         <div class="name-price">
                             <div class="name clearfix">
-                                <span class="person">3人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                                <span class="person">{{ dish.servings }}人</span>
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                             </div>
                             <div class="price">￥{{ dish.priceOriginal }}</div>
                         </div>
@@ -86,16 +71,16 @@
                 <li data-id="{{ dish._id }}">
                     <a class="img-wrapper" href="javascript:;">
                         <div class="plusok"></div>
-                        <img src="{{ dish.cover[0][locale] }}">
+                        <img src="{{ dish.cover[0][locale] | img }}">
                     </a>
                     <div class="info clearfix">
                         <div class="name-price">
                             <div class="name clearfix">
-                                <span class="person">3人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                             </div>
                             <div class="price">￥{{ dish.priceOriginal }}</div>
                         </div>
-                        <div class="btns clearfix"><a class="plus">+</a></div>
+                        <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
                     </div>
                 </li>
             {% endfor %}
@@ -144,7 +129,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/pc/src/js/utils/common.js"></script>
-<script type="text/javascript" src="/pc/src/js/pages/index.js"></script>
+<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/pc/dist/js/common.js"></script>
 </body>
 </html>

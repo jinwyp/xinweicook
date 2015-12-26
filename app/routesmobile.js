@@ -22,9 +22,9 @@ expressRoutes = function(app) {
     var pathPrefix = useBuild ? 'mobile/' : '';
 
 
-    //app.get("/", function (req, res) {
-    //    res.redirect('/mobile');
-    //});
+    app.get("/", function (req, res) {
+        res.redirect('/mobile');
+    });
 
     app.get("/r/:id", function (req, res) {
         var urlMap = {

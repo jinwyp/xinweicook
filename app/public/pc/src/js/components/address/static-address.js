@@ -4,6 +4,7 @@ var StaticAddress = React.createClass({
 
     _select() {
         var props = this.props
+        if (props.hideRadio) return
         !props.outOfRange && props.select(props._id, {
             isAvailableForEat: props.isAvailableForEat,
             warehouse: props.warehouse,
@@ -17,7 +18,7 @@ var StaticAddress = React.createClass({
         return (
             <div className={"address" + (props.outOfRange ? ' out-of-range' : '')} onClick={this._select}>
                 <div className="content-wrapper">
-                    <span  className={'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o')}></span>
+                    { !props.hideRadio && <span className={'fa ' + (props.selected ? 'fa-dot-circle-o' : 'fa-circle-o')}></span> }
                     <span>{props.contactPerson}</span>
                     <div className="address-detail">
                         <div className="table">
@@ -31,6 +32,13 @@ var StaticAddress = React.createClass({
                         </div>
                     </div>
                     <span>{props.mobile}</span>
+                    {
+                        props.hideRadio &&
+                            <span className="modify-address">
+                                <span onClick={() => props.modifyOne(props._id)}>修改地址 </span>
+                                <i onClick={() => props.delOne(props._id)} className="fa fa-times"></i>
+                            </span>
+                    }
                 </div>
                 <div className="out-of-range" style={{display: props.outOfRange ? 'block' : 'none'}}>该地址不在便当配送范围内</div>
             </div>

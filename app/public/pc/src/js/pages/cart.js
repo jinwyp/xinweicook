@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+import './_common' //none react. for html header
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -75,6 +76,7 @@ var App = React.createClass({
         }
         var addressMethods = {
             addOne: ()=>dispatch(addressAction.editAddress()),
+            modifyOne: id => dispatch(addressAction.editAddress(id)),
             getList: () => dispatch(addressAction.getList()),
             putOne: address => dispatch(addressAction.putOne(address)),
             postOne: address => dispatch(addressAction.postOne(address)),

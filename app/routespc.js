@@ -1,17 +1,20 @@
+// 是否需要放到conf.coffee中
 var routes = function(app) {
-
+    var prefix = conf.pcPrefix
     // 页面渲染
-    app.get("/", render('pc/index.nunj', render.index));
-    app.get("/sign", function (req, res) {
-        res.render('pc/sign.html')
+    app.get(prefix + "/", render('pc/index.nunj', render.index));
+    app.get(prefix + "/eat", render('pc/eat-list.nunj', render.eatList))
+    app.get(prefix + "/cook/:id", render('pc/cook.nunj', render.cook))
+    app.get(prefix + "/cook", render('pc/cook-list.nunj', render.cookList))
+    app.get(prefix + "/me", function (req, res) {
+        res.render('pc/me.nunj')
     })
-    app.get("/cart", function (req, res) {
-        res.render('pc/cart.html')
+    app.get(prefix + "/sign", function (req, res) {
+        res.render('pc/sign.nunj')
     })
-    app.get("/eat", render('pc/eat-list.nunj', render.eatList))
-    app.get("/cook/:id", render('pc/cook.nunj', render.cook))
-    app.get("/cook", render('pc/cook-list.nunj', render.cookList))
-    app.get("/me", render('pc/me.nunj', render.me))
+    app.get(prefix + "/cart", function (req, res) {
+        res.render('pc/cart.nunj')
+    })
 };
 
 /**
@@ -32,6 +35,9 @@ render.index = function renderIndex(req, res, next, path) {
     }).sort("-sortId").sort("-createdAt").execAsync()
         .then(function (dishes) {
             var data = {
+                // 识别为首页的头部
+                indexHeader: true,
+
                 cooks: dishes.filter(function (dish) {
                     return dish.cookingType == 'ready to cook'
                 }).slice(0, 3),
@@ -53,6 +59,9 @@ render.eatList = function (req, res, next, path) {
     }).execAsync()
         .then(function (dishes) {
             res.render(path, {
+                // 表示当前页为便当列表,使相应nav为激活状态
+                curNav: 'eat',
+
                 dishes: dishes.filter(function (dish) {
                     return dish.sideDishType == 'main'
                 }),
@@ -86,6 +95,9 @@ render.cookList = function (req, res, next, path) {
     }).execAsync()
         .then(function (dishes) {
             res.render(path, {
+                // for html, see above
+                curNav: 'cook',
+
                 cooks: dishes
             })
         }).catch(function (err) {
@@ -93,10 +105,9 @@ render.cookList = function (req, res, next, path) {
         })
 }
 
-render.me = function (req, res, next, path) {
+render.static = function (req, res, next, path) {
     res.render(path)
 }
-
 
 module.exports = routes;
 

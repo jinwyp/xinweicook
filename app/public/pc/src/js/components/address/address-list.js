@@ -40,7 +40,7 @@ var AddressList = React.createClass({
                     <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> 添加地址</span>
                     <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
                         <EditingAddress range={props.range} streetList={props.streetList}
-                                        {...editingAddress} postOne={props.postOne}
+                                        {...editingAddress} postOne={props.postOne} putOne={props.putOne}
                                         close={props.close} getStreet={props.getStreet}
                                         toggleStreet={props.toggleStreet} getRange={props.getRange}/>
                     </Modal>
@@ -48,7 +48,12 @@ var AddressList = React.createClass({
                 <ul className="address-list">
                     {
                         props.addresses.map( address =>
-                                <li key={address._id}><StaticAddress {...address} select={props.select}/></li>
+                                <li key={address._id}>
+                                    <StaticAddress delOne={props.delOne}
+                                                   modifyOne={props.modifyOne}
+                                                   hideRadio={props.hideRadio || false} {...address}
+                                                   select={props.select}/>
+                                </li>
                         )
                     }
                 </ul>

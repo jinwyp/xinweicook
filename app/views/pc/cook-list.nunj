@@ -4,30 +4,18 @@
     <title>食材包 - 新味</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/pc/src/css/style.css">
-    <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
-<header>
-    <div class="header-main"><a class="logo"></a>
 
-        <div class="city">城市：<span>上海</span></div>
-        <ul class="nav">
-            <li><a href="javascript:;">食材包</a></li>
-            <li class="act"><a href="javascript:;">即食包</a></li>
-            <li><a href="javascript:;">为什么选择我们</a></li>
-            <li><a href="javascript:;">关于新味</a></li>
-            <li><a href="javascript:;">Q & A</a></li>
-            <li><a href="javascript:;">BLOG </a></li>
-        </ul>
-        <a id="signin" href="javascript:;" class="sign">登陆</a><a href="javascript:;" class="cart"></a></div>
-</header>
+{% include "./includes/header.nunj" %}
+
 <div class="headeremp"></div>
 <div class="cook-banner"></div>
 <div class="cook">
     <ul class="cooklist menus clearfix">
         {% for dish in cooks.slice(0, 6) %}
             <li data-id="{{ dish._id }}">
-                <a class="img-wrapper" href="/cook/{{ dish._id }}">
+                <a class="img-wrapper" href="{{ pcPrefix }}/cook/{{ dish._id }}">
                     <div class="plusok"></div>
                     <img src="{{ dish.cover[0][locale] | img }}">
                 </a>
@@ -87,7 +75,7 @@
     <ul class="cooklist menus clearfix">
         {% for dish in cooks.slice(7, 13) %}
             <li data-id="{{ dish._id }}">
-                <a class="img-wrapper" href="/cook/{{ dish._id }}">
+                <a class="img-wrapper" href="{{ pcPrefix }}/cook/{{ dish._id }}">
                     <div class="plusok"></div>
                     <img src="{{ dish.cover[0][locale] | img }}">
                 </a>
@@ -107,7 +95,7 @@
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
 </div>
-<script type="text/javascript" src="/pc/src/js/utils/common.js"></script>
-<script type="text/javascript" src="/pc/src/js/pages/index.js"></script>
+<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/pc/dist/js/common.js"></script>
 </body>
 </html>

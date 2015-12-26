@@ -12,7 +12,7 @@ function _fetch(url, options) {
         _fetch.headers = res.headers
         if (res.status >= 400) {
             if (res.status == '401') {
-                location.href = '/sign'
+                location.href = __PCPREFIX__ + '/sign'
             }
             return Promise.reject(res)
         }
@@ -47,6 +47,9 @@ export function put(url, data) {
     return _fetch(url, {
         method: 'put',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringfy(data)
-    }).then(res=>res.json())
+        body: JSON.stringify(data)
+    }).then(json => {
+        put.headers = _fetch.headers
+        return json
+    })
 }

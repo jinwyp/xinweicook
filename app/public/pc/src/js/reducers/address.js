@@ -18,9 +18,9 @@ function addresses(state = [], action) {
             return state
         case types.PUT_ADDRESS:
             if (action.status == 'success') {
-                return state.map (item =>
-                    action.id == item._id ? action.address : item
-                )
+                return state.map (item => {
+                    return action.address._id == item._id ? action.address : item
+                })
             }
             return state
         case types.DEL_ADDRESS:

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>我的账户 - 新味</title>
+<head><title>我的购物车 - 新味</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="/pc/src/css/style.css">
@@ -11,15 +11,14 @@
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
-<div class="me">
-    <div class="title">
-        <img src="/pc/src/images/me.jpg" alt="me"/>
-        <h5>我的账户</h5>
-    </div>
+<div class="cart">
+    <div class="carttitle"></div>
+    <!--<h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>-->
+
     <div id="react-root"></div>
 
 </div>
 <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="/pc/dist/js/me.js"></script>
+<script type="text/javascript" src="/pc/dist/js/cart.js"></script>
 </body>
 </html>

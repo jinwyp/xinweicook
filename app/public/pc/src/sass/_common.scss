@@ -1,5 +1,6 @@
 .menus, .eatlist, .img-wrapper {
   .plusok {
+    z-index: 1;
     opacity: 0;
     display: block;
     width: 95px;
@@ -31,14 +32,12 @@
 .menus, .eatlist {
   margin: 32px auto 20px;
   width: $main-width;
-  overflow: hidden;
   font-size: 14px;
   li {
     float: left;
     display: inline;
     width: 316px;
     height: 280px;
-    overflow: hidden;
     margin-right: 26px;
     margin-bottom: 30px;
     position: relative;
@@ -46,13 +45,25 @@
       margin-right: 0;
     }
     a, .img {
+      width: 316px;
+      height: 211px;
+      overflow: hidden;
       display: block;
       position: relative;
+      background-color: white;
       &.img-wrapper {
         font-size: 0;
       }
       img {
         width: 100%;
+        opacity: 1;
+        transition: opacity 0.2s, transform 1s;
+      }
+      &:hover {
+        img {
+          opacity: .9;
+          transform: scale(1.05);
+        }
       }
     }
     .info {

@@ -41,6 +41,11 @@ header {
           display: block;
           color: $color_sunset_orange_approx;
         }
+        &.act {
+          a {
+            color: $color_sunset_orange_approx;
+          }
+        }
       }
     }
     .sign {
@@ -85,8 +90,8 @@ header {
     }
     .sign {
       color: $white;
-      a {
-        color: $white;
+      &:hover {
+        color: $color_sunset_orange_approx
       }
     }
     .city {

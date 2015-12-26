@@ -28,7 +28,7 @@ var SignUp = React.createClass({
                 smsCode: this.refs.smsCode.value,
                 pwd: this.refs.pwd.value
             })
-            .then(()=>location='/')
+            .then(()=>location.href = __PCPREFIX__ + '/')
             .catch(()=>alert('Sign up failed, try it later'))
             .then(()=>{this.setState({isSending: false})})
         }

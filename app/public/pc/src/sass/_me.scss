@@ -1,12 +1,13 @@
+$color_me_li_border: #efefef;
 .me {
   .title {
     text-align: center;
     margin: 30px auto 0;
-  }
-  h5 {
-    margin: 10px auto 23px;
-    font-size: 14px;
-    font-weight: 600;
+    h5 {
+      margin: 10px auto 23px;
+      font-size: 14px;
+      font-weight: 600;
+    }
   }
   .main {
     margin: auto;
@@ -94,13 +95,13 @@
 
         li {
           padding: 7px 0;
-          border-top: 1px solid #efefef;
+          border-top: 1px solid $color_me_li_border;
           transition: background-color 0.4s;
           &:hover {
             background-color: $color_cart_list_hover
           }
           &:last-child {
-            border-bottom: 2px solid #efefef;
+            border-bottom: 2px solid $color_me_li_border;
           }
         }
         .dish {
@@ -132,6 +133,67 @@
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+          }
+        }
+      }
+    }
+  }
+
+  .address-section {
+    $padding-left: 24px;
+
+    font-size: 16px;
+    .header {
+      line-height: 25px;
+      font-size: 16px;
+      position: relative;
+      border-bottom: 1px solid;
+      padding: 8px 0 8px 24px;
+      .add-address {
+        color: $color_sunset_orange_approx;
+        position: absolute;
+        right: 0;
+        font-size: 14px;
+        cursor: pointer;
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+    .address-list {
+      li {
+        padding-left: $padding-left;
+        font-size: 14px;
+        height: 80px;
+        line-height: 80px;
+        transition: background-color 0.4s;
+        &:hover {
+          background-color: $color_cart_list_hover;
+        }
+      }
+      .content-wrapper {
+        border-bottom: 1px solid $color_me_li_border;
+        > * {
+          display: inline-block;
+        }
+        > :nth-child(1) {
+          width: 120px;
+        }
+        > :nth-child(2) {
+          width: 470px;
+        }
+        > :nth-child(3) {
+          width: 270px;
+        }
+
+        .modify-address {
+          color: #A2A2A2;
+          cursor: pointer;
+          span, i{
+            margin-right: 7px;
+          }
+          span:hover, i:hover {
+            color: $color_sunset_orange_approx
           }
         }
       }

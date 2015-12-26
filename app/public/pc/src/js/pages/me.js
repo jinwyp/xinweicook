@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+import './_common' //none react. for html header
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -35,6 +36,7 @@ var App = React.createClass({
             }
             this.methods.addressList = {
                 addOne: ()=>dispatch(addressAction.editAddress()),
+                modifyOne: id => dispatch(addressAction.editAddress(id)),
                 getList: () => dispatch(addressAction.getList()),
                 putOne: address => dispatch(addressAction.putOne(address)),
                 postOne: address => dispatch(addressAction.postOne(address)),
@@ -52,7 +54,7 @@ var App = React.createClass({
                 Child = <OrderList {...this.methods.order} orders={order.orders}/>;
                 break;
             case 'userinfo':
-                Child = <AddressList {...this.methods.addressList} {...address}/>;
+                Child = <AddressList hideRadio={true} title='配送地址' {...this.methods.addressList} {...address}/>;
                 break;
             default: Child = null;
         }
