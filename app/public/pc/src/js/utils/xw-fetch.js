@@ -16,7 +16,6 @@ function _fetch(url, options) {
             }
             return Promise.reject(res)
         }
-        console.log('nani')
         return res.json()
     })
 }

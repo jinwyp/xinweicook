@@ -26811,7 +26811,6 @@
 	            }
 	            return Promise.reject(res);
 	        }
-	        console.log('nani');
 	        return res.json();
 	    });
 	}
