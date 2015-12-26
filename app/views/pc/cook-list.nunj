@@ -82,7 +82,7 @@
                 <div class="info clearfix">
                     <div class="name-price">
                         <div class="name clearfix">
-                            <span class="person">3人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                            <span class="person">{{ dish.servings }}人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                         </div>
                         <div class="price">￥{{ dish.priceOriginal }}</div>
                     </div>
