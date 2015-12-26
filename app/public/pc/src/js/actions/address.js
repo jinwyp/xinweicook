@@ -168,8 +168,8 @@ function getStreetDone(streets) {
 export function getStreet(query, region) {
     return function (dispatch) {
         dispatch(getStreetStart())
-        fetch(`/mobile/placesearch?query=${query}&region=${region}`).then(res => {
-            return dispatch(getStreetDone(res.results))
+        _post('/api/user/address/suggestion', {query, region}).then(res => {
+            return dispatch(getStreetDone(res))
         })
     }
 }

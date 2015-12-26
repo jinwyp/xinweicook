@@ -65,7 +65,7 @@ var EditingAddress = React.createClass({
     selectStreet(street) {
         this.setState({selectedStreet: street}, () => this.validate('street'))
         // change dom. Not elegant but simple, simple is beautiful
-        this.refs.street.value = street.name
+        this.refs.street.value = street.address
         this.onStreetChange.ignore = true
         this.props.toggleStreet()
     },
@@ -133,8 +133,8 @@ var EditingAddress = React.createClass({
         } else {
             method = 'postOne'
             target = {
-                geoLatitude: this.state.selectedStreet.location.lat,
-                geoLongitude: this.state.selectedStreet.location.lng,
+                geoLatitude: this.state.selectedStreet.lat,
+                geoLongitude: this.state.selectedStreet.lng,
                 sortOrder: 0
             }
         }

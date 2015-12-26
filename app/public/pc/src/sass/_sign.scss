@@ -3,6 +3,11 @@
   height: 500px;
   margin: 10px auto;
   font-size: 14px;
+  .err-tip {
+    font-size: 13px;
+    bottom: -16px;
+    left: 9px;
+  }
   .login {
     width: 37%;
     padding: 40px 60px;

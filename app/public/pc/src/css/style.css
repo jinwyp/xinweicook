@@ -1165,6 +1165,10 @@ header {
   height: 500px;
   margin: 10px auto;
   font-size: 14px; }
+  .usersign .err-tip {
+    font-size: 13px;
+    bottom: -16px;
+    left: 9px; }
   .usersign .login {
     width: 37%;
     padding: 40px 60px;

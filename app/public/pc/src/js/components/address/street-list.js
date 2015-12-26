@@ -11,9 +11,9 @@ var StreetList = React.createClass({
             <ul className="street-list">
                 {
                     props.streets.map((street, i) =>
-                        <li key={street.uid || i} onClick={(e) => {e.stopPropagation();props.select(street)}}>
-                            <div className="name">{street.name}</div>
-                            <div className="address">{street.address}</div>
+                        <li key={street.lat + i} onClick={(e) => {e.stopPropagation();props.select(street)}}>
+                            <div className="name">{street.address}</div>
+                            <div className="address">{street.addressInfoBaidu}</div>
                         </li>
                     )
                 }

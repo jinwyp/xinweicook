@@ -5582,7 +5582,7 @@
 	        var _cart;
 	        var $btn = (0, _jquery2.default)(this);
 	        if (!cart) {
-	            location.href = '/sign';
+	            location.href = ('/pc') + '/sign';
 	            return;
 	        }
 
@@ -27446,8 +27446,8 @@
 	function getStreet(query, region) {
 	    return function (dispatch) {
 	        dispatch(getStreetStart());
-	        (0, _xwFetch2.default)("/mobile/placesearch?query=" + query + "&region=" + region).then(function (res) {
-	            return dispatch(getStreetDone(res.results));
+	        (0, _xwFetch.post)('/api/user/address/suggestion', { query: query, region: region }).then(function (res) {
+	            return dispatch(getStreetDone(res));
 	        });
 	    };
 	}
@@ -28086,7 +28086,7 @@
 	            return _this2.validate('street');
 	        });
 	        // change dom. Not elegant but simple, simple is beautiful
-	        this.refs.street.value = street.name;
+	        this.refs.street.value = street.address;
 	        this.onStreetChange.ignore = true;
 	        this.props.toggleStreet();
 	    },
@@ -28153,8 +28153,8 @@
 	        } else {
 	            method = 'postOne';
 	            target = {
-	                geoLatitude: this.state.selectedStreet.location.lat,
-	                geoLongitude: this.state.selectedStreet.location.lng,
+	                geoLatitude: this.state.selectedStreet.lat,
+	                geoLongitude: this.state.selectedStreet.lng,
 	                sortOrder: 0
 	            };
 	        }
@@ -28501,18 +28501,18 @@
 	            props.streets.map(function (street, i) {
 	                return _react2.default.createElement(
 	                    "li",
-	                    { key: street.uid || i, onClick: function onClick(e) {
+	                    { key: street.lat + i, onClick: function onClick(e) {
 	                            e.stopPropagation();props.select(street);
 	                        } },
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "name" },
-	                        street.name
+	                        street.address
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "address" },
-	                        street.address
+	                        street.addressInfoBaidu
 	                    )
 	                );
 	            })

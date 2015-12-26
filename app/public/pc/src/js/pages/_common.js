@@ -45,7 +45,7 @@ $(document).ready(function () {
         var _cart;
         var $btn = $(this);
         if (!cart) {
-            location.href = '/sign';
+            location.href = __PCPREFIX__ + '/sign';
             return;
         }
 

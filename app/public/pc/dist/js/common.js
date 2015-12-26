@@ -108,7 +108,7 @@
 	        var _cart;
 	        var $btn = (0, _jquery2.default)(this);
 	        if (!cart) {
-	            location.href = '/sign';
+	            location.href = ('/pc') + '/sign';
 	            return;
 	        }
 
