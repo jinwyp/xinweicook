@@ -103,6 +103,21 @@ var App = React.createClass({
             toggleBalance: () => dispatch(balanceAction.toggleBalance(price.payPrice))
         }
 
+        var postOrder = (cart)=> {
+            cart = cart.filter(item => item.selected)
+            if (!cart.length) return
+            if (!address.addresses.some(item => item.selected)) return
+            var cookingTypes = {}
+            cart.forEach(item => {
+                cookingTypes[item.dish.cookingType] = true
+            })
+            console.log('balance, b.total, price.pay', balance, balance.totalBalance, price.payPrice)
+            Object.keys(cookingTypes).every(type => {
+                type = type == 'ready to cook' ? 'cook' : 'eat'
+                return !!time[type].selectedTime
+            }) && dispatch(orderAction.postOrder(balance.useBalance && (balance.totalBalance >= price.payPrice)))
+        }
+
         // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
         var price = {
             cartPrice: cart.filter(el => el.selected).reduce((p, el) => p + dishPrice(el), 0),
@@ -125,7 +140,7 @@ var App = React.createClass({
                     <CartCoupon {...couponMethods} {...coupon} {...balance} payPrice={price.payPrice}/>
                     <OrderPrice {...price}/>
                     <div className="confirm-section">
-                        <button onClick={()=>this.postOrder(cart ,address, time, dispatch)}>在线支付</button>
+                        <button onClick={()=>postOrder(cart)}>在线支付</button>
                     </div>
                 </div>
             </div>

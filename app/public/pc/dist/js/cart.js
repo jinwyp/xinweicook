@@ -255,6 +255,25 @@
 	            }
 	        };
 
+	        var postOrder = function postOrder(cart) {
+	            cart = cart.filter(function (item) {
+	                return item.selected;
+	            });
+	            if (!cart.length) return;
+	            if (!address.addresses.some(function (item) {
+	                return item.selected;
+	            })) return;
+	            var cookingTypes = {};
+	            cart.forEach(function (item) {
+	                cookingTypes[item.dish.cookingType] = true;
+	            });
+	            console.log('balance, b.total, price.pay', balance, balance.totalBalance, price.payPrice);
+	            Object.keys(cookingTypes).every(function (type) {
+	                type = type == 'ready to cook' ? 'cook' : 'eat';
+	                return !!time[type].selectedTime;
+	            }) && dispatch(orderAction.postOrder(balance.useBalance && balance.totalBalance >= price.payPrice));
+	        };
+
 	        // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
 	        var price = {
 	            cartPrice: cart.filter(function (el) {
@@ -293,7 +312,7 @@
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: function onClick() {
-	                                return _this.postOrder(cart, address, time, dispatch);
+	                                return postOrder(cart);
 	                            } },
 	                        '在线支付'
 	                    )
@@ -28401,7 +28420,7 @@
 	    })[0];
 	    var ret = {
 	        cookingType: cookingType,
-	        usedAccountBalance: balance.usedBalance > 0,
+	        usedAccountBalance: balance.useBalance,
 	        addressId: selectedAddress._id,
 	        clientFrom: 'website',
 	        dishList: dishList
@@ -28509,14 +28528,21 @@
 	    };
 	}
 
-	function postOrder() {
+	function postOrder(justBalance) {
 	    return function (dispatch, getState) {
 	        postOrderStart();
 	        (0, _xwFetch.post)('/api/orders', (0, _order.orderData)(getState(), true)).then(function (res) {
 	            dispatch(postOrderDone(res));
-	            setTimeout(function () {
-	                location.href = res.aliPaySign.fullurl;
-	            });
+	            if (justBalance) {
+	                alert('支付成功!');
+	                setTimeout(function () {
+	                    location.href = ('/pc') + '/me';
+	                });
+	            } else {
+	                setTimeout(function () {
+	                    location.href = res.aliPaySign.fullurl;
+	                });
+	            }
 	        }).catch(function (res) {
 	            return dispatch(postOrderError(res));
 	        });

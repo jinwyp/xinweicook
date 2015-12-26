@@ -24,14 +24,21 @@ function postOrderError(error) {
     }
 }
 
-export function postOrder() {
+export function postOrder(justBalance) {
     return function (dispatch, getState) {
         postOrderStart()
         post('/api/orders', orderData(getState(), true)).then(res => {
             dispatch(postOrderDone(res))
-            setTimeout(() => {
-                location.href = res.aliPaySign.fullurl
-            })
+            if (justBalance) {
+                alert('支付成功!');
+                setTimeout(() => {
+                    location.href = __PCPREFIX__ + '/me'
+                })
+            } else {
+                setTimeout(() => {
+                    location.href = res.aliPaySign.fullurl
+                })
+            }
         }).catch(res => dispatch(postOrderError(res)))
     }
 }

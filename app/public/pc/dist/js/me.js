@@ -27640,7 +27640,7 @@
 	    })[0];
 	    var ret = {
 	        cookingType: cookingType,
-	        usedAccountBalance: balance.usedBalance > 0,
+	        usedAccountBalance: balance.useBalance,
 	        addressId: selectedAddress._id,
 	        clientFrom: 'website',
 	        dishList: dishList
@@ -27725,14 +27725,21 @@
 	    };
 	}
 
-	function postOrder() {
+	function postOrder(justBalance) {
 	    return function (dispatch, getState) {
 	        postOrderStart();
 	        (0, _xwFetch.post)('/api/orders', (0, _order.orderData)(getState(), true)).then(function (res) {
 	            dispatch(postOrderDone(res));
-	            setTimeout(function () {
-	                location.href = res.aliPaySign.fullurl;
-	            });
+	            if (justBalance) {
+	                alert('支付成功!');
+	                setTimeout(function () {
+	                    location.href = ('/pc') + '/me';
+	                });
+	            } else {
+	                setTimeout(function () {
+	                    location.href = res.aliPaySign.fullurl;
+	                });
+	            }
 	        }).catch(function (res) {
 	            return dispatch(postOrderError(res));
 	        });

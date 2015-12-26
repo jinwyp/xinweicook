@@ -26,7 +26,7 @@ export function orderData(state, isOrder) {
     var selectedAddress = address.addresses.filter(el => el.selected)[0]
     var ret = {
         cookingType: cookingType,
-        usedAccountBalance: balance.usedBalance > 0,
+        usedAccountBalance: balance.useBalance,
         addressId: selectedAddress._id,
         clientFrom: 'website',
         dishList: dishList
