@@ -1,0 +1,37 @@
+//colors
+$color_pumice_approx: #c9caca;
+$color_sunset_orange_approx: #f44d4d;
+$color_cart_bg: rgba(244, 77, 77, 0.87);
+$color_mine_shaft_approx: #333;
+$color_masala_approx: #3c3c3c;
+$color_storm_dust_approx: #666;
+$color_gondola_approx: #231815;
+$color_celeste_approx: #ccc;
+$black_45: rgba(0, 0, 0, 0.45);
+$concrete: #f2f2f2;
+$color_alto_approx: #ddd;
+$color_silver_chalice_approx: #aaa;
+
+$main-width: 1000px;
+
+@import "reset";
+@import "base";
+@import "componens";
+@import "common";
+
+@import "layout";
+@import "index";
+@import "cook-list";
+@import "cook";
+@import "eat-list";
+@import "sign";
+@import "user";
+@import "cart";
+@import "blog";
+@import "me";
+
+
+
+
+
+

@@ -7,6 +7,7 @@ AliPay = require "../libs/alipay.js"
 configAlipay =
   notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/mobile"
   mobile_return_url : "http://m.xinweicook.com/mobile/alipay/return"
+  website_return_url : "http://m.xinweicook.com/mobile/alipay/return"
 
 alipay = AliPay(configAlipay)
 

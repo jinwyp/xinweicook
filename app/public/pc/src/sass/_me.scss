@@ -1,0 +1,202 @@
+$color_me_li_border: #efefef;
+.me {
+  .title {
+    text-align: center;
+    margin: 30px auto 0;
+    h5 {
+      margin: 10px auto 23px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .main {
+    margin: auto;
+    width: 1100px;
+    border-top: solid 1px $color_pumice_approx;
+    font-size: 0;
+    > * {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .nav {
+      width: 130px;
+      text-align: left;
+      padding-top: 15px;
+      font-size: 16px;
+      li {
+        line-height: 48px;
+        &.act {
+          a {
+            color : $color_sunset_orange_approx;
+            font-weight: 600;
+            &::after {
+              content: '';
+              display: inline-block;
+              width: 6px;
+              height: 6px;
+              border: 2px $color_sunset_orange_approx solid;
+              border-left: transparent;
+              border-top: transparent;
+              transform: rotate(-45deg);
+              position: relative;
+              top: -2px;
+              left: 3px;
+            }
+          }
+        }
+        &:hover {
+          a {
+            color: $color_sunset_orange_approx;
+          }
+        }
+      }
+    }
+    .content {
+      border-left: 1px solid $color_pumice_approx;
+      min-height: 303px;
+      width: 970px;
+      box-sizing: border-box;
+
+      .orders {
+        h4, li .dish {
+          padding-left: 25px;
+          font-size: 0;
+          > * {
+            display: inline-block;
+            vertical-align: top;
+          }
+          >:nth-child(1) {
+            width: 223px;
+          }
+          >:nth-child(2) {
+            width: 260px;
+          }
+          >:nth-child(3) {
+            width: 185px;
+          }
+          >:nth-child(4) {
+            width: 90px;
+          }
+          >:nth-child(5) {
+            width: 75px;
+          }
+          >:nth-child(6) {
+            width: 90px;
+          }
+        }
+
+        h4 {
+          padding-top: 19px;
+          padding-bottom: 19px;
+          > span {
+            font-size: 16px;
+          }
+        }
+
+        li {
+          padding: 7px 0;
+          border-top: 1px solid $color_me_li_border;
+          transition: background-color 0.4s;
+          &:hover {
+            background-color: $color_cart_list_hover
+          }
+          &:last-child {
+            border-bottom: 2px solid $color_me_li_border;
+          }
+        }
+        .dish {
+          height: 41px;
+          line-height: 41px;
+          > div {
+            font-size: 15px;
+          }
+          &:not(:first-child) {
+            margin-top: 5px;
+          }
+        }
+        .detail {
+          > span {
+            display: inline-block;
+            vertical-align: top;
+          }
+          .name {
+            width: 140px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-right: 5px;
+          }
+          .img {
+            width: 41px;
+            height: 41px;
+            margin-right: 5px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+    }
+  }
+
+  .address-section {
+    $padding-left: 24px;
+
+    font-size: 16px;
+    .header {
+      line-height: 25px;
+      font-size: 16px;
+      position: relative;
+      border-bottom: 1px solid;
+      padding: 8px 0 8px 24px;
+      .add-address {
+        color: $color_sunset_orange_approx;
+        position: absolute;
+        right: 0;
+        font-size: 14px;
+        cursor: pointer;
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+    .address-list {
+      li {
+        padding-left: $padding-left;
+        font-size: 14px;
+        height: 80px;
+        line-height: 80px;
+        transition: background-color 0.4s;
+        &:hover {
+          background-color: $color_cart_list_hover;
+        }
+      }
+      .content-wrapper {
+        border-bottom: 1px solid $color_me_li_border;
+        > * {
+          display: inline-block;
+        }
+        > :nth-child(1) {
+          width: 120px;
+        }
+        > :nth-child(2) {
+          width: 470px;
+        }
+        > :nth-child(3) {
+          width: 270px;
+        }
+
+        .modify-address {
+          color: #A2A2A2;
+          cursor: pointer;
+          span, i{
+            margin-right: 7px;
+          }
+          span:hover, i:hover {
+            color: $color_sunset_orange_approx
+          }
+        }
+      }
+    }
+  }
+}

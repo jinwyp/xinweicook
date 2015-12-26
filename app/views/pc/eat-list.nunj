@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>便当 - 新味</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/pc/src/css/style.css">
+</head>
+<body>
+
+{% include "./includes/header.nunj" %}
+
+<div class="headeremp"></div>
+<div class="eat">
+    <ul class="eatlist">
+        {% for dish in dishes %}
+            <li data-id="{{ dish._id }}">
+                <div class="img" style="background-image: url({{ dish.cover[0][locale]|img }})">
+                    <div class="plusok"></div>
+                </div>
+                <div class="info">
+                    <img src="/pc/src/images/seta.png">
+                    <h6 class="product">{{ dish.title[locale] }}</h6>
+                    <h6 class="product text">{{ dish.brief[locale] }}</h6>
+                    <p class="price">￥{{ dish.priceOriginal }}</p>
+                    <div class="btns clearfix">
+                        <a class="gotobuy" href="{{ pcPrefix }}/cart">立即购买</a>
+                        <a class="plus">+</a>
+                        <a class="mius">-</a>
+                    </div>
+                </div>
+
+                {% if dish.cover[1] %}
+                    <div class="img right" style="background-image: url({{ dish.cover[1][locale]|img }})"></div>
+                {% else%}
+                    <div class="img right" style="background-image: url({{ dish.cover[0][locale]|img }})"></div>
+                {% endif %}
+
+            </li>
+        {% endfor %}
+        {#<li class="clearfix">#}
+            {#<img src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7261.jpg" class="left">#}
+            {#<div class="info">#}
+                {#<img src="../public/images/seta.png">#}
+                {#<h6 class="product">1.照烧三文鱼（挪威三文鱼，照烧汁）</h6>#}
+                {#<h6 class="product">1.照烧三文鱼（挪威三文鱼，照烧汁）</h6>#}
+                {#<h6 class="product">1.照烧三文鱼（挪威三文鱼，照烧汁）</h6>#}
+                {#<p class="price">￥108</p>#}
+                {#<div class="btns clearfix">#}
+                    {#<a class="gotobuy">立即购买</a>#}
+                    {#<a class="plus">+</a>#}
+                    {#<a class="mius">-</a>#}
+                {#</div>#}
+            {#</div>#}
+            {#<img src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7261.jpg" class="right">#}
+        {#</li>#}
+    </ul>
+
+    <img src="/pc/src/images/pcg.jpg" class="pcg">
+
+    <div class="drinks"><h3>- 饮料 -</h3>
+        <ul class="menus">
+            {% for dish in drinks %}
+                <li data-id="{{ dish._id }}">
+                    <a href="javascript:;">
+                        <div class="plusok"></div>
+                        <img src="{{ dish.cover[0][locale] | img}}">
+                    </a>
+
+                    <div class="info clearfix">
+                        <div class="name-price">
+                            <div class="name clearfix">
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale] }}</a>
+                            </div>
+                            <div class="price">￥{{ dish.priceOriginal }}</div>
+                        </div>
+                        <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy">立即结算</a></div>
+</div>
+<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/pc/dist/js/common.js"></script>
+</body>
+</html>

@@ -5,6 +5,9 @@ bodyParser = require "body-parser"
 cors = require "cors"
 favicon = require "serve-favicon";
 compression = require "compression"
+nunjucks = require "nunjucks"
+i18n = require "i18n"
+
 morgan = require('morgan')
 methodOverride = require "method-override"
 
@@ -17,9 +20,30 @@ app.disable "x-powered-by"
 viewsPath = (if process.env.NODE_ENV is "production" or process.env.PREVIEW is "true" then "views" else "public/mobile/src/html")
 app.set "views", path.join(__dirname, viewsPath)
 app.set "view engine", "ejs"
+
 app.engine("ejs", require('ejs').renderFile);
+app.engine("nunj", nunjucks.render);
 app.engine("html", require('ejs').renderFile);
 app.engine("jade", require('jade').__express);
+
+env = nunjucks.configure({
+#  watch: process.env.NODE_ENV == 'development' # caused 100% used of cpu.
+  noCache: process.env.NODE_ENV == 'development'
+});
+env.addFilter('img', (src, width, height) ->
+  width = width || 640
+  height = height || 427
+  return src + '?imageView2/1/w/' + width + '/h/' + height
+)
+
+# i18n setup
+i18n.configure({
+  locales: ['zh', 'en'],
+  defaultLocale: 'zh',
+  cookie: 'lang',
+  updateFiles: false,
+  directory: __dirname + '/locales'
+});
 
 app.use cors()
 
@@ -48,7 +72,16 @@ app.use libs.cache.lastModified
 
 app.use models.Router
 
+# i18n setup
+app.use(i18n.init);
+app.use (req, res, next)->
+  #todo: 到底要不要这个东西,要的话是不是放到conf.coffee中更合适
+  res.locals.pcPrefix = conf.pcPrefix
+  res.locals.__DEV__ = app.get('env') != 'production';
+  next()
+
 require("./routesmobile")(app)
+require("./routespc")(app)
 require("./routesapi")(app)
 
 require("./test")() if conf.debug

@@ -1,0 +1,121 @@
+.blog {
+  width: 700px;
+  margin: 40px auto;
+  img {
+    display: block;
+    width: 100%;
+    margin: 20px auto;
+  }
+  p {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 25px;
+  }
+  h1.title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 80px;
+  }
+  h5.time {
+    text-align: center;
+    line-height: 40px;
+    color: $color_storm_dust_approx;
+  }
+}
+.recommend {
+  width: 100%;
+  h3 {
+    margin-top: 40px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px;
+  }
+  .recommend-main {
+    width: 100%;
+    margin-top: 20px;
+    a.recommend-product {
+      float: left;
+      display: inline;
+      width: 50%;
+      height: 200px;
+      position: relative;
+      img {
+        width: 100%;
+        height: 200px;
+        position: absolute;
+      }
+      .text-info {
+        width: 100%;
+        height: 200px;
+        background: $black_45;
+        position: absolute;
+        z-index: 10;
+        h5.name {
+          width: 100%;
+          text-align: center;
+          color: $white;
+          font-size: 32px;
+          margin-top: 70px;
+        }
+        p.price {
+          width: 100%;
+          text-align: center;
+          font-size: 16px;
+          color: $white;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
+.backblogs {
+  color: $color_sunset_orange_approx;
+  display: block;
+  text-align: center;
+  margin: 60px auto;
+  font-weight: bold;
+  font-size: 15px;
+}
+ul.bloglist {
+  width: 700px;
+  margin: 40px auto;
+  li {
+    width: 100%;
+    border-bottom: 1px solid $color_mountain_mist_approx;
+    margin-bottom: 40px;
+    h1.title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 80px;
+    }
+    h5.time {
+      text-align: center;
+      line-height: 40px;
+      color: $color_storm_dust_approx;
+    }
+    img.cover {
+      display: block;
+      width: 100%;
+      margin: 20px auto;
+    }
+    p.desc {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 25px;
+    }
+    a.read {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 40px auto;
+      font-weight: bold;
+      &:hover {
+        color: $color_sunset_orange_approx;
+      }
+    }
+  }
+}

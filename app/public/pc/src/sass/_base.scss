@@ -1,0 +1,67 @@
+@import "reset";
+
+$color_mountain_mist_approx: #999;
+$color_cerulean_approx: #009ae7;
+$color_cart_list_hover: #EEEFF0;
+$white: #fff;
+
+body {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fff
+}
+
+.clearfix {
+  zoom: 1;
+  &:after {
+    content: ".";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+    font-size: 0;
+  }
+}
+.btn {
+  border: 1px solid $color_mountain_mist_approx;
+  border-radius: 3px;
+  padding: 0 15px;
+  transition: 0.4s;
+  text-align: center;
+  &:hover {
+    background-color: $color_cerulean_approx;
+    border-color: $color_cerulean_approx;
+    color: $white;
+  }
+}
+.form-control-group {
+  position: relative;
+  .err-tip {
+    color: $color_sunset_orange_approx;
+    position: absolute;
+  }
+}
+
+.square-icon {
+  border: 1px solid;
+  width: 14px;
+  display: inline-block;
+  height: 14px;
+  text-align: center;
+  line-height: 12px;
+  user-select: none;
+}
+
+.rmb-char::before {
+  content: '¥ '
+}
+.rmb-char.negative {
+  text-indent: -0.65em
+}
+.rmb-char.negative::before {
+  content: '- ¥ '
+}
+
+.cross-char::before {
+  content: 'X '
+}

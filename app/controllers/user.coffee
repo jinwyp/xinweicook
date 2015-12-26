@@ -342,6 +342,9 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
   userId = req.query.userId
   redirectUrl = req.query.redirectUrl
 
+  logger.error("----- User Get Oauth Code Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+
+
   unless libs.validator.isLength userId, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, Field validation error,  user _id length must be 24-24") + encodeURIComponent(userId) )
 
@@ -374,11 +377,12 @@ exports.getWeixinUserOpenId = (req, res, next) ->
   state = req.query.state
   redirectUrl = req.query.redirectUrl
 
+  logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+
   unless libs.validator.isLength state, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )
 
   if not code or code.length is 0
-    logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error, Code Error") + encodeURIComponent(JSON.stringify(req.query)) )
 
 
@@ -1136,7 +1140,7 @@ exports.chargeAccount = (req, res, next) ->
         spbill_create_ip: req.ip  # 终端IP APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 
         notify_url: "http://m.xinweicook.com/mobile/wxpay/notifyaccountdetail"
-        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP
+        trade_type: req.body.trade_type #JSAPI，NATIVE，APP，WAP JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参可参考这里 MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
 #            openid: req.body.openid  #trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid
         product_id : resultAccountDetail._id.toString() #trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 

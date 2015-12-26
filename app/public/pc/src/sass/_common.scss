@@ -1,0 +1,140 @@
+.menus, .eatlist, .img-wrapper {
+  .plusok {
+    z-index: 1;
+    opacity: 0;
+    display: block;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    position: absolute;
+    color: white;
+    font-size: 21px;
+    text-align: center;
+    text-indent: 2em;
+    font-weight: 400;
+    line-height: 95px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: 0.4s;
+    background: url(../images/indexcartemp.png) 25%/40% $color_cart_bg no-repeat;
+    margin-bottom: -47px;
+    &::before {
+      content: '+'
+    }
+    &.show {
+      opacity: 1;
+      bottom: 50%;
+    }
+  }
+}
+.menus, .eatlist {
+  margin: 32px auto 20px;
+  width: $main-width;
+  font-size: 14px;
+  li {
+    float: left;
+    display: inline;
+    width: 316px;
+    height: 280px;
+    margin-right: 26px;
+    margin-bottom: 30px;
+    position: relative;
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+    a, .img {
+      width: 316px;
+      height: 211px;
+      overflow: hidden;
+      display: block;
+      position: relative;
+      background-color: white;
+      &.img-wrapper {
+        font-size: 0;
+      }
+      img {
+        width: 100%;
+        opacity: 1;
+        transition: opacity 0.2s, transform 1s;
+      }
+      &:hover {
+        img {
+          opacity: .9;
+          transform: scale(1.05);
+        }
+      }
+    }
+    .info {
+      height: 65px;
+      padding: 5px 0;
+      overflow: hidden;
+      .name-price {
+        float: left;
+        display: inline;
+        width: 262px;
+        .name {
+          width: 100%;
+          height: 25px;
+          border-bottom: 1px solid $color_masala_approx;
+          line-height: 20px;
+          span.person {
+            float: left;
+            display: inline;
+            height: 18px;
+            background: $color_sunset_orange_approx;
+            padding: 0 5px;
+            font-size: 13px;
+            line-height: 18px;
+            margin-right: 5px;
+            color: $white;
+          }
+          a.menuname {
+            float: left;
+            display: inline;
+            width: 220px;
+            height: 20px;
+            cursor: pointer;
+            color: $color_storm_dust_approx;
+            &:hover {
+              color: $color_sunset_orange_approx;
+            }
+          }
+        }
+        .price {
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: .1em;
+        }
+      }
+      .btns {
+        float: right;
+        display: inline;
+        width: 49px;
+        height: 65px;
+        margin-top: 15px;
+        a {
+          cursor: pointer;
+          float: right;
+          display: inline;
+          background: $color_mine_shaft_approx;
+          width: 22px;
+          height: 22px;
+          color: $white;
+          font-size: 22px;
+          line-height: 19px;
+          text-align: center;
+          &.mius {
+            display: none;
+            background-color: $color_sunset_orange_approx;
+            margin-right: 5px;
+          }
+          &:active {
+            background-color: $color_sunset_orange_approx;
+          }
+        }
+      }
+    }
+  }
+}

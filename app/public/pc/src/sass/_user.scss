@@ -1,0 +1,154 @@
+.custom {
+  width: 100%;
+  margin: 0 auto;
+  .tools {
+    width: 100%;
+    height: 58px;
+    border-bottom: 1px solid $color_pumice_approx;
+    position: fixed;
+    z-index: 100;
+    top: 68px;
+    background: $white;
+    .tools-main {
+      width: 1024px;
+      position: absolute;
+      left: 50%;
+      margin-left: -512px;
+      font-size: 14px;
+      div {
+        height: 38px;
+        overflow: hidden;
+        line-height: 38px;
+        float: left;
+        display: inline;
+        cursor: pointer;
+        text-indent: 2em;
+        margin-top: 10px;
+      }
+      .orders {
+        width: 220px;
+        border-right: 1px solid $color_pumice_approx;
+      }
+      .screen {
+        width: 580px;
+        border-right: 1px solid $color_pumice_approx;
+      }
+      .diy {
+        width: 220px;
+        a:hover {
+          color: $color_sunset_orange_approx;
+        }
+      }
+    }
+  }
+  .description {
+    width: 800px;
+    margin: 120px auto 40px;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+  }
+  .menus {
+    margin: 60px auto 20px;
+    width: 1024px;
+    overflow: hidden;
+    font-size: 14px;
+    li {
+      float: left;
+      display: inline;
+      width: 330px;
+      height: 280px;
+      overflow: hidden;
+      margin-right: 17px;
+      margin-bottom: 30px;
+      position: relative;
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+      a {
+        display: block;
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .info {
+        height: 65px;
+        padding: 5px 0;
+        overflow: hidden;
+        .name-price {
+          width: 330px;
+          .name {
+            width: 100%;
+            height: 25px;
+            border-bottom: 1px solid $color_masala_approx;
+            line-height: 20px;
+            span.person {
+              float: left;
+              display: inline;
+              height: 18px;
+              background: $color_sunset_orange_approx;
+              padding: 0 5px;
+              font-size: 13px;
+              line-height: 18px;
+              margin-right: 5px;
+              color: $white;
+            }
+            a.menuname {
+              float: left;
+              display: inline;
+              width: 200px;
+              height: 20px;
+              cursor: pointer;
+              color: $color_storm_dust_approx;
+              &:hover {
+                color: $color_sunset_orange_approx;
+              }
+            }
+          }
+          .price {
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: .1em;
+          }
+        }
+      }
+      img.plusok {
+        display: block;
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -42px;
+        display: none;
+      }
+    }
+  }
+  .buyit {
+    width: 100%;
+    border-top: 1px solid $color_celeste_approx;
+    margin: 50px auto;
+    p.price {
+      text-align: center;
+      line-height: 40px;
+      margin-top: 40px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    a.buy {
+      display: block;
+      width: 100px;
+      height: 35px;
+      line-height: 35px;
+      background: $color_sunset_orange_approx;
+      color: $white;
+      text-align: center;
+      margin: 20px auto;
+      font-size: 14px;
+    }
+  }
+}
