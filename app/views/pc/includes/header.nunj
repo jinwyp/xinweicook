@@ -10,7 +10,7 @@
             <li><a href="javascript:;">Q & A</a></li>
             <li><a href="javascript:;">BLOG </a></li>
         </ul>
-        <a id="signin" href="{{ pcPrefix }}/sign" class="sign">登录</a>
+        <a id="signin" href="{{ pcPrefix }}/sign" class="sign">{{ __('Sign in') }}</a>
         <a class="sign" style="display:none" id="account" href="{{ pcPrefix }}/me"></a>
         <a href="{{ pcPrefix }}/cart" class="cart"></a>
     </div>

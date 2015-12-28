@@ -542,7 +542,8 @@ header {
     margin-left: -121px;
     background: url(../images/vdtitle.png) 100%/cover; }
   .video video.indexvd {
-    width: 100%; }
+    width: 100%;
+    background-color: black; }
 
 .index-main {
   margin-top: 668px; }
