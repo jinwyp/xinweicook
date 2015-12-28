@@ -15,7 +15,9 @@ angular.module('xw.directives').directive('addDishBar', function (Debug, User, $
                     unwatcher();
 
                     $scope.localBag = localBag = Utils.mergeCarts(localBag
-                        , user.shoppingCart);
+                        , user.shoppingCart.filter(function (item) {
+                            return !!item.dish
+                        }));
                     $scope.totalPrice();
                 }
             });

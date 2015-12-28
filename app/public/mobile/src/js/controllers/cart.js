@@ -122,7 +122,9 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }).catch(function () {
             return []
         }).then(function (serverBag) {
-
+            serverBag = serverBag.filter(function (item) {
+                return !!item.dish
+            });
             postCart = serverBag;
             initDishList(postCart);
         })
@@ -138,7 +140,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         var warehouse = $localStorage.warehouse;
         var isAvailableForEat = $localStorage.orderAddress.isAvailableForEat;
 
-        cart.filter(function(item){return !!item.dish}).forEach(function (el) {
+        cart.forEach(function (el) {
             var dish = el.dish;
 
             // postCart的dish和list上的引用的是同一个对象
