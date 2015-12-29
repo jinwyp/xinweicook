@@ -97,7 +97,7 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
         },
         getUserInfo: function () {
             return $http.get('/api/user').then(function (res) {
-                window._trackJs.userId = res.data._id;
+                window.trackJs.configure({ userId: res.data._id})
                 return res;
             })
         },

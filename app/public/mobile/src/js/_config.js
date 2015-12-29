@@ -18,7 +18,6 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             var redirectPath = '';
             if (response.status == 401) {
                 // todo: redirect
-                console.log(401);
                 if (noRedirectPath.some(function (RE) {return RE.test(location.pathname)})) {
                     if (noRedirectAPI.indexOf(response.config.url) != -1) {
                         return $q.reject(response);
