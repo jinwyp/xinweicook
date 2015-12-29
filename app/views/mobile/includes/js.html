@@ -3,12 +3,11 @@
     token: '9369886ee04d44db80e93eca132e13b3',
     enabled: !(window.location.host.indexOf('localhost') >= 0),
     onError: function (payload) {
-        if(payload.message.indexOf("401 Unauthorized: GET /api/user") >= 0){
-            return false;
-        }
-        return true;
+        return payload.message.indexOf("401 Unauthorized: GET /api/user")<0
     }
-};</script>
+};
+localStorage.uid&&(window._trackJs.userId=localStorage.uid);
+</script>
 <script type="text/javascript" src="/components/trackjs/tracker.js"></script>
 <!-- END TRACKJS -->
 
@@ -17,4 +16,4 @@
 <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 
-<script src="/mobile/dist/js/app-52823cfc16.min.js"></script>
+<script src="/mobile/dist/js/app-21d191f458.min.js"></script>
