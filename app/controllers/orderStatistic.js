@@ -156,8 +156,10 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
             currentRow = currentRow + 1;
 
-            logger.error(tempDishList[rowdish].dish);
-
+            if (!tempDishList[rowdish].dish.title ){
+                logger.error(tempDishList[rowdish].dish);
+            }
+            
             var tempDishName = tempDishList[rowdish].dish.title.zh || '已删除菜品';
             var cellDishName = {v: tempDishName, t:"s" };
             var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
