@@ -432,6 +432,7 @@ exports.orderExportInternalList = function(req, res, next) {
     //console.log (first_cell);
 
     req.query.limit = 1000;
+    req.query.skip = 0;
 
     models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})
