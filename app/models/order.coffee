@@ -546,19 +546,21 @@ module.exports =
           startPoint = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
       # 处理当天时间段
-      for i in [1..17]
-        timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
+      # 周六周日不发
+      if timeNow.day() isnt 0 and timeNow.day() isnt 6
+        for i in [1..17]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-        # 如果计算出来的时间超过19点  将不在push进去
-        if timeSectionTemp.isBefore(worktimeEnd)
-          # 排除元旦
-          if timeSectionTemp.dayOfYear() isnt 1 and timeSectionTemp.dayOfYear() isnt 2 and timeSectionTemp.dayOfYear() isnt 3
-            segmentHour =
-              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-            resultTime.push(segmentHour)
+          # 如果计算出来的时间超过19点  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd)
+            # 排除元旦
+            if timeSectionTemp.dayOfYear() isnt 1 and timeSectionTemp.dayOfYear() isnt 2 and timeSectionTemp.dayOfYear() isnt 3
+              segmentHour =
+                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+              resultTime.push(segmentHour)
 
       # 处理第二天的时间段 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
-      if timeNow.day() > 0 or (timeNow.hour() >= 18 and timeNow.minute() > 30)
+      if (timeNow.day() > 0 and timeNow.day() < 6) or (timeNow.hour() >= 18 and timeNow.minute() > 30 and timeNow.day() is 0 )
         for i in [1..17]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
 
@@ -595,14 +597,16 @@ module.exports =
           startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
 
       # 处理当天时间段
-      for i in [1..17]
-        timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
+      # 周六周日不发
+      if timeNow.day() isnt 0 and timeNow.day() isnt 6
+        for i in [1..17]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-        # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
-        if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-          resultTime.push(segmentHour)
+          # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
+          if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
       if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
@@ -638,22 +642,24 @@ module.exports =
           startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
 
       # 处理当天时间段
-      for i in [1..17]
-        timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
+      # 周六周日不发
+      if timeNow.day() isnt 0 and timeNow.day() isnt 6
+        for i in [1..17]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-        # 处理如果计算出来的时间超过19点  将不在push进去
-        if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
-          # 排除元旦
-          if timeSectionTemp.dayOfYear() isnt 1 and timeSectionTemp.dayOfYear() isnt 2 and timeSectionTemp.dayOfYear() isnt 3
-            segmentHour =
-              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-            resultTime.push(segmentHour)
+          # 处理如果计算出来的时间超过19点  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
+            # 排除元旦
+            if timeSectionTemp.dayOfYear() isnt 1 and timeSectionTemp.dayOfYear() isnt 2 and timeSectionTemp.dayOfYear() isnt 3
+              segmentHour =
+                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+              resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
       if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
         for i in [1..17]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
-          console.log(timeSectionTemp.clone().format("YYYY-MM-DD HH:mm"))
+
           # 排除元旦
           if timeSectionTemp.dayOfYear() isnt 1 and timeSectionTemp.dayOfYear() isnt 2 and timeSectionTemp.dayOfYear() isnt 3
             segmentHour =
