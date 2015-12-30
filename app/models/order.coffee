@@ -624,7 +624,7 @@ module.exports =
       timeNow = moment()
 
       worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:41"));
-      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
+      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 13:31"));
 
       today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
       tomorrow11AM = today11AM.clone().add(1, 'days');
