@@ -443,13 +443,19 @@ exports.orderExportInternalList = function(req, res, next) {
         .lean()
         .execAsync()
         .then(function(resultOrders){
-            var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
-            workbook.Sheets[first_sheet_name] = newSheet;
+            logger.error("internal length:",resultOrders.length);
+            if (resultOrders.length > 0){
+                var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
+                workbook.Sheets[first_sheet_name] = newSheet;
 
-            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+                XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
 
-            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
-//            res.send(resultOrders)
+                res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+            }else{
+                res.send(resultOrders)
+            }
+
+
         }).catch(next);
 
 
