@@ -431,7 +431,7 @@ exports.orderExportInternalList = function(req, res, next) {
     //var first_cell= first_worksheet['A1'];
     //console.log (first_cell);
 
-    req.query.limit = 10000;
+    req.query.limit = 1000;
 
     models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})

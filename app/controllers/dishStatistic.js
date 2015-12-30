@@ -586,7 +586,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
-            { "$limit": 5000 }
+            { "$limit": 8000 }
         );
 
 
@@ -635,7 +635,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantityDeliveryDate":1 } },
-            { "$limit": 5000 }
+            { "$limit": 8000 }
         );
 
 
