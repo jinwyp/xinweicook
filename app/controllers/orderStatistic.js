@@ -155,6 +155,9 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
         for (var rowdish=0; rowdish <= tempDishList.length-1; rowdish++){
 
             currentRow = currentRow + 1;
+            if (typeof tempDishList[rowdish].dish.title.zh == 'undefined'){
+                logger.error(tempDishList[rowdish].dish._id);
+            }
             var tempDishName = tempDishList[rowdish].dish.title.zh;
             var cellDishName = {v: tempDishName, t:"s" };
             var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
