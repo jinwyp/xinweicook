@@ -156,11 +156,14 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
             currentRow = currentRow + 1;
 
-            if (typeof tempDishList[rowdish].dish.title === 'undefined'){
-                logger.error(tempDishList[rowdish].dish);
+            var tempDishName ;
+            if (tempDishList[rowdish].dish === null && typeof tempDishList[rowdish].dish === 'object'){
+                console.log("-----------------------export dish: ", arrayData[row]._id, tempDishList[rowdish].dish);
+                tempDishName = '已删除菜品';
+            }else{
+                tempDishName = tempDishList[rowdish].dish.title.zh;
             }
 
-            var tempDishName = tempDishList[rowdish].dish.title.zh || '已删除菜品';
             var cellDishName = {v: tempDishName, t:"s" };
             var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
             worksheet[cell_refDishName] = cellDishName;
