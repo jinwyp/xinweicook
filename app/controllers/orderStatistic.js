@@ -156,7 +156,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
             currentRow = currentRow + 1;
 
-            if (!tempDishList[rowdish].dish.title ){
+            if (typeof tempDishList[rowdish].dish.title === 'undefined'){
                 logger.error(tempDishList[rowdish].dish);
             }
 
