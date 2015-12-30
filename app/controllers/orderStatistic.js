@@ -159,7 +159,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
             if (!tempDishList[rowdish].dish.title ){
                 logger.error(tempDishList[rowdish].dish);
             }
-            
+
             var tempDishName = tempDishList[rowdish].dish.title.zh || '已删除菜品';
             var cellDishName = {v: tempDishName, t:"s" };
             var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
@@ -663,8 +663,6 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
 
         var totalAllPrice = 0;
-
-        console.log(resultOrder)
 
         if (resultOrder.length > 0){
             totalAllPrice = resultOrder.reduce(function(previous, order) {
