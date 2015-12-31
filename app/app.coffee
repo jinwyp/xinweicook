@@ -17,7 +17,7 @@ app.use libs.req._id
 app.enable "trust proxy"
 app.disable "x-powered-by"
 
-viewsPath = (if process.env.NODE_ENV is "production" or process.env.PREVIEW is "true" then "views" else "public/mobile/src/html")
+viewsPath = (if process.env.NODE_ENV is "production" or process.env.PREVIEW is "true" then "views" else "public")
 app.set "views", path.join(__dirname, viewsPath)
 app.set "view engine", "ejs"
 

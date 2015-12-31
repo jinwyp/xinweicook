@@ -1,0 +1,5 @@
+<!-- build-replace-->
+<!-- build:css(app/public/pc/src)  ../css/style.css -->
+<link rel="stylesheet" href="/pc/src/css/style.css"/>
+<!-- endbuild -->
+<!-- end-build-replace-->

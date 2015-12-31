@@ -26,7 +26,7 @@ $border-block: 5px;
 }
 .video {
   width: 100%;
-  height: 668px;
+  height: 630px;
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -47,7 +47,7 @@ $border-block: 5px;
   }
 }
 .index-main {
-  margin-top: 668px;
+  margin-top: 630px;
   .main-top {
     background: url(../images/indexbg.jpg) center top no-repeat;
 
@@ -142,7 +142,7 @@ $border-block: 5px;
 
   .videolink {
     width: 100%;
-    height: 500px;
+    height: 460px;
     background: url(https://dn-xinweicook.qbox.me/%E5%84%BF%E7%AB%A5%E8%8A%822015.5.28.%E5%84%BF%E7%AB%A5%E8%8A%82-cn.jpg) center center no-repeat;
     background-size: cover;
     overflow: hidden;
@@ -172,7 +172,7 @@ $border-block: 5px;
   }
 
   .about-us {
-    margin: auto;
+    margin:20px auto 0;
     width: $main-width;
     color: $color_mine_shaft_approx;
     text-align: center;
@@ -219,12 +219,25 @@ $border-block: 5px;
           width: 100%;
           border: $border-block solid;
           padding: 0 35px 40px;
+          p {
+            line-height: 20px;
+          }
         }
 
         &:last-child {
           margin-right: 0;
         }
       }
+    }
+    .magazine {
+      margin: 10px;
+      padding: 45px;
+      p {
+        font-size: 18px;
+      }
+    }
+    .partner {
+      padding: 45px;
     }
     .arrow-title {
       position: relative;

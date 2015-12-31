@@ -1,19 +1,29 @@
+
 // 是否需要放到conf.coffee中
 var routes = function(app) {
-    var prefix = conf.pcPrefix
+    var publicPrefix = conf.pcPrefix
+    var viewsPrefix = '';
+    if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
+        // views dir: /views/  .see app.coffee
+        viewsPrefix = 'pc/'
+    } else {
+        // views dir: /public/
+        viewsPrefix = 'pc/src/html/'
+    }
+    
     // 页面渲染
-    app.get(prefix + "/", render('pc/index.nunj', render.index));
-    app.get(prefix + "/eat", render('pc/eat-list.nunj', render.eatList))
-    app.get(prefix + "/cook/:id", render('pc/cook.nunj', render.cook))
-    app.get(prefix + "/cook", render('pc/cook-list.nunj', render.cookList))
-    app.get(prefix + "/me", function (req, res) {
-        res.render('pc/me.nunj')
+    app.get(publicPrefix + "/", render(viewsPrefix + 'index.nunj', render.index));
+    app.get(publicPrefix + "/eat", render(viewsPrefix + 'eat-list.nunj', render.eatList))
+    app.get(publicPrefix + "/cook/:id", render(viewsPrefix + 'cook.nunj', render.cook))
+    app.get(publicPrefix + "/cook", render(viewsPrefix + 'cook-list.nunj', render.cookList))
+    app.get(publicPrefix + "/me", function (req, res) {
+        res.render(viewsPrefix + 'me.nunj')
     })
-    app.get(prefix + "/sign", function (req, res) {
-        res.render('pc/sign.nunj')
+    app.get(publicPrefix + "/sign", function (req, res) {
+        res.render(viewsPrefix + 'sign.nunj')
     })
-    app.get(prefix + "/cart", function (req, res) {
-        res.render('pc/cart.nunj')
+    app.get(publicPrefix + "/cart", function (req, res) {
+        res.render(viewsPrefix + 'cart.nunj')
     })
 };
 

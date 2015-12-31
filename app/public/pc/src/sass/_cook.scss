@@ -3,7 +3,7 @@
   .product-info {
     width: 1000px;
     height: 458px;
-    margin: 40px auto;
+    margin: -10px auto 22px;
     .img-wrapper {
       width: 658px;
       height: 438px;
@@ -80,8 +80,8 @@
           width: 100%;
           height: 155px;
           .desc {
-            margin-top: 10px;
-            line-height: 20px;
+            margin-top: 20px;
+            line-height: 22px;
             width: 100%;
             font-size: 15px;
             height: 155px;
@@ -196,13 +196,13 @@
       border-bottom: 1px solid $color_celeste_approx;
     }
     img {
-      max-width: 570px;
+      height: 300px;
       display: block;
       margin: 20px auto;
     }
     p {
-      width: 700px;
-      line-height: 30px;
+      width: 645px;
+      line-height: 23px;
       margin: 20px auto;
     }
   }
@@ -241,8 +241,8 @@
         }
         .text {
           width: 100%;
-          padding-top: 25px;
-          padding-bottom: 40px;
+          padding-top: 9px;
+          padding-bottom: 8px;
           .string {
             float: right;
             display: inline;
@@ -250,7 +250,7 @@
             height: 70px;
             overflow: hidden;
             h5 {
-              font-size: 15px;
+              font-size: 18px;
               line-height: 30px;
             }
             p {
@@ -259,6 +259,7 @@
             }
           }
           span.num {
+            font-weight: 400;
             float: left;
             display: inline;
             width: 40px;

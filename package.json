@@ -99,10 +99,13 @@
     "gulp-util": "^3.0.6",
     "gulp-watch": "^0.6.9",
     "gulp-wrap": "^0.3.0",
+    "html-webpack-plugin": "^1.7.0",
+    "jquery": "^1.11.3",
     "mocha": "^2.2.5",
     "nodemon": "^1.4.1",
     "npm-check-updates": "^1.5.1",
     "pm2": "^0.12.15",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   }
 }

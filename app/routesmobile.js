@@ -17,10 +17,14 @@ var request = require('request');
 expressRoutes = function(app) {
 
 
-    var useBuild = process.env.NODE_ENV == 'production'
-        || process.env.PREVIEW == 'true';
-    var pathPrefix = useBuild ? 'mobile/' : '';
-
+    var pathPrefix = '';
+    if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
+        // views dir: /views/  .see app.coffee
+        pathPrefix = 'mobile/'
+    } else {
+        // views dir: /public/
+        pathPrefix = 'mobile/src/html/'
+    }
 
     app.get("/", function (req, res) {
         res.redirect('/mobile');
