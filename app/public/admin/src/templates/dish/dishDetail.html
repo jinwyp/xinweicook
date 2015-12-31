@@ -459,6 +459,21 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$valid, 'has-error':dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$invalid}">
+                    <label for="inputDishIdOldWebsite" class="col-lg-2 control-label" >老网站菜品ID</label>
+
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="inputDishIdOldWebsite" placeholder="老网站菜品ID" name="dishIdOldWebsite" ng-model="data.dish.idOldWebsite" ng-minlength="24" ng-maxlength="24">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$error.minlength || dishForm.dishIdOldWebsite.$dirty&&dishForm.dishIdOldWebsite.$error.maxlength">字符长度错误24-24！</span>
+                    </div>
+                </div>
+
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$valid, 'has-error':dishForm.dishIsPublished.$dirty&&dishForm.dishIsPublished.$invalid}">
                     <label class="col-lg-2 control-label" >是否上架</label>
