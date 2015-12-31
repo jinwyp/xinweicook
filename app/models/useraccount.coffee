@@ -63,6 +63,12 @@ module.exports =
       result = 12000 if amount is 10000
       result = 25000 if amount is 20000
 
+      result = 500 if amount is 480
+      result = 1080 if amount is 980
+      result = 2200 if amount is 1980
+      result = 3400 if amount is 2980
+
+
       result
 
   methods:
