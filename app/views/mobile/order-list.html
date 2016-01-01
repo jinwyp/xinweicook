@@ -28,6 +28,7 @@
                 <th>收货人</th>
                 <th>收货地址</th>
                 <th>备注</th>
+                <th>快递</th>
 
             </tr>
         </thead>
@@ -54,6 +55,7 @@
                 <td>{{order.address.contactPerson}} {{order.address.mobile }}</td>
                 <td>{{order.address.city}} {{ order.address.district }} {{ order.address.street }} {{ order.address.address}}</td>
                 <td>{{order.userComment}}</td>
+                <td>{{order.express.displayName.zh}}:{{order.express.number}}</td>
 
             </tr>
         </tbody>
