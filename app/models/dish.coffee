@@ -110,7 +110,7 @@ module.exports =
     statisticViews: type: Number, default: 0 # 浏览量
 
 
-
+    idOldWebsite : String # 老网站的菜品ID
 
   statics:
     fields : ->

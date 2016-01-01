@@ -57,6 +57,18 @@ angular.module('xw.controllers').controller('chargeBalanceOnlineCtrl', function 
             {
                 price: 2000,
                 coin: 2600
+            },
+            {
+                price: 5000,
+                coin: 6000
+            },
+            {
+                price: 10000,
+                coin: 12000
+            },
+            {
+                price: 20000,
+                coin: 25000
             }
         ];
         $scope.chargeSelections.selected = 0;

@@ -155,7 +155,15 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
         for (var rowdish=0; rowdish <= tempDishList.length-1; rowdish++){
 
             currentRow = currentRow + 1;
-            var tempDishName = tempDishList[rowdish].dish.title.zh;
+
+            var tempDishName ;
+            if (tempDishList[rowdish].dish === null && typeof tempDishList[rowdish].dish === 'object'){
+                console.log("-----------------------export dish: ", arrayData[row]._id, tempDishList[rowdish].dish);
+                tempDishName = '已删除菜品';
+            }else{
+                tempDishName = tempDishList[rowdish].dish.title.zh;
+            }
+
             var cellDishName = {v: tempDishName, t:"s" };
             var cell_refDishName = XLSX.utils.encode_cell({c:0,r:currentRow});
             worksheet[cell_refDishName] = cellDishName;
@@ -431,7 +439,8 @@ exports.orderExportInternalList = function(req, res, next) {
     //var first_cell= first_worksheet['A1'];
     //console.log (first_cell);
 
-    req.query.limit = 10000;
+    req.query.limit = 1000;
+    req.query.skip = 0;
 
     models.order.find(query).sort("-createdAt").skip(req.query.skip).limit(req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})
@@ -439,13 +448,19 @@ exports.orderExportInternalList = function(req, res, next) {
         .lean()
         .execAsync()
         .then(function(resultOrders){
-            var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
-            workbook.Sheets[first_sheet_name] = newSheet;
+            logger.error("internal length:",resultOrders.length);
+            if (resultOrders.length > 0){
+                var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
+                workbook.Sheets[first_sheet_name] = newSheet;
 
-            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+                XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
 
-            res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
-//            res.send(resultOrders)
+                res.download(path.join(__dirname, '../../app/public/admin/src/excel/output2.xlsx'));
+            }else{
+                res.send(resultOrders)
+            }
+
+
         }).catch(next);
 
 
@@ -651,8 +666,6 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
 
         var totalAllPrice = 0;
-
-        console.log(resultOrder)
 
         if (resultOrder.length > 0){
             totalAllPrice = resultOrder.reduce(function(previous, order) {
