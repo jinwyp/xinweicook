@@ -117,6 +117,10 @@ expressRoutes = function(app) {
         res.render(pathPrefix + 'wxgzh-qrcode.html');
     });
 
+    app.get('/mobile/promotion01', function (req, res) {
+        res.render(pathPrefix + 'promotion01.html');
+    })
+
 
 
     var warehouseCoords = {

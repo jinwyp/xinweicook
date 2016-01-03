@@ -2054,6 +2054,54 @@ html.order-address-html .address-list {
   border: none;
 }
 
+/* line 1, ../sass/pages/_promotion01.scss */
+.promotion01-main {
+  padding: 10px;
+}
+/* line 3, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item {
+  background-color: white;
+  border: 1px solid #cacaca;
+  margin-bottom: 10px;
+  padding: 16px 12px;
+}
+/* line 8, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item > * {
+  display: inline-block;
+}
+/* line 11, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item .price {
+  color: #f44d4d;
+  width: 25%;
+}
+/* line 15, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item .name {
+  color: black;
+  width: 50%;
+}
+/* line 19, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item .xw-btn {
+  font-size: 12px;
+  padding: 7px 9px;
+  border-radius: 3px;
+  min-width: 58px;
+  text-align: center;
+  color: white;
+  background: #f44d4d;
+}
+/* line 30, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item.exchanged .price {
+  color: gray;
+}
+/* line 33, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item.exchanged .name {
+  color: gray;
+}
+/* line 36, ../sass/pages/_promotion01.scss */
+.promotion01-main .card-item.exchanged .xw-btn {
+  background-color: #cacaca;
+}
+
 /* line 3, ../sass/_components.scss */
 .shopping-progress-bar {
   padding-top: 4px;

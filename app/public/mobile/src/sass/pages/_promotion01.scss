@@ -1,0 +1,41 @@
+.promotion01-main {
+  padding: 10px;
+  .card-item {
+    background-color: white;
+    border: 1px solid #cacaca;
+    margin-bottom: 12px;
+    padding: 16px 12px;
+    > * {
+      display: inline-block;
+    }
+    .price {
+      color: $primary-color;
+      width: 25%;
+    }
+    .name {
+      color: black;
+      width: 50%;
+    }
+    .xw-btn {
+      font-size: 12px;
+      padding: 7px 9px;
+      border-radius: 3px;
+      min-width: 58px;
+      text-align: center;
+      color: white;
+      background: $primary-color;
+    }
+
+    &.exchanged {
+      .price {
+        color: gray;
+      }
+      .name {
+        color: gray;
+      }
+      .xw-btn {
+        background-color: #cacaca;
+      }
+    }
+  }
+}

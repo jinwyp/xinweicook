@@ -8,6 +8,8 @@ return {
         alreadyExist  : 1112,
         notFound      : 1113,
 
+        userReferrerWrong : 1140,
+
         userIdWrong : 1150,
         userGenderWrong : 1152,
         userOldAddressWrong : 1155,
@@ -16,6 +18,7 @@ return {
 
         addressIdWrong : 1210,
         addressNotFound : 1212,
+        addressNotInUser : 1214,
 
         addressLatitudeWrong  : 1220,
         addressLongitudeWrong : 1221,
@@ -142,7 +145,8 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
     var noRedirectPath = [/^\/mobile\/$/, /^\/mobile\/login/, /^\/mobile\/cook/, /^\/mobile\/resetpwd$/];
     var noRedirectAPI = ['/api/user', '/api/user/token', '/api/user/shoppingcart', '/api/user/address'];
     var loginRedirectPath = ['/mobile/me', '/mobile/addresslist', '/mobile/orderaddress', '/mobile/orderlist',
-        '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline'];
+        '/mobile/invite', '/mobile/coupons', '/mobile/cook', '/mobile/balance', '/mobile/chargebalanceonline',
+        '/mobile/promotion01'];
 
     return {
         'request': function(config) {
@@ -158,7 +162,6 @@ angular.module('xw.config').factory('commonInterceptor', ['$localStorage', '$q',
             var redirectPath = '';
             if (response.status == 401) {
                 // todo: redirect
-                console.log(401);
                 if (noRedirectPath.some(function (RE) {return RE.test(location.pathname)})) {
                     if (noRedirectAPI.indexOf(response.config.url) != -1) {
                         return $q.reject(response);
