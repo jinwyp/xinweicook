@@ -230,8 +230,8 @@ module.exports =
 
         newCoupon =
           name :
-            zh : "扫二维码优惠券 " + resultCoupon.code
-            en : "QR Code Coupon " + resultCoupon.code
+            zh : (resultCoupon.name.zh) or ("扫二维码优惠券 " + resultCoupon.code)
+            en : (resultCoupon.name.en) or ("QR Code Coupon " + resultCoupon.code)
           price : couponData.price
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
