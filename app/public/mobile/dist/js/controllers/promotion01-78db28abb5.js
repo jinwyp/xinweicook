@@ -48,15 +48,24 @@ angular.module('xw.controllers').controller('promotion01', function (Coupon, $sc
 
         User.getUserInfo().then(function (res) {
             res.data.couponList.forEach(function (el) {
+                // for old name convention
                 var code = el.name.zh.split(' ')[1]
+                var exist;
                 if (code) {
-                    cards.some(function (card) {
+                    exist = cards.some(function (card) {
                         if (card.code == code) {
                             card.exchanged = true;
                             return true;
                         }
                     })
                 }
+                if (exist) return;
+                cards.some(function (card) {
+                    if (card.name == el.name.zh) {
+                        card.exchanged = true;
+                        return true;
+                    }
+                })
             })
         })
     }
