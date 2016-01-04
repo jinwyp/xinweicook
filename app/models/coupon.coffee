@@ -240,6 +240,7 @@ module.exports =
             zh : zhName
             en : enName
           price : couponData.price
+          priceLimit: couponData.priceLimit or 10
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
