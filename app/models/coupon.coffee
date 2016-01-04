@@ -228,10 +228,17 @@ module.exports =
         models.coupon.checkUsed(resultCoupon, user)
         couponData = resultCoupon
 
+        unless resultCoupon.code.indexOf('XWNOD') is -1
+          zhName = "扫二维码优惠券 " + resultCoupon.code
+          enName = "QR Code Coupon " + resultCoupon.code
+        else
+          zhName = resultCoupon.name.zh
+          enName = resultCoupon.name.en
+
         newCoupon =
           name :
-            zh : (resultCoupon.name.zh) or ("扫二维码优惠券 " + resultCoupon.code)
-            en : (resultCoupon.name.en) or ("QR Code Coupon " + resultCoupon.code)
+            zh : zhName
+            en : enName
           price : couponData.price
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
