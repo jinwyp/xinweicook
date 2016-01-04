@@ -10,7 +10,7 @@
 
 var md5     = require('MD5');
 var requestC = require('request');
-
+var Promise = require("bluebird");
 
 
 
@@ -33,13 +33,13 @@ var configKsuDi = {
     url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
 
 
-    url_createOrder : "http://web.ksudi.com/shop/order/save/1",
-    url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
+    url_createPartTimeOrder : "http://web.ksudi.com/shop/order/save/1",
+    url_searchPartTimeOrder : "http://web.ksudi.com/shop/order/query/1"
 
-    //url_createOrder : "http://www.ksudi.org/shop/order/save/1",
+    //url_createPartTimeOrder : "http://www.ksudi.org/shop/order/save/1",
 
-    //url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
-    //url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
+    //url_createPartTimeOrder : "http://192.168.1.72/shop/shop/order/save/1",
+    //url_searchPartTimeOrder : "http://192.168.1.72/shop/shop/order/query/1"
 
 
 
@@ -130,7 +130,7 @@ ksuDi.prototype.sign = function(obj){
 
 
 
-ksuDi.prototype.createOrder = function (item, callback){
+ksuDi.prototype.createPartTimeOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
         password : 'xwcook789',
@@ -173,10 +173,8 @@ ksuDi.prototype.createOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    //console.log(newOrder);
-
     var opts = {
-        url: this.config.url_createOrder,
+        url: this.config.url_createPartTimeOrder,
         method: 'POST',
         form: newOrder
         //headers: {
@@ -188,7 +186,6 @@ ksuDi.prototype.createOrder = function (item, callback){
         //json : newOrder
     };
 
-    //console.log(opts);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -230,12 +227,16 @@ ksuDi.prototype.createOrder = function (item, callback){
     });
 };
 
+ksuDi.prototype.createPartTimeOrderAsync = Promise.promisify(ksuDi.prototype.createPartTimeOrder);
 
 
 
 
 
-ksuDi.prototype.searchOrder = function (item, callback){
+
+
+
+ksuDi.prototype.searchPartTimeOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
         password : this.config.password,
@@ -254,10 +255,8 @@ ksuDi.prototype.searchOrder = function (item, callback){
 
     newOrder.sign = this.sign(newOrder) ;
 
-    //console.log(newOrder);
-
     var opts = {
-        url: this.config.url_searchOrder,
+        url: this.config.url_searchPartTimeOrder,
         method: 'POST',
         form: newOrder
         //headers: {
@@ -269,7 +268,6 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //json : newOrder
     };
 
-    //console.log(opts);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -280,7 +278,7 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        //logger.error('========== KSudi searchOrder: ', body);
+        //logger.error('========== KSudi searchPartTimeOrder: ', body);
 
         var result = {};
 
@@ -329,3 +327,8 @@ ksuDi.prototype.searchOrder = function (item, callback){
 
     });
 };
+
+
+ksuDi.prototype.searchPartTimeOrderAsync = Promise.promisify(ksuDi.prototype.searchPartTimeOrder);
+
+
