@@ -134,7 +134,7 @@ ksuDi.prototype.sign = function(obj, flag){
         ]);
     }
 
-    console.log(signTarget);
+    //console.log(signTarget);
 
     var querystring = Object.keys(signTarget)
         .filter(function (key) {
@@ -220,7 +220,7 @@ ksuDi.prototype.createPartTimeOrder = function (item, callback){
             return callback(err);
         }
 
-        //console.log('========== KSudi', response);
+        //console.log('========== KSudi', body);
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};
@@ -432,8 +432,9 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
     };
 
     console.log(newOrder);
+
     requestC(opts, function(err, response, body){
-        console.log('========== KSudi', err);
+        //console.log('========== KSudi', err);
         if (err) {
             //logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
             return callback(err);
@@ -445,31 +446,31 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
         var result = {};
 
         try{
-            result = JSON.parse(body);
+            result = body;
         }catch (error){
             return  callback(error);
         }
 
+        //200 下单成功
+        //401 请求错误-账户错误
+        //402 请求错误-签名错误
+        //403 请求错误-请求时间异常
+        //404 请求错误-账户余额不足
+        //411 请求错误-快件信息错误
+        //421 请求错误-寄件信息错误
+        //422 请求错误-寄件地址无法解析
+        //423 请求错误-预约时间错误
+        //431 请求错误-收件信息错误
+        //432 请求错误-收件地址无法解析
+        //433 请求错误-收件地址数量错误
+        //400 请求错误-其他
+        //500 系统繁忙
+
         if(result.code === 200){
-
-            //200 下单成功
-            //401 请求错误-账户错误
-            //402 请求错误-签名错误
-            //403 请求错误-请求时间异常
-            //404 请求错误-账户余额不足
-            //411 请求错误-快件信息错误
-            //421 请求错误-寄件信息错误
-            //422 请求错误-寄件地址无法解析
-            //423 请求错误-预约时间错误
-            //431 请求错误-收件信息错误
-            //432 请求错误-收件地址无法解析
-            //433 请求错误-收件地址数量错误
-            //400 请求错误-其他
-            //500 系统繁忙
-
+            result.msg = '下单成功';
             return callback(null, result);
         }else{
-
+            result.msg = '快速递专职下单失败';
             return  callback(result);
         }
 
