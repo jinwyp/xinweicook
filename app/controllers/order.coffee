@@ -1314,3 +1314,37 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
 
   .catch(next)
+
+
+
+
+
+
+exports.createDeliveryKSuDiFullTime = (req, res, next) ->
+  models.order.validationOrderId req.params._id
+
+  models.order.findById(req.params._id).execAsync().then (resultOrder)->
+
+    models.order.checkNotFound(resultOrder)
+
+    if resultOrder
+      kuaiSuDi.createFullTimeOrderAsync(resultOrder).then (result)->
+
+        resultOrder.express.name = models.order.constantDeliveryName().ksudi
+        resultOrder.express.displayName.zh = "快速递"
+        resultOrder.express.displayName.en = "快速递"
+        resultOrder.express.number = result.runningnumber
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+
+        resultOrder.saveAsync();
+        res.send(result)
+
+      .catch((err)->
+        if err and err.msg
+          next(new Err(err.msg, 400))
+        else
+          next(err)
+      )
+
+  .catch(next)
+

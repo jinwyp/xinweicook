@@ -631,19 +631,35 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
-    $scope.createOrderDeliveryKSuDi = function (form) {
+    $scope.createOrderDeliveryKSuDi = function (form, flag) {
         if (form.$invalid) {
             return;
         }
 
-        Statistic.createOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
-            console.log(result);
-            $scope.data.order.expressStatus = 'waitForConfirm';
-            Notification.success({message: 'Update Success! ', delay: 4000});
-        }).catch(function(err){
-            console.log(err);
-            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
-        });
+
+        if (flag ==='fulltime'){
+
+            Statistic.createOrderDeliveryKSuDiFullTime($scope.data.order._id).then(function (result) {
+                console.log(result);
+                $scope.data.order.expressStatus = 'waitForConfirm';
+                Notification.success({message: 'Update Success! ', delay: 4000});
+            }).catch(function(err){
+                console.log(err);
+                Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+            });
+
+        }else{
+            Statistic.createOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
+                console.log(result);
+                $scope.data.order.expressStatus = 'waitForConfirm';
+                Notification.success({message: 'Update Success! ', delay: 4000});
+            }).catch(function(err){
+                console.log(err);
+                Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+            });
+        }
+
+
     };
 
     $scope.searchOrderDeliveryKSuDi = function (form) {
@@ -660,6 +676,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
+
+
 
 
     $scope.clickExpressRadio = function (express) {

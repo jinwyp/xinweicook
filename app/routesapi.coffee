@@ -163,6 +163,9 @@ expressRoutes = (app) ->
   app.post("/api/administrator/order/delivery/ksudi/order/:_id", orderController.createDeliveryKSuDi)
   app.post("/api/administrator/order/delivery/ksudi/notify", orderController.deliveryKSuDiNotify)
 
+  app.post("/api/administrator/order/delivery/ksudi/orderfullltime/:_id", orderController.createDeliveryKSuDiFullTime)
+
+
   app.get("/api/administrator/export/coupon15", couponController.verifyCoupon150000)
 
 

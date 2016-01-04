@@ -273,6 +273,10 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             var url = '/api/administrator/order/delivery/ksudi/order/' + orderId;
             return $http.post(url);
         },
+        createOrderDeliveryKSuDiFullTime: function (orderId) {
+            var url = '/api/administrator/order/delivery/ksudi/orderfullltime/' + orderId;
+            return $http.post(url);
+        },
 
         getOrderStatisticByAddress: function (params) {
             return $http.get('/api/admin/statistic/order/address', {
