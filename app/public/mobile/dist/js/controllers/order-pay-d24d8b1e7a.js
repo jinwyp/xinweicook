@@ -66,23 +66,6 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             if (!cart[name].length) delete cart[name];
         }
 
-        // 优惠券
-        coupon = data.coupon;
-        User.getUserInfo().then(function (res) {
-            coupon.cardList = res.data.couponList.filter(function (el) {
-                var startDate = new Date(el.startDate);
-                var endDate = new Date(el.endDate);
-                var now = Date.now();
-
-                return !el.isUsed && (startDate < now && endDate > now);
-            });
-            if (coupon.cardList.length) {
-                model.coupon.card = angular.sort(coupon.cardList, function (a, b) {
-                    return b.price - a.price
-                })[0];
-            }
-        });
-
         // 余额
         Balance.balance().then(function (res) {
             data.balance.total = res.data.balance;
@@ -97,6 +80,23 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
                 return total + dishPrice(cur, true)
             }, 0)
         }
+
+        // 优惠券
+        coupon = data.coupon;
+        User.getUserInfo().then(function (res) {
+            coupon.cardList = res.data.couponList.filter(function (el) {
+                var startDate = new Date(el.startDate);
+                var endDate = new Date(el.endDate);
+                var now = Date.now();
+
+                return !el.isUsed && (startDate < now && endDate > now) && data.orderPrice >= el.priceLimit;
+            });
+            if (coupon.cardList.length) {
+                model.coupon.card = angular.sort(coupon.cardList, function (a, b) {
+                    return b.price - a.price
+                })[0];
+            }
+        });
     }
 
     $scope.totalPrice = function () {
