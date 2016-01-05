@@ -3,7 +3,10 @@
 <head>
     <title>食材包 - 新味</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/pc/src/css/style.css">
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
+    <!-- build-replace -->
+    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <!-- end-build-replace -->
 </head>
 <body>
 
@@ -95,5 +98,9 @@
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
 </div>
+<!-- build-replace -->
+<script src="http://localhost:8081/webpack-common.js"></script>
+<script src="http://localhost:8081/common.js"></script>
+<!-- end-build-replace -->
 </body>
 </html>

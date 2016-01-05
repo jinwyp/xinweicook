@@ -3,7 +3,10 @@
 <head><title>{{ dish.title[locale] }} - 新味</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
-    <link rel="stylesheet" href="/pc/src/css/style.css">
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
+    <!-- build-replace -->
+    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <!-- end-build-replace -->
 </head>
 <body>
 
@@ -105,8 +108,12 @@
             </a></div>
     </div>
     <div class="like"><img src="/pc/src/images/like.png">
-
-        <p class="num">24</p></div>
+        <p class="num">24</p>
+    </div>
 </div>
+<!-- build-replace -->
+<script src="http://localhost:8081/webpack-common.js"></script>
+<script src="http://localhost:8081/common.js"></script>
+<!-- end-build-replace -->
 </body>
 </html>

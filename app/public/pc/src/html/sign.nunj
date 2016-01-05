@@ -3,7 +3,9 @@
 <head><title>xinwei</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
-    <link rel="stylesheet" href="/pc/src/css/style.css">
+    <!-- build-replace -->
+    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <!-- end-build-replace -->
 </head>
 <body>
 
@@ -28,7 +30,7 @@
         <!--<label class="lab">确认密码</label><input id="signup_repwd" type="password"><a id="signup_btn" class="btn-login">注册</a>-->
     <!--</div>-->
 </div>
-<style type="text/css">
+<style>
     #geetest-wrapper {
         width: 1000px;
         margin: 10px auto;
@@ -52,8 +54,10 @@
 <div id="geetest-wrapper">
     <label class="lab">滑动获取验证码</label>
 </div>
-{#<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>#}
-{#<script type="text/javascript" src="/pc/dist/js/sign.js"></script>#}
+<!-- build-replace -->
+<script src="http://localhost:8081/webpack-common.js"></script>
+<script src="http://localhost:8081/sign.js"></script>
+<!-- end-build-replace -->
 <script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
 <script>
     (function () {

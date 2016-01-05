@@ -37,11 +37,11 @@
                         <span class="like-icon" ng-class="{'like': dish.liked, eat: dish.cookingType == 'ready to eat'}" ng-click="likeDish(dish)"></span>
                     </div>
                     <div class="buy-button"
-                         ng-class="{'out-of-stock': dish.outOfStock || !isAddressOk()}"
-                         ng-click="(!dish.outOfStock && isAddressOk(true)) && addDish(dish)">
+                         ng-class="{'out-of-stock': outOfStock(dish) || !isAddressOk()}"
+                         ng-click="(!outOfStock(dish) && isAddressOk(true)) && addDish(dish)">
                         <div class="price"><span>{{dish.priceOriginal}}</span></div>
-                        <div class="text" ng-if="!dish.outOfStock">购买</div>
-                        <div class="text" ng-if="dish.outOfStock">售罄</div>
+                        <div class="text" ng-if="!warehouse || !outOfStock(dish)">购买</div>
+                        <div class="text" ng-if="warehouse && outOfStock(dish)">售罄</div>
                     </div>
                 </div>
             </div>
