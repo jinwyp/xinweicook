@@ -10,7 +10,7 @@
 
 var md5     = require('MD5');
 var requestC = require('request');
-
+var Promise = require("bluebird");
 
 
 
@@ -26,20 +26,23 @@ var configKsuDi = {
     charset : 'utf-8',
 
     secret: "",
-    key: "",
+    key: "0d84a55290b37bfd3ba4623a5b5c22d6",
 
 
     //url_notify : "http://172.17.124.14:3003/api/administrator/order/delivery/ksudi/notify",
     url_notify : "http://m.xinweicook.com/api/administrator/order/delivery/ksudi/notify",
 
 
-    url_createOrder : "http://web.ksudi.com/shop/order/save/1",
-    url_searchOrder : "http://web.ksudi.com/shop/order/query/1"
+    url_createPartTimeOrder : "http://web.ksudi.com/shop/order/save/1",
+    url_searchPartTimeOrder : "http://web.ksudi.com/shop/order/query/1",
 
-    //url_createOrder : "http://www.ksudi.org/shop/order/save/1",
+    url_createFullTimeOrder : "http://web.ksudi.com/shop/order/save/2",
+    url_searchFullTimeOrder : "http://web.ksudi.com/shop/order/query/3"
 
-    //url_createOrder : "http://192.168.1.72/shop/shop/order/save/1",
-    //url_searchOrder : "http://192.168.1.72/shop/shop/order/query/1"
+    //url_createPartTimeOrder : "http://www.ksudi.org/shop/order/save/1",
+
+    //url_createPartTimeOrder : "http://192.168.1.72/shop/shop/order/save/1",
+    //url_searchPartTimeOrder : "http://192.168.1.72/shop/shop/order/query/1"
 
 
 
@@ -84,29 +87,52 @@ function ksuDi(config) {
 
 
 
-ksuDi.prototype.sign = function(obj){
+ksuDi.prototype.sign = function(obj, flag){
 
-    var signTarget = _.pick(obj, [
-        'recaddrs',
-        'username',
-        'password',
-        'charset',
-
-        'expressnumber',
-        'flag',
-        'goodsInfo',
-        'signtype',
-        'actualcost',
-        'sender',
-        'sendtelephone',
-        'sendaddress',
-        'cityname',
-        'citycode',
-        'isadvance',
-        'backurl'
+    var signTarget = {};
 
 
-    ]);
+    if (flag === 'fulltime'){
+        signTarget = _.pick(obj, [
+            'login_name',
+            'ksudi_key',
+            'time',
+            'city_name',
+            'customer_express_no',
+            'is_urgent',
+
+            'memo',
+            'send_time',
+            'send_name',
+            'send_telephone',
+            'send_address',
+            'weight'
+
+        ]);
+    }else{
+
+        signTarget = _.pick(obj, [
+            'recaddrs',
+            'username',
+            'password',
+            'charset',
+
+            'expressnumber',
+            'flag',
+            'goodsInfo',
+            'signtype',
+            'actualcost',
+            'sender',
+            'sendtelephone',
+            'sendaddress',
+            'cityname',
+            'citycode',
+            'isadvance',
+            'backurl'
+
+
+        ]);
+    }
 
     //console.log(signTarget);
 
@@ -130,7 +156,7 @@ ksuDi.prototype.sign = function(obj){
 
 
 
-ksuDi.prototype.createOrder = function (item, callback){
+ksuDi.prototype.createPartTimeOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
         password : 'xwcook789',
@@ -171,12 +197,10 @@ ksuDi.prototype.createOrder = function (item, callback){
         newOrder.order_remark = item.expressComment;
     }
 
-    newOrder.sign = this.sign(newOrder) ;
-
-    //console.log(newOrder);
+    newOrder.sign = this.sign(newOrder, '') ;
 
     var opts = {
-        url: this.config.url_createOrder,
+        url: this.config.url_createPartTimeOrder,
         method: 'POST',
         form: newOrder
         //headers: {
@@ -188,7 +212,6 @@ ksuDi.prototype.createOrder = function (item, callback){
         //json : newOrder
     };
 
-    //console.log(opts);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -197,7 +220,7 @@ ksuDi.prototype.createOrder = function (item, callback){
             return callback(err);
         }
 
-        //console.log('========== KSudi', response);
+        //console.log('========== KSudi', body);
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};
@@ -230,12 +253,16 @@ ksuDi.prototype.createOrder = function (item, callback){
     });
 };
 
+ksuDi.prototype.createPartTimeOrderAsync = Promise.promisify(ksuDi.prototype.createPartTimeOrder);
 
 
 
 
 
-ksuDi.prototype.searchOrder = function (item, callback){
+
+
+
+ksuDi.prototype.searchPartTimeOrder = function (item, callback){
     var newOrder = {
         username : this.config.username,
         password : this.config.password,
@@ -252,12 +279,10 @@ ksuDi.prototype.searchOrder = function (item, callback){
     //    newOrder.runningnumber = item.express.number
     //}
 
-    newOrder.sign = this.sign(newOrder) ;
-
-    //console.log(newOrder);
+    newOrder.sign = this.sign(newOrder, '') ;
 
     var opts = {
-        url: this.config.url_searchOrder,
+        url: this.config.url_searchPartTimeOrder,
         method: 'POST',
         form: newOrder
         //headers: {
@@ -269,7 +294,6 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //json : newOrder
     };
 
-    //console.log(opts);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -280,7 +304,7 @@ ksuDi.prototype.searchOrder = function (item, callback){
         //console.log('========== KSudi', response);
         //console.log('========== KSudi', body);
 
-        //logger.error('========== KSudi searchOrder: ', body);
+        //logger.error('========== KSudi searchPartTimeOrder: ', body);
 
         var result = {};
 
@@ -329,3 +353,131 @@ ksuDi.prototype.searchOrder = function (item, callback){
 
     });
 };
+
+
+ksuDi.prototype.searchPartTimeOrderAsync = Promise.promisify(ksuDi.prototype.searchPartTimeOrder);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ksuDi.prototype.createFullTimeOrder = function (item, callback){
+
+    var recieveAddress = {
+        receive_name: item.address.contactPerson,
+        receive_telephone: item.address.mobile,
+        receive_address: item.address.city + item.address.district + item.address.street.replace(/\//, '') + item.address.address.replace(/\//, '')
+    };
+
+    var newOrder = {
+        login_name : this.config.username,
+        ksudi_key : this.config.key,
+
+        is_urgent : 1, // 平台专人配送填"1"，快递公司配送填"2"
+
+        express_addressee_list : [],
+        send_name : '新味',
+        send_telephone : '15900634317', // 客服电话
+        send_address : '徐汇区中山南二路510号3楼',
+
+        city_name : item.address.city,
+        customer_express_no : item.orderNumber,
+
+        time : moment().format("YYYY-MM-DD HH:mm:ss"), // 请求时间戳 19位的发送请求时间，格式为"yyyy-MM-dd HH:mm:ss"
+        //send_time : moment(item.deliveryDateTime).format("YYYY-MM-DD HH:mm:ss"), //预约寄件时间 19位的预约快递员的取件时间，当前时间之后的2小时到72小时 之间，格式为"yyyy-MM-dd HH:mm"
+
+        weight : 2
+
+        //backurl : this.config.url_notify  // 回调url
+
+    };
+
+    newOrder.express_addressee_list.push(recieveAddress);
+
+
+    if (typeof item.expressComment !== 'undefined' && item.expressComment != ''){
+        newOrder.memo = item.expressComment;
+    }
+
+    newOrder.sign = this.sign(newOrder, 'fulltime') ;
+
+    var opts = {
+        url: this.config.url_createFullTimeOrder,
+        method: 'POST',
+        //form: newOrder
+        //headers: {
+        //    "content-type": "application/json"
+        //},
+        //body: JSON.stringify(newOrder),
+
+        timeout: 5000,
+        json : newOrder
+    };
+
+    console.log(newOrder);
+
+    requestC(opts, function(err, response, body){
+        //console.log('========== KSudi', err);
+        if (err) {
+            //logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
+            return callback(err);
+        }
+
+        console.log('========== KSudi', body);
+
+        //logger.error('========== KSudi createOrder: ', body);
+        var result = {};
+
+        try{
+            result = body;
+        }catch (error){
+            return  callback(error);
+        }
+
+        //200 下单成功
+        //401 请求错误-账户错误
+        //402 请求错误-签名错误
+        //403 请求错误-请求时间异常
+        //404 请求错误-账户余额不足
+        //411 请求错误-快件信息错误
+        //421 请求错误-寄件信息错误
+        //422 请求错误-寄件地址无法解析
+        //423 请求错误-预约时间错误
+        //431 请求错误-收件信息错误
+        //432 请求错误-收件地址无法解析
+        //433 请求错误-收件地址数量错误
+        //400 请求错误-其他
+        //500 系统繁忙
+
+        if(result.code === 200){
+            result.msg = '下单成功';
+            return callback(null, result);
+        }else{
+            result.msg = '快速递专职下单失败';
+            return  callback(result);
+        }
+
+
+    });
+};
+
+ksuDi.prototype.createFullTimeOrderAsync = Promise.promisify(ksuDi.prototype.createFullTimeOrder);
+
+

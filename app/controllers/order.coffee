@@ -1176,7 +1176,7 @@ exports.createDeliveryKSuDi = (req, res, next) ->
   models.order.findById(req.params._id).execAsync()
   .then (resultOrder)->
     if resultOrder
-      kuaiSuDi.createOrder(resultOrder, (err, result)->
+      kuaiSuDi.createPartTimeOrder(resultOrder, (err, result)->
         if err
           return next(new Err err.msg, 400)
 
@@ -1210,16 +1210,14 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 #    msg: '保存订单成功!',
 #    signtype: 'MD5'
 
-  models.order.findOneAsync({orderNumber:req.body.expressnumber})
-  .then (resultOrder)->
-
+  models.order.findOneAsync({orderNumber:req.body.expressnumber}).then (resultOrder)->
 
     if resultOrder
       if req.body.state is "300"
         resultOrder.expressStatus = models.order.constantExpressStatus().waitForPick
         resultOrder.saveAsync();
 
-        kuaiSuDi.searchOrder(resultOrder, (err, result)->
+        kuaiSuDi.searchPartTimeOrder(resultOrder, (err, result)->
 
           if err
             return next(new Err(err.msg, 400))
@@ -1262,15 +1260,13 @@ exports.deliveryKSuDiNotify = (req, res, next) ->
 exports.searchDeliveryKSuDi = (req, res, next) ->
   models.order.validationOrderId req.params._id
 
-  models.order.findById(req.params._id).execAsync()
-  .then (resultOrder)->
+  models.order.findById(req.params._id).execAsync().then (resultOrder)->
+
+    models.order.checkNotFound(resultOrder)
 
     if resultOrder
 
-      kuaiSuDi.searchOrder(resultOrder, (err, result)->
-
-        if err
-          return next(new Err(err.msg, 400))
+      kuaiSuDi.searchPartTimeOrderAsync(resultOrder).then (result)->
 
         resultOrder.express.name = models.order.constantDeliveryName().ksudi
         resultOrder.express.displayName.zh = "快速递"
@@ -1308,6 +1304,47 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
           resultOrder.saveAsync();
 
         res.send(result)
+
+      .catch((err)->
+        if err and err.msg
+          next(new Err(err.msg, 400))
+        else
+          next(err)
+      )
+
+
+  .catch(next)
+
+
+
+
+
+
+exports.createDeliveryKSuDiFullTime = (req, res, next) ->
+  models.order.validationOrderId req.params._id
+
+  models.order.findById(req.params._id).execAsync().then (resultOrder)->
+
+    models.order.checkNotFound(resultOrder)
+
+    if resultOrder
+      kuaiSuDi.createFullTimeOrderAsync(resultOrder).then (result)->
+
+        resultOrder.express.name = models.order.constantDeliveryName().ksudi
+        resultOrder.express.displayName.zh = "快速递"
+        resultOrder.express.displayName.en = "快速递"
+        resultOrder.express.number = result.runningnumber
+        resultOrder.expressStatus = models.order.constantExpressStatus().waitForConfirm
+
+        resultOrder.saveAsync();
+        res.send(result)
+
+      .catch((err)->
+        if err and err.msg
+          next(new Err(err.msg, 400))
+        else
+          next(err)
       )
 
   .catch(next)
+
