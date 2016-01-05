@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import '../utils/config.js' //ajax setting with access_token
+import "../../sass/style.scss"
 
 
 var cartObj;
