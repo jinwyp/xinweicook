@@ -525,7 +525,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.isAddNewStatus = false;
 
         Orders.one($stateParams.id).get().then(function (resultOrder) {
-            
+
             $scope.data.order = resultOrder;
 
             // 不能重复取消订单 仅当未支付状态才可以取消订单
