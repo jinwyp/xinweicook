@@ -5736,34 +5736,24 @@
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z736"></relationship>
     </object>
-    <object type="LMKEYVALUE" id="z735">
-        <attribute name="value" type="string">[{"data":{"environmentVariable":"CF6C20E6-62DA-4227-835F-1DA0FC6EA3C7"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">2</attribute>
-        <attribute name="name" type="string">Accept</attribute>
-        <attribute name="enabled" type="bool">1</attribute>
-        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z736"></relationship>
-    </object>
     <object type="LMREQUEST" id="z736">
         <attribute name="uuid" type="string">2E3F3912-4BEE-4ED8-8FA9-FB9BA0CC9440</attribute>
-        <attribute name="url" type="string">http://192.168.1.72/shop/shop/order/save/1</attribute>
+        <attribute name="url" type="string">http://web.ksudi.com/shop/order/save/2</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"username\\":\\"13761339935\\",\\"password\\":\\"e9a6a3f282d3b49e1a0061b06ace2296\\",\\"charset\\":\\"utf-8\\",\\"signtype\\":\\"MD5\\",\\"recaddrs\\":\\"王宇鹏xx\\/13564568304\\/shanghai\\/shanghai\\/shanghai\\/shanghai\\/xxxxx\\",\\"sender\\":\\"王宇鹏xx\\",\\"sendtelephone\\":\\"13564568304\\",\\"send_time\\":\\"1443429964\\",\\"receive_time\\":\\"1434168000\\",\\"goodsInfo\\":\\"照烧鸡腿\\",\\"actualcost\\":\\"\\",\\"weight\\":\\"\\",\\"order_remark\\":\\"\\",\\"cityname\\":\\"item.address.city\\",\\"citycode\\":\\"SHS\\",\\"isadvance\\":0,\\"backurl\\":\\"http:\\/\\/m.xinweicook.com\\/api\\/orders\\/delivery\\/ksudi\\/notify\\",\\"sign\\":\\"33d04075c5973b41e5325d8304f157c2\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"login_name\\":\\"15900634317\\",\\"ksudi_key\\":\\"0d84a55290b37bfd3ba4623a5b5c22d6\\",\\"is_urgent\\":\\"1\\",\\"express_addressee_list\\":[{\\"receive_name\\":\\"王宇鹏\\",\\"receive_telephone\\":\\"13564568304\\",\\"receive_address\\":\\"上海徐汇区中山南二路510号新味测试订单不需要送\\"}],\\"send_name\\":\\"新味\\",\\"send_telephone\\":\\"15900634317\\",\\"send_address\\":\\"桂平路418号\\",\\"city_name\\":\\"上海\\",\\"customer_express_no\\":\\"201511251552051599570\\",\\"time\\":\\"2016-01-04 17:59:32\\",\\"weight\\":\\"2\\",\\"sign\\":\\"3fd33134319f6714a5dd26b73f43d0a3\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">6</attribute>
         <attribute name="name" type="string">order-deliveryKSuDiDirect Duplicate</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z213"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z737 z734 z735"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z737 z734"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z737">
-        <attribute name="value" type="string">[{"data":{"environmentVariable":"018150F8-0AC9-47AA-877F-97F264B1EAEB"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}]</attribute>
+        <attribute name="value" type="string">application/x-www-form-urlencoded</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
         <attribute name="enabled" type="bool">1</attribute>
