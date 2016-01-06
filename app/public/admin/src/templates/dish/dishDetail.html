@@ -442,6 +442,26 @@
 
 
 
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >推荐搭配</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.currentRecommendSet" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishAllList | filter:{sideDishType:'main'}"></select>
+                    </div>
+                    <div class=" col-lg-4">
+                        <button type="button" class="btn info btn-sm" ng-click="addNewRecommendSet()"> <span class="glyphicon glyphicon-plus"></span>添加推荐搭配</button>
+                    </div>
+                </div>
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10" >
+                        <div class="col-lg-2 control-label" ng-repeat="recommend in data.dish.recommendSet track by $index">
+                            <label class="control-label" >{{recommend.dish | dishfilter:data.dishAllList}}</label>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="data.dish.recommendSet.splice($index, 1)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid, 'has-error':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid}">
                     <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序!</label>
