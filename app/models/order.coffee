@@ -657,7 +657,7 @@ module.exports =
 
       # 处理第二天的时间点 不包括星期天 但如果是星期天过19点 后会换菜单也可以下周一订单
       if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
-        for i in [1..17]
+        for i in [1..6]
           timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
 
           # 排除元旦
@@ -665,7 +665,7 @@ module.exports =
             segmentHour =
               hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
             resultTime.push(segmentHour)
-
+      
       resultTime
 
 
