@@ -390,7 +390,7 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
         login_name : this.config.username,
         ksudi_key : this.config.key,
 
-        is_urgent : 2, // 平台专人配送填"1"(兼职)，快递公司配送填"2"(专职)
+        is_urgent : "2", // 平台专人配送填"1"(兼职)，快递公司配送填"2"(专职)
 
         express_addressee_list : [],
         send_name : '新味',
@@ -484,5 +484,3 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 };
 
 ksuDi.prototype.createFullTimeOrderAsync = Promise.promisify(ksuDi.prototype.createFullTimeOrder);
-
-
