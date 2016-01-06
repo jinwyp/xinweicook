@@ -665,7 +665,7 @@ module.exports =
             segmentHour =
               hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
             resultTime.push(segmentHour)
-      
+
       resultTime
 
 
