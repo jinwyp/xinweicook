@@ -53,6 +53,15 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         }
     });
 
+    $scope.outOfStock = function (dish) {
+        if (dish.cookingType == 'ready to cook') {
+            return dish.outOfStock
+        } else {
+            // 这里 <= 0 不是 !> 0
+            return !(dish.stockWarehouseObj[$scope.warehouse] > 0)
+        }
+    }
+
     $scope.$watch('warehouse', function (val) {
         if (val) {
             filterEatByWarehouse()
@@ -120,14 +129,13 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
 
     function filterEatByWarehouse() {
         if (dishList.eatList && $scope.warehouse) {
-            dishList.eatList = dishList.eatList.filter(function (dish) {
-                return dish.stockWarehouseObj[$scope.warehouse] > 0
-                    || dish.cookingType == 'ready to cook'
-            });
-
-            $timeout(function () {
-                window.scrollTo(0, window.scrollY + 1);
-            })
+            //dishList.eatList = dishList.eatList.filter(function (dish) {
+            //    return dish.stockWarehouseObj[$scope.warehouse] > 0
+            //});
+            //
+            //$timeout(function () {
+            //    window.scrollTo(0, window.scrollY + 1);
+            //})
         }
     }
 

@@ -409,7 +409,11 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 
     };
 
-    newOrder.express_addressee_list.push(recieveAddress);
+    //newOrder.express_addressee_list.push(recieveAddress);
+
+    newOrder['express_addressee_list[0].receive_name'] = item.address.contactPerson;
+    newOrder['express_addressee_list[0].receive_telephone'] = item.address.mobile;
+    newOrder['express_addressee_list[0].receive_address'] = item.address.city + item.address.district + item.address.street.replace(/\//, '') + item.address.address.replace(/\//, '');
 
 
     if (typeof item.expressComment !== 'undefined' && item.expressComment != ''){
@@ -421,17 +425,18 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
     var opts = {
         url: this.config.url_createFullTimeOrder,
         method: 'POST',
-        //form: newOrder
+        form: newOrder
+        //'proxy':'http://localhost:8899/'
         //headers: {
         //    "content-type": "application/json"
         //},
         //body: JSON.stringify(newOrder),
 
-        timeout: 5000,
-        json : newOrder
+        //timeout: 5000,
+        //json : newOrder
     };
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -446,7 +451,7 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
         var result = {};
 
         try{
-            result = body;
+            result = JSON.parse(body);
         }catch (error){
             return  callback(error);
         }
