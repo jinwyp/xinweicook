@@ -524,10 +524,11 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.getOrderById = function () {
         $scope.css.isAddNewStatus = false;
 
-        Orders.one($stateParams.id).get().then(function (resutlOrder) {
-            $scope.data.order = resutlOrder;
+        Orders.one($stateParams.id).get().then(function (resultOrder) {
+            
+            $scope.data.order = resultOrder;
 
-            // 不能重复取消订单
+            // 不能重复取消订单 仅当未支付状态才可以取消订单
             $scope.data.order.currentOrderStatus = $scope.data.order.status;
 
             //编辑order时， 处理order express 显示
@@ -566,41 +567,31 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 });
             }
 
+
+            if (typeof resultOrder.express !== 'undefined' && resultOrder.express.number != null ){
+                Statistic.searchOrderDeliveryKSuDi(resultOrder._id).then(function (result) {
+
+
+                    Orders.one($stateParams.id).get().then(function (resultOrder) {
+                        $scope.data.order.express = resultOrder.express;
+                        $scope.data.order.expressStatus = resultOrder.expressStatus;
+                        $scope.data.order.expressPersonName = resultOrder.expressPersonName;
+                        $scope.data.order.expressPersonMobile = resultOrder.expressPersonMobile;
+                    });
+
+                    //Notification.success({message: 'Update Success! ', delay: 4000});
+                }).catch(function(err){
+                    console.log(err);
+                    //Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+                });
+
+            }
+
         });
     };
 
 
-    if ($state.current.data.type === 'list'){
-        if ($localStorage.orderSearchOptions){
-            $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
-        }
 
-        //if ($scope.data.searchOptions.query.createdAt){
-        //    if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
-        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
-        //    }else{
-        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
-        //    }
-        //
-        //}else{
-        //    $scope.data.searchDateFrom = '';
-        //}
-
-        $scope.searchOrderCount();
-
-    }
-
-    if ($state.current.data.type === 'update'){
-        $scope.getOrderById();
-
-
-        Users.getList({query : {group : 'courier'}}).then(function (resultUsers) {
-            $scope.data.couriersList = resultUsers;
-        }).catch(function(err){
-            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
-        });
-
-    }
     $scope.updateOrder = function (form) {
         if (form.$invalid) {
             return;
@@ -692,7 +683,37 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
+    if ($state.current.data.type === 'list'){
+        if ($localStorage.orderSearchOptions){
+            $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
+        }
 
+        //if ($scope.data.searchOptions.query.createdAt){
+        //    if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
+        //    }else{
+        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
+        //    }
+        //
+        //}else{
+        //    $scope.data.searchDateFrom = '';
+        //}
+
+        $scope.searchOrderCount();
+
+    }
+
+    if ($state.current.data.type === 'update'){
+        $scope.getOrderById();
+
+
+        Users.getList({query : {group : 'courier'}}).then(function (resultUsers) {
+            $scope.data.couriersList = resultUsers;
+        }).catch(function(err){
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    }
 
 
 
