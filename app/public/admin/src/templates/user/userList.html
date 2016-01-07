@@ -74,7 +74,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$valid, 'has-error':searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$invalid}">
                     <label for="inputUserWeixinNickname" class="col-lg-2 control-label" >微信昵称</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserWeixinNickname" placeholder="微信昵称" name="userWeixinNickname" ng-model="data.searchOptions.searchQueryWeixinNickname" ng-minlength="2">
+                        <input type="text" class="form-control" id="inputUserWeixinNickname" placeholder="微信昵称" name="userWeixinNickname" ng-model="data.searchQueryWeixinNickname" ng-minlength="2">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$invalid"></span>
                     </div>
