@@ -54,6 +54,9 @@
 <div id="geetest-wrapper">
     <label class="lab">滑动获取验证码</label>
 </div>
+
+{% include "./includes/footer.nunj" %}
+
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
 <script src="http://localhost:8081/sign.js"></script>

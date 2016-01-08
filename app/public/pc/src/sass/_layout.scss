@@ -1,3 +1,5 @@
+@import "stick-footer";
+
 header {
   position: fixed;
   top: 0;
@@ -114,4 +116,74 @@ header {
 }
 .headeremp {
   height: 68px;
+}
+
+.site-footer{
+  * {
+    font-size: 12px;
+  }
+  width: $main-width;
+  margin-left: auto;
+  margin-right: auto;
+  .footer-nav {
+    border-bottom: 2px solid black;
+    padding: 10px 0 13px;
+    .copyright {
+      float: left;
+    }
+    .icp {
+      float: right;
+    }
+  }
+  .footer-body {
+    padding: 47px 0;
+    font-size: 0;
+    > * {
+      display: inline-block;
+      height: 100px;
+      vertical-align: top;
+    }
+    .wrapper {
+      width: 410px;
+      position: relative;
+    }
+    .left {
+      position: absolute;
+      right: 0;
+      li {
+        line-height: 34px;
+        &.download-link {
+          margin-left: 25px;
+          img {
+            width: 105px;
+          }
+        }
+        img {
+          vertical-align: text-bottom;
+          width: 23px;
+          margin-right: 4px;
+        }
+      }
+    }
+    > img {
+      width: 100px;
+      margin: 0 40px;
+    }
+    .contact {
+      position: absolute;
+      left: 0;
+      line-height: 20px;
+      li:first-child {
+        font-weight: 600;
+      }
+      li {
+        span {
+          &.email {
+            margin-right: 1px;
+          }
+          margin-right: 13px;
+        }
+      }
+    }
+  }
 }

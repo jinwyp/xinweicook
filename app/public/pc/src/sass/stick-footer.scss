@@ -1,0 +1,15 @@
+// http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
+// 在webpack中对需要对页面进行require这个scss文件即可
+html, body {
+  height: 100%;
+}
+// 添加这个class到一个wrapper元素中,这个元素包含body中除了footer外的所有内容
+// 这个174px 需要根据实际的footer来确定
+.body-wrapper {
+  min-height: 100%;
+  margin: 0 auto -231px;
+}
+// .footer-push 作为.body-wrapper的最后一个元素
+.footer, .footer-push {
+  height: 231px;
+}

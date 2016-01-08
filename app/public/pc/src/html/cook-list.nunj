@@ -98,9 +98,12 @@
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
 </div>
+
+{% include "./includes/footer.nunj" %}
+
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/common.js"></script>
+<script src="http://localhost:8081/cook-list.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>

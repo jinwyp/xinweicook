@@ -1,5 +1,4 @@
-import 'babel-polyfill'
-import './_common' //none react. for html header
+import {init as initCommon} from './common' //no react. for html header
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -26,7 +25,10 @@ import {price as dishPrice} from "../utils/dish"
 
 var App = React.createClass({
     componentDidMount: function () {
-        this.props.dispatch(cartAction.getCart())
+        this.props.dispatch(cartAction.getCart()).then(res => {
+            // [NOT react]
+            initCommon(res)
+        })
         this.props.dispatch(balanceAction.getBalance())
     },
     getFreightIfNeeded: function (cart, address, dispatch) {
@@ -48,8 +50,8 @@ var App = React.createClass({
         }) && dispatch(orderAction.postOrder())
     },
     render: function () {
-        const {warehouse, cart, dispatch, address, user,
-            time, coupon, balance, freight} = this.props;
+        const {warehouse, cart, dispatch, address, time,
+            coupon, balance, freight} = this.props;
 
         var cartMethods = {
             selectOne: id=> {
@@ -131,7 +133,9 @@ var App = React.createClass({
 
         return (
             <div className="cart-main">
-                <Cart methods={cartMethods} cart={cart} warehouse={warehouse}/>
+                <div className="cart-main-left">
+                    <Cart methods={cartMethods} cart={cart} warehouse={warehouse}/>
+                </div>
                 <div className="cart-main-right">
                     <AddressList {...address} {...addressMethods}/>
                     {hasEatDishSelected && <TimeSelector {...timeMethods} {...time.eat}/>}

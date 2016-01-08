@@ -17,3 +17,16 @@ export function orderStatus(status) {
     }
     return orderStatus.status[status] || ''
 }
+
+export function postDish(dish) {
+    return {
+        dish: dish.dish._id,
+        number: dish.number,
+        subDish: !dish.subDish ? [] : dish.subDish.map(function (el) {
+            return {
+                dish: el.dish._id,
+                number: el.number
+            }
+        })
+    }
+}

@@ -3,7 +3,10 @@
 <head>
     <title>食材包 - 新味</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/pc/src/css/style.css">
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
+    
+    <link rel="stylesheet" href="/pc/dist/webpack-common.c3ce3113baae6ee07c2310c02bcdf516.css"/>
+    
 </head>
 <body>
 
@@ -95,7 +98,9 @@
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
 </div>
-{#<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>#}
-{#<script type="text/javascript" src="/pc/dist/js/common.js"></script>#}
+
+<script src="/pc/dist/webpack-common.0ddc08b05b031f905534.js"></script>
+<script src="/pc/dist/common.0ddc08b05b031f905534.js"></script>
+
 </body>
 </html>

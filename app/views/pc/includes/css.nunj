@@ -1,5 +1,0 @@
-<!-- build-replace-->
-<!-- build:css(app/public/mobile/src)  ../css/main.css -->
-<link rel="stylesheet" href="/mobile/src/css/main.css"/>
-<!-- endbuild -->
-<!-- end-build-replace-->

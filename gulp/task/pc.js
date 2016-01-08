@@ -1,5 +1,6 @@
 var path = require('path');
 var WebpackDevServer = require("webpack-dev-server");
+var fs = require('fs');
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -16,7 +17,7 @@ var del = require('del');
 
 gulp.task('pc', ['sass-pc:watch', 'webpack-devServer-pc']);
 
-gulp.task('pc-production', ['webpack-pc']);
+gulp.task('pc-production', ['pc-replace']);
 
 gulp.task('webpack-pc', function () {
     shell.task([
@@ -30,26 +31,35 @@ gulp.task('webpack-devServer-pc', function () {
     ])
 })
 
-gulp.task('pc-replace', function () {
+// 用webpack生成的带hash的文件替换掉webpack-dev-server的字符
+gulp.task('pc-replace', ['clean-view-pc'], function () {
     var replaceBlock = /<!-- build-replace -->([\w\W]*?)<!-- end-build-replace -->/g;
+    var replaceContent = /(href|src)=("|')(http:\/\/localhost:8081\/)([\w\W]+?)\2/g;
+    var publicPath = '/pc/dist/'
 
     var fileHash = {}
     fs.readdirSync('app/public/pc/dist').forEach(function (file) {
         var names = file.split('.')
         // name.hash.ext
         if (names.length == 3) {
-            fileHash[names[0] + names[2]] = names[1]
+            fileHash[names[0] + '.' + names[2]] = names[1]
         }
-    })
+    });
 
-    // 1.
     return gulp.src(['app/public/pc/src/html/**/*'])
         .pipe(replace(replaceBlock, function (_, m) {
-            return
+            return m.replace(replaceContent, function (__, m1, m2, m3, m4) {
+                if (fileHash[m4]) {
+                    var strs = m4.split('.');
+                    m4 = strs[0] + '.' + fileHash[m4] + '.' + strs[1]
+                    return m1 + '=' + m2 + publicPath + m4 + m2
+                } else {
+                    return __
+                }
+            })
         }))
+        .pipe(gulp.dest('app/views/pc'))
 })
-
-
 
 // sass
 gulp.task('sass-pc', function () {
@@ -73,36 +83,12 @@ function sassBuild(production) {
         .pipe(gulp.dest('app/public/pc/src/css/'));
 }
 
-// copy
-gulp.task('copy-images-pc', function () {
-    return gulp.src('app/public/pc/src/images/**/*.*')
-        .pipe(gulp.dest('app/public/pc/dist/images/'))
-});
-gulp.task('copy-html-pc', function () {
-    return gulp.src('app/public/pc/dist/html/**/*.*')
-        .pipe(gulp.dest('app/views/pc'))
-})
-gulp.task('copy-pc', ['copy-images', 'copy-html'])
-
 
 // clean
 gulp.task('clean-dist-pc', function () {
     return del('app/public/pc/dist/')
 })
-gulp.task('clean-image-pc', function () {
-    return del('app/public/pc/dist/images')
-})
-gulp.task('clean-css-pc', function () {
-    return del('app/public/pc/dist/css')
-})
-gulp.task('clean-html-pc', function () {
-    return del('app/public/pc/dist/html')
-})
-gulp.task('clean-js-pc', function () {
-    return del('app/public/pc/dist/js')
-})
 gulp.task('clean-view-pc', function () {
     return del('app/views/pc/')
 })
-gulp.task('clean-pc', ['clean-image-pc', 'clean-css-pc',
-    'clean-html-pc', 'clean-js-pc', 'clean-view-pc'])
+gulp.task('clean-pc', ['clean-dist-pc', 'clean-view-pc'])

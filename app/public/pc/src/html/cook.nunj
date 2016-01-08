@@ -111,9 +111,12 @@
         <p class="num">24</p>
     </div>
 </div>
+
+{% include "./includes/footer.nunj" %}
+
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/common.js"></script>
+<script src="http://localhost:8081/cook.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>

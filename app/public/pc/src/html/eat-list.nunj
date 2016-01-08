@@ -84,9 +84,12 @@
     </div>
     <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy">立即结算</a></div>
 </div>
+
+{% include "./includes/footer.nunj" %}
+
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/common.js"></script>
+<script src="http://localhost:8081/eat-list.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>

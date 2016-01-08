@@ -1,5 +1,7 @@
-import 'babel-polyfill'
-import './_common' //none react. for html header
+"use strict";
+
+// for html header(not react) &
+import {init as initCommon} from './common'
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -11,6 +13,7 @@ import * as couponAction from "../actions/coupon"
 import * as balanceAction from "../actions/balance"
 import * as orderAction from "../actions/order"
 import * as routeAction from '../actions/route'
+import * as userAction from '../actions/user'
 
 import AddressList from "../components/address/address-list"
 import OrderList from "../components/order/order-list"
@@ -18,6 +21,10 @@ import OrderList from "../components/order/order-list"
 var App = React.createClass({
 
     componentDidMount: function () {
+        this.props.dispatch(userAction.getUser()).then(res => {
+            // [NOT react]
+            initCommon(res)
+        })
         window.addEventListener('hashchange', () => {
             this.props.dispatch(routeAction.changeRoute(window.location.hash.substr(1)))
         })

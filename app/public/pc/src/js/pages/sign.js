@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import './_common' //none react. for html header
 
 import React from "react"
