@@ -1,0 +1,164 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Cook 用户</span>
+                <span ng-hide="css.isAddNewStatus">修改 Cook 用户 - {{data.cook.name.zh}} - {{data.cook.mobile}} - {{data.cook._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.cooks" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="cookForm" role="form" novalidate ng-cloak>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$valid, 'has-error':cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$invalid}">
+                    <label for="inputCookNameZh" class="col-lg-2 control-label" >姓名 中文</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputCookNameZh" placeholder="姓名 中文" name="cookNameZh" ng-model="data.cook.name.zh" required ng-minlength="2" ng-maxlength="100">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$error.minlength || cookForm.cookNameZh.$dirty&&cookForm.cookNameZh.$error.maxlength">字符长度错误2-100！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$valid, 'has-error':cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$invalid}">
+                    <label for="inputCookNameEn" class="col-lg-2 control-label" >姓名 英文</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputCookNameEn" placeholder="姓名 英文" name="cookNameEn" ng-model="data.cook.name.en" required ng-minlength="2" ng-maxlength="100">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$error.minlength || cookForm.cookNameEn.$dirty&&cookForm.cookNameEn.$error.maxlength">字符长度错误2-100！</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionZh.$valid, 'has-error':cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$invalid}">
+                    <label for="inputCookDescriptionZh" class="col-lg-2 control-label" >详细介绍 中文</label>
+
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputCookDescriptionZh" placeholder="中文" name="cookDescriptionZh" ng-model="data.cook.description.zh" ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$error.minlength || cookForm.cookDescriptionZh.$dirty&&cookForm.cookDescriptionZh.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$valid, 'has-error':cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$invalid}">
+                    <label for="inputCookDescriptionEn" class="col-lg-2 control-label" >详细介绍 英文</label>
+
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="inputCookDescriptionEn" placeholder="英文" name="cookDescriptionEn" ng-model="data.cook.description.en" ng-minlength="2" ng-maxlength="6000"></textarea>
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$error.minlength || cookForm.cookDescriptionEn.$dirty&&cookForm.cookDescriptionEn.$error.maxlength">字符长度错误2-6000！</span>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.mobile.$dirty&&cookForm.mobile.$valid, 'has-error':cookForm.mobile.$dirty&&cookForm.mobile.$invalid}">
+                    <label for="inputCookMobile" class="col-lg-2 control-label" >手机</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputCookMobile" placeholder="手机" name="mobile" ng-model="data.cook.mobile" required ng-minlength="11" ng-maxlength="15" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.mobile.$dirty&&cookForm.mobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.mobile.$dirty&&cookForm.mobile.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="cookForm.mobile.$dirty&&cookForm.mobile.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.mobile.$dirty&&cookForm.mobile.$error.minlength || cookForm.mobile.$dirty&&cookForm.mobile.$error.maxlength">字符长度错误11-15！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':cookForm.avatar.$dirty&&cookForm.avatar.$valid, 'has-error':cookForm.avatar.$dirty&&cookForm.avatar.$invalid}">
+                    <label for="inputCookAvatar" class="col-lg-2 control-label" >头像地址</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputCookAvatar" placeholder="头像地址" name="avatar" ng-model="data.cook.avatar" required ng-minlength="2" ng-maxlength="200" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="cookForm.avatar.$dirty&&cookForm.avatar.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="cookForm.avatar.$dirty&&cookForm.avatar.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="cookForm.avatar.$dirty&&cookForm.avatar.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="cookForm.avatar.$dirty&&cookForm.avatar.$error.minlength || cookForm.avatar.$dirty&&cookForm.avatar.$error.maxlength">字符长度错误2-200！</span>
+                    </div>
+
+                </div>
+
+
+
+                <!--<div class="form-group has-feedback" ng-class="{'has-success':cookForm.cookGender.$dirty&&cookForm.cookGender.$valid, 'has-error':cookForm.cookGender.$dirty&&cookForm.cookGender.$invalid}">-->
+                    <!--<label class="col-lg-2 control-label" >性别</label>-->
+
+                    <!--<div class="col-lg-4">-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="cookGender" ng-value="1" ng-model="data.cook.gender">男-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="cookGender" ng-value="2" ng-model="data.cook.gender">女-->
+                        <!--</label>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="cookForm.$invalid" ng-click="addNewCook(cookForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="cookForm.$invalid" ng-click="updateCook(cookForm)">Save</button>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>

@@ -463,6 +463,21 @@
                 </div>
 
 
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >厨师</label>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="data.dish.cook.user" ng-options="cook._id as cook.name.zh + ' ' + cook._id for cook in data.cookList "></select>
+                    </div>
+
+                </div>
+
+
+
+
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$valid, 'has-error':dishForm.dishSortId.$dirty&&dishForm.dishSortId.$invalid}">
                     <label for="inputDishSortId" class="col-lg-2 control-label" >菜品显示顺序!</label>
 
