@@ -226,8 +226,8 @@ angular.module('RDash.models').factory('Tags', function (Restangular) {
     return Restangular.service('tags');
 });
 
-angular.module('RDash.models').factory('Dishes', function (Restangular) {
-    return Restangular.service('dishes');
+angular.module('RDash.models').factory('Orders', function (Restangular) {
+    return Restangular.service('orders');
 });
 
 angular.module('RDash.models').factory('Positions', function (Restangular) {

@@ -39,26 +39,34 @@ function render(path, fn) {
 }
 
 render.index = function renderIndex(req, res, next, path) {
-    models.dish.find({
-        sideDishType: 'main',
-        isPublished: true
-    }).sort("-sortId").sort("-createdAt").execAsync()
-        .then(function (dishes) {
-            var data = {
-                // 识别为首页的头部
-                indexHeader: true,
 
-                cooks: dishes.filter(function (dish) {
-                    return dish.cookingType == 'ready to cook'
-                }).slice(0, 3),
-                eats: dishes.filter(function (dish) {
-                    return dish.cookingType == 'ready to eat'
-                }).slice(0, 3)
-            };
-            res.render(path, data)
-        }).catch(function (err) {
-            next(err)
-        })
+    var promiseList = [
+        models.dish.find({
+            sideDishType: 'main',
+            isPublished: true
+        }).sort("-sortId").sort("-createdAt").execAsync(),
+
+        models.promotionposition.find99({position: models.promotionposition.constantPosition().index1})
+    ];
+
+
+    Promise.all(promiseList).spread(function(dishes, promotionPostions){
+        console.log(promotionPostions)
+        var data = {
+            // 识别为首页的头部
+            indexHeader: true,
+
+            cooks: dishes.filter(function (dish) {
+                return dish.cookingType == 'ready to cook'
+            }).slice(0, 3),
+            eats: dishes.filter(function (dish) {
+                return dish.cookingType == 'ready to eat'
+            }).slice(0, 3)
+        };
+        res.render(path, data)
+    }).catch(function (err) {
+        next(err)
+    })
 };
 
 render.eatList = function (req, res, next, path) {

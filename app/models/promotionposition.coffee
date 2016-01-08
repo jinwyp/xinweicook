@@ -25,6 +25,12 @@ module.exports =
         indexcook2 : "indexcook2"
 
 
+    find99 : (options) ->
+      @findOne(options).sort("position").sort("-sortId").select(models.promotionposition.fields())
+      .populate({path: 'dish', select: models.dish.fieldsLess()})
+      .execAsync()
+
+
 
   methods: {}
   rest:{}
