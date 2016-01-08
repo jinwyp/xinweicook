@@ -16,11 +16,9 @@
                     <label class="col-lg-2 control-label">推荐位位置!</label>
 
                     <div class="col-lg-8">
-                        <label class="radio-inline">
-                            <input type="radio" name="positionName" ng-value="'index1'" ng-model="data.position.position">首页推荐位
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="positionName" ng-value="'indexcook1'" ng-model="data.position.position">食材包首页推荐位
+
+                        <label class="radio-inline" ng-repeat="positionName in data.positionNameList" ng-if="positionName.value">
+                            <input type="radio" name="promotionName" id="inputPositionName" ng-value="positionName.value" ng-model="data.position.position">{{positionName.name}}
                         </label>
                     </div>
                 </div>

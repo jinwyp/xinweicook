@@ -461,7 +461,7 @@ exports.userSignUp = (req, res, next) ->
     models.user.checkFound(resultUser)
 
     if not resultUser
-      logger.error("new user signUp:", mobile, code, pwd, couponcode)
+      logger.error("new user signUp:", mobile, code, pwd, couponcode, referrer)
 
       newUser =
         mobile : mobile

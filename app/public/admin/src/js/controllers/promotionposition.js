@@ -63,8 +63,16 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
                 value : ''
             },
             {
-                name : '首页推荐位',
+                name : '首页轮播',
                 value : 'index1'
+            },
+            {
+                name : '首页轮播上部三格',
+                value : 'index2'
+            },
+            {
+                name : '首页轮播下部三格',
+                value : 'index3'
             },
             {
                 name : '食材包首页推荐位',
@@ -196,7 +204,7 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
         }
 
         var newPosition = angular.copy($scope.data.position);
-        //console.log (newPosition);
+        Util.delProperty(newPosition);
         Positions.post(newPosition).then(function (resultPosition) {
             console.log(resultPosition);
             Notification.success({message : 'Save Success', delay : 4000});
@@ -205,8 +213,6 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
             Notification.error({ message : "Add New Position Failure! Status:" + err.status + " Reason: " + err.data.message, delay   : 7000 });
         });
     };
-
-
 
 
 
