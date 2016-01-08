@@ -8,11 +8,11 @@
 
 angular
     .module('RDash')
-    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', 'Warehouses', dishController ]);
+    .controller('DishController', ['$scope', '$timeout', '$state', '$stateParams', '$localStorage', 'Notification', 'Util', 'Dishes', 'Inventories', 'Tags', 'Statistic', 'Warehouses', 'Cooks', dishController ]);
 
 
 
-function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic, Warehouses) {
+function dishController($scope, $timeout, $state, $stateParams, $localStorage, Notification, Util, Dishes, Inventories, Tags, Statistic, Warehouses, Cooks) {
 
     $scope.data = {
         searchFilter : '',
@@ -31,20 +31,20 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         datePickerIsOpen : false,
 
         searchDateFrom : '',
-        searchDateTo : '',
+        searchDateTo   : '',
 
-
-        tagList : [],
-        dishAllList : [],
+        cookList           : [],
+        tagList            : [],
+        dishAllList        : [],
         dishOutOfStockList : [],
-        dishList : [],
-        inventoryList : [],
-        warehouseList : [],
+        dishList           : [],
+        inventoryList      : [],
+        warehouseList      : [],
 
-        dishStatisticByStock : [],
-        dishStatisticByDaily : [],
+        dishStatisticByStock      : [],
+        dishStatisticByDaily      : [],
         dishStatisticChartByDaily : [],
-        dishStatisticChartByWeek : [],
+        dishStatisticChartByWeek  : [],
         dishStatisticChartByMonth : [],
 
         currentTagFilter : '',
@@ -142,6 +142,14 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             tagFilter: [],
 
             recommendSet : [],
+
+            cook : {
+                user : '',
+                tips : {
+                    zh : '',
+                    en : ''
+                }
+            },
 
             priceOriginal: 1000,
             priceWholesale: [{
@@ -634,6 +642,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         Dishes.getList().then(function (resultDish) {
             $scope.data.dishAllList = resultDish;
+        });
+
+        Cooks.getList().then(function (resultCook) {
+            $scope.data.cookList = resultCook;
         });
 
         $scope.getSingleDishInfo();
