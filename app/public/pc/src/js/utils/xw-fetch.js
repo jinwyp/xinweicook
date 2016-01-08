@@ -12,7 +12,7 @@ function _fetch(url, options) {
         _fetch.headers = res.headers
         if (res.status >= 400) {
             if (res.status == '401') {
-                location.href = __PCPREFIX__ + '/sign'
+                //location.href = __PCPREFIX__ + '/sign'
             }
             return Promise.reject(res)
         }
