@@ -662,6 +662,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             $scope.data.dishAllList = resultDish;
         });
 
+        Cooks.getList().then(function (resultCook) {
+            $scope.data.cookList = resultCook;
+        });
+
     }
 
 

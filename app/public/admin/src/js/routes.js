@@ -296,6 +296,36 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
             })
 
 
+            .state('menu.positions', {
+                url: '/positions',
+                templateUrl: 'templates/promotionposition/positionList.html',
+                data: {
+                    title: '推荐位管理',
+                    type : 'list'
+                },
+                controller: 'PositionController'
+            })
+            .state('menu.updatePosition', {
+                url: '/positions/:id',
+                templateUrl: 'templates/promotionposition/positionDetail.html',
+                data: {
+                    title: '推荐位管理',
+                    type : 'update'
+                },
+                controller: 'PositionController'
+            })
+            .state('menu.addNewPosition', {
+                url: '/positionadd',
+                templateUrl: 'templates/promotionposition/positionDetail.html',
+                data: {
+                    title: '推荐位管理',
+                    type : 'add'
+                },
+                controller: 'PositionController'
+            })
+
+
+
             .state('menu.orders', {
                 url: '/orders',
                 templateUrl: 'templates/order/orderList.html',

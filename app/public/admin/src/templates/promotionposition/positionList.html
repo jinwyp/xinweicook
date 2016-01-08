@@ -1,0 +1,135 @@
+
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">Promotion Position 推荐位列表
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.addNewPosition" role="button">新增</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="searchForm" novalidate ng-cloak>
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.keyword.$dirty&&searchForm.keyword.$valid, 'has-error':searchForm.keyword.$dirty&&searchForm.keyword.$invalid}">
+                    <label for="inputKeyword" class="col-lg-2 control-label" >关键字实时筛选</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputKeyword" placeholder="keyword" name="keyword" ng-model="data.searchFilter" required ng-minlength="2">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.minlength || searchForm.keyword.$dirty&&searchForm.keyword.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.positionName.$dirty&&searchForm.positionName.$valid, 'has-error':searchForm.positionName.$dirty&&searchForm.positionName.$invalid}">
+                    <label for="inputPositionMobile" class="col-lg-2 control-label" >手机</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputPositionMobile" placeholder="" name="positionName" ng-model="data.searchOptions.query.mobile" ng-minlength="11">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$error.minlength || searchForm.positionName.$dirty&&searchForm.positionName.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.positionId.$dirty&&searchForm.positionId.$valid, 'has-error':searchForm.positionId.$dirty&&searchForm.positionId.$invalid}">
+                    <label for="inputPositionId" class="col-lg-2 control-label" >每条推荐位的ID</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputPositionId" placeholder="每条推荐位的ID" name="positionId" ng-model="data.searchOptions.query._id" ng-minlength="24">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.positionId.$dirty&&searchForm.positionId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.positionId.$dirty&&searchForm.positionId.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.positionId.$dirty&&searchForm.positionId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.positionId.$dirty&&searchForm.positionId.$error.minlength || searchForm.positionId.$dirty&&searchForm.positionId.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-default" ng-click="searchPositionCount(searchForm)">Search</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+    <nav >
+        <ul class="pagination">
+            <li>
+                <span aria-hidden="true"> 共{{data.positionListCount}}条记录 </span>
+            </li>
+
+
+            <li>
+                <a aria-label="Previous" ng-hide="data.positionListCurrentPage==1"  ng-click="changePagination(data.positionListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
+            </li>
+
+            <li ng-repeat="page in data.positionListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
+            <li>
+                <a aria-label="Next" ng-hide="data.positionListCurrentPage==data.positionListTotalPages"  ng-click="changePagination(data.positionListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>
+            </li>
+        </ul>
+
+    </nav>
+
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" >
+        <thead>
+        <tr>
+            <th>_id / 创建时间</th>
+            <th>推荐位位置</th>
+            <th>显示顺序</th>
+            <th>图片地址</th>
+            <th>链接</th>
+            <th>链接菜品</th>
+
+
+            <!--<th>操作</th>-->
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="position in data.positionList | filter: data.searchFilter">
+            <td><a ui-sref="menu.updatePosition({ id: position._id })">{{position._id}}</a> <br/> {{position.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} </td>
+            <td>
+                <span ng-show="position.position =='index1'">首页推荐位 </span>
+                <span ng-show="position.position =='indexcook1'">食材包首页推荐位 </span>
+
+            </td>
+            <td>{{position.sortId}}</td>
+            <td> {{position.imgUrl}}  <br> <img ng-src="{{position.imgUrl}}" alt="{{position.position}}"> </td>
+            <td> <a ng-href="{{position.linkUrl}}">{{position.linkUrl}}</a> </td>
+
+            <td> <a ui-sref="menu.updateDish({ id: position.dish })">{{position.dish}}</a>  </td>
+
+
+            <!--<td>-->
+            <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===cook._id">确认真的删除吗？-->
+            <!--<button class="btn btn-danger" ng-click="delPosition(cook)">立即删除</button>-->
+            <!--<button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>-->
+            <!--</div>-->
+            <!--<button class="btn btn-danger" ng-show="data.currentDeleteIndex!==cook._id" ng-click="data.currentDeleteIndex=cook._id">删除</button>-->
+            <!--</td>-->
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+</div>

@@ -10,9 +10,22 @@ module.exports =
     sortId: Number # 排序值
 
     imgUrl : String # 图片地址
-    urlLink : String # 链接地址
+    linkUrl : String # 链接地址
 
-  statics: {}
+  statics:
+    fields : ->
+      selectFields = "-__v"
+
+    constantPosition : () ->
+      status =
+        index1 : "index1"
+        index2 : "index2"
+        index3 : "index3"
+        indexcook1 : "indexcook1"
+        indexcook2 : "indexcook2"
+
+
+
   methods: {}
   rest:{}
 

@@ -1,0 +1,130 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 Position 推荐位内容</span>
+                <span ng-hide="css.isAddNewStatus">修改 Position 推荐位内容 - {{data.position.name.zh}} - {{data.position.mobile}} - {{data.position._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.positions" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="positionForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':positionForm.positionName.$dirty&&positionForm.positionName.$valid, 'has-error':positionForm.positionName.$dirty&&positionForm.positionName.$invalid}">
+                    <label class="col-lg-2 control-label">推荐位位置!</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="positionName" ng-value="'index1'" ng-model="data.position.position">首页推荐位
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="positionName" ng-value="'indexcook1'" ng-model="data.position.position">食材包首页推荐位
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':dishForm.positionSortId.$dirty&&positionForm.positionSortId.$valid, 'has-error':positionForm.positionSortId.$dirty&&positionForm.positionSortId.$invalid}">
+                    <label for="inputPositionSortId" class="col-lg-2 control-label" >显示顺序!</label>
+
+                    <div class="col-lg-2">
+                        <input type="number" class="form-control" id="inputPositionSortId" placeholder="显示顺序" name="positionSortId" ng-model="data.position.sortId" required min="100"  max="9999">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="positionForm.positionSortId.$dirty&&positionForm.positionSortId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="positionForm.positionSortId.$dirty&&positionForm.positionSortId.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="positionForm.positionSortId.$dirty&&positionForm.positionSortId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="positionForm.positionSortId.$dirty&&positionForm.positionSortId.$error.min || positionForm.positionSortId.$dirty&&positionForm.positionSortId.$error.max">请输入100-9999数字！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':positionForm.positionImage.$dirty&&positionForm.positionImage.$valid, 'has-error':positionForm.positionImage.$dirty&&positionForm.positionImage.$invalid}">
+                    <label for="inputPositionImage" class="col-lg-2 control-label" >图片地址</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputPositionImage" placeholder="图片地址" name="positionImage" ng-model="data.position.imgUrl" required ng-minlength="2" ng-maxlength="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="positionForm.positionImage.$dirty&&positionForm.positionImage.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="positionForm.positionImage.$dirty&&positionForm.positionImage.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="positionForm.positionImage.$dirty&&positionForm.positionImage.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="positionForm.positionImage.$dirty&&positionForm.positionImage.$error.minlength || positionForm.positionImage.$dirty&&positionForm.positionImage.$error.maxlength">字符长度错误2-200！</span>
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-class="{'has-success':positionForm.positionLink.$dirty&&positionForm.positionLink.$valid, 'has-error':positionForm.positionLink.$dirty&&positionForm.positionLink.$invalid}">
+                    <label for="inputPositionLink" class="col-lg-2 control-label" >链接地址</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputPositionLink" placeholder="链接地址" name="positionLink" ng-model="data.position.linkUrl" required ng-minlength="2" ng-maxlength="200">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="positionForm.positionLink.$dirty&&positionForm.positionLink.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="positionForm.positionLink.$dirty&&positionForm.positionLink.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="positionForm.positionLink.$dirty&&positionForm.positionLink.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="positionForm.positionLink.$dirty&&positionForm.positionLink.$error.minlength || positionForm.positionLink.$dirty&&positionForm.positionLink.$error.maxlength">字符长度错误2-200！</span>
+                    </div>
+                </div>
+
+
+              <!--  <div class="form-group has-feedback" ng-class="{'has-success':positionForm.mobile.$dirty&&positionForm.mobile.$valid, 'has-error':positionForm.mobile.$dirty&&positionForm.mobile.$invalid}">
+                    <label for="inputPositionMobile" class="col-lg-2 control-label" >手机</label>
+
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="inputPositionMobile" placeholder="手机" name="mobile" ng-model="data.position.mobile" required ng-minlength="11" ng-maxlength="15" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="positionForm.mobile.$dirty&&positionForm.mobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="positionForm.mobile.$dirty&&positionForm.mobile.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="positionForm.mobile.$dirty&&positionForm.mobile.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="positionForm.mobile.$dirty&&positionForm.mobile.$error.minlength || positionForm.mobile.$dirty&&positionForm.mobile.$error.maxlength">字符长度错误11-15！</span>
+                    </div>
+                </div>-->
+
+
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >链接到菜品</label>
+
+                    <div class="col-lg-6">
+                        <select class="form-control" ng-model="data.position.dish" ng-options="dish._id as dish.title.zh + ' ' + dish._id for dish in data.dishAllList | filter:{sideDishType:'main'}"></select>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="positionForm.$invalid" ng-click="addNewPosition(positionForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="positionForm.$invalid" ng-click="updatePosition(positionForm)">Save</button>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>
