@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import {User, Dish} from '../models'
 import * as dishUtil from '../utils/dish'
 import * as dishDom from '../dom/dish'
@@ -53,4 +54,16 @@ export default function (cart, dishes, parent) {
         User.postCartRelax(cart)
         dishDom.render(id, number)
     }
+}
+
+export function bindTab(tabs, tabsContainer, activeClass) {
+    // tab切换事件绑定
+    var $tabs = $(tabs);
+    var $tabBtnContainer = $(tabsContainer);
+    var $tabBtns = $tabBtnContainer.children()
+    $tabBtnContainer.on('click', function (e) {
+        var index = $(e.target).index()
+        $tabBtns.removeClass(activeClass).eq(index).addClass(activeClass)
+        $tabs.hide().eq(index).show()
+    })
 }

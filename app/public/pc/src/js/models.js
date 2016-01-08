@@ -8,7 +8,7 @@ export var Dish = {
     getList: function (options) {
         options = options || {}
         return fetch(`/api/dishes?cookingType=${options.cookingType||''}` +
-            `&skip=${options.skip}&limit=${options.limit}`)
+            `&skip=${options.skip||''}&limit=${options.limit||''}`)
     },
     getOne: function (id) {
         return fetch(`/api/dishes/${id}`)

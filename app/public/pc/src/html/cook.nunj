@@ -14,7 +14,7 @@
 
 <div class="headeremp"></div>
 <div class="product">
-    <div class="product-info clearfix" data-id="{{ dish._id }}">
+    <div class="product-info clearfix cook-detail" data-id="{{ dish._id }}">
         <div class="img-wrapper">
             <img src="{{ dish.cover[0][locale] }}" />
             <div class="plusok"></div>
@@ -23,7 +23,7 @@
         <div class="info">
             <div class="info-border">
                 <h3>{{ dish.title[locale] }}</h3>
-                <div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>
+                {#<div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>#}
                 <div class="tabbtn clearfix"><a class="desc act">简介</a><a class="ingre">食材</a></div>
                 <div class="tabs">
                     <div class="desc act">{{ dish.brief[locale] }}</div>
@@ -45,7 +45,7 @@
                 {#</div>#}
                 <div class="buy clearfix">
                     <span class="price">￥{{ dish.priceOriginal }}</span>
-                    <a class="plus">+</a><a class="mius">—</a>
+                    <a class="plus">+</a><a class="mius">-</a>
                 </div>
             </div>
         </div>

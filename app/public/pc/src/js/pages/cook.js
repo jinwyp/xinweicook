@@ -3,7 +3,7 @@
 import {init as initCommon} from './common'
 import {User, Dish} from '../models'
 import $ from 'jquery'
-import bindDish from '../utils/bind-dish-operation'
+import bindDish, {bindTab} from '../utils/bind-dish-operation'
 
 var dishes, cart, user
 
@@ -19,4 +19,6 @@ $(document).ready(() => {
 
         bindDish(cart, dishes, '.product-info')
     })
+
+    bindTab('.tabs > div', '.tabbtn', 'act')
 })

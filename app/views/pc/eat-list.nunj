@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.07b9ccaa962d0b31b831389f6820eafd.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.f03d3a321cc4290139e668b4e2b7a2a2.css"/>
     
 </head>
 <body>
@@ -60,7 +60,7 @@
 
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
-    <div class="drinks"><h3>- 饮料 -</h3>
+    <div class="drinks"><h3>- 更多 -</h3>
         <ul class="menus">
             {% for dish in drinks %}
                 <li data-id="{{ dish._id }}">
@@ -88,8 +88,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.9e1056a81813bc97f396.js"></script>
-<script src="/pc/dist/eat-list.9e1056a81813bc97f396.js"></script>
+<script src="/pc/dist/webpack-common.156253cd7a58aea8569b.js"></script>
+<script src="/pc/dist/eat-list.156253cd7a58aea8569b.js"></script>
 
 </body>
 </html>

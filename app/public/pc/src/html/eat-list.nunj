@@ -60,7 +60,7 @@
 
     <img src="/pc/src/images/pcg.jpg" class="pcg">
 
-    <div class="drinks"><h3>- 饮料 -</h3>
+    <div class="drinks"><h3>- 更多 -</h3>
         <ul class="menus">
             {% for dish in drinks %}
                 <li data-id="{{ dish._id }}">
