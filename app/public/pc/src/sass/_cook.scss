@@ -4,6 +4,9 @@
     width: 1000px;
     height: 458px;
     margin: -10px auto 22px;
+    &.cook-detail {
+      margin-top: 24px;
+    }
     .img-wrapper {
       width: 658px;
       height: 438px;
@@ -35,7 +38,7 @@
         h3 {
           text-align: center;
           font-size: 19px;
-          margin-top: 20px;
+          margin: 20px auto 15px;
         }
         .chef {
           width: 130px;
@@ -79,8 +82,10 @@
         .tabs {
           width: 100%;
           height: 155px;
-          .desc {
+          > * {
             margin-top: 20px;
+          }
+          .desc {
             line-height: 22px;
             width: 100%;
             font-size: 15px;
@@ -92,7 +97,6 @@
             }
           }
           .ingre {
-            margin-top: 10px;
             line-height: 20px;
             width: 100%;
             font-size: 15px;

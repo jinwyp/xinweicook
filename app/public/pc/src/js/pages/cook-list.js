@@ -3,14 +3,14 @@
 import {init as initCommon} from './common'
 import {User, Dish} from '../models'
 import $ from 'jquery'
-import bindDish from '../utils/bind-dish-operation'
+import bindDish, {bindTab} from '../utils/bind-dish-operation'
 
-var dishes, cart
+var dishes, cart, user
 
 $(document).ready(() => {
     Promise.all([
         User.getUser(),
-        Dish.getList({cookingType: 'ready to eat'})
+        Dish.getList({cookingType: 'ready to cook'})
     ]).then(res => {
         user = res[0]
         dishes = res[1]
@@ -19,4 +19,6 @@ $(document).ready(() => {
 
         bindDish(cart, dishes, '.product-info, .menus')
     })
+
+    bindTab('.tabs > div', '.tabbtn', 'act')
 })
