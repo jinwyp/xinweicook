@@ -24,16 +24,26 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.positionName.$dirty&&searchForm.positionName.$valid, 'has-error':searchForm.positionName.$dirty&&searchForm.positionName.$invalid}">
-                    <label for="inputPositionMobile" class="col-lg-2 control-label" >手机</label>
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.promotionName.$dirty&&searchForm.promotionName.$valid, 'has-error':searchForm.promotionName.$dirty&&searchForm.promotionName.$invalid}">
+                    <label for="inputPositionName" class="col-lg-2 control-label" >推荐位位置</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="positionName in data.positionNameList">
+                            <input type="radio" name="promotionName" id="inputPositionName" ng-value="positionName.value" ng-model="data.searchOptions.query.position">{{positionName.name}}
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.positionSortId.$dirty&&searchForm.positionSortId.$valid, 'has-error':searchForm.positionSortId.$dirty&&searchForm.positionSortId.$invalid}">
+                    <label for="inputPositionSortId" class="col-lg-2 control-label" >显示顺序</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputPositionMobile" placeholder="" name="positionName" ng-model="data.searchOptions.query.mobile" ng-minlength="11">
-                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$valid"></span>
-                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$invalid"></span>
+                        <input type="text" class="form-control" id="inputPositionSortId" placeholder="" name="positionSortId" ng-model="data.searchOptions.query.sortId" ng-minlength="1">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.positionSortId.$dirty&&searchForm.positionSortId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.positionSortId.$dirty&&searchForm.positionSortId.$invalid"></span>
                     </div>
                     <div class="col-lg-6">
-                        <span class="form-validation help-block" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$error.required">请填入信息！</span>
-                        <span class="form-validation help-block" ng-if="searchForm.positionName.$dirty&&searchForm.positionName.$error.minlength || searchForm.positionName.$dirty&&searchForm.positionName.$error.maxlength">输入的信息长度错误！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.positionSortId.$dirty&&searchForm.positionSortId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.positionSortId.$dirty&&searchForm.positionSortId.$error.minlength || searchForm.positionSortId.$dirty&&searchForm.positionSortId.$error.maxlength">输入的信息长度错误！</span>
                     </div>
                 </div>
 

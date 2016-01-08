@@ -16,15 +16,15 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
     $scope.data = {
         searchFilter : '',
         searchOptions : {
-            sort : '-createdAt',
+            sort : {"position":1, "sortId":-1 },
             skip : 0,
             limit : 200,
 
             query : {
                 createdAt :'',
                 _id : '',
-                mobile : ''
-
+                position : '',
+                sortId : ''
             }
         },
 
