@@ -85,8 +85,11 @@
     <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy">立即结算</a></div>
 </div>
 
-<script src="/pc/dist/webpack-common.0ddc08b05b031f905534.js"></script>
-<script src="/pc/dist/common.0ddc08b05b031f905534.js"></script>
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.c6ba46061cb2e3ea59f0.js"></script>
+<script src="/pc/dist/eat-list.c6ba46061cb2e3ea59f0.js"></script>
 
 </body>
 </html>

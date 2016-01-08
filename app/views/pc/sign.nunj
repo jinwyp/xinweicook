@@ -55,8 +55,11 @@
     <label class="lab">滑动获取验证码</label>
 </div>
 
-<script src="/pc/dist/webpack-common.0ddc08b05b031f905534.js"></script>
-<script src="/pc/dist/sign.0ddc08b05b031f905534.js"></script>
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.c6ba46061cb2e3ea59f0.js"></script>
+<script src="/pc/dist/sign.c6ba46061cb2e3ea59f0.js"></script>
 
 <script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
 <script>

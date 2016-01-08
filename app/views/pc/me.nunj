@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
+<div class="body-wrapper">
+
+{% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
 <div class="me">
@@ -19,8 +22,14 @@
     <div id="react-root"></div>
 </div>
 
-<script src="/pc/dist/webpack-common.0ddc08b05b031f905534.js"></script>
-<script src="/pc/dist/me.0ddc08b05b031f905534.js"></script>
+<div class="footer-push"></div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.c6ba46061cb2e3ea59f0.js"></script>
+<script src="/pc/dist/me.c6ba46061cb2e3ea59f0.js"></script>
 
 </body>
 </html>

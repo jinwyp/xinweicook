@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-
+<div class="body-wrapper">
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
@@ -17,12 +17,18 @@
     <div class="carttitle"></div>
     <!--<h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>-->
 
-    <div id="react-root"></div>
+    <div id="react-root" class="clearfix"></div>
 
 </div>
 
-<script src="/pc/dist/webpack-common.0ddc08b05b031f905534.js"></script>
-<script src="/pc/dist/cart.0ddc08b05b031f905534.js"></script>
+<div class="footer-push"></div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.c6ba46061cb2e3ea59f0.js"></script>
+<script src="/pc/dist/cart.c6ba46061cb2e3ea59f0.js"></script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-import './_common' //none react. for html header
+import './common' //none react. for html header
 
 import React from "react"
 import ReactDom from "react-dom"
