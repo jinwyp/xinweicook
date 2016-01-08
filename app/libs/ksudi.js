@@ -390,7 +390,7 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
         login_name : this.config.username,
         ksudi_key : this.config.key,
 
-        is_urgent : 1, // 平台专人配送填"1"，快递公司配送填"2"
+        is_urgent : "0", // 平台专人配送填"1"(兼职)，快递公司配送填"0"(专职)
 
         express_addressee_list : [],
         send_name : '新味',
@@ -409,7 +409,11 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 
     };
 
-    newOrder.express_addressee_list.push(recieveAddress);
+    //newOrder.express_addressee_list.push(recieveAddress);
+
+    newOrder['express_addressee_list[0].receive_name'] = item.address.contactPerson;
+    newOrder['express_addressee_list[0].receive_telephone'] = item.address.mobile;
+    newOrder['express_addressee_list[0].receive_address'] = item.address.city + item.address.district + item.address.street.replace(/\//, '') + item.address.address.replace(/\//, '');
 
 
     if (typeof item.expressComment !== 'undefined' && item.expressComment != ''){
@@ -421,17 +425,18 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
     var opts = {
         url: this.config.url_createFullTimeOrder,
         method: 'POST',
-        //form: newOrder
+        form: newOrder
+        //'proxy':'http://localhost:8899/'
         //headers: {
         //    "content-type": "application/json"
         //},
         //body: JSON.stringify(newOrder),
 
-        timeout: 5000,
-        json : newOrder
+        //timeout: 5000,
+        //json : newOrder
     };
 
-    console.log(newOrder);
+    //console.log(newOrder);
 
     requestC(opts, function(err, response, body){
         //console.log('========== KSudi', err);
@@ -440,13 +445,13 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
             return callback(err);
         }
 
-        console.log('========== KSudi', body);
+        //console.log('========== KSudi', body);
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};
 
         try{
-            result = body;
+            result = JSON.parse(body);
         }catch (error){
             return  callback(error);
         }
@@ -479,5 +484,3 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 };
 
 ksuDi.prototype.createFullTimeOrderAsync = Promise.promisify(ksuDi.prototype.createFullTimeOrder);
-
-

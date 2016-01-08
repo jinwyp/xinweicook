@@ -71,6 +71,20 @@
                 </div>
 
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$valid, 'has-error':searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$invalid}">
+                    <label for="inputUserWeixinNickname" class="col-lg-2 control-label" >微信昵称</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputUserWeixinNickname" placeholder="微信昵称" name="userWeixinNickname" ng-model="data.searchQueryWeixinNickname" ng-minlength="2">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$error.minlength || searchForm.userWeixinNickname.$dirty&&searchForm.userWeixinNickname.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$valid, 'has-error':searchForm.userInvitationSendCode.$dirty&&searchForm.userInvitationSendCode.$invalid}">
                     <label for="inputUserInvitationSendCode" class="col-lg-2 control-label" >该用户自己的邀请码</label>
                     <div class="col-lg-4">
@@ -179,7 +193,7 @@
                 <th>来源</th>
                 <th>手机</th>
                 <th>邮箱</th>
-                <th>用户名</th>
+                <th>用户名/微信ID</th>
                 <th>姓名</th>
                 <th>性别</th>
                 <th>语言</th>
@@ -199,7 +213,7 @@
                 <td>{{user.statisticsClientFrom}}</td>
                 <td>{{user.mobile}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.username}}</td>
+                <td>{{user.username}} / {{user.weixinId.nickname}}</td>
                 <td>{{user.fullName}}</td>
                 <td> <span ng-show="user.gender===1">男</span> <span ng-show="user.gender===2">女</span> </td>
                 <!--<td>-->

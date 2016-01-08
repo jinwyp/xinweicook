@@ -448,7 +448,7 @@ exports.orderExportInternalList = function(req, res, next) {
         .lean()
         .execAsync()
         .then(function(resultOrders){
-            logger.error("internal length:",resultOrders.length);
+           
             if (resultOrders.length > 0){
                 var newSheet = generateOrderInternalSheetFromArray(first_worksheet, resultOrders);
                 workbook.Sheets[first_sheet_name] = newSheet;

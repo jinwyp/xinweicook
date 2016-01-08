@@ -51,6 +51,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         currentPreferenceCategory : '',
         currentPreference : '',
         currentTopping : '',
+        currentRecommendSet : '',
 
         dish : {
             isPublished : false,
@@ -139,6 +140,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
             topping: [],
             tagFilter: [],
+
+            recommendSet : [],
 
             priceOriginal: 1000,
             priceWholesale: [{
@@ -752,6 +755,17 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         if (data){
             pushArray.push(data._id);
         }
+    };
+
+
+
+    $scope.addNewRecommendSet = function () {
+        if ( angular.isArray($scope.data.dish.recommendSet) && $scope.data.currentRecommendSet){
+            $scope.data.dish.recommendSet.push({
+                dish : $scope.data.currentRecommendSet._id
+            });
+        }
+
     };
 
     $scope.addNewPreference = function () {

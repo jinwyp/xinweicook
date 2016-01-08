@@ -43,6 +43,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         searchDateFrom : '',
         searchDateTo : '',
 
+        searchQueryWeixinNickname : '',
 
         userListCount : 0,
         userListCurrentPage : 1,
@@ -222,6 +223,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         }else{
             $scope.data.searchOptions.query.sharedInvitationSendCodeTotalCount = '';
         }
+
+
+        if($scope.data.searchQueryWeixinNickname){
+            $scope.data.searchOptions.query['weixinId.nickname'] = $scope.data.searchQueryWeixinNickname;
+        }else{
+            delete $scope.data.searchOptions.query['weixinId.nickname']
+        }
+
 
 
         Util.delProperty($scope.data.searchOptions.query);
