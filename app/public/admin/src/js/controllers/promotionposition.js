@@ -18,7 +18,7 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
         searchOptions : {
             sort : {"position":1, "sortId":-1 },
             skip : 0,
-            limit : 200,
+            limit : 1000,
 
             query : {
                 createdAt :'',
