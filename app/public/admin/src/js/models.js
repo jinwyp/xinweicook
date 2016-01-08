@@ -195,6 +195,9 @@ angular.module('RDash.models').factory('Devices', function (Restangular) {
 angular.module('RDash.models').factory('Couriers', function (Restangular) {
     return Restangular.service('deliverytraces');
 });
+angular.module('RDash.models').factory('Cooks', function (Restangular) {
+    return Restangular.service('cooks');
+});
 angular.module('RDash.models').factory('Users', function (Restangular) {
     return Restangular.service('users');
 });

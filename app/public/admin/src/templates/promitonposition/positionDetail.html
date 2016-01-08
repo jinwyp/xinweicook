@@ -1,0 +1,683 @@
+<div class="col-lg-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-titlenew">
+                <span ng-show="css.isAddNewStatus">新增 User 用户</span>
+                <span ng-hide="css.isAddNewStatus">修改 User 用户 - {{data.user.username}} - {{data.user.mobile}} - {{data.user._id}}</span>
+                <a class="btn btn-sm btn-info pull-right" ui-sref="menu.users" role="button">返回</a>
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="userForm" role="form" novalidate ng-cloak>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >注册时间</label>
+                    <div class="col-lg-3" >
+                        <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} 来源:{{data.user.statisticsClientFrom}}</span>
+                    </div>
+
+                    <label  class="col-lg-2 control-label" >最后下单时间</label>
+                    <div class="col-lg-3" >
+                        <span class="help-block" aria-hidden="true">{{data.user.lastOrderDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.username.$dirty&&userForm.username.$valid, 'has-error':userForm.username.$dirty&&userForm.username.$invalid}">
+                    <label for="inputUsername" class="col-lg-2 control-label" >用户名</label>
+
+                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                        <input type="text" class="form-control" id="inputUsername" placeholder="用户名" name="username" ng-model="data.user.username" ng-required="css.isAddNewStatus" ng-minlength="6" ng-maxlength="20">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.username.$dirty&&userForm.username.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.username.$dirty&&userForm.username.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                        <span class="form-validation help-block" ng-if="userForm.username.$dirty&&userForm.username.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.username.$dirty&&userForm.username.$error.minlength || userForm.username.$dirty&&userForm.username.$error.maxlength">字符长度错误6-20！</span>
+                    </div>
+
+                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
+                        <span class="help-block" aria-hidden="true">{{data.user.username}} </span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.email.$dirty&&userForm.email.$valid, 'has-error':userForm.email.$dirty&&userForm.email.$invalid}">
+                    <label for="inputUserEmail" class="col-lg-2 control-label" >邮箱</label>
+
+                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                        <input type="email" class="form-control" id="inputUserEmail" placeholder="邮箱" name="email" ng-model="data.user.email" ng-required="css.isAddNewStatus" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.email.$dirty&&userForm.email.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.email.$dirty&&userForm.email.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                        <span class="form-validation help-block" ng-if="userForm.email.$dirty&&userForm.email.$error.required">请填入信息！</span>
+                    </div>
+
+                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
+                        <span class="help-block" aria-hidden="true">{{data.user.email}}</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.mobile.$dirty&&userForm.mobile.$valid, 'has-error':userForm.mobile.$dirty&&userForm.mobile.$invalid}">
+                    <label for="inputUserMobile" class="col-lg-2 control-label" >手机</label>
+
+                    <div class="col-lg-8" ng-if="css.isAddNewStatus">
+                        <input type="text" class="form-control" id="inputUserMobile" placeholder="手机" name="mobile" ng-model="data.user.mobile" required ng-minlength="11" ng-maxlength="18" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.mobile.$dirty&&userForm.mobile.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.mobile.$dirty&&userForm.mobile.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" ng-if="css.isAddNewStatus">
+                        <span class="form-validation help-block" ng-if="userForm.mobile.$dirty&&userForm.mobile.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.mobile.$dirty&&userForm.mobile.$error.minlength || userForm.mobile.$dirty&&userForm.mobile.$error.maxlength">字符长度错误11-18！</span>
+                    </div>
+
+                    <div class="col-lg-8" ng-if="!css.isAddNewStatus">
+                        <span class="help-block" aria-hidden="true">{{data.user.mobile}}</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback"  ng-class="{'has-success':userForm.password.$valid, 'has-error':userForm.password.$invalid}">
+                    <label for="inputPassword" class="col-lg-2 control-label" >密码 (注意: 不修改密码请留空)</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputPassword" placeholder="密码" name="password" ng-model="data.user.pwd" ng-required="css.isAddNewStatus" ng-minlength="6" ng-maxlength="20">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.password.$dirty&&userForm.password.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.password.$dirty&&userForm.password.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <span class="form-validation help-block" ng-if="userForm.password.$dirty&&userForm.password.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.password.$dirty&&userForm.password.$error.minlength || userForm.password.$dirty&&userForm.password.$error.maxlength">字符长度错误6-20！</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.fullname.$dirty&&userForm.fullname.$valid, 'has-error':userForm.fullname.$dirty&&userForm.fullname.$invalid}">
+                    <label for="inputUserFullname" class="col-lg-2 control-label" >姓名</label>
+
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" id="inputUserFullname" placeholder="姓名" name="fullname" ng-model="data.user.fullName" ng-required="css.isAddNewStatus" ng-minlength="2" ng-maxlength="20" >
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm.fullname.$dirty&&userForm.fullname.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm.fullname.$dirty&&userForm.fullname.$invalid"></span>
+                    </div>
+
+                    <div class="col-lg-2" >
+                        <span class="form-validation help-block" ng-if="userForm.fullname.$dirty&&userForm.fullname.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="userForm.fullname.$dirty&&userForm.fullname.$error.minlength || userForm.fullname.$dirty&&userForm.fullname.$error.maxlength">字符长度错误2-20！</span>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userGender.$dirty&&userForm.userGender.$valid, 'has-error':userForm.userGender.$dirty&&userForm.userGender.$invalid}">
+                    <label class="col-lg-2 control-label" >性别</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="userGender" ng-value="1" ng-model="data.user.gender">男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGender" ng-value="2" ng-model="data.user.gender">女
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userGroup.$dirty&&userForm.userGroup.$valid, 'has-error':userForm.userGroup.$dirty&&userForm.userGroup.$invalid}">
+                    <label class="col-lg-2 control-label" >用户组</label>
+
+                    <div class="col-lg-4">
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'member'" ng-model="data.user.group">普通会员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'courier'" ng-model="data.user.group">快递员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'cs'" ng-model="data.user.group">客服
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userGroup" ng-value="'admin'" ng-model="data.user.group">管理员
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$valid, 'has-error':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$invalid}">
+                    <label class="col-lg-2 control-label" >来源</label>
+
+                    <div class="col-lg-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'website'" ng-model="data.user.statisticsClientFrom">PC版网站
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'mobileweb'" ng-model="data.user.statisticsClientFrom">移动版网站
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'wechat'" ng-model="data.user.statisticsClientFrom">微信公众平台
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'ios'" ng-model="data.user.statisticsClientFrom">iOS 原生APP
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="userStatisticsClientFrom" ng-value="'android'" ng-model="data.user.statisticsClientFrom">安卓 原生APP
+                        </label>
+                    </div>
+                </div>
+
+
+                <hr/>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >头像地址</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="头像地址" ng-model="data.user.avatarPic"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >语言</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="zh" ng-model="data.user.lang"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >销售来源标识</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >
+                    </div>
+                </div>
+
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >微信 access_token</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="access_token"  ng-model="data.user.weixinId.access_token"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >微信 refresh_token</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="refresh_token" ng-model="data.user.weixinId.refresh_token"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >微信 OpenID</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="open id" ng-model="data.user.weixinId.openid"  >
+                    </div>
+                </div>
+
+
+
+                <hr/>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >用户自己的邀请码</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" placeholder="用户自己的邀请码" disabled ng-model="data.user.invitationSendCode"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >可分享邀请码朋友次数</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control"  ng-model="data.user.sharedInvitationSendCodeTotalCount"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >已分享邀请码朋友次数</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" disabled ng-model="data.user.sharedInvitationSendCodeUsedTime"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >邀请的有下单朋友数量</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" disabled ng-model="data.user.invitedUserNumberHaveOrder"  >
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
+                    <label  class="col-lg-2 control-label" >被朋友邀请的朋友ID</label>
+                    <div class="col-lg-8" >
+                        <input type="text" class="form-control" disabled ng-model="data.user.invitationFromUser"  >
+                    </div>
+                </div>
+
+
+
+
+                <hr/>
+
+
+
+                <div class="form-group has-feedback" ng-repeat="address in data.user.address">
+
+                    <label class="col-lg-2 control-label" >老版本收货地址 数据{{$index + 1}} </label>
+
+                    <div class="col-lg-10">
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$valid, 'has-error':userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$invalid}">
+                            <label for="inputAddressContactPerson_{{$index}}" class="col-lg-2 control-label" > 联系人</label>
+
+                            <div class="col-lg-6" >
+                                <input type="text" class="form-control" id="inputAddressContactPerson_{{$index}}" name="addressContactPerson_{{$index}}" ng-model="address.contactPerson" required ng-minlength="2" ng-maxlength="20" >
+                                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$valid"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$invalid"></span>
+                            </div>
+
+                            <div class="col-lg-4" >
+                                <span class="form-validation help-block" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.required">请填入信息！</span>
+                                <span class="form-validation help-block" ng-if="userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.minlength || userForm['addressContactPerson_' + $index].$dirty&&userForm['addressContactPerson_' + $index].$error.maxlength">字符长度错误2-20！</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$valid, 'has-error':userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$invalid}">
+                            <label for="inputAddressMobile_{{$index}}" class="col-lg-2 control-label" >  联系人手机</label>
+
+                            <div class="col-lg-6" >
+                                <input type="text" class="form-control" id="inputAddressMobile_{{$index}}" name="addressMobile_{{$index}}" ng-model="address.mobile" required ng-minlength="11" ng-maxlength="20" >
+                                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$valid"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$invalid"></span>
+                            </div>
+
+                            <div class="col-lg-4" >
+                                <span class="form-validation help-block" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.required">请填入信息！</span>
+                                <span class="form-validation help-block" ng-if="userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.minlength || userForm['addressMobile_' + $index].$dirty&&userForm['addressMobile_' + $index].$error.maxlength">字符长度错误11-20！</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$valid, 'has-error':userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$invalid}">
+                            <label for="inputAddressCity_{{$index}}" class="col-lg-2 control-label" >  国家 / 省 / 市 / 区 / 街道</label>
+
+                            <div class="col-lg-6" >
+                                <input type="text" class="form-control"  name="addressCountry_{{$index}}" ng-model="address.country" >
+                                <input type="text" class="form-control"  name="addressProvince_{{$index}}" ng-model="address.province" >
+                                <input type="text" class="form-control" id="inputAddressCity_{{$index}}" name="addressCity_{{$index}}" ng-model="address.city" >
+                                <input type="text" class="form-control"  name="addressDistrict_{{$index}}" ng-model="address.district" >
+                                <input type="text" class="form-control"  name="addressStreet_{{$index}}" ng-model="address.street" >
+                                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$valid"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$invalid"></span>
+                            </div>
+
+                            <div class="col-lg-4" >
+                                <span class="form-validation help-block" ng-if="userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$error.required">请填入信息！</span>
+                                <span class="form-validation help-block" ng-if="userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$error.minlength || userForm['addressCity_' + $index].$dirty&&userForm['addressCity_' + $index].$error.maxlength">字符长度错误11-20！</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$valid, 'has-error':userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$invalid}">
+                            <label for="inputAddressAddress_{{$index}}" class="col-lg-2 control-label" >  详细地址 </label>
+
+                            <div class="col-lg-6" >
+                                <input type="text" class="form-control" id="inputAddressAddress_{{$index}}" name="addressAddress_{{$index}}" ng-model="address.address" ng-minlength="1" ng-maxlength="500" >
+                                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$valid"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$invalid"></span>
+                            </div>
+
+                            <div class="col-lg-4" >
+                                <span class="form-validation help-block" ng-if="userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$error.required">请填入信息！</span>
+                                <span class="form-validation help-block" ng-if="userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$error.minlength || userForm['addressAddress_' + $index].$dirty&&userForm['addressAddress_' + $index].$error.maxlength">字符长度错误1-500！</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" >
+                            <label class="col-lg-6 control-label" > 经度 ( {{address.geoLongitude}} ) /  纬度 ( {{address.geoLatitude}} )</label>
+                        </div>
+
+
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressValid_' + $index].$dirty&&userForm['addressValid_' + $index].$valid, 'has-error':userForm['addressValid_' + $index].$dirty&&userForm['addressValid_' + $index].$invalid}">
+                            <label class="col-lg-2 control-label" >是否为有效地址</label>
+
+                            <div class="col-lg-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="addressValid_{{$index}}" ng-value="true" ng-model="address.isValid">客服已认证为有效地址
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="addressValid_{{$index}}" ng-value="false" ng-model="address.isValid">未认证
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" ng-class="{'has-success':userForm['addressDefault_' + $index].$dirty&&userForm['addressDefault_' + $index].$valid, 'has-error':userForm['addressDefault_' + $index].$dirty&&userForm['addressDefault_' + $index].$invalid}">
+                            <label class="col-lg-2 control-label" >是否为默认地址</label>
+
+                            <div class="col-lg-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="addressDefault_{{$index}}" ng-value="true" ng-model="address.isDefault">默认地址
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="addressDefault_{{$index}}" ng-value="false" ng-model="address.isDefault">非默认地址
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-1">
+                        <button type="submit" class="btn btn-primary" ng-show="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="addNewUser(userForm)">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="css.isAddNewStatus" ng-disabled="userForm.$invalid" ng-click="updateUser(userForm)">Save</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+        </div>
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title"> 购物车商品 </h3>
+            </div>
+
+            <div class="panel-body">
+                <pre>
+                    {{data.user.shoppingCart | json}}
+                </pre>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">
+                    新版用户收货地址
+                </h3>
+            </div>
+
+            <div class="panel-body">
+                <form class="form-horizontal" name="uAForm" role="form" novalidate ng-cloak ng-repeat="address in data.userAddressList">
+                    <div class="form-group has-feedback" >
+
+                        <label class="col-lg-2 control-label" >地址 {{$index + 1}} (显示顺序{{address.sortOrder}}) </label>
+
+
+                        <div class="col-lg-10">
+                            <div class="form-group has-feedback" >
+                                <label class="col-lg-2 control-label" > 地址_id</label>
+                                <div class="col-lg-6" >
+                                    <span class="form-validation help-block"> {{address._id}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" >
+                                <label class="col-lg-2 control-label" > 经度 / 纬度 / 坐标类型</label>
+                                <div class="col-lg-6" >
+                                    <span class="form-validation help-block"> {{address.geoLongitude}}  /  {{address.geoLatitude}} / {{address.coordType}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" >
+                                <label class="col-lg-2 control-label" > 距离 / 仓库 / 便当可送</label>
+                                <div class="col-lg-6" >
+                                    <span class="form-validation help-block"> {{address.distanceFrom}} 米 / <a ui-sref="menu.updateWarehouse({ id: address.warehouse })">{{address.warehouse | warehousefilter}} </a> / {{address.isAvailableForEat ? '便当可送达' : '便当不可送'}} </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$valid, 'has-error':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$invalid}">
+                                <label class="col-lg-2 control-label" >可送达的仓库</label>
+
+                                <div class="col-lg-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'56332187594b09af6e6c7dd2'" ng-model="address.warehouse">新味办公室
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'56332196594b09af6e6c7dd7'" ng-model="address.warehouse">漕河泾仓库
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressWarehouse_{{$index}}" ng-value="'564ab6de2bde80bd10a9bc60'" ng-model="address.warehouse">陆家嘴仓库
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$valid, 'has-error':uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$invalid}">
+                                <label for="inputUAContactPerson_{{$index}}" class="col-lg-2 control-label" > 联系人</label>
+
+                                <div class="col-lg-6" >
+                                    <input type="text" class="form-control" id="inputUAContactPerson_{{$index}}" name="addressContactPerson_{{$index}}" ng-model="address.contactPerson" required ng-minlength="2" ng-maxlength="20" >
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$invalid"></span>
+                                </div>
+
+                                <div class="col-lg-4" >
+                                    <span class="form-validation help-block" ng-if="uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$error.required">请填入信息！</span>
+                                    <span class="form-validation help-block" ng-if="uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$error.minlength || uAForm['addressContactPerson_' + $index].$dirty&&uAForm['addressContactPerson_' + $index].$error.maxlength">字符长度错误2-20！</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$valid, 'has-error':uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$invalid}">
+                                <label for="inputUAMobile_{{$index}}" class="col-lg-2 control-label" >  联系人手机</label>
+
+                                <div class="col-lg-6" >
+                                    <input type="text" class="form-control" id="inputUAMobile_{{$index}}" name="addressMobile_{{$index}}" ng-model="address.mobile" required ng-minlength="11" ng-maxlength="20" >
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$invalid"></span>
+                                </div>
+
+                                <div class="col-lg-4" >
+                                    <span class="form-validation help-block" ng-if="uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$error.required">请填入信息！</span>
+                                    <span class="form-validation help-block" ng-if="uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$error.minlength || uAForm['addressMobile_' + $index].$dirty&&uAForm['addressMobile_' + $index].$error.maxlength">字符长度错误11-20！</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$valid, 'has-error':uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$invalid}">
+                                <label for="inputUACity_{{$index}}" class="col-lg-2 control-label" >  国家 / 省 / 市 / 区</label>
+
+                                <div class="col-lg-6" >
+                                    <input type="text" class="form-control"  name="addressCountry_{{$index}}" ng-model="address.country" >
+                                    <input type="text" class="form-control"  name="addressProvince_{{$index}}" ng-model="address.province" >
+                                    <input type="text" class="form-control" id="inputUACity_{{$index}}" name="addressCity_{{$index}}" ng-model="address.city" required ng-minlength="2" ng-maxlength="200">
+                                    <input type="text" class="form-control"  name="addressDistrict_{{$index}}" ng-model="address.district" >
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$invalid"></span>
+                                </div>
+
+                                <div class="col-lg-4" >
+                                    <span class="form-validation help-block" ng-if="uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$error.required">请填入信息！</span>
+                                    <span class="form-validation help-block" ng-if="uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$error.minlength || uAForm['addressCity_' + $index].$dirty&&uAForm['addressCity_' + $index].$error.maxlength">字符长度错误2-200！</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$valid, 'has-error':uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$invalid}">
+                                <label for="inputUAStreet_{{$index}}" class="col-lg-2 control-label" > 街道 / 街道号(百度获取的地址)</label>
+
+                                <div class="col-lg-6" >
+                                    <input type="text" class="form-control" id="inputUAStreet_{{$index}}" name="addressStreet_{{$index}}" ng-model="address.street" required ng-minlength="2" ng-maxlength="500">
+                                    <input type="text" class="form-control"  name="addressStreetNo_{{$index}}" ng-model="address.street_number" >
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$invalid"></span>
+                                </div>
+
+                                <div class="col-lg-4" >
+                                    <span class="form-validation help-block" ng-if="uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$error.required">请填入信息！</span>
+                                    <span class="form-validation help-block" ng-if="uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$error.minlength || uAForm['addressStreet_' + $index].$dirty&&uAForm['addressStreet_' + $index].$error.maxlength">字符长度错误2-500！</span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$valid, 'has-error':uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$invalid}">
+                                <label for="inputUAAddress_{{$index}}" class="col-lg-2 control-label" > 详细地址(人工填写的地址) </label>
+
+                                <div class="col-lg-6" >
+                                    <input type="text" class="form-control" id="inputUAAddress_{{$index}}" name="addressAddress_{{$index}}" ng-model="address.address" required ng-minlength="3" ng-maxlength="500" >
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$invalid"></span>
+                                </div>
+
+                                <div class="col-lg-4" >
+                                    <span class="form-validation help-block" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$error.required">请填入信息！</span>
+                                    <span class="form-validation help-block" ng-if="uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$error.minlength || uAForm['addressAddress_' + $index].$dirty&&uAForm['addressAddress_' + $index].$error.maxlength">字符长度错误4-500！</span>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressValid_' + $index].$dirty&&uAForm['addressValid_' + $index].$valid, 'has-error':uAForm['addressValid_' + $index].$dirty&&uAForm['addressValid_' + $index].$invalid}">
+                                <label class="col-lg-2 control-label" >是否为有效地址</label>
+
+                                <div class="col-lg-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressValid_{{$index}}" ng-value="true" ng-model="address.isValid">客服已认证为有效地址
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressValid_{{$index}}" ng-value="false" ng-model="address.isValid">未认证
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressDefault_' + $index].$dirty&&uAForm['addressDefault_' + $index].$valid, 'has-error':uAForm['addressDefault_' + $index].$dirty&&uAForm['addressDefault_' + $index].$invalid}">
+                                <label class="col-lg-2 control-label" >是否为默认地址</label>
+
+                                <div class="col-lg-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressDefault_{{$index}}" ng-value="true" ng-model="address.isDefault">默认地址
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressDefault_{{$index}}" ng-value="false" ng-model="address.isDefault">非默认地址
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-1">
+                            <button type="submit" class="btn btn-primary" ng-disabled="uAForm.$invalid" ng-click="updateUserAddress(uAForm, address)">Save</button>
+                        </div>
+                    </div>
+
+                    <hr/>
+                </form>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">
+                    用户新味币余额 :  {{data.userAccount.balance}}
+
+                    <button class="btn btn-info" ng-click="showUserAccountDetails()">查看用户新味币余额明细</button>
+                    <a class="btn btn-success" ui-sref="menu.updateAccount({ id: data.userAccount._id })" role="button">修改用户新味币余额</a>
+                </h3>
+            </div>
+
+            <!-- List group -->
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="item in data.userAccountDetails">
+                    {{item.createdAt | date:'yyyy-MM-dd HH:mm'}} 消费名称:{{item.name.zh}} {{item.amount? 'RMB充值:'+item.amount:''}} {{item.isPaid ? '在线充值已支付':(item.amount?'在线充值未支付':'')}} / 新味币金额:{{item.amountXinwei}} / 备注:{{item.remark}} / 订单号: <a ui-sref="menu.updateOrder({ id: item.order })">{{item.order}}</a>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">
+                    <button class="btn btn-info" ng-click="showUserCoupons()">查看用户优惠券</button>
+                    <a class="btn btn-success" ui-sref="menu.addNewCoupon({ userId: data.user._id })">新增优惠券</a>
+                </h3>
+            </div>
+
+            <!-- List group -->
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="coupon in data.userCouponList">
+                    <a ui-sref="menu.updateCoupon({ id: coupon._id })">优惠金额:{{coupon.price}}</a>  / 订单金额限制:{{coupon.priceLimit}} / {{coupon.isUsed ? '已使用' : '未使用'}} {{coupon.isExpired ? '已过期' : '未过期'}} / 名称: {{coupon.name.zh}} - {{coupon.name.en}} / 有效期:{{coupon.startDate | date:'yyyy-MM-dd HH:mm:ss'}} － {{coupon.endDate | date:'yyyy-MM-dd HH:mm:ss'}}
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title"> 优惠券ID列表</h3>
+            </div>
+
+            <div class="panel-body">
+                <pre>
+                    {{data.user.couponList | json}}
+                </pre>
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                <h3 class="panel-title"> 用户喜欢过的菜的ID列表</h3>
+            </div>
+
+            <div class="panel-body">
+                <pre>
+                    {{data.user.dishLikeList | json}}
+                </pre>
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"> 用户微信信息</h3>
+            </div>
+
+            <div class="panel-body">
+                <pre>
+                    {{data.user.weixinId | json}}
+                </pre>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

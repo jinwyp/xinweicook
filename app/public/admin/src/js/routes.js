@@ -187,6 +187,35 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$httpPr
                 controller: 'UserController'
             })
 
+            .state('menu.cooks', {
+                url: '/cooks',
+                templateUrl: 'templates/cook/cookList.html',
+                data: {
+                    title: '厨师管理',
+                    type : 'list'
+                },
+                controller: 'CookController'
+            })
+            .state('menu.updateCook', {
+                url: '/cooks/:id',
+                templateUrl: 'templates/cook/cookDetail.html',
+                data: {
+                    title: '厨师管理',
+                    type : 'update'
+                },
+                controller: 'CookController'
+            })
+            .state('menu.addNewCook', {
+                url: '/cookadd',
+                templateUrl: 'templates/cook/cookDetail.html',
+                data: {
+                    title: '厨师管理',
+                    type : 'add'
+                },
+                controller: 'CookController'
+            })
+
+
             .state('menu.accountDetails', {
                 url: '/accountdetails',
                 templateUrl: 'templates/user/accountDetailList.html',
