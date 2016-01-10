@@ -10,6 +10,7 @@ module.exports =
     sortId: Number # 排序值
 
     imgUrl : String # 图片地址
+    imgAlt : String # 图片Alt 属性
     linkUrl : String # 链接地址
 
   statics:
@@ -18,10 +19,10 @@ module.exports =
 
     constantPosition : () ->
       status =
-        index1 : "index1"
-        index2 : "index2"
-        index3 : "index3"
-        indexcook1 : "indexcook1"
+        index1 : "index1"  # 首页轮播
+        index2 : "index2"  # 首页轮播上部三格
+        index3 : "index3"  # 首页轮播下部三格
+        indexcook1 : "indexcook1" # 食材包首页推荐位
         indexcook2 : "indexcook2"
 
 

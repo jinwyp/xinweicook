@@ -24,11 +24,11 @@
                 </div>
 
 
-                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.promotionName.$dirty&&searchForm.promotionName.$valid, 'has-error':searchForm.promotionName.$dirty&&searchForm.promotionName.$invalid}">
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.positionName.$dirty&&searchForm.positionName.$valid, 'has-error':searchForm.positionName.$dirty&&searchForm.positionName.$invalid}">
                     <label for="inputPositionName" class="col-lg-2 control-label" >推荐位位置</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" ng-repeat="positionName in data.positionNameList">
-                            <input type="radio" name="promotionName" id="inputPositionName" ng-value="positionName.value" ng-model="data.searchOptions.query.position">{{positionName.name}}
+                            <input type="radio" name="positionName" id="inputPositionName" ng-value="positionName.value" ng-model="data.searchOptions.query.position">{{positionName.name}}
                         </label>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
             <th>链接菜品</th>
 
 
-            <!--<th>操作</th>-->
+            <th>操作</th>
 
         </tr>
         </thead>
@@ -116,9 +116,7 @@
         <tr ng-repeat="position in data.positionList | filter: data.searchFilter">
             <td><a ui-sref="menu.updatePosition({ id: position._id })">{{position._id}}</a> <br/> {{position.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} </td>
             <td>
-                <span ng-show="position.position =='index1'">首页推荐位 </span>
-                <span ng-show="position.position =='indexcook1'">食材包首页推荐位 </span>
-
+                <span ng-repeat="positionName in data.positionNameList" ng-if="position.position === positionName.value">{{positionName.name}} </span>
             </td>
             <td>{{position.sortId}}</td>
             <td> {{position.imgUrl}}  <br> <img ng-src="{{position.imgUrl}}" alt="{{position.position}}"> </td>
@@ -127,13 +125,13 @@
             <td> <a ui-sref="menu.updateDish({ id: position.dish })">{{position.dish}}</a>  </td>
 
 
-            <!--<td>-->
-            <!--<div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===cook._id">确认真的删除吗？-->
-            <!--<button class="btn btn-danger" ng-click="delPosition(cook)">立即删除</button>-->
-            <!--<button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>-->
-            <!--</div>-->
-            <!--<button class="btn btn-danger" ng-show="data.currentDeleteIndex!==cook._id" ng-click="data.currentDeleteIndex=cook._id">删除</button>-->
-            <!--</td>-->
+            <td>
+                <div class="alert alert-danger" role="alert" ng-show="data.currentDeleteIndex===position._id">确认真的删除吗？
+                    <button class="btn btn-danger" ng-click="delPosition(position)">立即删除</button>
+                    <button class="btn btn-info" ng-click="data.currentDeleteIndex=-1">返回</button>
+                </div>
+                <button class="btn btn-danger" ng-show="data.currentDeleteIndex!==position._id" ng-click="data.currentDeleteIndex=position._id">删除</button>
+            </td>
         </tr>
         </tbody>
     </table>

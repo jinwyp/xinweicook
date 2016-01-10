@@ -128,8 +128,8 @@ module.exports =
         return throw new Err "Field validation error,  User ID length must be 24-24", 400, Err.code.user.userIdWrong
 
     validationReferrer : (referrer ) ->
-        unless libs.validator.isLength referrer, 16, 30
-          return throw new Err "Field validation error,  User referrer length must be 16-30", 400, Err.code.user.userReferrerWrong
+        unless libs.validator.isLength referrer, 4, 4
+          return throw new Err "Field validation error,  User referrer length must be 4-4", 400, Err.code.user.userReferrerWrong
 
     validationMobile : (mobileNumber) ->
         unless libs.validator.isMobilePhone(mobileNumber, 'zh-CN')
