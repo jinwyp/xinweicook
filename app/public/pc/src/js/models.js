@@ -46,3 +46,9 @@ export var User = {
         }
     }
 }
+
+export var Address = {
+    range: function () {
+        return fetch('/api/')
+    }
+}

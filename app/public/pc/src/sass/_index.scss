@@ -146,6 +146,7 @@ $border-block: 5px;
     background: url(https://dn-xinweicook.qbox.me/%E5%84%BF%E7%AB%A5%E8%8A%822015.5.28.%E5%84%BF%E7%AB%A5%E8%8A%82-cn.jpg) center center no-repeat;
     background-size: cover;
     overflow: hidden;
+    position: relative;
     h4 {
       text-align: center;
       color: $white;
@@ -168,6 +169,11 @@ $border-block: 5px;
       background: url(../images/play.png) center center;
       background-size: 100% 100%;
       margin: auto;
+    }
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   }
 

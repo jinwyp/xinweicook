@@ -54,6 +54,7 @@ module.exports = function makeWebpackConfig(options) {
         plugins: [
             new webpack.DefinePlugin({
                 __DEV__: BUILD ? 'false' : 'true',
+                __TODO__: BUILD ? '' : 'console.warn("todo: to be completed")',
                 __PCPREFIX__: "'/pc'"
             }),
             new webpack.optimize.CommonsChunkPlugin({

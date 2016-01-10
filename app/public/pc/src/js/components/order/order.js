@@ -9,7 +9,7 @@ var Order = React.createClass({
         return (
             <div>
                 {
-                    props.dishList.map((item, i) => (
+                    props.dishList.filter(item => !!item.dish).map((item, i) => (
                         <div key={i} className="dish">
                             <div>{i === 0 && props.orderNumber}</div>
                             <div className="detail">

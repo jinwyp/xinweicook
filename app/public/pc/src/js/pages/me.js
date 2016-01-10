@@ -21,7 +21,7 @@ import OrderList from "../components/order/order-list"
 var App = React.createClass({
 
     componentDidMount: function () {
-        this.props.dispatch(userAction.getUser()).then(res => {
+        this.props.dispatch(userAction.getUserIfNeeded()).then(res => {
             // [NOT react]
             initCommon(res)
         })

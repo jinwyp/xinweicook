@@ -90,6 +90,31 @@ export function plusDish(dish, cart) {
     }
 }
 
+export function plusDishWithProperty(dish, cart, groupId, propertyId) {
+    var cartItem
+    var newItem = {
+        dish: dish,
+        number: dish.number,
+        subDish: dish.preferences.filter(el => el._id == groupId)[0]
+            .foodMaterial.filter(el => el._id == propertyId)
+            .map(el => {
+                return {dish: el.dish, number: dish.number}
+            })
+    }
+    var exist = cart.some(item => {
+        if (isSameItemInCart(item, newItem)) {
+            cartItem = item
+            return true
+        }
+    })
+    if (exist) {
+        cartItem.number += dish.number
+    } else {
+        cart.push(newItem)
+    }
+    return cartItem ? cartItem.number : newItem.number
+}
+
 /**
  * 从购物车中,减去商品.多属性目前不能减(只能在购物车中减),无需考虑.因为没有多属性,只根据dish id即可找到相应item
  * @param dish - 这个倒是只用id就可以

@@ -32,6 +32,7 @@ export function getUser() {
                 getState().warehouse,
                 new Date(fetch.headers.get('Date'))
             ))
+            return res
         })
     }
 }

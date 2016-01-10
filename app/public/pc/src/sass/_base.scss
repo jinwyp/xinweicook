@@ -63,3 +63,10 @@ body {
 .cross-char::before {
   content: 'X '
 }
+
+.icon-wave {
+  &::before, &::after {
+    content: '~';
+    padding: 0 4px;
+  }
+}
