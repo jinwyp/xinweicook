@@ -22,3 +22,7 @@ export function render(mobile, cart) {
         $account.hide()
     }
 }
+
+export function place(address) {
+    $('#position').show().find('span').html(address)
+}

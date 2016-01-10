@@ -23,6 +23,7 @@ export default class Modal {
 
         content && this._modal.find('.wrapper').html(content)
         $(document.body).append(this._modal)
+        this.close()
     }
     close() {
         this._modal.hide()
@@ -37,5 +38,8 @@ export default class Modal {
     }
     on() {
         this._modal.on(...arguments)
+    }
+    destroy() {
+        $(document.body).remove(this._modal)
     }
 }

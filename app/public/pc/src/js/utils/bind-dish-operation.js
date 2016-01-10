@@ -24,6 +24,10 @@ export default function (cart, dishes, parent) {
     cart.forEach(item => {
         var id = item.dish._id
         var dish = dishUtil.getDish(dishes, id)
+        if (!dish) {
+            console.warn('to be completed')
+            return
+        }
         if (!dishHash[id]) {
             dishHash[id] = {
                 number: item.number,

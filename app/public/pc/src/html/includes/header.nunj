@@ -1,7 +1,7 @@
 <header class="{{ 'indexhd' if indexHeader}}">
     <div class="header-main">
         <a class="logo" href="{{ pcPrefix }}/"></a>
-        <div class="city">{{ __('City:') }} <span>上海</span></div>
+        <div id="position" style="display:none" class="city">位置 <span></span></div>
         <ul class="nav">
             <li class="{{ 'act' if curNav == 'cook' }}"><a href="{{ pcPrefix }}/cook">{{ __('Cook') }}</a></li>
             <li class="{{ 'act' if curNav == 'eat' }}"><a href="{{ pcPrefix }}/eat">{{ __('Bento') }}</a></li>

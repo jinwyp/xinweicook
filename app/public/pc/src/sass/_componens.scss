@@ -197,6 +197,7 @@
   right: 0;
   .close-icon {
     position: absolute;
+    cursor: pointer;
     right: 20px;
     top: 20px;
     background: url(../images/closeicon.png) no-repeat 0/cover;
@@ -228,7 +229,7 @@
       float: left;
       display: inline-block;
       border: 1px solid;
-      font-size: 12px;
+      font-size: 13px;
       line-height: 3;
       width: 95px;
       box-sizing: border-box;

@@ -56,7 +56,7 @@ export function orderData(state, isOrder) {
             var segment = time.cook.selectedTime.segment
             ret.deliveryDateCook = time.cook.selectedTime.day
             ret.deliveryTimeCook = !segment ? '12:00'
-                : segment.substr(8, 5) // see actions/time.js
+                : segment.substr(6, 5) // see actions/time.js
         }
     }
 

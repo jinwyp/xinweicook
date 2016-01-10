@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.f03d3a321cc4290139e668b4e2b7a2a2.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.14c53944bff8069367503c9971ee3db4.css"/>
     
 </head>
 <body>
 <div class="hidevideo">
     <a href="javascript:;" class="close">x</a>
-    <video id="video1" preload="auto">
+    <video id="video1">
         <source src="https://a0.muscache.com/airbnb/static/Belong_p1_v2.mp4" type="video/mp4">
         <source src="https://a0.muscache.com/airbnb/static/Belong_p1_v2.webm" type="video/webm">
     </video>
@@ -90,37 +90,76 @@
         </ul>
     </div>
 
+    <div class="multi-dish-selection" style="display:none;">
+        <span class="close close-icon"></span>
+        <h4>Green Salad and Italian Cheese</h4>
+        <div class="content">
+
+            <ul class="selections">
+                <li>
+                    <h5 class="title icon-wave">Flavor</h5>
+                    <ul class="properties clearfix">
+                        <li>Miso Soup</li>
+                        <li>Pork Rib</li>
+                        <li>Pumpkin Soup</li>
+                        <li>Pumpkin Soup</li>
+                        <li>Pumpkin Soup</li>
+                        <li>Pumpkin Soup</li>
+                        <li>Pumpkin Soup</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="num-container">
+                <h5 class="title icon-wave">Quantity</h5>
+                <div class="quantity">
+                    <span class="square-icon disabled">-</span>
+                    <span class="number">1</span>
+                    <span class="square-icon">+</span>
+                </div>
+            </div>
+
+            <div class="add-to-cart">
+                <div class="wrapper">Add to Shopping Bag</div>
+            </div>
+        </div>
+    </div>
+
     <div class="videolink">
         <h4>我们定义urban饮食新方式</h4>
-        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p><a href="javascript:;" class="play"></a>
+        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p>
+        {#<a href="javascript:;" class="play"></a>#}
+        {#<video id="video1">#}
+            {#<source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">#}
+        {#</video>#}
     </div>
 
     <div class="about-us">
 
-        <div class="why-us">
-            <h3 class="title">{{ __('Why choose us') }}?</h3>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-        </div>
+        {#<div class="why-us">#}
+            {#<h3 class="title">{{ __('Why choose us') }}?</h3>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
 
         <div class="magazine">
             <h3 class="arrow-title">外滩画报</h3>
@@ -129,15 +168,48 @@
 
         <div class="partner">
             <h3 class="title">合作伙伴</h3>
+            <img style="width: 100%;" src="/pc/src/images/friends.jpg" />
         </div>
     </div>
 </div>
 
+{#<div id="xw-special-middle" class="address-selection">#}
+    {#<form>#}
+        {#<div class="province form-control-group select">#}
+            {#<label for="province">请选择所在的省份</label>#}
+            {#<select name="province" id="province">#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+            {#</select>#}
+        {#</div>#}
+        {#<div class="address form-control-group">#}
+            {#<label for="address">请输入收货地址</label>#}
+            {#<input autocomplete="off" type="text" name="address" id="address"/>#}
+            {#<ul class="street-list">#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+            {#</ul>#}
+        {#</div>#}
+    {#</form>#}
+{#</div>#}
+
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.156253cd7a58aea8569b.js"></script>
-<script src="/pc/dist/index.156253cd7a58aea8569b.js"></script>
+<script src="/pc/dist/webpack-common.f11361ac268af6eee7c8.js"></script>
+<script src="/pc/dist/index.f11361ac268af6eee7c8.js"></script>
 
 </body>
 </html>

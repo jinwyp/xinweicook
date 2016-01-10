@@ -85,7 +85,7 @@ var CartCoupon = React.createClass({
                 </div>
                 <div className="group">
                     <span onClick={props.toggleBalance} className={'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o')}></span>
-                    <span className="text">使用余额</span>
+                    <span className="text">使用新味币</span>
                     {
                         props.useBalance ?
                             <span className="rmb-char">{usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'}</span> :

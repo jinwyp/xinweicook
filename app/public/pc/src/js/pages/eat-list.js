@@ -18,5 +18,5 @@ $(document).ready(() => {
         initCommon(user)
 
         bindDish(cart, dishes, '.eatlist, .menus')
-    })
+    }).catch(e => {console.log(e)})
 })

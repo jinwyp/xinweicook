@@ -127,6 +127,14 @@ var App = React.createClass({
             couponPrice: (coupon.card.selectedCard && coupon.card.selectedCard.price + coupon.code.price) || 0
         }
         price.payPrice = price.cartPrice + price.freight - price.couponPrice
+        var payment = '支付宝支付'
+        if (balance.useBalance) {
+            if (balance.totalBalance >= price.payPrice) {
+                payment = '新味币支付'
+            } else {
+                payment = '支付宝支付'
+            }
+        }
 
         var hasEatDishSelected = cart.some(item => item.dish.cookingType == 'ready to eat' && item.selected)
         var hasCookDishSelected = cart.some(item => item.dish.cookingType == 'ready to cook' && item.selected)
@@ -142,9 +150,9 @@ var App = React.createClass({
                     {hasCookDishSelected && <TimeSelector {...timeMethods} {...time.cook}/>}
                     <Comment {...commentMethods}/>
                     <CartCoupon {...couponMethods} {...coupon} {...balance} payPrice={price.payPrice}/>
-                    <OrderPrice {...price}/>
+                    <OrderPrice {...price} {...balance}/>
                     <div className="confirm-section">
-                        <button onClick={()=>postOrder(cart)}>在线支付</button>
+                        <button onClick={()=>postOrder(cart)}>{payment}</button>
                     </div>
                 </div>
             </div>

@@ -127,38 +127,39 @@
 
     <div class="videolink">
         <h4>我们定义urban饮食新方式</h4>
-        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p><a href="javascript:;" class="play"></a>
-        <video id="video1">
-            <source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">
-        </video>
+        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p>
+        {#<a href="javascript:;" class="play"></a>#}
+        {#<video id="video1">#}
+            {#<source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">#}
+        {#</video>#}
     </div>
 
     <div class="about-us">
 
-        <div class="why-us">
-            <h3 class="title">{{ __('Why choose us') }}?</h3>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-            <div class="block">
-                <div class="border">
-                    <div class="img"></div>
-                    <h4>大虾墨鱼面</h4>
-                    <p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>
-                </div>
-            </div>
-        </div>
+        {#<div class="why-us">#}
+            {#<h3 class="title">{{ __('Why choose us') }}?</h3>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
 
         <div class="magazine">
             <h3 class="arrow-title">外滩画报</h3>
@@ -167,9 +168,42 @@
 
         <div class="partner">
             <h3 class="title">合作伙伴</h3>
+            <img style="width: 100%;" src="/pc/src/images/friends.jpg" />
         </div>
     </div>
 </div>
+
+{#<div id="xw-special-middle" class="address-selection">#}
+    {#<form>#}
+        {#<div class="province form-control-group select">#}
+            {#<label for="province">请选择所在的省份</label>#}
+            {#<select name="province" id="province">#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+                {#<option value="上海">上海</option>#}
+            {#</select>#}
+        {#</div>#}
+        {#<div class="address form-control-group">#}
+            {#<label for="address">请输入收货地址</label>#}
+            {#<input autocomplete="off" type="text" name="address" id="address"/>#}
+            {#<ul class="street-list">#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+                {#<li>#}
+                    {#<div class="name">中山南二路510号</div>#}
+                    {#<div class="address">上海徐汇</div>#}
+                {#</li>#}
+            {#</ul>#}
+        {#</div>#}
+    {#</form>#}
+{#</div>#}
 
 {% include "./includes/footer.nunj" %}
 

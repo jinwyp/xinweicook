@@ -18,10 +18,12 @@ header {
     left: 50%;
     margin-left: -600px;
     .city {
+      padding-left: 25px;
+      border-left: 2px solid $color_mine_shaft_approx;
       display: block;
       position: absolute;
       top: 30px;
-      left: 470px;
+      left: 161px;
       color: $color_sunset_orange_approx;
     }
     .nav {
@@ -29,7 +31,6 @@ header {
       position: absolute;
       top: 30px;
       left: 560px;
-      border-left: 2px solid $color_mine_shaft_approx;
       border-right: 2px solid $color_mine_shaft_approx;
       color: $color_sunset_orange_approx;
       li {
@@ -97,6 +98,7 @@ header {
       }
     }
     .city {
+      border-color: white !important;
       color: $white !important;
       span {
         color: $white !important;

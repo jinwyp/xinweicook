@@ -49,6 +49,9 @@ export var User = {
 
 export var Address = {
     range: function () {
-        return fetch('/api/')
+        return fetch('/api/orders/delivery/range')
+    },
+    suggestion: function (query, region='上海') {
+        return post('/api/user/address/suggestion', {query, region})
     }
 }
