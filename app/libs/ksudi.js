@@ -447,11 +447,16 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 
         //console.log('========== KSudi', body);
 
-        //logger.error('========== KSudi createOrder: ', body);
+        //logger.error('========== KSudi createFullTimeOrder: ', body);
         var result = {};
 
         try{
-            result = JSON.parse(body);
+            if (body.indexOf('html') === -1){
+                result = JSON.parse(body);
+            }else{
+                result.code = 499
+            }
+
         }catch (error){
             return  callback(error);
         }
@@ -475,7 +480,7 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
             result.msg = '下单成功';
             return callback(null, result);
         }else{
-            result.msg = '快速递专职下单失败';
+            result.msg = '快速递专职下单失败, 地址无法解析路段名称';
             return  callback(result);
         }
 

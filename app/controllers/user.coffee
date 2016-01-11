@@ -818,6 +818,10 @@ exports.addNewAddress = (req, res, next) ->
         lng : tempAddress.geoLongitude
 
 
+    if tempAddress.province.indexOf("上海") > -1
+      baiduMapQuery.mode = "walking"
+
+
     for warehouse, warehouseIndex in resultWarehouseList
       tempWarehouse[warehouse._id] = warehouse.toObject()
       tempWarehouse[warehouse.name] = warehouse.toObject()
@@ -930,6 +934,9 @@ exports.updateAddress = (req, res, next) ->
         destinations :
           lat : result.geoLatitude
           lng : result.geoLongitude
+
+      if result.province.indexOf("上海") > -1
+        baiduMapQuery.mode = "walking"
 
 
       for warehouse, warehouseIndex in resultWarehouseList
