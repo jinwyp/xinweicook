@@ -447,7 +447,7 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
 
         //console.log('========== KSudi', body);
 
-        //logger.error('========== KSudi createOrder: ', body);
+        logger.error('========== KSudi createFullTimeOrder: ', body);
         var result = {};
 
         try{
