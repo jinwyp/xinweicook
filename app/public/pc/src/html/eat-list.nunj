@@ -14,9 +14,10 @@
 
 <div class="headeremp"></div>
 <div class="eat">
-    <ul class="eatlist">
+    <ul class="eatlist clearfix">
         {% for dish in dishes %}
             <li data-id="{{ dish._id }}">
+                <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
                 <div class="img" style="background-image: url({{ dish.cover[0][locale]|img }})">
                     <div class="plusok"></div>
                 </div>
@@ -58,12 +59,14 @@
         {#</li>#}
     </ul>
 
-    <img src="/pc/src/images/pcg.jpg" class="pcg">
+    {#<img src="/pc/src/images/pcg.jpg" class="pcg">#}
 
-    <div class="drinks"><h3>- 更多 -</h3>
+    <div class="drinks">
+        <h3>- 更多 -</h3>
         <ul class="menus">
             {% for dish in drinks %}
                 <li data-id="{{ dish._id }}">
+                    <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
                     <a href="javascript:;">
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] | img}}">
