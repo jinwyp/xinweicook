@@ -39,6 +39,11 @@ function render(path, fn) {
 }
 
 render.index = function renderIndex(req, res, next, path) {
+    var query = [
+        models.promotionposition.constantPosition().index1,
+        models.promotionposition.constantPosition().index2,
+        models.promotionposition.constantPosition().index3
+    ]
 
     var promiseList = [
         models.dish.find({
@@ -46,12 +51,12 @@ render.index = function renderIndex(req, res, next, path) {
             isPublished: true
         }).sort("-sortId").sort("-createdAt").execAsync(),
 
-        models.promotionposition.find99({position: models.promotionposition.constantPosition().index1})
+        models.promotionposition.find99({position: {$in: query}})
     ];
 
 
-    Promise.all(promiseList).spread(function(dishes, promotionPostions){
-        console.log(promotionPostions)
+    Promise.all(promiseList).spread(function(dishes, promotionposition){
+        console.log(promotionposition)
         var data = {
             // 识别为首页的头部
             indexHeader: true,
@@ -61,7 +66,9 @@ render.index = function renderIndex(req, res, next, path) {
             }).slice(0, 3),
             eats: dishes.filter(function (dish) {
                 return dish.cookingType == 'ready to eat'
-            }).slice(0, 3)
+            }).slice(0, 3),
+            promotions: promotionposition
+
         };
         res.render(path, data)
     }).catch(function (err) {
