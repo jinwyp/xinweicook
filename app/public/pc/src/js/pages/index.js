@@ -3,6 +3,7 @@
 import {init as initCommon} from './common'
 import {User, Dish, Address} from '../models'
 import $ from 'jquery'
+import '../utils/jquery-utils'
 import bindDish from '../utils/bind-dish-operation'
 import handlebars from 'handlebars/dist/handlebars'
 import * as tpl from '../dom/templates'
@@ -27,8 +28,30 @@ $(document).ready(() => {
 
         bindDish(cart, dishes, '.menus')
 
-        if (localStorage.province) return
+        // init others comments
+        $('.magazine li').fadeList()
+        $('.banner li').fadeList()
 
+        // bind video
+        var $play = $('.videolink .play')
+        var $video = $('.videolink video')
+        $play.on('click', function () {
+            $play.hide().addClass('playing')
+            $video.show()[0].play()
+        })
+        $video.on('click', function () {
+            $video[0].pause()
+            $play.show()
+        })
+
+
+        if (localStorage.province) {
+            if (localStorage.province != '上海' || localStorage.defaultAddress) {
+                return
+            }
+        }
+
+        // bind address selection
         var modal = new Modal(addressSelectionsTpl({
             province: range.map( el => el.state)
         }))

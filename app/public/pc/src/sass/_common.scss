@@ -137,6 +137,17 @@
     }
   }
 }
+
+.fade-in {
+  opacity: 1 !important;
+  transition: opacity ease-in 1s;
+}
+
+.fade-out {
+  opacity: 0 !important;
+  transition: opacity ease-out 1s;
+}
+
 #xw-special-middle {
   z-index: 1000;
   position: fixed;

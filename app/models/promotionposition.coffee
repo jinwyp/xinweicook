@@ -27,7 +27,7 @@ module.exports =
 
 
     find99 : (options) ->
-      @findOne(options).sort("position").sort("-sortId").select(models.promotionposition.fields())
+      @find(options).sort("position").sort("-sortId").select(models.promotionposition.fields())
       .populate({path: 'dish', select: models.dish.fieldsLess()})
       .execAsync()
 
