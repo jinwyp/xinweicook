@@ -767,7 +767,12 @@ exports.addNewOrder = (req, res, next) ->
     # 生成支付宝签名
     if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
       resultOrder.totalPrice = 0.01
-    aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder)
+
+
+    if resultOrder.clientFrom is 'website'
+      aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, false)
+    else
+      aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, true)
 
     resultTemp = resultOrder.toJSON()
     delete resultTemp.dishList
