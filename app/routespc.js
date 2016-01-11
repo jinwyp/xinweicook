@@ -56,7 +56,6 @@ render.index = function renderIndex(req, res, next, path) {
 
 
     Promise.all(promiseList).spread(function(dishes, promotionposition){
-        console.log(promotionposition)
         var data = {
             // 识别为首页的头部
             indexHeader: true,

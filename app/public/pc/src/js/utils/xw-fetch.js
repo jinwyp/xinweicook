@@ -1,8 +1,30 @@
 import fetch from "isomorphic-fetch"
 
+// get api时, 需要重定向至首页的相关信息
+var auth = {
+    // 访问userUrl时,发生的所有401都要跳
+    userUrl: ['/me', '/cart'].map(url => __PCPREFIX__ + url)
+        .reduce((obj, cur) => {
+            obj[cur] = true
+            return obj
+        }, {}),
+
+    // 访问guestUrl时,发生的所有401都不理
+    guestUrl:['/sign', 'resetpwd'].map(url => __PCPREFIX__ + url)
+        .reduce((obj, cur) => {
+            obj[cur] = true
+            return obj
+        }, {}),
+
+    // 访问其他url时,仅一下api 401时不理
+    relaxApi: {
+        '/api/user': true,
+        '/api/user/address': true
+    }
+}
+
 function _fetch(url, options) {
     var access_token = localStorage.access_token;
-    var auth = {};
     if (access_token) auth.Authorization = 'Bearer ' + access_token;
 
     options = options || {};
@@ -12,7 +34,10 @@ function _fetch(url, options) {
         _fetch.headers = res.headers
         if (res.status >= 400) {
             if (res.status == '401') {
-                //location.href = __PCPREFIX__ + '/sign'
+                if (auth.userUrl[location.pathname] ||
+                    (!auth.guestUrl[location.pathname] && !auth.relaxApi[url] )) {
+                    location.href = __PCPREFIX__ + `/sign?redirect=${location.pathname}`
+                }
             }
             return Promise.reject(res)
         }

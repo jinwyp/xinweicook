@@ -1,4 +1,5 @@
 import React from 'react'
+import {search} from '../utils/utils'
 
 var SignIn = React.createClass({
 
@@ -25,7 +26,7 @@ var SignIn = React.createClass({
                 mobile: this.refs.mobile.value,
                 pwd: this.refs.pwd.value
             })
-            .then(()=>location.href = __PCPREFIX__ + '/')
+            .then(()=>location.href = search().redirect || __PCPREFIX__ + '/')
             .catch(()=>alert('Sign in failed, try it later'))
             .then(()=>{this.setState({isSending: false})})
         }

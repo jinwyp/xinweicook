@@ -63,3 +63,19 @@ export function dateFormat(date, fmt = 'yyyy-MM-dd hh:mm:ss') { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+/**
+ * 根据形似?a=b&c=d的查询字符串
+ * @param search - 查询字符串, 如果为空, 则使用location.search
+ * @returns {*} 你懂的
+ */
+export function search(search) {
+    search = search || location.search;
+    return search.slice(1).split('&').reduce(function (obj, cur) {
+        if (cur) {
+            cur = cur.split('=');
+            obj[cur[0]] = decodeURIComponent(cur[1] || '');
+        }
+        return obj;
+    }, {});
+}
