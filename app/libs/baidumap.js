@@ -114,7 +114,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
 
     if (typeof query.mode === 'undefined' || !query.mode){
-        query.mode = 'walking';    //导航模式，包括：driving（驾车）、walking（步行）、transit（公交）
+        query.mode = 'driving';    //导航模式，包括：driving（驾车）、walking（步行）、transit（公交）
     }
 
     if (typeof query.output === 'undefined' || !query.output){
@@ -142,11 +142,12 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
             logger.error("BaiduMap Failed Network error:", JSON.stringify(err));
             callback(err);
         }else{
-            //logger.error ('-- BaiduMap Response Body: ', body);
+            //console.log ('-- BaiduMap Response Body: ', body);
 
             var result = {};
             try {
                 result = JSON.parse(body) ;
+                //console.log ('-- BaiduMap Response Body: ', result.result.elements);
             } catch (error) {
                 // handle error
                 logger.error("BaiduMap Failed JSON Parse Error:", JSON.stringify(error));
