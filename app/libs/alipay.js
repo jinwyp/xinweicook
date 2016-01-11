@@ -183,7 +183,7 @@ function sign_md5(obj) {
 
 
 
-aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
+aliPay.prototype.generateWapCreateDirectPayUrl = function (order, isMobileReturnUrl) {
 
     var urlParams = {
         service : 'alipay.wap.create.direct.pay.by.user',
@@ -204,7 +204,7 @@ aliPay.prototype.generateWapCreateDirectPayUrl = function (order) {
 
     };
 
-    if (typeof order.clientFrom != 'undefined' && order.clientFrom == 'website') {
+    if (!isMobileReturnUrl){
         urlParams.return_url = this.config.website_return_url
     }
 
