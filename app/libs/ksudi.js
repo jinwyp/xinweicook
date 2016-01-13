@@ -220,13 +220,22 @@ ksuDi.prototype.createPartTimeOrder = function (item, callback){
             return callback(err);
         }
 
-        //console.log('========== KSudi', body);
+
 
         //logger.error('========== KSudi createOrder: ', body);
         var result = {};
 
         try{
             result = JSON.parse(body);
+            //console.log('========== KSudi createOrder Part Time:', result);
+
+            //var resultSimple = {
+            //    state         : 600,
+            //    runningnumber : '452658489044670',
+            //    code          : 200,
+            //    expressnumber : '201601111812199976929',
+            //    msg           : '保存订单成功!'
+            //};
         }catch (error){
             return  callback(error);
         }
@@ -271,7 +280,7 @@ ksuDi.prototype.searchPartTimeOrder = function (item, callback){
         //sign     : '',
         flag : 0,
         expressnumber : item.orderNumber
-        //expressnumber : '201510211430126337709'
+        //expressnumber : '201601131248274188412'
 
     };
 
@@ -302,7 +311,7 @@ ksuDi.prototype.searchPartTimeOrder = function (item, callback){
         }
 
         //console.log('========== KSudi', response);
-        //console.log('========== KSudi', body);
+
 
         //logger.error('========== KSudi searchPartTimeOrder: ', body);
 
@@ -310,6 +319,49 @@ ksuDi.prototype.searchPartTimeOrder = function (item, callback){
 
         try{
             result = JSON.parse(body);
+            //console.log('========== KSudi', result);
+
+            //var resultSimple = {
+            //    record    : [
+            //        {
+            //            content   : '【客户】下单成功，等待确认。',
+            //            isdisplay : true,
+            //            ct        : 1452660539000
+            //        },
+            //        {
+            //            content   : '【吴国方，手机号：13761367060，短号：】即将送件，请准备好收件，操作人【吴国方】。',
+            //            isdisplay : true,
+            //            ct        : 1452662801000
+            //        },
+            //        {
+            //            content   : '快递员【吴国方，手机号：13761367060，短号：】已送达【上海市徐汇区淮海中路1045号12楼】，APP【手写，本人】已签收，配送完毕。',
+            //            isdisplay : true,
+            //            ct        : 1452667415000
+            //        }],
+            //    addressee : [{
+            //        receiveaddress   : '上海市徐汇区淮海中路1045号12楼',
+            //        receivetelephone : '13816803566',
+            //        receivename      : '蒋奕超'
+            //    }],
+            //    code      : '200',
+            //    express   : {
+            //        cargocode        : '物品',
+            //        weight           : 2,
+            //        sendaddress      : '中山南二路510号',
+            //        statusclientcode : '已签收',
+            //        sendtelephone    : '15900634317',
+            //        ct               : 1452660539000,
+            //        sender           : '新味',
+            //        expresscode      : '单程件',
+            //        paycode          : '月结',
+            //        runningnumber    : '452660539855684',
+            //        expressnumber    : '452660539855684',
+            //        servicecode      : '普通'
+            //    },
+            //    msg       : '信息查询成功！'
+            //};
+
+
 
         }catch (error){
             return  callback(error);
@@ -453,6 +505,13 @@ ksuDi.prototype.createFullTimeOrder = function (item, callback){
         try{
             if (body.indexOf('html') === -1){
                 result = JSON.parse(body);
+                //console.log('========== KSudi createOrder Full Time:', result);
+
+                //var resultSimple = {
+                //    runningnumber: '452658660831672',
+                //    code: 200
+                //};
+
             }else{
                 result.code = 499
             }

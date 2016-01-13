@@ -631,8 +631,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         if (flag ==='fulltime'){
 
             Statistic.createOrderDeliveryKSuDiFullTime($scope.data.order._id).then(function (result) {
-                console.log(result);
+                console.log(result)
+                $scope.data.order.express.number = result.data.runningnumber;
                 $scope.data.order.expressStatus = 'waitForConfirm';
+
                 Notification.success({message: 'Update Success! ', delay: 4000});
             }).catch(function(err){
                 console.log(err);
@@ -641,7 +643,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         }else{
             Statistic.createOrderDeliveryKSuDi($scope.data.order._id).then(function (result) {
-                console.log(result);
+                $scope.data.order.express.number = result.data.runningnumber;
                 $scope.data.order.expressStatus = 'waitForConfirm';
                 Notification.success({message: 'Update Success! ', delay: 4000});
             }).catch(function(err){
