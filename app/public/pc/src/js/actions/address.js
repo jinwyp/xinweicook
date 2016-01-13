@@ -73,6 +73,8 @@ function postFailed(error) {
 export function postOne(address) {
     return function (dispatch) {
         dispatch(postStart())
+        // 保存的那个地址总是默认地址
+        address.isDefault = true
         return _post('/api/user/address', address)
         .then(addr => {
                 dispatch(postDone(addr))
@@ -105,6 +107,7 @@ function putFailed(error) {
 export function putOne(address) {
     return function (dispatch) {
         dispatch(putStart())
+        address.isDefault = true
         return _put(`/api/user/address/${address._id}`, address)
             .then(addr => {
                 dispatch(putDone(addr))

@@ -29,32 +29,23 @@ var AddressList = React.createClass({
         this.props.getList && this.props.getList()
     },
 
-    componentDidUpdate(prevProps) {
-        // 如果设置了下面这个属性,那么当获取了地址,并且地址为空的数组的时候,弹出需要填地址的框.
-        if (!this.props.showNewIfNoAddress) return
-        var newAddresses = this.props.addresses
-        if (!prevProps.addresses && newAddresses && !newAddresses.length) {
-            props.addOne()
-        }
-    },
-
     render: function () {
         var props = this.props
         var title = props.title || '配送至'
         var addresses = props.addresses || []
         const editingAddress = addresses.filter(address => address._id == props.addressEditingForm.id)[0] || {}
         return (
-            <div className="address-section">
+            <div style={{display: (props.hideList ? 'none' : 'block')}} className={`address-section ${props.className || ''}`}>
                 <h5 className="header">
                     <span>{title}</span>
                     <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> 添加地址</span>
-                    <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
-                        <EditingAddress range={props.range} streetList={props.streetList}
-                                        {...editingAddress} postOne={props.postOne} putOne={props.putOne}
-                                        close={props.close} getStreet={props.getStreet}
-                                        toggleStreet={props.toggleStreet} getRange={props.getRange}/>
-                    </Modal>
                 </h5>
+                <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
+                    <EditingAddress range={props.range} streetList={props.streetList}
+                        {...editingAddress} postOne={props.postOne} putOne={props.putOne}
+                                    close={props.close} getStreet={props.getStreet}
+                                    toggleStreet={props.toggleStreet} getRange={props.getRange}/>
+                </Modal>
                 <ul className="address-list">
                     {
                         addresses.map( address =>

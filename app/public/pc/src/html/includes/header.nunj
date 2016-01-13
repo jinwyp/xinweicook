@@ -4,13 +4,13 @@
             <a class="logo" href="{{ pcPrefix }}/"></a>
             {% if eatExist %}
                 <div id="react-root">
-                    <div class="position-selector">
-                        <div class="cur-position">
-                            <span class="label">当前位置:</span>
-                            <span class="address">东方明珠</span>
-                            <span class="change-address">[切换地址]</span>
-                        </div>
-                    </div>
+                    {#<div class="position-selector">#}
+                        {#<div class="cur-position">#}
+                            {#<span class="label">当前位置:</span>#}
+                            {#<span class="address">东方明珠</span>#}
+                            {#<span class="change-address">[切换地址]</span>#}
+                        {#</div>#}
+                    {#</div>#}
                 </div>
             {% endif %}
         </div>

@@ -5,6 +5,14 @@ import * as dishDom from '../dom/dish'
 import handlebars from 'handlebars/dist/handlebars'
 import {propertySelection} from '../dom/templates'
 import Modal from '../dom/modal'
+import {emitter} from '../pages/common'
+
+var _newAddress
+var tmpListener
+
+emitter.on(emitter.t.positionChanged, tmpListener = (newAddress) => {
+    _newAddress = newAddress
+})
 
 /**
  * 对dish的基本操作做绑定,给首页,食材包,便当列表页,以及食材包详情页用
@@ -38,14 +46,34 @@ export default function (cart, dishes, parent) {
         }
     })
 
-    bindPropertySelection(cart, dishes)
-
     Object.keys(dishHash).forEach(id =>
         dishDom.render(id, dishHash[id].number, dishHash[id].showMinus))
+
+    // 多属性绑定
+    bindPropertySelection(cart, dishes)
+
+    if (_newAddress) {
+        emitter.off(emitter.t.positionChanged, tmpListener)
+        var warehouse = _newAddress.warehouse
+        _renderOutOfRange(warehouse)
+    }
+
+    emitter.on(emitter.t.positionChanged, (newAddress, oldAddress) => {
+        _renderOutOfRange(newAddress.warehouse)
+    })
+
+    function _renderOutOfRange(warehouse) {
+        dishes.forEach(dish => {
+            if (dish.cookingType == 'ready to cook') return
+            dish.outOfRange = !warehouse || dish.stockWarehouseObj[warehouse] <= 0
+            dishDom.renderOutOfRange(dish._id, !!dish.outOfRange)
+        })
+    }
 
     function plusDish(id) {
         // 根据id, 找出dish, 判断是否有多属性(如果多属性只有一个也没必要有选择框)
         var dish = dishUtil.getDish(dishes, id)
+        if (dish.outOfRange) return
 
         var number = dishUtil.plusDish(dish, cart)
         if (!number) { // 数字不存在,表示不能直接添加,需要使用多属性框

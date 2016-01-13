@@ -1,3 +1,4 @@
+// react component EditAddress
 .editing-address {
   position: relative;
   width: 450px;
@@ -139,6 +140,110 @@
     }
   }
 }
+
+// 位置选择
+.cur-position {
+  border-left: 2px solid;
+  padding-left: 1em;
+  margin-left: 1em;
+  .address {
+    padding: 0 .5em;
+  }
+  .change-address {
+    color: #DEDEDE;
+    cursor: pointer;
+  }
+}
+.position-selector.address-section {
+  .header {
+    border-bottom: 1px solid #C5C5C5;
+    padding: 8px 1em;
+    text-align: left;
+    position: relative;
+    line-height: 1.5em;
+    .add-address {
+      position: absolute;
+      right: 1em;
+      color: $color_sunset_orange_approx;
+      font-size: 14px;
+      cursor: pointer;
+      span {
+        vertical-align: middle;
+      }
+    }
+  }
+  .address-list {
+    max-height: 236px;
+    overflow: auto;
+    .address {
+      transition: background-color .4s;
+      cursor: pointer;
+      position:relative;
+      .content-wrapper {
+        > * {
+          float: left;
+          height: $height_cart_address;
+          line-height: $height_cart_address;
+          &:nth-child(1) {
+            width: 41px;
+            font-size: 12px;
+            text-align: center;
+          }
+          &:nth-child(2) {
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          &:nth-child(3) {
+            line-height: 1.41;
+            width: 300px;
+            span:not(:last-child) {
+              padding-right: 3px;
+            }
+            .table {
+              height: $height_cart_address;
+              display: table;
+            }
+            .cell {
+              display: table-cell;
+              vertical-align: middle;
+            }
+          }
+          &:nth-child(4) {
+            margin-left: 34px;
+          }
+        }
+        &::after {
+          clear: both;
+          content: '';
+          display: table;
+        }
+      }
+      &.out-of-range {
+        color: $color_cart_invalid_font;
+      }
+      &:hover {
+        background-color: $color_cart_list_hover;
+      }
+
+      .out-of-range {
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 20px;
+        line-height: $height_cart_address;
+        color: #888;
+      }
+    }
+  }
+}
+
+
+// react modal common styles
 .ReactModal__Overlay {
   opacity: 0;
   z-index: 10;
@@ -167,6 +272,8 @@
   transition: all 250ms ease-out;
 }
 
+
+// jquery modal
 .xw-modal {
   position: fixed;
   z-index: 999;
@@ -181,6 +288,8 @@
     width: 100%;
   }
 }
+
+// 菜品多属性选择框
 .multi-dish-selection {
   position: absolute;
   margin: auto;

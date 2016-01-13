@@ -53,3 +53,13 @@ export function render(id, number, showMinus, counterSelector='.plusok', minusSe
     }
 }
 
+/**
+ * 渲染便当是否超出配送范围
+ * @param id - 便当id
+ * @param show - show or hide, Default is true
+ * @param selector - the `out-of-range` selector. Default is '.out-of-range'
+ */
+export function renderOutOfRange(id, show=true, selector='.out-of-range') {
+    var $parent = $(`[data-id="${id}"]`)
+    $parent.find(selector)[show ? 'show' : 'hide']()
+}
