@@ -162,7 +162,8 @@ exports.cancelNotPaidOrder = (req, res, next) ->
           models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
             if resultAccount
               orderTemp = tempOrderIndex[resultAccount.user.toString()]
-              resultAccount.addMoney(orderTemp.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", orderTemp._id.toString()).catch( (err) -> logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount)))
+              resultAccount.addMoney(orderTemp.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", orderTemp._id.toString())
+              .catch( (err) -> logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount)))
 
 
     res.send resultOrderList

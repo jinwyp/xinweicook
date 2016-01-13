@@ -169,7 +169,7 @@ weiXinPay.prototype.createUnifiedOrder = function (item, callback){
         console.log("========== WeixinPay createUnifiedOrder error:", err);
 
         if (err) {
-            logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
+            //logger.error('------------------ WeixinPay createUnifiedOrder Error: ', JSON.stringify(err));
            return callback(err);
         }else{
             xml2js.parseString(body, {trim: true, explicitArray: false, explicitRoot:false }, function (err, json) {
@@ -230,7 +230,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
     //文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
     requestC(opts, function(err, response, body){
         if (err){
-            logger.error("OpenID Failed Network error:", JSON.stringify(err));
+            //logger.error("OpenID Failed Network error:", JSON.stringify(err));
             callback(err)
         }else{
             // 文档 http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3Dhttp://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html?pass_ticket=6IvwAVhR%2FWeMtWuwTT9MV5GZXhHy0ore6FJqabCe%2BqU%3D
@@ -240,7 +240,7 @@ weiXinPay.prototype.getUserOpenId = function(code, callback){
                 result = JSON.parse(body) ;
             } catch (err) {
                 // handle error
-                logger.error("OpenID Failed JSON Parse Error:", JSON.stringify(err));
+                //logger.error("OpenID Failed JSON Parse Error:", JSON.stringify(err));
                 callback(err)
             }
 
@@ -287,7 +287,7 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
 
     requestC(opts, function(err, response, body){
         if (err){
-            logger.error("UserInfo Failed Network error:", JSON.stringify(err));
+            //logger.error("UserInfo Failed Network error:", JSON.stringify(err));
             callback(err)
 
         }else{
@@ -297,7 +297,7 @@ weiXinPay.prototype.getUserInfo = function(user, callback){
 
             } catch (err) {
                 // handle error
-                logger.error("Weixin getUserInfo JSON Parse Error:", JSON.stringify(err));
+                //logger.error("Weixin getUserInfo JSON Parse Error:", JSON.stringify(err));
                 callback(err)
             }
 
@@ -464,7 +464,7 @@ weiXinPay.prototype.getDeveloperAccessToken = function( callback){
 
             } catch (err) {
                 // handle error
-                logger.error("Weixin Developer AccessToken JSON Parse Error:", JSON.stringify(err));
+                //logger.error("Weixin Developer AccessToken JSON Parse Error:", JSON.stringify(err));
                 callback(err)
             }
 
@@ -515,7 +515,7 @@ weiXinPay.prototype.getDeveloperJsapiTicket = function(access_token, callback){
 
             } catch (err) {
                 // handle error
-                logger.error("Weixin Developer JsapiTicket JSON Parse Error:", JSON.stringify(err));
+                //logger.error("Weixin Developer JsapiTicket JSON Parse Error:", JSON.stringify(err));
                 callback(err)
             }
 

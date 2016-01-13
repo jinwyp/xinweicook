@@ -158,7 +158,7 @@ function generateOrderInternalSheetFromArray(worksheet, arrayData){
 
             var tempDishName ;
             if (tempDishList[rowdish].dish === null && typeof tempDishList[rowdish].dish === 'object'){
-                console.log("-----------------------export dish: ", arrayData[row]._id, tempDishList[rowdish].dish);
+                //console.log("-----------------------export dish: ", arrayData[row]._id, tempDishList[rowdish].dish);
                 tempDishName = '已删除菜品';
             }else{
                 tempDishName = tempDishList[rowdish].dish.title.zh;
