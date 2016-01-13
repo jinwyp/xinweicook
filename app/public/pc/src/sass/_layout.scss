@@ -13,28 +13,28 @@ header {
   .header-main {
     width: 1200px;
     height: 67px;
-    margin: 0 auto;
+    margin: 30px auto;
     position: absolute;
-    left: 50%;
-    margin-left: -600px;
+    left: 0;
+    right: 0;
+    * {
+      display: inline-block;
+      vertical-align: top;
+    }
     .city {
       padding-left: 25px;
       border-left: 2px solid $color_mine_shaft_approx;
-      display: block;
-      position: absolute;
       top: 30px;
-      left: 161px;
       color: $color_sunset_orange_approx;
     }
     .nav {
-      display: block;
-      position: absolute;
       top: 30px;
-      left: 560px;
+      // todo: uncomment
+      //left: 560px;
+      padding-right: 8px;
       border-right: 2px solid $color_mine_shaft_approx;
       color: $color_sunset_orange_approx;
       li {
-        float: left;
         display: inline-block;
         overflow: hidden;
         padding: 0 15px;
@@ -52,24 +52,23 @@ header {
       }
     }
     .sign {
-      display: block;
-      position: absolute;
       top: 30px;
-      left: 1070px;
+      padding: 0 14px;
+      a:not(:last-child) {
+        padding-right: 10px;
+      }
     }
     .cart {
-      display: block;
-      position: absolute;
       width: 24px;
       height: 22px;
+      margin-top: -5px;
       top: 25px;
       right: 20px;
       background: url(../images/carticon.png) center center no-repeat;
       background-size: cover;
     }
     a.logo {
-      display: block;
-      position: absolute;
+      margin-top: -15px;
       top: 15px;
       left: 20px;
       width: 107px;
@@ -93,9 +92,13 @@ header {
     }
     .sign {
       color: $white;
-      &:hover {
-        color: $color_sunset_orange_approx
+      > *{
+        color: $white;
+        &:hover {
+          color: $color_sunset_orange_approx
+        }
       }
+
     }
     .city {
       border-color: white !important;

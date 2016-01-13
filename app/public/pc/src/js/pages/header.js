@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import {User} from '../models'
+
 /**
  * 根据user对象来初始化头部
  * @param user
@@ -14,12 +16,19 @@ export function init(user) {
 export function render(mobile, cart) {
     var $signin = $('#signin')
     var $account = $('#account')
+    var $accountParent = $account.parent()
     if (mobile) {
         $signin.hide()
-        $account.show().html(mobile.substr(0, 3) + '****' + mobile.substr(7, 4))
+        $account.html(mobile.substr(0, 3) + '****' + mobile.substr(7, 4))
+        $accountParent.show()
+        $('#signout').click(() => {
+            User.logout().then(function () {
+                location.reload()
+            }).catch(e => console.log(e))
+        })
     } else {
         $signin.show()
-        $account.hide()
+        $accountParent.hide()
     }
 }
 

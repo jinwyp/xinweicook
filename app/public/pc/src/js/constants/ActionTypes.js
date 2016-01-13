@@ -55,3 +55,6 @@ export const FETCH_USER = 'FETCH_USER';
 export const CHANGE_ROUTE = 'CHANGE_ROUTE';
 
 // warehouse
+
+// position selector
+export const TOGGLE_POSITION_SELECTOR = 'TOGGLE_POSITION_SELECTOR';

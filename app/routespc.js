@@ -56,9 +56,12 @@ render.index = function renderIndex(req, res, next, path) {
 
 
     Promise.all(promiseList).spread(function(dishes, promotionposition){
+        var promotionType = models.promotionposition.constantPosition().index1
         var data = {
             // 识别为首页的头部
             indexHeader: true,
+            // 识别为可选择便当的页面
+            eatExist: true,
 
             cooks: dishes.filter(function (dish) {
                 return dish.cookingType == 'ready to cook'
@@ -66,7 +69,9 @@ render.index = function renderIndex(req, res, next, path) {
             eats: dishes.filter(function (dish) {
                 return dish.cookingType == 'ready to eat'
             }).slice(0, 3),
-            promotions: promotionposition
+            promotions: promotionposition.filter(function (el) {
+                return el.position == promotionType
+            })
 
         };
         res.render(path, data)
@@ -91,7 +96,8 @@ render.eatList = function (req, res, next, path) {
                 }),
                 drinks: dishes.filter(function (dish) {
                     return dish.sideDishType == 'drink'
-                })
+                }),
+                eatExist: true
             })
         }).catch(function (err) {
             next(err)

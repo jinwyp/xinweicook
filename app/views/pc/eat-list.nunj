@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.8f7cd8a1d08b7b21744ea46596c5c3df.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.5b557bc7d7e0886bd7c901751dbd1c3b.css"/>
     
 </head>
 <body>
@@ -24,7 +24,7 @@
                 <div class="info">
                     <img src="/pc/src/images/seta.png">
                     <h6 class="product">{{ dish.title[locale] }}</h6>
-                    <h6 class="product text">{{ dish.brief[locale] }}</h6>
+                    <h6 class="product text" title="{{ dish.brief[locale] }}">{{ dish.brief[locale] }}</h6>
                     <p class="price">￥{{ dish.priceOriginal }}</p>
                     <div class="btns clearfix">
                         <a class="gotobuy" href="{{ pcPrefix }}/cart">立即购买</a>
@@ -69,7 +69,7 @@
                     <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
                     <a href="javascript:;">
                         <div class="plusok"></div>
-                        <img src="{{ dish.cover[0][locale] | img}}">
+                        <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
                     </a>
 
                     <div class="info clearfix">
@@ -91,8 +91,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.ac28bdfe3196286278ac.js"></script>
-<script src="/pc/dist/eat-list.ac28bdfe3196286278ac.js"></script>
+<script src="/pc/dist/webpack-common.71d9e965709b9253489e.js"></script>
+<script src="/pc/dist/eat-list.71d9e965709b9253489e.js"></script>
 
 </body>
 </html>

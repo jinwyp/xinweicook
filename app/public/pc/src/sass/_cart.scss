@@ -42,10 +42,9 @@ $color_cart_checkbox: #777;
       margin-bottom: 20px;
       a {
         display: inline-block;
-        text-align: center;
         height: 40px;
         line-height: 40px;
-        border-bottom: 2px solid $color_celeste_approx;
+        border-bottom: 1px solid $color_cart_input_border;
         width: $width_cart_left_col;
         &.act {
           color: $color_sunset_orange_approx;
@@ -61,7 +60,7 @@ $color_cart_checkbox: #777;
       }
       .header {
         margin-bottom: 10px;
-        border-bottom: 2px solid $color_celeste_approx;
+        border-bottom: 1px solid $color_cart_price_border;
         margin-right: 9px;
         padding-bottom: 7px;
         span {
@@ -89,6 +88,9 @@ $color_cart_checkbox: #777;
       .cart-dish {
         .fa {
           font-size: 18px;
+        }
+        .square-icon {
+          font-size: 14px;
         }
         > * {
           display: inline-block;
@@ -180,7 +182,7 @@ $color_cart_checkbox: #777;
       .address-section {
         margin-bottom: 5px;
         .header {
-          border-bottom: 2px solid $color_celeste_approx;
+          border-bottom: 1px solid $color_cart_input_border;
           padding-bottom: 7px;
           padding-top: 8px;
           text-align: left;
@@ -202,11 +204,6 @@ $color_cart_checkbox: #777;
             transition: background-color .4s;
             cursor: pointer;
             position:relative;
-            &.out-of-range {
-              .content-wrapper {
-                filter: blur(1px)
-              }
-            }
             .content-wrapper {
               > * {
                 float: left;
@@ -275,7 +272,7 @@ $color_cart_checkbox: #777;
           margin-bottom: 5px;
         }
         .group {
-          border: 2px solid $color_cart_input_border;
+          border: 1px solid $color_cart_input_border;
           padding: 9px;
           position: relative;
           .date {
@@ -336,7 +333,7 @@ $color_cart_checkbox: #777;
           vertical-align: middle;
         }
         textarea {
-          border: 2px $color_cart_input_border solid;
+          border: 1px $color_cart_input_border solid;
           vertical-align: middle;
           padding: 7px;
           width: 405px;
@@ -351,7 +348,7 @@ $color_cart_checkbox: #777;
           font-size: 16px;
         }
         input, .coupon-card {
-          border: 2px $color_cart_input_border solid;
+          border: 1px $color_cart_input_border solid;
           padding: 7px;
           width: 220px;
           margin-bottom: 1.2em;

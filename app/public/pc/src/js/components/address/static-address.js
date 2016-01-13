@@ -40,7 +40,7 @@ var StaticAddress = React.createClass({
                             </span>
                     }
                 </div>
-                <div className="out-of-range" style={{display: props.outOfRange ? 'block' : 'none'}}>该地址不在便当配送范围内</div>
+                {/*<div className="out-of-range" style={{display: props.outOfRange ? 'block' : 'none'}}>该地址不在便当配送范围内</div>*/}
             </div>
         )
     }

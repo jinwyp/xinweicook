@@ -164,8 +164,8 @@ $color_me_li_border: #efefef;
       li {
         padding-left: $padding-left;
         font-size: 14px;
-        height: 80px;
-        line-height: 80px;
+        //height: 80px;
+
         transition: background-color 0.4s;
         &:hover {
           background-color: $color_cart_list_hover;
@@ -174,16 +174,22 @@ $color_me_li_border: #efefef;
       .content-wrapper {
         border-bottom: 1px solid $color_me_li_border;
         > * {
+          line-height: 80px;
           display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          vertical-align: top;
         }
         > :nth-child(1) {
           width: 120px;
         }
         > :nth-child(2) {
           width: 470px;
+          padding-left: 2px;
         }
         > :nth-child(3) {
-          width: 270px;
+          width: 260px;
         }
 
         .modify-address {

@@ -24,7 +24,7 @@
                 <div class="info">
                     <img src="/pc/src/images/seta.png">
                     <h6 class="product">{{ dish.title[locale] }}</h6>
-                    <h6 class="product text">{{ dish.brief[locale] }}</h6>
+                    <h6 class="product text" title="{{ dish.brief[locale] }}">{{ dish.brief[locale] }}</h6>
                     <p class="price">￥{{ dish.priceOriginal }}</p>
                     <div class="btns clearfix">
                         <a class="gotobuy" href="{{ pcPrefix }}/cart">立即购买</a>
@@ -69,7 +69,7 @@
                     <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
                     <a href="javascript:;">
                         <div class="plusok"></div>
-                        <img src="{{ dish.cover[0][locale] | img}}">
+                        <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
                     </a>
 
                     <div class="info clearfix">

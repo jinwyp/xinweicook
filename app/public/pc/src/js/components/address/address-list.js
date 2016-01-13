@@ -26,13 +26,23 @@ var modalStyle = {
 var AddressList = React.createClass({
 
     componentDidMount() {
-        this.props.getList()
+        this.props.getList && this.props.getList()
+    },
+
+    componentDidUpdate(prevProps) {
+        // 如果设置了下面这个属性,那么当获取了地址,并且地址为空的数组的时候,弹出需要填地址的框.
+        if (!this.props.showNewIfNoAddress) return
+        var newAddresses = this.props.addresses
+        if (!prevProps.addresses && newAddresses && !newAddresses.length) {
+            props.addOne()
+        }
     },
 
     render: function () {
         var props = this.props
         var title = props.title || '配送至'
-        const editingAddress = props.addresses.filter(address => address._id == props.addressEditingForm.id)[0] || {}
+        var addresses = props.addresses || []
+        const editingAddress = addresses.filter(address => address._id == props.addressEditingForm.id)[0] || {}
         return (
             <div className="address-section">
                 <h5 className="header">
@@ -47,7 +57,7 @@ var AddressList = React.createClass({
                 </h5>
                 <ul className="address-list">
                     {
-                        props.addresses.map( address =>
+                        addresses.map( address =>
                                 <li key={address._id}>
                                     <StaticAddress delOne={props.delOne}
                                                    modifyOne={props.modifyOne}

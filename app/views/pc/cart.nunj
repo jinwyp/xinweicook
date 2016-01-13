@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.8f7cd8a1d08b7b21744ea46596c5c3df.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.5b557bc7d7e0886bd7c901751dbd1c3b.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -27,8 +27,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.ac28bdfe3196286278ac.js"></script>
-<script src="/pc/dist/cart.ac28bdfe3196286278ac.js"></script>
+<script src="/pc/dist/webpack-common.71d9e965709b9253489e.js"></script>
+<script src="/pc/dist/cart.71d9e965709b9253489e.js"></script>
 
 </body>
 </html>

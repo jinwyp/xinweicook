@@ -2,7 +2,7 @@ import * as types from '../constants/ActionTypes'
 import { combineReducers } from 'redux'
 
 
-function addresses(state = [], action) {
+function addresses(state = null, action) {
     switch (action.type) {
         case types.SELECT_ADDRESS:
             return state.map(item => {

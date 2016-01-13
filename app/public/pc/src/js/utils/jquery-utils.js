@@ -9,6 +9,8 @@ $.fn.fadeList = function (options) {
     var interval = options.interval || 5000
     var pauseHover = options.pauseHover === false ? false : true
 
+    var enterClass = 'enter'
+
     this.eq(0).addClass(actClass)
 
     var curIndex = 0
@@ -48,12 +50,16 @@ $.fn.fadeList = function (options) {
         var $cur = that.eq(curIndex)
         var $next = that.eq(nextIndex)
         $cur.addClass(fadeOutClass)
-        $next.addClass(fadeInClass)
+        $next.addClass(enterClass)
+        // let enterClass enable before fade class
         setTimeout(() => {
-            $cur.removeClass(actClass + ' ' + fadeOutClass)
-            $next.removeClass(fadeInClass).addClass(actClass)
-            curIndex = nextIndex
-        }, fadeTime)
-        lastPlayedTime = Date.now()
+            $next.addClass(fadeInClass)
+            setTimeout(() => {
+                $cur.removeClass(actClass + ' ' + fadeOutClass + ' ' + enterClass)
+                $next.removeClass(fadeInClass).addClass(actClass)
+                curIndex = nextIndex
+            }, fadeTime)
+            lastPlayedTime = Date.now()
+        }, 17)
     }
 }
