@@ -60,6 +60,7 @@
         }
       }
       .out-of-range {
+        z-index: 1;
         position: absolute;
         top: 0;
         left: 0;
@@ -148,6 +149,11 @@
         }
       }
     }
+  }
+}
+.eatlist {
+  .out-of-range {
+    line-height: 430px !important;
   }
 }
 

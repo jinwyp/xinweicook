@@ -21,6 +21,9 @@
                 <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
                 <div class="img" style="background-image: url({{ dish.cover[0][locale]|img }})">
                     <div class="plusok"></div>
+                    <div class="out-of-range">
+                        当前地址便当不可送达
+                    </div>
                 </div>
                 <div class="info">
                     <img src="/pc/src/images/seta.png">
@@ -71,6 +74,9 @@
                     <a href="javascript:;">
                         <div class="plusok"></div>
                         <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
+                        <div class="out-of-range">
+                            当前地址便当不可送达
+                        </div>
                     </a>
 
                     <div class="info clearfix">

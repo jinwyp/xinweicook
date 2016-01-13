@@ -17,6 +17,9 @@ header {
     position: absolute;
     left: 0;
     right: 0;
+    .change-address {
+      color: #656565;
+    }
     * {
       display: inline-block;
       vertical-align: top;
@@ -83,6 +86,11 @@ header {
     border-bottom: 0 none;
     color: $white;
     position: absolute;
+    .header-main {
+      .change-address {
+        color: #DEDEDE;
+      }
+    }
     .nav {
       border-color: $white;
       color: $white;
