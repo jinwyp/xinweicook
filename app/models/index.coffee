@@ -26,6 +26,7 @@ connection.on "error", (err) ->
   logger.warn "Database", err
   errs.push err
   mongoose.disconnect()
+
 connection.on "disconnected", ->
   logger.warn "Database", "disconnnected"
   if errs.length >= 5
