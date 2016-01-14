@@ -2,6 +2,9 @@
 
 header {
   position: fixed;
+  // prevent scroll trembling for chrome
+  // http://www.chenyudong.com/archives/chrome-position-fixed-shake.html
+  transform: translateZ(0);
   top: 0;
   z-index: 3;
   width: 100%;
@@ -9,11 +12,14 @@ header {
   background: $white;
   overflow: hidden;
   border-bottom: 1px solid $color_pumice_approx;
+  transition: all ease .4s;
   font-size: 14px;
   .header-main {
+    box-sizing: border-box;
     width: 1200px;
     height: 67px;
-    margin: 30px auto;
+    margin: 0 auto;
+    padding-top: 30px;
     position: absolute;
     left: 0;
     right: 0;
@@ -23,12 +29,6 @@ header {
     * {
       display: inline-block;
       vertical-align: top;
-    }
-    .city {
-      padding-left: 25px;
-      border-left: 2px solid $color_mine_shaft_approx;
-      top: 30px;
-      color: $color_sunset_orange_approx;
     }
     .nav {
       top: 30px;
@@ -55,7 +55,6 @@ header {
       }
     }
     .sign {
-      top: 30px;
       padding: 0 14px;
       a:not(:last-child) {
         padding-right: 10px;
@@ -65,15 +64,11 @@ header {
       width: 24px;
       height: 22px;
       margin-top: -5px;
-      top: 25px;
-      right: 20px;
       background: url(../images/carticon.png) center center no-repeat;
       background-size: cover;
     }
     a.logo {
       margin-top: -15px;
-      top: 15px;
-      left: 20px;
       width: 107px;
       height: 39px;
       background: url(../images/logo.png) center center no-repeat;
@@ -81,11 +76,11 @@ header {
       text-indent: -9999px;
     }
   }
-  &.indexhd {
+  &.indexhd:not(.normal) {
     background: none;
     border-bottom: 0 none;
     color: $white;
-    position: absolute;
+    position: fixed;
     .header-main {
       .change-address {
         color: #DEDEDE;

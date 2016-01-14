@@ -43,4 +43,18 @@ $(document).ready(() => {
             $play.show()
         })
     })
+
+    var $header = $('header')
+    var normalHeader = $header.hasClass('normal')
+    $(window).on('scroll', function () {
+        if (window.scrollY > 112) {
+            if (!normalHeader) {
+                $header.addClass('normal')
+                normalHeader = true
+            }
+        } else if (normalHeader){
+            normalHeader = false
+            $header.removeClass('normal')
+        }
+    })
 })

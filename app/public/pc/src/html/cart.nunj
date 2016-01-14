@@ -13,7 +13,7 @@
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
-<div class="cart">
+<div class="cart-main">
     <div class="carttitle"></div>
     <!--<h5>由于配送的方式与可选择时间不同，<br>食材包与即食包需分开确认订单,敬请谅解！</h5>-->
 

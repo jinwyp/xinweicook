@@ -27,6 +27,8 @@ $color_cart_invalid_cover: rgba(0, 0, 0, 0.12);
 $color_cart_invalid_font:  #D6D6D6;
 $color_cart_checkbox: #777;
 
+$time_global_transition: .4s;
+
 @import "_reset.scss";
 @import "base";
 @import "componens";
