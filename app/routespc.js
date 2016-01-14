@@ -14,8 +14,9 @@ var routes = function(app) {
     // 页面渲染
     app.get(publicPrefix + "/", render(viewsPrefix + 'index.nunj', render.index));
     app.get(publicPrefix + "/eat", render(viewsPrefix + 'eat-list.nunj', render.eatList))
-    app.get(publicPrefix + "/cook/:id", render(viewsPrefix + 'cook.nunj', render.cook))
+    app.get(publicPrefix + "/eat/:id", render(viewsPrefix + 'eat.nunj', render.eat))
     app.get(publicPrefix + "/cook", render(viewsPrefix + 'cook-list.nunj', render.cookList))
+    app.get(publicPrefix + "/cook/:id", render(viewsPrefix + 'cook.nunj', render.cook))
     app.get(publicPrefix + "/me", function (req, res) {
         res.render(viewsPrefix + 'me.nunj')
     })
@@ -56,7 +57,9 @@ render.index = function renderIndex(req, res, next, path) {
 
 
     Promise.all(promiseList).spread(function(dishes, promotionposition){
-        var promotionType = models.promotionposition.constantPosition().index1
+        var bannerType = models.promotionposition.constantPosition().index1
+        var eatType = models.promotionposition.constantPosition().index3
+
         var data = {
             // 识别为首页的头部
             indexHeader: true,
@@ -66,11 +69,16 @@ render.index = function renderIndex(req, res, next, path) {
             cooks: dishes.filter(function (dish) {
                 return dish.cookingType == 'ready to cook'
             }).slice(0, 3),
-            eats: dishes.filter(function (dish) {
-                return dish.cookingType == 'ready to eat'
-            }).slice(0, 3),
+            //eats: dishes.filter(function (dish) {
+            //    return dish.cookingType == 'ready to eat'
+            //}).slice(0, 3),
             promotions: promotionposition.filter(function (el) {
-                return el.position == promotionType
+                return el.position == bannerType
+            }),
+            eats: promotionposition.filter(function (el) {
+                return el.position == eatType
+            }).map(function (el) {
+                return el.dish
             })
 
         };
@@ -111,6 +119,22 @@ render.cook = function (req, res, next, path) {
     }).execAsync()
         .then(function (dish) {
             res.render(path, {
+                dish: dish
+            })
+        }).catch(function (err) {
+            next(err)
+        })
+}
+
+render.eat = function (req, res, next, path) {
+    models.dish.findOne({
+        _id: req.params.id
+    }).execAsync()
+        .then(function (dish) {
+            res.render(path, {
+                // 识别为可选择便当的页面
+                eatExist: true,
+
                 dish: dish
             })
         }).catch(function (err) {
