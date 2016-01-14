@@ -10,7 +10,10 @@ function addresses(state = null, action) {
                 return item
             })
         case types.GET_ADDRESS:
-            return action.status == 'success' ? action.addresses : state
+            if (action.status == 'success') {
+                return action.addresses
+            }
+            return state
         case types.POST_ADDRESS:
             if (action.status == 'success') {
                 return state.concat([action.address])

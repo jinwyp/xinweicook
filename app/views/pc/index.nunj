@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.5b557bc7d7e0886bd7c901751dbd1c3b.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.cc1e3c7871ac1c825d7b576b81f2a557.css"/>
     
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -22,12 +23,16 @@
     <div class="main-top">
         <div class="menulinks clearfix">
             <div class="entry">
-                <img src="/pc/src/images/index-cook.png" alt="ready to cook"/>
-                <p>只愿享受烹炒的乐趣?<br>选料买菜的一切麻烦让新味帮你解决.</p>
+                <a href="{{ pcPrefix }}/cook/">
+                    <img src="/pc/src/images/index-cook.png" alt="ready to cook"/>
+                    <p>只愿享受烹炒的乐趣?<br>选料买菜的一切麻烦让新味帮你解决.</p>
+                </a>
             </div>
             <div class="entry">
-                <img src="/pc/src/images/index-eat.png" alt="ready to eat"/>
-                <p>在公司还想吃低温慢煮牛排?<br>新味让你用微波炉就能轻松享受.</p>
+                <a href="{{ pcPrefix }}/eat/">
+                    <img src="/pc/src/images/index-eat.png" alt="ready to eat"/>
+                    <p>在公司还想吃低温慢煮牛排?<br>新味让你用微波炉就能轻松享受.</p>
+                </a>
             </div>
         </div>
         <ul class="menus clearfix">
@@ -80,6 +85,9 @@
                     <a class="img-wrapper" href="{{ pcPrefix }}/eat#{{ dish._id }}">
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] | img }}">
+                        <div class="out-of-range">
+                            当前地址便当不可送达
+                        </div>
                     </a>
                     <div class="info clearfix">
                         <div class="name-price">
@@ -197,8 +205,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.71d9e965709b9253489e.js"></script>
-<script src="/pc/dist/index.71d9e965709b9253489e.js"></script>
+<script src="/pc/dist/webpack-common.4ffabd231255a09a6fc5.js"></script>
+<script src="/pc/dist/index.4ffabd231255a09a6fc5.js"></script>
 
 </body>
 </html>

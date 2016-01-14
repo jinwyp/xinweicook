@@ -90,14 +90,15 @@ render.eatList = function (req, res, next, path) {
             res.render(path, {
                 // 表示当前页为便当列表,使相应nav为激活状态
                 curNav: 'eat',
+                // 识别为可选择便当的页面
+                eatExist: true,
 
                 dishes: dishes.filter(function (dish) {
                     return dish.sideDishType == 'main'
                 }),
                 drinks: dishes.filter(function (dish) {
                     return dish.sideDishType == 'drink'
-                }),
-                eatExist: true
+                })
             })
         }).catch(function (err) {
             next(err)

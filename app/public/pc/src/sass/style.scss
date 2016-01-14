@@ -11,6 +11,24 @@ $concrete: #f2f2f2;
 $color_alto_approx: #ddd;
 $color_silver_chalice_approx: #aaa;
 $main-width: 1000px;
+$width_cart_left_col: 495px;
+$width_cart_col1_offset: 3px;
+$width_cart_col1: 22px;
+$width_cart_col2: 275px;
+$width_cart_col3: 64px;
+$width_cart_col4: 74px;
+$width_cart_col3_4_offset: 24px;
+$width_cart_col5: 20px;
+$height_cart_dish: 47px;
+$height_cart_address: 59px;
+$color_cart_input_border: #898A8B;
+$color_cart_price_border: #e8e8e8;
+$color_cart_invalid_cover: rgba(0, 0, 0, 0.12);
+$color_cart_invalid_font:  #D6D6D6;
+$color_cart_checkbox: #777;
+
+$time_global_transition: .4s;
+
 @import "_reset.scss";
 @import "base";
 @import "componens";

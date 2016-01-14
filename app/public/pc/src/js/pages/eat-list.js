@@ -4,6 +4,8 @@ import {init as initCommon} from './common'
 import {User, Dish} from '../models'
 import $ from 'jquery'
 import bindDish from '../utils/bind-dish-operation'
+// init position selector(react)
+import './position-selector'
 
 var dishes, cart, user
 

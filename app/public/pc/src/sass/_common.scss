@@ -53,16 +53,30 @@
       &.img-wrapper {
         font-size: 0;
       }
-      img {
-        width: 100%;
-        opacity: 1;
-        transition: opacity 0.2s, transform 1s;
-      }
       &:hover {
         img {
           opacity: .9;
           transform: scale(1.05);
         }
+      }
+      .out-of-range {
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.41);
+        text-align: center;
+        line-height: 211px;
+        color: #EAEAEA;
+        font-size: 20px;
+        display: none;
+      }
+      img {
+        width: 100%;
+        opacity: 1;
+        transition: opacity 0.2s, transform 1s;
       }
     }
     .info {
@@ -135,6 +149,11 @@
         }
       }
     }
+  }
+}
+.eatlist {
+  .out-of-range {
+    line-height: 430px !important;
   }
 }
 
