@@ -35,8 +35,7 @@ header {
       // todo: uncomment
       //left: 560px;
       padding-right: 8px;
-      border-right: 2px solid $color_mine_shaft_approx;
-      color: $color_sunset_orange_approx;
+      border-right: 2px solid;
       li {
         display: inline-block;
         overflow: hidden;
@@ -44,7 +43,6 @@ header {
         text-align: center;
         cursor: pointer;
         a:hover {
-          display: block;
           color: $color_sunset_orange_approx;
         }
         &.act {
@@ -56,6 +54,9 @@ header {
     }
     .sign {
       padding: 0 14px;
+      a:hover {
+        color: $color_sunset_orange_approx;
+      }
       a:not(:last-child) {
         padding-right: 10px;
       }
@@ -64,15 +65,38 @@ header {
       width: 24px;
       height: 22px;
       margin-top: -5px;
-      background: url(../images/carticon.png) center center no-repeat;
-      background-size: cover;
+      background: url(../images/carticon.png) center/cover no-repeat;
+      position: relative;
+      .number {
+        position: absolute;
+        background: white;
+        transition: all .4s ease;
+        color: $color_sunset_orange_approx;
+        border-radius: 10px;
+        display: none;
+        height: 11px;
+        min-width: 11px;
+        text-align: center;
+        right: -5px;
+        top: -5px;
+        padding: 2px;
+        padding-left: 1px;
+        font: 11px/11px verdana;
+        border: 1px solid $color_sunset_orange_approx;
+        overflow: hidden;
+      }
+      &:hover {
+        .number {
+          color: white;
+          background: $color_sunset_orange_approx
+        }
+      }
     }
     a.logo {
       margin-top: -15px;
       width: 107px;
       height: 39px;
-      background: url(../images/logo.png) center center no-repeat;
-      background-size: cover;
+      background: url(../images/logo.png) center/cover no-repeat;
       text-indent: -9999px;
     }
   }
@@ -86,38 +110,16 @@ header {
         color: #DEDEDE;
       }
     }
-    .nav {
-      border-color: $white;
-      color: $white;
-      a {
-        color: $white;
-      }
-    }
-    .sign {
-      color: $white;
-      > *{
-        color: $white;
-        &:hover {
-          color: $color_sunset_orange_approx
-        }
-      }
-
-    }
-    .city {
-      border-color: white !important;
-      color: $white !important;
-      span {
-        color: $white !important;
-      }
+    .sign:hover {
+      color: $color_sunset_orange_approx
     }
     a {
+      color: white;
       &.logo {
-        background: url(../images/indexlogo.png) center center no-repeat;
-        background-size: cover;
+        background: url(../images/indexlogo.png) center/cover no-repeat;
       }
       &.cart {
-        background: url(../images/indexcart.png) center center no-repeat;
-        background-size: contain;
+        background: url(../images/white-carticon.png) center/cover no-repeat;
       }
     }
   }

@@ -11,9 +11,9 @@ export function init(user) {
 
 /**
  * @param mobile
- * @param cart - 这个cart不一定就是user上面的,它可能会改变
+ * @param _cart - 这个cart不一定就是user上面的,它可能会改变
  */
-export function render(mobile, cart) {
+export function render(mobile, _cart) {
     var $signin = $('#signin')
     var $account = $('#account')
     var $accountParent = $account.parent()
@@ -30,8 +30,16 @@ export function render(mobile, cart) {
         $signin.show()
         $accountParent.hide()
     }
+
+    if (_cart) {
+        cart(_cart)
+    }
 }
 
 export function place(address) {
     $('#position').show().find('span').html(address)
+}
+
+export function cart(cart) {
+    $('.cart .number').html(cart.length ? cart.length : '')[cart.length ? 'show' : 'hide']()
 }

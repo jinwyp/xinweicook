@@ -30,7 +30,9 @@ function orders(state = [], action) {
     switch (action.type) {
         case types.GET_ORDERS:
             if (action.status == 'success') {
-                return action.orders
+                return action.orders.filter(el => {
+                    return !!el.dishList[0].dish
+                })
             }
             return state
         default: return state

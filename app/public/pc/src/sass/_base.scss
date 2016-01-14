@@ -77,3 +77,9 @@ body {
 .fr {
   float: right;
 }
+
+.hred {
+  &:hover {
+    color: $color_sunset_orange_approx !important;
+  }
+}
