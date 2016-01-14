@@ -121,7 +121,7 @@ module.exports =
 
       strtemp = verifyCode[total%11]
 
-      console.log strStart,strMid, strLast, strtemp
+#      console.log strStart,strMid, strLast, strtemp
 
       if strStart is "XW" and strMid is "XWC" and strLast is strtemp
         return true
@@ -195,7 +195,7 @@ module.exports =
         name :
           zh : "新APP注册用户优惠券"
           en : "New App User Coupon"
-        price : 15
+        price : 10
         couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : user._id.toString()
