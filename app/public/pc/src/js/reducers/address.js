@@ -1,5 +1,6 @@
 import * as types from '../constants/ActionTypes'
 import { combineReducers } from 'redux'
+import {allIsEatInCart} from '../utils/dish'
 
 
 function addresses(state = null, action) {
@@ -11,6 +12,11 @@ function addresses(state = null, action) {
             })
         case types.GET_ADDRESS:
             if (action.status == 'success') {
+                if (action.allIsEat) {
+                    action.addresses.forEach(el => {
+                        el.outOfRange = !el.isAvailableForEat
+                    })
+                }
                 return action.addresses
             }
             return state
@@ -30,18 +36,36 @@ function addresses(state = null, action) {
             return state.filter(address => address._id != action.id)
         case types.CART_SELECTION_CHANGED:
             // 根据菜品的库存状况过滤出可用地址(食材包,便当的种类信息, 便当的话还要提供都有货的仓库信息)
-            if (action.info['ready to eat']) {
+            var info = action.info
+            if (info['ready to eat']) {
                 return state.map(item => {
                     item.outOfRange = !item.isAvailableForEat
-                        || !action.info.warehouse[item.warehouse]
+                        || !info.warehouse[item.warehouse]
                     return item
                 })
             } else {
+                if (info.allIsEat) {
+                    return state.map(item => {
+                        item.outOfRange = !item.isAvailableForEat
+                        return item
+                    })
+                }
                 return state.map(item => {
                     item.outOfRange = false
                     return item
                 })
             }
+        case types.FETCH_USER:
+            if (action.status == 'success' && state) {
+                if (allIsEatInCart(action.user.shoppingCart)) {
+                    return state.map(el => {
+                        el.outOfRange = !el.isAvailableForEat
+                        return el
+                    })
+                } else return state
+            }
+            return state
+
 
         default: return state
     }
