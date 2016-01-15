@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.93fe5211a3706dc90cfe20eee0c8ca84.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.1c4ba051508bcd90eaa19d1f857d99cf.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -61,8 +61,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.9e4a91c34399f4c3fd63.js"></script>
-<script src="/pc/dist/eat.9e4a91c34399f4c3fd63.js"></script>
+<script src="/pc/dist/webpack-common.340b96411b8cb0573dab.js"></script>
+<script src="/pc/dist/eat.340b96411b8cb0573dab.js"></script>
 
 </body>
 </html>
