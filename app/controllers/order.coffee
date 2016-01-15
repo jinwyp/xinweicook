@@ -275,8 +275,12 @@ exports.calculateOrderPrice = (req, res, next) ->
     if dishEatIdList.length > 0 and result.dishesPrice >= 100
       freightEat = 0
 
-
-    result.freight = freightCook + freightCook
+    if dishCookIdList.length > 0 and dishEatIdList.length > 0
+      result.freight = freightCook + freightEat
+    else if dishCookIdList.length > 0
+      result.freight = freightCook
+    else
+      result.freight = freightEat
 
     result.totalPrice = result.dishesPrice + result.freight
 
