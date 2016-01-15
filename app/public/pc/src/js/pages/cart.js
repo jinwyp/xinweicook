@@ -21,6 +21,8 @@ import CartCoupon from "../components/coupon/cart-coupon"
 import OrderPrice from "../components/order-price"
 import Comment from "../components/comment"
 
+import * as header from '../pages/header'
+
 import {price as dishPrice} from "../utils/dish"
 
 var App = React.createClass({
@@ -30,6 +32,17 @@ var App = React.createClass({
             initCommon(res)
         })
         this.props.dispatch(balanceAction.getBalance())
+    },
+    componentDidUpdate: function (prevProps) {
+        // update the header which is not a react component
+        var prevCart = prevProps.cart
+        var newCart
+        if (prevCart) {
+            newCart = this.props.cart
+            if (newCart.length != prevCart.length) {
+                header.cart(newCart)
+            }
+        }
     },
     getFreightIfNeeded: function (cart, address, dispatch) {
         return cart.some(el => el.selected)
@@ -50,8 +63,12 @@ var App = React.createClass({
         }) && dispatch(orderAction.postOrder())
     },
     render: function () {
-        const {warehouse, cart, dispatch, address, time,
+        const {warehouse, dispatch, address, time,
             coupon, balance, freight} = this.props;
+        var cart = this.props.cart
+
+        var cartLoaded = !!cart
+        cart = cart || []
 
         var cartMethods = {
             selectOne: id=> {
@@ -141,20 +158,33 @@ var App = React.createClass({
 
         return (
             <div className="cart-main">
-                <div className="cart-main-left">
-                    <Cart methods={cartMethods} cart={cart} warehouse={warehouse}/>
-                </div>
-                <div className="cart-main-right">
-                    <AddressList {...address} {...addressMethods}/>
-                    {hasEatDishSelected && <TimeSelector {...timeMethods} {...time.eat}/>}
-                    {hasCookDishSelected && <TimeSelector {...timeMethods} {...time.cook}/>}
-                    <Comment {...commentMethods}/>
-                    <CartCoupon {...couponMethods} {...coupon} {...balance} payPrice={price.payPrice}/>
-                    <OrderPrice {...price} {...balance}/>
-                    <div className="confirm-section">
-                        <button onClick={()=>postOrder(cart)}>{payment}</button>
-                    </div>
-                </div>
+                {
+                    (cartLoaded && !cart.length)
+                        ? (
+                        <div className="empty-cart-tip">
+                            <h4>购物车内还没有添加商品</h4>
+                            <a href={__PCPREFIX__ + '/'}>点击浏览食谱</a>
+                        </div>
+                    )
+                        : (
+                         <div>
+                             <div className="cart-main-left">
+                                 <Cart methods={cartMethods} cart={cart} warehouse={warehouse}/>
+                             </div>
+                             <div className="cart-main-right">
+                                 <AddressList {...address} {...addressMethods}/>
+                                 {hasEatDishSelected && <TimeSelector {...timeMethods} {...time.eat}/>}
+                                 {hasCookDishSelected && <TimeSelector {...timeMethods} {...time.cook}/>}
+                                 <Comment {...commentMethods}/>
+                                 <CartCoupon {...couponMethods} {...coupon} {...balance} payPrice={price.payPrice}/>
+                                 <OrderPrice {...price} {...balance}/>
+                                 <div className="confirm-section">
+                                     <button onClick={()=>postOrder(cart)}>{payment}</button>
+                                 </div>
+                             </div>
+                         </div>
+                    )
+                }
             </div>
         );
     }

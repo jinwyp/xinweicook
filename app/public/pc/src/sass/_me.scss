@@ -1,5 +1,6 @@
 $color_me_li_border: #efefef;
 .me {
+  margin-bottom: 40px;
   .title {
     text-align: center;
     margin: 30px auto 0;
@@ -93,7 +94,7 @@ $color_me_li_border: #efefef;
           }
         }
 
-        li {
+        .order-list li {
           padding: 7px 0;
           border-top: 1px solid $color_me_li_border;
           transition: background-color 0.4s;
@@ -104,6 +105,23 @@ $color_me_li_border: #efefef;
             border-bottom: 2px solid $color_me_li_border;
           }
         }
+
+        .pagination {
+          padding-top: 1em;
+          li {
+            display: inline;
+            padding: 5px;
+            a {
+              color: gray;
+            }
+            &.active {
+              a {
+                color: $color_sunset_orange_approx;
+              }
+            }
+          }
+        }
+
         .dish {
           height: 41px;
           line-height: 41px;

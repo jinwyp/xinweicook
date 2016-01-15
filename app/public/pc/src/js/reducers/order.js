@@ -26,7 +26,7 @@ function postStatus(state = {
     }
 }
 
-function orders(state = [], action) {
+function orders(state = null, action) {
     switch (action.type) {
         case types.GET_ORDERS:
             if (action.status == 'success') {

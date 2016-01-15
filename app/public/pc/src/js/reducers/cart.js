@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes'
 import { hasStock } from '../utils/dish'
 
-export default function cart(state = [], action) {
+export default function cart(state = null, action) {
     switch (action.type) {
         case types.CART_PLUS_DISH:
             return state.map(item => {

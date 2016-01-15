@@ -38,7 +38,7 @@ var App = React.createClass({
         if (!this.methods.order) {
             this.methods.order = {
                 getOrders: (skip, limit) => {
-                    dispatch(orderAction.getOrders(skip, limit))
+                    return dispatch(orderAction.getOrders(skip, limit))
                 }
             }
             this.methods.addressList = {

@@ -69,9 +69,8 @@ header {
       position: relative;
       .number {
         position: absolute;
-        background: white;
         transition: all .4s ease;
-        color: $color_sunset_orange_approx;
+        color: white;
         border-radius: 10px;
         display: none;
         height: 11px;
@@ -84,11 +83,12 @@ header {
         font: 11px/11px verdana;
         border: 1px solid $color_sunset_orange_approx;
         overflow: hidden;
+        background: $color_sunset_orange_approx
       }
       &:hover {
         .number {
-          color: white;
-          background: $color_sunset_orange_approx
+          color: $color_sunset_orange_approx;
+          background: white;
         }
       }
     }
