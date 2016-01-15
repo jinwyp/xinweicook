@@ -219,6 +219,12 @@ exports.calculateOrderPrice = (req, res, next) ->
 
   dishIdList = []
   dishNumberList = {}
+  dishCookIdList = []
+  dishEatIdList = []
+
+  freightCook = 24
+  freightEat = 6
+
 
   result =
     dishQuantity : 0
@@ -247,23 +253,34 @@ exports.calculateOrderPrice = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       result.dishesPrice = result.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
+      if dish.cookingType is models.dish.constantCookingType().cook
+        dishCookIdList.push(dish._id.toString())
+      else
+        dishEatIdList.push(dish._id.toString())
 
     models.useraddress.findOneAsync({_id:req.body.addressId})
   .then (resultAddress) ->
 
     # 计算订单总金额 食材包
-    if req.body.cookingType is models.dish.constantCookingType().cook and resultAddress
+    if dishCookIdList.length > 0 and resultAddress
 
       isCityShanghai = resultAddress.province.indexOf("上海") isnt -1
       isNearProvince = /浙江|江苏|安徽/.test(resultAddress.province)
 
-      result.freight = 12 if isNearProvince
-      result.freight = 6 if isCityShanghai
+      freightCook = 12 if isNearProvince
+      freightCook = 6 if isCityShanghai
 
 
     # 计算订单总金额 便当 满100免运费
-    if result.dishesPrice >= 100 and req.body.cookingType is models.dish.constantCookingType().eat
-        result.freight = 0
+    if dishEatIdList.length > 0 and result.dishesPrice >= 100
+      freightEat = 0
+
+    if dishCookIdList.length > 0 and dishEatIdList.length > 0
+      result.freight = freightCook + freightEat
+    else if dishCookIdList.length > 0
+      result.freight = freightCook
+    else
+      result.freight = freightEat
 
     result.totalPrice = result.dishesPrice + result.freight
 
