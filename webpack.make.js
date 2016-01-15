@@ -27,7 +27,7 @@ module.exports = function makeWebpackConfig(options) {
             filename: BUILD ? '[name].[hash].js' : '[name].js',
             chunkFilename: BUILD ? "[id].[hash].js" : "[id].js"
         },
-        devtool: 'source-map',
+        devtool: BUILD ? '' : 'source-map', //generating too many large files
         module: {
             loaders: [
                 {
