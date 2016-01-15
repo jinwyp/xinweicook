@@ -2,6 +2,7 @@ import fetch, {post} from "../utils/xw-fetch"
 import {toPostDish, availableWarehouse} from '../utils/dish'
 import * as types from "../constants/ActionTypes"
 import {getUserIfNeeded} from "./user"
+import {allIsEatInCart} from '../utils/dish'
 
 // get user 即表示 get cart, 所以只能通过在cart中, case 'Fetch_USER'来对cart处理
 export function getCart() {
@@ -118,15 +119,23 @@ export function delDish(id) {
 /**
  * 从购物车中提取cookingType信息,以及warehouse信息
  * @param dishList
- * @returns {{}} - {'ready to cook': true, warehouse: {abcdefghijklmn: true, ..}}
+ * @returns {{}} - {
+ *  'ready to cook': true,
+ *  ['ready to eat': true,]
+ *  warehouse: {abcdefghijklmn: true, ..},
+ *  allIsEat: false
+ *  }
  */
 function getCookingTypeAndWarehouse(dishList) {
     var ret = {}
     var selectedCart = dishList.filter(item => item.selected)
     selectedCart.forEach(item => ret[item.dish.cookingType] = true)
+
     // 下面只过滤出便当的可配送库存
     ret.warehouse = availableWarehouse(
         selectedCart.filter(item => item.dish.cookingType == 'ready to eat'))
+
+    ret.allIsEat = allIsEatInCart(dishList)
 
     return ret
 }

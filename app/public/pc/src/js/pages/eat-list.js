@@ -10,6 +10,11 @@ import './position-selector'
 var dishes, cart, user
 
 $(document).ready(() => {
+    $('.shopnow .buy').click(function (e) {
+        if($(this).hasClass('disabled')) {
+            e.preventDefault()
+        }
+    })
     Promise.all([
         User.getUser(),
         Dish.getList({cookingType: 'ready to eat'})

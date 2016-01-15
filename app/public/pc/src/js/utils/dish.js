@@ -15,10 +15,19 @@ export function hasStock(item, warehouse) {
     if (item.dish.cookingType == 'ready to cook') {
         return item.dish.stockWarehouse.some(el => el.stock > 0)
     }
-    return item.dish.stockWarehouse.some(w => (!warehouse || w.warehouse == warehouse) && w.stock > 0)
-        && item.subDish && item.subDish.every(it => hasStock(it, warehouse))
+    var mainHasStock = item.dish.stockWarehouse.some(
+            w => (!warehouse || w.warehouse == warehouse) && w.stock > 0)
+    var subHasStock = !item.subDish || item.subDish && item.subDish.every(
+                it => hasStock(it, warehouse))
+
+    return mainHasStock && subHasStock
 }
 
+/**
+ * 从购物车列表中找出全部可用的仓库
+ * @param cartList - 应当只传入便当的列表.
+ * @returns {{}}
+ */
 export function availableWarehouse(cartList) {
     var warehouses= {}
     cartList.forEach(item =>{
@@ -150,4 +159,19 @@ export function getDish(dishes, id) {
         }
     })
     return dish
+}
+
+/**
+ * 如果购物车中的全部dish都是便当则为true,否则为false(没有菜品也是算是这情况)
+ * @param cart
+ */
+export function allIsEatInCart(cart) {
+    cart = cart || []
+    var allIsEat = false
+    if (cart.length) {
+        allIsEat = cart.every(el => {
+            return el.dish && el.dish.cookingType == 'ready to eat'
+        })
+    }
+    return allIsEat
 }

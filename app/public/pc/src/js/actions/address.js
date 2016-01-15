@@ -1,5 +1,6 @@
 import fetch, {post as _post, put as _put, del as _del} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
+import {allIsEatInCart} from '../utils/dish'
 
 export function select(id, address) {
     return {
@@ -27,11 +28,16 @@ function getStart() {
         type: types.GET_ADDRESS
     }
 }
-function getDone(addresses) {
+/**
+ * @param addresses
+ * @param allIsEat - 表示购物车中的所有dish都是便当(那样显示地址的时候就可以直接显示不可送达)
+ * @returns {{type: GET_ADDRESS, status: string, addresses: *, cart: *}}
+ */
+function getDone(addresses, allIsEat) {
     return {
         type: types.GET_ADDRESS,
         status: 'success',
-        addresses
+        addresses, allIsEat
     }
 }
 function getFailed(error) {
@@ -42,10 +48,12 @@ function getFailed(error) {
     }
 }
 export function getList() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch(getStart())
-        fetch('/api/user/address')
-            .then(addresses => dispatch(getDone(addresses)))
+        return fetch('/api/user/address')
+            .then(addresses => {
+                return dispatch(getDone(addresses, allIsEatInCart(getState().cart)))
+            })
             .catch(err => dispatch(getFailed(err)))
     }
 }
