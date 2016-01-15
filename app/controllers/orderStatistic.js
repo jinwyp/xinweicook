@@ -885,7 +885,7 @@ exports.orderDailySales = function(req, res, next) {
         }},
 
         { "$sort": { "date" : 1} },
-        { "$limit": 3000 }
+        { "$limit": 200 }
     );
 
 
@@ -1090,7 +1090,7 @@ exports.orderHourSales = function(req, res, next) {
         }},
 
         { "$sort": { "hour" : 1} },
-        { "$limit": 3000 }
+        { "$limit": 100 }
     );
 
 
