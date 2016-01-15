@@ -76,11 +76,11 @@
     </div>
 
     <ul class="cooklist menus clearfix">
-        {% for dish in cooks.slice(7, 13) %}
+        {% for dish in cooks.slice(7) %}
             <li data-id="{{ dish._id }}">
                 <a class="img-wrapper" href="{{ pcPrefix }}/cook/{{ dish._id }}">
                     <div class="plusok"></div>
-                    <img src="{{ dish.cover[0][locale] | img }}">
+                    <img data-src="{{ dish.cover[0][locale] | img }}">
                 </a>
                 <div class="info clearfix">
                     <div class="name-price">

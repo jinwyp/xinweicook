@@ -29,7 +29,9 @@
                 <a id="signout" href="javascript:;">{{ __('Sign out') }}</a>
             </div>
 
-            <a href="{{ pcPrefix }}/cart" class="cart"></a>
+            <a href="{{ pcPrefix }}/cart" class="cart">
+                <span class="number"></span>
+            </a>
         </div>
     </div>
 </header>

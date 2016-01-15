@@ -18,6 +18,7 @@ module.exports = function makeWebpackConfig(options) {
             index: './pages/index.js',
             cook: './pages/cook.js',
             'cook-list': './pages/cook-list.js',
+            eat: './pages/eat.js',
             'eat-list': './pages/eat-list.js'
         },
         output: {

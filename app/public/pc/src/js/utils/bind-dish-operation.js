@@ -2,6 +2,7 @@ import $ from 'jquery'
 import {User, Dish} from '../models'
 import * as dishUtil from '../utils/dish'
 import * as dishDom from '../dom/dish'
+import * as header from '../pages/header'
 import handlebars from 'handlebars/dist/handlebars'
 import {propertySelection} from '../dom/templates'
 import Modal from '../dom/modal'
@@ -81,6 +82,7 @@ export default function (cart, dishes, parent) {
         } else { // 表示无需弹出多属性选择框
             User.postCartRelax(cart)
             dishDom.render(id, number, true)
+            header.cart(cart)
         }
     }
 
@@ -89,6 +91,7 @@ export default function (cart, dishes, parent) {
         var number = dishUtil.minusDish(dish, cart)
         User.postCartRelax(cart)
         dishDom.render(id, number)
+        header.cart(cart)
     }
 }
 
@@ -181,6 +184,7 @@ function bindPropertySelection(cart, dishes) {
             .forEach(el => number += el.number)
 
         dishDom.render(id, number, false)
+        header.cart(cart)
 
         modal.close()
     })

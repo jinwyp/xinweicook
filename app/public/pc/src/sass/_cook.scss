@@ -77,6 +77,9 @@
               color: $color_sunset_orange_approx;
               border-bottom: 2px solid $color_sunset_orange_approx;
             }
+            &.single {
+              width: 100%;
+            }
           }
         }
         .tabs {
@@ -155,30 +158,20 @@
             line-height: 50px;
           }
           a {
+            cursor: pointer;
+            float: right;
+            width: 22px;
+            height: 22px;
+            color: $white;
+            font-size: 22px;
+            line-height: 19px;
+            text-align: center;
+            margin-top: 15px;
             &.plus {
-              cursor: pointer;
-              float: right;
-              display: inline;
-              width: 22px;
-              height: 22px;
-              color: $white;
-              font-size: 22px;
-              line-height: 19px;
-              text-align: center;
-              margin-top: 15px;
               background: $color_masala_approx;
             }
             &.mius {
-              cursor: pointer;
-              float: right;
-              display: inline;
-              width: 22px;
-              height: 22px;
-              color: $white;
-              font-size: 22px;
-              line-height: 19px;
-              text-align: center;
-              margin-top: 15px;
+              display: none;
               margin-right: 7px;
               background: $color_sunset_orange_approx;
             }

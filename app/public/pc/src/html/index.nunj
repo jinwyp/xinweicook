@@ -82,7 +82,7 @@
         <ul class="menus clearfix">
             {% for dish in eats %}
                 <li data-id="{{ dish._id }}">
-                    <a class="img-wrapper" href="{{ pcPrefix }}/eat#{{ dish._id }}">
+                    <a class="img-wrapper" href="{{ pcPrefix }}/eat/{{ dish._id }}">
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] | img }}">
                         <div class="out-of-range">

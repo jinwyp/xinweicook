@@ -8,7 +8,7 @@
     <!-- end-build-replace -->
 </head>
 <body>
-
+<div class="body-wrapper">
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
@@ -55,8 +55,10 @@
     <label class="lab">滑动获取验证码</label>
 </div>
 
-{% include "./includes/footer.nunj" %}
+<div class="footer-push"></div>
+</div>
 
+{% include "./includes/footer.nunj" %}
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
 <script src="http://localhost:8081/sign.js"></script>
