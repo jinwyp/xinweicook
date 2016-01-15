@@ -211,14 +211,16 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
             isPlus : 1,
             remark : 1,
 
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
-            day: { $dayOfMonth: "$createdAt" },
-            hour: { $hour: "$createdAt" },
-            minutes: { $minute: "$createdAt" },
-            dayOfYear: { $dayOfYear: "$createdAt" },
-            dayOfWeek: { $dayOfWeek: "$createdAt" },
-            week: { $week: "$createdAt" }
+            year: { $year: {$add:["$createdAt",28800000]} }, //28800000 = 8*60*60*1000
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minutes: { $minute: {$add:["$createdAt",28800000]}  },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+
         }},
 
         { "$group": {
@@ -261,14 +263,14 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
             isPlus : 1,
             remark : 1,
 
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
-            day: { $dayOfMonth: "$createdAt" },
-            hour: { $hour: "$createdAt" },
-            minutes: { $minute: "$createdAt" },
-            dayOfYear: { $dayOfYear: "$createdAt" },
-            dayOfWeek: { $dayOfWeek: "$createdAt" },
-            week: { $week: "$createdAt" }
+            year: { $year: {$add:["$createdAt",28800000]} }, //28800000 = 8*60*60*1000
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minutes: { $minute: {$add:["$createdAt",28800000]}  },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
         }},
 
         { "$group": {

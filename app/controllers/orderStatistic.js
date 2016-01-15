@@ -763,19 +763,16 @@ exports.orderDailySales = function(req, res, next) {
             packageType : 1,
 
 
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
-            day: { $dayOfMonth: "$createdAt" },
-            hour: { $hour: "$createdAt" },
-            minutes: { $minute: "$createdAt" },
-            dayOfYear: { $dayOfYear: "$createdAt" },
-            dayOfWeek: { $dayOfWeek: "$createdAt" },
-            week: { $week: "$createdAt" },
-
-            "hour" : {  "$hour" : "$createdAt" },
-            "minute" : {"$minute" : "$createdAt"},
-            "second" : { "$second" : "$createdAt"},
-            "millisecond" : {"$millisecond" : "$createdAt"}
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
         }},
 
 
@@ -814,17 +811,15 @@ exports.orderDailySales = function(req, res, next) {
             month: 1,
             day: 1,
             hour: 1,
-            minutes: 1,
+            "minute" : 1,
+            "second" : 1,
+            "millisecond" : 1,
             dayOfYear: 1,
             dayOfWeek: 1,
             week: 1,
 
-            "hour" : 1,
-            "minute" : 1,
-            "second" : 1,
-            "millisecond" : 1,
 
-            saleDate : {"$subtract" : [ "$createdAt",
+            saleDate : {"$subtract" : [ {$add:["$createdAt",28800000]},
                 {"$add" : [ "$millisecond",
                     {"$multiply" : ["$second", 1000]},
                     {"$multiply" : ["$minute",60,1000]},
@@ -861,6 +856,8 @@ exports.orderDailySales = function(req, res, next) {
 
             "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
         }},
+
+
         { $project :{
             _id : 0,
             "date" : "$_id",
@@ -979,19 +976,18 @@ exports.orderHourSales = function(req, res, next) {
             packageType : 1,
 
 
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
-            day: { $dayOfMonth: "$createdAt" },
-            hour: { $hour: "$createdAt" },
-            minutes: { $minute: "$createdAt" },
-            dayOfYear: { $dayOfYear: "$createdAt" },
-            dayOfWeek: { $dayOfWeek: "$createdAt" },
-            week: { $week: "$createdAt" },
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
 
-            "hour" : {  "$hour" : "$createdAt" },
-            "minute" : {"$minute" : "$createdAt"},
-            "second" : { "$second" : "$createdAt"},
-            "millisecond" : {"$millisecond" : "$createdAt"}
+
         }},
 
 
@@ -1030,23 +1026,12 @@ exports.orderHourSales = function(req, res, next) {
             month: 1,
             day: 1,
             hour: 1,
-            minutes: 1,
-            dayOfYear: 1,
-            dayOfWeek: 1,
-            week: 1,
-
-            "hour" : 1,
             "minute" : 1,
             "second" : 1,
             "millisecond" : 1,
-
-            saleDate : {"$subtract" : [ "$createdAt",
-                {"$add" : [ "$millisecond",
-                    {"$multiply" : ["$second", 1000]},
-                    {"$multiply" : ["$minute",60,1000]},
-                    {"$multiply" : ["$hour", 60, 60,1000]}
-                ]}
-            ]}
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1
 
         }}
     );
@@ -1077,6 +1062,8 @@ exports.orderHourSales = function(req, res, next) {
 
             "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
         }},
+
+
         { $project :{
             _id : 0,
             "hour" : "$_id",
@@ -1096,7 +1083,6 @@ exports.orderHourSales = function(req, res, next) {
 
             "saleAccountUsedDiscount": 1,
             "saleAvgAccountUsedDiscount": 1,
-
 
 
             "orderList": 1

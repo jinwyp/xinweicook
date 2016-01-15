@@ -175,7 +175,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                         this.push(value.date.substr(5,5));
                     }else if (typeof value.hour !== 'undefined') {
                         // order by hour
-                        this.push( (value.hour < 16) ? (value.hour + 8 ):(value.hour - 16 ) );
+                        this.push( value.hour  );
                     }
 
                 }, result);
