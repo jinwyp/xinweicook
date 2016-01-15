@@ -756,3 +756,19 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
 
 };
+
+
+
+
+exports.userList = function(req, res, next) {
+
+    models.user.find({}).sort("-createdAt").limit (20000).execAsync().then(function(resultUserList){
+
+        res.send(resultUserList);
+
+    })
+    .catch(next);
+
+};
+
+
