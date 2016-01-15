@@ -83,8 +83,13 @@ export default function (cart, dishes, parent) {
             User.postCartRelax(cart)
             dishDom.render(id, number, true)
             header.cart(cart)
+            // todo: bad code
+            $('.shopnow .buy').removeClass('disabled')
         }
     }
+
+    // todo: bad code
+    cart.length && $('.shopnow .buy').removeClass('disabled')
 
     function minusDish(id) {
         var dish = dishUtil.getDish(dishes, id)
@@ -92,6 +97,10 @@ export default function (cart, dishes, parent) {
         User.postCartRelax(cart)
         dishDom.render(id, number)
         header.cart(cart)
+        // todo: bad code
+        if (!cart.length) {
+            $('.shopnow .buy').addClass('disabled')
+        }
     }
 }
 
@@ -177,6 +186,8 @@ function bindPropertySelection(cart, dishes) {
 
             dishUtil.plusDishWithProperty(dish, cart, groupId, propertyId)
             User.postCartRelax(cart)
+            // todo: bad code
+            $('.shopnow .buy').removeClass('disabled')
         })
 
         var number = 0

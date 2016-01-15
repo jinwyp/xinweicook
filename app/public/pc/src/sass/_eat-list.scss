@@ -110,6 +110,9 @@
       margin: 40px auto;
       color: $white;
       text-align: center;
+      &.disabled {
+        background-color: gray;
+      }
     }
   }
   ul.eatlist {
