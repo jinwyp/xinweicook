@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head><title>xinwei</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    
+    <link rel="stylesheet" href="/pc/dist/webpack-common.93fe5211a3706dc90cfe20eee0c8ca84.css"/>
+    
+</head>
+<body>
+<div class="body-wrapper">
+{% include "./includes/header.nunj" %}
+
+<div class="headeremp"></div>
+<div class="usersign" id="react-root">
+    <!--<div class="login"><h6 class="title">登录</h6>-->
+        <!--<label class="lab">手机号</label>-->
+        <!--<input id="signin_tel" type="text"/>-->
+        <!--<label class="lab">密码</label>-->
+        <!--<input id="signin_pwd" type="password"/>-->
+        <!--<a id="resetpwd" class="forgot">忘记密码了</a><a id="signin_btn" class="btn-login">登录</a>-->
+    <!--</div>-->
+    <!--<div class="signup">-->
+        <!--<h6 class="title">注册</h6>-->
+        <!--<label class="lab">手机号</label><input id="signup_tel" type="text">-->
+        <!--<label class="lab">验证码</label><input id="signup_code" type="text" style="width: 50%;"><span id="signup_code_btn" style="cursor:pointer;" class="getcode">获取验证码</span>-->
+        <!--<label class="lab">填写邮箱</label><input id="signup_tel" type="text"><input type="checkbox" value="" class="dy">-->
+        <!--<span class="dylb">订阅新味菜谱获取最新咨询</span><br>-->
+        <!--<label class="lab">设置密码</label><input id="signup_pwd" type="password">-->
+        <!--<label class="lab">确认密码</label><input id="signup_repwd" type="password"><a id="signup_btn" class="btn-login">注册</a>-->
+    <!--</div>-->
+</div>
+<style>
+    #geetest-wrapper {
+        width: 1000px;
+        margin: 10px auto;
+        font-size: 14px;
+        position: absolute;
+        top: 67px;
+        left: 0;
+        right: 0;
+    }
+    #geetest-wrapper .lab {
+        left: 551px;
+        top: 165px;
+        display: inline-block;
+        position: absolute;
+    }
+    #geetest-wrapper .gt_holder {
+        left: 551px;
+        top: 187px;
+    }
+</style>
+<div id="geetest-wrapper">
+    <label class="lab">滑动获取验证码</label>
+</div>
+
+<div class="footer-push"></div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+<script src="/pc/dist/webpack-common.9e4a91c34399f4c3fd63.js"></script>
+<script src="/pc/dist/sign.9e4a91c34399f4c3fd63.js"></script>
+
+<script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
+<script>
+    (function () {
+        delete localStorage.mobile;
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            initGeetest.config = {
+                challenge: JSON.parse(xhr.response).challenge,
+                gt: '745d959dec1191e086febd11aa684c9d'
+            }
+            if (initGeetest.ready) {
+                initGeetest()
+            }
+        }
+        xhr.open('get', '/api/user/signup/geetest/register');
+        xhr.send()
+    })()
+    function initGeetest() {
+        initGeetest.ready = true;
+        if (!initGeetest.config) return;
+        var obj = new Geetest(initGeetest.config);
+        obj.appendTo('#geetest-wrapper');
+        obj.onSuccess(function() {
+            var validate = obj.getValidate();
+            var mobile = localStorage.mobile;
+            if (!mobile) {
+                alert('请先填写手机号码');
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/api/user/sms');
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+                mobile: mobile,
+                geetest_challenge: validate.geetest_challenge,
+                geetest_validate: validate.geetest_validate,
+                geetest_seccode: validate.geetest_seccode,
+                type: 'signUp'
+            }))
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>便当 - 新味</title>
+    <meta charset="utf-8">
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
+    
+    <link rel="stylesheet" href="/pc/dist/webpack-common.93fe5211a3706dc90cfe20eee0c8ca84.css"/>
+    
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+
+{% include "./includes/header.nunj" %}
+
+<div class="headeremp"></div>
+<div class="eat">
+    <ul class="menus clearfix">
+        {% for dish in dishes %}
+            <li data-id="{{ dish._id }}">
+                <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
+                <a href="{{ pcPrefix }}/eat/{{ dish._id }}">
+                    <div class="plusok"></div>
+                    <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
+                    <div class="out-of-range">
+                        当前地址便当不可送达
+                    </div>
+                </a>
+
+                <div class="info clearfix">
+                    <div class="name-price">
+                        <div class="name clearfix">
+                            <a href="javascript:;" class="menuname">{{ dish.title[locale] }}</a>
+                        </div>
+                        <div class="price">￥{{ dish.priceOriginal }}</div>
+                    </div>
+                    <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {#<img src="/pc/src/images/pcg.jpg" class="pcg">#}
+
+    <div class="drinks">
+        <h3>- 更多 -</h3>
+        <ul class="menus">
+            {% for dish in drinks %}
+                <li data-id="{{ dish._id }}">
+                    <span id="{{ dish._id }}" style="position: absolute;top: -67px;" class="anchor"></span>
+                    <a href="javascript:;">
+                        <div class="plusok"></div>
+                        <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
+                        <div class="out-of-range">
+                            当前地址便当不可送达
+                        </div>
+                    </a>
+
+                    <div class="info clearfix">
+                        <div class="name-price">
+                            <div class="name clearfix">
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale] }}</a>
+                            </div>
+                            <div class="price">￥{{ dish.priceOriginal }}</div>
+                        </div>
+                        <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy">立即结算</a></div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.9e4a91c34399f4c3fd63.js"></script>
+<script src="/pc/dist/eat-list.9e4a91c34399f4c3fd63.js"></script>
+
+</body>
+</html>
