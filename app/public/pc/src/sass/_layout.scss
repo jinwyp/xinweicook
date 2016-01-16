@@ -1,5 +1,11 @@
 @import "stick-footer";
 
+@media (max-width: 1200px) {
+  .header-main {
+    width: 100% !important;
+  }
+}
+
 header {
   position: fixed;
   // prevent scroll trembling for chrome

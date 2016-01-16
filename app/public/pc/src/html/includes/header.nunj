@@ -32,6 +32,10 @@
             <a href="{{ pcPrefix }}/cart" class="cart">
                 <span class="number"></span>
             </a>
+            <div class="lang">
+                <span class="en">En</span>
+                <span class="zh">中文</span>
+            </div>
         </div>
     </div>
 </header>
