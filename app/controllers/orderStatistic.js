@@ -48,10 +48,14 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
             if(range.e.c < column) range.e.c = column;
 
             if(propertyList[column] == '_id'){
-                console.log("-------", arrayData[row][propertyList[column]]);
+                console.log("-------Export: ", arrayData[row][propertyList[column]]);
             }
 
-            var cell = {v: arrayData[row][propertyList[column]] };
+            var cell = {v: '' };
+            if (arrayData[row][propertyList[column]]){
+                cell = {v: arrayData[row][propertyList[column]] };
+            }
+
             var tempCellString = "";
             var currentCell = arrayData[row][propertyList[column]];
 
@@ -59,31 +63,24 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                 currentCell.forEach(function(dish){
                     if (dish.dish){
-
                         tempCellString = tempCellString + '(' + dish.dish.title.zh + ' * '+ dish.number + ' ), ';
 
                         dish.subDish.forEach(function(subDish){
-
-
                             if ( subDish.dish != null){
                                 tempCellString = tempCellString + '[-->' + subDish.dish.title.zh + ' * '+ subDish.number + ' ], ';
                             }else{
-                                console.log("---------------", subDish);
+                                console.log("--------------- SubDish: ", subDish);
                             }
-
                         });
-
-
 
                     }else{
                         //console.log('------+++++++',dish.dish);
                         //console.log('------+++++++',dish);
                         //console.log('------+++++++',currentCell);
                     }
-
                 });
 
-                cell.v = tempCellString;
+
             }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='address'){
                 //cell.v = JSON.stringify(arrayData[row][propertyList[column])
 
@@ -92,7 +89,8 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
                         tempCellString = tempCellString + ' ' + pro + ' : '+ currentCell[pro] + ' , ';
                     }
                 }
-                cell.v = tempCellString;
+
+
             }else if (Object.prototype.toString.call(currentCell) == "[object Object]" && propertyList[column] ==='express'){
                 //cell.v = JSON.stringify(arrayData[row][propertyList[column])
 
@@ -106,11 +104,12 @@ function generateSheetFromArray (worksheet, arrayData, propertyList, headerLabel
 
                     }
                 }
-                cell.v = tempCellString;
+
             }
 
-
+            if (tempCellString){ cell.v = tempCellString }
             if(cell.v == null) continue;
+
             var cell_ref = XLSX.utils.encode_cell({c:column,r:row+1});
 
             //console.log("-------:", cell_ref, cell);
@@ -236,10 +235,9 @@ exports.orderExportList = function(req, res, next) {
     //var first_cell= first_worksheet['A1'];
     //console.log (first_cell);
 
-    req.query.limit = 20000;
+    req.query.limit = 40000;
 
-
-    models.order.find({}).skip (req.query.skip).limit (req.query.limit)
+    models.order.find({}).skip (0).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()
@@ -249,12 +247,17 @@ exports.orderExportList = function(req, res, next) {
         var propertyList = [
             'createdAt',
             '_id',
+
             'orderNumber',
             'user',
+            'warehouse',
+
             'isSplitOrder',
             'isChildOrder',
             'childOrderList',
             'cookingType',
+            'packageType',
+            'language',
 
             'clientFrom',
             'payment',
@@ -264,12 +267,20 @@ exports.orderExportList = function(req, res, next) {
             'status',
 
             'address',
+            'addressId',
+
             'deliveryDateTime',
             'deliveryDate',
             'deliveryTime',
             'deliveryDateType',
 
             'express',
+            'expressStatus',
+            'expressPersonId',
+            'expressPersonName',
+            'expressPersonMobile',
+            'expressComment',
+
 
             'promotionCode',
             'promotionDiscount',
@@ -302,6 +313,58 @@ exports.orderExportList = function(req, res, next) {
 
 };
 
+
+
+exports.dishInventoryExportList = function(req, res, next) {
+
+    models.order.validationGetOrderList(req.query);
+
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+    /* DO SOMETHING WITH workbook HERE */
+
+    var first_sheet_name = workbook.SheetNames[0];
+    var first_worksheet = workbook.Sheets[first_sheet_name];
+
+    //var first_cell= first_worksheet['A1'];
+    //console.log (first_cell);
+
+    req.query.limit = 50000;
+
+
+    models.inventory.find({}).skip (0).limit (req.query.limit)
+    .lean()
+    .execAsync()
+    .then(function(resultInventory){
+
+        var propertyList = [
+            'createdAt',
+            '_id',
+
+            'warehouse',
+            'dish',
+            'user',
+            'order',
+            'isPlus',
+            'quantity',
+            'remark',
+            'deliveryDateTime',
+            'clientFrom'
+
+
+        ];
+
+        var newSheet = generateSheetFromArray(first_worksheet, resultInventory, propertyList);
+        workbook.Sheets[first_sheet_name] = newSheet;
+
+        XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputinventory.xlsx'));
+
+        //console.log (path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
+        res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputinventory.xlsx'));
+
+    }).catch(next);
+
+
+};
 
 
 exports.orderList = function(req, res, next) {
