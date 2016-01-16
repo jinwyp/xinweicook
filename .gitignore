@@ -126,7 +126,9 @@ app/public/jpg/
 app/views/mobile/app-old.html
 app/public/admin/src/excel/output1.xlsx
 app/public/admin/src/excel/output2.xlsx
+app/public/admin/src/excel/outputinventory.xlsx
 app/public/admin/src/excel/outputcoupon.xlsx
+
 app/views/mobile/app-old.html
 
 ### build tmp dir ###

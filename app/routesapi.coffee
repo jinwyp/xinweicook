@@ -148,6 +148,7 @@ expressRoutes = (app) ->
 
 
   app.get("/api/administrator/export/userall", userStatController.userList)
+  app.get("/api/administrator/export/dishinventory", orderStatController.dishInventoryExportList)
 
   app.get("/api/administrator/export/orderall", orderStatController.orderList)
   app.get("/api/administrator/export/orders", orderStatController.orderExportList)
