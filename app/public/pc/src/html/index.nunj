@@ -55,6 +55,7 @@
                 </li>
             {% endfor %}
         </ul>
+        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc">MORE</a>
         <div class="app clearfix">
             <ul class="banner">
                 {% for item in promotions %}
@@ -101,6 +102,7 @@
                 </li>
             {% endfor %}
         </ul>
+        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc">更多</a>
     </div>
 
     <div class="videolink">

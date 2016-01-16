@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.1c4ba051508bcd90eaa19d1f857d99cf.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.f0b9d68e2b0e3bdb440b640c6f910417.css"/>
     
 </head>
 <body>
@@ -60,8 +60,8 @@
 
 {% include "./includes/footer.nunj" %}
 
-<script src="/pc/dist/webpack-common.340b96411b8cb0573dab.js"></script>
-<script src="/pc/dist/sign.340b96411b8cb0573dab.js"></script>
+<script src="/pc/dist/webpack-common.ed426988bb564b0a4526.js"></script>
+<script src="/pc/dist/sign.ed426988bb564b0a4526.js"></script>
 
 <script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
 <script>

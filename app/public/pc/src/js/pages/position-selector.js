@@ -98,6 +98,10 @@ var App = React.createClass({
             this.methods.show = () => dispatch(positionAction.toggleSelector(true))
             this.methods.close = () => dispatch(positionAction.toggleSelector(false))
             this.methods.changePosition = () => {
+                if (!localStorage.access_token) {
+                    location.href = __PCPREFIX__ + '/sign?redirect=' + location.pathname
+                    return
+                }
                 if (this.props.address.addresses) {
                     this.methods.show()
                     if (!this.props.address.addresses.length) {
