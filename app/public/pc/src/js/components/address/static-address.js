@@ -1,3 +1,4 @@
+import {__} from '../../utils/locale'
 import React from 'react'
 
 var StaticAddress = React.createClass({
