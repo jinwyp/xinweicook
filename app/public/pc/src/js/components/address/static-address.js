@@ -35,7 +35,7 @@ var StaticAddress = React.createClass({
                     {
                         props.hideRadio &&
                             <span className="modify-address">
-                                <span onClick={() => props.modifyOne(props._id)}>修改地址 </span>
+                                <span onClick={() => props.modifyOne(props._id)}>{__('Edit Address')} </span>
                                 <i onClick={() => props.delOne(props._id)} className="fa fa-times"></i>
                             </span>
                     }

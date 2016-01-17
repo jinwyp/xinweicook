@@ -1,3 +1,5 @@
+import {__} from '../utils/locale'
+
 import React from 'react'
 
 var Comment = React.createClass({
@@ -10,7 +12,7 @@ var Comment = React.createClass({
         return (
             <div className="comment-section">
                 <div className="form-control-group">
-                    <label htmlFor="comment">留言：</label>
+                    <label htmlFor="comment">{__('Remark')}：</label>
                     <textarea ref="comment" onChange={this.handleChange} rows="1" autoComplete="off" id="comment"></textarea>
                 </div>
             </div>

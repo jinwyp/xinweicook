@@ -3,6 +3,8 @@
 // for html header(not react) &
 import {init as initCommon} from './common'
 
+import {__} from '../utils/locale'
+
 import React from "react"
 import ReactDom from "react-dom"
 import { Provider, connect } from 'react-redux'
@@ -61,21 +63,19 @@ var App = React.createClass({
                 Child = <OrderList {...this.methods.order} orders={order.orders}/>;
                 break;
             case 'userinfo':
-                Child = <AddressList hideRadio={true} title='配送地址' {...this.methods.addressList} {...address}/>;
+                Child = <AddressList hideRadio={true} title={__('Delivery Address')} {...this.methods.addressList} {...address}/>;
                 break;
             default: Child = null;
         }
 
-        return (     
+        return (
             <div className="main">
                 <nav className="nav">
                     <ul>
-                        <li className={route == 'orders' && 'act'}><a href="#orders">我的订单</a></li>
-                        <li className={route == 'charge' && 'act'}><a href="#charge">我要充值</a></li>
-                        <li className={route == 'consumption' && 'act'}><a href="#consumption">交易明细</a></li>
-                        <li className={route == 'userinfo' && 'act'}><a href="#userinfo">我的信息</a></li>
-                        <li className={route == 'custom' && 'act'}><a href="#custom">私人定制</a></li>
-                        <li className={route == 'ratings' && 'act'}><a href="#ratings">评过的菜</a></li>
+                        <li className={route == 'orders' && 'act'}><a href="#orders">{__('My Orders')}</a></li>
+
+                        <li className={route == 'userinfo' && 'act'}><a href="#userinfo">{__('My information')}</a></li>
+
                     </ul>
                 </nav>
                 <div className="content">
@@ -96,4 +96,3 @@ ReactDom.render(
     <Provider store={store}><WrappedApp/></Provider>,
     rootElement
 )
-

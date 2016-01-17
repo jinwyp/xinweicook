@@ -131,6 +131,10 @@
               .main-dish {
                 padding-left: 8px;
                 display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 225px;
               }
             }
             .no-stock-mask {
@@ -349,7 +353,7 @@
           border: 1px $color_cart_input_border solid;
           vertical-align: middle;
           padding: 7px;
-          width: 405px;
+          width: 390px;
           resize: none;
           -webkit-appearance: none;
         }

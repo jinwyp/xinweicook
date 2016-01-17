@@ -26,6 +26,18 @@ var routes = function(app) {
     app.get(publicPrefix + "/cart", function (req, res) {
         res.render(viewsPrefix + 'cart.nunj')
     })
+
+    // 切换语言
+    app.get(publicPrefix + '/locale', function (req, res) {
+        var lang = 'zh',
+            referer = req.get('referer');
+
+        lang = req.cookies.lang !== 'en' ? 'en' : lang;
+
+        referer = (!referer || referer.indexOf('locale') != -1) ?  publicPrefix + '/' : referer;
+        res.cookie('lang', lang, {maxAge: 365 * 24 * 60 * 60 * 1000});
+        res.redirect(referer);
+    })
 };
 
 /**

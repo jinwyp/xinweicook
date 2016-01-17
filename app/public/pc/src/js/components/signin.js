@@ -1,5 +1,6 @@
 import React from 'react'
 import {search} from '../utils/utils'
+import {__} from '../utils/locale'
 
 var SignIn = React.createClass({
 
@@ -47,25 +48,25 @@ var SignIn = React.createClass({
     render: function () {
         return (
             <div className="signup">
-                <h6 className="title">登录</h6>
+                <h6 className="title">{__('Sign in')}</h6>
                 <form onSubmit={this.onSubmit}>
-                    <label htmlFor="signin_tel" className="lab">手机号</label>
+                    <label htmlFor="signin_tel" className="lab">{__('Mobile number')}</label>
                     <div className="form-control-group">
                         <input ref="mobile" defaultValue={this.props.mobile} onBlur={()=>this.setState({mobileValidateOn: true})} id="signip_tel" type="text"/>
-                        { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">请填写11位手机号码</span>}
+                        { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">{__('Please enter the 11 digits mobile number')}</span>}
                     </div>
 
-                    <label htmlFor="signin_pwd" className="lab">密码</label>
+                    <label htmlFor="signin_pwd" className="lab">{__('Password')}</label>
                     <div className="form-control-group">
                         <input ref="pwd" defaultValue={this.props.pwd} onBlur={()=>this.setState({pwdValidateOn: true})} id="signin_pwd" type="password"/>
-                        {this.state.pwdValidateOn && !this.validate('pwd') && <span className="err-tip">密码至少为6位</span>}
+                        {this.state.pwdValidateOn && !this.validate('pwd') && <span className="err-tip">{__('Your password must be at least 6 characters long')}</span>}
                     </div>
-                    <a id="resetpwd" className="forgot" style={{display: 'none'}}>忘记密码了?</a>
+                    <a id="resetpwd" className="forgot" style={{display: 'none'}}>{__('Forgot your password?')}</a>
 
                     {
                         this.state.isSending ?
-                            <button id="signin_btn" disabled className="btn-login">登录中···</button>:
-                            <button id="signin_btn" className="btn-login">登录</button>
+                            <button id="signin_btn" disabled className="btn-login">{__('Signing in')}</button>:
+                            <button id="signin_btn" className="btn-login">{__('Sign in')}</button>
                     }
                 </form>
             </div>

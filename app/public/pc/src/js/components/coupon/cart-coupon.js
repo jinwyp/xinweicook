@@ -1,5 +1,9 @@
+import {__, lang} from '../../utils/locale'
+
 import React from 'react'
 import cls from '../../utils/class-name'
+
+var l = lang()
 
 var CartCoupon = React.createClass({
 
@@ -63,32 +67,32 @@ var CartCoupon = React.createClass({
         return (
             <div className="coupon-section">
                 <div className="form-control-group">
-                    <label htmlFor="coupon-code">优惠码</label>
-                    <input ref="couponCode" onBlur={this.onBlur} autoComplete="off" placeholder="优惠码" className="coupon-code" type="text" id="coupon-code"/>
-                    {
+                    <label htmlFor="coupon-code">{__('Promo code')}</label>
+                    <input ref="couponCode" onBlur={this.onBlur} autoComplete="off" placeholder={__('Promo code')} className="coupon-code" type="text" id="coupon-code"/>
+                    {/*
                         this.state.error.couponCode.mightInviteCode &&
                         <span className="err-tip exchange-invite-code">优惠码无效<a href={"/pc/coupons?code=" + this.refs.couponCode.value}>(兑换邀请码?)</a></span>
-                    }
-                    { this.state.error.couponCode.format && <span className="err-tip">优惠码无效</span> }
+                     */}
+                    { this.state.error.couponCode.format && <span className="err-tip">{__('Invalid Promo code')}</span> }
                 </div>
                 <div style={{display: cardList.length ? 'block' : 'none'}} className="form-control-group coupon-card-group">
                     <CardOptionPanel cardList={cardList} selectCard={this.selectCard} isShow={this.state.showOptionPanel}/>
-                    <label>优惠券</label>
+                    <label>{__("Coupon code")}</label>
                     <span className="coupon-card" onClick={this.toggleOptionPanel}>
                         {
                             props.card.selectedCard ?
-                                <span>{props.card.selectedCard.name.zh + `(¥${props.card.selectedCard.price})`}</span> :
-                                <span>请选择一张优惠券</span>
+                                <span>{props.card.selectedCard.name[l] + `(¥${props.card.selectedCard.price})`}</span> :
+                                <span>{__("Choose a coupon code")}</span>
                         }
                         <i className="fa fa-angle-down"></i>
                     </span>
                 </div>
                 <div className="group">
                     <span onClick={props.toggleBalance} className={'fa ' + (props.useBalance ? 'fa-check-square-o' : 'fa-square-o')}></span>
-                    <span className="text">使用新味币</span>
+                    <span className="text">{__("Use Xinwei balance to pay")}</span>
                     {
                         props.useBalance ?
-                            <span className="rmb-char">{usedBalance + '(使用后剩余 ¥' + (props.totalBalance - usedBalance) + ')'}</span> :
+                            <span className="rmb-char">{usedBalance + '(' + __("Remaining") + ' ¥' + (props.totalBalance - usedBalance) + ')'}</span> :
                             <span className="rmb-char">{props.totalBalance}</span>
                     }
                 </div>
@@ -105,12 +109,12 @@ var CardOptionPanel = React.createClass({
 
         return (
             <div className="card-option-panel" style={{display: props.isShow ? 'block' : 'none'}}>
-                <h5>选择一张优惠券</h5>
+                <h5>{__("Choose a coupon code")}</h5>
                 <ul>
-                    <li onClick={() => props.selectCard()}>不使用</li>
+                    <li onClick={() => props.selectCard()}>{__("Don't use")}</li>
                     {
                         props.cardList.map((card, i) =>
-                            <li key={card._id} onClick={() => props.selectCard(card._id)}>{card.name.zh + `(¥${card.price})`}</li>)
+                            <li key={card._id} onClick={() => props.selectCard(card._id)}>{card.name[l] + `(¥${card.price})`}</li>)
                     }
                 </ul>
             </div>

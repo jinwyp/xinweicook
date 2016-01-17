@@ -1,4 +1,5 @@
 import React from 'react'
+import {__} from '../utils/locale'
 
 var SignUp = React.createClass({
 
@@ -60,35 +61,35 @@ var SignUp = React.createClass({
     render: function () {
         return (
             <div className="signup">
-                <h6 className="title">注册</h6>
+                <h6 className="title">{__('Sign up')}</h6>
                 <form onSubmit={this.onSubmit}>
-                    <label className="lab">手机号</label>
+                    <label className="lab">{__('Mobile number')}</label>
                     <div className="form-control-group">
                         <input ref="mobile" defaultValue={this.props.mobile} onChange={this._mobileChange} onBlur={()=>this.setState({mobileValidateOn: true})} id="signup_tel" type="text"/>
-                        { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">请填写11位手机号码</span>}
+                        { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">{__('Please enter the 11 digits mobile number')}</span>}
                     </div>
 
-                    <label className="lab" id="sms-code" style={{marginTop: 87}}>验证码</label>
+                    <label className="lab" id="sms-code" style={{marginTop: 87}}>{__('Verification code')}</label>
                     <div className="form-control-group">
                         <input ref="smsCode" defaultValue={this.props.smsCode} onBlur={()=>this.setState({smsCodeValidateOn: true})} id="signup_code" type="text"/>
-                        {this.state.smsCodeValidateOn && !this.validate('smsCode') && <span className="err-tip">请填写6位验证码</span>}
+                        {this.state.smsCodeValidateOn && !this.validate('smsCode') && <span className="err-tip">{__("Please enter the 6 digits verification code")}</span>}
                     </div>
 
-                    <label className="lab">设置密码</label>
+                    <label className="lab">{__('Enter your password')}</label>
                     <div className="form-control-group">
                         <input ref="pwd" defaultValue={this.props.pwd} onBlur={()=>this.setState({pwdValidateOn: true})} id="signup_pwd" type="password"/>
-                        {this.state.pwdValidateOn && !this.validate('pwd') && <span className="err-tip">密码至少为6位</span>}
+                        {this.state.pwdValidateOn && !this.validate('pwd') && <span className="err-tip">{__('Your password must be at least 6 characters long')}</span>}
                     </div>
 
-                    <label className="lab">确认密码</label>
+                    <label className="lab">{__('Confirm your password')}</label>
                     <div className="form-control-group">
                         <input ref="rePwd" onBlur={()=>this.setState({rePwdValidateOn: true})} id="signup_repwd" type="password"/>
-                        {this.state.rePwdValidateOn && !this.validate('rePwd') && <span className="err-tip">两次输入的密码不一致</span>}
+                        {this.state.rePwdValidateOn && !this.validate('rePwd') && <span className="err-tip">{__('The two passwords are different')}</span>}
                     </div>
                     {
                         this.state.isSending ?
-                            <button id="signup_btn" disabled className="btn-login">注册中···</button>:
-                            <button id="signup_btn" className="btn-login">注册</button>
+                            <button id="signup_btn" disabled className="btn-login">{__("Signing up")}···</button>:
+                            <button id="signup_btn" className="btn-login">{__("Sign up")}</button>
                     }
                 </form>
             </div>

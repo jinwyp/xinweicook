@@ -1,4 +1,5 @@
 import {init as initCommon} from './common' //no react. for html header
+import {__} from '../utils/locale'
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -112,7 +113,7 @@ var App = React.createClass({
         }
 
         var id = positionSelector.addressId,
-            curPosition = '未知',
+            curPosition = __('Unknown'),
             hideAddressList = address.addresses && !address.addresses.length
         if (id) {
             curPosition = address.addresses.filter(el => el._id == id)[0].street
@@ -121,12 +122,12 @@ var App = React.createClass({
         return (
             <div>
                 <div className="cur-position">
-                    <span className="label">当前位置:</span>
+                    <span className="label">{__('Location')}:</span>
                     <span className="address">{curPosition}</span>
-                    <span onClick={this.methods.changePosition} className="change-address">[切换地址]</span>
+                    <span onClick={this.methods.changePosition} className="change-address">[{__('Change address')}]</span>
                 </div>
                 <Modal style={modalStyle} isOpen={positionSelector.showSelector} onRequestClose={this.methods.close} closeTimeoutMS={250}>
-                    <AddressList hideList={hideAddressList} title='请选择地址' {...this.methods.addressList} {...address} className='position-selector'/>
+                    <AddressList hideList={hideAddressList} title={__('Please choose an address')} {...this.methods.addressList} {...address} className='position-selector'/>
                 </Modal>
             </div>
         );

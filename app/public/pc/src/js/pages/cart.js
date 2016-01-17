@@ -1,5 +1,7 @@
 import {init as initCommon} from './common' //no react. for html header
 
+import {__} from '../utils/locale'
+
 import React from "react"
 import ReactDom from "react-dom"
 import { Provider, connect } from 'react-redux'
@@ -144,12 +146,12 @@ var App = React.createClass({
             couponPrice: (coupon.card.selectedCard && coupon.card.selectedCard.price + coupon.code.price) || 0
         }
         price.payPrice = price.cartPrice + price.freight - price.couponPrice
-        var payment = '支付宝支付'
+        var payment = __('Pay by alipay')
         if (balance.useBalance) {
             if (balance.totalBalance >= price.payPrice) {
-                payment = '新味币支付'
+                payment = __('pay by balance')
             } else {
-                payment = '支付宝支付'
+                payment = __('Pay by alipay')
             }
         }
 
@@ -162,8 +164,8 @@ var App = React.createClass({
                     (cartLoaded && !cart.length)
                         ? (
                         <div className="empty-cart-tip">
-                            <h4>购物车内还没有添加商品</h4>
-                            <a href={__PCPREFIX__ + '/'}>点击浏览食谱</a>
+                            <h4>__("Empty shopping cart")</h4>
+                            <a href={__PCPREFIX__ + '/'}>__("Click to see menus")</a>
                         </div>
                     )
                         : (

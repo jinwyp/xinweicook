@@ -1,5 +1,7 @@
 "use strict";
 
+import {__} from '../../utils/locale'
+
 import React from "react"
 import {truthy, getValidator, log} from "../../utils/utils"
 import StreetList from './street-list'
@@ -151,7 +153,7 @@ var EditingAddress = React.createClass({
         var props = this.props
         var range = this.props.range;
         var isError = this.isError
-        var emptyOption = <option key="#" value="">请选择</option>
+        var emptyOption = <option key="#" value="">{__('Choose')}</option>
 
         // range 未加载好,如果是在编辑状态,使用编辑状态的地址构造临时的range
         if (!range.length && props._id) {
@@ -183,29 +185,29 @@ var EditingAddress = React.createClass({
         return (
             <div className="editing-address" onClick={this.onStreetHideClick}>
                 <div onClick={props.close} className="close fa fa-times"></div>
-                <h5>{props._id ? '修改地址' : '添加新地址'}</h5>
+                <h5>{props._id ? __('Edit Address') : __('Add a new address')}</h5>
 
                 <div className="content">
                     <div className={'form-field' + (isError('contactPerson.format') ? ' error' : '')}>
-                        <label htmlFor="contactPerson">姓名</label>
+                        <label htmlFor="contactPerson">{__('Name')}</label>
                         <input ref="contactPerson" onBlur={() => this.validate('contactPerson')}
-                               defaultValue={props.contactPerson} type="text" id="contactPerson" placeholder="请填写您的姓名"/>
+                               defaultValue={props.contactPerson} type="text" id="contactPerson" placeholder={__('Please enter your name')}/>
 
                         <div className="tips">
-                            {isError('contactPerson.format') && <span className="error">姓名不能少于2个字</span>}
+                            {isError('contactPerson.format') && <span className="error">{__('Your name must be at least 2 characters long')}</span>}
                         </div>
                     </div>
                     <div className={'form-field' + (isError('mobile.format') ? ' error' : '')}>
-                        <label htmlFor="mobile">手机号</label>
+                        <label htmlFor="mobile">{__('Mobile number')}</label>
                         <input type="text" ref="mobile" id="mobile" onBlur={() => this.validate('mobile')}
-                               defaultValue={props.mobile} onChange={props.handleChange} placeholder="请填写您的手机号"/>
+                               defaultValue={props.mobile} onChange={props.handleChange} placeholder={__('Mobile number')}/>
 
                         <div className="tips">
-                            {isError('mobile.format') && <span className="error">请输入正确的手机号</span>}
+                            {isError('mobile.format') && <span className="error">{__('Please enter the 11 digits mobile number')}</span>}
                         </div>
                     </div>
                     <div className={'form-field' + (isError('district.required') ? ' error' : '')}>
-                        <label htmlFor="province">省,市,区</label>
+                        <label htmlFor="province">{__('Province, City, District')}</label>
 
                         <div className="select-group">
                             <select ref="province" id="province" value={this.state.province} onChange={e => this.onChangeSelect(e, 'province')}>
@@ -219,31 +221,31 @@ var EditingAddress = React.createClass({
                             </select>
                         </div>
                         <div className="tips">
-                            {isError('district.required') && <span className="error">请选择地区</span>}
+                            {isError('district.required') && <span className="error">{__('Please choose a district')}</span>}
                         </div>
                     </div>
                     <div className={'form-field' + (isError('street.format') ? ' error' : '')}>
-                        <label htmlFor="street">街道</label>
+                        <label htmlFor="street">{__('Street')}</label>
                         <input ref="street" defaultValue={props.street} onClick={this.onStreetClick}
                                onChange={this.onStreetChange} onBlur={() => this.validate('street')}
-                               type="text" id="street" placeholder="请填写您的街道地址"/>
+                               type="text" id="street" placeholder={__('Please enter your street')}/>
                         <StreetList {...props.streetList} select={this.selectStreet}/>
                         <div className="tips">
-                            {isError('street.format') && <span className="error">请输入位置信息并在下拉框中选择</span>}
+                            {isError('street.format') && <span className="error">{__('Please enter your location information')}</span>}
                         </div>
                     </div>
                     <div className={'form-field' + (isError('address.format') ? ' error' : '')}>
-                        <label htmlFor="address">楼层,门牌号</label>
+                        <label htmlFor="address">{__("Street, house number")}</label>
                         <input defaultValue={props.address} onBlur={() => this.validate('address')}
-                               type="text" id="address" placeholder="请填写您的楼层,门牌号" ref="address"/>
+                               type="text" id="address" placeholder={__("Street, house number required")} ref="address"/>
                         <div className="tips">
-                            {isError('address.format') && <span className="error">不能少于2个字</span>}
+                            {isError('address.format') && <span className="error">{__("At least 2 characters")}</span>}
                         </div>
                     </div>
                 </div>
                 <div className="buttons">
-                    <button onClick={this.save}>保存</button>
-                    <button onClick={props.close}>取消</button>
+                    <button onClick={this.save}>{__("Save")}</button>
+                    <button onClick={props.close}>{__("Cancel")}</button>
                 </div>
             </div>
         )

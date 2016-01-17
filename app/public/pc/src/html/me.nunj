@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>我的账户 - 新味</title>
+<head><title>{{ __("My Account") }} - 新味</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     <!-- build-replace -->
@@ -17,7 +17,7 @@
 <div class="me">
     <div class="title">
         <img src="/pc/src/images/me.jpg" alt="me"/>
-        <h5>我的账户</h5>
+        <h5>{{ __("My Account") }}</h5>
     </div>
     <div id="react-root"></div>
 </div>

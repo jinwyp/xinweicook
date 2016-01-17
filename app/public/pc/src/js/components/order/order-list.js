@@ -1,3 +1,5 @@
+import {__} from '../../utils/locale'
+
 import React from 'react'
 import Order from './order'
 
@@ -46,11 +48,11 @@ var OrderList = React.createClass({
         return (
             <section className="orders">
                 <h4>
-                    <span>订单</span>
-                    <span>菜品</span>
-                    <span>配送时间</span>
-                    <span>金额</span>
-                    <span>状态</span>
+                    <span>{__('Order Number')}</span>
+                    <span>{__('Dish')}</span>
+                    <span>{__('Delivery Time')}</span>
+                    <span>{__('Amount')}</span>
+                    <span>{__('Status')}</span>
                 </h4>
                 <ul className="order-list">
                     {

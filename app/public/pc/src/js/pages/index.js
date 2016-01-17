@@ -15,6 +15,8 @@ import './position-selector'
 
 var dishes, cart, user, range
 
+import {__} from '../utils/locale'
+
 $(document).ready(() => {
     Promise.all([
         User.getUser(),
