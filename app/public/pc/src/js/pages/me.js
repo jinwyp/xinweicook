@@ -79,7 +79,7 @@ var App = React.createClass({
                     <ul>
                         <li className={route == 'orders' && 'act'}><a href="#orders">{__('My Orders')}</a></li>
 
-                        <li className={route == 'userinfo' && 'act'}><a href="#userinfo">{__('My information')}</a></li>
+                        <li className={route == 'userinfo' && 'act'}><a href="#userinfo">{__('My Information')}</a></li>
 
                     </ul>
                 </nav>
