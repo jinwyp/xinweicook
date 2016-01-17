@@ -26,6 +26,9 @@ var routes = function(app) {
     app.get(publicPrefix + "/cart", function (req, res) {
         res.render(viewsPrefix + 'cart.nunj')
     })
+    app.get(publicPrefix + "/whyus", function (req, res) {
+        res.render(viewsPrefix + 'why-choose-us.nunj', {curNav: 'whyus'})
+    })
 
     // 切换语言
     app.get(publicPrefix + '/locale', function (req, res) {

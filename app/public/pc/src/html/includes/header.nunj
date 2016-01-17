@@ -4,13 +4,6 @@
             <a class="logo" href="{{ pcPrefix }}/"></a>
             {% if eatExist %}
                 <div id="react-root">
-                    {#<div class="position-selector">#}
-                        {#<div class="cur-position">#}
-                            {#<span class="label">当前位置:</span>#}
-                            {#<span class="address">东方明珠</span>#}
-                            {#<span class="change-address">[切换地址]</span>#}
-                        {#</div>#}
-                    {#</div>#}
                 </div>
             {% endif %}
         </div>
@@ -18,7 +11,7 @@
             <ul class="nav">
                 <li class="{{ 'act' if curNav == 'cook' }}"><a href="{{ pcPrefix }}/cook">{{ __('Cook') }}</a></li>
                 <li class="{{ 'act' if curNav == 'eat' }}"><a href="{{ pcPrefix }}/eat">{{ __('Header Bento') }}</a></li>
-                {#<li><a href="javascript:;">{{ __('Why choose us') }}</a></li>#}
+                <li class="{{ 'act' if curNav == 'whyus' }}"><a href="{{ pcPrefix }}/whyus">{{ __('Why choose us') }}</a></li>
                 {#<li><a href="javascript:;">{{ __('About Xinwei') }}</a></li>#}
                 {#<li><a href="javascript:;">Q & A</a></li>#}
                 {#<li><a href="javascript:;">BLOG </a></li>#}
