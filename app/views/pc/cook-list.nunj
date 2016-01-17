@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.f0b9d68e2b0e3bdb440b640c6f910417.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.8bff7d09ae8f65fc9d0f6ba14ac42937.css"/>
     
 </head>
 <body>
@@ -102,8 +102,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.ed426988bb564b0a4526.js"></script>
-<script src="/pc/dist/cook-list.ed426988bb564b0a4526.js"></script>
+<script src="/pc/dist/webpack-common.3eae80574c0cce770044.js"></script>
+<script src="/pc/dist/cook-list.3eae80574c0cce770044.js"></script>
 
 </body>
 </html>

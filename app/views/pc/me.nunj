@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><title>我的账户 - 新味</title>
+<head><title>{{ __("My Account") }} - 新味</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.f0b9d68e2b0e3bdb440b640c6f910417.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.8bff7d09ae8f65fc9d0f6ba14ac42937.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -17,7 +17,7 @@
 <div class="me">
     <div class="title">
         <img src="/pc/src/images/me.jpg" alt="me"/>
-        <h5>我的账户</h5>
+        <h5>{{ __("My Account") }}</h5>
     </div>
     <div id="react-root"></div>
 </div>
@@ -28,8 +28,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.ed426988bb564b0a4526.js"></script>
-<script src="/pc/dist/me.ed426988bb564b0a4526.js"></script>
+<script src="/pc/dist/webpack-common.3eae80574c0cce770044.js"></script>
+<script src="/pc/dist/me.3eae80574c0cce770044.js"></script>
 
 </body>
 </html>

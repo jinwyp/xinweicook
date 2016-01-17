@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.f0b9d68e2b0e3bdb440b640c6f910417.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.8bff7d09ae8f65fc9d0f6ba14ac42937.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -22,8 +22,7 @@
                 <a href="{{ pcPrefix }}/eat/{{ dish._id }}">
                     <div class="plusok"></div>
                     <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
-                    <div class="out-of-range">
-                        当前地址便当不可送达
+                    <div class="out-of-range">{{ __('Out of range') }}
                     </div>
                 </a>
 
@@ -43,7 +42,7 @@
     {#<img src="/pc/src/images/pcg.jpg" class="pcg">#}
 
     <div class="drinks">
-        <h3>- 更多 -</h3>
+        <h3>- {{ __('更多') }} -</h3>
         <ul class="menus">
             {% for dish in drinks %}
                 <li data-id="{{ dish._id }}">
@@ -52,7 +51,7 @@
                         <div class="plusok"></div>
                         <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
                         <div class="out-of-range">
-                            当前地址便当不可送达
+                            {{ __('Out of range') }}
                         </div>
                     </a>
 
@@ -69,14 +68,14 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy disabled">立即结算</a></div>
+    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy disabled">{{ __('Order Now') }}</a></div>
 </div>
 
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.ed426988bb564b0a4526.js"></script>
-<script src="/pc/dist/eat-list.ed426988bb564b0a4526.js"></script>
+<script src="/pc/dist/webpack-common.3eae80574c0cce770044.js"></script>
+<script src="/pc/dist/eat-list.3eae80574c0cce770044.js"></script>
 
 </body>
 </html>

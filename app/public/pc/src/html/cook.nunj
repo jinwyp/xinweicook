@@ -24,7 +24,7 @@
             <div class="info-border">
                 <h3>{{ dish.title[locale] }}</h3>
                 {#<div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>#}
-                <div class="tabbtn clearfix"><a class="desc act">简介</a><a class="ingre">食材</a></div>
+                <div class="tabbtn clearfix"><a class="desc act">{{ __('INTRODUCTION') }}</a><a class="ingre">{{ __('INGREDIENTS') }}</a></div>
                 <div class="tabs">
                     <div class="desc act">{{ dish.brief[locale] }}</div>
                     <div class="ingre clearfix">
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="dyn">
-        <h3>- DID YOU KNOW -</h3>
+        <h3>- {{ __('DID YOU KNOW') }} -</h3>
         <ul>
             {% for feature in dish.infoUniqueFeature %}
                 <li>
@@ -65,7 +65,7 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="recipe"><h3>- RECIPE - </h3>
+    <div class="recipe"><h3>- {{ __('RECIPE') }} - </h3>
 
         {#<div class="chef"></div>#}
         <ul class="recips clearfix">
@@ -91,25 +91,25 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="recommend"><h3>- 新味推荐 -</h3>
+    {#<div class="recommend"><h3>- 新味推荐 -</h3>#}
 
-        <div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img
-                        src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">
+        {#<div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img#}
+                        {#src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">#}
 
-                <div class="text-info"><h5 class="name">大虾墨鱼面</h5>
+                {#<div class="text-info"><h5 class="name">大虾墨鱼面</h5>#}
 
-                    <p class="price">￥48.00</p></div>
-            </a><a href="javascript:;" class="recommend-product"><img
-                        src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">
+                    {#<p class="price">￥48.00</p></div>#}
+            {#</a><a href="javascript:;" class="recommend-product"><img#}
+                        {#src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">#}
 
-                <div class="text-info"><h5 class="name">大虾墨鱼面</h5>
+                {#<div class="text-info"><h5 class="name">大虾墨鱼面</h5>#}
 
-                    <p class="price">￥48.00</p></div>
-            </a></div>
-    </div>
-    <div class="like"><img src="/pc/src/images/like.png">
-        <p class="num">24</p>
-    </div>
+                    {#<p class="price">￥48.00</p></div>#}
+            {#</a></div>#}
+    {#</div>#}
+    {#<div class="like"><img src="/pc/src/images/like.png">#}
+        {#<p class="num">24</p>#}
+    {#</div>#}
 </div>
 
 {% include "./includes/footer.nunj" %}

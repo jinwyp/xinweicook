@@ -8,7 +8,6 @@
   "About Xinwei": "关于新味",
   "Sign in": "登陆",
   "Sign out": "注销",
-
   "Unknown": "未知",
   "Location": "当前位置",
   "Change address": "切换地址",
@@ -99,7 +98,7 @@
   "##### 我的账户 #####":"",
   "My Account":"我的账户",
   "My Orders":"我的订单",
-  "My information":"我的信息",
+  "My Information":"我的信息",
   "Order Number": "订单",
   "Dish": "菜品",
   "Delivery Time": "配送时间",
@@ -113,6 +112,15 @@
   "Shipped":"已发货",
   "Finished":"已完成",
   "Canceled":"已取消",
+
+  "##### 便当列表 #####":"",
+  "Order Now":"立即结算",
+
+  "##### 便当,食材包详情 #####":"",
+  "INTRODUCTION": "简介",
+  "INGREDIENTS": "食材",
+  "DID YOU KNOW": "你知道吗",
+  "RECIPE":"菜谱",
 
 
   "##### 别人的评价 #####":"",
