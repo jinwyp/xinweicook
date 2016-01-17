@@ -4,6 +4,7 @@
 import {init as initCommon} from './common'
 
 import {__} from '../utils/locale'
+import {search} from '../utils/utils'
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -26,6 +27,10 @@ var App = React.createClass({
         this.props.dispatch(userAction.getUserIfNeeded()).then(res => {
             // [NOT react]
             initCommon(res)
+            var status = search(location.search).trade_status
+            if (status == 'TRADE_FINISHED' || status == 'TRADE_SUCCESS') {
+                alert('付款成功!')
+            }
         })
         window.addEventListener('hashchange', () => {
             this.props.dispatch(routeAction.changeRoute(window.location.hash.substr(1)))
