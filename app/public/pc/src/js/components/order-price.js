@@ -1,3 +1,5 @@
+import {__} from '../utils/locale'
+
 import React from 'react'
 
 function fixed(number, digit) {
@@ -16,28 +18,28 @@ var OrderPrice = React.createClass({
         return (
             <div className="price-section">
                 <div className="item">
-                    <span>价格</span><span className="rmb-char">{fixed(props.cartPrice)}</span>
+                    <span>{__('Price')}</span><span className="rmb-char">{fixed(props.cartPrice)}</span>
                 </div>
                 <div className="item">
-                    <span><span>运费</span><i>（满100免运费）</i></span>
+                    <span><span>{__("Shipping rates")}</span><i>（{__("满100免运费")}）</i></span>
                     <span className="rmb-char">{fixed(props.freight)}</span>
                 </div>
                 {
                     props.couponPrice ? (
                         <div className="item">
-                            <span>优惠</span><span className="rmb-char negative">{fixed(props.couponPrice)}</span>
+                            <span>{__("Discount amount")}</span><span className="rmb-char negative">{fixed(props.couponPrice)}</span>
                         </div>
                     ) : ''
                 }
                 {
                     props.useBalance ? (
                         <div className="item">
-                            <span>新味币</span><span className="rmb-char negative">{fixed(usedBalance)}</span>
+                            <span>{__("Xinwei balance")}</span><span className="rmb-char negative">{fixed(usedBalance)}</span>
                         </div>
                     ) : ''
                 }
                 <div className="item">
-                    <span>总计</span><span><strong className="rmb-char">{fixed(onlinePayPrice)}</strong></span>
+                    <span>{__('Subtotal')}</span><span><strong className="rmb-char">{fixed(onlinePayPrice)}</strong></span>
                 </div>
             </div>
         )

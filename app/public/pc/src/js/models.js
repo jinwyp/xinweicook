@@ -28,6 +28,8 @@ export var User = {
         return post('/api/user/logout', {
             token_type_hint: "access_token",
             token: localStorage.access_token
+        }).catch(() => {}).then(() => {
+            delete localStorage.access_token
         })
     },
     postCart: function (cart) {

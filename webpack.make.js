@@ -44,6 +44,10 @@ module.exports = function makeWebpackConfig(options) {
                 },
                 {
                     test: /\.(?:png|jpg)$/, loader: 'file-loader'
+                },
+                {
+                    test: /\.json$/,
+                    loader: 'json'
                 }
             ]
         },

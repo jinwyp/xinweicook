@@ -1,3 +1,5 @@
+import {__} from '../../utils/locale'
+
 import React from 'react'
 import StaticAddress from './static-address'
 import EditingAddress from './editing-address'
@@ -31,14 +33,14 @@ var AddressList = React.createClass({
 
     render: function () {
         var props = this.props
-        var title = props.title || '配送至'
+        var title = props.title || __('Deliver to')
         var addresses = props.addresses || []
         const editingAddress = addresses.filter(address => address._id == props.addressEditingForm.id)[0] || {}
         return (
             <div style={{display: (props.hideList ? 'none' : 'block')}} className={`address-section ${props.className || ''}`}>
                 <h5 className="header">
                     <span>{title}</span>
-                    <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> 添加地址</span>
+                    <span className="add-address" onClick={props.addOne}><i className="square-icon">+</i> {__('Add a new address')}</span>
                 </h5>
                 <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
                     <EditingAddress range={props.range} streetList={props.streetList}

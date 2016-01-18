@@ -22,8 +22,7 @@
                 <a href="{{ pcPrefix }}/eat/{{ dish._id }}">
                     <div class="plusok"></div>
                     <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
-                    <div class="out-of-range">
-                        当前地址便当不可送达
+                    <div class="out-of-range">{{ __('Out of range') }}
                     </div>
                 </a>
 
@@ -43,7 +42,7 @@
     {#<img src="/pc/src/images/pcg.jpg" class="pcg">#}
 
     <div class="drinks">
-        <h3>- 更多 -</h3>
+        <h3>- {{ __('更多') }} -</h3>
         <ul class="menus">
             {% for dish in drinks %}
                 <li data-id="{{ dish._id }}">
@@ -52,7 +51,7 @@
                         <div class="plusok"></div>
                         <img title="{{ dish.brief[locale] }}" src="{{ dish.cover[0][locale] | img}}">
                         <div class="out-of-range">
-                            当前地址便当不可送达
+                            {{ __('Out of range') }}
                         </div>
                     </a>
 
@@ -69,7 +68,7 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy disabled">立即结算</a></div>
+    <div class="shopnow"><a href="{{ pcPrefix }}/cart" class="buy disabled">{{ __('Order Now') }}</a></div>
 </div>
 
 {% include "./includes/footer.nunj" %}

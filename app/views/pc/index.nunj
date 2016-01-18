@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.1c4ba051508bcd90eaa19d1f857d99cf.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.ef346ed4fcef758bec8295ee66e37246.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -25,13 +25,13 @@
             <div class="entry">
                 <a href="{{ pcPrefix }}/cook/">
                     <img src="/pc/src/images/index-cook.png" alt="ready to cook"/>
-                    <p>只愿享受烹炒的乐趣?<br>选料买菜的一切麻烦让新味帮你解决.</p>
+                    <p>{{ __("只愿享受烹炒的乐趣?") }}<br>{{ __("选料买菜的一切麻烦让新味帮你解决。") }}</p>
                 </a>
             </div>
             <div class="entry">
                 <a href="{{ pcPrefix }}/eat/">
                     <img src="/pc/src/images/index-eat.png" alt="ready to eat"/>
-                    <p>在公司还想吃低温慢煮牛排?<br>新味让你用微波炉就能轻松享受.</p>
+                    <p>{{ __("在公司还想吃低温慢煮牛排?") }}<br>{{ __("新味让你用微波炉就能轻松享受。") }}</p>
                 </a>
             </div>
         </div>
@@ -55,6 +55,7 @@
                 </li>
             {% endfor %}
         </ul>
+        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc">{{ __('更多') }}</a>
         <div class="app clearfix">
             <ul class="banner">
                 {% for item in promotions %}
@@ -86,7 +87,7 @@
                         <div class="plusok"></div>
                         <img src="{{ dish.cover[0][locale] | img }}">
                         <div class="out-of-range">
-                            当前地址便当不可送达
+                            {{ __('Out of range') }}
                         </div>
                     </a>
                     <div class="info clearfix">
@@ -101,11 +102,12 @@
                 </li>
             {% endfor %}
         </ul>
+        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc">{{ __('更多') }}</a>
     </div>
 
     <div class="videolink">
-        <h4>我们定义urban饮食新方式</h4>
-        <p>黑系墨鱼汁意面碰撞温暖系虎虾、蟹籽、番茄和罗勒，混合着海鲜与香草的香味随着热气弥散，趁热享用吧！</p>
+        <h4>{{ __('我们定义urban饮食新方式') }}</h4>
+        <p>{{  __('New way detail') }}</p>
         <a href="javascript:;" class="play"></a>
         <video id="video1" controls="controls">
             <source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">
@@ -164,49 +166,17 @@
         {#</div>#}
 
         <div class="partner">
-            <h3 class="title">合作伙伴</h3>
+            <h3 class="title">{{ __("Partners") }}</h3>
             <img style="width: 100%;" src="/pc/src/images/friends.jpg" />
         </div>
     </div>
 </div>
 
-{#<div id="xw-special-middle" class="address-selection">#}
-    {#<form>#}
-        {#<div class="province form-control-group select">#}
-            {#<label for="province">请选择所在的省份</label>#}
-            {#<select name="province" id="province">#}
-                {#<option value="上海">上海</option>#}
-                {#<option value="上海">上海</option>#}
-                {#<option value="上海">上海</option>#}
-                {#<option value="上海">上海</option>#}
-            {#</select>#}
-        {#</div>#}
-        {#<div class="address form-control-group">#}
-            {#<label for="address">请输入收货地址</label>#}
-            {#<input autocomplete="off" type="text" name="address" id="address"/>#}
-            {#<ul class="street-list">#}
-                {#<li>#}
-                    {#<div class="name">中山南二路510号</div>#}
-                    {#<div class="address">上海徐汇</div>#}
-                {#</li>#}
-                {#<li>#}
-                    {#<div class="name">中山南二路510号</div>#}
-                    {#<div class="address">上海徐汇</div>#}
-                {#</li>#}
-                {#<li>#}
-                    {#<div class="name">中山南二路510号</div>#}
-                    {#<div class="address">上海徐汇</div>#}
-                {#</li>#}
-            {#</ul>#}
-        {#</div>#}
-    {#</form>#}
-{#</div>#}
-
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.340b96411b8cb0573dab.js"></script>
-<script src="/pc/dist/index.340b96411b8cb0573dab.js"></script>
+<script src="/pc/dist/webpack-common.4f936309e8b9c8824730.js"></script>
+<script src="/pc/dist/index.4f936309e8b9c8824730.js"></script>
 
 </body>
 </html>

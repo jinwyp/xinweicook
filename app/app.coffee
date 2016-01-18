@@ -1,6 +1,7 @@
 require "./env"
 alipay = require "./libs/alipay.js"
 bodyParser = require "body-parser"
+cookieParser = require "cookie-parser"
 
 cors = require "cors"
 favicon = require "serve-favicon";
@@ -57,6 +58,7 @@ app.use express.static(path.join(__dirname, "public"))
 app.use "/api/doc", express.static(path.join(__dirname, "..", "doc", "_book"))
 
 app.use alipay.middleware if not conf.debug
+app.use cookieParser()
 app.use bodyParser.json({limit: '1mb'})
 app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")

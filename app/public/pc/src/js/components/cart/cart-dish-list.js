@@ -1,3 +1,5 @@
+import {__} from '../../utils/locale'
+
 import React from 'react'
 import CartDish from './cart-dish'
 
@@ -14,9 +16,9 @@ var CartDishList = React.createClass({
             <div className="cart-dish-list">
                 <div className="header">
                     <span onClick={() => props.selectAll(cookingType)} className={'fa ' + (selectedAll ? 'fa-check-square-o' : 'fa-square-o')}></span>
-                    <span>全选</span>
-                    <span>数量</span>
-                    <span>价格</span>
+                    <span>{__('All')}</span>
+                    <span>{__('Quantity')}</span>
+                    <span>{__('Price')}</span>
                 </div>
                 <ul className="dish-list">
                     {

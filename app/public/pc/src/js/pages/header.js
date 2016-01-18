@@ -24,7 +24,9 @@ export function render(mobile, _cart) {
         $('#signout').click(() => {
             User.logout().then(function () {
                 location.reload()
-            }).catch(() => {location.reload()})
+            }).catch(() => {
+                location.reload()
+            })
         })
     } else {
         $signin.show()

@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head><title>{{ __("My Account") }} - 新味</title>
+<head><title>{{ __('Why choose us') }} - 新味</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
     <!-- end-build-replace -->
-    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-<div class="body-wrapper">
 
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
-<div class="me">
-    <div class="title">
-        <img src="/pc/src/images/me.jpg" alt="me"/>
-        <h5>{{ __("My Account") }}</h5>
-    </div>
-    <div id="react-root"></div>
-</div>
-
-<div class="footer-push"></div>
+<div class="why-us">
+    <h4>{{ __('我们定义urban饮食新方式') }}</h4>
+    <p>{{  __('New way detail') }}</p>
+    <img src="/pc/src/images/whyus/1.jpg" alt=""/>
+    <img src="/pc/src/images/whyus/2.jpg" alt=""/>
+    <img src="/pc/src/images/whyus/3.jpg" alt=""/>
+    <img src="/pc/src/images/whyus/4.jpg" alt=""/>
 </div>
 
 {% include "./includes/footer.nunj" %}
 
 <!-- build-replace -->
 <script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/me.js"></script>
+<script src="http://localhost:8081/cook.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>

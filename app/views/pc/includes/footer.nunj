@@ -11,17 +11,17 @@
                         <img src="/pc/src/images/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="app store badge"/>
                     </a>
                 </li>
-                <li><img src="/pc/src/images/wechat-icon.png" alt="weichat"/>Search "xinweicook"</li>
-                <li><img src="/pc/src/images/weibo-icon.png" alt="weibo"/>Follow us on Weibo</li>
+                <li><img src="/pc/src/images/wechat-icon.png" alt="weichat"/>{{ __("Search") }} "xinweicook"</li>
+                <li><img src="/pc/src/images/weibo-icon.png" alt="weibo"/>{{ __("Follow us on Weibo") }}</li>
             </ul>
         </div>
         <img src="/pc/src/images/app-qrcode.png" alt="what to place here"/>
         <div class="wrapper">
             <ul class="contact">
-                <li>Feel free to chat:</li>
-                <li>Chat With Us 9:00am-7:00pm</li>
+                <li>{{ __("Feel free to chat") }}:</li>
+                <li>{{ __("Chat With Us") }} 9:00am-7:00pm</li>
                 <li><span class="email">Email:</span> customer@xinweicook.com</li>
-                <li><span>Tel:</span> (021) 5153 4950</li>
+                <li><span>{{ __('Tel') }}:</span> (021) 5153 4950</li>
                 <li><span>QQ:</span> 263 064 2809</li>
             </ul>
         </div>

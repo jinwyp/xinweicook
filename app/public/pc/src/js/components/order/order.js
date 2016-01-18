@@ -1,7 +1,11 @@
+import {lang} from '../../utils/locale'
+
 import React from 'react'
 import {imgAdapt as adapt, orderStatus} from '../../utils/filters'
 import {price} from '../../utils/dish'
 import {dateFormat} from '../../utils/utils'
+
+var l = lang()
 
 var Order = React.createClass({
     render() {
@@ -13,8 +17,8 @@ var Order = React.createClass({
                         <div key={i} className="dish">
                             <div>{i === 0 && props.orderNumber}</div>
                             <div className="detail">
-                                <span className="img" style={{backgroundImage: `url(${adapt(item.dish.cover[0].zh, 75, 50)})`}}></span>
-                                <span className="name" title={item.dish.title.zh}>{item.dish.title.zh}</span>
+                                <span className="img" style={{backgroundImage: `url(${adapt(item.dish.cover[0][l], 75, 50)})`}}></span>
+                                <span className="name" title={item.dish.title[l]}>{item.dish.title[l]}</span>
                                 <span className="number cross-char">{item.number}</span>
                             </div>
                             <div>{dateFormat(props.deliveryDateTime)}</div>

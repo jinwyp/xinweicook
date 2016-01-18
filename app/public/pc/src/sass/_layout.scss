@@ -1,12 +1,18 @@
 @import "stick-footer";
 
+@media (max-width: 1200px) {
+  .header-main {
+    width: 100% !important;
+  }
+}
+
 header {
   position: fixed;
   // prevent scroll trembling for chrome
   // http://www.chenyudong.com/archives/chrome-position-fixed-shake.html
   transform: translateZ(0);
   top: 0;
-  z-index: 3;
+  z-index: 100;
   width: 100%;
   height: 67px;
   background: $white;
@@ -92,6 +98,17 @@ header {
         }
       }
     }
+    .lang {
+      border-left: 2px solid;
+      padding-left: 20px;
+      margin-left: 20px;
+      a {
+        color: gray;
+        &.act {
+          color: inherit;
+        }
+      }
+    }
     a.logo {
       margin-top: -15px;
       width: 107px;
@@ -112,6 +129,14 @@ header {
     }
     .sign:hover {
       color: $color_sunset_orange_approx
+    }
+    .lang {
+      a {
+        color: #C3C3C3;
+        &.act {
+          color: white;
+        }
+      }
     }
     a {
       color: white;

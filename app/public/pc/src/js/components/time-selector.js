@@ -1,3 +1,5 @@
+import {__} from '../utils/locale'
+
 import React from 'react'
 import cls from '../utils/class-name'
 
@@ -28,7 +30,7 @@ var TimeSelector = React.createClass({
         return (
             <div className="time-section">
                 <TimeOptionPanel timeList={props.timeList} selectTime={this.selectTime} isShow={this.state.showOptionPanel}/>
-                <h5 className="header">{cookingType == 'ready to cook' ? '选择食材包配送时间' : '选择便当配送时间'}</h5>
+                <h5 className="header">{cookingType == 'ready to cook' ? __("Choose cook delivery time") : __("Choose bento delivery time")}</h5>
                     <div className="group" onClick={this.toggleOptionPanel}>
                         {
                             props.selectedTime ?
@@ -38,7 +40,7 @@ var TimeSelector = React.createClass({
                                         {props.selectedTime.segment ? <span className="time">{props.selectedTime.segment}</span> : ''}
                                     </div>
                                 ) :
-                                <div>请选择配送时间</div>
+                                <div>{__("Choose the delivery time")}</div>
                         }
                         <i className="fa fa-angle-down"></i>
                     </div>
@@ -53,7 +55,7 @@ var TimeOptionPanel = React.createClass({
 
         return (
             <div className="time-option-panel" style={{display: props.isShow ? 'block' : 'none'}}>
-                <h5>选择配送时间</h5>
+                <h5>{__("Choose the delivery time")}</h5>
                 <ul>
                     {
                         props.timeList.map((time, i) =>
