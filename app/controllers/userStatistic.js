@@ -454,7 +454,9 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
+exports.userGetOrderMonthly = function(req, res, next) {
 
+};
 
 
 
@@ -466,6 +468,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
     }
+
 
     var orderStatus = [];
     orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
@@ -514,16 +517,16 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             "firstOrderContactMobile": 1,
             orderList : 1,
 
-            year: { $year: "$firstOrderDate" },
-            month: { $month: "$firstOrderDate" },
-            day: { $dayOfMonth: "$firstOrderDate" },
-            hour: { $hour: "$firstOrderDate" },
-            "minute" : {"$minute" : "$firstOrderDate"},
-            "second" : { "$second" : "$firstOrderDate"},
-            "millisecond" : {"$millisecond" : "$firstOrderDate"},
-            dayOfYear: { $dayOfYear: "$firstOrderDate" },
-            dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
-            week: { $week: "$firstOrderDate" }
+            year: { $year: {$add:["$firstOrderDate",28800000]} },
+            month: { $month: {$add:["$firstOrderDate",28800000]} },
+            day: { $dayOfMonth: {$add:["$firstOrderDate",28800000]} },
+            hour: { $hour: {$add:["$firstOrderDate",28800000]} },
+            "minute" : {"$minute" : {$add:["$firstOrderDate",28800000]}},
+            "second" : { "$second" : {$add:["$firstOrderDate",28800000]}},
+            "millisecond" : {"$millisecond" : {$add:["$firstOrderDate",28800000]}},
+            dayOfYear: { $dayOfYear: {$add:["$firstOrderDate",28800000]} },
+            dayOfWeek: { $dayOfWeek: {$add:["$firstOrderDate",28800000]} },
+            week: { $week: {$add:["$firstOrderDate",28800000]} }
 
         }},
 
@@ -549,7 +552,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             dayOfWeek: 1,
             week: 1,
 
-            date : {"$subtract" : [ "$firstOrderDate",
+            date : {"$subtract" : [ {$add:["$firstOrderDate",28800000]},
                 {"$add" : [ "$millisecond",
                     {"$multiply" : ["$second", 1000]},
                     {"$multiply" : ["$minute",60,1000]},
@@ -584,6 +587,11 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
     //
     //}
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        pipeline[0].$match.clientFrom  = req.query.statisticsClientFrom;
+    }
+
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
@@ -752,6 +760,12 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
 
 };
+
+
+
+
+
+
 
 
 
