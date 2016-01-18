@@ -29,6 +29,9 @@ expressRoutes = function(app) {
     app.get("/", function (req, res) {
         res.redirect('/mobile');
     });
+    app.get("/mobile/index", function (req, res) {
+        res.redirect('/mobile');
+    })
 
     app.get("/r/:id", function (req, res) {
         var urlMap = {

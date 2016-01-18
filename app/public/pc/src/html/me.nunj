@@ -2,7 +2,7 @@
 <html>
 <head><title>{{ __("My Account") }} - 新味</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    {% include "./includes/meta.nunj" %}
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
     <!-- end-build-replace -->

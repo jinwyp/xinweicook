@@ -3,6 +3,7 @@
 <head>
     <title>新味</title>
     <meta charset="utf-8">
+    {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
