@@ -2,9 +2,9 @@
 <html>
 <head><title>xinwei</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    {% include "./includes/meta.nunj" %}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.ef346ed4fcef758bec8295ee66e37246.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.f544e0ec243df969ac92e52926cdcffe.css"/>
     
 </head>
 <body>
@@ -44,8 +44,8 @@
 
 {% include "./includes/footer.nunj" %}
 
-<script src="/pc/dist/webpack-common.4f936309e8b9c8824730.js"></script>
-<script src="/pc/dist/sign.4f936309e8b9c8824730.js"></script>
+<script src="/pc/dist/webpack-common.35f2e71d3e5ff8d599b3.js"></script>
+<script src="/pc/dist/sign.35f2e71d3e5ff8d599b3.js"></script>
 
 <script async=true src="http://api.geetest.com/get.php?callback=initGeetest"></script>
 <script>
