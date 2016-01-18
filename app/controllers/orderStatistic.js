@@ -1020,7 +1020,8 @@ exports.orderWeeklySales = function(req, res, next) {
             "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
             "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
 
-            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } },
+            "firstDate" : { $first: "$createdAt" }
         }},
 
 
@@ -1028,7 +1029,7 @@ exports.orderWeeklySales = function(req, res, next) {
             _id : 0,
             "week" : "$_id.week",
             "year" : "$_id.year",
-            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}] },
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}, " (", {$substr: ["$firstDate", 5, 5]}, ")"] },
 
             "saleQuantity": 1,
             "saleTotalPrice": 1,
@@ -1047,9 +1048,11 @@ exports.orderWeeklySales = function(req, res, next) {
             "saleAccountUsedDiscount": 1,
             "saleAvgAccountUsedDiscount": 1,
 
-            "orderList": 1
+            "orderList": 1,
+            "firstDate": 1
 
         }},
+
 
         { "$sort": { "year" : 1, "week": 1 } },
         { "$limit": 1000 }

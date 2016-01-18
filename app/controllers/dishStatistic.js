@@ -637,7 +637,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantityDeliveryDate":1 } },
-            { "$limit": 8000 }
+            { "$limit": 2000 }
         );
 
 
@@ -804,7 +804,7 @@ exports.dishDailySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1, "day": 1 } },
-            { "$limit": 5000 }
+            { "$limit": 500 }
         );
 
 
@@ -919,22 +919,25 @@ exports.dishWeeklySalesChart = function(req, res, next) {
             { "$group": {
                 "_id": { week : "$week", year : "$year"},
 
+                "firstDate" : { $first: "$createdAt" },
                 "dishSaleQuantity": { "$sum": "$quantity" },
                 "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+
             }},
 
             { $project :{
                 _id : 0,
                 "week" : "$_id.week",
                 "year" : "$_id.year",
-                "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}] },
+                "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}, " (", {$substr: ["$firstDate", 5, 5]}, ")"] },
 
+                "firstDate": 1,
                 "dishSaleQuantity": 1,
                 "dishList": 1
             }},
 
             { "$sort": { "year" : 1, "week": 1 } },
-            { "$limit": 1000 }
+            { "$limit": 100 }
         );
 
 
@@ -961,7 +964,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1 } },
-            { "$limit": 500 }
+            { "$limit": 100 }
         );
 
 
