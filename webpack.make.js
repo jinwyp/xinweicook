@@ -21,6 +21,7 @@ module.exports = function makeWebpackConfig(options) {
             eat: './pages/eat.js',
             'eat-list': './pages/eat-list.js',
             '404': './pages/404.js',
+            'why-us': './pages/why-us.js',
             'pay-notify': './pages/pay-notify.js'
         },
         output: {

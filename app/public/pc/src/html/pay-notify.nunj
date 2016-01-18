@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>404 - 新味</title>
+<head><title>{{ __('Payment Result') }} - 新味</title>
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     <!-- build-replace -->

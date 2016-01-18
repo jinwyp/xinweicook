@@ -33,7 +33,7 @@ var routes = function(app) {
     })
 
     // 老网站重定向
-    app.get('/front/product/:id', function (req, res) {
+    app.get('/front/product/:id', function (req, res, next) {
         models.dish.findOne({
             idOldWebsite: req.params.id,
             sideDishType: 'main',
@@ -42,7 +42,7 @@ var routes = function(app) {
             if (result && result._id) {
                 res.redirect(publicPrefix + '/cook/' + result._id)
             } else {
-                res.redirect(publicPrefix + '/404')
+                res.redirect(publicPrefix + '/404?oldid=' + req.params.id)
             }
         })
     })

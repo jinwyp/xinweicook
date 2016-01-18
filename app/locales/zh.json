@@ -119,7 +119,7 @@
   "##### 便当,食材包详情 #####":"",
   "INTRODUCTION": "简介",
   "INGREDIENTS": "食材",
-  "DID YOU KNOW": "你知道吗",
+  "DID YOU KNOW": "你知道吗?",
   "RECIPE":"菜谱",
 
 
@@ -139,6 +139,7 @@
   "##### 支付成功 #####": "",
   "Pay successfully": "支付成功!",
   "See Order Detail": "点此查看订单详情",
-  "Pay failed": "支付失败."
+  "Pay failed": "支付失败.",
+  "Payment Result": "支付结果"
 
 }
