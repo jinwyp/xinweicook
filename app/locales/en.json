@@ -133,5 +133,10 @@
   "The Bund": "The Bund",
 
   "##### 404 #####": "",
-  "Page Not Found": "Sorry, the page you are visiting is not Found."
+  "Page Not Found": "Sorry, the page you are visiting is not Found.",
+
+  "##### 支付成功 #####": "",
+  "Pay successfully": "Thank you for your payment!",
+  "See Order Detail": "Go to Order List",
+  "Pay failed": "Your payment failed."
 }

@@ -134,6 +134,11 @@
   "The Bund": "外滩画报",
 
   "##### 404 #####": "",
-  "Page Not Found": "亲, 您访问的页面未能找到, sorry~~."
+  "Page Not Found": "亲, 您访问的页面未能找到, sorry~~.",
+
+  "##### 支付成功 #####": "",
+  "Pay successfully": "支付成功!",
+  "See Order Detail": "点此查看订单详情",
+  "Pay failed": "支付失败."
 
 }

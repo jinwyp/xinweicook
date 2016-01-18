@@ -28,6 +28,9 @@ var routes = function(app) {
     app.get(publicPrefix + "/whyus", function (req, res) {
         res.render(viewsPrefix + 'why-choose-us.nunj', {curNav: 'whyus'})
     })
+    app.get(publicPrefix + "/paymentresult", function (req, res) {
+        res.render(viewsPrefix + 'pay-notify.nunj')
+    })
 
     // 老网站重定向
     app.get('/front/product/:id', function (req, res) {
