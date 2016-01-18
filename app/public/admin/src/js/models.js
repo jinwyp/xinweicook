@@ -116,7 +116,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
             ];
 
             var result = [
-                { name : "Daily", type:"column", showInLegend: false, data : [] }
+                { name : "值",  showInLegend: false, data : [] }
             ];
 
             if (angular.isArray(chartData)){
@@ -129,19 +129,47 @@ angular.module('RDash.models').factory('Util', function ($http) {
                         // order
                         if (isTotalPrice){
                             result[0].data.push(Math.abs(value.saleTotalPrice));
-                            result[0].type = 'line';
+
                         }else{
                             result[0].data.push(Math.abs(value.saleQuantity));
-                            result[0].type = 'line';
                         }
 
-                    }else{
+                    }else if(typeof value.userQuantity !== 'undefined'){
                         // user
                         result[0].data.push(Math.abs(value.userQuantity));
-                        result[0].type = 'line';
                     }
 
                 }, result[0].data);
+            }
+
+
+
+            if (angular.isArray(chartData)){
+
+                if (typeof chartData[0].typeAll !== 'undefined'){
+
+                    result.push( { name : "值",  showInLegend: false, data : [] });
+                    result.push( { name : "值",  showInLegend: false, data : [] });
+
+
+                    angular.forEach(chartData, function(value, key) {
+
+                        result[0].data.push(Math.abs(value.typeAll));
+                        //result[0].type = 'line';
+                        result[0].name = '食材包和便当都下过单用户数';
+
+                        result[1].data.push(Math.abs(value.typeEat));
+                        //result[1].type = 'line';
+                        result[1].name = '只下过便当订单用户数';
+
+                        result[2].data.push(Math.abs(value.typeCook));
+                        //result[2].type = 'line';
+                        result[2].name = '只下过食材包订单用户数';
+
+                    })
+
+                }
+
             }
 
             return result;
@@ -365,6 +393,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
 
         getUserStatisticNewFirstOrderUserDaily: function (params) {
             return $http.get('/api/admin/statistic/user/firstorder/daily', {
+                params: params
+            });
+        },
+
+        getUserStatisticOrderUserMonthly: function (params) {
+            return $http.get('/api/admin/statistic/user/order/monthly', {
                 params: params
             });
         },
