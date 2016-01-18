@@ -82,14 +82,15 @@ app.use (req, res, next)->
   res.locals.__DEV__ = app.get('env') != 'production';
   next()
 
+routespc = require("./routespc")
 require("./routesmobile")(app)
-require("./routespc")(app)
+routespc(app)
 require("./routesapi")(app)
 
 require("./test")() if conf.debug
 
 app.use (req, res, next) ->
-  next new Err("Page Not Found", 404)
+  next(new Err("Page Not Found", 404)) unless routespc.pageNotFound(req, res)
 
 
 app.use libs.err.middleware()

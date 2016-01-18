@@ -1,0 +1,33 @@
+.payment-result {
+  .success, .failed {
+    display: none;
+    position: relative;
+    width: 300px;
+    margin: 200px auto;
+    padding-left: 100px;
+    p {
+      font-size: 20px;
+      padding: 7px 0 14px;
+    }
+    a {
+      text-decoration: underline;
+    }
+  }
+  i {
+    position: absolute;
+    left: 10px;
+    width: 65px;
+    height: 65px;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 63px;
+    font-size: 51px;
+    &.fa-check {
+      background-color: #76CC67;
+    }
+    &.fa-close {
+      background-color: #ff9573;
+    }
+  }
+}

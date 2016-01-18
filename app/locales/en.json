@@ -119,7 +119,7 @@
   "##### 便当,食材包详情 #####":"",
   "INTRODUCTION": "INTRODUCTION",
   "INGREDIENTS": "INGREDIENTS",
-  "DID YOU KNOW": "DID YOU KNOW",
+  "DID YOU KNOW": "DID YOU KNOW?",
   "RECIPE":"RECIPE",
 
   "##### 别人的评价 #####":"",
@@ -130,5 +130,14 @@
   "If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.": "If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.",
   "Steve Ge, CEO of Xinweicook": "Steve Ge, CEO of Xinweicook",
   "Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.": "Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.",
-  "The Bund": "The Bund"
+  "The Bund": "The Bund",
+
+  "##### 404 #####": "",
+  "Page Not Found": "Sorry, the page you are visiting is not Found.",
+
+  "##### 支付成功 #####": "",
+  "Pay successfully": "Thank you for your payment!",
+  "See Order Detail": "Go to Order List",
+  "Pay failed": "Your payment failed.",
+  "Payment Result": "Payment Result"
 }

@@ -119,7 +119,7 @@
   "##### 便当,食材包详情 #####":"",
   "INTRODUCTION": "简介",
   "INGREDIENTS": "食材",
-  "DID YOU KNOW": "你知道吗",
+  "DID YOU KNOW": "你知道吗?",
   "RECIPE":"菜谱",
 
 
@@ -131,5 +131,15 @@
   "If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.": "如果菜谱里需要半个洋葱的洋葱丁，那新味食材包里就会准备半个容易切的洋葱。不需要买菜，不担心买错，也不怕菜买的太多，用不完。我们真正做到了健康环保地做菜。",
   "Steve Ge, CEO of Xinweicook": "葛伊能 新味CEO",
   "Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.": "新味网提供适用于不同厨艺水平的菜谱，菜谱食材包按量分配，并提供清楚的烹饪步骤。由于每道菜谱所需的食材都经过精准称配，完全避免食材浪费或错买食材。",
-  "The Bund": "外滩画报"
+  "The Bund": "外滩画报",
+
+  "##### 404 #####": "",
+  "Page Not Found": "亲, 您访问的页面未能找到, sorry~~.",
+
+  "##### 支付成功 #####": "",
+  "Pay successfully": "支付成功!",
+  "See Order Detail": "点此查看订单详情",
+  "Pay failed": "支付失败.",
+  "Payment Result": "支付结果"
+
 }

@@ -19,7 +19,10 @@ module.exports = function makeWebpackConfig(options) {
             cook: './pages/cook.js',
             'cook-list': './pages/cook-list.js',
             eat: './pages/eat.js',
-            'eat-list': './pages/eat-list.js'
+            'eat-list': './pages/eat-list.js',
+            '404': './pages/404.js',
+            'why-us': './pages/why-us.js',
+            'pay-notify': './pages/pay-notify.js'
         },
         output: {
             path: path.join(__dirname, "./app/public/pc/dist/"),

@@ -164,8 +164,8 @@ var App = React.createClass({
                     (cartLoaded && !cart.length)
                         ? (
                         <div className="empty-cart-tip">
-                            <h4>__("Empty shopping cart")</h4>
-                            <a href={__PCPREFIX__ + '/'}>__("Click to see menus")</a>
+                            <h4>{__("Empty shopping cart")}</h4>
+                            <a href={__PCPREFIX__ + '/'}>{__("Click to see menus")}</a>
                         </div>
                     )
                         : (

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ __('Payment Result') }} - 新味</title>
+    <meta charset="utf-8">
+    {% include "./includes/meta.nunj" %}
+    <!-- build-replace -->
+    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <!-- end-build-replace -->
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+<div class="body-wrapper">
+
+    {% include "./includes/header.nunj" %}
+
+    <div class="headeremp"></div>
+    <div class="payment-result">
+        <div class="success">
+            <i class="fa fa-check"></i>
+            <p class="">
+                {{ __('Pay successfully') }}
+            </p>
+            <a href="{{ pcPrefix }}/me">{{ __('See Order Detail') }}</a>
+        </div>
+        <div class="failed">
+            <i class="fa fa-close"></i>
+            <p class="">{{ __('Pay failed') }}</p>
+            <a href="{{ pcPrefix }}/me">{{ __('See Order Detail') }}</a>
+        </div>
+    </div>
+
+    <div class="footer-push"></div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+<!-- build-replace -->
+<script src="http://localhost:8081/webpack-common.js"></script>
+<script src="http://localhost:8081/pay-notify.js"></script>
+<!-- end-build-replace -->
+</body>
+</html>

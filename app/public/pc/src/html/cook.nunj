@@ -2,7 +2,7 @@
 <html>
 <head><title>{{ dish.title[locale] }} - 新味</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
@@ -11,6 +11,12 @@
 <body>
 
 {% include "./includes/header.nunj" %}
+
+<nav class="filters">
+    <div class="content">
+
+    </div>
+</nav>
 
 <div class="headeremp"></div>
 <div class="product">
@@ -50,29 +56,58 @@
             </div>
         </div>
     </div>
-    <div class="dyn">
-        <h3>- {{ __('DID YOU KNOW') }} -</h3>
-        <ul>
-            {% for feature in dish.infoUniqueFeature %}
-                <li>
-                    {% if feature.contentType == 'pic' %}
-                        <img src="{{ feature.value[locale] }}"/>
-                    {% endif %}
-                    {% if feature.contentType == 'txt' %}
-                        <p>{{ feature.value[locale] }}</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="recipe"><h3>- {{ __('RECIPE') }} - </h3>
 
-        {#<div class="chef"></div>#}
-        <ul class="recips clearfix">
-            {% for step in dish.infoCookingStep %}
-                {% if loop.index0 % 2 == 0 %}
-                    <li>
+    {% if dish.infoUniqueFeature.length %}
+        <div class="dyn">
+            <h3>- {{ __('DID YOU KNOW') }} -</h3>
+            <ul>
+                {% if dish.infoUniqueFeature.length / 2 == 1 %}
+                    {% for feature in dish.infoUniqueFeature %}
+                        <li class="single">
+                            {% if feature.contentType == 'pic' %}
+                                <img src="{{ feature.value[locale] }}"/>
+                            {% endif %}
+                            {% if feature.contentType == 'txt' %}
+                                <p>{{ feature.value[locale] }}</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
                 {% endif %}
+
+                {% if dish.infoUniqueFeature.length / 2 > 1 %}
+                    {% for feature in dish.infoUniqueFeature %}
+                        {% if loop.index0 % 2 == 0 %}
+                            <li class="multiple clearfix">
+                        {% endif %}
+                        {% if feature.contentType == 'pic' %}
+                            <a href="{{ feature.linkTo | replace('http://xinweicook.com', '') }}">
+                                <img class="fl" src="{{ feature.value[locale] }}"/>
+                            </a>
+                        {% endif %}
+                        {% if feature.contentType == 'txt' %}
+                            <div class="detail fr">
+                                <h4>{{ feature.title[locale] }}</h4>
+                                <p>{{ feature.value[locale] }}</p>
+                            </div>
+                        {% endif %}
+                        {% if loop.index0 % 2 == 1 %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if dish.infoCookingStep.length %}
+        <div class="recipe"><h3>- {{ __('RECIPE') }} - </h3>
+
+            {#<div class="chef"></div>#}
+            <ul class="recips clearfix">
+                {% for step in dish.infoCookingStep %}
+                    {% if loop.index0 % 2 == 0 %}
+                        <li>
+                    {% endif %}
                     {% if step.contentType == 'pic' %}
                         <img src="{{ step.value[locale] }}"/>
                     {% endif %}
@@ -85,12 +120,13 @@
                             </div>
                         </div>
                     {% endif %}
-                {% if loop.index0 % 2 == 1 %}
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
+                    {% if loop.index0 % 2 == 1 %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     {#<div class="recommend"><h3>- 新味推荐 -</h3>#}
 
         {#<div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img#}

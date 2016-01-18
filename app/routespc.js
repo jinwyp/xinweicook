@@ -1,16 +1,15 @@
 
+var publicPrefix = conf.pcPrefix
+var viewsPrefix = '';
+if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
+    // views dir: /views/  .see app.coffee
+    viewsPrefix = 'pc/'
+} else {
+    // views dir: /public/
+    viewsPrefix = 'pc/src/html/'
+}
 // 是否需要放到conf.coffee中
 var routes = function(app) {
-    var publicPrefix = conf.pcPrefix
-    var viewsPrefix = '';
-    if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
-        // views dir: /views/  .see app.coffee
-        viewsPrefix = 'pc/'
-    } else {
-        // views dir: /public/
-        viewsPrefix = 'pc/src/html/'
-    }
-    
     // 页面渲染
     app.get(publicPrefix + "/", render(viewsPrefix + 'index.nunj', render.index));
     app.get(publicPrefix + "/eat", render(viewsPrefix + 'eat-list.nunj', render.eatList))
@@ -28,6 +27,27 @@ var routes = function(app) {
     })
     app.get(publicPrefix + "/whyus", function (req, res) {
         res.render(viewsPrefix + 'why-choose-us.nunj', {curNav: 'whyus'})
+    })
+    app.get(publicPrefix + "/paymentresult", function (req, res) {
+        res.render(viewsPrefix + 'pay-notify.nunj')
+    })
+
+    // 老网站重定向
+    app.get('/front/product/:id', function (req, res, next) {
+        models.dish.findOne({
+            idOldWebsite: req.params.id,
+            sideDishType: 'main',
+            isPublished: true
+        }).execAsync().then(function (result) {
+            if (result && result._id) {
+                res.redirect(publicPrefix + '/cook/' + result._id)
+            } else {
+                res.redirect(publicPrefix + '/404?oldid=' + req.params.id)
+            }
+        })
+    })
+    app.get('/front/products', function (req, res) {
+        res.redirect(publicPrefix + '/cook/')
     })
 
     // 切换语言
@@ -177,6 +197,13 @@ render.cookList = function (req, res, next, path) {
 
 render.static = function (req, res, next, path) {
     res.render(path)
+}
+
+routes.pageNotFound = function (req, res) {
+    if (req.path.indexOf(publicPrefix) == 0) {
+        res.status(404).render(viewsPrefix + '404.nunj')
+        return true
+    }
 }
 
 module.exports = routes;

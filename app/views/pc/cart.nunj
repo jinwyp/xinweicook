@@ -2,9 +2,9 @@
 <html>
 <head><title>我的购物车 - 新味</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+    {% include "./includes/meta.nunj" %}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.ef346ed4fcef758bec8295ee66e37246.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.f544e0ec243df969ac92e52926cdcffe.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -27,8 +27,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.4f936309e8b9c8824730.js"></script>
-<script src="/pc/dist/cart.4f936309e8b9c8824730.js"></script>
+<script src="/pc/dist/webpack-common.35f2e71d3e5ff8d599b3.js"></script>
+<script src="/pc/dist/cart.35f2e71d3e5ff8d599b3.js"></script>
 
 </body>
 </html>
