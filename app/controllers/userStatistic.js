@@ -518,15 +518,13 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             month: { $month: "$firstOrderDate" },
             day: { $dayOfMonth: "$firstOrderDate" },
             hour: { $hour: "$firstOrderDate" },
-            minutes: { $minute: "$firstOrderDate" },
-            dayOfYear: { $dayOfYear: "$firstOrderDate" },
-            dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
-            week: { $week: "$firstOrderDate" },
-
-
             "minute" : {"$minute" : "$firstOrderDate"},
             "second" : { "$second" : "$firstOrderDate"},
-            "millisecond" : {"$millisecond" : "$firstOrderDate"}
+            "millisecond" : {"$millisecond" : "$firstOrderDate"},
+            dayOfYear: { $dayOfYear: "$firstOrderDate" },
+            dayOfWeek: { $dayOfWeek: "$firstOrderDate" },
+            week: { $week: "$firstOrderDate" }
+
         }},
 
 
@@ -544,14 +542,12 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
             month: 1,
             day: 1,
             hour: 1,
-            minutes: 1,
-            dayOfYear: 1,
-            dayOfWeek: 1,
-            week: 1,
-
             "minute" : 1,
             "second" : 1,
             "millisecond" : 1,
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1,
 
             date : {"$subtract" : [ "$firstOrderDate",
                 {"$add" : [ "$millisecond",
@@ -572,7 +568,7 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
 
         { $project :{
             _id : 0,
-            "date" : "$_id",
+            "date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
             "userQuantity": 1,
             "userList": 1
 

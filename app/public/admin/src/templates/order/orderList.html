@@ -185,12 +185,14 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单列表</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单</button>
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByAddress(searchForm)">手填地址</button>
                         <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByAddressAuto(searchForm)">自动地址</button>
 
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByDailySales(searchForm, '-date')">日销量</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByHourSales(searchForm, '')">小时销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByMonthlySales(searchForm, '-date')">月</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByWeeklySales(searchForm, '-date')">周</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByDailySales(searchForm, '-date')">日</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchOrderStatisticByHourSales(searchForm, '')">小时</button>
 
 
 
@@ -463,32 +465,201 @@
 
 
 
+
+
+    <div class="row" ng-if="css.showTable === 'statisticByMonthlySales'">
+        <div class="col-lg-12">
+            <highchart id="chartMonthlyTotalPrice" config="chartMonthlyTotalPrice"  ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeMonthlyTotalPrice"  ng-value="'column'" ng-model="chartMonthlyTotalPrice.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeMonthlyTotalPrice"  ng-value="'line'" ng-model="chartMonthlyTotalPrice.series[0].type">折线图
+            </label>
+        </div>
+
+
+        <div class="col-lg-12">
+            <highchart id="chartMonthlyQuantity" config="chartMonthlyQuantity"  ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeMonthlyQuantity"  ng-value="'column'" ng-model="chartMonthlyQuantity.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeMonthlyQuantity"  ng-value="'line'" ng-model="chartMonthlyQuantity.series[0].type">折线图
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByMonthlySales'">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>订单数量</th>
+            <th>订单总金额</th>
+            <th>订单客单价</th>
+
+            <th>菜品总金额</th>
+            <th>菜品客单价</th>
+            <th>运费总金额</th>
+            <th>运费平均金额</th>
+
+            <th>优惠码总金额 / 平均</th>
+            <th>优惠券总金额 / 平均</th>
+            <th>新味币总金额 / 平均</th>
+
+            <th>订单详细列表</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in data.orderStatisticChartByMonthly | orderBy:css.searchOrderStatisticSortBy">
+            <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+            <td>{{order.date | date:'yyyy-MM-dd'}}</td>
+
+            <td>{{order.saleQuantity}}</td>
+            <td>{{order.saleTotalPrice | number : 2}}</td>
+            <td>{{order.saleAvgTotalPrice | number : 2}}</td>
+
+            <td>{{order.saleDishesPrice | number : 2}}</td>
+            <td>{{order.saleAvgDishesPrice | number : 2}}</td>
+
+            <td>{{order.saleFreight | number : 2}}</td>
+            <td>{{order.saleAvgFreight | number : 2}} </td>
+
+            <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
+            <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
+            <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
+
+            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order.date">
+                    <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
+                </span>
+
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+    <div class="row" ng-if="css.showTable === 'statisticByWeeklySales'">
+        <div class="col-lg-12">
+            <highchart id="chartWeeklyTotalPrice" config="chartWeeklyTotalPrice"  ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeTotalPrice"  ng-value="'column'" ng-model="chartWeeklyTotalPrice.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeTotalPrice"  ng-value="'line'" ng-model="chartWeeklyTotalPrice.series[0].type">折线图
+            </label>
+        </div>
+
+
+        <div class="col-lg-12">
+            <highchart id="chartWeeklyQuantity" config="chartWeeklyQuantity"  ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeQuantity"  ng-value="'column'" ng-model="chartWeeklyQuantity.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeQuantity"  ng-value="'line'" ng-model="chartWeeklyQuantity.series[0].type">折线图
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByWeeklySales'">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>订单数量</th>
+            <th>订单总金额</th>
+            <th>订单客单价</th>
+
+            <th>菜品总金额</th>
+            <th>菜品客单价</th>
+            <th>运费总金额</th>
+            <th>运费平均金额</th>
+
+            <th>优惠码总金额 / 平均</th>
+            <th>优惠券总金额 / 平均</th>
+            <th>新味币总金额 / 平均</th>
+
+            <th>订单详细列表</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in data.orderStatisticChartByWeekly | orderBy:css.searchOrderStatisticSortBy">
+            <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+            <td>{{order.date | date:'yyyy-MM-dd'}}</td>
+
+            <td>{{order.saleQuantity}}</td>
+            <td>{{order.saleTotalPrice | number : 2}}</td>
+            <td>{{order.saleAvgTotalPrice | number : 2}}</td>
+
+            <td>{{order.saleDishesPrice | number : 2}}</td>
+            <td>{{order.saleAvgDishesPrice | number : 2}}</td>
+
+            <td>{{order.saleFreight | number : 2}}</td>
+            <td>{{order.saleAvgFreight | number : 2}} </td>
+
+            <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
+            <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
+            <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
+
+            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.date"> 显示详细</button> <br/>
+                <span ng-if="data.currentDailySalesIndex === order.date">
+                    <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
+                </span>
+
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
     <div class="row" ng-if="css.showTable === 'statisticByDailySales'">
         <div class="col-lg-12">
-            <highchart id="chartDaily" config="chartDaily"  ></highchart>
+            <highchart id="chartDailyTotalPrice" config="chartDailyTotalPrice"  ></highchart>
         </div>
-
 
         <div class="col-lg-12">
             <label class="radio-inline" >
-                <input type="radio" name="chartType"  ng-value="'column'" ng-model="chartDaily.series[0].type">柱状图
+                <input type="radio" name="chartTypeTotalPrice"  ng-value="'column'" ng-model="chartDailyTotalPrice.series[0].type">柱状图
             </label>
             <label class="radio-inline" >
-                <input type="radio" name="chartType"  ng-value="'line'" ng-model="chartDaily.series[0].type">折线图
+                <input type="radio" name="chartTypeTotalPrice"  ng-value="'line'" ng-model="chartDailyTotalPrice.series[0].type">折线图
             </label>
         </div>
 
+
         <div class="col-lg-12">
-            <label for="prettyJSON">
-                <input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON
+            <highchart id="chartDailyQuantity" config="chartDailyQuantity"  ></highchart>
+        </div>
+
+        <div class="col-lg-12">
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeQuantity"  ng-value="'column'" ng-model="chartDailyQuantity.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartTypeQuantity"  ng-value="'line'" ng-model="chartDailyQuantity.series[0].type">折线图
             </label>
         </div>
-
-        <div class="col-lg-12">
-            <pre ng-show="prettyJSON">{{ chartDaily | json }}</pre>
-            <pre ng-show="!prettyJSON">{{ chartDaily }}</pre>
-        </div>
-
     </div>
 
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByDailySales'">
@@ -513,7 +684,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="order in data.orderStatisticByDailySalesList | orderBy:css.searchOrderStatisticSortBy">
+        <tr ng-repeat="order in data.orderStatisticChartByDaily | orderBy:css.searchOrderStatisticSortBy">
             <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
             <td>{{order.date | date:'yyyy-MM-dd'}}</td>
 
@@ -549,7 +720,6 @@
             <highchart id="chartHour" config="chartHour"  ></highchart>
         </div>
 
-
         <div class="col-lg-12">
             <label class="radio-inline" >
                 <input type="radio" name="chartType"  ng-value="'column'" ng-model="chartHour.series[0].type">柱状图
@@ -561,7 +731,7 @@
 
         <div class="col-lg-12">
             <label for="prettyJSON">
-                <input id="prettyJSON2" type="checkbox" ng-model="prettyJSON"> Pretty JSON
+                <input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON
             </label>
         </div>
 
@@ -574,52 +744,50 @@
 
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticByHourSales'">
         <thead>
-        <tr>
-            <th>小时</th>
-            <th>订单数量</th>
-            <th>订单总金额</th>
-            <th>订单客单价</th>
+            <tr>
+                <th>小时</th>
+                <th>订单数量</th>
+                <th>订单总金额</th>
+                <th>订单客单价</th>
 
-            <th>菜品总金额</th>
-            <th>菜品客单价</th>
-            <th>运费总金额</th>
-            <th>运费平均金额</th>
+                <th>菜品总金额</th>
+                <th>菜品客单价</th>
+                <th>运费总金额</th>
+                <th>运费平均金额</th>
 
-            <th>优惠码总金额 / 平均</th>
-            <th>优惠券总金额 / 平均</th>
-            <th>新味币总金额 / 平均</th>
+                <th>优惠码总金额 / 平均</th>
+                <th>优惠券总金额 / 平均</th>
+                <th>新味币总金额 / 平均</th>
 
-            <th>订单详细列表</th>
-
-        </tr>
+                <th>订单详细列表</th>
+            </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="order in data.orderStatisticByHourSalesList ">
-            <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
-            <td>{{ order.hour }}</td>
+            <tr ng-repeat="order in data.orderStatisticChartByHour ">
+                <!--<td><a ui-sref="menu.updateOrder({ id: order._id })">{{order.orderNumber}}</a> <br/> {{order.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+                <td>{{ order.hour }}</td>
 
-            <td>{{order.saleQuantity}}</td>
-            <td>{{order.saleTotalPrice | number : 2}}</td>
-            <td>{{order.saleAvgTotalPrice | number : 2}}</td>
+                <td>{{order.saleQuantity}}</td>
+                <td>{{order.saleTotalPrice | number : 2}}</td>
+                <td>{{order.saleAvgTotalPrice | number : 2}}</td>
 
-            <td>{{order.saleDishesPrice | number : 2}}</td>
-            <td>{{order.saleAvgDishesPrice | number : 2}}</td>
+                <td>{{order.saleDishesPrice | number : 2}}</td>
+                <td>{{order.saleAvgDishesPrice | number : 2}}</td>
 
-            <td>{{order.saleFreight | number : 2}}</td>
-            <td>{{order.saleAvgFreight | number : 2}} </td>
+                <td>{{order.saleFreight | number : 2}}</td>
+                <td>{{order.saleAvgFreight | number : 2}} </td>
 
-            <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
-            <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
-            <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
+                <td>{{-order.salePromotionDiscount | number : 2}} ／ {{-order.saleAvgPromotionDiscount | number : 2}}</td>
+                <td>{{-order.saleCouponDiscount | number : 2}} ／ {{-order.saleAvgCouponDiscount | number : 2}}</td>
+                <td>{{-order.saleAccountUsedDiscount | number : 2}} ／ {{-order.saleAvgAccountUsedDiscount | number : 2}}</td>
 
-            <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.hour"> 显示详细</button> <br/>
-                <span ng-if="data.currentDailySalesIndex === order.hour">
-                    <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
-                </span>
+                <td><button class="btn btn-info" ng-click="data.currentDailySalesIndex=order.hour"> 显示详细</button> <br/>
+                    <span ng-if="data.currentDailySalesIndex === order.hour">
+                        <span ng-repeat="orderDetail in order.orderList"> <a ui-sref="menu.updateOrder({ id: orderDetail._id })">{{orderDetail.orderNumber}} </a> 订单总价:{{orderDetail.totalPrice}} <br/>  </span>
+                    </span>
 
-            </td>
-
-        </tr>
+                </td>
+            </tr>
         </tbody>
     </table>
 

@@ -934,7 +934,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "week": 1 } },
-            { "$limit": 5000 }
+            { "$limit": 1000 }
         );
 
 
@@ -961,7 +961,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
             }},
 
             { "$sort": { "year" : 1, "month": 1 } },
-            { "$limit": 5000 }
+            { "$limit": 500 }
         );
 
 

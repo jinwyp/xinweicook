@@ -758,13 +758,20 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
 
 
 
-exports.orderDailySales = function(req, res, next) {
+
+
+
+
+
+
+
+
+
+
+
+exports.orderMonthlySales = function(req, res, next) {
 
     var matchList = {};
-
-    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
-        matchList.warehouse = ObjectId(req.query.warehouse.toString())
-    }
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
@@ -786,6 +793,312 @@ exports.orderDailySales = function(req, res, next) {
     if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
         matchList.status = req.query.status
     }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
+    var pipelinePerMonth = [];
+
+
+    var project = {
+        _id : 1,
+        createdAt : 1,
+        user : 1,
+        orderNumber: 1,
+        isSplitOrder : 1,
+        isChildOrder : 1,
+        childOrderList : 1,
+        cookingType : 1,
+
+        clientFrom : 1,
+        payment : 1,
+        paymentUsedCash : 1,
+        isPaymentPaid : 1,
+
+        deliveryDateTime : 1,
+
+
+        promotionCode : 1,
+        promotionDiscount : 1,
+        coupon : 1,
+        couponDiscount : 1,
+        accountUsedDiscount : 1,
+
+        dishesPrice : 1,
+        freight : 1,
+        totalPrice : 1,
+
+        packageType : 1,
+
+
+        year: { $year: {$add:["$createdAt",28800000]}  },
+        month: { $month: {$add:["$createdAt",28800000]}  },
+        day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+        hour: { $hour: {$add:["$createdAt",28800000]}  },
+        minute: { $minute: {$add:["$createdAt",28800000]}  },
+        "second" : { "$second" : {$add:["$createdAt",28800000]} },
+        "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+        dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+        dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+        week: { $week: {$add:["$createdAt",28800000]}  }
+    };
+
+
+    pipelinePerMonth.push(
+        { "$match":matchList},
+        { $project :project},
+
+        { "$group": {
+            "_id": { month : "$month", year : "$year"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}] },
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+            "saleAvgTotalPrice": 1,
+            "saleDishesPrice": 1,
+            "saleAvgDishesPrice": 1,
+            "saleFreight": 1,
+            "saleAvgFreight": 1,
+
+            "salePromotionDiscount": 1,
+            "saleAvgPromotionDiscount": 1,
+
+            "saleCouponDiscount": 1,
+            "saleAvgCouponDiscount": 1,
+
+            "saleAccountUsedDiscount": 1,
+            "saleAvgAccountUsedDiscount": 1,
+
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "year" : 1, "month": 1 } },
+        { "$limit": 500 }
+    );
+
+
+
+    models.order.aggregateAsync( pipelinePerMonth).then(function(resultOrderPerMonth){
+
+        res.status(200).json(resultOrderPerMonth);
+    }).catch(next);
+
+};
+
+
+
+
+
+
+
+exports.orderWeeklySales = function(req, res, next) {
+
+    var matchList = {};
+
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
+    }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
+    var pipelinePerWeek = [];
+
+    var project = {
+        _id : 1,
+        createdAt : 1,
+        user : 1,
+        orderNumber: 1,
+        isSplitOrder : 1,
+        isChildOrder : 1,
+        childOrderList : 1,
+        cookingType : 1,
+
+        clientFrom : 1,
+        payment : 1,
+        paymentUsedCash : 1,
+        isPaymentPaid : 1,
+
+        deliveryDateTime : 1,
+
+
+        promotionCode : 1,
+        promotionDiscount : 1,
+        coupon : 1,
+        couponDiscount : 1,
+        accountUsedDiscount : 1,
+
+        dishesPrice : 1,
+        freight : 1,
+        totalPrice : 1,
+
+        packageType : 1,
+
+
+        year: { $year: {$add:["$createdAt",28800000]}  },
+        month: { $month: {$add:["$createdAt",28800000]}  },
+        day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+        hour: { $hour: {$add:["$createdAt",28800000]}  },
+        minute: { $minute: {$add:["$createdAt",28800000]}  },
+        "second" : { "$second" : {$add:["$createdAt",28800000]} },
+        "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+        dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+        dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+        week: { $week: {$add:["$createdAt",28800000]}  }
+    };
+
+
+    pipelinePerWeek.push(
+        { "$match":matchList},
+        { $project :project},
+
+        { "$group": {
+            "_id": { week : "$week", year : "$year"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "week" : "$_id.week",
+            "year" : "$_id.year",
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}] },
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+            "saleAvgTotalPrice": 1,
+            "saleDishesPrice": 1,
+            "saleAvgDishesPrice": 1,
+            "saleFreight": 1,
+            "saleAvgFreight": 1,
+
+            "salePromotionDiscount": 1,
+            "saleAvgPromotionDiscount": 1,
+
+            "saleCouponDiscount": 1,
+            "saleAvgCouponDiscount": 1,
+
+            "saleAccountUsedDiscount": 1,
+            "saleAvgAccountUsedDiscount": 1,
+
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "year" : 1, "week": 1 } },
+        { "$limit": 1000 }
+    );
+
+
+    models.order.aggregateAsync( pipelinePerWeek).then(function( resultOrderPerWeek){
+
+        res.status(200).json(resultOrderPerWeek);
+    }).catch(next);
+
+};
+
+
+
+
+
+
+
+
+exports.orderDailySales = function(req, res, next) {
+
+    var matchList = {};
+
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+    }
+
+    if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
+        matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
+        matchList.clientFrom = req.query.clientFrom
+    }
+
+    if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
+        matchList.deliveryDateType = req.query.deliveryDateType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
+    }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
 
     var pipeline = [];
 
@@ -923,7 +1236,9 @@ exports.orderDailySales = function(req, res, next) {
 
         { $project :{
             _id : 0,
-            "date" : "$_id",
+            "day" : "$_id",
+            "date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
+
             "saleQuantity": 1,
             "saleTotalPrice": 1,
             "saleAvgTotalPrice": 1,
@@ -954,9 +1269,6 @@ exports.orderDailySales = function(req, res, next) {
 
 
 
-
-
-    //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
         res.status(200).json(resultOrder)
     }).catch(next)
@@ -974,10 +1286,6 @@ exports.orderDailySales = function(req, res, next) {
 exports.orderHourSales = function(req, res, next) {
 
     var matchList = {};
-
-    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
-        matchList.warehouse = ObjectId(req.query.warehouse.toString())
-    }
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
@@ -998,6 +1306,10 @@ exports.orderHourSales = function(req, res, next) {
 
     if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
         matchList.status = req.query.status
+    }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
     var pipeline = [];
@@ -1051,51 +1363,6 @@ exports.orderHourSales = function(req, res, next) {
             week: { $week: {$add:["$createdAt",28800000]}  }
 
 
-        }},
-
-
-        { $project :{
-            _id : 1,
-            createdAt : 1,
-            user : 1,
-            orderNumber: 1,
-            isSplitOrder : 1,
-            isChildOrder : 1,
-            childOrderList : 1,
-            cookingType : 1,
-
-            clientFrom : 1,
-            payment : 1,
-            paymentUsedCash : 1,
-            isPaymentPaid : 1,
-
-            deliveryDateTime : 1,
-
-
-            promotionCode : 1,
-            promotionDiscount : 1,
-            coupon : 1,
-            couponDiscount : 1,
-            accountUsedDiscount : 1,
-
-            dishesPrice : 1,
-            freight : 1,
-            totalPrice : 1,
-
-            packageType : 1,
-
-
-            year: 1,
-            month: 1,
-            day: 1,
-            hour: 1,
-            "minute" : 1,
-            "second" : 1,
-            "millisecond" : 1,
-            dayOfYear: 1,
-            dayOfWeek: 1,
-            week: 1
-
         }}
     );
 
@@ -1130,6 +1397,7 @@ exports.orderHourSales = function(req, res, next) {
         { $project :{
             _id : 0,
             "hour" : "$_id",
+
             "saleQuantity": 1,
             "saleTotalPrice": 1,
             "saleAvgTotalPrice": 1,
@@ -1158,10 +1426,6 @@ exports.orderHourSales = function(req, res, next) {
 
 
 
-
-
-
-    //console.log (pipeline);
     models.order.aggregateAsync( pipeline).then(function(resultOrder){
         res.status(200).json(resultOrder)
     }).catch(next)

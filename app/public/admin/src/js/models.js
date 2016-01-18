@@ -106,7 +106,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
         },
 
 
-        chartDataFormat : function(chartData){
+        chartDataFormat : function(chartData, isTotalPrice){
 
             var simpleChartSeries = [
                 {"name": "Some data", "data": [1, 2, 4, 7, 3]},
@@ -127,8 +127,14 @@ angular.module('RDash.models').factory('Util', function ($http) {
                         result[0].data.push(Math.abs(value.dishSaleQuantity));
                     }else if (typeof value.saleTotalPrice !== 'undefined'){
                         // order
-                        result[0].data.push(Math.abs(value.saleTotalPrice));
-                        result[0].type = 'line';
+                        if (isTotalPrice){
+                            result[0].data.push(Math.abs(value.saleTotalPrice));
+                            result[0].type = 'line';
+                        }else{
+                            result[0].data.push(Math.abs(value.saleQuantity));
+                            result[0].type = 'line';
+                        }
+
                     }else{
                         // user
                         result[0].data.push(Math.abs(value.userQuantity));
@@ -172,7 +178,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                     if(typeof value.date !== 'undefined'){
                         // order by date and dish by date and new user by date
-                        this.push(value.date.substr(5,5));
+                        this.push(value.date);
                     }else if (typeof value.hour !== 'undefined') {
                         // order by hour
                         this.push( value.hour  );
@@ -297,6 +303,18 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             });
         },
 
+
+        getOrderStatisticByMonthlySales: function (params) {
+            return $http.get('/api/admin/statistic/order/monthly', {
+                params: params
+            });
+        },
+
+        getOrderStatisticByWeeklySales: function (params) {
+            return $http.get('/api/admin/statistic/order/weekly', {
+                params: params
+            });
+        },
 
         getOrderStatisticByDailySales: function (params) {
             return $http.get('/api/admin/statistic/order/daily', {

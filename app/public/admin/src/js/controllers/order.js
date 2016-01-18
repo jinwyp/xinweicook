@@ -59,10 +59,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
         orderStatisticByAddressList : [],
         orderStatisticByAddressListAuto : [],
-        orderStatisticByDailySalesList : [],
-        orderStatisticChartByDaily : [],
 
-        orderStatisticByHourSalesList : [],
+        orderStatisticChartByMonthly : [],
+        orderStatisticChartByWeekly : [],
+        orderStatisticChartByDaily : [],
         orderStatisticChartByHour : [],
 
 
@@ -330,7 +330,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
 
 
 
-    $scope.chartDaily = {
+    $scope.chartMonthlyTotalPrice = {
         options: {
             chart: {
                 type: 'line'
@@ -347,7 +347,173 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         },
         series: [],
         title: {
-            text: '订单每日总金额'
+            text: '每月订单总金额'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '月'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '总金额'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+    $scope.chartMonthlyQuantity = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每月订单数量'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '月'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+
+    $scope.chartWeeklyTotalPrice = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每周订单总金额'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '周'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '总金额'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+    $scope.chartWeeklyQuantity = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每周订单数量'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '周'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+
+    $scope.chartDailyTotalPrice = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每日订单总金额'
         },
         credits: {
             enabled: true
@@ -365,6 +531,47 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         yAxis : {
             title: {
                 text: '总金额'
+            }
+        },
+        loading: false,
+        size: {}
+    };
+
+    $scope.chartDailyQuantity = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每日订单数量'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '日期'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '数量'
             }
         },
         loading: false,
@@ -765,6 +972,65 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
+
+    $scope.searchOrderStatisticByMonthlySales = function (form, sortBy) {
+        $scope.css.showTable = 'statisticByMonthlySales';
+        $scope.css.searchOrderStatisticSortBy = sortBy;
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getOrderStatisticByMonthlySales($scope.data.searchOptions.query).then(function (resultOrder) {
+
+            $scope.data.orderStatisticChartByMonthly = resultOrder.data;
+
+            $scope.chartMonthlyTotalPrice.series = Util.chartDataFormat($scope.data.orderStatisticChartByMonthly, true);
+            $scope.chartMonthlyTotalPrice.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByMonthly);
+
+            $scope.chartMonthlyQuantity.series = Util.chartDataFormat($scope.data.orderStatisticChartByMonthly, false);
+            $scope.chartMonthlyQuantity.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByMonthly);
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
+
+    $scope.searchOrderStatisticByWeeklySales = function (form, sortBy) {
+        $scope.css.showTable = 'statisticByWeeklySales';
+        $scope.css.searchOrderStatisticSortBy = sortBy;
+
+        if ($scope.data.searchDateFrom !==''){
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        }
+
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getOrderStatisticByWeeklySales($scope.data.searchOptions.query).then(function (resultOrder) {
+
+            $scope.data.orderStatisticChartByWeekly = resultOrder.data;
+
+            $scope.chartWeeklyTotalPrice.series = Util.chartDataFormat($scope.data.orderStatisticChartByWeekly, true);
+            $scope.chartWeeklyTotalPrice.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByWeekly);
+
+            $scope.chartWeeklyQuantity.series = Util.chartDataFormat($scope.data.orderStatisticChartByWeekly, false);
+            $scope.chartWeeklyQuantity.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByWeekly);
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
+
     $scope.searchOrderStatisticByDailySales = function (form, sortBy) {
         $scope.css.showTable = 'statisticByDailySales';
         $scope.css.searchOrderStatisticSortBy = sortBy;
@@ -777,12 +1043,14 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Util.delProperty($scope.data.searchOptions.query);
 
         Statistic.getOrderStatisticByDailySales($scope.data.searchOptions.query).then(function (resultOrder) {
-            $scope.data.orderStatisticByDailySalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByDaily = resultOrder.data;
 
-            $scope.chartDaily.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily);
-            $scope.chartDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
+            $scope.chartDailyTotalPrice.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily, true);
+            $scope.chartDailyTotalPrice.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
+
+            $scope.chartDailyQuantity.series = Util.chartDataFormat($scope.data.orderStatisticChartByDaily, false);
+            $scope.chartDailyQuantity.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByDaily);
 
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
@@ -806,11 +1074,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         Util.delProperty($scope.data.searchOptions.query);
 
         Statistic.getOrderStatisticByHourSales($scope.data.searchOptions.query).then(function (resultOrder) {
-            $scope.data.orderStatisticByHourSalesList = resultOrder.data;
 
             $scope.data.orderStatisticChartByHour = resultOrder.data;
 
-            $scope.chartHour.series = Util.chartDataFormat($scope.data.orderStatisticChartByHour);
+            $scope.chartHour.series = Util.chartDataFormat($scope.data.orderStatisticChartByHour, true);
             $scope.chartHour.xAxis.categories = Util.chartxAxisFormat($scope.data.orderStatisticChartByHour);
 
             Notification.success({message: 'Search Success! ', delay: 4000});
