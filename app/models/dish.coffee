@@ -11,7 +11,7 @@ module.exports =
     isFromAdminPanel: type: Boolean, default: false # 是否通过后台面板人工输入的
     sortId: Number # 排序值
 
-    cookingType: String # ready to cook食材包, ready to eat既食包
+    cookingType: String # ready to cook食材包, ready to eat便当
     sideDishType: String # 主菜或配菜  main主菜 / topping浇头 / preferences菜属性 / drink饮料
     setType: String # 餐食类型  单品single 或 套餐set
 
@@ -183,7 +183,7 @@ module.exports =
         finalPrice
 
 
-    reduceStock : (stockNumber, warehouseId, user, remark, orderId, deliveryDateTime, clientFrom ) ->
+    reduceStock : (stockNumber, warehouseId, user, remark, order ) ->
 
       dishNow = @
 
@@ -213,9 +213,11 @@ module.exports =
               remark : models.inventory.constantRemark().adminOperation
 
             newInventoryChange.remark = remark if remark
-            newInventoryChange.order = orderId if orderId
-            newInventoryChange.deliveryDateTime = deliveryDateTime if deliveryDateTime
-            newInventoryChange.clientFrom = clientFrom if clientFrom
+            newInventoryChange.order = order._id.toString() if order
+            newInventoryChange.deliveryDateTime = order.deliveryDateTime if order
+            newInventoryChange.clientFrom = order.clientFrom if order
+            newInventoryChange.cookingType = dishNow.cookingType
+
 
             models.inventory.createAsync(newInventoryChange)
 

@@ -12,6 +12,7 @@ module.exports =
     remark : type:String
     deliveryDateTime: Date   # 送达时间
     clientFrom: String # website, mobileweb, ios, android, wechat(公众号支付),
+    cookingType: String # ready to cook食材包, ready to eat便当
 
   statics:
     constantRemark : () ->
