@@ -313,7 +313,7 @@ ksuDi.prototype.searchPartTimeOrder = function (item, callback){
         //console.log('========== KSudi', response);
 
 
-        //logger.error('========== KSudi searchPartTimeOrder: ', body);
+        logger.error('========== KSudi searchPartTimeOrder: ', body);
 
         var result = {};
 

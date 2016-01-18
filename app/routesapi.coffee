@@ -220,6 +220,8 @@ expressRoutes = (app) ->
 
   app.get("/api/admin/statistic/order/address", orderStatController.orderStatisticByAddress)
   app.get("/api/admin/statistic/order/addressauto", orderStatController.orderStatisticByAddressAuto)
+  app.get("/api/admin/statistic/order/monthly", orderStatController.orderMonthlySales)
+  app.get("/api/admin/statistic/order/weekly", orderStatController.orderWeeklySales)
   app.get("/api/admin/statistic/order/daily", orderStatController.orderDailySales)
   app.get("/api/admin/statistic/order/hour", orderStatController.orderHourSales)
 

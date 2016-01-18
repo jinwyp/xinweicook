@@ -98,7 +98,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
       isNeedRefreshJsapiTicket = true
     else
       if models.setting.checkExpired(settingJSSdk)
-        logger.error("Weixin Jsapi ticket expired !" );
+#        logger.error("Weixin Jsapi ticket expired !" );
         isNeedRefreshJsapiTicket = true
 
 
@@ -244,7 +244,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
       else
         if models.setting.checkExpired(resultSetting)
           isNeedRefreshAccessToken = true
-          logger.error("Weixin getUserInfo AccessToken expired !" );
+#          logger.error("Weixin getUserInfo AccessToken expired !" );
 
 
       if isNeedRefreshAccessToken
@@ -295,7 +295,7 @@ exports.getWeixinUserInfo = (req, res, next) ->
         )
 
       else
-        logger.error("Weixin getUserInfo AccessToken is exist and not expired !" );
+#        logger.error("Weixin getUserInfo AccessToken is exist and not expired !" );
         userInfo =
           access_token : resultSetting.value.access_token
           openid : resultUser.weixinId.openid
@@ -336,14 +336,11 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
-  logger.error("-------- User Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)   )
-  logger.error("-------- User " + JSON.stringify(req.u)  ) if req.u
+  logger.error("-------- User OpenID Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)   )
+  logger.error("-------- User OpenID Oauth Code Send Url ReqU: " + JSON.stringify(req.u)  ) if req.u
 
   userId = req.query.userId
   redirectUrl = req.query.redirectUrl
-
-  logger.error("----- User Get Oauth Code Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
-
 
   unless libs.validator.isLength userId, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin Oauth, Field validation error,  user _id length must be 24-24") + encodeURIComponent(userId) )
@@ -370,14 +367,12 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("-------- User Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
-  logger.error("-------- User " + JSON.stringify(req.u)  ) if req.u
+  logger.error("-------- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+  logger.error("-------- User OpenID Oauth Code Return Url ReqU : " + JSON.stringify(req.u)  ) if req.u
 
   code = req.query.code
   state = req.query.state
   redirectUrl = req.query.redirectUrl
-
-  logger.error("----- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
 
   unless libs.validator.isLength state, 24, 24
     return res.redirect("/mobile/wxpay/errorpage" + encodeURIComponent("Weixin OpenId, Field validation error,  user _id length must be 24-24") + encodeURIComponent(state) )

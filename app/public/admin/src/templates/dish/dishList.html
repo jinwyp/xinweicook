@@ -122,8 +122,8 @@
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchDish(searchForm)">搜索菜品</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByWeek(searchForm)">月周销量</button>
-                        <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByDaily(searchForm)">日销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByWeek(searchForm, '-')">月周销量</button>
+                        <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByDaily(searchForm, '-')">日销量</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByStock(searchForm, 'salesTotal')">总销量</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByStock(searchForm, 'salesToday')">今日</button>
                         <button type="submit" class="btn btn-default" ng-click="searchDishStatisticByStock(searchForm, 'salesYesterday')">昨日</button>
@@ -201,6 +201,8 @@
 
 
 
+
+
     <div class="row" ng-if="css.showTable === 'statisticDaily'">
         <div class="col-lg-12">
             <highchart id="chartDaily" config="chartDaily"  ></highchart>
@@ -219,7 +221,23 @@
     <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticDaily'">
         <thead>
         <tr>
-            <th>时间</th>
+            <th>每日总销量</th>
+            <th>销量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dish in data.dishStatisticChartByDaily | orderBy:css.searchDishStatisticSortBy ">
+            <td>{{dish.date}}</td>
+            <td>{{dish.dishSaleQuantity}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticDaily'">
+        <thead>
+        <tr>
+            <th>每日单品销量</th>
             <th>_id / 菜品名称</th>
             <th>分类</th>
             <th>是否主菜</th>
@@ -252,22 +270,6 @@
 
 
     <div class="row" ng-if="css.showTable === 'statisticWeek'">
-
-        <div class="col-lg-12">
-            <highchart id="chartWeek" config="chartWeek"  ></highchart>
-        </div>
-
-        <div class="col-lg-12">
-            <label class="radio-inline" >
-                <input type="radio" name="chartType2"  ng-value="'column'" ng-model="chartWeek.series[0].type">柱状图
-            </label>
-            <label class="radio-inline" >
-                <input type="radio" name="chartType2"  ng-value="'line'" ng-model="chartWeek.series[0].type">折线图
-            </label>
-        </div>
-
-
-
         <div class="col-lg-12">
             <highchart id="chartMonth" config="chartMonth"  ></highchart>
         </div>
@@ -282,26 +284,53 @@
         </div>
 
 
+        <div class="col-lg-12">
+            <highchart id="chartWeek" config="chartWeek"  ></highchart>
+        </div>
 
         <div class="col-lg-12">
-            <label for="prettyJSON">
-                <input id="prettyJSON" type="checkbox" ng-model="prettyJSON"> Pretty JSON
+            <label class="radio-inline" >
+                <input type="radio" name="chartType2"  ng-value="'column'" ng-model="chartWeek.series[0].type">柱状图
+            </label>
+            <label class="radio-inline" >
+                <input type="radio" name="chartType2"  ng-value="'line'" ng-model="chartWeek.series[0].type">折线图
             </label>
         </div>
 
-        <div class="col-lg-12">
-            <pre ng-show="prettyJSON">{{ chartWeek | json }}</pre>
-            <pre ng-show="!prettyJSON">{{ chartWeek }}</pre>
-        </div>
-
-        <div class="col-lg-12">
-            <pre ng-show="prettyJSON">{{ chartMonth | json }}</pre>
-            <pre ng-show="!prettyJSON">{{ chartMonth }}</pre>
-        </div>
-
-
-
     </div>
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticWeek'">
+        <thead>
+        <tr>
+            <th>每月销量</th>
+            <th>销量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dish in data.dishStatisticChartByMonth | orderBy:css.searchDishStatisticSortBy ">
+            <td>{{dish.date}}</td>
+            <td>{{dish.dishSaleQuantity}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-bordered table-hover table-responsive" ng-if="css.showTable === 'statisticWeek'">
+        <thead>
+        <tr>
+            <th>每周销量</th>
+            <th>销量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dish in data.dishStatisticChartByWeek | orderBy:css.searchDishStatisticSortBy ">
+            <td>{{dish.date}}</td>
+            <td>{{dish.dishSaleQuantity}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
 
 
 

@@ -750,7 +750,7 @@ exports.addNewOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString(), resultOrder.deliveryDateTime, resultOrder.clientFrom)
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -867,7 +867,7 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
-  logger.error("-------- UnifiedOrder: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.body))
+#  logger.error("-------- UnifiedOrder: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.body))
 
   models.order.validationOrderId req.body._id
   models.order.validationWeixinPayUnifiedOrder req.body
@@ -994,7 +994,7 @@ exports.updateOrder = (req, res, next) ->
       models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
         if resultDishList
           for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder._id.toString(), resultOrder.deliveryDateTime, resultOrder.clientFrom)
+            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
