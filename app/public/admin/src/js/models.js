@@ -403,6 +403,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             });
         },
 
+        getUserStatisticOrderUserYearly: function (params) {
+            return $http.get('/api/admin/statistic/user/order/yearly', {
+                params: params
+            });
+        },
+
         getUserStatisticCouponByName: function (params) {
             return $http.get('/api/admin/statistic/user/coupon/name', {
                 params: params
