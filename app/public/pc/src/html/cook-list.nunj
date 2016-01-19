@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>食材包 - 新味</title>
+    <title>{{ __("Cook") }} - 新味</title>
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
@@ -57,7 +57,7 @@
                             <ul>
                                 {% for ingredient in dish.infoIngredient %}
                                     {% if ingredient.contentType == 'txt' %}
-                                        <li>{{ ingredient.value[locale] }}</li>
+                                        <li title="{{ ingredient.value[locale] }}">{{ ingredient.value[locale] }}</li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>

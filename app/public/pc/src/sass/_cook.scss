@@ -111,6 +111,9 @@
               display: inline;
               width: 50%;
               text-indent: 1em;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
             &.act {
               display: block;
