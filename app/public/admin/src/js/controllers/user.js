@@ -78,6 +78,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         userStatisticChartNewFirstOrderUserDaily : [],
         userStatisticChartOrderUserMonthly : [],
+        userStatisticChartOrderUserYearly : {},
 
         userGroupList: [
             {
@@ -426,6 +427,17 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
+
+        Statistic.getUserStatisticOrderUserYearly($scope.data.searchOptions.query).then(function (result) {
+            $scope.data.userStatisticChartOrderUserYearly = result.data;
+
+            //Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+
     };
 
 

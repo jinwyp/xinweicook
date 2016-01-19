@@ -617,12 +617,146 @@ exports.userGetOrderMonthly = function(req, res, next) {
 
 
 
+exports.userGetOrderYearly = function(req, res, next) {
+
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
+
+    var matchList = {
+        "isChildOrder" : false
+    };
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        matchList.clientFrom  = req.query.statisticsClientFrom;
+    }
+
+
+    var pipeline = [];
+
+
+
+    // Grouping pipeline
+    pipeline.push(
+        { "$match":matchList},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$limit": 20000 }
+
+
+    );
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+        console.log(resultOrderList)
+        var result = {
+
+            typeAll : 0,
+            typeAllUsers : [],
+            typeEat : 0,
+            typeEatUsers : [],
+            typeCook : 0,
+            typeCookUsers : []
+        };
+
+        if (resultOrderList.length > 0){
+
+            resultOrderList.map(function(user){
+
+                if (user.cookTypeList.length > 1){
+                    result.typeAll = result.typeAll + 1;
+                    result.typeAllUsers.push(user);
+                }else if (user.cookTypeList.indexOf('ready to eat') > -1){
+                    result.typeEat = result.typeEat + 1;
+                    result.typeEatUsers.push(user);
+                }else{
+                    result.typeCook = result.typeCook + 1;
+                    result.typeCookUsers.push(user);
+                }
+
+            });
+
+        }
+        res.send(result);
+    }).catch(next);
+};
+
 
 
 
 exports.userGetFirstOrderDaily = function(req, res, next) {
-
-
 
     var orderStatus = [];
     orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
