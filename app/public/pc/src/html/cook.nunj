@@ -121,22 +121,27 @@
             </ul>
         </div>
     {% endif %}
-    {#<div class="recommend"><h3>- 新味推荐 -</h3>#}
 
-        {#<div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img#}
-                        {#src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">#}
 
-                {#<div class="text-info"><h5 class="name">大虾墨鱼面</h5>#}
+    {% if dish.recommendSet.length > 1 %}
+        <div class="recommend">
+            <h3>- {{ __('XINWEI RECOMMENDATIONS') }} -</h3>
+            <div class="recommend-main clearfix">
+                {% for rec in dish.recommendSet %}
+                    <a href="{{ pcPrefix }}/cook/{{ rec.dish._id }}"
+                       class="recommend-product"
+                       style="background-image: url({{ rec.dish.cover[0][locale] }})">
+                        <div class="text-info">
+                            {#rec.dish.priceOriginal#}
+                            <h5 class="name">{{ rec.dish.title[locale] }}</h5>
+                            <p class="price">￥{{ rec.dish.priceOriginal.toFixed(2) }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 
-                    {#<p class="price">￥48.00</p></div>#}
-            {#</a><a href="javascript:;" class="recommend-product"><img#}
-                        {#src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2s-_MG_7167.jpg">#}
-
-                {#<div class="text-info"><h5 class="name">大虾墨鱼面</h5>#}
-
-                    {#<p class="price">￥48.00</p></div>#}
-            {#</a></div>#}
-    {#</div>#}
     {#<div class="like"><img src="/pc/src/images/like.png">#}
         {#<p class="num">24</p>#}
     {#</div>#}

@@ -13,3 +13,111 @@
     margin: 10px auto;
   }
 }
+.filter-nav {
+  z-index: 100;
+  background: white;
+  position: fixed;
+  transform: translateZ(0);
+  top: 66px;
+  padding: 7px 0;
+  width: 100%;
+  border: 1px solid $color_pumice_approx;
+  font-size: 14px;
+  h4, h5, li {
+    font-size: 14px;
+  }
+
+  .content {
+    width: 1000px;
+    margin: auto;
+    line-height: 40px;
+    height: 40px;
+    font-size: 0;
+    white-space: nowrap;
+    .sort-group, .filter-group {
+      display: inline-block;
+      position: relative;
+      h4 {
+        cursor: pointer;
+        &::after {
+          content: '';
+          border: 2px solid;
+          border-top: transparent;
+          border-left: transparent;
+          width: 6px;
+          height: 6px;
+          display: inline-block;
+          transform: rotate(45deg);
+          margin-bottom: 3px;
+          margin-left: 5px;
+        }
+        &.up {
+          &::after {
+            margin-bottom: 0;
+            transform: rotate(225deg);
+          }
+        }
+      }
+    }
+    .sort-group {
+      border-right: 2px solid #D8D8D8;
+      width: 180px;
+      text-align: center;
+    }
+    .filter-group {
+      padding-left: 40px;
+      h5, .filter-items {
+        display: inline-block;
+        height: 1em;
+        line-height: 1em;
+      }
+      h5 {
+        padding-right: 9px;
+        border-right: 2px solid #E8E8E8;
+        width: 56px;
+        &.en {
+          width: 91px;
+        }
+      }
+    }
+    .sort-items, .filters {
+      display:none;
+      background-color: white;
+      position: absolute;
+      top: 48px;
+      > li:not(:last-child) {
+        border-bottom: 1px solid #E8E8E8;
+      }
+      > li.act {
+        color: $color_sunset_orange_approx;
+      }
+    }
+    .sort-items {
+      width: 180px;
+      border-right: 2px solid #D8D8D8;
+      li {
+        cursor: pointer;
+      }
+    }
+    .filters {
+      min-width: 352px;
+      left: 0;
+      > li {
+        padding-left: 40px;
+      }
+    }
+    .filter-items li {
+      cursor: pointer;
+      margin-left: 9px;
+      display: inline;
+      padding: 2px 4px;
+      &.act {
+        color: white;
+        background-color: $color_sunset_orange_approx
+      }
+      &:last-child {
+        margin-right: 9px;
+      }
+    }
+  }
+}

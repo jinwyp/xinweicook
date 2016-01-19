@@ -118,11 +118,20 @@
   "##### 便当列表 #####":"",
   "Order Now":"立即结算",
 
+  "##### 食材包列表 #####":"",
+  "All": "全部",
+  "Filter": "筛选",
+  "Sort by": "综合排序",
+  "Price: lowest first": "价格从低到高",
+  "Price: highest first": "价格从高到低",
+  "Like: highest first": "点赞最多的菜",
+
   "##### 便当,食材包详情 #####":"",
   "INTRODUCTION": "简介",
   "INGREDIENTS": "食材",
   "DID YOU KNOW": "你知道吗?",
   "RECIPE":"菜谱",
+  "XINWEI RECOMMENDATIONS": "新味推荐",
 
 
   "##### 别人的评价 #####":"",

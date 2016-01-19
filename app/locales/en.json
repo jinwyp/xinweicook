@@ -118,11 +118,20 @@
   "##### 便当列表 #####":"",
   "Order Now":"Order Now",
 
+  "##### 食材包列表 #####":"",
+  "All": "All",
+  "Filter": "Filter",
+  "Sort by": "Sort by",
+  "Price: lowest first": "Price: lowest first",
+  "Price: highest first": "Price: highest first",
+  "Like: highest first": "Like: highest first",
+
   "##### 便当,食材包详情 #####":"",
   "INTRODUCTION": "INTRODUCTION",
   "INGREDIENTS": "INGREDIENTS",
   "DID YOU KNOW": "DID YOU KNOW?",
   "RECIPE":"RECIPE",
+  "XINWEI RECOMMENDATIONS":"XINWEI RECOMMENDATIONS",
 
   "##### 别人的评价 #####":"",
   "XinweiCook gives you credit for dinner, but takes away the muss, fuss and grocery shopping.": "XinweiCook gives you credit for dinner, but takes away the muss, fuss and grocery shopping.",

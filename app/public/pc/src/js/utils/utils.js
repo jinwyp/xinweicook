@@ -74,7 +74,14 @@ export function search(search) {
     return search.slice(1).split('&').reduce(function (obj, cur) {
         if (cur) {
             cur = cur.split('=');
-            obj[cur[0]] = decodeURIComponent(cur[1] || '');
+            var key = cur[0]
+            if (obj[key]) { // 如果已经存在,那么应当是个数组
+                if (Array.isArray(obj[key])) {
+                    obj[key].push(decodeURIComponent(cur[1] || ''))
+                } else {
+                    obj[key] = [obj[key], decodeURIComponent(cur[1] || '')]
+                }
+            } else obj[key] = decodeURIComponent(cur[1] || '');
         }
         return obj;
     }, {});

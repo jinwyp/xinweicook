@@ -151,14 +151,13 @@ render.eatList = function (req, res, next, path) {
 render.cook = function (req, res, next, path) {
     models.dish.findOne({
         _id: req.params.id
-    }).execAsync()
-        .then(function (dish) {
-            res.render(path, {
-                dish: dish
-            })
-        }).catch(function (err) {
-            next(err)
+    }).populate('recommendSet.dish').execAsync().then(function(dish){
+        res.render(path, {
+            dish: dish
         })
+    }).catch(function (err) {
+        next(err)
+    })
 }
 
 render.eat = function (req, res, next, path) {
@@ -177,22 +176,66 @@ render.eat = function (req, res, next, path) {
         })
 }
 
+var sortObj = {
+    // 价格生序
+    '01': {priceOriginal: 1},
+    // 价格降序
+    '02': {priceOriginal: -1},
+    // 点赞降序
+    '12': {statisticLike: -1}
+}
+var ID_RE = /^[\dA-Za-z]{24}$/
 render.cookList = function (req, res, next, path) {
-    models.dish.find({
+    var options = {}
+    var query = {
         sideDishType: "main",
         isPublished: true,
         cookingType: 'ready to cook'
-    }).execAsync()
-        .then(function (dishes) {
-            res.render(path, {
-                // for html, see above
-                curNav: 'cook',
+    }
+    var tags
 
-                cooks: dishes
-            })
-        }).catch(function (err) {
-            next(err)
+    if (sortObj[req.query.sort]) {
+        options.sort = sortObj[req.query.sort]
+    }
+
+    if (req.query.t) {
+        tags = typeof req.query.t == 'string' ? [req.query.t] : req.query.t
+        tags = tags.filter(function (id) {
+            return ID_RE.test(id)
         })
+        if (tags.length) {
+            query.tagFilter = {
+                $all: tags
+            }
+        }
+    }
+    var promiseList = [
+        models.dish.find(query, null, options).execAsync(),
+        models.tag.find({"isFilter" : true}).execAsync()
+    ]
+
+    Promise.all(promiseList).spread(function(dishes, tags){
+        var tagGroupsMap = {}
+        tags.forEach(function (tag) {
+            var groupName = tag.group.en
+            if (!tagGroupsMap[groupName]) {
+                tagGroupsMap[groupName] = [tag]
+            } else {
+                tagGroupsMap[groupName].push(tag)
+            }
+        })
+
+        res.render(path, {
+            // for html, see above
+            curNav: 'cook',
+            cooks: dishes,
+            tagGroups: Object.keys(tagGroupsMap).map(function (key) {
+                return tagGroupsMap[key]
+            })
+        })
+    }).catch(function (err) {
+        next(err)
+    })
 }
 
 render.static = function (req, res, next, path) {
