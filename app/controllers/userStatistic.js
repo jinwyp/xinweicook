@@ -720,7 +720,6 @@ exports.userGetOrderYearly = function(req, res, next) {
     );
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
-        console.log(resultOrderList)
         var result = {
 
             typeAll : 0,
