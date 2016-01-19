@@ -6,7 +6,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.c79cf6016f84f6d17845cab5a6787a80.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.0f21427153770f3d5493cb04c368d9b3.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -56,7 +56,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc">{{ __('More ReadyToCooks') }}</a>
+        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc {{ locale }}">{{ __('More ReadyToCooks') }}</a>
         <div class="app clearfix">
             <ul class="banner">
                 {% for item in promotions %}
@@ -103,7 +103,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc">{{ __('More Bentos') }}</a>
+        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc {{ locale }}">{{ __('More Bentos') }}</a>
     </div>
 
     <div class="videolink">
@@ -176,8 +176,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.3114279fbdaacf0e6cad.js"></script>
-<script src="/pc/dist/index.3114279fbdaacf0e6cad.js"></script>
+<script src="/pc/dist/webpack-common.90c3107c911e6aa4f84d.js"></script>
+<script src="/pc/dist/index.90c3107c911e6aa4f84d.js"></script>
 
 </body>
 </html>

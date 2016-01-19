@@ -5,7 +5,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.c79cf6016f84f6d17845cab5a6787a80.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.0f21427153770f3d5493cb04c368d9b3.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -61,8 +61,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.3114279fbdaacf0e6cad.js"></script>
-<script src="/pc/dist/eat.3114279fbdaacf0e6cad.js"></script>
+<script src="/pc/dist/webpack-common.90c3107c911e6aa4f84d.js"></script>
+<script src="/pc/dist/eat.90c3107c911e6aa4f84d.js"></script>
 
 </body>
 </html>
