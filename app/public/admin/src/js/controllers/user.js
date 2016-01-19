@@ -53,6 +53,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         currentDeleteIndex : -1,
 
         currentDailyUserIndex : '',
+        currentMonthlyUserIndex : '',
 
         userList     : [],
         user         : {
@@ -74,8 +75,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
-        userStatisticNewFirstOrderUserDaily : [],
+
         userStatisticChartNewFirstOrderUserDaily : [],
+        userStatisticChartOrderUserMonthly : [],
 
         userGroupList: [
             {
@@ -193,6 +195,47 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+
+    $scope.chartOrderUserMonthly = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每月有下单用户'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '月份'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '用户数'
+            }
+        },
+        loading: false,
+        size: {}
+    };
 
     $scope.datePickerOpen = function($event) {
         $scope.data.datePickerIsOpen = true;
@@ -343,7 +386,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         Util.delProperty($scope.data.searchOptions.query);
 
         Statistic.getUserStatisticNewFirstOrderUserDaily($scope.data.searchOptions.query).then(function (result) {
-            $scope.data.userStatisticNewFirstOrderUserDaily = result.data;
 
             $scope.data.userStatisticChartNewFirstOrderUserDaily = result.data;
 
@@ -357,6 +399,39 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
     };
+
+
+
+    $scope.searchUserStatisticOrderUserMonthly = function (form, sortBy) {
+
+        $scope.css.showTable = 'statOrderUserMonthly';
+        $scope.css.searchUserStatisticSortBy = sortBy;
+
+
+        if ($scope.data.searchDateTo !==''){
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        }
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserStatisticOrderUserMonthly($scope.data.searchOptions.query).then(function (result) {
+            $scope.data.userStatisticChartOrderUserMonthly = result.data;
+
+            $scope.chartOrderUserMonthly.series = Util.chartDataFormat($scope.data.userStatisticChartOrderUserMonthly);
+            $scope.chartOrderUserMonthly.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartOrderUserMonthly);
+
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
+
+
+
+
+
 
 
 

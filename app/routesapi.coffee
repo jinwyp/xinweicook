@@ -147,6 +147,9 @@ expressRoutes = (app) ->
 
 
 
+
+
+
   app.get("/api/administrator/export/userall", userStatController.userList)
   app.get("/api/administrator/export/dishinventory", orderStatController.dishInventoryExportList)
 
@@ -234,6 +237,7 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/user/newcomer", userStatController.userNewComerRate)
   app.get("/api/admin/statistic/user/frequency", userStatController.userLoyalUserPurchaseFrequency)
   app.get("/api/admin/statistic/user/firstorder/daily", userStatController.userGetFirstOrderDaily)
+  app.get("/api/admin/statistic/user/order/monthly", userStatController.userGetOrderMonthly)
   app.get("/api/admin/statistic/user/coupon/name", userStatController.couponByNameRate)
   app.get("/api/admin/statistic/user/accoutdetail/paid", userStatController.userAccountDetailsStatistic)
 

@@ -456,18 +456,172 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 exports.userGetOrderMonthly = function(req, res, next) {
 
+
+    var orderStatus = [];
+    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+
+    var cookingType = [];
+    cookingType.push( models.dish.constantCookingType().eat);
+
+
+    var matchList = {
+        "isChildOrder" : false
+    };
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        matchList.clientFrom  = req.query.statisticsClientFrom;
+    }
+
+
+    var pipeline = [];
+
+
+
+    // Grouping pipeline
+    pipeline.push(
+        { "$match":matchList},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { month : "$month", year : "$year", user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}] },
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "year" : 1, "month": 1 } },
+        { "$limit": 20000 }
+
+
+    );
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+
+        var monthList = [];
+        var result = [];
+
+        if (resultOrderList.length > 0){
+            resultOrderList.map(function(user){
+
+                if (monthList.indexOf(user.date) === -1 ){
+                    monthList.push(user.date);
+                }
+            });
+
+            monthList.forEach(function(month){
+                var month = {
+                    date : month,
+                    typeAll : 0,
+                    typeAllUsers : [],
+                    typeEat : 0,
+                    typeEatUsers : [],
+                    typeCook : 0,
+                    typeCookUsers : []
+                };
+
+
+                resultOrderList.map(function(user){
+
+                    if (month.date === user.date){
+
+                        if (user.cookTypeList.length > 1){
+                            month.typeAll = month.typeAll + 1;
+                            month.typeAllUsers.push(user);
+                        }else if (user.cookTypeList.indexOf('ready to eat') > -1){
+                            month.typeEat = month.typeEat + 1;
+                            month.typeEatUsers.push(user);
+                        }else{
+                            month.typeCook = month.typeCook + 1;
+                            month.typeCookUsers.push(user);
+                        }
+
+
+                    }
+                });
+
+                result.push(month);
+
+            });
+
+
+
+        }
+        res.send(result);
+    }).catch(next);
 };
+
+
 
 
 
 
 exports.userGetFirstOrderDaily = function(req, res, next) {
 
-    var today = moment().startOf('day');
-
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
 
 
     var orderStatus = [];
@@ -477,17 +631,32 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     cookingType.push( models.dish.constantCookingType().eat);
 
 
+    var matchList = {
+        "isChildOrder" : false,
+        "cookingType"  : {$in : cookingType},
+        "status"       : {$in : orderStatus}
+    };
+
+
+    //var today = moment().startOf('day');
+    //
+    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+    //    today = moment(req.query.createdAt).startOf('day');
+    //
+    //    matchList.createdAt  = {"$lt": today.toDate() };
+    //}
+
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        matchList.clientFrom  = req.query.statisticsClientFrom;
+    }
+
+
     var pipeline = [];
 
     // Grouping pipeline
     pipeline.push(
-        {
-            "$match" : {
-                "isChildOrder" : false,
-                "cookingType"  : {$in : cookingType},
-                "status"       : {$in : orderStatus}
-            }
-        },
+        { "$match":matchList},
 
         { $sort: { user: 1, createdAt: 1 } },
 
@@ -582,15 +751,6 @@ exports.userGetFirstOrderDaily = function(req, res, next) {
     );
 
 
-    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-    //
-    //    pipeline[0].$match.createdAt  = {"$lt": today.toDate() };
-    //
-    //}
-
-    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
-        pipeline[0].$match.clientFrom  = req.query.statisticsClientFrom;
-    }
 
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
