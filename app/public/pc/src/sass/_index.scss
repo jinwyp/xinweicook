@@ -82,7 +82,13 @@ $border-block: 5px;
       font-size: 16px;
       margin: -15px auto 60px;
       color: white;
-      width: 145px;
+      width: 160px;
+      &:hover {
+        background-color: #444;
+      }
+      &.en {
+        width: 235px;
+      }
       &::before {
         content: '... '
       }

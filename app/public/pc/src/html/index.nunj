@@ -56,7 +56,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc">{{ __('More ReadyToCooks') }}</a>
+        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc {{ locale }}">{{ __('More ReadyToCooks') }}</a>
         <div class="app clearfix">
             <ul class="banner">
                 {% for item in promotions %}
@@ -103,7 +103,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc">{{ __('More Bentos') }}</a>
+        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc {{ locale }}">{{ __('More Bentos') }}</a>
     </div>
 
     <div class="videolink">
