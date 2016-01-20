@@ -4,97 +4,16 @@
   .drinks {
     width: 1000px;
     h3 {
-      margin-top: 40px;
       font-size: 18px;
       text-align: center;
       line-height: 60px;
       border-bottom: 1px solid $color_celeste_approx;
     }
     ul.menus {
-      margin: 40px auto 20px;
+      margin: 40px auto 0;
       width: 1000px;
       overflow: hidden;
       font-size: 14px;
-      //li {
-      //  float: left;
-      //  display: inline;
-      //  width: 330px;
-      //  height: 280px;
-      //  overflow: hidden;
-      //  margin-right: 17px;
-      //  margin-bottom: 30px;
-      //  position: relative;
-      //  &:nth-child(3n) {
-      //    margin-right: 0;
-      //  }
-      //  a {
-      //    display: block;
-      //    width: 100%;
-      //    height: 220px;
-      //    overflow: hidden;
-      //    img {
-      //      width: 100%;
-      //      height: 100%;
-      //    }
-      //  }
-      //  .info {
-      //    height: 65px;
-      //    padding: 5px 0;
-      //    overflow: hidden;
-      //    .name-price {
-      //      float: left;
-      //      display: inline;
-      //      width: 270px;
-      //      .name {
-      //        width: 100%;
-      //        height: 25px;
-      //        border-bottom: 1px solid $color_masala_approx;
-      //        line-height: 20px;
-      //        a.menuname {
-      //          float: left;
-      //          display: inline;
-      //          width: 200px;
-      //          height: 20px;
-      //          cursor: pointer;
-      //          color: $color_storm_dust_approx;
-      //          &:hover {
-      //            color: $color_sunset_orange_approx;
-      //          }
-      //        }
-      //      }
-      //      .price {
-      //        font-size: 16px;
-      //        line-height: 24px;
-      //        letter-spacing: .1em;
-      //      }
-      //    }
-      //    .btns {
-      //      float: right;
-      //      display: inline;
-      //      width: 49px;
-      //      height: 65px;
-      //      margin-top: 15px;
-      //      a {
-      //        cursor: pointer;
-      //        float: right;
-      //        display: inline;
-      //        background: $color_sunset_orange_approx;
-      //        width: 22px;
-      //        height: 22px;
-      //        color: $white;
-      //        font-size: 22px;
-      //        line-height: 19px;
-      //        text-align: center;
-      //        &.mius {
-      //          display: none;
-      //        }
-      //        &.plus {
-      //          background: $color_masala_approx;
-      //        }
-      //      }
-      //    }
-      //  }
-      //}
     }
   }
   .shopnow {
