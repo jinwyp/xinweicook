@@ -32,6 +32,9 @@ var routes = function(app) {
         res.render(viewsPrefix + 'pay-notify.nunj')
     })
 
+
+
+
     // 老网站重定向
     app.get('/front/product/:id', function (req, res, next) {
         models.dish.findOne({
@@ -46,9 +49,62 @@ var routes = function(app) {
             }
         })
     })
+
+    app.get('/mobile/product/:id', function (req, res, next) {
+        models.dish.findOne({
+            idOldWebsite: req.params.id,
+            sideDishType: 'main',
+            isPublished: true
+        }).execAsync().then(function (result) {
+            if (result && result._id) {
+                res.redirect('/mobile/cook/' + result._id)
+            } else {
+                res.redirect(publicPrefix + '/404?oldid=' + req.params.id)
+            }
+        })
+    })
+
     app.get('/front/products', function (req, res) {
         res.redirect(publicPrefix + '/cook/')
     })
+
+    app.get('/front/products/Ready%20to%20Cook', function (req, res) {
+        res.redirect(publicPrefix + '/cook/')
+    })
+
+    app.get('/front/products/Ready%20to%20Eat', function (req, res) {
+        res.redirect(publicPrefix + '/eat/')
+    })
+
+    app.get('/front/contact', function (req, res) {
+        res.redirect(publicPrefix + '/cook/')
+    })
+
+    app.get('/front/howitworks', function (req, res) {
+        res.redirect(publicPrefix + '/cook/')
+    })
+
+    app.get('/nsign', function (req, res) {
+        res.redirect(publicPrefix + '/sign/')
+    })
+
+
+    app.get('/app', function (req, res) {
+        res.redirect(publicPrefix + '/')
+    })
+
+    app.get('/mobile/products', function (req, res) {
+        res.redirect( '/mobile')
+    })
+
+    app.get('/mobile/index', function (req, res) {
+        res.redirect('/mobile')
+    })
+
+    app.get('/mobile/nsign', function (req, res) {
+        res.redirect('/mobile')
+    })
+
 
     // 切换语言
     app.get(publicPrefix + '/locale', function (req, res) {
