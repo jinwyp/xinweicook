@@ -17,6 +17,14 @@ function addresses(state = null, action) {
                         el.outOfRange = !el.isAvailableForEat
                     })
                 }
+                action.addresses.some(el => {
+                    if (el.isDefault) {
+                        if (!el.outOfRange) {
+                            el.selected = true
+                        }
+                        return true
+                    }
+                })
                 return action.addresses
             }
             return state
