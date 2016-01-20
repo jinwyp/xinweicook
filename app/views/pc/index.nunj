@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新味</title>
+    <meta charset="utf-8">
+    {% include "./includes/meta.nunj" %}
+    {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
+    
+    <link rel="stylesheet" href="/pc/dist/webpack-common.b67bc9145967b5a6c89f440afe2c5bab.css"/>
+    
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+
+{% include "./includes/header.nunj" %}
+
+<div class="video">
+    <div class="vdtitle"></div>
+    <video loop="loop" autoplay="autoplay" class="indexvd">
+        <source src="https://dn-xinweicook.qbox.me/0111%E6%96%B0%E5%91%B3%E7%BD%91%E7%AB%99video.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="index-main">
+    <div class="main-top">
+        <div class="menulinks clearfix">
+            <div class="entry">
+                <a href="{{ pcPrefix }}/cook/">
+                    <img src="/pc/src/images/index-cook.png" alt="ready to cook"/>
+                    <p>{{ __("只愿享受烹炒的乐趣?") }}<br>{{ __("选料买菜的一切麻烦让新味帮你解决。") }}</p>
+                </a>
+            </div>
+            <div class="entry">
+                <a href="{{ pcPrefix }}/eat/">
+                    <img src="/pc/src/images/index-eat.png" alt="ready to eat"/>
+                    <p>{{ __("在公司还想吃低温慢煮牛排?") }}<br>{{ __("新味让你用微波炉就能轻松享受。") }}</p>
+                </a>
+            </div>
+        </div>
+        <ul class="menus clearfix">
+            {% for dish in cooks %}
+                <li data-id="{{ dish._id }}">
+                    <a class="img-wrapper" href="{{ pcPrefix }}/cook/{{ dish._id }}">
+                        <div class="plusok"></div>
+                        <img src="{{ dish.cover[0][locale] | img }}">
+                    </a>
+                    <div class="info clearfix">
+                        <div class="name-price">
+                            <div class="name clearfix">
+                                <span class="person">{{ dish.servings }}人</span>
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                            </div>
+                            <div class="price">￥{{ dish.priceOriginal }}</div>
+                        </div>
+                        <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ pcPrefix }}/cook" class="xw-btn more tc {{ locale }}">{{ __('More ReadyToCooks') }}</a>
+        <div class="app clearfix">
+            <ul class="banner">
+                {% for item in promotions %}
+                    <li data-id="{{ item.dish._id }}" class="{{ 'act' if loop.first else '' }}">
+                        {#<h5>{{ item.dish.title[locale] }}</h5>#}
+                        <a href="{{ pcPrefix }}/{{ "cook/" if item.dish.cookingType == 'ready to cook' else "eat#" }}{{ item.dish._id }}">
+                            <img title="{{ item.dish.title[locale] }}" src="{{ item.imgUrl }}" alt="{{ item.dish.title[locale] }}"/>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {#<a href="javascript:;" class="banner">#}
+                {#<img src="https://dn-xinweicook.qbox.me/%E9%A6%99%E8%8F%87%E7%B4%A0%E9%B8%A1%E6%9E%9D%E7%AB%B9%E7%85%B2%E6%98%8E%E6%98%9F%E5%9B%BE.jpg">#}
+            {#</a>#}
+
+            <div class="applink" style="border: 0;padding: 0;"><!--todo: remove this style-->
+                <img src="/pc/src/images/app_qr.jpg" alt="app"/>
+                {#<div class="app-main">#}
+                    {#<h6>APP</h6>#}
+                    {#<img src="http://xinweicook.com/images/weixin-QR.jpg">#}
+                    {#<p>想要便捷定制你的私人食谱？</p>#}
+                {#</div>#}
+            </div>
+        </div>
+        <ul class="menus clearfix">
+            {% for dish in eats %}
+                <li data-id="{{ dish._id }}">
+                    <a class="img-wrapper" href="{{ pcPrefix }}/eat/{{ dish._id }}">
+                        <div class="plusok"></div>
+                        <img src="{{ dish.cover[0][locale] | img }}">
+                        <div class="out-of-range">
+                            {{ __('Out of range') }}
+                        </div>
+                    </a>
+                    <div class="info clearfix">
+                        <div class="name-price">
+                            <div class="name clearfix">
+                                <a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                            </div>
+                            <div class="price">￥{{ dish.priceOriginal }}</div>
+                        </div>
+                        <div class="btns clearfix"><a class="plus">+</a><a class="mius">-</a></div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ pcPrefix }}/eat" class="xw-btn more tc {{ locale }}">{{ __('More Bentos') }}</a>
+    </div>
+
+    {#<div class="videolink">#}
+        {#<h4>{{ __('我们定义urban饮食新方式') }}</h4>#}
+        {#<p>{{  __('New way detail') }}</p>#}
+        {#<a href="javascript:;" class="play"></a>#}
+        {#<video id="video1" controls="controls">#}
+            {#<source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">#}
+        {#</video>#}
+    {#</div>#}
+
+    <div class="about-us">
+
+        {#<div class="why-us">#}
+            {#<h3 class="title">{{ __('Why choose us') }}?</h3>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="block">#}
+                {#<div class="border">#}
+                    {#<div class="img"></div>#}
+                    {#<h4>大虾墨鱼面</h4>#}
+                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        <ul class="magazine">
+            <li class="act">
+                <h3 class="quote">{{ __("That's Shanghai") }}</h3>
+                <p>{{ __("XinweiCook gives you credit for dinner, but takes away the muss, fuss and grocery shopping.") }}</p>
+            </li>
+            <li>
+                <h3 class="quote">{{ __("PingWest") }}</h3>
+                <p>{{ __("We often give up on the urge to try a new recipe because of the hassle to prepare all the ingredients, XinweiCook is here to solve this problem for you.") }}</p>
+            </li>
+            <li>
+                <h3>{{ __("Steve Ge, CEO of Xinweicook") }}</h3>
+                <p>{{ __("If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.") }}</p>
+            </li>
+            <li>
+                <h3 class="quote">{{ __("The Bund") }}</h3>
+                <p>{{ __("Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.") }}</p>
+            </li>
+        </ul>
+
+        {#<div class="magazine">#}
+            {#<h3 class="arrow-title">外滩画报</h3>#}
+            {#<p>新味提供适用于不同厨艺水平的菜谱</p>#}
+        {#</div>#}
+
+        {#<div class="partner">#}
+            {#<h3 class="title">{{ __("Partners") }}</h3>#}
+            {#<img style="width: 100%;" src="/pc/src/images/friends.jpg" />#}
+        {#</div>#}
+    </div>
+</div>
+
+{% include "./includes/footer.nunj" %}
+
+
+<script src="/pc/dist/webpack-common.2d9eaea852eb3f5c1684.js"></script>
+<script src="/pc/dist/index.2d9eaea852eb3f5c1684.js"></script>
+
+</body>
+</html>
