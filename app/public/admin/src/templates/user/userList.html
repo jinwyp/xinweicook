@@ -534,7 +534,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="onedate in data.userStatisticChartOrderUserWeekly | orderBy:css.searchUserStatisticSortBy">
-            <td> {{onedate.date | date:'yyyy-MM-dd'}}</td>
+            <td> {{onedate.date2 | date:'yyyy-MM-dd'}}</td>
             <td>{{onedate.typeAll}} </td>
             <td>
                 <button class="btn btn-info" ng-click="data.currentMonthlyUserIndex=onedate.date"> 显示详细</button> <br/>

@@ -28,7 +28,7 @@ exports.runCronJob = (req, res, next) ->
                 .catch (err)->
                   job.logList.push({isExecuted : false, message : err})
                   job.saveAsync()
-                  logger.error "Cron Job Dish Add Inventory Error: ", err
+                  logger.error("Cron Job Dish Add Inventory Error: ", err)
 
             onComplete : () ->
               logger.warn "---------- CronJobFinished: ", job.name
@@ -163,7 +163,9 @@ exports.cancelNotPaidOrder = (req, res, next) ->
             if resultAccount
               orderTemp = tempOrderIndex[resultAccount.user.toString()]
               resultAccount.addMoney(orderTemp.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", orderTemp._id.toString())
-              .catch( (err) -> logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount)))
+              .catch( (err) ->
+                logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount))
+              )
 
 
     res.send resultOrderList

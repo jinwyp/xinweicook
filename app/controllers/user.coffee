@@ -111,7 +111,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
         isNeedRefreshAccessToken = true
       else
         if models.setting.checkExpired(settingAccessToken)
-          logger.error("Weixin Jsapi AccessToken expired !" );
+#          logger.error("Weixin Jsapi AccessToken expired !" );
           isNeedRefreshAccessToken = true
 
 
@@ -484,7 +484,9 @@ exports.userSignUp = (req, res, next) ->
     models.coupon.addCouponForNewUser(resultUserCreated, req).then (resultUser2) ->
       if couponcode
         models.coupon.addCouponFromCouponChargeCode(resultUser2[0], couponcode)
-        .catch( (err) -> logger.error("注册时扫二维码创建优惠券失败: " + JSON.stringify(err) ) )
+        .catch( (err) ->
+          logger.error("注册时扫二维码创建优惠券失败: " + JSON.stringify(err) )
+        )
 
 
     models.token.findTokenByMobilePwd(mobile, pwd)

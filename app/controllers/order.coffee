@@ -120,7 +120,7 @@ exports.getWeixinPayUserOpenId = (req, res, next) ->
                 resultUser.saveAsync().then (resultUser2) ->
                   return res.redirect("/mobile/wxpay/" + order_number_state)
                 .catch (err)->
-                    logger.error("Order OpenID Failed Save User error:", JSON.stringify(err))
+                  logger.error("Order OpenID Failed Save User error:", JSON.stringify(err))
               else
                 logger.error("Order OpenID weixin error:", JSON.stringify(result))
 
@@ -1334,7 +1334,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
       .catch((err)->
         if err and err.msg
-          next(new Err(err.msg, 400))
+          next(new Err(err.msg, 490))
         else
           next(err)
       )

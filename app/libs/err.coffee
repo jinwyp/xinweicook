@@ -38,7 +38,7 @@ module.exports =
         tempError = error
 
       if error.status < 500
-        if error.status isnt 401 and error.status isnt 200
+        if error.status isnt 401 and error.status isnt 200 and error.status isnt 490
           logger.warn("4XX Error: ", tempError, error.req)
       else
         logger.error("5XX Error: ", tempError, error.req)
@@ -54,9 +54,9 @@ module.exports =
 
 
 process.on "unhandledRejection", (reason) ->
-   logger.error "5XX UnhandledRejection: ", reason
+   logger.error("5XX UnhandledRejection: ", reason)
 #  throw reason
 
 process.on "uncaughtException", (err) ->
-  logger.error "5XX UncaughtException: ", err
+  logger.error("5XX UncaughtException: ", err)
   process.exit(1)
