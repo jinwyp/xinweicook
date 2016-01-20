@@ -2,7 +2,7 @@
     <div class="header-main clearfix">
         <div class="fl">
             <a class="logo" href="{{ pcPrefix }}/"></a>
-            {% if eatExist %}
+            {% if showPositionSelector %}
                 <div id="react-root">
                 </div>
             {% endif %}

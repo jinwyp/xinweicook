@@ -40,8 +40,24 @@ var modalStyle = {
 }
 
 var App = React.createClass({
+    getInitialState() {
+        return {
+            shakeButton: false
+        }
+    },
+
     componentDidMount: function () {
-        if (localStorage.access_token ) {
+        emitter.on(emitter.t.noAddressAlert, () => {
+            this.setState({
+                shakeButton: true
+            })
+            setTimeout(() => {
+                this.setState({
+                    shakeButton: false
+                })
+            }, 1000)
+        })
+        if (localStorage.access_token) {
             this.props.dispatch(addressAction.getList())
         }
     },
@@ -124,7 +140,7 @@ var App = React.createClass({
                 <div className="cur-position">
                     <span className="label">{__('Location')}:</span>
                     <span className="address">{curPosition}</span>
-                    <span onClick={this.methods.changePosition} className="change-address">[{__('Change address')}]</span>
+                    <span onClick={this.methods.changePosition} className={`change-address ${this.state.shakeButton ? 'shake': ''}`}>[{__('Change address')}]</span>
                 </div>
                 <Modal style={modalStyle} isOpen={positionSelector.showSelector} onRequestClose={this.methods.close} closeTimeoutMS={250}>
                     <AddressList hideList={hideAddressList} title={__('Please choose an address')} {...this.methods.addressList} {...address} className='position-selector'/>

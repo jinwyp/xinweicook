@@ -7,6 +7,9 @@ import bindDish, {bindTab} from '../utils/bind-dish-operation'
 import '../utils/jquery-utils'
 import {search} from '../utils/utils'
 
+// init position selector(react)
+import './position-selector'
+
 var dishes, cart, user
 
 $(document).ready(() => {

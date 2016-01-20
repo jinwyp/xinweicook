@@ -5,6 +5,9 @@ import {User, Dish} from '../models'
 import $ from 'jquery'
 import bindDish, {bindTab} from '../utils/bind-dish-operation'
 
+// init position selector(react)
+import './position-selector'
+
 var dishes, cart, user
 
 $(document).ready(() => {

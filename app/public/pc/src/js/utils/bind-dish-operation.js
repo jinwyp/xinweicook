@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import {User, Dish} from '../models'
+import {User, Dish, Address} from '../models'
 import * as dishUtil from '../utils/dish'
 import * as dishDom from '../dom/dish'
 import * as header from '../pages/header'
@@ -7,6 +7,7 @@ import handlebars from 'handlebars/dist/handlebars'
 import {propertySelection} from '../dom/templates'
 import Modal from '../dom/modal'
 import {emitter} from '../pages/common'
+import {__} from '../utils/locale'
 
 var _newAddress
 var tmpListener
@@ -67,7 +68,8 @@ export default function (cart, dishes, parent) {
         dishes.forEach(dish => {
             if (dish.cookingType == 'ready to cook') return
             dish.outOfRange = !warehouse || dish.stockWarehouseObj[warehouse] <= 0
-            dishDom.renderOutOfRange(dish._id, !!dish.outOfRange)
+            dish.soldOut = dish.stockWarehouse.every(el => el.stock<=0)
+            dishDom.renderOutOfRange(dish._id, !!dish.outOfRange, dish.soldOut)
         })
     }
 
@@ -75,6 +77,9 @@ export default function (cart, dishes, parent) {
         // 根据id, 找出dish, 判断是否有多属性(如果多属性只有一个也没必要有选择框)
         var dish = dishUtil.getDish(dishes, id)
         if (dish.outOfRange) return
+
+        // 如果地址已经加载,但是没有默认地址,那么提示用户,然后什么都不干
+        if (!checkSelectAddress()) return
 
         var number = dishUtil.plusDish(dish, cart)
         if (!number) { // 数字不存在,表示不能直接添加,需要使用多属性框
@@ -175,6 +180,8 @@ function bindPropertySelection(cart, dishes) {
 
     modal.on('click', '.add-to-cart', function () {
         // 找出菜品, 找出它选择的那些多属性, 然后加入到购物车, 然后关闭窗口
+        if (!checkSelectAddress()) return
+
         var $root = $(this).closest('.multi-dish-selection')
         var id = $root.data('id')
         var dish = dishUtil.getDish(dishes, id)
@@ -199,6 +206,14 @@ function bindPropertySelection(cart, dishes) {
 
         modal.close()
     })
+}
+
+function checkSelectAddress() {
+    if (Address.isLoaded() && Address.noDefault()) {
+        alert(__('Select Address Before Add Cart'))
+        emitter.emit(emitter.t.noAddressAlert)
+        return false
+    } else return true
 }
 
 

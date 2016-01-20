@@ -24,8 +24,15 @@ var auth = {
 }
 
 function _fetch(url, options) {
-    var access_token = localStorage.access_token;
-    if (access_token) auth.Authorization = 'Bearer ' + access_token;
+    var access_token = localStorage.access_token
+    var ng_access_token = localStorage['ngStorage-access_token']
+    if (access_token && !localStorage['ngStorage-access_token']) {
+        localStorage['ngStorage-access_token'] = `"${access_token}"`
+    }
+    if (ng_access_token && !localStorage['access_token']) {
+        access_token = localStorage.access_token = ng_access_token.replace(/"/g, '')
+    }
+    auth.Authorization = 'Bearer ' + access_token;
 
     options = options || {};
     options.headers = Object.assign({}, options.headers, auth)
@@ -60,6 +67,7 @@ export function post(url, data) {
         post.headers = _fetch.headers
         if (url == '/api/user/token' || url == '/api/user/signup') {
             localStorage.access_token = json.access_token;
+            localStorage['ngStorage-access_token'] = `"${json.access_token}"`
         }
         return json
     })

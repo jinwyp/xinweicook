@@ -30,6 +30,7 @@ export var User = {
             token: localStorage.access_token
         }).catch(() => {}).then(() => {
             delete localStorage.access_token
+            delete localStorage['ngStorage-access_token']
         })
     },
     postCart: function (cart) {
@@ -49,11 +50,24 @@ export var User = {
     }
 }
 
+var selectedAddressId
 export var Address = {
     range: function () {
         return fetch('/api/orders/delivery/range')
     },
     suggestion: function (query, region='上海') {
         return post('/api/user/address/suggestion', {query, region})
+    },
+    isLoaded() {
+        return !!selectedAddressId
+    },
+    noDefault() {
+        return selectedAddressId == Address.constant.LOADED_NO_DEFAULT
+    },
+    setSelectedAddress(str) {
+        selectedAddressId = str
+    },
+    constant: {
+        LOADED_NO_DEFAULT: 'LOADED_NO_DEFAULT'
     }
 }

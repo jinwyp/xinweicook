@@ -152,7 +152,31 @@
   }
   .change-address {
     color: #DEDEDE;
+    &:hover {
+      color: $color_sunset_orange_approx !important;
+    }
     cursor: pointer;
+    &.shake {
+      animation-name: shake;
+      animation-duration: .333s;
+      animation-iteration-count: 3;
+      animation-timing-function: linear;
+    }
+  }
+}
+
+@keyframes shake {
+  from {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(-20deg);
+  }
+  to {
+    transform: rotate(0deg);
   }
 }
 

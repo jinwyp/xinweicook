@@ -59,7 +59,7 @@
           transform: scale(1.05);
         }
       }
-      .out-of-range {
+      .out-of-range, .sold-out {
         z-index: 1;
         position: absolute;
         top: 0;
@@ -152,7 +152,7 @@
   }
 }
 .eatlist {
-  .out-of-range {
+  .out-of-range, .sold-out {
     line-height: 430px !important;
   }
 }

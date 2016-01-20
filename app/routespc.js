@@ -154,8 +154,8 @@ render.index = function renderIndex(req, res, next, path) {
         var data = {
             // 识别为首页的头部
             indexHeader: true,
-            // 识别为可选择便当的页面
-            eatExist: true,
+            // 显示地址选择器
+            showPositionSelector: true,
 
             cooks: dishes.filter(function (dish) {
                 return dish.cookingType == 'ready to cook'
@@ -207,8 +207,8 @@ render.eatList = function (req, res, next, path) {
             res.render(path, {
                 // 表示当前页为便当列表,使相应nav为激活状态
                 curNav: 'eat',
-                // 识别为可选择便当的页面
-                eatExist: true,
+                // 显示地址选择器
+                showPositionSelector: true,
 
                 dishes: dishes.filter(function (dish) {
                     return dish.sideDishType == 'main'
@@ -225,7 +225,8 @@ render.cook = function (req, res, next, path) {
         _id: req.params.id
     }).populate('recommendSet.dish').execAsync().then(function(dish){
         res.render(path, {
-            dish: dish
+            dish: dish,
+            showPositionSelector: true
         })
     }).catch(function (err) {
         next(err)
@@ -238,8 +239,8 @@ render.eat = function (req, res, next, path) {
     }).execAsync()
         .then(function (dish) {
             res.render(path, {
-                // 识别为可选择便当的页面
-                eatExist: true,
+                // 显示地址选择器
+                showPositionSelector: true,
 
                 dish: dish
             })
@@ -303,7 +304,8 @@ render.cookList = function (req, res, next, path) {
             cooks: dishes,
             tagGroups: Object.keys(tagGroupsMap).map(function (key) {
                 return tagGroupsMap[key]
-            })
+            }),
+            showPositionSelector: true
         })
     }).catch(function (err) {
         next(err)

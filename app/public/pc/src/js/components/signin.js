@@ -39,7 +39,7 @@ var SignIn = React.createClass({
             case 'mobile':
                 return /^1\d{10}$/.test(this.refs.mobile.value)
             case 'pwd':
-                return /^\w{6,}$/.test(this.refs.pwd.value)
+                return /^[\w~]{6,}$/.test(this.refs.pwd.value)
 
             default: return false
         }

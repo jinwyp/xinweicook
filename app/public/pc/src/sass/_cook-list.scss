@@ -21,7 +21,7 @@
   top: 66px;
   padding: 0;
   width: 100%;
-  border: 1px solid $color_pumice_approx;
+  border-bottom: 1px solid $color_pumice_approx;
   font-size: 14px;
   h4, h5, li {
     font-size: 14px;
@@ -130,7 +130,7 @@
     }
     .sort-items li, .filter-items li {
       &:hover:not(.act) {
-        color: #5188a6;
+        color: $color_hover_blue;
       }
     }
   }

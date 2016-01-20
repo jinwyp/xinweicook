@@ -90,6 +90,9 @@
                         <div class="out-of-range">
                             {{ __('Out of range') }}
                         </div>
+                        <div class="sold-out">
+                            {{ __('Sold Out') }}
+                        </div>
                     </a>
                     <div class="info clearfix">
                         <div class="name-price">

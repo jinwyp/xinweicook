@@ -32,6 +32,8 @@
   "我们定义urban饮食新方式": "我们定义urban饮食新方式",
   "New way detail": "可口暖心的一餐，兴之所至的灵感，情味深长的瞬间……递送到门的盒子都已准备齐全。抛却冗长繁琐，只为你提炼美味体验最精华的一环，尽享人生好滋味。",
   "Partners": "合作伙伴",
+  "Select Address Before Add Cart": "请先选择配送地址",
+  "Sold Out": "售罄",
 
   "##### 注册登录 ####":"",
   "Slide to fetch the verification code": "滑动获取验证码",
@@ -117,6 +119,8 @@
 
   "##### 便当列表 #####":"",
   "Order Now":"立即结算",
+  "Quantity": "数量",
+  "Add to Cart": "加入购物车",
 
   "##### 食材包列表 #####":"",
   "All": "全部",
