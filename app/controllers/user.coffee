@@ -111,7 +111,7 @@ exports.getWeixinDeveloperJsapiTicket = (req, res, next) ->
         isNeedRefreshAccessToken = true
       else
         if models.setting.checkExpired(settingAccessToken)
-          logger.error("Weixin Jsapi AccessToken expired !" );
+#          logger.error("Weixin Jsapi AccessToken expired !" );
           isNeedRefreshAccessToken = true
 
 
