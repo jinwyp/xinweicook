@@ -184,7 +184,7 @@ render.eatList = function (req, res, next, path) {
         sideDishType: {$in: ["main", "drink"]},
         isPublished: true,
         cookingType: 'ready to eat'
-    }).populate('tagFilter').execAsync()
+    }).sort("-sortId").sort("-createdAt").populate('tagFilter').execAsync()
         .then(function (dishes) {
             var drinks = dishes.filter(function (dish) {
                 return dish.sideDishType == 'drink'
@@ -282,7 +282,7 @@ render.cookList = function (req, res, next, path) {
         }
     }
     var promiseList = [
-        models.dish.find(query, null, options).execAsync(),
+        models.dish.find(query, null, options).sort("-sortId").sort("-createdAt").execAsync(),
         models.tag.find({"isFilter" : true}).execAsync()
     ]
 

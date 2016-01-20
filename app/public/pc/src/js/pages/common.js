@@ -19,10 +19,12 @@ export function init(user) {
  *  positionChanged: {
  *      prevAddress: {}
  *      oldAddress: {}
- *  }
+ *  },
+ *  noAddressAlert: none
  * }
  */
 export var emitter = ee({})
 emitter.t = {
-    positionChanged: 'positionChanged'
+    positionChanged: 'positionChanged',
+    noAddressAlert: 'noAddressAlert'
 }

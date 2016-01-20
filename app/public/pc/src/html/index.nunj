@@ -166,10 +166,10 @@
             {#<p>新味提供适用于不同厨艺水平的菜谱</p>#}
         {#</div>#}
 
-        <div class="partner">
-            <h3 class="title">{{ __("Partners") }}</h3>
-            <img style="width: 100%;" src="/pc/src/images/friends.jpg" />
-        </div>
+        {#<div class="partner">#}
+            {#<h3 class="title">{{ __("Partners") }}</h3>#}
+            {#<img style="width: 100%;" src="/pc/src/images/friends.jpg" />#}
+        {#</div>#}
     </div>
 </div>
 
