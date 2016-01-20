@@ -1334,7 +1334,7 @@ exports.searchDeliveryKSuDi = (req, res, next) ->
 
       .catch((err)->
         if err and err.msg
-          next(new Err(err.msg, 400))
+          next(new Err(err.msg, 490))
         else
           next(err)
       )
