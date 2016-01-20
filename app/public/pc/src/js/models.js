@@ -44,7 +44,7 @@ export var User = {
             timer = setTimeout(()=> {
                 timer = null;
                 return User.postCart(cart)
-            }, 2000)
+            }, 200) // todo: 如果时间太长了,会导致触发请求返回的时间过长,如果想早点知道403就有些悲催
         }
     }
 }

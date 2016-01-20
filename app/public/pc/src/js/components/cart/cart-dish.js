@@ -11,7 +11,8 @@ var CartDish = React.createClass({
         var props = this.props
         var price = subDish.reduce((sum, el) => el.dish.priceOriginal + sum,
             dish.priceOriginal)
-        var dishName = dish.title[l] + '(' + subDish.map((el) => el.dish.title[l] + ' ').join() + ')'
+        var dishName = dish.title[l] + (subDish.length ?
+            ('(' + subDish.map((el) => el.dish.title[l] + ' ').join() + ')') : '')
         return (
             <div className={'cart-dish' + (props.noStock ? ' no-stock': '')}>
                 <span onClick={() => props.selectOne(_id)} className={selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}></span>

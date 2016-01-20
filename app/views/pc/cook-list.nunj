@@ -140,8 +140,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.60ebf7412bf7c535eae3.js"></script>
-<script src="/pc/dist/cook-list.60ebf7412bf7c535eae3.js"></script>
+<script src="/pc/dist/webpack-common.2d9eaea852eb3f5c1684.js"></script>
+<script src="/pc/dist/cook-list.2d9eaea852eb3f5c1684.js"></script>
 
 </body>
 </html>
