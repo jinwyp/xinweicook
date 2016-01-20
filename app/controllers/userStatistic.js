@@ -549,7 +549,8 @@ exports.userGetOrderWeekly = function(req, res, next) {
             "userId" : "$_id.user",
             "week" : "$_id.week",
             "year" : "$_id.year",
-            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}, " (", {$substr: ["$firstDate", 5, 5]}, ")"] },
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}] },
+            "date2" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.week", 0, 2]}, " (", {$substr: ["$firstDate", 5, 5]}, ")"] },
 
             "saleQuantity": 1,
             "saleTotalPrice": 1,
@@ -584,6 +585,7 @@ exports.userGetOrderWeekly = function(req, res, next) {
             weekList.forEach(function(week){
                 var week = {
                     date : week,
+                    date2 : week,
                     typeAll : 0,
                     typeAllUsers : [],
                     typeEat : 0,
@@ -596,6 +598,7 @@ exports.userGetOrderWeekly = function(req, res, next) {
                 resultOrderList.map(function(user){
 
                     if (week.date === user.date){
+                        week.date2 = user.date2
 
                         if (user.cookTypeList.length > 1){
                             week.typeAll = week.typeAll + 1;
