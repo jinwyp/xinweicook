@@ -1000,6 +1000,8 @@ exports.orderWeeklySales = function(req, res, next) {
         { "$match":matchList},
         { $project :project},
 
+        { "$sort": { "createdAt" : 1 } },
+
         { "$group": {
             "_id": { week : "$week", year : "$year"},
 

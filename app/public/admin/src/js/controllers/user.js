@@ -77,6 +77,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userStatisticLoyalPurchaseFrequency : {},
 
         userStatisticChartNewFirstOrderUserDaily : [],
+        userStatisticChartOrderUserWeekly : [],
         userStatisticChartOrderUserMonthly : [],
         userStatisticChartOrderUserYearly : {},
 
@@ -196,6 +197,47 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+
+    $scope.chartOrderUseWeekly = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每周有下单用户'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '周'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '用户数'
+            }
+        },
+        loading: false,
+        size: {}
+    };
 
     $scope.chartOrderUserMonthly = {
         options: {
@@ -437,10 +479,34 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
-
     };
 
+    $scope.searchUserStatisticOrderUserWeekly = function (form, sortBy) {
 
+        $scope.css.showTable = 'statOrderUserWeekly';
+        $scope.css.searchUserStatisticSortBy = sortBy;
+
+
+        if ($scope.data.searchDateTo !==''){
+            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        }
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserStatisticOrderUserWeekly($scope.data.searchOptions.query).then(function (result) {
+            $scope.data.userStatisticChartOrderUserWeekly = result.data;
+
+            $scope.chartOrderUseWeekly.series = Util.chartDataFormat($scope.data.userStatisticChartOrderUserWeekly);
+            $scope.chartOrderUseWeekly.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartOrderUserWeekly);
+
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
 
 
 

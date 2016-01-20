@@ -397,6 +397,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             });
         },
 
+        getUserStatisticOrderUserWeekly: function (params) {
+            return $http.get('/api/admin/statistic/user/order/weekly', {
+                params: params
+            });
+        },
+
         getUserStatisticOrderUserMonthly: function (params) {
             return $http.get('/api/admin/statistic/user/order/monthly', {
                 params: params
