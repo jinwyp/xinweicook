@@ -6,7 +6,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.0f21427153770f3d5493cb04c368d9b3.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.b67bc9145967b5a6c89f440afe2c5bab.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -106,14 +106,14 @@
         <a href="{{ pcPrefix }}/eat" class="xw-btn more tc {{ locale }}">{{ __('More Bentos') }}</a>
     </div>
 
-    <div class="videolink">
-        <h4>{{ __('我们定义urban饮食新方式') }}</h4>
-        <p>{{  __('New way detail') }}</p>
-        <a href="javascript:;" class="play"></a>
-        <video id="video1" controls="controls">
-            <source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">
-        </video>
-    </div>
+    {#<div class="videolink">#}
+        {#<h4>{{ __('我们定义urban饮食新方式') }}</h4>#}
+        {#<p>{{  __('New way detail') }}</p>#}
+        {#<a href="javascript:;" class="play"></a>#}
+        {#<video id="video1" controls="controls">#}
+            {#<source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">#}
+        {#</video>#}
+    {#</div>#}
 
     <div class="about-us">
 
@@ -176,8 +176,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.90c3107c911e6aa4f84d.js"></script>
-<script src="/pc/dist/index.90c3107c911e6aa4f84d.js"></script>
+<script src="/pc/dist/webpack-common.abee0dfcf5204061bd43.js"></script>
+<script src="/pc/dist/index.abee0dfcf5204061bd43.js"></script>
 
 </body>
 </html>

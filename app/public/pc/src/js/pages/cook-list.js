@@ -77,11 +77,14 @@ function initSortAndFilter() {
 
 
     // 菜单关闭弹出
-    $('.sort-group, .filter-group').on('click', 'h4', function () {
-        var $this = $(this), show
-        $this.toggleClass('down')
-        show = !$this.hasClass('down')
-        $this.siblings()[show ? 'show' : 'hide']()
+    $('.sort-group, .filter-group').hover(function () {
+        var $this = $(this)
+        $this.find('h4').removeClass('down')
+        $this.find('.sort-items, .filters').show()
+    }, function () {
+        var $this = $(this)
+        $this.find('h4').addClass('down')
+        $this.find('.sort-items, .filters').hide()
     })
 
     function getSearchData() {

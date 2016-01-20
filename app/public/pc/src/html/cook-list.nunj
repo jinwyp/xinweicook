@@ -23,6 +23,7 @@
                 <li data-type="03">{{ __("Like: highest first") }}</li>
             </ul>
         </div>
+        <i class="split"></i>
         <div class="filter-group">
             <h4 class="down">{{ __('Filter') }}</h4>
             <ul class="filters">

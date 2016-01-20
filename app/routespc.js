@@ -184,8 +184,26 @@ render.eatList = function (req, res, next, path) {
         sideDishType: {$in: ["main", "drink"]},
         isPublished: true,
         cookingType: 'ready to eat'
-    }).execAsync()
+    }).populate('tagFilter').execAsync()
         .then(function (dishes) {
+            var drinks = dishes.filter(function (dish) {
+                return dish.sideDishType == 'drink'
+            })
+            var drinkTags = {}
+            drinks.forEach(function (el) {
+                if (!el.tagFilter || !el.tagFilter.length) return
+                // todo: 这里假设`饮料`的tag只有一个,且只是用来做分类
+                var name = el.tagFilter[0].name.en
+                if (!drinkTags[name]) {
+                    drinkTags[name] = [el]
+                } else {
+                    drinkTags[name].push(el)
+                }
+            })
+            // 没有nunjucks的对象迭代方法, 考虑到以后万一要调整数组中元素的顺序比较方便
+            drinkTags = Object.keys(drinkTags).map(function (key) {
+                return drinkTags[key]
+            })
             res.render(path, {
                 // 表示当前页为便当列表,使相应nav为激活状态
                 curNav: 'eat',
@@ -195,9 +213,7 @@ render.eatList = function (req, res, next, path) {
                 dishes: dishes.filter(function (dish) {
                     return dish.sideDishType == 'main'
                 }),
-                drinks: dishes.filter(function (dish) {
-                    return dish.sideDishType == 'drink'
-                })
+                drinkTags: drinkTags
             })
         }).catch(function (err) {
             next(err)

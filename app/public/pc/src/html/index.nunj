@@ -106,14 +106,14 @@
         <a href="{{ pcPrefix }}/eat" class="xw-btn more tc {{ locale }}">{{ __('More Bentos') }}</a>
     </div>
 
-    <div class="videolink">
-        <h4>{{ __('我们定义urban饮食新方式') }}</h4>
-        <p>{{  __('New way detail') }}</p>
-        <a href="javascript:;" class="play"></a>
-        <video id="video1" controls="controls">
-            <source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">
-        </video>
-    </div>
+    {#<div class="videolink">#}
+        {#<h4>{{ __('我们定义urban饮食新方式') }}</h4>#}
+        {#<p>{{  __('New way detail') }}</p>#}
+        {#<a href="javascript:;" class="play"></a>#}
+        {#<video id="video1" controls="controls">#}
+            {#<source src="http://xinweicook.qiniudn.com/niurou_Compress.mp4" type="video/mp4">#}
+        {#</video>#}
+    {#</div>#}
 
     <div class="about-us">
 
