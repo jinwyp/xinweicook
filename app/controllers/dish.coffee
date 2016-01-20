@@ -85,7 +85,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
       resultDish.statisticLike = resultDish.statisticLike + 1
 
     req.u.saveAsync().catch (err)->
-      logger.error "---- User Like error", err
+      logger.error("---- User Like error", err)
 
     resultDish.saveAsync()
   .spread (resultDish2, numberAffected) ->
