@@ -1,6 +1,10 @@
 .cart-wrapper {
   width: 100%;
   margin-bottom: 50px;
+  .fa {
+    font-size: 15px !important;
+    cursor: pointer;
+  }
   h5 {
     text-align: center;
     line-height: 25px;
@@ -69,9 +73,6 @@
     .cart-dish-list {
       width: $width_cart_left_col;
       margin-bottom: 20px;
-      .fa {
-        font-size: 18px;
-      }
       .header {
         margin-bottom: 10px;
         border-bottom: 1px solid $color_cart_price_border;
@@ -100,9 +101,6 @@
         }
       }
       .cart-dish {
-        .fa {
-          font-size: 18px;
-        }
         .square-icon {
           font-size: 14px;
         }
@@ -193,9 +191,6 @@
       width: 475px;
       float: right;
       font-size: 14px;
-      .header {
-        font-size: 16px;
-      }
       .address-section {
         margin-bottom: 5px;
         .header {
@@ -233,6 +228,9 @@
                 }
                 &:nth-child(2) {
                   width: 80px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                 }
                 &:nth-child(3) {
                   line-height: 1.41;
@@ -320,6 +318,7 @@
           top: -50%;
           border: 1px solid #CECECE;
           border-radius: 4px;
+          box-sizing: border-box;
           h5 {
             height: 33px;
             line-height: 33px;
@@ -346,7 +345,6 @@
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 1em;
         label {
-          font-size: 16px;
           vertical-align: middle;
         }
         textarea {
@@ -361,9 +359,6 @@
 
       .coupon-section {
         margin-bottom: 16px;
-        label {
-          font-size: 16px;
-        }
         input, .coupon-card {
           border: 1px $color_cart_input_border solid;
           padding: 7px;
@@ -424,7 +419,6 @@
         }
         .group {
           margin-top: 6px;
-          font-size: 16px;
           .text {
             font-weight: 600;
             padding: 0 1em 0 .5em;
@@ -432,7 +426,6 @@
           .fa {
             color:$color_sunset_orange_approx;
             display: inline-block;
-            width: 16px;
           }
         }
       }

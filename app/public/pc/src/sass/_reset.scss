@@ -1,13 +1,11 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre, a, em, img,  s, strong, sub, sup, ol, ul, li, form, label,{
   margin: 0;
   padding: 0;
   border: 0;
   outline: 0;
   font-weight: 400;
-  font-style: inherit;
   font-family: PingHei, 'PingFang SC', 'Helvetica Neue', Helvetica, Microsoft Yahei, STHeitiSC-Light, Arial, sans-serif;
-  font-size: 15px;
-  vertical-align: baseline;
+  font-size: 100%;
 }
 
 a {
@@ -17,7 +15,8 @@ a {
 body {
   line-height: 1;
   color: #000;
-  background: #fff
+  background: #fff;
+  font-size: 15px;
 }
 
 ol, ul {
@@ -40,8 +39,8 @@ a img {
   border: none
 }
 
-input {
-  outline: 0 none
+button {
+  outline: 0 none !important;
 }
 
 a {

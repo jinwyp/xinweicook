@@ -87,3 +87,10 @@ body {
 .tc {
   text-align: center;
 }
+
+// should append display:not inline, width?
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
