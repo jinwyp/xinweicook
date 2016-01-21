@@ -7,7 +7,7 @@ $.fn.fadeList = function (options) {
     var fadeOutClass = options.fadeOutClass || 'fade-out'
     var fadeTime = options.fadeTime || 1000
     var interval = options.interval || 5000
-    var pauseHover = options.pauseHover === false ? false : true
+    var pauseHover = options.pauseHover !== false
 
     var enterClass = 'enter'
 

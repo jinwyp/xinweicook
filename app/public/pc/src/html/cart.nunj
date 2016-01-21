@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>我的购物车 - 新味</title>
+<head><title>{{ __('My Shopping Cart') }} - 新味</title>
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     <!-- build-replace -->
