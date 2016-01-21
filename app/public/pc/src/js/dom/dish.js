@@ -56,12 +56,12 @@ export function render(id, number, showMinus, counterSelector='.plusok', minusSe
 /**
  * 渲染便当是否超出配送范围
  * @param id - 便当id
- * @param show - show or hide
+ * @param outOfRange - show or hide
  * @param soldOut - show or hide
  * @param selector - the `out-of-range` selector. Default is '.out-of-range'
  */
-export function renderOutOfRange(id, show, soldOut, selector='.out-of-range', soldOutSelector='.sold-out') {
+export function renderOutOfRange(id, outOfRange, soldOut, selector='.out-of-range', soldOutSelector='.sold-out') {
     var $parent = $(`[data-id="${id}"]`)
-    $parent.find(selector)[(show && !soldOut) ? 'show' : 'hide']()
+    $parent.find(selector)[(outOfRange && !soldOut) ? 'show' : 'hide']()
     $parent.find(soldOutSelector)[soldOut ? 'show' : 'hide']()
 }

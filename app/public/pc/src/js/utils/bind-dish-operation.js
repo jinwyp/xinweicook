@@ -64,10 +64,19 @@ export default function (cart, dishes, parent) {
         _renderOutOfRange(newAddress.warehouse)
     })
 
-    function _renderOutOfRange(warehouse) {
+    // render before login
+    _renderOutOfRange(null, true)
+
+    /**
+     * 渲染是否是否超出配送范围,如果是未登录之前,即使没有warehouse也不认为out of range
+     * @param warehouse 仓库id
+     * @param beforeLogin 表示是否是未登录之前的渲染
+     * @private
+     */
+    function _renderOutOfRange(warehouse, beforeLogin) {
         dishes.forEach(dish => {
             if (dish.cookingType == 'ready to cook') return
-            dish.outOfRange = !warehouse || dish.stockWarehouseObj[warehouse] <= 0
+            dish.outOfRange = !beforeLogin && (!warehouse || dish.stockWarehouseObj[warehouse] <= 0)
             dish.soldOut = dish.stockWarehouse.every(el => el.stock<=0)
             dishDom.renderOutOfRange(dish._id, !!dish.outOfRange, dish.soldOut)
         })

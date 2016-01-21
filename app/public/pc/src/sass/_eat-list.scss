@@ -30,7 +30,7 @@
       color: $white;
       text-align: center;
       &.disabled {
-        background-color: gray;
+        background-color: $color_button_disabled;
       }
     }
   }
