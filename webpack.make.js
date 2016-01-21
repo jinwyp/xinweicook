@@ -81,9 +81,6 @@ module.exports = function makeWebpackConfig(options) {
 
     if (BUILD) {
         config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warning: false
-            },
             comments: false
         }))
     }
