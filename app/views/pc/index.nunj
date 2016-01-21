@@ -26,13 +26,13 @@
             <div class="entry">
                 <a href="{{ pcPrefix }}/cook/">
                     <img src="/pc/src/images/index-cook.png" alt="ready to cook"/>
-                    <p>{{ __("只愿享受烹炒的乐趣?") }}<br>{{ __("选料买菜的一切麻烦让新味帮你解决。") }}</p>
+                    <p>{{ __("Cook Question") }}<br>{{ __("Cook Answer") }}</p>
                 </a>
             </div>
             <div class="entry">
                 <a href="{{ pcPrefix }}/eat/">
                     <img src="/pc/src/images/index-eat.png" alt="ready to eat"/>
-                    <p>{{ __("在公司还想吃低温慢煮牛排?") }}<br>{{ __("新味让你用微波炉就能轻松享受。") }}</p>
+                    <p>{{ __("Bento Question") }}<br>{{ __("Bento Answer") }}</p>
                 </a>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <div class="info clearfix">
                         <div class="name-price">
                             <div class="name clearfix">
-                                <span class="person">{{ dish.servings }}人</span>
+                                <span class="person">{{ dish.servings }}{{ __('ppl') }}</span>
                                 <a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                             </div>
                             <div class="price">￥{{ dish.priceOriginal }}</div>
@@ -158,8 +158,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.1ba534d5ef2cb8dba045.js"></script>
-<script src="/pc/dist/index.1ba534d5ef2cb8dba045.js"></script>
+<script src="/pc/dist/webpack-common.de17837d8a2f62e6a334.js"></script>
+<script src="/pc/dist/index.de17837d8a2f62e6a334.js"></script>
 
 </body>
 </html>

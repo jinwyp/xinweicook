@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>我的购物车 - 新味</title>
+<head><title>{{ __('My Shopping Cart') }} - 新味</title>
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     
@@ -27,8 +27,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.1ba534d5ef2cb8dba045.js"></script>
-<script src="/pc/dist/cart.1ba534d5ef2cb8dba045.js"></script>
+<script src="/pc/dist/webpack-common.de17837d8a2f62e6a334.js"></script>
+<script src="/pc/dist/cart.de17837d8a2f62e6a334.js"></script>
 
 </body>
 </html>

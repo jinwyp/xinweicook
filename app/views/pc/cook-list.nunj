@@ -56,7 +56,7 @@
                 <div class="info clearfix">
                     <div class="name-price">
                         <div class="name clearfix">
-                            <span class="person">{{ dish.servings }}人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                            <span class="person">{{ dish.servings }}{{ __('ppl') }}</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                         </div>
                         <div class="price">￥{{ dish.priceOriginal }}</div>
                     </div>
@@ -122,7 +122,7 @@
                     <div class="info clearfix">
                         <div class="name-price">
                             <div class="name clearfix">
-                                <span class="person">{{ dish.servings }}人</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
+                                <span class="person">{{ dish.servings }}{{ __('ppl') }}</span><a href="javascript:;" class="menuname">{{ dish.title[locale]}}</a>
                             </div>
                             <div class="price">￥{{ dish.priceOriginal }}</div>
                         </div>
@@ -140,8 +140,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.1ba534d5ef2cb8dba045.js"></script>
-<script src="/pc/dist/cook-list.1ba534d5ef2cb8dba045.js"></script>
+<script src="/pc/dist/webpack-common.de17837d8a2f62e6a334.js"></script>
+<script src="/pc/dist/cook-list.de17837d8a2f62e6a334.js"></script>
 
 </body>
 </html>
