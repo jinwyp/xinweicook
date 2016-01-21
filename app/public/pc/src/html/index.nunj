@@ -120,49 +120,28 @@
 
     <div class="about-us">
 
-        {#<div class="why-us">#}
-            {#<h3 class="title">{{ __('Why choose us') }}?</h3>#}
-            {#<div class="block">#}
-                {#<div class="border">#}
-                    {#<div class="img"></div>#}
-                    {#<h4>大虾墨鱼面</h4>#}
-                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
-                {#</div>#}
-            {#</div>#}
-            {#<div class="block">#}
-                {#<div class="border">#}
-                    {#<div class="img"></div>#}
-                    {#<h4>大虾墨鱼面</h4>#}
-                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
-                {#</div>#}
-            {#</div>#}
-            {#<div class="block">#}
-                {#<div class="border">#}
-                    {#<div class="img"></div>#}
-                    {#<h4>大虾墨鱼面</h4>#}
-                    {#<p>墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子, 番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄墨系墨鱼汁意面碰撞温暖系虎虾, 蟹子,番茄</p>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
+        <div class="magazine">
+            <h4>{{ __('-What They Say About Us-') }}</h4>
+            <ul>
+                <li class="act">
+                    <span class="quote they">{{ __("That's Shanghai") }}</span>
+                    <p class="tl">{{ __("XinweiCook gives you credit for dinner, but takes away the muss, fuss and grocery shopping.") }}</p>
+                </li>
+                <li>
+                    <span class="quote they">{{ __("PingWest") }}</span>
+                    <p class="tl">{{ __("We often give up on the urge to try a new recipe because of the hassle to prepare all the ingredients, XinweiCook is here to solve this problem for you.") }}</p>
+                </li>
+                <li>
+                    <span class="they">{{ __("Steve Ge, CEO of Xinweicook") }}</span>
+                    <p class="tl">{{ __("If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.") }}</p>
+                </li>
+                <li>
+                    <span class="they quote">{{ __("The Bund") }}</span>
+                    <p class="tl">{{ __("Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.") }}</p>
+                </li>
+            </ul>
+        </div>
 
-        <ul class="magazine">
-            <li class="act">
-                <h3 class="quote">{{ __("That's Shanghai") }}</h3>
-                <p>{{ __("XinweiCook gives you credit for dinner, but takes away the muss, fuss and grocery shopping.") }}</p>
-            </li>
-            <li>
-                <h3 class="quote">{{ __("PingWest") }}</h3>
-                <p>{{ __("We often give up on the urge to try a new recipe because of the hassle to prepare all the ingredients, XinweiCook is here to solve this problem for you.") }}</p>
-            </li>
-            <li>
-                <h3>{{ __("Steve Ge, CEO of Xinweicook") }}</h3>
-                <p>{{ __("If a recipe calls for half an onion chopped, customers receive exactly that. No food wastage and no mis-purchased ingredients. That is sustainable cooking.") }}</p>
-            </li>
-            <li>
-                <h3 class="quote">{{ __("The Bund") }}</h3>
-                <p>{{ __("Because every ingredient is prepared and measured to the recipe, the customer avoids waste and the chance of getting the wrong ingredient.") }}</p>
-            </li>
-        </ul>
 
         {#<div class="magazine">#}
             {#<h3 class="arrow-title">外滩画报</h3>#}

@@ -297,24 +297,34 @@ $border-block: 5px;
     }
     .magazine {
       box-sizing: border-box;
-      height: 120px;
+      height: 245px;
       position: relative;
       margin: auto;
-      padding: 103px 115px;
+      padding-top: 50px;
+      h4 {
+        font-size: 14px;
+      }
       li {
         position: absolute;
-        top: 50px;
+        height: 120px;
+        top: 90px;
         left: 0;
         opacity: 0;
-        width: 780px;
+        width: 760px;
         right: 0;
         margin: auto;
-        h3 {
-          font-size: 16px;
-          margin-bottom: 27px;
+        .they {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          font-size: 12px;
+          margin-bottom: 22px;
+          &::before {
+            content: '-- ';
+          }
           &.quote {
             &::before {
-              content: '《 '
+              content: '--《 '
             }
             &::after {
               content: ' 》'
@@ -323,6 +333,8 @@ $border-block: 5px;
         }
         p {
           line-height: 1.4em;
+          padding-left: 48px;
+          background:url(../images/quote-icon.png) no-repeat 0 4px/auto;
         }
         &.act {
           opacity: 1;
