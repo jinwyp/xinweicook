@@ -86,7 +86,7 @@ export function plusDish(dish, cart) {
         })
 
         if (cartItem) { // 已经加入到购物车里边
-            number = cartItem.number++
+            number = ++cartItem.number
         } else {
             number = 1
             cart.unshift({

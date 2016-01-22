@@ -98,3 +98,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.plus, .mius {
+  user-select: none;
+}

@@ -84,7 +84,7 @@ export function flyDish(id) {
             top: endRect.top,
             width: endRect.width, height: endRect.height
         },
-        vertex_Rtop: 50,
+        vertex_Rtop: 5,
         onEnd: () => {
             flyDiv.data('fly').destroy()
         }
