@@ -3,7 +3,7 @@
 import {init as initCommon, emitter} from './common'
 
 import $ from 'jquery'
-import '../utils/jquery-utils'
+import '../utils/jquery'
 
 import {User, Dish} from '../models'
 

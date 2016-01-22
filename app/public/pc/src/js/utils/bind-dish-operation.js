@@ -94,7 +94,7 @@ export default function (cart, dishes, parent) {
         if (!number) { // 数字不存在,表示不能直接添加,需要使用多属性框
             openPropertySelection(dish)
         } else { // 表示无需弹出多属性选择框
-            User.postCartRelax(cart)
+            User.postCartRelax(cart, id)
             dishDom.render(id, number, true)
             header.cart(cart)
             // todo: bad code
@@ -201,7 +201,7 @@ function bindPropertySelection(cart, dishes) {
             var propertyId = $this.data('id')
 
             dishUtil.plusDishWithProperty(dish, cart, groupId, propertyId)
-            User.postCartRelax(cart)
+            User.postCartRelax(cart, id)
             // todo: bad code
             $('.shopnow .buy').removeClass('disabled')
         })

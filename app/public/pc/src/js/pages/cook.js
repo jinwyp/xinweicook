@@ -3,6 +3,7 @@
 import {init as initCommon} from './common'
 import {User, Dish} from '../models'
 import $ from 'jquery'
+import '../utils/jquery'
 import bindDish, {bindTab} from '../utils/bind-dish-operation'
 
 // init position selector(react)

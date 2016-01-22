@@ -3,6 +3,7 @@
 
 import fetch, {post, put} from './utils/xw-fetch'
 import {toPostDish} from './utils/dish'
+import {flyDish} from './dom/dish'
 
 export var Dish = {
     getList: function (options) {
@@ -33,18 +34,20 @@ export var User = {
             delete localStorage['ngStorage-access_token']
         })
     },
-    postCart: function (cart) {
+    postCart: function (cart, id) {
         return post('/api/user/shoppingcart', {
             shoppingCart: cart
                 .filter(item => !!item.dish)
                 .map(toPostDish)
+        }).then(() => {
+            flyDish(id)
         })
     },
-    postCartRelax: function (cart) {
+    postCartRelax: function (cart, id) {
         if (!timer) {
             timer = setTimeout(()=> {
                 timer = null;
-                return User.postCart(cart)
+                return User.postCart(cart, id)
             }, 200) // todo: 如果时间太长了,会导致触发请求返回的时间过长,如果想早点知道403就有些悲催
         }
     }

@@ -65,3 +65,28 @@ export function renderOutOfRange(id, outOfRange, soldOut, selector='.out-of-rang
     $parent.find(selector)[(outOfRange && !soldOut) ? 'show' : 'hide']()
     $parent.find(soldOutSelector)[soldOut ? 'show' : 'hide']()
 }
+
+
+export function flyDish(id) {
+    var img = $(`[data-id="${id}"] img`)[0]
+    if (!img) return
+    var startRect = img.getBoundingClientRect()
+    var endRect = $('header .cart')[0].getBoundingClientRect()
+    var flyDiv = $(`<div class="clone-dish" style="background-image:url(${img.src})"></div>`)
+
+    flyDiv.fly({
+        start: {
+            left: startRect.left + (startRect.width - flyDiv.width()) /2,
+            top: startRect.top + (startRect.height - flyDiv.height()) /2
+        },
+        end: {
+            left: endRect.left,
+            top: endRect.top,
+            width: endRect.width, height: endRect.height
+        },
+        vertex_Rtop: 50,
+        onEnd: () => {
+            flyDiv.data('fly').destroy()
+        }
+    })
+}

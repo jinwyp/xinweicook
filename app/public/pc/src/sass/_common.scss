@@ -167,6 +167,15 @@
   transition: opacity ease-out 1s;
 }
 
+.clone-dish {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  background: no-repeat center/cover;
+  border-radius: 50%;
+  z-index: 1000;
+}
+
 #xw-special-middle {
   z-index: 1000;
   position: fixed;
