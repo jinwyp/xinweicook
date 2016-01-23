@@ -12,7 +12,7 @@
                     </a>
                 </li>
                 <li><img src="/pc/src/images/wechat-icon.png" alt="weichat"/>{{ __("Search") }} "xinweicook"</li>
-                <li><img src="/pc/src/images/weibo-icon.png" alt="weibo"/>{{ __("Follow us on Weibo") }}</li>
+                <li><a href="http://weibo.com/xinweicook" target="_blank"><img src="/pc/src/images/weibo-icon.png" alt="weibo"/>{{ __("Follow us on Weibo") }}</a></li>
             </ul>
         </div>
         <img src="/pc/src/images/app-qrcode.png" alt="what to place here"/>

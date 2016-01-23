@@ -31,6 +31,9 @@ var routes = function(app) {
     app.get(publicPrefix + "/paymentresult", function (req, res) {
         res.render(viewsPrefix + 'pay-notify.nunj')
     })
+    app.get(publicPrefix + "/app", function (req, res) {
+        res.render(viewsPrefix + 'app.nunj')
+    })
 
 
 
@@ -86,11 +89,6 @@ var routes = function(app) {
 
     app.get('/nsign', function (req, res) {
         res.redirect(publicPrefix + '/sign/')
-    })
-
-
-    app.get('/app', function (req, res) {
-        res.redirect(publicPrefix + '/')
     })
 
     app.get('/mobile/products', function (req, res) {

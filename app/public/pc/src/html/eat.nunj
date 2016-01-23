@@ -25,7 +25,7 @@
             <div class="info-border">
                 <h3>{{ dish.title[locale] }}</h3>
                 {#<div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>#}
-                <div class="tabbtn clearfix"><a class="desc act single">{{ __('Introduction') }}</a></div>
+                <div class="tabbtn clearfix"><a class="desc act single">{{ __('INTRODUCTION') }}</a></div>
                 <div class="tabs">
                     <div class="desc act">{{ dish.brief[locale] }}</div>
                 </div>
