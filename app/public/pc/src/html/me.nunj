@@ -6,7 +6,7 @@
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
     <!-- end-build-replace -->
-    <link rel="stylesheet" href="//libs.useso.com/js/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://libs.useso.com/js/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="body-wrapper">
