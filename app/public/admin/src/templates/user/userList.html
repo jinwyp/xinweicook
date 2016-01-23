@@ -180,10 +180,13 @@
                     <label for="inputStatisticsIsOldWebsite" class="col-lg-2 control-label" >是否是老网站导入用户</label>
                     <div class="col-lg-8">
                         <label class="radio-inline" >
-                            <input type="radio" name="userStatisticsIsOldWebsite" id="inputStatisticsIsOldWebsite" ng-value="false" ng-model="data.searchOptions.query.statisticsIsOldWebsite">否, 注册用户
+                            <input type="radio" name="userStatisticsIsOldWebsite" id="inputStatisticsIsOldWebsite" ng-value="''" ng-model="data.searchOptions.query.statisticsIsOldWebsite">All
                         </label>
                         <label class="radio-inline" >
-                            <input type="radio" name="userStatisticsIsOldWebsite" id="inputStatisticsIsOldWebsite" ng-value="true" ng-model="data.searchOptions.query.statisticsIsOldWebsite">是, 老网站导入用户
+                            <input type="radio" name="userStatisticsIsOldWebsite"  ng-value="false" ng-model="data.searchOptions.query.statisticsIsOldWebsite">否, 注册用户
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="userStatisticsIsOldWebsite"  ng-value="true" ng-model="data.searchOptions.query.statisticsIsOldWebsite">是, 老网站导入用户
                         </label>
                     </div>
                 </div>
