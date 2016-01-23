@@ -77,8 +77,8 @@ app.use models.Router
 # i18n setup
 app.use(i18n.init);
 app.use (req, res, next)->
-  #todo: 到底要不要这个东西,要的话是不是放到conf.coffee中更合适
-  res.locals.pcPrefix = conf.pcPrefix
+  #locals的东西是给模版中用的, 线上的没有前缀,由nginx自动转到相应路径
+  res.locals.pcPrefix = (if app.get('env') is "production" then "" else conf.pcPrefix)
   res.locals.__DEV__ = app.get('env') != 'production';
   next()
 

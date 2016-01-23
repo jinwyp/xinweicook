@@ -63,7 +63,7 @@ module.exports = function makeWebpackConfig(options) {
             new webpack.DefinePlugin({
                 __DEV__: BUILD ? 'false' : 'true',
                 __TODO__: BUILD ? '' : 'console.warn("todo: to be completed")',
-                __PCPREFIX__: "'/pc'"
+                __PCPREFIX__: BUILD ? "''" : "'/pc'"
             }),
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'webpack-common',
