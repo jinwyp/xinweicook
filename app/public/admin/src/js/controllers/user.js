@@ -29,7 +29,9 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 invitationSendCode : '',
                 sharedInvitationSendCodeTotalCount : 0,
                 sharedInvitationSendCodeUsedTime : 0,
-                statisticsClientFrom : ''
+                statisticsClientFrom : '',
+                oldWebsiteId : '',
+                statisticsIsOldWebsite : ''
             }
 
         },
