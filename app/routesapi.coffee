@@ -184,6 +184,7 @@ expressRoutes = (app) ->
   app.get("/api/administrator/initfixcouponenddate", initController.fixCouponEndDate)
   app.get("/api/administrator/initwarehousestock", libs.auth("admin"), initController.fixDishWarehouseStock)
   app.get("/api/administrator/inittag", libs.auth("admin"), initController.createDishAndTag)
+  app.get("/api/administrator/initolduser",  userController.importOldWebsiteUser)
 #  app.get("/api/administrator/initolddish", libs.auth("admin"), initController.createOldDishMigrate)
 #  app.get("/api/administrator/initdishtopping", libs.auth("admin"), initController.initDishWithTopping)
 

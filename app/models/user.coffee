@@ -1,4 +1,8 @@
 # 用户
+
+md5 = require('MD5')
+
+
 autoIncrement = require "mongoose-auto-increment"
 
 
@@ -9,6 +13,9 @@ module.exports =
       type: String
       set: (pwd) ->
         @encryptPwd(pwd)
+    oldWebsitePassword : type:String
+    oldWebsiteId : type:String
+
     mobile: type: String, unique: true,trim:true
     email: type: String, sparse: true, unique: true, trim:true, lowercase:true
     username: type:String, trim:true
@@ -86,6 +93,7 @@ module.exports =
     lastOrderDate: type: Date
 
     statisticsClientFrom: String # website, mobileweb, ios, android, wechat(公众号支付),
+    statisticsIsOldWebsite: type: Boolean, default: false # 是否是老网站倒入的用户
 
     oldUserData :
       mobile:String
@@ -207,6 +215,8 @@ module.exports =
     checkPwdCorrect: (formPwd, user) ->
       if bcrypt.compareSync(formPwd.toString(), user.pwd)
         user
+      else if user.oldWebsitePassword is md5(formPwd)
+        user
       else
         throw new Err("密码错误", 401, Err.code.user.wrongPassword)
 
@@ -236,11 +246,15 @@ module.exports =
           u.saveAsync()
         )
       )
+
+
     findUserByMobilePwd: (mobile, pwd) ->
       @findOneAsync(mobile: mobile).then (user)->
+
         models.user.checkNotFound(user)
         models.user.checkNotSpam(user)
         models.user.checkPwdCorrect(pwd, user)
+
         user
 
     findUserById: (userId) ->

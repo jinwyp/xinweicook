@@ -149,6 +149,21 @@
                     </div>
                 </div>
 
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$valid, 'has-error':searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$invalid}">
+                    <label for="inputOldWebsiteId" class="col-lg-2 control-label" >老网站的用户_ID</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" id="inputOldWebsiteId" placeholder="老网站的用户_ID" name="oldWebsiteId" ng-model="data.searchOptions.query.oldWebsiteId" ng-minlength="23">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$valid"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$invalid"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="form-validation help-block" ng-if="searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$error.required">请填入信息！</span>
+                        <span class="form-validation help-block" ng-if="searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$error.minlength || searchForm.oldWebsiteId.$dirty&&searchForm.oldWebsiteId.$error.maxlength">输入的信息长度错误！</span>
+                    </div>
+                </div>
+
+
                 <div class="form-group has-feedback" >
                     <label class="col-lg-2 control-label" >注册时间范围截至</label>
                     <div class="col-lg-4">
@@ -161,6 +176,20 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userStatisticsIsOldWebsite.$dirty&&searchForm.userStatisticsIsOldWebsite.$valid, 'has-error':searchForm.userStatisticsIsOldWebsite.$dirty&&searchForm.userStatisticsIsOldWebsite.$invalid}">
+                    <label  class="col-lg-2 control-label" >是否是老网站导入用户</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" >
+                            <input type="radio" name="userStatisticsIsOldWebsite"  ng-value="''" ng-model="data.searchOptions.query.statisticsIsOldWebsite">All
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="userStatisticsIsOldWebsite"  ng-value="'false'" ng-model="data.searchOptions.query.statisticsIsOldWebsite">否, 注册用户
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" name="userStatisticsIsOldWebsite"  ng-value="'true'" ng-model="data.searchOptions.query.statisticsIsOldWebsite">是, 老网站导入用户
+                        </label>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">

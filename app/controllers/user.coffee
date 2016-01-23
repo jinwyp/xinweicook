@@ -1419,3 +1419,123 @@ exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
       res.json resultAccount[0]
 
   .catch next
+
+
+
+
+
+
+
+
+
+oldUserList = require("../../test/oldwebsiteuser")
+
+# 用户账户 老网站用户
+exports.importOldWebsiteUser = (req, res, next) ->
+
+  oldUserId = []
+  oldUserMobileOrder = []
+  oldUserMobileObj = {}
+
+  oldUserEmailOrder = []
+  oldUserEmailWithTelephone = []
+  oldUserEmailObj = {}
+
+
+  checkUserRegPromise = (userMobile, oldUserObj) ->
+
+    if userMobile.length > 10
+
+      models.user.findOneAsync({mobile:userMobile}).then (resultUser)->
+
+        if not resultUser
+
+          newUser =
+            mobile : oldUserObj[userMobile].telephone
+            pwd    : 'xinwei2016'
+            oldWebsitePassword    : oldUserObj[userMobile].password
+            oldWebsiteId    : oldUserObj[userMobile]._id
+            statisticsClientFrom : models.order.constantClientFrom().website
+            statisticsIsOldWebsite : true
+
+          if oldUserObj[userMobile].email
+            newUser.email = oldUserObj[userMobile].email
+
+
+          str = ""
+          if oldUserObj[userMobile].telephone.length > 11
+
+            str = oldUserObj[userMobile].telephone.replace(/\s+/g,"")
+            str = str.replace(/\-|\./g,"");
+            str = str.replace(/＋/g,"+");
+
+            if oldUserObj[userMobile].telephone.indexOf("+86") > -1 or oldUserObj[userMobile].telephone.indexOf("＋") > -1
+              str = str.substr(3,13)
+              newUser.mobile = str
+#              console.log("15:: ", str, userMobile)
+            else if oldUserObj[userMobile].telephone.indexOf("+") > -1
+              str = str.substr(1,13)
+              newUser.mobile = str
+            else
+              str = str.substr(0,11)
+              newUser.mobile = str
+
+            console.log("Old website user mobile length is greater than 11 :: ", str,  userMobile)
+
+          if libs.validator.isMobilePhone(newUser.mobile, 'zh-CN')
+            console.log("create Old website user :  ",  userMobile)
+            models.user.createAsync(newUser)
+
+        return {}
+      .catch((err) ->
+        logger.error("import old website user error :", JSON.stringify(err))
+      )
+
+    else
+      return null
+
+  for user, userIndex in oldUserList
+    if user._id
+      oldUserId.push (user._id.toString())
+
+    if user.telephone
+      oldUserMobileObj[user.telephone] = user
+#      console.log("++++++++", userIndex, user.telephone, user._id)
+      if user.order_count > 0
+        oldUserMobileOrder.push(user)
+
+
+    if user.email
+      if user.order_count > 0
+        oldUserEmailOrder.push(user)
+
+      if user.telephone
+#        oldUserEmailObj[user.telephone] = user
+        oldUserEmailWithTelephone.push(user)
+      else
+        if user.addresses and user.addresses.length > 0
+          if user.addresses[0].telephone
+#            user.telephone = user.addresses[0].telephone
+            oldUserEmailObj[user.addresses[0].telephone] = user
+            oldUserEmailWithTelephone.push(user)
+
+
+
+  for user, userIndex in oldUserList
+
+    if user.telephone
+      checkUserRegPromise(user.telephone, oldUserMobileObj)
+
+    if user.email
+      if not user.telephone
+        if user.addresses and user.addresses.length > 0
+          if user.addresses[0].telephone
+            user.telephone = user.addresses[0].telephone
+            oldUserEmailObj[user.addresses[0].telephone] = user
+            checkUserRegPromise(user.telephone, oldUserEmailObj)
+
+
+
+  res.json oldUserEmailObj
+
+
