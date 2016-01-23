@@ -13,6 +13,7 @@ module.exports = function makeWebpackConfig(options) {
         context: path.join(__dirname, "./app/public/pc/src/js"),
         entry: {
             sign: './pages/sign.js',
+            'reset-password': './pages/reset-password.js',
             cart: './pages/cart.js',
             me: './pages/me.js',
             index: './pages/index.js',

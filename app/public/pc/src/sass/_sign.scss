@@ -37,8 +37,9 @@
     color: $color_mine_shaft_approx;
   }
   .btn-login {
+    padding: 0;
     display: block;
-    width: 80px;
+    width: 95px;
     text-align: center;
     color: $white;
     background-color: $color_sunset_orange_approx;
@@ -49,7 +50,10 @@
   .forgot {
     line-height: 30px;
     cursor: pointer;
-    color: $color_sunset_orange_approx !important;
+    position: absolute;
+    bottom: 35px;
+    left: 180px;
+    color: gray;
     font-size: 14px;
   }
   .getcode {
@@ -70,6 +74,7 @@
     height: 80%;
     float: left;
     display: inline;
+    position: relative;
     #signup_btn {
       background-color: $color_mine_shaft_approx;
       color: $white;
@@ -91,5 +96,19 @@
   }
   button {
     border: none;
+  }
+}
+
+// 重置密码页面
+.reset-pwd {
+  .usersign {
+    .signup {
+      width: 37%;
+      padding: 40px 60px;
+      height: 80%;
+      margin: auto;
+      float: none;
+      display: block;
+    }
   }
 }

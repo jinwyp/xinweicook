@@ -36,6 +36,11 @@
   "Sold Out": "售罄",
 
   "##### 注册登录 ####":"",
+  "Sign": "登录/注册",
+  "Reset Password":"重置密码",
+  "Reset":"重置",
+  "Resetting":"重置中",
+  "Reset Done": "重置成功",
   "Slide to fetch the verification code": "滑动获取验证码",
   "Please write your mobile number before this": "请先填写手机号码",
   "Sign in": "登录",

@@ -22,6 +22,9 @@ var routes = function(app) {
     app.get(publicPrefix + "/sign", function (req, res) {
         res.render(viewsPrefix + 'sign.nunj')
     })
+    app.get(publicPrefix + "/resetpwd", function (req, res) {
+        res.render(viewsPrefix + 'reset-password.nunj')
+    })
     app.get(publicPrefix + "/cart", function (req, res) {
         res.render(viewsPrefix + 'cart.nunj')
     })

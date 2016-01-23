@@ -1,6 +1,7 @@
 // sign
 export const SIGNIN_SEND = 'SIGNIN_SEND';
 export const SIGNUP_SEND = 'SIGNUP_SEND';
+export const RESETPWD_SEND = 'RESETPWD_SEND';
 
 // cart
 export const CART_SELECT_ONE = 'CART_SELECT_ONE';

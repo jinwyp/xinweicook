@@ -40,3 +40,22 @@ export function signUp(data) {
     }
 }
 
+
+function resetPwdSend(data) {
+    return {
+        type: types.SIGNUP_SEND,
+        data
+    }
+}
+
+// todo: 失败的原因
+export function resetPwd(data) {
+    return function (dispatch) {
+        dispatch(resetPwdSend(data));
+        return post("/api/user/resetpassword", {
+            mobile: data.mobile,
+            pwd: data.pwd,
+            code: data.smsCode
+        })
+    }
+}

@@ -61,7 +61,7 @@ var SignIn = React.createClass({
                         <input ref="pwd" defaultValue={this.props.pwd} onBlur={()=>this.setState({pwdValidateOn: true})} id="signin_pwd" type="password"/>
                         {this.state.pwdValidateOn && !this.validate('pwd') && <span className="err-tip">{__('Your password must be at least 6 characters long')}</span>}
                     </div>
-                    <a id="resetpwd" className="forgot" style={{display: 'none'}}>{__('Forgot your password?')}</a>
+                    <a id="resetpwd" className="forgot" href={__PCPREFIX__ + '/resetpwd'}>{__('Forgot your password?')}</a>
 
                     {
                         this.state.isSending ?
