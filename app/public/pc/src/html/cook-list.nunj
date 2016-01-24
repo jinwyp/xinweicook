@@ -80,8 +80,10 @@
                         <h3>{{ dish.title[locale] }}</h3>
                         {#<div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>#}
                         <div class="tabbtn clearfix">
-                            <a class="desc act">{{ __('INTRODUCTION') }}</a>
-                            <a class="ingre">{{ __('INGREDIENTS') }}</a></div>
+                            <a class="desc act {{ '' if dish.infoIngredient.length else 'single' }}">{{ __('INTRODUCTION') }}</a>
+                            {% if dish.infoIngredient.length %}
+                                <a class="ingre">{{ __('INGREDIENTS') }}</a>
+                            {% endif %}
                         <div class="tabs">
                             <div class="desc act">{{ dish.brief[locale] }}</div>
                             <div class="ingre clearfix">

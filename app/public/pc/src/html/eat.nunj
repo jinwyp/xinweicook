@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://libs.useso.com/js/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 <body>
-
+<div class="body-wrapper">
 {% include "./includes/header.nunj" %}
 
 <div class="headeremp"></div>
@@ -58,6 +58,8 @@
     {#</div>#}
 </div>
 
+<div class="footer-push"></div>
+</div>
 {% include "./includes/footer.nunj" %}
 
 <!-- build-replace -->
