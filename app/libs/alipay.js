@@ -30,7 +30,7 @@ var configAlipay = {
     notify_url: 'http://m.xinweicook.com/api/orders/payment/alipay/mobile',
 
     mobile_return_url: 'http://m.xinweicook.com/mobile/alipay/return',
-    website_return_url: 'http://m.xinweicook.com' + conf.pcPrefix + '/paymentresult',
+    website_return_url: 'http://xinweicook.com/paymentresult',
 
 
 
