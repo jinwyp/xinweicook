@@ -8,6 +8,7 @@
     
     <link rel="stylesheet" href="/pc/dist/webpack-common.9a4b99d9132333980256a1a3ff1e9c11.css"/>
     
+    <link rel="stylesheet" href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -80,8 +81,10 @@
                         <h3>{{ dish.title[locale] }}</h3>
                         {#<div class="chef clearfix"><img src="/pc/src/images/chef.png"><h6>James Chen</h6></div>#}
                         <div class="tabbtn clearfix">
-                            <a class="desc act">{{ __('INTRODUCTION') }}</a>
-                            <a class="ingre">{{ __('INGREDIENTS') }}</a></div>
+                            <a class="desc act {{ '' if dish.infoIngredient.length else 'single' }}">{{ __('INTRODUCTION') }}</a>
+                            {% if dish.infoIngredient.length %}
+                                <a class="ingre">{{ __('INGREDIENTS') }}</a>
+                            {% endif %}
                         <div class="tabs">
                             <div class="desc act">{{ dish.brief[locale] }}</div>
                             <div class="ingre clearfix">
