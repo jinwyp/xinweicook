@@ -948,11 +948,9 @@ exports.updateAddress = (req, res, next) ->
           deliveryRange : warehouse.deliveryRange
 
         baiduMapQuery.origins.push(originPlace)
-      console.log(baiduMapQuery.destinations)
       baiduMap.getDistanceFromMultiPointAsync(baiduMapQuery)
 
     .then (resultBaidu) ->
-      console.log(resultBaidu)
       if resultBaidu.status and resultBaidu.status isnt 0
         throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
