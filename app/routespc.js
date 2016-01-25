@@ -90,6 +90,10 @@ var routes = function(app) {
         res.redirect(publicPrefix + '/cook/')
     })
 
+    app.get('/front/shareboard', function (req, res) {
+        res.redirect(publicPrefix + '/cook/')
+    })
+
     app.get('/nsign', function (req, res) {
         res.redirect(publicPrefix + '/sign/')
     })
