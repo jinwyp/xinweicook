@@ -27,8 +27,8 @@ import * as header from '../pages/header'
 
 import {price as dishPrice} from "../utils/dish"
 
-var CJDishId = '55b1b46e4c2900bb159cafc2' //'56988143247c25ce3fa59a01'
-var QRJDishId = '562f3279a615556a44128dca' //'56a4dc2097fdeb3361dcc7b1'
+var CJDishId =  '56988143247c25ce3fa59a01'
+var QRJDishId = '56a4dc2097fdeb3361dcc7b1'
 
 var App = React.createClass({
     componentDidMount: function () {
