@@ -36,8 +36,8 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }
     };
 
-    var CJDishId = '55b1b46e4c2900bb159cafc2'
-    var QRJDishId = '562f3279a615556a44128dca'
+    var CJDishId = '56988143247c25ce3fa59a01'
+    var QRJDishId = '56a4dc2097fdeb3361dcc7b1'
 
     $scope.select = function (item) {
         if (item.outOfStock) return;
