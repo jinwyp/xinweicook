@@ -6,7 +6,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.8e91c587ffca87b58587ef99a3d26e4b.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.a228ded2f8602630d7189e06a3df8db5.css"/>
     
     <link rel="stylesheet" href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css">
 </head>
@@ -143,8 +143,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.f3b875ed425984a953a7.js"></script>
-<script src="/pc/dist/cook-list.f3b875ed425984a953a7.js"></script>
+<script src="/pc/dist/webpack-common.f8bbb29a0e421bbcca95.js"></script>
+<script src="/pc/dist/cook-list.f8bbb29a0e421bbcca95.js"></script>
 
 </body>
 </html>

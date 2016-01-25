@@ -1,4 +1,4 @@
-import {__} from '../utils/locale'
+import {__, lang} from '../utils/locale'
 
 import React from 'react'
 
@@ -6,6 +6,8 @@ function fixed(number, digit) {
     digit = digit != undefined ? digit : 1
     return number.toFixed(digit)
 }
+
+var l = lang()
 
 var OrderPrice = React.createClass({
     render() {
@@ -21,7 +23,7 @@ var OrderPrice = React.createClass({
                     <span>{__('Price')}</span><span className="rmb-char">{fixed(props.cartPrice)}</span>
                 </div>
                 <div className="item">
-                    <span><span>{__("Shipping rates")}</span><i>（{__("满100免运费")}）</i></span>
+                    <span><span>{__("Shipping rates")}</span><i className={l}>（{__("满100免运费")}）</i></span>
                     <span className="rmb-char">{fixed(props.freight)}</span>
                 </div>
                 {
