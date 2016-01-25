@@ -27,8 +27,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.7d47d5e04123353037f0.js"></script>
-<script src="/pc/dist/cart.7d47d5e04123353037f0.js"></script>
+<script src="/pc/dist/webpack-common.e0736dcf323cd687987a.js"></script>
+<script src="/pc/dist/cart.e0736dcf323cd687987a.js"></script>
 
 </body>
 </html>
