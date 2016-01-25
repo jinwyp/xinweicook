@@ -34,6 +34,11 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
         // 购物车
         cart = data.cart = $localStorage.confirmedBag;
+
+        if (!cart) {
+            location.href = '/mobile'
+            return
+        }
         // 春节,情人节特殊处理
         cart.cookList && cart.cookList.length && cart.cookList.forEach(function (el) {
             if (el.dish && el.dish._id == CJDishId) {
