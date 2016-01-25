@@ -24,7 +24,7 @@ exports.dishList = (req, res, next) ->
   query.isPublished = true
 
   if req.get("user-agent") is "Xinwei Cook"
-    query._id = {$ne:["56988143247c25ce3fa59a01", "56a4dc2097fdeb3361dcc7b1"]}
+    query._id = {$nin:["56988143247c25ce3fa59a01", "56a4dc2097fdeb3361dcc7b1"]}
 
 
   if req.query.limit > 0
