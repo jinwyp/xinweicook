@@ -116,6 +116,7 @@ export function putOne(address) {
     return function (dispatch) {
         dispatch(putStart())
         address.isDefault = true
+        console.log(address)
         return _put(`/api/user/address/${address._id}`, address)
             .then(addr => {
                 dispatch(putDone(addr))
