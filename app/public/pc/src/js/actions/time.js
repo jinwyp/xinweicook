@@ -15,7 +15,77 @@ function getTimeStart() {
     }
 }
 
-function getTimeDone(timeList, cookingType) {
+var CJDishId = '55b1b46e4c2900bb159cafc2' //'56988143247c25ce3fa59a01'
+var QRJDishId = '562f3279a615556a44128dca' //'56a4dc2097fdeb3361dcc7b1'
+
+function getTimeDone(timeList, cookingType, cart, address) {
+    if (cookingType == 'ready to cook') {
+        var hasCJ, hasQRJ, selectedAddress, isInRange4KM
+        cart.filter(el => el.dish.cookingType == 'ready to cook' && el.selected)
+            .forEach(el => {
+                if (el.dish._id == CJDishId)
+                    hasCJ = true
+                if (el.dish._id == QRJDishId)
+                    hasQRJ = true
+            })
+        if (hasCJ || hasQRJ) {
+            selectedAddress = address.addresses.filter(el => el.selected)[0]
+            isInRange4KM = selectedAddress.warehouse == '56332187594b09af6e6c7dd2'
+            if (hasCJ) {
+                timeList = [
+                    {
+                        "day":"2016-02-06",
+                        "segment":[
+                            {"name":"10","text":"10:00-20:00","status":true}
+                        ]
+                    }
+                ]
+            }
+
+            if (hasQRJ) {
+                if (isInRange4KM) {
+                    timeList = [
+                        {
+                            "day":"2016-02-13",
+                            "segment":[
+                                {"name":"10","text":"10:00-20:00","status":true}
+                            ]
+                        },
+                        {
+                            "day":"2016-02-14",
+                            "segment":[
+                                {"name":"10","text":"10:00-20:00","status":true}
+                            ]
+                        }
+                    ]
+                } else timeList = [
+                    {
+                        "day":"2016-02-14",
+                        "segment":[
+                            {"name":"10","text":"10:00-20:00","status":true}
+                        ]
+                    }
+                ]
+            }
+
+            var ret = []
+            timeList.forEach(time => {
+                if (time.segment) {
+                    time.segment.forEach(s => {
+                        ret.push({
+                            day: time.day,
+                            segment: s.text
+                        })
+                    })
+                } else {
+                    ret.push({day: time.day})
+                }
+            })
+            timeList = ret
+
+        }
+    }
+
     return {
         type: types.GET_TIME,
         status: 'success',
@@ -38,14 +108,14 @@ function getTimeFailed(error) {
  * @returns {Function}
  */
 export function getTime(cookingType, address) {
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch(getTimeStart())
         var promise
         if (cookingType == 'ready to cook') {
             promise = post('/api/orders/delivery/time', {
                 cookingType: 'ready to cook',
                 isCityShanghai: address.city.indexOf('上海') != -1,
-                isInRange4KM: address.isAvailableForEat
+                isInRange4KM: address.warehouse == '56332187594b09af6e6c7dd2'
             }).then(res => {
                 if (!res.length) return res
                 var ret = []
@@ -76,7 +146,7 @@ export function getTime(cookingType, address) {
                 })
             })
         }
-        return promise.then(timeList => dispatch(getTimeDone(timeList, cookingType)))
+        return promise.then(timeList => dispatch(getTimeDone(timeList, cookingType, getState().cart, getState().address)))
     }
 }
 
@@ -99,7 +169,7 @@ export function getTimeIfNeeded() {
                 var address = addresses[j]
                 var key = type + address._id
                 if (timeCache[key]) {
-                    dispatch(getTimeDone(timeCache[key], type))
+                    dispatch(getTimeDone(timeCache[key], type, getState().cart, getState().address))
                 } else {
                     dispatch(getTime(type, address))
                 }

@@ -10,6 +10,7 @@ var StaticAddress = React.createClass({
             isAvailableForEat: props.isAvailableForEat,
             warehouse: props.warehouse,
             city: props.city,
+            province: props.province,
             _id: props._id
         })
     },

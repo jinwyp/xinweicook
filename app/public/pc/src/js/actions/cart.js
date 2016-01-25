@@ -45,17 +45,17 @@ function selectionChanged(info) {
     }
 }
 
-export function selectOne(id) {
+export function selectOne(id, select) {
     return function (dispatch, getState) {
-        dispatch(_selectOne(id))
+        dispatch(_selectOne(id, select))
         return dispatch(selectionChanged(getCookingTypeAndWarehouse(getState().cart)))
     }
 }
 
-function _selectOne(id, info) {
+function _selectOne(id, select) {
     return {
         type: types.CART_SELECT_ONE,
-        id, info
+        id, select
     }
 }
 
