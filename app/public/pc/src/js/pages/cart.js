@@ -91,13 +91,13 @@ var App = React.createClass({
                     })
                 if (isQRJSelected) {
                     if (_id == CJDishId) {
-                        alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+                        alert(__('Clash info for the two days'))
                         return
                     }
                 }
                 if (isCJSelected) {
                     if (_id == QRJDishId) {
-                        alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+                        alert(__('Clash info for the two days'))
                         return
                     }
                 }
@@ -113,7 +113,7 @@ var App = React.createClass({
                 if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
                     !hasJZHWAddress
                 ) {
-                    alert('情人节套餐暂时只限江浙沪皖地区可下单')
+                    alert(__('Valentine day only for JZHW'))
                     return
                 }
 
@@ -128,7 +128,7 @@ var App = React.createClass({
                 hasQRJ = cookList.some(el => el.dish._id == QRJDishId)
                 hasCJ = cookList.some(el => el.dish._id == CJDishId)
                 if (hasQRJ && hasCJ) {
-                    alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+                    alert(__('Clash info for the two days'))
                     return
                 }
                 var selectedAddress
@@ -143,7 +143,7 @@ var App = React.createClass({
                 if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
                     !hasJZHWAddress
                 ) {
-                    alert('情人节套餐暂时只限江浙沪皖地区可下单')
+                    alert(__('Valentine day only for JZHW'))
                     return
                 }
 
@@ -186,7 +186,7 @@ var App = React.createClass({
                     })
                 var JZHW = ['江苏', '浙江', '上海', '安徽']
                 if (JZHW.indexOf(_address.province) == -1 && isQRJSelected) {
-                    alert('情人节套餐暂时只限江浙沪皖地区可下单')
+                    alert(__('Valentine day only for JZHW'))
                     return
                 }
 
