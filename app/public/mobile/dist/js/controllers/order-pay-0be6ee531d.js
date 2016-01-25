@@ -16,6 +16,9 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         }
     };
 
+    var CJDishId = '55b1b46e4c2900bb159cafc2'
+    var QRJDishId = '562f3279a615556a44128dca'
+
     var model = $scope.model = {
         time: {},
         coupon: {},
@@ -26,9 +29,20 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
 
     function init() {
         var isCityShanghai, isNearAddress;
+        // todo: 春节情人节套餐特殊处理
+        var isCJDish, isQRJDish
 
         // 购物车
         cart = data.cart = $localStorage.confirmedBag;
+        // 春节,情人节特殊处理
+        cart.cookList && cart.cookList.length && cart.cookList.forEach(function (el) {
+            if (el.dish && el.dish._id == CJDishId) {
+                isCJDish = true
+            }
+            if (el.dish && el.dish._id == QRJDishId) {
+                isQRJDish = true
+            }
+        })
         if (!cart) {
             location.href = '/mobile';
             return;
@@ -57,7 +71,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             isInRange4KM: address.warehouse == '56332187594b09af6e6c7dd2'
                 && address.isAvailableForEat
         }).then(function (res) {
-            time.cook = $filter('cookTimeUnion')(res.data);
+            time.cook = $filter('cookTimeUnion')(res.data, isCJDish, isQRJDish, address.warehouse == '56332187594b09af6e6c7dd2');
             //model.time.cook = {day: time.cook[0]};
         });
 

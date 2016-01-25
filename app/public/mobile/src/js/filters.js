@@ -108,11 +108,46 @@ angular.module('xw.filters').filter('orderTime', function () {
 });
 
 angular.module('xw.filters').filter('cookTimeUnion', function () {
-    return function (times) {
+    return function (times, isCJDish, isQRJDish, isInRange4KM) {
         if (!times || !times.length) {
             return times
         }
+
+        if (isCJDish) {
+            times = [
+                {
+                    "day":"2016-02-06",
+                    "segment":[
+                        {"name":"10","text":"10:00-20:00","status":true}
+                    ]
+                }
+            ]
+        }
+
+        if (isQRJDish) {
+            if (isInRange4KM) {
+                times = [
+                    {
+                        "day":"2016-02-14",
+                        "segment":[
+                            {"name":"12","text":"10:00-12:00","status":true},
+                            {"name":"17","text":"12:00-17:00","status":true},
+                            {"name":"20","text":"17:00-20:00","status":true}
+                        ]
+                    }
+                ]
+            } else times = [
+                {
+                    "day":"2016-02-14",
+                    "segment":[
+                        {"name":"10","text":"10:00-20:00","status":true}
+                    ]
+                }
+            ]
+        }
+
         var hasSegment = !!times[0].segment;
+
         return times.reduce(function (list, cur) {
             if (hasSegment) {
                 cur.segment.forEach(function (item) {

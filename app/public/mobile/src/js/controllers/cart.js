@@ -36,8 +36,39 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
         }
     };
 
+    var CJDishId = '55b1b46e4c2900bb159cafc2'
+    var QRJDishId = '562f3279a615556a44128dca'
+
     $scope.select = function (item) {
         if (item.outOfStock) return;
+
+        // todo: 情人节特殊处理
+        var cookList = $scope.dishList.cookList
+        var isOtherSelected, isCJSelected, isQRJSelected
+        isOtherSelected = cookList.some(function (el) {
+            return el.selected && el.dish._id != CJDishId && el.dish._id != QRJDishId
+        })
+        cookList.forEach(function (el) {
+            if (el.selected && el.dish._id == CJDishId) {
+                isCJSelected = true
+            }
+            if (el.selected && el.dish._id == QRJDishId) {
+                isQRJSelected = true
+            }
+        })
+        if (isCJSelected) {
+            if (item.dish._id == QRJDishId) {
+                alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+                return
+            }
+        }
+        if (isQRJSelected) {
+            if (item.dish._id == CJDishId) {
+                alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+                return
+            }
+        }
+
         item.selected = !item.selected;
 
         var type = item.dish.cookingType == 'ready to cook'
@@ -55,6 +86,20 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
     };
 
     $scope.selectAll = function (type, outState) {
+        // todo: 情人节,春节特殊处理
+        var cookList = $scope.dishList.cookList
+        var hasQRJ = cookList.some(function (el) {
+            return (el.dish._id == QRJDishId)
+        })
+        var hasCJ = cookList.some(function (el) {
+            return el.dish._id == CJDishId
+        })
+
+        if (hasQRJ && hasCJ) {
+            alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+            return
+        }
+
         var state = $scope.dishList[type].selectedAll =
             (outState !== undefined ? outState : !$scope.dishList[type].selectedAll);
         $scope.dishList[type].forEach(function (item) {
