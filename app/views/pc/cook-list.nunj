@@ -143,8 +143,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.e0736dcf323cd687987a.js"></script>
-<script src="/pc/dist/cook-list.e0736dcf323cd687987a.js"></script>
+<script src="/pc/dist/webpack-common.f3b875ed425984a953a7.js"></script>
+<script src="/pc/dist/cook-list.f3b875ed425984a953a7.js"></script>
 
 </body>
 </html>
