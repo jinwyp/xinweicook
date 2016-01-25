@@ -128,11 +128,15 @@ angular.module('xw.filters').filter('cookTimeUnion', function () {
             if (isInRange4KM) {
                 times = [
                     {
+                        "day":"2016-02-13",
+                        "segment":[
+                            {"name":"10","text":"10:00-20:00","status":true}
+                        ]
+                    },
+                    {
                         "day":"2016-02-14",
                         "segment":[
-                            {"name":"12","text":"10:00-12:00","status":true},
-                            {"name":"17","text":"12:00-17:00","status":true},
-                            {"name":"20","text":"17:00-20:00","status":true}
+                            {"name":"10","text":"10:00-20:00","status":true}
                         ]
                     }
                 ]
