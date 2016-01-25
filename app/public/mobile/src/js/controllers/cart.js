@@ -38,7 +38,7 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
     var CJDishId = '56988143247c25ce3fa59a01'
     var QRJDishId = '56a4dc2097fdeb3361dcc7b1'
-
+    var address = $localStorage.orderAddress
     $scope.select = function (item) {
         if (item.outOfStock) return;
 
@@ -67,6 +67,11 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
                 alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
                 return
             }
+        }
+        var JZHW = ['江苏', '浙江', '上海', '安徽']
+        if (JZHW.indexOf(address.province) == -1 && item.dish._id == QRJDishId) {
+            alert('情人节套餐暂时只限江浙沪皖地区可下单')
+            return
         }
 
         item.selected = !item.selected;
@@ -97,6 +102,12 @@ angular.module('xw.controllers').controller('cartCtrl', function ($scope, User, 
 
         if (hasQRJ && hasCJ) {
             alert('由于配送时间的冲突, 情人节套餐不能和春节套餐同时下单')
+            return
+        }
+
+        var JZHW = ['江苏', '浙江', '上海', '安徽']
+        if (JZHW.indexOf(address.province) == -1 && hasQRJ) {
+            alert('情人节套餐暂时只限江浙沪皖地区可下单')
             return
         }
 
