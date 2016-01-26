@@ -416,7 +416,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticOfNewComers($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticOfNewComers = result.data;
-            Notification.success({message: 'Search Success! ', delay: 4000});
+            //Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
@@ -429,7 +429,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
-            //Notification.success({message: 'Search Success! ', delay: 4000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
