@@ -191,6 +191,17 @@
                     </div>
                 </div>
 
+
+
+                <div class="form-group has-feedback" ng-class="{'has-success':searchForm.WarehouseId.$dirty&&searchForm.WarehouseId.$valid, 'has-error':searchForm.WarehouseId.$dirty&&searchForm.WarehouseId.$invalid}">
+                    <label for="inputUserWarehouseIdList" class="col-lg-2 control-label" >仓库(仅限复购统计)</label>
+                    <div class="col-lg-8">
+                        <label class="radio-inline" ng-repeat="warehouse in data.userWarehouseIdList">
+                            <input type="radio" name="WarehouseId" id="inputUserWarehouseIdList" ng-value="warehouse.value" ng-model="data.searchOptions.query.warehouse">{{warehouse.name}}
+                        </label>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <button type="submit" class="btn btn-default" ng-click="searchUserCount(searchForm)">搜索用户</button>

@@ -31,7 +31,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 sharedInvitationSendCodeUsedTime : 0,
                 statisticsClientFrom : '',
                 oldWebsiteId : '',
-                statisticsIsOldWebsite : ''
+                statisticsIsOldWebsite : '',
+                warehouse : ''
             }
 
         },
@@ -145,6 +146,25 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             {
                 name : '英文',
                 value : 'en'
+            }
+        ],
+
+        userWarehouseIdList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '新味办公室',
+                value : '56332187594b09af6e6c7dd2'
+            },
+            {
+                name : '漕河泾仓库',
+                value : '56332196594b09af6e6c7dd7'
+            },
+            {
+                name : '陆家嘴仓库',
+                value : '564ab6de2bde80bd10a9bc60'
             }
         ]
     };
@@ -396,7 +416,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticOfNewComers($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticOfNewComers = result.data;
-            Notification.success({message: 'Search Success! ', delay: 4000});
+            //Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
@@ -409,7 +429,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
-            //Notification.success({message: 'Search Success! ', delay: 4000});
+            Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
