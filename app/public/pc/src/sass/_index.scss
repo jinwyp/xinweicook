@@ -4,7 +4,7 @@ $border-block: 5px;
 
 .video {
   width: 100%;
-  min-width: 1200px;
+  min-width: 1000px;
   height: 600px;
   overflow: hidden;
   position: absolute;
@@ -29,6 +29,8 @@ $border-block: 5px;
 }
 .index-main {
   margin-top: 600px;
+  width: 100%;
+  min-width: 1000px;
   .main-top {
     background: url(../images/indexbg.jpg) center top no-repeat;
 
@@ -37,11 +39,12 @@ $border-block: 5px;
       overflow: hidden;
       margin: 0 auto;
       padding: 50px 0 25px;
-
+      font-size: 0;
       .entry {
+        box-sizing: border-box;
         text-align: center;
         display: inline-block;
-        width: 49%;
+        width: 50%;
         padding-bottom: 15px;
         padding-top: 3px;
         &:first-child {
@@ -68,6 +71,7 @@ $border-block: 5px;
         }
 
         p {
+          font-size: 15px;
           width: 300px;
           margin: auto;
           line-height: 1.2;
