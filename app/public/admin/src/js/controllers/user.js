@@ -31,7 +31,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 sharedInvitationSendCodeUsedTime : 0,
                 statisticsClientFrom : '',
                 oldWebsiteId : '',
-                statisticsIsOldWebsite : ''
+                statisticsIsOldWebsite : '',
+                warehouse : ''
             }
 
         },
@@ -145,6 +146,25 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             {
                 name : '英文',
                 value : 'en'
+            }
+        ],
+
+        userWarehouseIdList: [
+            {
+                name : 'ALL',
+                value : ''
+            },
+            {
+                name : '新味办公室',
+                value : '56332187594b09af6e6c7dd2'
+            },
+            {
+                name : '漕河泾仓库',
+                value : '56332196594b09af6e6c7dd7'
+            },
+            {
+                name : '陆家嘴仓库',
+                value : '564ab6de2bde80bd10a9bc60'
             }
         ]
     };

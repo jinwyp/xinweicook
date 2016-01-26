@@ -366,7 +366,12 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
             queryOrder = { createdAt:{"$lt": today }, user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus}};
         }else{
-            queryOrder = {user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus} };
+            queryOrder = { user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus} };
+        }
+
+
+        if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+            queryOrder.warehouse = ObjectId(req.query.warehouse.toString())
         }
 
 
