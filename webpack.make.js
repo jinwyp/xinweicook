@@ -81,9 +81,13 @@ module.exports = function makeWebpackConfig(options) {
     }
 
     if (BUILD) {
-        config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-            comments: false
-        }))
+        config.plugins.push(
+            new webpack.optimize.DedupePlugin(),
+            new webpack.optimize.UglifyJsPlugin({
+                    comments: false
+                }
+            )
+        )
     }
 
     return config;
