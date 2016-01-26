@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.8e91c587ffca87b58587ef99a3d26e4b.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.06b46480689885d746fdfe6703bd7d15.css"/>
     
     <link rel="stylesheet" href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css">
 </head>
@@ -35,8 +35,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.7d47d5e04123353037f0.js"></script>
-<script src="/pc/dist/pay-notify.7d47d5e04123353037f0.js"></script>
+<script src="/pc/dist/webpack-common.fddd63a356398e0713c2.js"></script>
+<script src="/pc/dist/pay-notify.cd946bfa7ca7286f4271.js"></script>
 
 </body>
 </html>

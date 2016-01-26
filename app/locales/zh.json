@@ -72,7 +72,7 @@
   "Remaining":"使用后剩余",
   "Don't use":"不使用",
   "Shipping rates":"运费",
-  "满100免运费":"满100免运费",
+  "满100免运费":"便当满100免运费",
   "Discount amount":"优惠",
   "Xinwei balance":"新味币",
   "Subtotal":"总计",
@@ -83,6 +83,8 @@
   "Choose cook delivery time":"选择食材包配送时间",
   "Choose bento delivery time":"选择便当配送时间",
   "Choose the delivery time":"请选择配送时间",
+  "Clash info for the two days": "由于配送时间冲突, 如需同时订购情人节套餐和春节套餐，请分别下单（使生成两个订单）",
+  "Valentine day only for JZHW": "情人节套餐暂时只提供江浙沪皖地区",
 
   "##### 地址 #####":"",
   "Out of range": "当前地址便当不可送达",

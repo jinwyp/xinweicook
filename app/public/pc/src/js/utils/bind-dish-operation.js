@@ -58,14 +58,14 @@ export default function (cart, dishes, parent) {
         emitter.off(emitter.t.positionChanged, tmpListener)
         var warehouse = _newAddress.warehouse
         _renderOutOfRange(warehouse)
+    } else {
+        // render before login
+        _renderOutOfRange(null, true)
     }
 
     emitter.on(emitter.t.positionChanged, (newAddress, oldAddress) => {
         _renderOutOfRange(newAddress.warehouse)
     })
-
-    // render before login
-    _renderOutOfRange(null, true)
 
     /**
      * 渲染是否是否超出配送范围,如果是未登录之前,即使没有warehouse也不认为out of range

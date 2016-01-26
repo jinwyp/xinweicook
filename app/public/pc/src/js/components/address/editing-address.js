@@ -128,8 +128,8 @@ var EditingAddress = React.createClass({
             method = 'putOne'
             target = {
                 _id: props._id,
-                geoLatitude: props.geoLatitude,
-                geoLongitude: props.geoLongitude,
+                geoLatitude: this.state.selectedStreet.lat,
+                geoLongitude: this.state.selectedStreet.lng,
                 sortOrder: props.sortOrder
             }
         } else {

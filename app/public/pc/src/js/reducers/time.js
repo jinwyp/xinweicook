@@ -30,6 +30,11 @@ function _reducer(state, action, cookingType) {
                 return {...state, selectedTime: action.time}
             }
             return state
+        case types.CART_SELECT_ONE:
+            if (!action.select) {
+                return {...state, selectedTime: null}
+            }
+            return state
         default: return state
     }
 }

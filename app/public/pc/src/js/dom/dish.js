@@ -64,6 +64,9 @@ export function renderOutOfRange(id, outOfRange, soldOut, selector='.out-of-rang
     var $parent = $(`[data-id="${id}"]`)
     $parent.find(selector)[(outOfRange && !soldOut) ? 'show' : 'hide']()
     $parent.find(soldOutSelector)[soldOut ? 'show' : 'hide']()
+    if (soldOut || outOfRange) {
+        $parent.parent().append($parent)
+    }
 }
 
 

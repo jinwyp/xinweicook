@@ -28,8 +28,8 @@ module.exports = function makeWebpackConfig(options) {
         output: {
             path: path.join(__dirname, "./app/public/pc/dist/"),
             publicPath: BUILD ? '' : 'http://localhost:8081/',
-            filename: BUILD ? '[name].[hash].js' : '[name].js',
-            chunkFilename: BUILD ? "[id].[hash].js" : "[id].js"
+            filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
+            chunkFilename: BUILD ? "[id].[chunkhash].js" : "[id].js"
         },
         devtool: BUILD ? '' : 'source-map', //generating too many large files
         module: {
@@ -68,7 +68,7 @@ module.exports = function makeWebpackConfig(options) {
             }),
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'webpack-common',
-                filename: BUILD ? 'webpack-common.[hash].js' : 'webpack-common.js'
+                filename: BUILD ? 'webpack-common.[chunkhash].js' : 'webpack-common.js'
             }),
             new ExtractTextPlugin(BUILD ? "[name].[contenthash].css" : "[name].css")
         ],
@@ -81,9 +81,13 @@ module.exports = function makeWebpackConfig(options) {
     }
 
     if (BUILD) {
-        config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-            comments: false
-        }))
+        config.plugins.push(
+            new webpack.optimize.DedupePlugin(),
+            new webpack.optimize.UglifyJsPlugin({
+                    comments: false
+                }
+            )
+        )
     }
 
     return config;

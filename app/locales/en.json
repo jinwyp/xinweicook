@@ -76,7 +76,7 @@
   "Remaining":"Remaining",
   "Don't use":"Don't use",
   "Shipping rates":"Shipping rates",
-  "满100免运费":"Free Shipping for orders over 100RMB",
+  "满100免运费":"Free Shipping on orders for bento over 100RMB",
   "Discount amount":"Discount amount",
   "Xinwei balance":"Xinwei balance",
   "Subtotal":"Subtotal",
@@ -87,6 +87,8 @@
   "Choose cook delivery time":"Choose ReadyToCook delivery time",
   "Choose bento delivery time":"Choose Bento delivery time",
   "Choose the delivery time":"Choose the delivery time",
+  "Clash info for the two days": "Because of the shipping time clash, Valentine's set and New Year's set can noly be purchased in two seperate orders.",
+  "Valentine day only for JZHW": "Valentine's set is only available in Shanghai, Zhejiang Province, Jiangsu Province and Anhui Province.",
 
   "##### 地址 #####":"",
   "Out of range": "Out of range",
