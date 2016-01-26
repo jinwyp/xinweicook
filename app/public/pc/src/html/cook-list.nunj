@@ -8,7 +8,7 @@
     <!-- build-replace -->
     <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
     <!-- end-build-replace -->
-    <link rel="stylesheet" href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -85,6 +85,7 @@
                             {% if dish.infoIngredient.length %}
                                 <a class="ingre">{{ __('INGREDIENTS') }}</a>
                             {% endif %}
+                        </div>
                         <div class="tabs">
                             <div class="desc act">{{ dish.brief[locale] }}</div>
                             <div class="ingre clearfix">
