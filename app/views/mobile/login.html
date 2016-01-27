@@ -60,7 +60,7 @@
             </div>
             <hr class="form-line"/>
 
-            <geetest-sms-button type="signUp" mobile="{{signupData.mobile}}" valid="{{signUpForm.mobile.$valid}}"></geetest-sms-button>
+            <geetest-sms-button type="signUp" triggered="css.triggered" mobile="{{signupData.mobile}}" valid="{{signUpForm.mobile.$valid}}"></geetest-sms-button>
 
             <div class="group">
                 <input type="number" class="form-control" placeholder="请填写收到的验证码" name="code"
@@ -88,6 +88,12 @@
                 ng-click="signUpForm.$valid && signup()">注册</button>
         <button class="form-control login-button invalid"
                 ng-if="css.pending">注册中···</button>
+
+        <span class="voice-sms"
+              ng-class="{active: css.triggered}"
+              ng-click="getVoiceSms()"
+              flash-class="{exp: css.triggered, duration: 400}"
+              ng-bind="css.hasVoiceSent ? '请准备接收语音验证码' : '收不到验证码? 发送语音验证码'"></span>
     </form>
 </div>
 
@@ -119,6 +125,6 @@
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/login-45a99d7d1e.js"></script>
+<script src="/mobile/dist/js/controllers/login-4c526d3f56.js"></script>
 
 </html>

@@ -21,6 +21,7 @@ $placeholder-color: rgba(0,0,0,0.3);
 $margin-to-cart-length: 60px;
 
 
+
 // reset
 html {
   font-family: Helvetica, Arial, sans-serif;
@@ -105,6 +106,12 @@ $retina: sprite-map("icons/*.png");
   height:round(image-height($name) / 3);
   width: round(image-width($name) / 3);
   background: image-url($name) 50%/cover no-repeat;
+}
+
+// 头部的地址提醒, 购物车提醒
+@mixin scaleTipAnimation() {
+  transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+  -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
 
 

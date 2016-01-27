@@ -72,6 +72,21 @@
   }
 }
 
+.voice-sms {
+  display: block;
+  text-align: center;
+  line-height: 3;
+  color: $invalid-text-color;
+  -webkit-transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
+  transition: transform .5s cubic-bezier(0.68, -1.06, 0.25, 1);
+  &.active {
+    color: $body-color;
+  }
+  &.flash {
+    @include scaleTipAnimation();
+  }
+}
+
 .sms-button {
   &.invalid {
     color: #A7A7A7;

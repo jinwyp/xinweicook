@@ -10,7 +10,11 @@ function resetPasswordCtrl($scope, User, $location, Alert, Weixin, $localStorage
         state: 'init' // 短信按钮的状态
     };
 
-    $scope.css = {pending: false};
+    $scope.css = {
+        pending: false,
+        triggered: false, // 表示是否已经尝试发送短信码
+        hasVoiceSent: false // 表示是否已经尝试发送语音短信
+    };
 
     var pwdErrTimes = 0;
     $scope.login = function () {
@@ -64,6 +68,20 @@ function resetPasswordCtrl($scope, User, $location, Alert, Weixin, $localStorage
                 Alert.show(res.data.validationStatus, '重置密码失败, 请稍后重置');
             })
     };
+
+    $scope.getVoiceSms = function () {
+        if ($scope.css.hasVoiceSent || !$scope.css.triggered) return
+        $scope.css.hasVoiceSent = true
+        User.getSmsCode({
+            mobile: $scope.resetPwdData.mobile,
+            type: 'resetPassword',
+            isVoice: "true"
+        }).success(function() {
+            console.log("success")
+        }).catch(function (res) {
+            Alert.show(res.data.validationStatus, '验证码发送失败');
+        });
+    }
 
     $scope.back = function () {
         history.back();

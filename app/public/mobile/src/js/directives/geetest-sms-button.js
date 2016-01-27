@@ -3,7 +3,8 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
         scope: {
             valid: '@',
             mobile: '@',
-            type: '@'
+            type: '@',
+            triggered: '='
         },
         templateUrl: 'geetest-sms-button.html',
         link : function (scope) {
@@ -41,6 +42,7 @@ angular.module('xw.directives').directive('geetestSmsButton', function (Debug, U
                             if (!--scope.remains) {
                                 $interval.cancel(timer);
                                 scope.remains = remains;
+                                scope.triggered = true
 
                                 stateMachine('show-refetch', scope.valid == 'true');
                                 try {

@@ -504,8 +504,7 @@
       background-color: $out-of-stock-bg-color;
     }
     &.flash {
-      transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-      -webkit-transform: matrix3d(1.2, 0, 0, 0, 0, 1.2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+      @include scaleTipAnimation()
     }
 
     .bag-icon {
