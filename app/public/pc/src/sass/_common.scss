@@ -76,7 +76,7 @@
       img {
         width: 100%;
         opacity: 1;
-        transition: opacity 0.2s, transform 1s;
+        transition: opacity 0.2s, transform .65s;
       }
     }
     .info {
@@ -159,12 +159,12 @@
 
 .fade-in {
   opacity: 1 !important;
-  transition: opacity ease-in 1s;
+  transition: opacity ease-in .5s;
 }
 
 .fade-out {
   opacity: 0 !important;
-  transition: opacity ease-out 1s;
+  transition: opacity ease-out .5s;
 }
 
 .clone-dish {

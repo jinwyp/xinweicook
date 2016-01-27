@@ -6,7 +6,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.06b46480689885d746fdfe6703bd7d15.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.c419d6113ea69c75782bd715e67f11c8.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -16,7 +16,7 @@
 
 <div class="video">
     <div class="vdtitle"></div>
-    <video loop="loop" autoplay="autoplay" class="indexvd">
+    <video poster="/pc/src/images/video-frame1.jpg" loop="loop" autoplay="autoplay" class="indexvd">
         <source src="https://dn-xinweicook.qbox.me/0111%E6%96%B0%E5%91%B3%E7%BD%91%E7%AB%99video.mp4" type="video/mp4">
     </video>
 </div>
@@ -158,8 +158,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.fddd63a356398e0713c2.js"></script>
-<script src="/pc/dist/index.4086ae31fb1098d385da.js"></script>
+<script src="/pc/dist/webpack-common.53b109a54bc079b6ba5f.js"></script>
+<script src="/pc/dist/index.c4bb15ae2f34d84947d7.js"></script>
 
 </body>
 </html>

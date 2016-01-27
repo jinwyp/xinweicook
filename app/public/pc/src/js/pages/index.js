@@ -30,8 +30,8 @@ $(document).ready(() => {
         bindDish(cart, dishes, '.menus')
 
         // init others comments
-        $('.magazine li').fadeList()
-        $('.banner li').fadeList()
+        $('.magazine li').fadeList({fadeTime: 500})
+        $('.banner li').fadeList({fadeTime: 500})
 
         // bind video
         var $play = $('.videolink .play')

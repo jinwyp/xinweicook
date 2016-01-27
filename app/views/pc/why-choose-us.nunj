@@ -5,7 +5,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.06b46480689885d746fdfe6703bd7d15.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.c419d6113ea69c75782bd715e67f11c8.css"/>
     
 </head>
 <body>
@@ -25,7 +25,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.fddd63a356398e0713c2.js"></script>
+<script src="/pc/dist/webpack-common.53b109a54bc079b6ba5f.js"></script>
 <script src="/pc/dist/why-us.8277f4be20ae7f06742a.js"></script>
 
 </body>
