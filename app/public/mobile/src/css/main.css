@@ -405,16 +405,20 @@ form .err-tip {
   margin: 9px 0 16px;
   font-size: 18px;
 }
-/* line 101, ../sass/pages/_eat.scss */
+/* line 100, ../sass/pages/_eat.scss */
+.food-list .detail .brief {
+  white-space: pre-line;
+}
+/* line 104, ../sass/pages/_eat.scss */
 .food-list .detail .user-actions > div {
   display: inline-block;
 }
-/* line 104, ../sass/pages/_eat.scss */
+/* line 107, ../sass/pages/_eat.scss */
 .food-list .detail .user-actions .eat {
   margin-top: 10px;
   margin-left: .4em;
 }
-/* line 109, ../sass/pages/_eat.scss */
+/* line 112, ../sass/pages/_eat.scss */
 .food-list .detail .buy {
   line-height: 30px;
   height: 30px;
@@ -425,26 +429,26 @@ form .err-tip {
   font-size: 0;
   box-shadow: #C3C0C0 0 1px 1px;
 }
-/* line 118, ../sass/pages/_eat.scss */
+/* line 121, ../sass/pages/_eat.scss */
 .food-list .detail .buy .price {
   background-color: #ede2d0;
   font-size: 18px;
 }
-/* line 121, ../sass/pages/_eat.scss */
+/* line 124, ../sass/pages/_eat.scss */
 .food-list .detail .buy .price::before {
   content: "¥ ";
 }
-/* line 125, ../sass/pages/_eat.scss */
+/* line 128, ../sass/pages/_eat.scss */
 .food-list .detail .buy .button {
   background-color: #f44d4d;
   color: white;
   font-size: 16px;
 }
-/* line 129, ../sass/pages/_eat.scss */
+/* line 132, ../sass/pages/_eat.scss */
 .food-list .detail .buy .button.out-of-stock {
   background-color: #B9B9B9;
 }
-/* line 133, ../sass/pages/_eat.scss */
+/* line 136, ../sass/pages/_eat.scss */
 .food-list .detail .buy span {
   height: 30px;
   text-align: center;
@@ -452,7 +456,7 @@ form .err-tip {
   display: inline-block;
 }
 
-/* line 145, ../sass/pages/_eat.scss */
+/* line 148, ../sass/pages/_eat.scss */
 .selection-cover {
   background-color: rgba(88, 88, 88, 0.48);
   top: 0;
@@ -462,7 +466,7 @@ form .err-tip {
 }
 
 /** 多属性选择面板 **/
-/* line 160, ../sass/pages/_eat.scss */
+/* line 163, ../sass/pages/_eat.scss */
 .close-button {
   background-repeat: no-repeat;
   background-image: url('../img/icons-s24b8d08a7e.png');
@@ -481,7 +485,7 @@ form .err-tip {
   margin: auto;
 }
 
-/* line 171, ../sass/pages/_eat.scss */
+/* line 174, ../sass/pages/_eat.scss */
 .selections-container {
   position: fixed;
   bottom: 0;
@@ -490,37 +494,37 @@ form .err-tip {
   z-index: 10;
   box-shadow: #9C9999 0 0 1px;
 }
-/* line 179, ../sass/pages/_eat.scss */
+/* line 182, ../sass/pages/_eat.scss */
 .selections-container h4, .selections-container h5 {
   font-weight: normal;
 }
-/* line 183, ../sass/pages/_eat.scss */
+/* line 186, ../sass/pages/_eat.scss */
 .selections-container h4 {
   position: relative;
   margin: 0;
   height: 64px;
   line-height: 64px;
 }
-/* line 190, ../sass/pages/_eat.scss */
+/* line 193, ../sass/pages/_eat.scss */
 .selections-container .properties {
   margin-bottom: 0;
 }
-/* line 192, ../sass/pages/_eat.scss */
+/* line 195, ../sass/pages/_eat.scss */
 .selections-container .properties > li {
   border-top: 1px solid #DEDEDE;
   padding-left: 15px;
   padding-bottom: 14px;
 }
-/* line 199, ../sass/pages/_eat.scss */
+/* line 202, ../sass/pages/_eat.scss */
 .selections-container .properties > li h5 {
   font-size: 15px;
   padding: 8px 0;
 }
-/* line 206, ../sass/pages/_eat.scss */
+/* line 209, ../sass/pages/_eat.scss */
 .selections-container .selections {
   font-size: 16px;
 }
-/* line 208, ../sass/pages/_eat.scss */
+/* line 211, ../sass/pages/_eat.scss */
 .selections-container .selections li {
   color: #f44d4d;
   display: inline-block;
@@ -531,33 +535,33 @@ form .err-tip {
   border-radius: 6px;
   margin-bottom: 8px;
 }
-/* line 217, ../sass/pages/_eat.scss */
+/* line 220, ../sass/pages/_eat.scss */
 .selections-container .selections li:not(:last-child) {
   margin-right: 0.7em;
 }
-/* line 220, ../sass/pages/_eat.scss */
+/* line 223, ../sass/pages/_eat.scss */
 .selections-container .selections li.selected {
   color: white;
   background-color: #f44d4d;
 }
-/* line 224, ../sass/pages/_eat.scss */
+/* line 227, ../sass/pages/_eat.scss */
 .selections-container .selections li.no-stock {
   color: #CCCCCC;
   border-color: #CCCCCC;
 }
-/* line 231, ../sass/pages/_eat.scss */
+/* line 234, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper {
   border-top: 1px solid #DEDEDE;
   padding: 13px 0 15px 15px;
   position: relative;
 }
-/* line 235, ../sass/pages/_eat.scss */
+/* line 238, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper i {
   line-height: 34px;
   font-style: normal;
   font-size: 15px;
 }
-/* line 240, ../sass/pages/_eat.scss */
+/* line 243, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper .counter {
   display: inline-block;
   position: absolute;
@@ -569,21 +573,21 @@ form .err-tip {
   font-size: 0;
   color: #f44d4d;
 }
-/* line 250, ../sass/pages/_eat.scss */
+/* line 253, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper .counter span {
   display: inline-block;
   width: 40px;
   font-size: 18px;
 }
-/* line 255, ../sass/pages/_eat.scss */
+/* line 258, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper .counter span:not(:last-child) {
   border-right: 1px solid #DEDEDE;
 }
-/* line 258, ../sass/pages/_eat.scss */
+/* line 261, ../sass/pages/_eat.scss */
 .selections-container .counter-wrapper .counter .number {
   width: 60px;
 }
-/* line 264, ../sass/pages/_eat.scss */
+/* line 267, ../sass/pages/_eat.scss */
 .selections-container .add-to-cart-button {
   position: relative;
   height: 53px;
@@ -593,40 +597,40 @@ form .err-tip {
   background-color: #f44d4d;
   color: white;
 }
-/* line 272, ../sass/pages/_eat.scss */
+/* line 275, ../sass/pages/_eat.scss */
 .selections-container .add-to-cart-button .rmb-char {
   position: absolute;
   left: 15px;
 }
-/* line 276, ../sass/pages/_eat.scss */
+/* line 279, ../sass/pages/_eat.scss */
 .selections-container .add-to-cart-button.invalid {
   background-color: #C7C7C7;
 }
 
 @media (max-width: 414px) {
-  /* line 283, ../sass/pages/_eat.scss */
+  /* line 286, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 330px;
   }
 }
 @media (max-width: 375px) {
-  /* line 289, ../sass/pages/_eat.scss */
+  /* line 292, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 290px;
   }
 
-  /* line 292, ../sass/pages/_eat.scss */
+  /* line 295, ../sass/pages/_eat.scss */
   .selections-container .block h4 {
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  /* line 298, ../sass/pages/_eat.scss */
+  /* line 301, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 250px;
   }
 
-  /* line 301, ../sass/pages/_eat.scss */
+  /* line 304, ../sass/pages/_eat.scss */
   .selections-container .block h4 {
     font-size: 14px;
   }
@@ -2062,7 +2066,7 @@ html.order-address-html .address-list {
 .promotion01-main .card-item {
   background-color: white;
   border: 1px solid #cacaca;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding: 16px 12px;
 }
 /* line 8, ../sass/pages/_promotion01.scss */
