@@ -370,9 +370,19 @@ exports.dishInventoryExportList = function(req, res, next) {
 exports.orderList = function(req, res, next) {
 
 
-    models.order.find({}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).execAsync().then(function(resultOrderList){
+    models.order.find({}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).lean().execAsync().then(function(resultOrderList){
 
-        res.send(resultOrderList);
+        resultOrderList.forEach(function(order){
+            var dishListTitle = '';
+
+            if (order.dishHistory.length > 0){
+                order.dishHistory.forEach(function(dish){
+                    dishListTitle = dishListTitle + dish.dish.title.zh + "*" + dish.number + ", "
+                })
+            }
+            order.dishListTitle = dishListTitle
+        });
+        res.json(resultOrderList);
 
     })
     .catch(next);
