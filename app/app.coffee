@@ -90,7 +90,7 @@ require("./routesapi")(app)
 
 
 app.use (req, res, next) ->
-  next(new Err("Page Not Found", 404)) unless routespc.pageNotFound(req, res)
+  next(new Err("Page Not Found", 404)) unless require("./routespc").pageNotFound(req, res)
 
 
 app.use libs.err.middleware()
