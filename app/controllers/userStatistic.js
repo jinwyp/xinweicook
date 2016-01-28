@@ -627,7 +627,7 @@ exports.userOrderFrequency = function(req, res, next) {
 
             if (user.orderList.length > 1){
                 user.orderList.reduce(function(previousOrder, currentOrder, currentOrderIndex){
-                    console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime, user.cookingType, user.user);
+                    //console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime, user.cookingType, user.user);
 
                     if (user.cookingType === models.dish.constantCookingType().eat){
                         if (moment(currentOrder.createdAt).week() === moment(previousOrder.createdAt).week() ){
@@ -644,7 +644,13 @@ exports.userOrderFrequency = function(req, res, next) {
 
                 user.totalUserOrderTime = totalUserOrderTime;
                 user.totalUserIntervalCount = totalUserIntervalCount;
-                user.avgIntervalTime = user.totalUserOrderTime / user.totalUserIntervalCount;
+
+                if (totalUserIntervalCount === 0){
+                    console.log("----:", user.user, user.cookingType, user.orderList.length)
+                    user.avgIntervalTime = 0;
+                }else{
+                    user.avgIntervalTime = user.totalUserOrderTime / user.totalUserIntervalCount;
+                }
 
                 if (user.cookingType === models.dish.constantCookingType().eat){
                     result.totalEatOrderInterval = result.totalEatOrderInterval +  user.avgIntervalTime;
