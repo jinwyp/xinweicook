@@ -298,7 +298,7 @@
 }
 
 .ReactModal__Content--before-close {
-  -webkit-transform: scale(0.7);
+  transform: scale(0.7);
   transition: all 250ms ease-out;
 }
 
