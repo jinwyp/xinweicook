@@ -346,21 +346,16 @@
                 <span class="label label-info">占注册并购买过用户数: {{data.userStatisticOfNewComers.purchased7MoreTimeUserCount / data.userStatisticOfNewComers.totalPurchasedUserCount * 100 | number :2 }}%</span>
             </h3>
 
-            <h3>
-                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单时间间隔总和: {{data.userStatisticLoyalPurchaseFrequency.totalTime}}小时</span>
-                <span class="label label-warning">购买两次及以上的用户相邻两次订单下单间隔总数量: {{data.userStatisticLoyalPurchaseFrequency.totalOrderNumber}}间隔数量</span>
-                <span class="label label-warning">购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticLoyalPurchaseFrequency.avgTime | number :2}}小时</span>
-            </h3>
 
 
             <h3>
-                <span class="label label-warning">便当购买两次及以上的用户当周相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.eatUserOrderTotalAvgTime}}小时</span>
+                <span class="label label-warning">便当购买两次及以上的用户当周相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.eatUserOrderTotalAvgTime | number :2}}小时</span>
                 <span class="label label-warning">便当购买两次及以上的用户数量: {{data.userStatisticOrderFrequency.eatUserWith2Order}}</span>
                 <span class="label label-warning">便当购买两次及以上的用户每次当周相邻两次订单下单平均间隔: {{data.userStatisticOrderFrequency.eatUserOrderAvgInterval | number :2}}小时</span>
             </h3>
 
             <h3>
-                <span class="label label-warning">食材包购买两次及以上的用户相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.cookUserOrderTotalAvgTime}}小时</span>
+                <span class="label label-warning">食材包购买两次及以上的用户相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.cookUserOrderTotalAvgTime | number :2}}小时</span>
                 <span class="label label-warning">食材包购买两次及以上的用户数量: {{data.userStatisticOrderFrequency.cookUserWith2Order}}</span>
                 <span class="label label-warning">食材包购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticOrderFrequency.cookUserOrderAvgInterval | number :2}}小时</span>
             </h3>
