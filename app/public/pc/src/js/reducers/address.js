@@ -117,6 +117,11 @@ function streetList(state = {
                 ...state,
                 show: action.show === undefined ? !state.show : action.show
             }
+        case types.CLEAR_STREET:
+            return {
+                show: false,
+                streets: []
+            }
 
         default: return state
     }

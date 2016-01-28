@@ -10,6 +10,7 @@ var EditingAddress = React.createClass({
 
     componentDidMount() {
         this.props.getRange()
+        this.props.clearStreet()
     },
 
     getInitialState() {
@@ -18,7 +19,8 @@ var EditingAddress = React.createClass({
             selectedStreet: null,
             province: this.props.province || '',
             city: this.props.city || '',
-            district: this.props.district || ''
+            district: this.props.district || '',
+            saving: false
         }
     },
 
@@ -146,6 +148,8 @@ var EditingAddress = React.createClass({
                 return obj
             }, {})
         )).catch(err => log(err))
+
+        this.setState({saving: true})
     },
 
     render() {
@@ -243,7 +247,11 @@ var EditingAddress = React.createClass({
                     </div>
                 </div>
                 <div className="buttons">
-                    <button onClick={this.save}>{__("Save")}</button>
+                    {
+                        this.state.saving ?
+                            <button className="saving">{__("Saving")}</button> :
+                            <button onClick={this.save}>{__("Save")}</button>
+                    }
                     <button onClick={props.close}>{__("Cancel")}</button>
                 </div>
             </div>

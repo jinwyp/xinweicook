@@ -173,6 +173,7 @@ var App = React.createClass({
             close: () => dispatch(addressAction.closeEditAddress()),
             toggleStreet: (show) => dispatch(addressAction.toggleStreet(show)),
             getStreet: (query, region) => dispatch(addressAction.getStreet(query, region)),
+            clearStreet: () => dispatch(addressAction.clearStreet()),
             getRange: () => dispatch(addressAction.getRangeIfNeeded()),
             select: (id, _address) => {
 

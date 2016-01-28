@@ -96,6 +96,10 @@
       border-radius: 2px;
       cursor: pointer;
       line-height: 40px;
+      &.saving{
+        background-color: $color_button_disabled;
+        border-color: $color_button_disabled;
+      }
     }
     :first-child {
       margin-right: 10px;

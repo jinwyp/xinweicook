@@ -45,7 +45,7 @@ var AddressList = React.createClass({
                 <Modal style={modalStyle} isOpen={props.addressEditingForm.show} onRequestClose={props.close} closeTimeoutMS={250}>
                     <EditingAddress range={props.range} streetList={props.streetList}
                         {...editingAddress} postOne={props.postOne} putOne={props.putOne}
-                                    close={props.close} getStreet={props.getStreet}
+                                    close={props.close} getStreet={props.getStreet} clearStreet={props.clearStreet}
                                     toggleStreet={props.toggleStreet} getRange={props.getRange}/>
                 </Modal>
                 <ul className="address-list">
