@@ -96,6 +96,10 @@
       border-radius: 2px;
       cursor: pointer;
       line-height: 40px;
+      &.saving{
+        background-color: $color_button_disabled;
+        border-color: $color_button_disabled;
+      }
     }
     :first-child {
       margin-right: 10px;
@@ -294,7 +298,7 @@
 }
 
 .ReactModal__Content--before-close {
-  -webkit-transform: scale(0.7);
+  transform: scale(0.7);
   transition: all 250ms ease-out;
 }
 

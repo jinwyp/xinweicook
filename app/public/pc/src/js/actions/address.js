@@ -154,6 +154,8 @@ export function delOne(id) {
     }
 }
 
+
+// street
 export function toggleStreet(show) {
     return {
         type: types.TOGGLE_STREET,
@@ -182,6 +184,12 @@ export function getStreet(query, region) {
         _post('/api/user/address/suggestion', {query, region}).then(res => {
             return dispatch(getStreetDone(res))
         })
+    }
+}
+
+export function clearStreet() {
+    return {
+        type: types.CLEAR_STREET
     }
 }
 

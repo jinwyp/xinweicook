@@ -190,3 +190,6 @@
   text-align: center;
   margin-top: 200px;
 }
+.gray-bg, .disabled-bg, .invalid-bg {
+  background-color: $color_button_disabled;
+}

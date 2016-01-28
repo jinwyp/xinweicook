@@ -10,6 +10,7 @@ var EditingAddress = React.createClass({
 
     componentDidMount() {
         this.props.getRange()
+        this.props.clearStreet()
     },
 
     getInitialState() {
@@ -18,7 +19,8 @@ var EditingAddress = React.createClass({
             selectedStreet: null,
             province: this.props.province || '',
             city: this.props.city || '',
-            district: this.props.district || ''
+            district: this.props.district || '',
+            saving: false
         }
     },
 
@@ -47,7 +49,9 @@ var EditingAddress = React.createClass({
                         return {district: {required: !refs.district.value }}
 
                     case 'street':
-                        return {street: {format: !this.state.selectedStreet}}
+                        return {street: {
+                            format: !this.state.selectedStreet && !this.props.geoLatitude
+                        }}
 
                     default: return {}
                 }
@@ -122,23 +126,20 @@ var EditingAddress = React.createClass({
         if (!this.validate()) return
 
         var props = this.props
-        var method, target
+        var sLat = this.state.selectedStreet && this.state.selectedStreet.lat
+        var sLng = this.state.selectedStreet && this.state.selectedStreet.lng
+        var method, target = {
+            geoLatitude: sLat || this.props.geoLatitude,
+            geoLongitude: sLng || this.props.geoLongitude
+        }
 
         if (props._id) {
             method = 'putOne'
-            target = {
-                _id: props._id,
-                geoLatitude: this.state.selectedStreet.lat,
-                geoLongitude: this.state.selectedStreet.lng,
-                sortOrder: props.sortOrder
-            }
+            target._id = props._id
+            target.sortOrder = props.sortOrder
         } else {
             method = 'postOne'
-            target = {
-                geoLatitude: this.state.selectedStreet.lat,
-                geoLongitude: this.state.selectedStreet.lng,
-                sortOrder: 0
-            }
+            target.sortOrder = 0
         }
 
         this.props[method](Object.assign(target,
@@ -147,6 +148,8 @@ var EditingAddress = React.createClass({
                 return obj
             }, {})
         )).catch(err => log(err))
+
+        this.setState({saving: true})
     },
 
     render() {
@@ -244,7 +247,11 @@ var EditingAddress = React.createClass({
                     </div>
                 </div>
                 <div className="buttons">
-                    <button onClick={this.save}>{__("Save")}</button>
+                    {
+                        this.state.saving ?
+                            <button className="saving">{__("Saving")}</button> :
+                            <button onClick={this.save}>{__("Save")}</button>
+                    }
                     <button onClick={props.close}>{__("Cancel")}</button>
                 </div>
             </div>
