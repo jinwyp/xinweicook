@@ -19,7 +19,7 @@ exports.runCronJob = (req, res, next) ->
               for dish, dishIndex in job.dishList
                 models.dish.findOneAsync({_id:dish.dishId}).then (resultDish) ->
                   if resultDish
-                    logger.warn "---------- Dish Add Inventory: ", resultDish._id, resultDish.title.zh, dish.quantity
+#                    logger.error("---------- Dish Add Inventory: ", resultDish._id, resultDish.title.zh, dish.quantity)
                     # 55b1b25612e798ef1214701a 为 13564568301 管理员ID
                     resultDish.addStock(dish.quantity, "56332187594b09af6e6c7dd2", {_id:"55b1b25612e798ef1214701a"}, "cronjob").then (resultDish) ->
                       job.logList.push({isExecuted : true, message : resultDish[0].title.zh + " / Added quantity:" + dish.quantity + " / Now stock:" + resultDish[0].stock})
@@ -28,10 +28,10 @@ exports.runCronJob = (req, res, next) ->
                 .catch (err)->
                   job.logList.push({isExecuted : false, message : err})
                   job.saveAsync()
-                  logger.error("Cron Job Dish Add Inventory Error: ", err)
+                  logger.error("CronJob Dish Add Inventory Error: ", err)
 
             onComplete : () ->
-              logger.warn "---------- CronJobFinished: ", job.name
+              logger.error( "CronJob Finished: ", job.name)
             start : false
             timeZone : "Asia/Shanghai"
 
@@ -49,7 +49,7 @@ exports.runCronJob = (req, res, next) ->
 
 
 exports.getNoOrderUserLast7DayTest = (req, res, next) ->
-  logger.error("Cron Test Every Wednesday 10 o'clock send iOS push notification: " )
+  logger.error("CronJob Test Every Wednesday 10 o'clock send iOS push notification: " )
   res.send("ok")
 
 
@@ -103,7 +103,7 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 
         models.message.sendMessageToUser(sendUser, models.message.constantContentType().cronjob, additionalContent, pushOptions)
 
-      logger.error("Cron Every Wednesday 10 o'clock send iOS push notification: ", JSON.stringify(sendUserIdList) )
+      logger.error("CronJob Every Monday and Thursday 10 o'clock send iOS push notification: ", JSON.stringify(sendUserIdList) )
       res.send("ok")
     .catch next
 
@@ -157,14 +157,14 @@ exports.cancelNotPaidOrder = (req, res, next) ->
 
         # 撤销余额使用
         if order.accountUsedDiscount and order.accountUsedDiscount > 0
-          logger.error("cronjob refund account balance order id:", JSON.stringify(order._id), JSON.stringify(order.accountUsedDiscount) )
+          logger.error("CronJob refund account balance order id: ", JSON.stringify(order._id), JSON.stringify(order.accountUsedDiscount) )
           tempOrderIndex[order.user.toString()] = order
           models.useraccount.findOneAsync({user : order.user.toString()}).then (resultAccount)->
             if resultAccount
               orderTemp = tempOrderIndex[resultAccount.user.toString()]
               resultAccount.addMoney(orderTemp.accountUsedDiscount, {zh : "订单取消返还",en : "Order cancel return"}, "订单取消系统返还", orderTemp._id.toString())
               .catch( (err) ->
-                logger.error("cronjob refund account error:", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount))
+                logger.error("CronJob refund account error: ", orderTemp._id, orderTemp.accountUsedDiscount, JSON.stringify(resultAccount))
               )
 
 
