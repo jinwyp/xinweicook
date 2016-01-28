@@ -318,8 +318,10 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
     var result = {
         totalTime : 0,
+        totalAllTime : 0,
         totalOrderNumber : 0,
-        avgTime : 0
+        avgTime : 0,
+        avgAllTime : 0
     };
 
     var userIdList = [];
@@ -393,14 +395,14 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
                                 totalTime : 0,
-                                totalOrderNumber : 1,
+                                totalOrderNumber : 0,
                                 orderList : []
                             };
-                        }else{
-                            userDataHash[resultOrderList[i].user.toString()].totalTime = userDataHash[resultOrderList[i].user.toString()].totalTime + first.secondOrderInterval;
-                            userDataHash[resultOrderList[i].user.toString()].totalOrderNumber = userDataHash[resultOrderList[i].user.toString()].totalOrderNumber + 1;
-                            //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
                         }
+
+                        userDataHash[resultOrderList[i].user.toString()].totalTime = userDataHash[resultOrderList[i].user.toString()].totalTime + first.secondOrderInterval;
+                        userDataHash[resultOrderList[i].user.toString()].totalOrderNumber = userDataHash[resultOrderList[i].user.toString()].totalOrderNumber + 1;
+                        //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
 
                     }else{
                         //console.log(nextUserId);
@@ -427,13 +429,15 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         avgTime : userDataHash[userIdList[j]].totalTime / userDataHash[userIdList[j]].totalOrderNumber
                     });
 
-                    result.totalTime = result.totalTime + userDataHash[userIdList[j]].totalTime;
+                    result.totalTime = result.totalTime + userDataHash[userIdList[j]].totalTime / userDataHash[userIdList[j]].totalOrderNumber;
+                    result.totalAllTime = result.totalAllTime + userDataHash[userIdList[j]].totalTime;
                     result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber;
                 }
 
             }
 
-            result.avgTime = result.totalTime / result.totalOrderNumber;
+            result.avgTime = result.totalTime / userIdList.length;
+            result.avgAllTime = result.totalTime / result.totalOrderNumber;
         }
 
         res.send(result);
@@ -605,7 +609,15 @@ exports.userOrderFrequency = function(req, res, next) {
             totalEatUserWith2Order : 0,
             totalCookUserWith2Order : 0,
             avgEatOrderInterval : 0,
-            avgCookOrderInterval : 0
+            avgCookOrderInterval : 0,
+
+
+            totalAllEatOrderIntervalTime : 0,
+            totalAllCookOrderIntervalTime : 0,
+            totalAllEatUserIntervalCount : 0,
+            totalAllCookUserIntervalCount : 0,
+            avgAllEatOrderInterval : 0,
+            avgAllCookOrderInterval : 0
         };
 
 
@@ -615,9 +627,14 @@ exports.userOrderFrequency = function(req, res, next) {
 
             if (user.orderList.length > 1){
                 user.orderList.reduce(function(previousOrder, currentOrder, currentOrderIndex){
-                    //console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime);
+                    console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime, user.cookingType, user.user);
 
-                    if (moment(currentOrder.createdAt).week() === moment(previousOrder.createdAt).week() ){
+                    if (user.cookingType === models.dish.constantCookingType().eat){
+                        if (moment(currentOrder.createdAt).week() === moment(previousOrder.createdAt).week() ){
+                            totalUserOrderTime = totalUserOrderTime + moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours');
+                            totalUserIntervalCount = totalUserIntervalCount + 1;
+                        }
+                    }else{
                         totalUserOrderTime = totalUserOrderTime + moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours');
                         totalUserIntervalCount = totalUserIntervalCount + 1;
                     }
@@ -626,13 +643,21 @@ exports.userOrderFrequency = function(req, res, next) {
                 });
 
                 user.totalUserOrderTime = totalUserOrderTime;
+                user.totalUserIntervalCount = totalUserIntervalCount;
+                user.avgIntervalTime = user.totalUserOrderTime / user.totalUserIntervalCount;
 
                 if (user.cookingType === models.dish.constantCookingType().eat){
-                    result.totalEatOrderInterval = result.totalEatOrderInterval +  user.totalUserOrderTime;
+                    result.totalEatOrderInterval = result.totalEatOrderInterval +  user.avgIntervalTime;
                     result.totalEatUserWith2Order = result.totalEatUserWith2Order + 1;
+
+                    result.totalAllEatOrderIntervalTime = result.totalAllEatOrderIntervalTime +  user.totalUserOrderTime;
+                    result.totalAllEatUserIntervalCount = result.totalAllEatUserIntervalCount + user.totalUserIntervalCount;
                 }else{
-                    result.totalCookOrderInterval = result.totalCookOrderInterval +  user.totalUserOrderTime;
+                    result.totalCookOrderInterval = result.totalCookOrderInterval +  user.avgIntervalTime;
                     result.totalCookUserWith2Order = result.totalCookUserWith2Order + 1;
+
+                    result.totalAllCookOrderIntervalTime = result.totalAllCookOrderIntervalTime +  user.totalUserOrderTime;
+                    result.totalAllCookUserIntervalCount = result.totalAllCookUserIntervalCount + user.totalUserIntervalCount;
                 }
 
             }
@@ -646,7 +671,6 @@ exports.userOrderFrequency = function(req, res, next) {
                 if (user.saleQuantity >= result.maxEatOrder){
                     result.maxEatOrder = user.saleQuantity
                 }
-
             }
 
             if (user.cookingType === models.dish.constantCookingType().cook){
@@ -656,7 +680,6 @@ exports.userOrderFrequency = function(req, res, next) {
                 if (user.saleQuantity >= result.maxCookOrder){
                     result.maxCookOrder = user.saleQuantity
                 }
-
             }
 
 
@@ -667,6 +690,9 @@ exports.userOrderFrequency = function(req, res, next) {
 
         result.avgEatOrderInterval = result.totalEatOrderInterval / result.totalEatUserWith2Order;
         result.avgCookOrderInterval = result.totalCookOrderInterval / result.totalCookUserWith2Order;
+
+        result.avgAllEatOrderInterval = result.totalAllEatOrderIntervalTime / result.totalAllEatUserIntervalCount;
+        result.avgAllCookOrderInterval = result.totalAllCookOrderIntervalTime / result.totalAllCookUserIntervalCount;
 
         res.status(200).json(result);
     }).catch(next);

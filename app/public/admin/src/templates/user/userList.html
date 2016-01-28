@@ -353,6 +353,19 @@
             </h3>
 
 
+            <h3>
+                <span class="label label-warning">便当购买两次及以上的用户相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.totalEatOrderInterval}}小时</span>
+                <span class="label label-warning">便当购买两次及以上的用户数量: {{data.userStatisticOrderFrequency.totalEatUserWith2Order}}</span>
+                <span class="label label-warning">便当购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticOrderFrequency.avgEatOrderInterval | number :2}}小时</span>
+            </h3>
+
+            <h3>
+                <span class="label label-warning">食材包购买两次及以上的用户相邻两次订单下单时间平均间隔总和: {{data.userStatisticOrderFrequency.totalCookOrderInterval}}小时</span>
+                <span class="label label-warning">食材包购买两次及以上的用户数量: {{data.userStatisticOrderFrequency.totalCookUserWith2Order}}</span>
+                <span class="label label-warning">食材包购买两次及以上的用户每次相邻两次订单下单平均间隔: {{data.userStatisticOrderFrequency.avgCookOrderInterval | number :2}}小时</span>
+            </h3>
+
+
         </div>
 
     </div>
