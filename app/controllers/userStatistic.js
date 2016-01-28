@@ -602,6 +602,8 @@ exports.userOrderFrequency = function(req, res, next) {
 
             totalEatOrderInterval : 0,
             totalCookOrderInterval : 0,
+            totalEatUserWith2Order : 0,
+            totalCookUserWith2Order : 0,
             avgEatOrderInterval : 0,
             avgCookOrderInterval : 0
         };
@@ -609,50 +611,62 @@ exports.userOrderFrequency = function(req, res, next) {
 
         resultOrder.forEach(function(user){
             var totalUserOrderTime = 0;
+            var totalUserIntervalCount = 0;
 
             if (user.orderList.length > 1){
                 user.orderList.reduce(function(previousOrder, currentOrder, currentOrderIndex){
-                    console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime);
-                    totalUserOrderTime = totalUserOrderTime + moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours');
+                    //console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime);
+
+                    if (moment(currentOrder.createdAt).week() === moment(previousOrder.createdAt).week() ){
+                        totalUserOrderTime = totalUserOrderTime + moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours');
+                        totalUserIntervalCount = totalUserIntervalCount + 1;
+                    }
+
                     return currentOrder
-                })
+                });
+
+                user.totalUserOrderTime = totalUserOrderTime;
+
+                if (user.cookingType === models.dish.constantCookingType().eat){
+                    result.totalEatOrderInterval = result.totalEatOrderInterval +  user.totalUserOrderTime;
+                    result.totalEatUserWith2Order = result.totalEatUserWith2Order + 1;
+                }else{
+                    result.totalCookOrderInterval = result.totalCookOrderInterval +  user.totalUserOrderTime;
+                    result.totalCookUserWith2Order = result.totalCookUserWith2Order + 1;
+                }
+
             }
 
-            user.totalUserOrderTime = totalUserOrderTime;
+
 
             if (user.cookingType === models.dish.constantCookingType().eat){
                 result.totalEatOrder = result.totalEatOrder +  user.saleQuantity;
+                result.totalEatUser = result.totalEatUser + 1;
 
                 if (user.saleQuantity >= result.maxEatOrder){
                     result.maxEatOrder = user.saleQuantity
                 }
 
-                result.totalEatOrderInterval = result.totalEatOrderInterval +  user.totalUserOrderTime;
-                result.totalEatUser = result.totalEatUser + 1;
-
             }
 
             if (user.cookingType === models.dish.constantCookingType().cook){
                 result.totalCookOrder = result.totalCookOrder +  user.saleQuantity;
+                result.totalCookUser = result.totalCookUser + 1;
 
-                if (user.saleQuantity >= result.totalCookOrder){
-                    result.totalCookOrder = user.saleQuantity
+                if (user.saleQuantity >= result.maxCookOrder){
+                    result.maxCookOrder = user.saleQuantity
                 }
 
-                result.totalCookOrderInterval = result.totalCookOrderInterval +  user.totalUserOrderTime;
-                result.totalCookUser = result.totalCookUser + 1;
             }
-
-
 
 
         });
 
-        result.avgEatOrder = result.totalEatUser / resultOrder.length;
-        result.avgCookOrder = result.totalCookUser / resultOrder.length;
+        result.avgEatOrder = result.totalEatOrder / result.totalEatUser;
+        result.avgCookOrder = result.totalCookOrder / result.totalCookUser;
 
-        result.avgEatOrderInterval = result.totalEatUser / resultOrder.length;
-        result.avgCookOrderInterval = result.totalCookUser / resultOrder.length;
+        result.avgEatOrderInterval = result.totalEatOrderInterval / result.totalEatUserWith2Order;
+        result.avgCookOrderInterval = result.totalCookOrderInterval / result.totalCookUserWith2Order;
 
         res.status(200).json(result);
     }).catch(next);
