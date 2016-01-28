@@ -28,7 +28,7 @@ exports.runCronJob = (req, res, next) ->
                 .catch (err)->
                   job.logList.push({isExecuted : false, message : err})
                   job.saveAsync()
-                  logger.error("CronJob Dish Add Inventory Error: ", err)
+                  logger.error("CronJob Dish Add Inventory Error: ", JSON.stringify(err))
 
             onComplete : () ->
               logger.error( "CronJob Finished: ", job.name)

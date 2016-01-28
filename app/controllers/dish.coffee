@@ -88,7 +88,7 @@ exports.updateDishStatisticLike = (req, res, next) ->
       resultDish.statisticLike = resultDish.statisticLike + 1
 
     req.u.saveAsync().catch (err)->
-      logger.error("---- User Like error", err)
+      logger.error("User Like Dish action error: ", JSON.stringify(err))
 
     resultDish.saveAsync()
   .spread (resultDish2, numberAffected) ->
@@ -96,7 +96,5 @@ exports.updateDishStatisticLike = (req, res, next) ->
   .then (resultDish3) ->
     res.json resultDish3
   .catch next
-
-
 
 
