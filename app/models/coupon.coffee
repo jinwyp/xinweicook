@@ -514,6 +514,6 @@ module.exports =
                       resultUser.couponList.push(resultCoupons[i]._id.toString())
 
                   resultUser.saveAsync().catch( (err)->
-                    logger.error("Create Coupon failed:", err)
+                    logger.error("Create Coupon failed:", JSON.stringify(err))
                   )
       next()

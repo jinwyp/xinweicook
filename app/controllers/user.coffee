@@ -336,8 +336,8 @@ exports.getWeixinUserInfo = (req, res, next) ->
 
 
 exports.getWeixinUserOauthCode = (req, res, next) ->
-  logger.error("-------- User OpenID Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)   )
-  logger.error("-------- User OpenID Oauth Code Send Url ReqU: " + JSON.stringify(req.u)  ) if req.u
+#  logger.error("-------- User OpenID Oauth Code Send Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)   )
+#  logger.error("-------- User OpenID Oauth Code Send Url ReqU: " + JSON.stringify(req.u)  ) if req.u
 
   userId = req.query.userId
   redirectUrl = req.query.redirectUrl
@@ -367,8 +367,8 @@ exports.getWeixinUserOauthCode = (req, res, next) ->
 
 
 exports.getWeixinUserOpenId = (req, res, next) ->
-  logger.error("-------- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
-  logger.error("-------- User OpenID Oauth Code Return Url ReqU : " + JSON.stringify(req.u)  ) if req.u
+#  logger.error("-------- User OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query) )
+#  logger.error("-------- User OpenID Oauth Code Return Url ReqU : " + JSON.stringify(req.u)  ) if req.u
 
   code = req.query.code
   state = req.query.state
@@ -436,8 +436,6 @@ exports.userSignUp = (req, res, next) ->
   # 注册
   { mobile, pwd, code, couponcode, referrer } = req.body
 
-#  logger.error("---- Regisration couponcode", JSON.stringify(req.body))
-
   models.user.validationMobile(mobile)
   models.user.validationPassword(pwd)
 
@@ -456,7 +454,7 @@ exports.userSignUp = (req, res, next) ->
     models.user.checkFound(resultUser)
 
     if not resultUser
-      logger.error("new user signUp:", mobile, code, pwd, couponcode, referrer)
+      logger.error("new user signUp: (mobile, code, pwd, couponcode, referrer)", mobile, code, pwd, couponcode, referrer)
 
       newUser =
         mobile : mobile

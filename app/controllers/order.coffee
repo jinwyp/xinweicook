@@ -764,7 +764,7 @@ exports.addNewOrder = (req, res, next) ->
 
 
     req.u.saveAsync().catch (err)->
-      logger.error("New Order User Save error", err)
+      logger.error("New Order User Save error", JSON.stringify(err))
 
 
 

@@ -57,12 +57,9 @@ exports.userNewComerRate = function(req, res, next) {
 
     var last7Day = today.clone().subtract(7, 'days');
 
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    var cookingType = [];
-    cookingType.push( models.dish.constantCookingType().eat);
-
+    var cookingType = [models.dish.constantCookingType().eat];
 
 
 
@@ -351,8 +348,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
     models.user.find(queryUser).execAsync()
     .then(function(resultUserList){
@@ -453,6 +449,400 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
 
+exports.userOrderFrequency = function(req, res, next) {
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+
+    var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
+
+
+    var matchList = {
+        isChildOrder : false,
+        status       : {$in : orderStatus},
+        createdAt    :  {"$lt" : today.toDate()}
+    };
+
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        matchList.clientFrom  = req.query.statisticsClientFrom;
+    }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
+
+    var pipelineEat = [];
+
+    var project = {
+        _id : 1,
+        createdAt : 1,
+        user : 1,
+        orderNumber: 1,
+        isSplitOrder : 1,
+        isChildOrder : 1,
+        childOrderList : 1,
+        cookingType : 1,
+
+        clientFrom : 1,
+        payment : 1,
+        paymentUsedCash : 1,
+        isPaymentPaid : 1,
+
+        deliveryDateTime : 1,
+
+
+        promotionCode : 1,
+        promotionDiscount : 1,
+        coupon : 1,
+        couponDiscount : 1,
+        accountUsedDiscount : 1,
+
+        dishesPrice : 1,
+        freight : 1,
+        totalPrice : 1,
+
+        packageType : 1,
+
+
+        year: { $year: {$add:["$createdAt",28800000]}  },
+        month: { $month: {$add:["$createdAt",28800000]}  },
+        day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+        hour: { $hour: {$add:["$createdAt",28800000]}  },
+        minute: { $minute: {$add:["$createdAt",28800000]}  },
+        "second" : { "$second" : {$add:["$createdAt",28800000]} },
+        "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+        dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+        dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+        week: { $week: {$add:["$createdAt",28800000]}  }
+    };
+
+
+
+    pipelineEat.push(
+        { "$match":matchList},
+        { $project :project},
+
+        { "$sort": { "user" : 1, "createdAt": 1 } },
+
+        { "$group": {
+            "_id": { user : "$user", cookingType:"$cookingType"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+            "saleAvgTotalPrice": { "$avg": "$totalPrice" },
+            "saleDishesPrice": { "$sum": "$dishesPrice" },
+            "saleAvgDishesPrice": { "$avg": "$dishesPrice" },
+            "saleFreight": { "$sum": "$freight" },
+            "saleAvgFreight": { "$avg": "$freight" },
+
+            "salePromotionDiscount": { "$sum": "$promotionDiscount" },
+            "saleAvgPromotionDiscount": { "$avg": "$promotionDiscount" },
+
+            "saleCouponDiscount": { "$sum": "$couponDiscount" },
+            "saleAvgCouponDiscount": { "$avg": "$couponDiscount" },
+
+            "saleAccountUsedDiscount": { "$sum": "$accountUsedDiscount" },
+            "saleAvgAccountUsedDiscount": { "$avg": "$accountUsedDiscount" },
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "cookingType":"$cookingType", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "user" : "$_id.user",
+            "cookingType" : "$_id.cookingType",
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+            "saleAvgTotalPrice": 1,
+            "saleDishesPrice": 1,
+            "saleAvgDishesPrice": 1,
+            "saleFreight": 1,
+            "saleAvgFreight": 1,
+
+            "salePromotionDiscount": 1,
+            "saleAvgPromotionDiscount": 1,
+
+            "saleCouponDiscount": 1,
+            "saleAvgCouponDiscount": 1,
+
+            "saleAccountUsedDiscount": 1,
+            "saleAvgAccountUsedDiscount": 1,
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "user" : 1, "cookingType": 1 } },
+        { "$limit": 5000 }
+    );
+
+
+
+    models.order.aggregateAsync( pipelineEat).then(function(resultOrder){
+
+        var result = {
+            totalEatUser : 0,
+            totalCookUser : 0,
+            totalEatOrder : 0,
+            totalCookOrder : 0,
+            avgEatOrder : 0,
+            avgCookOrder : 0,
+            maxEatOrder : 0,
+            maxCookOrder : 0,
+
+            totalEatOrderInterval : 0,
+            totalCookOrderInterval : 0,
+            totalEatUserWith2Order : 0,
+            totalCookUserWith2Order : 0,
+            avgEatOrderInterval : 0,
+            avgCookOrderInterval : 0
+        };
+
+
+        resultOrder.forEach(function(user){
+            var totalUserOrderTime = 0;
+            var totalUserIntervalCount = 0;
+
+            if (user.orderList.length > 1){
+                user.orderList.reduce(function(previousOrder, currentOrder, currentOrderIndex){
+                    //console.log(previousOrder.createdAt, currentOrder.createdAt, moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours'), totalUserOrderTime);
+
+                    if (moment(currentOrder.createdAt).week() === moment(previousOrder.createdAt).week() ){
+                        totalUserOrderTime = totalUserOrderTime + moment(currentOrder.createdAt).diff(moment(previousOrder.createdAt), 'hours');
+                        totalUserIntervalCount = totalUserIntervalCount + 1;
+                    }
+
+                    return currentOrder
+                });
+
+                user.totalUserOrderTime = totalUserOrderTime;
+
+                if (user.cookingType === models.dish.constantCookingType().eat){
+                    result.totalEatOrderInterval = result.totalEatOrderInterval +  user.totalUserOrderTime;
+                    result.totalEatUserWith2Order = result.totalEatUserWith2Order + 1;
+                }else{
+                    result.totalCookOrderInterval = result.totalCookOrderInterval +  user.totalUserOrderTime;
+                    result.totalCookUserWith2Order = result.totalCookUserWith2Order + 1;
+                }
+
+            }
+
+
+
+            if (user.cookingType === models.dish.constantCookingType().eat){
+                result.totalEatOrder = result.totalEatOrder +  user.saleQuantity;
+                result.totalEatUser = result.totalEatUser + 1;
+
+                if (user.saleQuantity >= result.maxEatOrder){
+                    result.maxEatOrder = user.saleQuantity
+                }
+
+            }
+
+            if (user.cookingType === models.dish.constantCookingType().cook){
+                result.totalCookOrder = result.totalCookOrder +  user.saleQuantity;
+                result.totalCookUser = result.totalCookUser + 1;
+
+                if (user.saleQuantity >= result.maxCookOrder){
+                    result.maxCookOrder = user.saleQuantity
+                }
+
+            }
+
+
+        });
+
+        result.avgEatOrder = result.totalEatOrder / result.totalEatUser;
+        result.avgCookOrder = result.totalCookOrder / result.totalCookUser;
+
+        result.avgEatOrderInterval = result.totalEatOrderInterval / result.totalEatUserWith2Order;
+        result.avgCookOrderInterval = result.totalCookOrderInterval / result.totalCookUserWith2Order;
+
+        res.status(200).json(result);
+    }).catch(next);
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.userGetFirstEatOrderDaily = function(req, res, next) {
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+
+    var cookingType = [models.dish.constantCookingType().eat];
+
+
+    var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
+
+
+    var matchList = {
+        "isChildOrder" : false,
+        "cookingType"  : {$in : cookingType},
+        "status"       : {$in : orderStatus},
+        "createdAt"    : {"$lt" : today.toDate()}
+    };
+
+
+    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
+        matchList.clientFrom  = req.query.statisticsClientFrom;
+    }
+
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        { "$match":matchList},
+
+        { $sort: { user: 1, createdAt: 1 } },
+
+        { "$group": {
+            "_id": "$user",
+
+            "firstOrderDate": { $first: "$createdAt" },
+            "firstOrderId": { $first: "$_id" },
+            "firstOrderNumber": { $first: "$orderNumber" },
+            "firstOrderTotalPrice": { $first: "$totalPrice" },
+            "firstOrderContactPerson": { $first: "$address.contactPerson" },
+            "firstOrderContactMobile": { $first: "$address.mobile" },
+            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
+        }},
+
+        { "$sort": { "firstOrderDate" : 1 } },
+
+
+
+        { $project :{
+            _id : 1,
+            firstOrderDate : 1,
+            firstOrderId : 1,
+            firstOrderNumber: 1,
+            "firstOrderTotalPrice": 1,
+            "firstOrderContactPerson": 1,
+            "firstOrderContactMobile": 1,
+            orderList : 1,
+
+            year: { $year: {$add:["$firstOrderDate",28800000]} },
+            month: { $month: {$add:["$firstOrderDate",28800000]} },
+            day: { $dayOfMonth: {$add:["$firstOrderDate",28800000]} },
+            hour: { $hour: {$add:["$firstOrderDate",28800000]} },
+            "minute" : {"$minute" : {$add:["$firstOrderDate",28800000]}},
+            "second" : { "$second" : {$add:["$firstOrderDate",28800000]}},
+            "millisecond" : {"$millisecond" : {$add:["$firstOrderDate",28800000]}},
+            dayOfYear: { $dayOfYear: {$add:["$firstOrderDate",28800000]} },
+            dayOfWeek: { $dayOfWeek: {$add:["$firstOrderDate",28800000]} },
+            week: { $week: {$add:["$firstOrderDate",28800000]} }
+
+        }},
+
+
+        { $project :{
+            _id : 1,
+            firstOrderDate : 1,
+            firstOrderId : 1,
+            firstOrderNumber: 1,
+            "firstOrderTotalPrice": 1,
+            "firstOrderContactPerson": 1,
+            "firstOrderContactMobile": 1,
+            orderList : 1,
+
+            year: 1,
+            month: 1,
+            day: 1,
+            hour: 1,
+            "minute" : 1,
+            "second" : 1,
+            "millisecond" : 1,
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1,
+
+            date : {"$subtract" : [ {$add:["$firstOrderDate",28800000]},
+                {"$add" : [ "$millisecond",
+                    {"$multiply" : ["$second", 1000]},
+                    {"$multiply" : ["$minute",60,1000]},
+                    {"$multiply" : ["$hour", 60, 60,1000]}
+                ]}
+            ]}
+        }},
+
+
+        { "$group": {
+            "_id":  "$date",
+            "userQuantity": { "$sum": 1 },
+            "userList": { "$push": { "_id": "$firstOrderId", "orderCreatedAt": "$firstOrderDate", "user": "$_id", "orderNumber": "$firstOrderNumber",  "orderContactPerson": "$firstOrderContactPerson", "orderContactMobile": "$firstOrderContactMobile", "totalPrice": "$firstOrderTotalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
+            "userQuantity": 1,
+            "userList": 1
+
+        }},
+
+        { "$sort": { "date" : 1} },
+        { "$limit": 1000 }
+    );
+
+
+
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+
+        res.send(resultOrderList);
+    }).catch(next);
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -463,25 +853,32 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 exports.userGetOrderWeekly = function(req, res, next) {
 
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
-    var cookingType = [];
-    cookingType.push( models.dish.constantCookingType().eat);
+    var today = moment().startOf('day');
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
 
 
     var matchList = {
-        "isChildOrder" : false
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus},
+        "createdAt"    : {"$lt" : today.toDate()}
     };
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
     }
 
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
 
     var pipeline = [];
-
 
 
     // Grouping pipeline
@@ -603,7 +1000,7 @@ exports.userGetOrderWeekly = function(req, res, next) {
                 resultOrderList.map(function(user){
 
                     if (week.date === user.date){
-                        week.date2 = user.date2
+                        week.date2 = user.date2;
 
                         if (user.cookTypeList.length > 1){
                             week.typeAll = week.typeAll + 1;
@@ -635,29 +1032,33 @@ exports.userGetOrderWeekly = function(req, res, next) {
 
 
 
-
 exports.userGetOrderMonthly = function(req, res, next) {
 
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
-    var cookingType = [];
-    cookingType.push( models.dish.constantCookingType().eat);
+    var today = moment().startOf('day');
 
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
 
     var matchList = {
-        "isChildOrder" : false
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus},
+        "createdAt"    : {"$lt" : today.toDate()}
     };
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
     }
 
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
 
     var pipeline = [];
-
-
 
     // Grouping pipeline
     pipeline.push(
@@ -799,28 +1200,35 @@ exports.userGetOrderMonthly = function(req, res, next) {
 
 
 
+
+
 exports.userGetOrderYearly = function(req, res, next) {
 
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
 
-    var cookingType = [];
-    cookingType.push( models.dish.constantCookingType().eat);
+    var today = moment().startOf('day');
 
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        today = moment(req.query.createdAt).startOf('day');
+    }
 
     var matchList = {
-        "isChildOrder" : false
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus},
+        "createdAt"    : {"$lt" : today.toDate()}
     };
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
     }
 
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
 
     var pipeline = [];
-
-
 
     // Grouping pipeline
     pipeline.push(
@@ -902,6 +1310,7 @@ exports.userGetOrderYearly = function(req, res, next) {
     );
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+        console.log(resultOrderList)
         var result = {
 
             typeAll : 0,
@@ -937,143 +1346,18 @@ exports.userGetOrderYearly = function(req, res, next) {
 
 
 
-exports.userGetFirstOrderDaily = function(req, res, next) {
-
-    var orderStatus = [];
-    orderStatus.push(models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished);
-
-    var cookingType = [];
-    cookingType.push( models.dish.constantCookingType().eat);
-
-
-    var matchList = {
-        "isChildOrder" : false,
-        "cookingType"  : {$in : cookingType},
-        "status"       : {$in : orderStatus}
-    };
-
-
-    //var today = moment().startOf('day');
-    //
-    //if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-    //    today = moment(req.query.createdAt).startOf('day');
-    //
-    //    matchList.createdAt  = {"$lt": today.toDate() };
-    //}
-
-
-    if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
-        matchList.clientFrom  = req.query.statisticsClientFrom;
-    }
-
-
-    var pipeline = [];
-
-    // Grouping pipeline
-    pipeline.push(
-        { "$match":matchList},
-
-        { $sort: { user: 1, createdAt: 1 } },
-
-        { "$group": {
-            "_id": "$user",
-
-            "firstOrderDate": { $first: "$createdAt" },
-            "firstOrderId": { $first: "$_id" },
-            "firstOrderNumber": { $first: "$orderNumber" },
-            "firstOrderTotalPrice": { $first: "$totalPrice" },
-            "firstOrderContactPerson": { $first: "$address.contactPerson" },
-            "firstOrderContactMobile": { $first: "$address.mobile" },
-            "orderList": { "$push": { "_id": "$_id", "user": "$user",  "orderNumber": "$orderNumber", "createdAt": "$createdAt", "contactPerson": "$address.contactPerson", "contactMobile": "$address.mobile", "totalPrice": "$totalPrice"  } }
-        }},
-
-        { "$sort": { "firstOrderDate" : 1 } },
-
-
-
-        { $project :{
-            _id : 1,
-            firstOrderDate : 1,
-            firstOrderId : 1,
-            firstOrderNumber: 1,
-            "firstOrderTotalPrice": 1,
-            "firstOrderContactPerson": 1,
-            "firstOrderContactMobile": 1,
-            orderList : 1,
-
-            year: { $year: {$add:["$firstOrderDate",28800000]} },
-            month: { $month: {$add:["$firstOrderDate",28800000]} },
-            day: { $dayOfMonth: {$add:["$firstOrderDate",28800000]} },
-            hour: { $hour: {$add:["$firstOrderDate",28800000]} },
-            "minute" : {"$minute" : {$add:["$firstOrderDate",28800000]}},
-            "second" : { "$second" : {$add:["$firstOrderDate",28800000]}},
-            "millisecond" : {"$millisecond" : {$add:["$firstOrderDate",28800000]}},
-            dayOfYear: { $dayOfYear: {$add:["$firstOrderDate",28800000]} },
-            dayOfWeek: { $dayOfWeek: {$add:["$firstOrderDate",28800000]} },
-            week: { $week: {$add:["$firstOrderDate",28800000]} }
-
-        }},
-
-
-        { $project :{
-            _id : 1,
-            firstOrderDate : 1,
-            firstOrderId : 1,
-            firstOrderNumber: 1,
-            "firstOrderTotalPrice": 1,
-            "firstOrderContactPerson": 1,
-            "firstOrderContactMobile": 1,
-            orderList : 1,
-
-            year: 1,
-            month: 1,
-            day: 1,
-            hour: 1,
-            "minute" : 1,
-            "second" : 1,
-            "millisecond" : 1,
-            dayOfYear: 1,
-            dayOfWeek: 1,
-            week: 1,
-
-            date : {"$subtract" : [ {$add:["$firstOrderDate",28800000]},
-                {"$add" : [ "$millisecond",
-                    {"$multiply" : ["$second", 1000]},
-                    {"$multiply" : ["$minute",60,1000]},
-                    {"$multiply" : ["$hour", 60, 60,1000]}
-                ]}
-            ]}
-        }},
-
-
-        { "$group": {
-            "_id":  "$date",
-            "userQuantity": { "$sum": 1 },
-            "userList": { "$push": { "_id": "$firstOrderId", "orderCreatedAt": "$firstOrderDate", "user": "$_id", "orderNumber": "$firstOrderNumber",  "orderContactPerson": "$firstOrderContactPerson", "orderContactMobile": "$firstOrderContactMobile", "totalPrice": "$firstOrderTotalPrice"   } }
-        }},
-
-
-        { $project :{
-            _id : 0,
-            "date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
-            "userQuantity": 1,
-            "userList": 1
-
-        }},
-
-        { "$sort": { "date" : 1} },
-        { "$limit": 1000 }
-    );
 
 
 
 
-    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
-        res.send(resultOrderList);
-    }).catch(next);
 
-};
+
+
+
+
+
+
 
 
 

@@ -24,7 +24,9 @@ module.exports =
       .then((u)->
 
         if couponcode
-          models.coupon.addCouponFromCouponChargeCode(u, couponcode).catch( (err)-> logger.error("登录时通过优惠券兑换码创建优惠券失败", JSON.stringify(err)))
+          models.coupon.addCouponFromCouponChargeCode(u, couponcode).catch( (err)->
+            logger.error("登录时通过优惠券兑换码创建优惠券失败", JSON.stringify(err))
+          )
 
         if deviceToken?
           models.device.findOneAsync({deviceToken:deviceToken}).then (resultDevice) ->

@@ -239,6 +239,9 @@ render.cook = function (req, res, next, path) {
 }
 
 render.eat = function (req, res, next, path) {
+
+    models.dish.validationDishId(req.params.id);
+
     models.dish.findOne({
         _id: req.params.id
     }).execAsync()

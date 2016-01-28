@@ -23,14 +23,14 @@ connection.on "open", ->
 
 
 connection.on "error", (err) ->
-  logger.warn "Database", err
+  logger.error("Database", JSON.stringify(err))
   errs.push err
   mongoose.disconnect()
 
 connection.on "disconnected", ->
-  logger.warn "Database", "disconnnected"
+  logger.error("Database", "disconnnected")
   if errs.length >= 5
-    logger.error "Database", errs.pop()
+    logger.error("Database", errs.pop())
     errs = []
   else
     setTimeout () ->
