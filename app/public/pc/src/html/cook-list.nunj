@@ -88,7 +88,7 @@
                         </div>
                         <div class="tabs">
                             <div class="desc act">{{ dish.brief[locale] }}</div>
-                            <div class="ingre clearfix">
+                            <div class="ingre clearfix {{ locale }}">
                                 <ul>
                                     {% for ingredient in dish.infoIngredient %}
                                         {% if ingredient.contentType == 'txt' %}

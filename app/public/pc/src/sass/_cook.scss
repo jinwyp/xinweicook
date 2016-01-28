@@ -61,6 +61,7 @@
         .tabbtn {
           width: 100%;
           a {
+            font-size: 13px;
             float: left;
             display: inline;
             cursor: pointer;
@@ -68,7 +69,8 @@
             height: 30px;
             line-height: 30px;
             text-align: center;
-            border-bottom: 2px solid $color_mountain_mist_approx;
+            color: #C5C6C7;
+            border-bottom: 2px solid;
             &:hover {
               color: $color_sunset_orange_approx;
               border-bottom: 2px solid $color_sunset_orange_approx;
@@ -89,6 +91,8 @@
             margin-top: 20px;
           }
           .desc {
+            box-sizing: border-box;
+            padding: 0 6px;
             line-height: 22px;
             white-space: pre-line;
             width: 100%;
@@ -107,6 +111,9 @@
             height: 155px;
             overflow-y: auto;
             display: none;
+            &.en {
+              font-size: 12px;
+            }
             li {
               float: left;
               display: inline;
