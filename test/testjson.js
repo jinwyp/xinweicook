@@ -347,9 +347,18 @@ var userStat = {"eatOrderUser"  : 4113,
 };
 
 var userStatOld = {
+    "eatAllTotalIntervalTime"   : 74844,
+    "eatAllTotalIntervalCount"  : 2233,
+    "eatAllTotalAvgInterval"    : 33.51724137931034,
+
+    "eatUserOrderTotalAvgTime"  : 30203.677102998354,
+    "eatUserWith2Order"         : 1678,
+    "eatUserOrderAvgInterval"   : 17.99980757032083,
+
     "orderTotalIntervalTime"  : 1549483,
     "orderTotalIntervalCount" : 6021,
     "orderAvgTime"            : 257.3464540773958,
+    
     "userTotalIntervalTime"   : 577678.7249644706,
     "userCount"               : 1682,
     "userAvgTime"             : 343.44751781478635
