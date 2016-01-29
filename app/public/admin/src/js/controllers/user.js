@@ -78,6 +78,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
+        userStatisticOrderFrequency : {},
 
         userStatisticChartNewFirstOrderUserDaily : [],
         userStatisticChartOrderUserWeekly : [],
@@ -405,7 +406,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         }
 
         $scope.searchUserStatisticOfNewComers();
-        $scope.searchUserStatisticLoyalPurchaseFrequency();
+        $scope.searchUserStatisticOrderFrequency();
     };
 
 
@@ -423,13 +424,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         });
     };
 
-    $scope.searchUserStatisticLoyalPurchaseFrequency = function () {
+
+    $scope.searchUserStatisticOrderFrequency = function () {
 
         Util.delProperty($scope.data.searchOptions.query);
 
-        Statistic.getUserStatisticLoyalPurchaseFrequency($scope.data.searchOptions.query).then(function (result) {
-            $scope.data.userStatisticLoyalPurchaseFrequency = result.data;
-            Notification.success({message: 'Search Success! ', delay: 4000});
+        Statistic.getUserStatisticOrderFrequency($scope.data.searchOptions.query).then(function (result) {
+            $scope.data.userStatisticOrderFrequency = result.data;
+            //Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
