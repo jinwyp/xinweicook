@@ -393,7 +393,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
 
                     }else{
-                        console.log(nextUserId);
+                        //console.log(nextUserId);
                     }
 
 
