@@ -324,6 +324,36 @@ var mongo = [
     }
 ];
 
+var userStat = {
+    "eatOrderUser"              : 4113,
+    "eatOrder"                  : 10256,
+    "eatOrderAvg"               : 2.4935570143447605,
+    "eatOrderMax"               : 57,
+    "cookOrderUser"             : 392,
+    "cookOrder"                 : 568,
+    "cookOrderAvg"              : 1.4489795918367347,
+    "cookOrderMax"              : 12,
+    "eatUserOrderTotalAvgTime"  : 30203.677102998354,
+    "eatUserWith2Order"         : 1678,
+    "eatUserOrderAvgInterval"   : 17.99980757032083,
+    "cookUserOrderTotalAvgTime" : 40638.819985569986,
+    "cookUserWith2Order"        : 83,
+    "cookUserOrderAvgInterval"  : 489.624337175542,
+    "eatAllTotalIntervalTime"   : 74844,
+    "eatAllTotalIntervalCount"  : 2233,
+    "eatAllTotalAvgInterval"    : 33.51724137931034,
+    "cookAllTotalIntervalTime"  : 71322,
+    "cookAllTotalIntervalCount" : 176,
+    "cookAllTotalAvgInterval"   : 405.2386363636364
+};
+
+var userStatOld = {
+    "totalTime"        : 119.33333333333333,
+    "totalAllTime"     : 358,
+    "totalOrderNumber" : 3,
+    "avgTime"          : 119.33333333333333,
+    "avgAllTime"       : 39.77777777777778
+};
 
 
 module.exports = function (point, vs) {
