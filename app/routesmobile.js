@@ -56,6 +56,9 @@ expressRoutes = function(app) {
     app.get("/mobile/orderlist", function (req, res) {
         res.render(pathPrefix + 'order-list.html', {title: 'XinWeiCook'})
     });
+    app.get("/mobile/orders", function (req, res) {
+        res.render(pathPrefix + 'order-list2.html')
+    })
     app.get("/mobile/addresslist", function (req, res) {
         res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
     });

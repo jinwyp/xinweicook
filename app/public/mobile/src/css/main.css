@@ -198,7 +198,17 @@ form .err-tip {
   right: 1em;
 }
 
-/* line 220, ../sass/_base.scss */
+/* line 216, ../sass/_base.scss */
+.tl {
+  text-align: left;
+}
+
+/* line 219, ../sass/_base.scss */
+.tr {
+  text-align: right;
+}
+
+/* line 227, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
