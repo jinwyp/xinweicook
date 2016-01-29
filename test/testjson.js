@@ -324,8 +324,7 @@ var mongo = [
     }
 ];
 
-var userStat = {
-    "eatOrderUser"              : 4113,
+var userStat = {"eatOrderUser"  : 4113,
     "eatOrder"                  : 10256,
     "eatOrderAvg"               : 2.4935570143447605,
     "eatOrderMax"               : 57,
@@ -348,11 +347,12 @@ var userStat = {
 };
 
 var userStatOld = {
-    "totalTime"        : 119.33333333333333,
-    "totalAllTime"     : 358,
-    "totalOrderNumber" : 3,
-    "avgTime"          : 119.33333333333333,
-    "avgAllTime"       : 39.77777777777778
+    "orderTotalIntervalTime"  : 1549483,
+    "orderTotalIntervalCount" : 6021,
+    "orderAvgTime"            : 257.3464540773958,
+    "userTotalIntervalTime"   : 577678.7249644706,
+    "userCount"               : 1682,
+    "userAvgTime"             : 343.44751781478635
 };
 
 
