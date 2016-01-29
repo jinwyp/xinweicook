@@ -139,8 +139,10 @@
                        style="background-image: url({{ rec.dish.cover[0][locale] }})">
                         <div class="text-info">
                             {#rec.dish.priceOriginal#}
-                            <h5 class="name">{{ rec.dish.title[locale] }}</h5>
-                            <p class="price">￥{{ rec.dish.priceOriginal.toFixed(2) }}</p>
+                            <div class="text">
+                                <h5 class="name">{{ rec.dish.title[locale] }}</h5>
+                                <p class="price">￥{{ rec.dish.priceOriginal.toFixed(2) }}</p>
+                            </div>
                         </div>
                     </a>
                 {% endfor %}
