@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +33,7 @@
         #qrcode {
             font-size: 14px;
             text-align: center;
+            display: none;
         }
         #weixin-tip img{max-width: 100%; height: auto;}
     </style>
@@ -41,19 +41,80 @@
 </head>
 <body>
 <div class="xinwei-banner">
-    <img src="/mobile/src/img/xinweilogo.png" alt=""/>
+    <img src="/pc/src/images/xinweilogo.png" alt="xinwei cook"/>
 </div>
+
 <div id="qrcode">
     <img src="/pc/src/images/xinweiqr.svg" alt="xinwei qrcode"/>
     <div>可以扫描以上二维码进行下载</div>
 </div>
+
 <div class="download-caption">
     新味<br>
     Stay Hungry, Stay Foodish
 </div>
+
 <div class="download-link">
     <a id="download" href="http://itunes.apple.com/us/app/id991712290">
-        <img src="/mobile/src/img/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="app store badge"/>
+        <img src="/pc/src/images/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="app store badge"/>
     </a>
 </div>
 </body>
+<script type="text/javascript">
+    var isWeixin = /MicroMessenger/i.test(navigator.userAgent.toLowerCase());
+    if (isWeixin) {
+        var img = new Image();
+        img.src = '/pc/src/images/live_weixin.png'; //cache img for fast load xinwei download tip
+    }
+    document.getElementById('download').addEventListener('click', function (event) {
+
+        function loadHtml(){
+            var div = document.createElement('div');
+            div.id = 'weixin-tip';
+            div.innerHTML = '<p><img src="/pc/src/images/live_weixin.png" alt="微信打开"/></p>';
+            document.body.appendChild(div);
+        }
+        function loadStyleText(cssText) {
+            var style = document.createElement('style');
+            style.rel = 'stylesheet';
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(cssText));
+            var head=document.getElementsByTagName("head")[0]; //head标签之间加上style样式
+            head.appendChild(style);
+        }
+        var cssText = "#weixin-tip{position: fixed; left:0; top:0; background: rgba(0,0,0,0.8); width: 100%; height:100%; z-index: 100;} #weixin-tip p{text-align: center; margin-top: 10%; padding:0 5%;}";
+        if(isWeixin){
+            loadHtml();
+            loadStyleText(cssText);
+            event.preventDefault();
+        }
+    });
+
+    var isMobile = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
+    var isPC = !isMobile.any(); // for debug
+
+    if(isPC){
+        document.getElementById('qrcode').style.display = 'block';
+    }
+</script>
+</html>

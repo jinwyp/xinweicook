@@ -91,19 +91,17 @@
             font-size: 0;
             clear: both;
         }
-        .qrcodes div{
-            width: 44%;
-        }
         .qrcodes img {
-            width: 100%;
+            width: 50%;
             background-color: white;
         }
         .qrcodes h5 {
             font-size: 14px;
             margin: 7px auto;
             font-weight: 400;
+            margin-bottom: 20px;
         }
-        .qrcodes div:last-child img{
+        .qrcodes img:nth-of-type(2){
             box-sizing: border-box;
             border: solid 7px;
         }
@@ -153,15 +151,11 @@
     <div class="invite">
         <p>关注“新味”公众号<br>
          或下载新味 App即可立即订购！</p>
-        <div class="qrcodes clearfix">
-            <div class="fl">
-                <img src="/mobile/src/img/keysPromotion/qrcode-gzh.jpg" alt=""/>
-                <h5 class="tc">微信公众号</h5>
-            </div>
-            <div class="fr">
-                <img src="/pc/src/images/xwapp.png" alt=""/>
-                <h5 class="tc">IOS App</h5>
-            </div>
+        <div class="qrcodes clearfix tc">
+            <img src="/mobile/src/img/keysPromotion/qrcode-gzh.jpg" alt=""/>
+            <h5 class="tc">微信公众号</h5>
+            <img src="/pc/src/images/xwapp.png" alt=""/>
+            <h5 class="tc">IOS App</h5>
         </div>
     </div>
     <h3 class="signup">立即注册，领取新味10元见面礼！</h3>
