@@ -74,6 +74,7 @@ var App = React.createClass({
 
         var cartLoaded = !!cart
         cart = cart || []
+        var hasSelectedOne = cart.some(item => item.selected)
 
         var cartMethods = {
             selectOne: id=> {
@@ -224,19 +225,24 @@ var App = React.createClass({
         }
 
         // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
+        var cardPrice = (coupon.card.selectedCard && coupon.card.selectedCard.price) || 0
+        var codePrice = coupon.code.price || 0
         var price = {
             cartPrice: cart.filter(el => el.selected).reduce((p, el) => p + dishPrice(el), 0),
             freight: freight,
-            couponPrice: (coupon.card.selectedCard && coupon.card.selectedCard.price + coupon.code.price) || 0
+            couponPrice: cardPrice + codePrice
         }
         price.payPrice = price.cartPrice + price.freight - price.couponPrice
         var payment = __('Pay by alipay')
         if (balance.useBalance) {
-            if (balance.totalBalance >= price.payPrice) {
+            if (price.payPrice > 0 && balance.totalBalance >= price.payPrice) {
                 payment = __('pay by balance')
             } else {
                 payment = __('Pay by alipay')
             }
+        }
+        if (price.payPrice <= 0 && hasSelectedOne) {
+            price.payPrice = 0.1
         }
 
         var hasEatDishSelected = cart.some(item => item.dish.cookingType == 'ready to eat' && item.selected)
