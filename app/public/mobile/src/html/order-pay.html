@@ -74,6 +74,7 @@
             <div class="border">
                 <input type="text" placeholder="优惠码" name="couponcode"
                        coupon-code="data.coupon.codePrice"
+                       coupon-code-type="data.coupon.codeType"
                        ng-model="model.coupon.code"
                        pattern="^1a\w{6}$|^\w{10}$" />
                 <span class="err-tip" ng-if="form.couponcode.$viewValue.length < 10 && form.couponcode.$viewValue.length !=8 && form.couponcode.$error.pattern">优惠码长度为8或10位</span>
@@ -97,7 +98,7 @@
 
         <div class="block price-group">
             <div>订单金额:<span class="rmb-char fee">{{data.orderPrice}}</span></div>
-            <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()}}</span></div>
+            <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()|number:1}}</span></div>
             <div>运费:<span class="rmb-char fee">{{data.freight}}</span></div>
             <div ng-if="data.balance.total">新味币:<span class="rmb-char fee negative">{{usedBalance()|number:1}}</span></div>
             <div class="total">应付总额<span class="rmb-char fee">{{payPrice()|number:1}}</span></div>
@@ -108,7 +109,7 @@
 
 <footer ng-cloak class="cart-bar2 row">
     <a href="/mobile" class="back-to-menu"><span class="back-to-menu">返回菜单</span></a>
-    <span class="next" ng-click="order(data.form)">{{payment(true)}} <i class="rmb-char">{{(payment() == 'account balance') ? usedBalance() : payPrice()}}</i></span>
+    <span class="next" ng-click="order(data.form)">{{payment(true)}} <i class="rmb-char">{{(payment() == 'account balance') ? usedBalance() : payPrice() | number:1}}</i></span>
 </footer>
 
 </body>

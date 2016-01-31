@@ -123,9 +123,17 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     };
 
     $scope.couponPrice = function () {
-        var price = 0;
-        price += model.coupon.card ? model.coupon.card.price : 0;
-        return price + (data.coupon.codePrice || 0); // codePrice由异步校验指令赋值
+        var cardPrice,
+            codePrice = 0,
+            totalPrice = 0;
+        cardPrice = model.coupon.card ? model.coupon.card.price : 0;
+        if (data.coupon.codeType == 'promocodepercentage') {
+            totalPrice = $scope.totalPrice() - cardPrice
+            codePrice = (100 - data.coupon.codePrice) / 100 * totalPrice
+        } else {
+            codePrice = data.coupon.codePrice || 0
+        }
+        return cardPrice + codePrice; // codePrice由异步校验指令赋值
     };
 
     $scope.usedBalance = function () {
