@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <%- include('includes/css.html') %>
+    <style>
+        [ng-cloak] {display:none;}
+    </style>
+    <title>我的订单</title>
+    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+</head>
+<body ng-app="xw" ng-controller="orderlistCtrl2">
+
+<nav class="nav">
+    <div class="back-icon" ng-click="back()"></div>
+    <span class="no-bottom-border">我的订单</span>
+</nav>
+
+<ul class="order-list">
+    <li>
+        <h4 class="clearfix"><span class="title tl">食材包&便当</span><span class="time tr">16/1/28 下午4:12</span></h4>
+        <div class="content">
+            <div></div>
+            <div>
+                <h5>猪肋排配烧烤酱</h5><span class="rmb-char">29</span>
+            </div>
+            <div>x3</div>
+        </div>
+        <div class="price">
+            <span>总价: <strong class="rmb-char">87</strong></span>
+            <span class="btn">取消订单</span>
+        </div>
+    </li>
+    <li></li>
+</ul>
+
+</body>
+
+<%- include('includes/js.html') %>
+
+<script src="/mobile/dist/js/controllers/order-list-cd2484418a.js"></script>
+
+</html>
