@@ -578,11 +578,11 @@ module.exports =
 
         if timeNow.day() is 5
           startPointTomorrow = today11AM.clone().add(3, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
+#          startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 6
           startPointTomorrow = today11AM.clone().add(2, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
+#          startPointTomorrow = tomorrow11AM.clone()
 
 
         for i in [1..17]
@@ -688,11 +688,11 @@ module.exports =
 
         if timeNow.day() is 5
           startPointTomorrow = today11AM.clone().add(3, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
+#          startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 6
           startPointTomorrow = today11AM.clone().add(2, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
+#          startPointTomorrow = tomorrow11AM.clone()
 
 
         for i in [1..6]

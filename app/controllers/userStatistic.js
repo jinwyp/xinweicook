@@ -316,13 +316,7 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
     // 购买便当两次和两次以上的用户 已支付 已完成订单, 每次订单时间间隔平均值
 
-    var result = {
-        totalTime : 0,
-        totalAllTime : 0,
-        totalOrderNumber : 0,
-        avgTime : 0,
-        avgAllTime : 0
-    };
+
 
     var userIdList = [];
     var userList =[];
@@ -337,44 +331,38 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         today = moment(req.query.createdAt).startOf('day');
-
-        //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
-
-    }else{
-        queryUser = { createdAt:{"$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
     }
+
+    //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
+    queryUser = { createdAt:{"$lt": today.toDate() }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     var last7Day = today.clone().subtract(7, 'days');
 
 
-
-
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+    queryOrder = {
+        isChildOrder:false,
+        cookingType:"ready to eat",
+        status:{$in:orderStatus}
+    };
 
-    models.user.find(queryUser).execAsync()
-    .then(function(resultUserList){
+    if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
+        queryOrder.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+
+    models.user.find(queryUser).execAsync().then(function(resultUserList){
         userIdList = resultUserList.map(function(user){
             return user._id.toString();
         });
-        //console.log(userIdList);
 
-        if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-            //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-
-            queryOrder = { createdAt:{"$lt": today }, user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus}};
-        }else{
-            queryOrder = { user:{$in:userIdList}, isChildOrder:false, cookingType:"ready to eat", status:{$in:orderStatus} };
-        }
-
-
-        if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
-            queryOrder.warehouse = ObjectId(req.query.warehouse.toString())
-        }
+        queryOrder.user = {$in:userIdList};
 
 
         return models.order.find(queryOrder).sort({user:1, createdAt:1}).execAsync();
+
     }).then(function(resultOrderList){
+
 
         if (resultOrderList.length > 0){
 
@@ -394,14 +382,14 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                         //console.log(first.secondOrderInterval);
                         if ( typeof userDataHash[resultOrderList[i].user.toString()] === 'undefined'){
                             userDataHash[resultOrderList[i].user.toString()] = {
-                                totalTime : 0,
-                                totalOrderNumber : 0,
+                                totalIntervalTime : 0,
+                                totalIntervalCount : 0,
                                 orderList : []
                             };
                         }
 
-                        userDataHash[resultOrderList[i].user.toString()].totalTime = userDataHash[resultOrderList[i].user.toString()].totalTime + first.secondOrderInterval;
-                        userDataHash[resultOrderList[i].user.toString()].totalOrderNumber = userDataHash[resultOrderList[i].user.toString()].totalOrderNumber + 1;
+                        userDataHash[resultOrderList[i].user.toString()].totalIntervalTime = userDataHash[resultOrderList[i].user.toString()].totalIntervalTime + first.secondOrderInterval;
+                        userDataHash[resultOrderList[i].user.toString()].totalIntervalCount = userDataHash[resultOrderList[i].user.toString()].totalIntervalCount + 1;
                         //userDataHash[resultOrderList[i].user.toString()].orderList.push(first)
 
                     }else{
@@ -417,6 +405,15 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
             }
         }
 
+        var result = {
+            orderTotalIntervalTime : 0,
+            orderTotalIntervalCount: 0,
+            orderAvgTime : 0,
+
+            userTotalIntervalTime : 0,
+            userCount : 0,
+            userAvgTime : 0
+        };
 
         if (userIdList.length > 0){
             for(var j=0; j<userIdList.length ; j++){
@@ -424,20 +421,24 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
                 if (typeof userDataHash[userIdList[j]] != 'undefined'){
                     userList.push({
                         _id : userIdList[j],
-                        totalTime : userDataHash[userIdList[j]].totalTime,
-                        totalOrderNumber : userDataHash[userIdList[j]].totalOrderNumber,
-                        avgTime : userDataHash[userIdList[j]].totalTime / userDataHash[userIdList[j]].totalOrderNumber
+                        totalIntervalTime : userDataHash[userIdList[j]].totalIntervalTime,
+                        totalIntervalCount : userDataHash[userIdList[j]].totalIntervalCount,
+                        avgTime : userDataHash[userIdList[j]].totalIntervalTime / userDataHash[userIdList[j]].totalIntervalCount
                     });
 
-                    result.totalTime = result.totalTime + userDataHash[userIdList[j]].totalTime / userDataHash[userIdList[j]].totalOrderNumber;
-                    result.totalAllTime = result.totalAllTime + userDataHash[userIdList[j]].totalTime;
-                    result.totalOrderNumber = result.totalOrderNumber + userDataHash[userIdList[j]].totalOrderNumber;
+                    result.userTotalIntervalTime = result.userTotalIntervalTime + userDataHash[userIdList[j]].totalIntervalTime / userDataHash[userIdList[j]].totalIntervalCount;
+
+                    result.orderTotalIntervalTime = result.orderTotalIntervalTime + userDataHash[userIdList[j]].totalIntervalTime;
+                    result.orderTotalIntervalCount = result.orderTotalIntervalCount + userDataHash[userIdList[j]].totalIntervalCount;
+
                 }
 
             }
 
-            result.avgTime = result.totalTime / userIdList.length;
-            result.avgAllTime = result.totalTime / result.totalOrderNumber;
+            result.userCount = userIdList.length;
+
+            result.userAvgTime = result.userTotalIntervalTime / userIdList.length;
+            result.orderAvgTime = result.orderTotalIntervalTime / result.orderTotalIntervalCount;
         }
 
         res.send(result);
