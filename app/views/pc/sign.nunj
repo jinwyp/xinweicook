@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.7aa2732399c7deb44faeeff85a53bebd.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.b41612e1dc5739a8055e7a24494446ef.css"/>
     
 </head>
 <body>
@@ -44,8 +44,8 @@
 
 {% include "./includes/footer.nunj" %}
 
-<script src="/pc/dist/webpack-common.7828f0a219e49de0b67e.js"></script>
-<script src="/pc/dist/sign.1128b3f6040b20161aeb.js"></script>
+<script src="/pc/dist/webpack-common.00bb237721097c4dc04a.js"></script>
+<script src="/pc/dist/sign.ce2b9655aa68a0c62b9f.js"></script>
 
 <script async=true src="//api.geetest.com/get.php?callback=initGeetest"></script>
 <script>
