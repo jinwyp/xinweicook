@@ -125,6 +125,14 @@ expressRoutes = function(app) {
         res.render(pathPrefix + 'promotion01.html');
     })
 
+    app.get('/mobile/nyf', function (req, res) {
+        res.render(pathPrefix + 'keys-promotion.html')
+    })
+
+    app.get('/app', function (req, res) {
+        res.render(pathPrefix + 'app.html');
+    })
+
 
 
     var warehouseCoords = {
