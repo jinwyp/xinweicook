@@ -86,19 +86,19 @@ $border-block: 5px;
       font-size: 16px;
       margin: -15px auto 60px;
       color: white;
-      width: 160px;
+      width: 145px;
       &:hover {
         background-color: #444;
       }
       &.en {
-        width: 235px;
+        width: 220px;
       }
-      &::before {
-        content: '... '
-      }
-      &::after {
-        content: ' ...'
-      }
+      //&::before {
+      //  content: '... '
+      //}
+      //&::after {
+      //  content: ' ...'
+      //}
     }
 
     .app {
