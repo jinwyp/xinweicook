@@ -42,7 +42,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.00bb237721097c4dc04a.js"></script>
+<script src="/pc/dist/webpack-common.88b2f258083fe6555ef3.js"></script>
 <script src="/pc/dist/why-us.8277f4be20ae7f06742a.js"></script>
 
 </body>
