@@ -407,7 +407,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         $scope.searchUserStatisticOfNewComers();
         $scope.searchUserStatisticOrderFrequency();
-        $scope.searchUserStatisticLoyalPurchaseFrequency();
+        //$scope.searchUserStatisticLoyalPurchaseFrequency();
     };
 
 

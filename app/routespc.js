@@ -226,6 +226,8 @@ render.eatList = function (req, res, next, path) {
 }
 
 render.cook = function (req, res, next, path) {
+    models.dish.validationDishId(req.params.id);
+
     models.dish.findOne({
         _id: req.params.id
     }).populate('recommendSet.dish').execAsync().then(function(dish){
@@ -244,17 +246,16 @@ render.eat = function (req, res, next, path) {
 
     models.dish.findOne({
         _id: req.params.id
-    }).execAsync()
-        .then(function (dish) {
-            res.render(path, {
-                // 显示地址选择器
-                showPositionSelector: true,
+    }).execAsync().then(function (dish) {
+        res.render(path, {
+            // 显示地址选择器
+            showPositionSelector: true,
 
-                dish: dish
-            })
-        }).catch(function (err) {
-            next(err)
+            dish: dish
         })
+    }).catch(function (err) {
+        next(err)
+    })
 }
 
 var sortObj = {
