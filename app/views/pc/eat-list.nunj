@@ -82,7 +82,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.88b2f258083fe6555ef3.js"></script>
+<script src="/pc/dist/webpack-common.56fcbd62b3ee93814c8a.js"></script>
 <script src="/pc/dist/eat-list.92e63f8bb623613d4e8e.js"></script>
 
 </body>
