@@ -75,7 +75,6 @@ exports.getWeixinPayUserOauthCode = (req, res, next) ->
 
 
 
-
 exports.getWeixinPayUserOpenId = (req, res, next) ->
   logger.error("-------- Order OpenID Oauth Code Return Url: " + JSON.stringify(req.url) + " ----- " + JSON.stringify(req.query)  )
   logger.error("-------- Order OpenID Oauth CodeReturn Url Req User: " + JSON.stringify(req.u)  ) if req.u
