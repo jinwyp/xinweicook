@@ -112,7 +112,7 @@ var App = React.createClass({
                 var JZHW = ['江苏', '浙江', '上海', '安徽']
                 var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
                 if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
-                    !hasJZHWAddress
+                    (!hasJZHWAddress && _id == QRJDishId)
                 ) {
                     alert(__('Valentine day only for JZHW'))
                     return
@@ -141,8 +141,8 @@ var App = React.createClass({
                 })
                 var JZHW = ['江苏', '浙江', '上海', '安徽']
                 var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
-                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
-                    !hasJZHWAddress
+                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && hasQRJ) ||
+                    (!hasJZHWAddress && hasQRJ)
                 ) {
                     alert(__('Valentine day only for JZHW'))
                     return
