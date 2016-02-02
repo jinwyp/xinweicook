@@ -1,3 +1,6 @@
+<!--[if lt IE 9]>
+<div style="text-align: center; position: fixed; top: 0;width: 100%; z-index: 10000;line-height: 2em;font-size: 20px; background-color: white;">请使用<a style="text-decoration: underline;" target="_blank" href="http://www.microsoft.com/zh-cn/windows/windows-10-upgrade" title="升级IE浏览器">新版IE浏览器</a>以进行正常购物</div>
+<![endif]-->
 <header class="{{ 'indexhd' if indexHeader}}">
     <div class="header-main clearfix">
         <div class="fl">

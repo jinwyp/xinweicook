@@ -112,7 +112,7 @@ var App = React.createClass({
                 var JZHW = ['江苏', '浙江', '上海', '安徽']
                 var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
                 if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
-                    !hasJZHWAddress
+                    (!hasJZHWAddress && _id == QRJDishId)
                 ) {
                     alert(__('Valentine day only for JZHW'))
                     return
@@ -141,8 +141,8 @@ var App = React.createClass({
                 })
                 var JZHW = ['江苏', '浙江', '上海', '安徽']
                 var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
-                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
-                    !hasJZHWAddress
+                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && hasQRJ) ||
+                    (!hasJZHWAddress && hasQRJ)
                 ) {
                     alert(__('Valentine day only for JZHW'))
                     return
@@ -217,22 +217,28 @@ var App = React.createClass({
             cart.forEach(item => {
                 cookingTypes[item.dish.cookingType] = true
             })
-            console.log('balance, b.total, price.pay', balance, balance.totalBalance, price.payPrice)
             Object.keys(cookingTypes).every(type => {
                 type = type == 'ready to cook' ? 'cook' : 'eat'
                 return !!time[type].selectedTime
             }) && dispatch(orderAction.postOrder(balance.useBalance && (balance.totalBalance >= price.payPrice)))
         }
 
-        // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer
+        // 价格是根据购物车,优惠券,运费计算出来的,所以没必要单独为其建立reducer,也就是没必要有个可以根据其他state计算出的state
         var cardPrice = (coupon.card.selectedCard && coupon.card.selectedCard.price) || 0
         var codePrice = coupon.code.price || 0
+
         var price = {
             cartPrice: cart.filter(el => el.selected).reduce((p, el) => p + dishPrice(el), 0),
             freight: freight,
-            couponPrice: cardPrice + codePrice
+            couponPrice: cardPrice
         }
-        price.payPrice = price.cartPrice + price.freight - price.couponPrice
+        price.payPrice = price.cartPrice + price.freight - cardPrice
+        if (coupon.code.type == 'promocodepercentage') {
+            codePrice = (100 - codePrice) / 100 * price.payPrice
+            price.payPrice -= codePrice
+            price.couponPrice += codePrice
+        }
+
         var payment = __('Pay by alipay')
         if (balance.useBalance) {
             if (price.payPrice > 0 && balance.totalBalance >= price.payPrice) {

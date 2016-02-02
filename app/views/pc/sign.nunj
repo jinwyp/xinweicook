@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.b41612e1dc5739a8055e7a24494446ef.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.07345f7faa822e2ced049dbeb89c75ea.css"/>
     
 </head>
 <body>
@@ -44,7 +44,7 @@
 
 {% include "./includes/footer.nunj" %}
 
-<script src="/pc/dist/webpack-common.00bb237721097c4dc04a.js"></script>
+<script src="/pc/dist/webpack-common.cd2e152b850257ac0af9.js"></script>
 <script src="/pc/dist/sign.ce2b9655aa68a0c62b9f.js"></script>
 
 <script async=true src="//api.geetest.com/get.php?callback=initGeetest"></script>
@@ -54,7 +54,7 @@
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             initGeetest.config = {
-                challenge: JSON.parse(xhr.response).challenge,
+                challenge: JSON.parse(xhr.response||xhr.responseText).challenge,
                 gt: '745d959dec1191e086febd11aa684c9d',
                 https: location.protocol.indexOf('https') != -1,
                 lang: "{{ 'en' if locale == 'en' else 'zh-cn' }}"

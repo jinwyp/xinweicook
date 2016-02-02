@@ -175,7 +175,7 @@ render.index = function renderIndex(req, res, next, path) {
                 return el.position == eatType
             }).map(function (el) {
                 return el.dish
-            })
+            }).slice(0, 3)
 
         };
         res.render(path, data)

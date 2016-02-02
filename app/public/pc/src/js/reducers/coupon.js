@@ -29,7 +29,8 @@ function card(state = {
 function code(state = {
     code: '',
     price: 0,
-    errInfo: ''
+    errInfo: '',
+    type: ''
 }, action) {
     switch (action.type) {
         case types.GET_COUPON_CODE:
@@ -40,7 +41,8 @@ function code(state = {
                 if (now >= begin && now < end)
                     return {
                         code: action.info.code,
-                        price: action.info.price
+                        price: action.info.price,
+                        type: action.info.couponType || ''
                     }
                 else return {
                     ...state, errInfo: '优惠码不在使用期限内'
