@@ -560,6 +560,9 @@ module.exports =
           for i in [1..17]
             timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
+            #春节放假前最后一天
+            if timeNow.month() is 1 and timeNow.date() is 6
+              worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 14:20"));
             # 如果计算出来的时间超过 worktimeEnd 点  将不在push进去
             if timeSectionTemp.isBefore(worktimeEnd)
               segmentHour =

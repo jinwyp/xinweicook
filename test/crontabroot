@@ -25,7 +25,7 @@
 
 #* * * * * curl http://127.0.0.1:3000/api/admin/cronjob/user/noorder/test
 
-50 9 * * 3 curl http://127.0.0.1:3000/api/admin/cronjob/user/noorder
+50 9 * * 2,4 curl http://127.0.0.1:3000/api/admin/cronjob/user/noorder
 
 58 * * * * curl http://127.0.0.1:3000/api/admin/cronjob/order/notpaid/cancel
 
