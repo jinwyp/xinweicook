@@ -14,7 +14,7 @@ connect = () ->
       socketOptions:
         keepAlive: 1
         connectTimeoutMS: 5000
-#  autoIncrement.initialize dbConnection
+  autoIncrement.initialize dbConnection
 connect()
 
 connection.on "open", ->
