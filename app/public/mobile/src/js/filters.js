@@ -281,3 +281,21 @@ angular.module('xw.filters').filter('dishPrice', function () {
     }
 })
 
+
+// 订单状态
+angular.module('xw.filters').filter('orderStatus', function () {
+    var _status = {
+        'not paid': '未支付',
+        'paid': '已支付',
+        'confirmed': '已确认',
+        'dish finished': '已完成',
+        'packaged': '已打包',
+        shipped: '配送中',
+        finished: '已完成',
+        canceled: '已取消'
+    }
+    
+    return function(status) {
+        return _status[status] || ''
+    }
+})

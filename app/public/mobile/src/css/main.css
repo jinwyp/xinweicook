@@ -153,13 +153,13 @@ label {
   display: inline-block;
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIcon.png?1447740841') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIcon.png?1454382436') 50%/cover no-repeat;
 }
 /* line 177, ../sass/_base.scss */
 .like-icon.like {
   height: 14px;
   width: 14px;
-  background: url('../img/icons/MenuLikeIconHighlighted.png?1447740841') 50%/cover no-repeat;
+  background: url('../img/icons/MenuLikeIconHighlighted.png?1454382436') 50%/cover no-repeat;
 }
 
 /* line 184, ../sass/_base.scss */
@@ -208,7 +208,27 @@ form .err-tip {
   text-align: right;
 }
 
-/* line 227, ../sass/_base.scss */
+/* line 222, ../sass/_base.scss */
+.tc {
+  text-align: center;
+}
+
+/* line 225, ../sass/_base.scss */
+.fl {
+  float: left;
+}
+
+/* line 228, ../sass/_base.scss */
+.fr {
+  float: right;
+}
+
+/* line 231, ../sass/_base.scss */
+.mc {
+  color: #f44d4d;
+}
+
+/* line 239, ../sass/_base.scss */
 [ng-cloak] {
   display: none;
 }
@@ -861,6 +881,171 @@ form .err-tip {
   line-height: 25px;
   border: 1px solid gray;
   background-color: white;
+}
+
+/* line 6, ../sass/pages/_orderlist2.scss */
+.order-list li {
+  background: white;
+  margin: 20px auto;
+}
+/* line 9, ../sass/pages/_orderlist2.scss */
+.order-list li .price {
+  font-weight: 400;
+  line-height: 42px;
+  padding: 0 11px;
+  font-size: 0;
+  height: 44px;
+}
+/* line 15, ../sass/pages/_orderlist2.scss */
+.order-list li .price strong {
+  font-weight: 400;
+}
+/* line 18, ../sass/pages/_orderlist2.scss */
+.order-list li .price > * {
+  display: inline-block;
+  width: 50%;
+  font-size: 14px;
+}
+/* line 23, ../sass/pages/_orderlist2.scss */
+.order-list li .price .btn {
+  box-sizing: border-box;
+  width: 80px;
+  padding: 0 auto;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid;
+  color: #f44d4d;
+}
+/* line 31, ../sass/pages/_orderlist2.scss */
+.order-list li .price .btn.invalid {
+  color: #B1B1B1;
+}
+
+/* line 40, ../sass/pages/_orderlist2.scss */
+.order-list h4, .order-detail h4 {
+  line-height: 3;
+  font-size: 0;
+  font-weight: 400;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 0 11px;
+  margin-bottom: 0;
+}
+/* line 47, ../sass/pages/_orderlist2.scss */
+.order-list h4 > *, .order-detail h4 > * {
+  display: inline-block;
+}
+/* line 50, ../sass/pages/_orderlist2.scss */
+.order-list h4 .title, .order-detail h4 .title {
+  font-size: 14px;
+  width: 30%;
+}
+/* line 54, ../sass/pages/_orderlist2.scss */
+.order-list h4 .time, .order-detail h4 .time {
+  font-size: 12px;
+  color: #B1B1B1;
+  width: 70%;
+}
+/* line 60, ../sass/pages/_orderlist2.scss */
+.order-list .content, .order-detail .content {
+  padding: 10px 11px;
+  border-bottom: 1px solid #F1F1F1;
+}
+/* line 63, ../sass/pages/_orderlist2.scss */
+.order-list .content > *:nth-child(1), .order-detail .content > *:nth-child(1) {
+  width: 63px;
+  height: 63px;
+  margin-left: 5px;
+  background: no-repeat center/cover;
+}
+/* line 69, ../sass/pages/_orderlist2.scss */
+.order-list .content > *:nth-child(2), .order-detail .content > *:nth-child(2) {
+  padding-left: 7px;
+}
+/* line 71, ../sass/pages/_orderlist2.scss */
+.order-list .content > *:nth-child(2) h5, .order-detail .content > *:nth-child(2) h5 {
+  margin-top: 1px;
+  font-weight: 400;
+  font-size: 15px;
+}
+/* line 76, ../sass/pages/_orderlist2.scss */
+.order-list .content > *:nth-child(2) span, .order-detail .content > *:nth-child(2) span {
+  color: #f44d4d;
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 13px;
+}
+/* line 83, ../sass/pages/_orderlist2.scss */
+.order-list .content > *:nth-child(3), .order-detail .content > *:nth-child(3) {
+  line-height: 63px;
+  font-size: 15px;
+}
+
+/* line 91, ../sass/pages/_orderlist2.scss */
+.order-detail h3, .order-detail h4, .order-detail h5 {
+  font-size: 15px;
+  font-weight: 400;
+}
+/* line 96, ../sass/pages/_orderlist2.scss */
+.order-detail h3 {
+  background-color: white;
+  line-height: 3;
+  margin: 0 0 10px;
+  padding: 0 11px;
+}
+/* line 103, ../sass/pages/_orderlist2.scss */
+.order-detail .contact {
+  background-color: white;
+  line-height: 2.5;
+  padding: 0 11px;
+}
+/* line 107, ../sass/pages/_orderlist2.scss */
+.order-detail .contact span {
+  display: inline-block;
+}
+/* line 110, ../sass/pages/_orderlist2.scss */
+.order-detail .contact span:nth-child(1) {
+  width: 20%;
+}
+/* line 113, ../sass/pages/_orderlist2.scss */
+.order-detail .contact span:nth-child(2) {
+  min-width: 50%;
+}
+/* line 116, ../sass/pages/_orderlist2.scss */
+.order-detail .contact span:nth-child(3) {
+  min-width: 30%;
+}
+/* line 121, ../sass/pages/_orderlist2.scss */
+.order-detail .order-id {
+  text-align: center;
+  color: #868686;
+  line-height: 2.5;
+}
+/* line 127, ../sass/pages/_orderlist2.scss */
+.order-detail .details {
+  padding: 0 11px;
+  background-color: white;
+}
+/* line 130, ../sass/pages/_orderlist2.scss */
+.order-detail .details:not(:last-child) {
+  margin-bottom: 10px;
+}
+/* line 133, ../sass/pages/_orderlist2.scss */
+.order-detail .details h4 {
+  margin-top: 0;
+  line-height: 2.5;
+  border-bottom: 1px solid #E0E0E0;
+  margin-bottom: 0;
+  padding: 0;
+}
+/* line 140, ../sass/pages/_orderlist2.scss */
+.order-detail .details .content:not(.dish) {
+  line-height: 2.7;
+  padding: 0;
+}
+/* line 143, ../sass/pages/_orderlist2.scss */
+.order-detail .details .content:not(.dish) :first-child {
+  width: auto;
+  height: auto;
 }
 
 /* line 2, ../sass/pages/_addresslist.scss */
@@ -1948,7 +2133,7 @@ html.order-address-html .address-list {
   border-radius: 50%;
   height: 60px;
   width: 60px;
-  background: url('../img/AvatarPlaceholder.png?1449043156') 50%/cover no-repeat;
+  background: url('../img/AvatarPlaceholder.png?1454382436') 50%/cover no-repeat;
   background-color: white;
 }
 /* line 18, ../sass/pages/_me.scss */
