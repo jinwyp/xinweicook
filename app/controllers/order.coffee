@@ -456,7 +456,15 @@ exports.addNewOrder = (req, res, next) ->
       if resultPromotionCode
         models.coupon.checkExpired resultPromotionCode
         models.coupon.checkUsed(resultPromotionCode, req.u)
-        promotionCode = resultPromotionCode
+
+        # 员工85折福利
+        if resultPromotionCode.code is "XWCOOK85ZC"
+          if req.u.group isnt models.user.constantUserRole().member
+            promotionCode = resultPromotionCode
+            newOrder.freight = 0
+
+        else
+          promotionCode = resultPromotionCode
       else
         # 15W 活动优惠码
         if models.coupon.verifyCoupon15W(req.body.promotionCode)

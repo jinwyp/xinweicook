@@ -56,10 +56,10 @@ exports.getNoOrderUserLast7DayTest = (req, res, next) ->
 
 
 exports.getNoOrderUserLast7Day = (req, res, next) ->
-  # 当周还未下单的但有优惠券 每周三上午10点推送
+  # 当周还未下单的但有优惠券 每周二周四上午10点推送
   # 一周时间没下单
 
-  timeNow = moment()
+
   today = moment().startOf('day')
   last3Day = today.clone().subtract(3, 'days');
   last7Day = today.clone().subtract(7, 'days');
@@ -103,7 +103,7 @@ exports.getNoOrderUserLast7Day = (req, res, next) ->
 
         models.message.sendMessageToUser(sendUser, models.message.constantContentType().cronjob, additionalContent, pushOptions)
 
-      logger.error("CronJob Every Monday and Thursday 10 o'clock send iOS push notification: ", JSON.stringify(sendUserIdList) )
+      logger.error("CronJob Every Tuesday and Thursday 10 o'clock send iOS push notification: ", JSON.stringify(sendUserIdList) )
       res.send("ok")
     .catch next
 
