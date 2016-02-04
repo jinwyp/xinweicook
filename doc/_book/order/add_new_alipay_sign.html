@@ -5,7 +5,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>获取单一公告 | 新味 API 文档</title>
+        <title>生成支付宝签名 | 新味 API 文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 2.1.0">
@@ -25,10 +25,10 @@
         
     
     
-    <link rel="next" href="../article/index.html" />
+    <link rel="next" href="../order/add_new_weixinpay_unified_order.html" />
     
     
-    <link rel="prev" href="../announcement/get_announcements.html" />
+    <link rel="prev" href="../order/add_new_order.html" />
     
 
         
@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="8.2" data-basepath=".." data-revision="Thu Feb 04 2016 13:55:18 GMT+0800 (CST)">
+    <div class="book" data-level="6.5" data-basepath=".." data-revision="Thu Feb 04 2016 13:55:18 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -772,7 +772,7 @@
             
         </li>
     
-        <li class="chapter " data-level="6.5" data-path="order/add_new_alipay_sign.html">
+        <li class="chapter active" data-level="6.5" data-path="order/add_new_alipay_sign.html">
             
                 
                     <a href="../order/add_new_alipay_sign.html">
@@ -1069,7 +1069,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="8.2" data-path="announcement/get_single_announcement.html">
+        <li class="chapter " data-level="8.2" data-path="announcement/get_single_announcement.html">
             
                 
                     <a href="../announcement/get_single_announcement.html">
@@ -1282,30 +1282,49 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="req">Req</h2>
-<p>GET <code>/announcements/:_id</code></p>
-<h2 id="res">Res</h2>
-<h3 id="body">Body</h3>
-<pre><code class="lang-js">
-{
-  <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;5645ba288ed18a0e7cb53829&quot;</span>,
-  <span class="hljs-string">&quot;modifiedAt&quot;</span>: <span class="hljs-string">&quot;2015-11-16T08:40:04.138Z&quot;</span>,
-  <span class="hljs-string">&quot;createdAt&quot;</span>: <span class="hljs-string">&quot;2015-11-13T10:23:36.763Z&quot;</span>,
-  <span class="hljs-string">&quot;appVersion&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
-  <span class="hljs-string">&quot;__v&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;clientFor&quot;</span>: <span class="hljs-string">&quot;all&quot;</span>,
-  <span class="hljs-string">&quot;priority&quot;</span>: <span class="hljs-number">20</span>,
-  <span class="hljs-string">&quot;isActivated&quot;</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-string">&quot;description&quot;</span>: {
-    <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;iOS &#x5347;&#x7EA7; 1.8 &#x7248;&#x672C;&quot;</span>,
-    <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;iOS &#x5347;&#x7EA7; 1.8 &#x7248;&#x672C;&quot;</span>
-  },
-  <span class="hljs-string">&quot;title&quot;</span>: {
-    <span class="hljs-string">&quot;en&quot;</span>: <span class="hljs-string">&quot;&#x516C;&#x544A;test1&quot;</span>,
-    <span class="hljs-string">&quot;zh&quot;</span>: <span class="hljs-string">&quot;&#x516C;&#x544A;test1&quot;</span>
-  }
+<p>POST <code>/api/orders/payment/alipay/sign</code></p>
+<p>Group <code>member</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">_id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">&#x8BA2;&#x5355;ID 24&#x4F4D;ID 5590d256103f46d9ac31e3ee</td>
+</tr>
+</tbody>
+</table>
+<h3 id="">#</h3>
+<pre><code class="lang-js">{
+    <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-string">&quot;5590d256103f46d9ac31e3ee&quot;</span>
+
 }
 </code></pre>
-<p><a href="../Announcement">Announcement</a></p>
+<h2 id="res">Res</h2>
+<h3 id="body">Body</h3>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;service&quot;</span>: <span class="hljs-string">&quot;alipay.wap.create.direct.pay.by.user&quot;</span>,
+  <span class="hljs-string">&quot;partner&quot;</span>: <span class="hljs-string">&quot;2088111042213083&quot;</span>,
+  <span class="hljs-string">&quot;_input_charset&quot;</span>: <span class="hljs-string">&quot;utf-8&quot;</span>,
+  <span class="hljs-string">&quot;sign_type&quot;</span>: <span class="hljs-string">&quot;MD5&quot;</span>,
+  <span class="hljs-string">&quot;notify_url&quot;</span>: <span class="hljs-string">&quot;http://m.xinweicook.com/api/orders/payment/alipay/mobile&quot;</span>,
+  <span class="hljs-string">&quot;return_url&quot;</span>: <span class="hljs-string">&quot;http://m.xinweicook.com/mobile/alipay/return&quot;</span>,
+  <span class="hljs-string">&quot;out_trade_no&quot;</span>: <span class="hljs-string">&quot;56b19874da94a9ef2788f719&quot;</span>,
+  <span class="hljs-string">&quot;subject&quot;</span>: <span class="hljs-string">&quot;&#x53F0;&#x5357;&#x4E09;&#x676F;&#x9E21;&quot;</span>,
+  <span class="hljs-string">&quot;total_fee&quot;</span>: <span class="hljs-number">0.01</span>,
+  <span class="hljs-string">&quot;seller_id&quot;</span>: <span class="hljs-string">&quot;2088111042213083&quot;</span>,
+  <span class="hljs-string">&quot;payment_type&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+  <span class="hljs-string">&quot;sign&quot;</span>: <span class="hljs-string">&quot;4eab851a2e05df03874e473f9d74b10e&quot;</span>,
+  <span class="hljs-string">&quot;fullurl&quot;</span>: <span class="hljs-string">&quot;https://mapi.alipay.com/gateway.do?service=alipay.wap.create.direct.pay.by.user&amp;partner=2088111042213083&amp;_input_charset=utf-8&amp;sign_type=MD5&amp;notify_url=http%3A%2F%2Fm.xinweicook.com%2Fapi%2Forders%2Fpayment%2Falipay%2Fmobile&amp;return_url=http%3A%2F%2Fm.xinweicook.com%2Fmobile%2Falipay%2Freturn&amp;out_trade_no=56b19874da94a9ef2788f719&amp;subject=%E5%8F%B0%E5%8D%97%E4%B8%89%E6%9D%AF%E9%B8%A1&amp;total_fee=0.01&amp;seller_id=2088111042213083&amp;payment_type=1&amp;sign=4eab851a2e05df03874e473f9d74b10e&quot;</span>
+}
+</code></pre>
+<p><a href="../Order">Orders</a></p>
 
                     
                     </section>
@@ -1316,10 +1335,10 @@
         </div>
 
         
-        <a href="../announcement/get_announcements.html" class="navigation navigation-prev " aria-label="Previous page: 获取所有公告"><i class="fa fa-angle-left"></i></a>
+        <a href="../order/add_new_order.html" class="navigation navigation-prev " aria-label="Previous page: 生成新订单"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../article/index.html" class="navigation navigation-next " aria-label="Next page: Article 文章"><i class="fa fa-angle-right"></i></a>
+        <a href="../order/add_new_weixinpay_unified_order.html" class="navigation navigation-next " aria-label="Next page: 生成微信支付统一订单"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

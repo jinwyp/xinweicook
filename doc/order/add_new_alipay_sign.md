@@ -1,6 +1,6 @@
 ## Req
 
-POST `/api/orders/payment/weixinpay/unifiedorder`
+POST `/api/orders/payment/alipay/sign`
 
 Group `member`
 
