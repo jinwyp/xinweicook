@@ -8,37 +8,102 @@
         [ng-cloak] {display:none;}
     </style>
     <title>我的订单</title>
-    <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+    <script>if(location.hostname!='localhost'){var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();}</script>
 </head>
 <body ng-app="xw" ng-controller="orderlistCtrl2">
 
-<nav class="nav">
+<nav class="nav" ng-if="!curOrder">
     <div class="back-icon" ng-click="back()"></div>
     <span class="no-bottom-border">我的订单</span>
 </nav>
 
-<ul class="order-list">
-    <li>
-        <h4 class="clearfix"><span class="title tl">食材包&便当</span><span class="time tr">16/1/28 下午4:12</span></h4>
-        <div class="content">
-            <div></div>
-            <div>
-                <h5>猪肋排配烧烤酱</h5><span class="rmb-char">29</span>
+<ul class="order-list" ng-if="!curOrder" ng-cloak>
+    <li ng-repeat="order in orders">
+        <h4 class="clearfix"><span class="title tl">{{order.cookingType}}</span><span class="time tr">{{order.createdAt|date:'yy/M/d HH:mm'}}</span></h4>
+        <a ng-href="#{{order._id}}">
+            <div class="content clearfix" ng-repeat="el in order.dishList">
+                <div class="fl" ng-style="{'background-image': 'url({{el.dish.cover[0].zh}}?imageView2/2/h/200)'}"></div>
+                <div class="fl">
+                    <h5>{{el.dish.title.zh}}</h5><span class="rmb-char">{{el.dish.priceOriginal}}</span>
+                </div>
+                <div class="fr">x{{el.number}}</div>
             </div>
-            <div>x3</div>
-        </div>
+        </a>
         <div class="price">
-            <span>总价: <strong class="rmb-char">87</strong></span>
-            <span class="btn">取消订单</span>
+            <span>总价: <strong class="rmb-char">{{order.totalPrice}}</strong></span>
+            <div class="tr">
+                <span ng-if="order.status != 'not paid'" class="btn invalid">{{order.status|orderStatus}}</span>
+                <span ng-click="cancelOrder(order._id)" ng-if="order.status == 'not paid'" class="btn">取消订单</span>
+            </div>
         </div>
     </li>
-    <li></li>
 </ul>
+
+<div class="order-detail" ng-if="curOrder" ng-cloak>
+    <h3 class="clearfix">{{curOrder.status | orderStatus}}
+        <span class="btn fr" ng-if="curOrder.status == 'not paid'" ng-click="pay()">支付</span>
+    </h3>
+    <div class="contact">
+        <div class="person clearfix">
+            <span class="fl">收货人</span>
+            <span class="fl">{{curOrder.address.contactPerson}}</span>
+            <span class="fr tr">{{curOrder.address.mobile}}</span>
+        </div>
+        <div class="address clearfix">
+            <span class="fl">地址</span>
+            <span class="fl">{{curOrder.address.province}}</span>
+        </div>
+    </div>
+    <div class="order-id">
+        订单号: {{curOrder.orderNumber | orderId}}
+    </div>
+    <div class="details">
+        <h4 class="clearfix"
+            ng-repeat-start="(name, list) in {eatList: curOrder.eatList, cookList: curOrder.cookList}"
+            ng-if="list.length">
+            <span class="title fl">{{name == 'eatList' ? '便当': '食材包'}}</span>
+            <span class="time fr tr">预计送达: {{(list.deliveryDateTime || curOrder.deliveryDateTime) | date:'yyyy-MM-dd HH:mm'}}</span>
+        </h4>
+        <div class="content dish clearfix" ng-repeat="el in list" ng-repeat-end>
+            <div class="fl" ng-style="{'background-image': 'url({{el.dish.cover[0].zh}}?imageView2/2/h/200)'}"></div>
+            <div class="fl">
+                <h5>{{el.dish.title.zh}}</h5><span class="rmb-char">{{el.dish.priceOriginal}}</span>
+            </div>
+            <div class="fr">x{{el.number}}</div>
+        </div>
+    </div>
+    <div class="details">
+        <div class="content clearfix">
+            <span class="fl">订单金额</span>
+            <span class="fr rmb-char">{{curOrder.dishesPrice}}</span>
+        </div>
+        <div class="content clearfix">
+            <span class="fl">运费</span>
+            <span class="fr rmb-char">{{curOrder.freight}}</span>
+        </div>
+        <div class="content clearfix mc">
+            <span class="fl">优惠金额</span>
+            <span class="fr rmb-char negative">{{curOrder.dishesPrice + curOrder.freight - curOrder.totalPrice}}</span>
+        </div>
+        <div class="content clearfix">
+            <span class="fl">应付总额</span>
+            <span class="fr rmb-char">{{curOrder.totalPrice}}</span>
+        </div>
+        <div class="content clearfix">
+            <span class="fl">支付方式</span>
+            <span class="fr">{{curOrder.payment | payment}}</span>
+        </div>
+        <div class="content clearfix">
+            <span class="fl">备注</span>
+            <span class="fr">{{curOrder.userComment}}</span>
+        </div>
+    </div>
+</div>
 
 </body>
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/order-list-cd2484418a.js"></script>
+<script src="/mobile/dist/js/controllers/order-list2-88e9dbed99.js"></script>
 
 </html>
