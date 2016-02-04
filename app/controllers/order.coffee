@@ -873,6 +873,23 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
   .catch next
 
 
+exports.generateAlipaySign = (req, res, next) ->
+  models.order.validationOrderId req.body._id
+  models.order.findByIdAsync(req.body._id).then (resultOrder) ->
+
+    # 生成支付宝签名
+    if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
+      resultOrder.totalPrice = 0.01
+
+
+    if resultOrder.clientFrom is 'website'
+      aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, false)
+    else
+      aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, true)
+
+    res.json aliPaySign
+
+  .catch next
 
 
 exports.generateWeixinPayUnifiedOrder = (req, res, next) ->

@@ -27,7 +27,7 @@
 
       "env_production2" : {
         "NODE_ENV": "production",
-        "BASE": "https://xn--btrz41b.com/",
+        "BASE": "https://xinweicook.com",
         "HOST": "127.0.0.1",
         "PORT": "3000",
         "DB": "mongodb://cook-api-test:9wvpfcm7tZ&j.WBX6ZAGH&eRk@10.4.21.97/cook-api-test"
