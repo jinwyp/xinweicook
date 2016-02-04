@@ -1,6 +1,6 @@
 ## Req
 
-GET `/api/orders/payment/alipay/sign/:_id`
+POST `/api/orders/payment/alipay/sign`
 
 Group `member`
 
