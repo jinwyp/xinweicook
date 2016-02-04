@@ -877,6 +877,8 @@ exports.generateAlipaySign = (req, res, next) ->
   models.order.validationOrderId req.body._id
   models.order.findByIdAsync(req.body._id).then (resultOrder) ->
 
+    models.order.checkNotFound(resultOrder)
+
     # 生成支付宝签名
     if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
       resultOrder.totalPrice = 0.01
@@ -887,7 +889,9 @@ exports.generateAlipaySign = (req, res, next) ->
     else
       aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, true)
 
-    res.json aliPaySign
+#    res.json aliPaySign
+
+    res.redirect(aliPaySign.fullurl)
 
   .catch next
 
@@ -902,8 +906,8 @@ exports.generateWeixinPayUnifiedOrder = (req, res, next) ->
   models.order.findByIdAsync(req.body._id).then (resultOrder) ->
     WXPayOrder = WXPay(configWeiXinPay)
     #处理如果是微信支付需要先生成微信支付的统一订单
-    if not resultOrder
-      throw new Err "Field validation error,  orderID not found!", 200
+
+    models.order.checkNotFound(resultOrder)
 
     if resultOrder.paymentWeixinpay and resultOrder.paymentWeixinpay.out_trade_no
       throw new Err "Field validation error,  this order already pay by weixinpay!", 200
