@@ -874,8 +874,8 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
 
 exports.generateAlipaySign = (req, res, next) ->
-  models.order.validationOrderId req.body._id
-  models.order.findByIdAsync(req.body._id).then (resultOrder) ->
+  models.order.validationOrderId (req.params._id)
+  models.order.findByIdAsync(req.params._id).then (resultOrder) ->
 
     models.order.checkNotFound(resultOrder)
 
