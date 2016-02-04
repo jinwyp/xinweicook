@@ -34,6 +34,12 @@ angular.module('xw.models').factory('Orders', function ($http) {
         updateOrder: function (id, data) {
             return $http.put('/api/orders/' + id, data)
         },
+        cancel: function (id) {
+            return $http.put('/api/orders/' + id, {
+                isPaymentPaid: "false",
+                status: "canceled"
+            })
+        },
         getList: function () {
             return $http.get('/api/orders');
         },
@@ -42,6 +48,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         price: function (data) {
             return $http.post('/api/orderprice', data);
+        },
+        payByAlipay: function (id) {
+            return $http.post('/api/orders/payment/alipay/sign', {_id: id})
         }
     }
 });

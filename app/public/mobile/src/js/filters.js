@@ -281,3 +281,46 @@ angular.module('xw.filters').filter('dishPrice', function () {
     }
 })
 
+
+// 订单状态
+angular.module('xw.filters').filter('orderStatus', function () {
+    var _status = {
+        'not paid': '未支付',
+        'paid': '已支付',
+        'confirmed': '已确认',
+        'dish finished': '已完成',
+        'packaged': '已打包',
+        shipped: '配送中',
+        finished: '已完成',
+        canceled: '已取消'
+    }
+    
+    return function(status) {
+        return _status[status] || ''
+    }
+})
+
+// 订单状态
+angular.module('xw.filters').filter('orderId', function () {
+    return function(orderId) {
+        if (!orderId) return orderId
+        var ret = []
+        for (var i = 0; i < orderId.length; i+=4) {
+            ret.push(orderId.substr(i, 4))
+        }
+        return ret.join(' ')
+    }
+})
+
+// 支付方式
+angular.module('xw.filters').filter('payment', function () {
+    var _payment = {
+        'alipay direct': '支付宝',
+        'weixinpay':'微信钱包',
+        'account balance': '新味币'
+    }
+    return function(payment) {
+        return _payment[payment] || payment
+    }
+})
+
