@@ -17,7 +17,7 @@
     <span class="no-bottom-border">我的订单</span>
 </nav>
 
-<ul class="order-list" ng-if="!curOrder">
+<ul class="order-list" ng-if="!curOrder" ng-cloak>
     <li ng-repeat="order in orders">
         <h4 class="clearfix"><span class="title tl">{{order.cookingType}}</span><span class="time tr">{{order.createdAt|date:'yy/M/d HH:mm'}}</span></h4>
         <a ng-href="#{{order._id}}">
@@ -39,7 +39,7 @@
     </li>
 </ul>
 
-<div class="order-detail" ng-if="curOrder">
+<div class="order-detail" ng-if="curOrder" ng-cloak>
     <h3 class="clearfix">{{curOrder.status | orderStatus}}
         <span class="btn fr" ng-if="curOrder.status == 'not paid'" ng-click="pay()">支付</span>
     </h3>

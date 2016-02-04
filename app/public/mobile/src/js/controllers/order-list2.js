@@ -26,7 +26,7 @@ function orderlistCtrl2($scope, Orders, $location) {
             location.href = '/mobile/wxpay/' + $scope.curOrder._id
         } else if ($scope.curOrder.payment == 'alipay direct') {
             Orders.payByAlipay($scope.curOrder._id).then(function (res) {
-                // todo: do nothing since it' will be redirected by 30X response
+                location.href = res.data.fullurl
             })
         }
     }

@@ -54,10 +54,10 @@ expressRoutes = function(app) {
         res.render(pathPrefix + 'me.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/orderlist", function (req, res) {
-        res.render(pathPrefix + 'order-list.html', {title: 'XinWeiCook'})
+        res.render(pathPrefix + 'order-list2.html', {title: 'XinWeiCook'})
     });
     app.get("/mobile/orders", function (req, res) {
-        res.render(pathPrefix + 'order-list2.html')
+        res.render(pathPrefix + 'order-list.html')
     })
     app.get("/mobile/addresslist", function (req, res) {
         res.render(pathPrefix + 'address-list.html', {title: 'XinweiCook'})
@@ -161,7 +161,6 @@ expressRoutes = function(app) {
                 '&output=json&mode=walking&coord_type=gcj02&tactics=12';
             var url = 'http://api.map.baidu.com/direction/v1/routematrix?' + params;
 
-            console.log(url)
             request(url, function(err, response, body) {
                 if (err) {
                     next(err)
