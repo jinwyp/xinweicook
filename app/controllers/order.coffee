@@ -874,8 +874,8 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
 
 exports.generateAlipaySign = (req, res, next) ->
-  models.order.validationOrderId (req.params._id)
-  models.order.findByIdAsync(req.params._id).then (resultOrder) ->
+  models.order.validationOrderId req.body._id
+  models.order.findByIdAsync(req.body._id).then (resultOrder) ->
 
     models.order.checkNotFound(resultOrder)
 
@@ -889,9 +889,7 @@ exports.generateAlipaySign = (req, res, next) ->
     else
       aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, true)
 
-#    res.json aliPaySign
-
-    res.redirect(aliPaySign.fullurl)
+    res.json aliPaySign
 
   .catch next
 
