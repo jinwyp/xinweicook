@@ -1,6 +1,6 @@
 ## Req
 
-POST `/api/orders/payment/alipay/sign`
+GET `/api/orders/payment/alipay/sign/:_id`
 
 Group `member`
 
@@ -22,6 +22,7 @@ Group `member`
 
 ## Res
 ### Body
+
 
 ```js
 {
