@@ -714,7 +714,21 @@ module.exports =
   methods: {}
   rest:
 
-#    postRead : (req, res, next) ->
+    postRead : (req, res, next) ->
+
+      models.order.findOneAsync({_id:req.params.id}).then (resultOrder) ->
+        if resultOrder
+          models.useraddress.findOneAsync({_id:resultOrder.addressId}).then (resultAddress) ->
+            if resultAddress
+              resultOrder.address = resultAddress
+              resultOrder.warehouse = resultAddress.warehouse
+
+            if resultOrder.cookingType is models.dish.constantCookingType().cook
+              # 针对食材包处理
+              resultOrder.warehouse = "56332187594b09af6e6c7dd2"  # 新味办公室仓库ID
+            resultOrder.saveAsync();
+      next()
+
 #      if req.method is "GET"
 #
 #        if req.query.query
