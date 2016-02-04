@@ -906,8 +906,9 @@ form .err-tip {
   width: 50%;
   font-size: 14px;
 }
-/* line 23, ../sass/pages/_orderlist2.scss */
-.order-list li .price .btn {
+
+/* line 28, ../sass/pages/_orderlist2.scss */
+.order-list .btn, .order-detail .btn {
   box-sizing: border-box;
   width: 80px;
   padding: 0 auto;
@@ -916,11 +917,10 @@ form .err-tip {
   border: 1px solid;
   color: #f44d4d;
 }
-/* line 31, ../sass/pages/_orderlist2.scss */
-.order-list li .price .btn.invalid {
+/* line 36, ../sass/pages/_orderlist2.scss */
+.order-list .btn.invalid, .order-detail .btn.invalid {
   color: #B1B1B1;
 }
-
 /* line 40, ../sass/pages/_orderlist2.scss */
 .order-list h4, .order-detail h4 {
   line-height: 3;
@@ -944,92 +944,99 @@ form .err-tip {
   font-size: 12px;
   color: #B1B1B1;
   width: 70%;
+  line-height: 35px;
 }
-/* line 60, ../sass/pages/_orderlist2.scss */
+/* line 61, ../sass/pages/_orderlist2.scss */
 .order-list .content, .order-detail .content {
   padding: 10px 11px;
   border-bottom: 1px solid #F1F1F1;
 }
-/* line 63, ../sass/pages/_orderlist2.scss */
+/* line 64, ../sass/pages/_orderlist2.scss */
 .order-list .content > *:nth-child(1), .order-detail .content > *:nth-child(1) {
   width: 63px;
   height: 63px;
   margin-left: 5px;
   background: no-repeat center/cover;
 }
-/* line 69, ../sass/pages/_orderlist2.scss */
+/* line 70, ../sass/pages/_orderlist2.scss */
 .order-list .content > *:nth-child(2), .order-detail .content > *:nth-child(2) {
   padding-left: 7px;
 }
-/* line 71, ../sass/pages/_orderlist2.scss */
+/* line 72, ../sass/pages/_orderlist2.scss */
 .order-list .content > *:nth-child(2) h5, .order-detail .content > *:nth-child(2) h5 {
   margin-top: 1px;
   font-weight: 400;
   font-size: 15px;
 }
-/* line 76, ../sass/pages/_orderlist2.scss */
+/* line 77, ../sass/pages/_orderlist2.scss */
 .order-list .content > *:nth-child(2) span, .order-detail .content > *:nth-child(2) span {
   color: #f44d4d;
   font-size: 16px;
   display: inline-block;
   margin-top: 13px;
 }
-/* line 83, ../sass/pages/_orderlist2.scss */
+/* line 84, ../sass/pages/_orderlist2.scss */
 .order-list .content > *:nth-child(3), .order-detail .content > *:nth-child(3) {
   line-height: 63px;
   font-size: 15px;
 }
 
-/* line 91, ../sass/pages/_orderlist2.scss */
+/* line 92, ../sass/pages/_orderlist2.scss */
 .order-detail h3, .order-detail h4, .order-detail h5 {
   font-size: 15px;
   font-weight: 400;
 }
-/* line 96, ../sass/pages/_orderlist2.scss */
+/* line 97, ../sass/pages/_orderlist2.scss */
 .order-detail h3 {
   background-color: white;
   line-height: 3;
   margin: 0 0 10px;
   padding: 0 11px;
 }
-/* line 103, ../sass/pages/_orderlist2.scss */
+/* line 102, ../sass/pages/_orderlist2.scss */
+.order-detail h3 > span {
+  margin-top: 5px;
+  line-height: 18px;
+  width: 60px !important;
+}
+/* line 109, ../sass/pages/_orderlist2.scss */
 .order-detail .contact {
   background-color: white;
   line-height: 2.5;
   padding: 0 11px;
 }
-/* line 107, ../sass/pages/_orderlist2.scss */
+/* line 113, ../sass/pages/_orderlist2.scss */
 .order-detail .contact span {
   display: inline-block;
 }
-/* line 110, ../sass/pages/_orderlist2.scss */
+/* line 116, ../sass/pages/_orderlist2.scss */
 .order-detail .contact span:nth-child(1) {
   width: 20%;
 }
-/* line 113, ../sass/pages/_orderlist2.scss */
+/* line 119, ../sass/pages/_orderlist2.scss */
 .order-detail .contact span:nth-child(2) {
   min-width: 50%;
 }
-/* line 116, ../sass/pages/_orderlist2.scss */
+/* line 122, ../sass/pages/_orderlist2.scss */
 .order-detail .contact span:nth-child(3) {
   min-width: 30%;
 }
-/* line 121, ../sass/pages/_orderlist2.scss */
+/* line 127, ../sass/pages/_orderlist2.scss */
 .order-detail .order-id {
   text-align: center;
   color: #868686;
   line-height: 2.5;
 }
-/* line 127, ../sass/pages/_orderlist2.scss */
+/* line 133, ../sass/pages/_orderlist2.scss */
 .order-detail .details {
   padding: 0 11px;
   background-color: white;
 }
-/* line 130, ../sass/pages/_orderlist2.scss */
+/* line 136, ../sass/pages/_orderlist2.scss */
 .order-detail .details:not(:last-child) {
   margin-bottom: 10px;
 }
-/* line 133, ../sass/pages/_orderlist2.scss */
+/* line 139, ../sass/pages/_orderlist2.scss */
 .order-detail .details h4 {
   margin-top: 0;
   line-height: 2.5;
@@ -1037,12 +1044,12 @@ form .err-tip {
   margin-bottom: 0;
   padding: 0;
 }
-/* line 140, ../sass/pages/_orderlist2.scss */
+/* line 146, ../sass/pages/_orderlist2.scss */
 .order-detail .details .content:not(.dish) {
   line-height: 2.7;
   padding: 0;
 }
-/* line 143, ../sass/pages/_orderlist2.scss */
+/* line 149, ../sass/pages/_orderlist2.scss */
 .order-detail .details .content:not(.dish) :first-child {
   width: auto;
   height: auto;

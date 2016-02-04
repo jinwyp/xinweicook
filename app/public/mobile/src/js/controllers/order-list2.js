@@ -21,7 +21,21 @@ function orderlistCtrl2($scope, Orders, $location) {
         })
     }
 
+    $scope.pay = function () {
+        if ($scope.curOrder.payment == 'weixinpay') {
+            location.href = '/mobile/wxpay/' + $scope.curOrder._id
+        } else if ($scope.curOrder.payment == 'alipay direct') {
+            Orders.payByAlipay($scope.curOrder._id).then(function (res) {
+                // todo: do nothing since it' will be redirected by 30X response
+            })
+        }
+    }
+
     $scope.$on('$locationChangeSuccess', function () {
+        setCurOrder()
+    })
+
+    function setCurOrder() {
         var id = $location.path().slice(1);
         if (!id || !$scope.orders) {
             $scope.curOrder = null
@@ -34,28 +48,37 @@ function orderlistCtrl2($scope, Orders, $location) {
                 return true
             }
         })
-    })
+    }
 
     function init() {
         Orders.getList().then(function (res) {
+            // 首先过滤出子订单,以便在之后的遍历中使用
+            var childOrders = res.data.reduce(function (map, order) {
+                if (order.isChildOrder) {
+                    map[order._id] = order
+                }
+                return map
+            }, {})
+
             $scope.orders = res.data.filter(function (order) {
                 if (order.dishList.some(function (el) {
                         return !el.dish
                     })) return false
 
-                var hasEat, hasCook
+                order.cookList = []
+                order.eatList = []
                 order.dishList.forEach(function (el) {
                     if (el.dish.cookingType == 'ready to cook') {
-                        hasCook = true
+                        order.cookList.push(el)
                     }
                     if (el.dish.cookingType == 'ready to eat') {
-                        hasEat = true
+                        order.eatList.push(el)
                     }
                 })
 
-                if (hasEat && hasCook) {
+                if (order.eatList.length && order.cookList.length) {
                     order.cookingType = '食材包&便当'
-                } else if (hasEat) {
+                } else if (order.eatList.length) {
                     order.cookingType = '便当'
                 } else {
                     order.cookingType = '食材包'
@@ -63,11 +86,20 @@ function orderlistCtrl2($scope, Orders, $location) {
 
                 // 未支付的订单, 过滤isChildOrder:true; 已支付的显示子订单, 过滤isSplitOrder:true
                 if (order.status == 'not paid') {
-                    return !order.isChildOrder
+                    if (!order.isChildOrder) {
+                        order.childOrderList.forEach(function (id) {
+                            var child = childOrders[id]
+                            var type = child.cookingType == 'ready to cook' ? 'cookList' : 'eatList'
+                            order[type].deliveryDateTime = child.deliveryDateTime
+                        })
+                        return true
+                    }
                 } else {
                     return !order.isSplitOrder
                 }
             })
+
+            setCurOrder()
         })
     }
 

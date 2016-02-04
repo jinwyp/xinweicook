@@ -12,7 +12,7 @@
 </head>
 <body ng-app="xw" ng-controller="orderlistCtrl2">
 
-<nav class="nav" style="display: none;" ng-if="!curOrder">
+<nav class="nav" ng-if="!curOrder">
     <div class="back-icon" ng-click="back()"></div>
     <span class="no-bottom-border">我的订单</span>
 </nav>
@@ -40,7 +40,9 @@
 </ul>
 
 <div class="order-detail" ng-if="curOrder">
-    <h3>{{curOrder.status | orderStatus}}</h3>
+    <h3 class="clearfix">{{curOrder.status | orderStatus}}
+        <span class="btn fr" ng-if="curOrder.status == 'not paid'" ng-click="pay()">支付</span>
+    </h3>
     <div class="contact">
         <div class="person clearfix">
             <span class="fl">收货人</span>
@@ -53,53 +55,47 @@
         </div>
     </div>
     <div class="order-id">
-        订单号: 2016 0203 1235 4942 4848 1
+        订单号: {{curOrder.orderNumber | orderId}}
     </div>
     <div class="details">
-        <h4 class="clearfix"><span class="title tl">便当</span><span class="time tr">预计送达: 2016-02-03 14:30</span></h4>
-        <div class="content dish clearfix">
+        <h4 class="clearfix"
+            ng-repeat-start="(name, list) in {eatList: curOrder.eatList, cookList: curOrder.cookList}"
+            ng-if="list.length">
+            <span class="title fl">{{name == 'eatList' ? '便当': '食材包'}}</span>
+            <span class="time fr tr">预计送达: {{(list.deliveryDateTime || curOrder.deliveryDateTime) | date:'yyyy-MM-dd HH:mm'}}</span>
+        </h4>
+        <div class="content dish clearfix" ng-repeat="el in list" ng-repeat-end>
             <div class="fl" ng-style="{'background-image': 'url({{el.dish.cover[0].zh}}?imageView2/2/h/200)'}"></div>
             <div class="fl">
-                <h5>猪肋排配烧烤酱</h5><span class="rmb-char">29</span>
+                <h5>{{el.dish.title.zh}}</h5><span class="rmb-char">{{el.dish.priceOriginal}}</span>
             </div>
-            <div class="fr">x3</div>
-        </div>
-        <h4 class="clearfix"><span class="title tl">食材包</span><span class="time tr">预计送达: 2016-02-03 14:30</span></h4>
-        <div class="content dish clearfix">
-            <div class="fl" ng-style="{'background-image': 'url({{el.dish.cover[0].zh}}?imageView2/2/h/200)'}"></div>
-            <div class="fl">
-                <h5>猪肋排配烧烤酱</h5><span class="rmb-char">29</span>
-            </div>
-            <div class="fr">x3</div>
-        </div>
-        <div class="content dish clearfix">
-            <div class="fl" ng-style="{'background-image': 'url({{el.dish.cover[0].zh}}?imageView2/2/h/200)'}"></div>
-            <div class="fl">
-                <h5>猪肋排配烧烤酱</h5><span class="rmb-char">29</span>
-            </div>
-            <div class="fr">x3</div>
+            <div class="fr">x{{el.number}}</div>
         </div>
     </div>
     <div class="details">
         <div class="content clearfix">
             <span class="fl">订单金额</span>
-            <span class="fr rmb-char">87</span>
+            <span class="fr rmb-char">{{curOrder.dishesPrice}}</span>
         </div>
         <div class="content clearfix">
             <span class="fl">运费</span>
-            <span class="fr rmb-char">0</span>
+            <span class="fr rmb-char">{{curOrder.freight}}</span>
         </div>
         <div class="content clearfix mc">
             <span class="fl">优惠金额</span>
-            <span class="fr rmb-char negative">0</span>
+            <span class="fr rmb-char negative">{{curOrder.dishesPrice + curOrder.freight - curOrder.totalPrice}}</span>
         </div>
         <div class="content clearfix">
             <span class="fl">应付总额</span>
-            <span class="fr rmb-char">87</span>
+            <span class="fr rmb-char">{{curOrder.totalPrice}}</span>
         </div>
         <div class="content clearfix">
             <span class="fl">支付方式</span>
-            <span class="fr">支付宝</span>
+            <span class="fr">{{curOrder.payment | payment}}</span>
+        </div>
+        <div class="content clearfix">
+            <span class="fl">备注</span>
+            <span class="fr">{{curOrder.userComment}}</span>
         </div>
     </div>
 </div>

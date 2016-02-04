@@ -48,6 +48,9 @@ angular.module('xw.models').factory('Orders', function ($http) {
         },
         price: function (data) {
             return $http.post('/api/orderprice', data);
+        },
+        payByAlipay: function (id) {
+            return $http.post('/api/orders/payment/alipay/sign', {_id: id})
         }
     }
 });
