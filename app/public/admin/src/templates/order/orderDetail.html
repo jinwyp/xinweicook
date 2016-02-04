@@ -157,6 +157,13 @@
                     </div>
                 </div>
 
+                <div class="form-group has-feedback" >
+                    <label class="col-lg-2 control-label" >订单所属用户地址ID:</label>
+
+                    <div class="col-lg-10">
+                        <span class="help-block"><a ui-sref="menu.updateUser({ id: data.order.user })">{{data.order.addressId}}</a></span>
+                    </div>
+                </div>
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$valid, 'has-error':orderForm.orderAddressAddress.$dirty&&orderForm.orderAddressAddress.$invalid}">
