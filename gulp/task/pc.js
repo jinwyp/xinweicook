@@ -34,8 +34,7 @@ gulp.task('webpack-devServer-pc', function () {
 // 用webpack生成的带hash的文件替换掉webpack-dev-server的字符
 gulp.task('pc-replace', ['clean-view-pc'], function () {
     var replaceBlock = /<!-- build-replace -->([\w\W]*?)<!-- end-build-replace -->/g;
-    var replaceContent = /(href|src)=("|')(http:\/\/localhost:8081\/)([\w\W]+?)\2/g;
-    var publicPath = '/pc/dist/'
+    var replaceContent = /(href|src)=("|')\/pc\/dist\/([\w\W]+?)\2/g;
 
     var fileHash = {}
     fs.readdirSync('app/public/pc/dist').forEach(function (file) {
@@ -48,11 +47,11 @@ gulp.task('pc-replace', ['clean-view-pc'], function () {
 
     return gulp.src(['app/public/pc/src/html/**/*'])
         .pipe(replace(replaceBlock, function (_, m) {
-            return m.replace(replaceContent, function (__, m1, m2, m3, m4) {
-                if (fileHash[m4]) {
-                    var strs = m4.split('.');
-                    m4 = strs[0] + '.' + fileHash[m4] + '.' + strs[1]
-                    return m1 + '=' + m2 + publicPath + m4 + m2
+            return m.replace(replaceContent, function (__, m1, m2, m3) {
+                if (fileHash[m3]) {
+                    var strs = m3.split('.');
+                    m3 = strs[0] + '.' + fileHash[m3] + '.' + strs[1]
+                    return m1 + '=' + m2 + '/pc/dist/' + m3 + m2
                 } else {
                     return __
                 }
