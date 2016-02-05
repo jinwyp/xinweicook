@@ -25,10 +25,10 @@ var Order = React.createClass({
                             <div>{dateFormat(props.deliveryDateTime)}</div>
                             <div className="rmb-char">{price(item)}</div>
                             <div>{i === 0 && orderStatus(props.status)}</div>
-                            {item.status == 'unpaid' &&
+                            {props.status == 'not paid' && i===0 &&
                                 <div className="tc">
-                                    <span onClick={()=>props.cancel(item._id)} className="btn">{__('Cancel')}</span>
-                                    <span onClick={()=>props.pay(item)} className="btn">{__('Pay')}</span>
+                                    <span onClick={()=>props.cancel(props._id)}>{__('Cancel')}</span>
+                                    <span onClick={()=>props.pay(props._id)}>{__('Pay')}</span>
                                 </div>
                             }
                         </div>

@@ -35,6 +35,13 @@ function orders(state = null, action) {
                 })
             }
             return state
+        case types.CANCEL_ORDER:
+            if (action.status == 'success') {
+                return state.map(el => {
+                    return el._id != action.order._id ? el : action.order
+                })
+            }
+            return state
         default: return state
     }
 }

@@ -58,7 +58,7 @@ var OrderList = React.createClass({
                     {
                         curOrders.map(order => (
                             <li key={order._id}>
-                                <Order {...order}/>
+                                <Order {...order} cancel={this.props.cancel} pay={this.props.pay}/>
                             </li>
                         ))
                     }

@@ -43,7 +43,7 @@ var App = React.createClass({
                     return dispatch(orderAction.getOrders(skip, limit))
                 },
                 cancel: id => dispatch(orderAction.cancel(id)),
-                pay: order => dispatch(orderAction.pay(order)),
+                pay: id => dispatch(orderAction.payByAlipay(id))
             }
             this.methods.addressList = {
                 addOne: ()=>dispatch(addressAction.editAddress()),

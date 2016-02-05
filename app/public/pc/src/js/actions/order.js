@@ -51,10 +51,11 @@ function cancelStart(id) {
     }
 }
 
-function cancelDone(id) {
+function cancelDone(order) {
     return {
         type: types.CANCEL_ORDER,
-        id
+        status: 'success',
+        order
     }
 }
 
@@ -64,17 +65,48 @@ export function cancel(id) {
         return put(`/api/orders/${id}`, {
             isPaymentPaid: "false",
             status: "canceled"
-        }).then(res => {
-            dispatch(cancelDone(id))
+        }).then(order => {
+            dispatch(cancelDone(order))
         })
     }
 }
 
 // 支付订单
-function payStart(order) {
+function payStart(id) {
     return {
         type: types.PAY_ORDER,
-        id: order._id
+        id
+    }
+}
+
+function payDone(id) {
+    return {
+        type: types.PAY_ORDER,
+        status: 'success',
+        id
+    }
+}
+
+function payError(id) {
+    return {
+        type: types.PAY_ORDER,
+        status: 'error',
+        id
+    }
+}
+
+export function payByAlipay(id) {
+    return function (dispatch) {
+        dispatch(payStart(id))
+        return post('/api/orders/payment/alipay/sign', {
+            _id: id
+        }).then(res => {
+            location.href = res.fullurl
+        }).catch(res => {
+            payError(id)
+            // todo, remove
+            console.warn('payError', res)
+        })
     }
 }
 
