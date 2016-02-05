@@ -1,4 +1,5 @@
 import {lang} from '../../utils/locale'
+import {__} from '../../utils/locale'
 
 import React from 'react'
 import {imgAdapt as adapt, orderStatus} from '../../utils/filters'
@@ -24,7 +25,12 @@ var Order = React.createClass({
                             <div>{dateFormat(props.deliveryDateTime)}</div>
                             <div className="rmb-char">{price(item)}</div>
                             <div>{i === 0 && orderStatus(props.status)}</div>
-                            {/*<div><span className="unrated">尚未评价</span><span className="unrated-icon"></span></div>*/}
+                            {item.status == 'unpaid' &&
+                                <div className="tc">
+                                    <span onClick={()=>props.cancel(item._id)} className="btn">{__('Cancel')}</span>
+                                    <span onClick={()=>props.pay(item)} className="btn">{__('Pay')}</span>
+                                </div>
+                            }
                         </div>
                     ))
                 }

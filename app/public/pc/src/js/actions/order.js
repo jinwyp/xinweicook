@@ -44,6 +44,22 @@ export function postOrder(justBalance) {
 }
 
 
+function cancelStart() {
+
+}
+
+function cancelDone() {
+
+}
+
+export function cancel(id) {
+    return function (dispatch) {
+        cancelStart(id)
+        post()
+    }
+}
+
+
 function getOrdersStart() {
     return {
         type: types.GET_ORDERS

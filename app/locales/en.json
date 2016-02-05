@@ -25,10 +25,6 @@
   "Cook Answer": "Just leave the trouble of preparing material to Xinweicook!",
   "Bento Question":"Want to enjoy 5-star food in office?",
   "Bento Answer":"No bother to compromise because you have XinweiCook!",
-  "只愿享受烹炒的乐趣?":"只愿享受烹炒的乐趣?",
-  "选料买菜的一切麻烦让新味帮你解决。": "选料买菜的一切麻烦让新味帮你解决。",
-  "在公司还想吃低温慢煮牛排?":"在公司还想吃低温慢煮牛排?",
-  "新味让你用微波炉就能轻松享受。":"新味让你用微波炉就能轻松享受。",
   "ppl":"ppl",
   "更多": "More",
   "More ReadyToCooks": "More ReadyToCooks",
@@ -127,6 +123,7 @@
   "Shipped":"Shipped",
   "Finished":"Finished",
   "Canceled":"Canceled",
+  "Pay": "Pay",
 
   "##### 便当列表 #####":"",
   "Order Now":"Order Now",

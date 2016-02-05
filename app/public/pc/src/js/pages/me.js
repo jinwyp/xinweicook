@@ -41,7 +41,9 @@ var App = React.createClass({
             this.methods.order = {
                 getOrders: (skip, limit) => {
                     return dispatch(orderAction.getOrders(skip, limit))
-                }
+                },
+                cancel: id => dispatch(orderAction.cancel(id)),
+                pay: order => dispatch(orderAction.pay(order)),
             }
             this.methods.addressList = {
                 addOne: ()=>dispatch(addressAction.editAddress()),
