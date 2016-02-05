@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><title>404 - 新味</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     {% include "./includes/meta.nunj" %}
     
     <link rel="stylesheet" href="/pc/dist/webpack-common.65eed5ed092260e5f8a58e7826f961d3.css"/>
@@ -23,7 +23,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.33a467ff624fd5cbdb38.js"></script>
+<script src="/pc/dist/webpack-common.e7011d69c84ef1182872.js"></script>
 <script src="/pc/dist/404.ec8b7ecd8f080cceae48.js"></script>
 
 </body>
