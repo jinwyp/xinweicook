@@ -26,7 +26,7 @@ module.exports = function makeWebpackConfig(options) {
         },
         output: {
             path: path.join(__dirname, "./app/public/pc/dist/"),
-            publicPath: BUILD ? '' : 'http://localhost:8081/',
+            publicPath: BUILD ? '' : '/webpackdevserver/pc/dist/',
             filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
             chunkFilename: BUILD ? "[id].[chunkhash].js" : "[id].js"
         },
@@ -72,8 +72,20 @@ module.exports = function makeWebpackConfig(options) {
             new ExtractTextPlugin(BUILD ? "[name].[contenthash].css" : "[name].css")
         ],
         devServer : {
-            contentBase: 'app/public/pc/src'
+            contentBase: 'app/public',
+            proxy: {
+                '/pc/dist/*': {
+                    target: 'http://localhost:8081/webpackdevserver/',
+                    secure: false
+                },
+                '/*': {
+                    target: 'http://localhost:3003/',
+                    secure: false
+                }
+
+            }
         },
+
         postcss: function () {
             return [autoprefixer({browsers: ['last 3 versions', '> 3% in CN']})]
         }
