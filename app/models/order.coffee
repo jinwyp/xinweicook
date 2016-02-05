@@ -493,7 +493,7 @@ module.exports =
 #        if startPoint.clone().add(i-1, 'days').dayOfYear() isnt 2 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 3
 
         # 排除春节
-        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 7) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
+        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 6) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
           resultTime.push(segmentDay)
 
       if isInRange4KM and timeNow.hour() < 17
@@ -523,7 +523,7 @@ module.exports =
 #        if timeNow.clone().add(i, 'days').dayOfYear() isnt 1 and timeNow.clone().add(i, 'days').dayOfYear() isnt 2 and timeNow.clone().add(i, 'days').dayOfYear() isnt 3
 
         # 排除春节
-        if timeNow.clone().add(i, 'days').month() isnt 1 or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() < 7) or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() > 13)
+        if timeNow.clone().add(i, 'days').month() isnt 1 or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() < 6) or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() > 13)
           resultTime.push(segmentDay)
 
       resultTime
@@ -554,7 +554,7 @@ module.exports =
       # 处理当天时间段 # 周六周日不发 # 排除元旦
       # 排除春节
 
-      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 7) or (timeNow.month() is 1 and timeNow.date() > 13)
+      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
 
         if timeNow.day() isnt 0 and timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
           for i in [1..17]
@@ -574,7 +574,7 @@ module.exports =
 #      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
 
       # 排除春节
-      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 7) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
+      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 6) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
 
         if timeNow.day() >= 0 and timeNow.day() < 5
           startPointTomorrow = tomorrow11AM.clone()
@@ -667,7 +667,7 @@ module.exports =
       # 处理当天时间点 # 周六周日不发 # 并且排除元旦
 
       # 排除春节
-      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 7) or (timeNow.month() is 1 and timeNow.date() > 13)
+      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
 
         if timeNow.day() > 0 and timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
           for i in [1..17]
@@ -685,7 +685,7 @@ module.exports =
 #      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
 
       # 排除春节
-      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 7) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
+      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 6) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
         if timeNow.day() >= 0 and timeNow.day() < 5
           startPointTomorrow = tomorrow11AM.clone()
 
