@@ -46,6 +46,8 @@ export const GET_BALANCE = 'GET_BALANCE';
 // order
 export const POST_ORDER = 'POST_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
+export const CANCEL_ORDER = 'CANCEL_ORDER';
+export const PAY_ORDER = 'PAY_ORDER';
 
 // comment
 export const CHANGE_COMMENT = 'CHANGE_COMMENT';

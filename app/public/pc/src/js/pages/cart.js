@@ -237,6 +237,8 @@ var App = React.createClass({
             codePrice = (100 - codePrice) / 100 * price.payPrice
             price.payPrice -= codePrice
             price.couponPrice += codePrice
+        } else {
+            price.payPrice -= codePrice
         }
 
         var payment = __('Pay by alipay')

@@ -82,7 +82,25 @@ $color_me_li_border: #efefef;
             width: 75px;
           }
           >:nth-child(6) {
-            width: 90px;
+            width: 110px;
+            span {
+              font-size: 12px;
+              border: 1px solid;
+              border-radius: 3px;
+              box-sizing: border-box;
+              width: 46px;
+              display: inline-block;
+              line-height: 26px;
+              padding: 0;
+              margin-left: 10px;
+              background-color: white;
+              &:last-child {
+                background-color: black;
+                color: white;
+                border-color: black;
+                margin-left: 7px;
+              }
+            }
           }
         }
 
