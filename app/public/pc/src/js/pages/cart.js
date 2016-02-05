@@ -235,11 +235,9 @@ var App = React.createClass({
         price.payPrice = price.cartPrice + price.freight - cardPrice
         if (coupon.code.type == 'promocodepercentage') {
             codePrice = (100 - codePrice) / 100 * price.payPrice
-            price.payPrice -= codePrice
-            price.couponPrice += codePrice
-        } else {
-            price.payPrice -= codePrice
         }
+        price.payPrice -= codePrice
+        price.couponPrice += codePrice
 
         var payment = __('Pay by alipay')
         if (balance.useBalance) {
