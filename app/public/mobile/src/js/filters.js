@@ -109,7 +109,7 @@ angular.module('xw.filters').filter('orderTime', function () {
 
 angular.module('xw.filters').filter('cookTimeUnion', function () {
     return function (times, isCJDish, isQRJDish, isInRange4KM) {
-        if (!times || !times.length) {
+        if (!times) {
             return times
         }
 
