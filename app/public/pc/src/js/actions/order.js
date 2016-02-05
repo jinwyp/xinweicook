@@ -1,4 +1,4 @@
-import fetch, {post} from "../utils/xw-fetch"
+import fetch, {post, put} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 import {orderData} from "../utils/order"
 
@@ -26,7 +26,7 @@ function postOrderError(error) {
 
 export function postOrder(justBalance) {
     return function (dispatch, getState) {
-        postOrderStart()
+        dispatch(postOrderStart())
         post('/api/orders', orderData(getState(), true)).then(res => {
             dispatch(postOrderDone(res))
             if (justBalance) {
@@ -43,19 +43,38 @@ export function postOrder(justBalance) {
     }
 }
 
-
-function cancelStart() {
-
+// 取消订单
+function cancelStart(id) {
+    return {
+        type: types.CANCEL_ORDER,
+        id
+    }
 }
 
-function cancelDone() {
-
+function cancelDone(id) {
+    return {
+        type: types.CANCEL_ORDER,
+        id
+    }
 }
 
 export function cancel(id) {
     return function (dispatch) {
-        cancelStart(id)
-        post()
+        dispatch(cancelStart(id))
+        return put(`/api/orders/${id}`, {
+            isPaymentPaid: "false",
+            status: "canceled"
+        }).then(res => {
+            dispatch(cancelDone(id))
+        })
+    }
+}
+
+// 支付订单
+function payStart(order) {
+    return {
+        type: types.PAY_ORDER,
+        id: order._id
     }
 }
 
