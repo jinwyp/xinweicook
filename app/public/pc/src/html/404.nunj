@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head><title>404 - 新味</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     {% include "./includes/meta.nunj" %}
     <!-- build-replace -->
-    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.css"/>
     <!-- end-build-replace -->
 </head>
 <body>
@@ -23,8 +23,8 @@
 {% include "./includes/footer.nunj" %}
 
 <!-- build-replace -->
-<script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/404.js"></script>
+<script src="/pc/dist/webpack-common.js"></script>
+<script src="/pc/dist/404.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     {% include "./includes/meta.nunj" %}
     <!-- build-replace -->
-    <link rel="stylesheet" href="http://localhost:8081/webpack-common.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.css"/>
     <!-- end-build-replace -->
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -28,8 +28,8 @@
 {% include "./includes/footer.nunj" %}
 
 <!-- build-replace -->
-<script src="http://localhost:8081/webpack-common.js"></script>
-<script src="http://localhost:8081/me.js"></script>
+<script src="/pc/dist/webpack-common.js"></script>
+<script src="/pc/dist/me.js"></script>
 <!-- end-build-replace -->
 </body>
 </html>
