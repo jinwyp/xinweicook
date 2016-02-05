@@ -6,7 +6,6 @@ chai.use chaiAsPromised
 chai.should()
 
 GLOBAL._       = require "lodash"
-GLOBAL.Base62  = require "base62"
 GLOBAL.bcrypt  = require "bcryptjs"
 GLOBAL.chance  = new require("chance")()
 GLOBAL.express = require "express"
