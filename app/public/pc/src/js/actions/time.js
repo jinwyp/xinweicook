@@ -32,14 +32,7 @@ function getTimeDone(timeList, cookingType, cart, address) {
             selectedAddress = address.addresses.filter(el => el.selected)[0]
             isInRange4KM = selectedAddress.warehouse == '56332187594b09af6e6c7dd2'
             if (hasCJ) {
-                timeList = [
-                    {
-                        "day":"2016-02-06",
-                        "segment":[
-                            {"name":"10","text":"10:00-20:00","status":true}
-                        ]
-                    }
-                ]
+                timeList = []
             }
 
             if (hasQRJ) {

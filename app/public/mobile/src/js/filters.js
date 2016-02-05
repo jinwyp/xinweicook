@@ -114,14 +114,7 @@ angular.module('xw.filters').filter('cookTimeUnion', function () {
         }
 
         if (isCJDish) {
-            times = [
-                {
-                    "day":"2016-02-06",
-                    "segment":[
-                        {"name":"10","text":"10:00-20:00","status":true}
-                    ]
-                }
-            ]
+            times = []
         }
 
         if (isQRJDish) {
