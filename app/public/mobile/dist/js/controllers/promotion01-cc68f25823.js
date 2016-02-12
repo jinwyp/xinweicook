@@ -20,29 +20,9 @@ angular.module('xw.controllers').controller('promotion01', function (Coupon, $sc
     function init() {
         var cards = $scope.cards = [
             {
-                name: '满50减8',
-                price: 8,
-                code: 'XWPRM00101'
-            },
-            {
-                name: '满100减10',
-                price: 10,
-                code: 'XWPRM00102'
-            },
-            {
-                name: '满180减15',
-                price: 15,
-                code: 'XWPRM00103'
-            },
-            {
-                name: '满250减20',
-                price: 20,
-                code: 'XWPRM00104'
-            },
-            {
-                name: '满350减35',
-                price: 35,
-                code: 'XWPRM00105'
+                name: '开工大吉券',
+                price: 5,
+                code: 'XWPRM00201'
             }
         ];
 
