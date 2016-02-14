@@ -556,7 +556,7 @@ module.exports =
 
       if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
 
-        if timeNow.day() isnt 0 and timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
+        if  timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
           for i in [1..17]
             timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
@@ -586,6 +586,8 @@ module.exports =
         if timeNow.day() is 6
           startPointTomorrow = today11AM.clone().add(2, 'days');
           startPointTomorrow = tomorrow11AM.clone()
+
+
 
 
         for i in [1..17]
@@ -669,7 +671,7 @@ module.exports =
       # 排除春节
       if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
 
-        if timeNow.day() > 0 and timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
+        if  timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
           for i in [1..17]
             timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
