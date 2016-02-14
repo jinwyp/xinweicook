@@ -490,18 +490,18 @@ module.exports =
         segmentDay.segment.push(models.order.constantDeliverTimeSegment().time20)
 
         # 排除元旦
-#        if startPoint.clone().add(i-1, 'days').dayOfYear() isnt 2 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 3
+        if startPoint.clone().add(i-1, 'days').dayOfYear() isnt 1 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 2 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 3
+          resultTime.push(segmentDay)
 
         # 排除春节
-        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 6) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
-          resultTime.push(segmentDay)
+#        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 6) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
+#          resultTime.push(segmentDay)
 
       if isInRange4KM and timeNow.hour() < 17
         if timeNow.hour() < 12
           resultTime[0].segment.splice(0, 1)
         else
           resultTime[0].segment.splice(0, 2)
-
 
       resultTime
 
@@ -520,11 +520,12 @@ module.exports =
           segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD")
 
         # 排除元旦
-#        if timeNow.clone().add(i, 'days').dayOfYear() isnt 1 and timeNow.clone().add(i, 'days').dayOfYear() isnt 2 and timeNow.clone().add(i, 'days').dayOfYear() isnt 3
+        if timeNow.clone().add(i, 'days').dayOfYear() isnt 1 and timeNow.clone().add(i, 'days').dayOfYear() isnt 2 and timeNow.clone().add(i, 'days').dayOfYear() isnt 3
+          resultTime.push(segmentDay)
 
         # 排除春节
-        if timeNow.clone().add(i, 'days').month() isnt 1 or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() < 6) or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() > 13)
-          resultTime.push(segmentDay)
+#        if timeNow.clone().add(i, 'days').month() isnt 1 or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() < 6) or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() > 13)
+#          resultTime.push(segmentDay)
 
       resultTime
 
@@ -552,43 +553,31 @@ module.exports =
           startPoint = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
       # 处理当天时间段 # 周六周日不发 # 排除元旦
-      # 排除春节
+      if timeNow.day() isnt 0 and timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
+        for i in [1..17]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
-
-        if  timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
-          for i in [1..17]
-            timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
-
-            #春节放假前最后一天
-            if timeNow.month() is 1 and timeNow.date() is 6
-              worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 14:20"));
-            # 如果计算出来的时间超过 worktimeEnd 点  将不在push进去
-            if timeSectionTemp.isBefore(worktimeEnd)
-              segmentHour =
-                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-              resultTime.push(segmentHour)
+          #春节放假前最后一天
+          if timeNow.month() is 1 and timeNow.date() is 6
+            worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 14:20"));
+          # 如果计算出来的时间超过 worktimeEnd 点  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd)
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       # 处理第二天的处理第二天的时间点 不包括周六周日 但如果是星期五后过19点 后会换下周菜单, 也可以下周一订单
       # 排除元旦
-#      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
-
-      # 排除春节
-      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 6) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
+      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
 
         if timeNow.day() >= 0 and timeNow.day() < 5
           startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 5
           startPointTomorrow = today11AM.clone().add(3, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 6
           startPointTomorrow = today11AM.clone().add(2, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
-
-
-
 
         for i in [1..17]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
@@ -667,38 +656,29 @@ module.exports =
           startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
 
       # 处理当天时间点 # 周六周日不发 # 并且排除元旦
+      if timeNow.day() > 0 and timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
+        for i in [1..17]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-      # 排除春节
-      if timeNow.month() isnt 1 or (timeNow.month() is 1 and timeNow.date() < 6) or (timeNow.month() is 1 and timeNow.date() > 13)
+          # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd)
 
-        if  timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
-          for i in [1..17]
-            timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
-
-            # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
-            if timeSectionTemp.isBefore(worktimeEnd)
-
-              segmentHour =
-                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-              resultTime.push(segmentHour)
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六周日 但如果是星期五 过 worktimeEnd  后 会换下周菜单 也可以预订下周一
       # 排除元旦
-#      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
+      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
 
-      # 排除春节
-      if tomorrow11AM.month() isnt 1 or (tomorrow11AM.month() is 1 and tomorrow11AM.date() < 6) or (tomorrow11AM.month() is 1 and tomorrow11AM.date() > 13)
         if timeNow.day() >= 0 and timeNow.day() < 5
           startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 5
           startPointTomorrow = today11AM.clone().add(3, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
 
         if timeNow.day() is 6
           startPointTomorrow = today11AM.clone().add(2, 'days');
-          startPointTomorrow = tomorrow11AM.clone()
-
 
         for i in [1..6]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
