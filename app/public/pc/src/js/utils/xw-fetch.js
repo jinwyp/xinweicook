@@ -52,7 +52,7 @@ function _fetch(url, options) {
             console.warn('parse returned json failed!')
             return Promise.reject(e)
         })
-    })
+    }).catch(res => Promise.reject(res.json()))
 }
 
 export default _fetch;

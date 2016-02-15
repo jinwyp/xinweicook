@@ -55,6 +55,18 @@
   "Confirm your password":"Confirm your password",
   "The two passwords are different":"The two passwords are different",
   "Signing up":"Signing up",
+  "Wrong Mobile": "Wrong Mobile Number",
+  "Wrong Password": "Wrong Password",
+  "Already Exist": "Already Exist",
+  "Not Found": "Not Found",
+  "Wrong Code": "Wrong Code",
+  "Expired": "Expired",
+  "Invalid Code": "Invalid Code",
+  "Wrong Type": "Wrong Type",
+  "Too Many Tries": "Too Many Tries",
+  "Send Failed": "Send Failed",
+  "Reach Send Limitation": "Reach Send Limitation",
+
 
   "##### 购物车 ####":"",
   "My Shopping Cart": "My Shopping Cart",
