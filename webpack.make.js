@@ -36,7 +36,7 @@ module.exports = function makeWebpackConfig(options) {
                 {
                     test: /\.js$/,
                     loader: 'babel-loader',
-                    exclude: /node_modules|\bapp\//,
+                    exclude: /node_modules|\bapp\\libs/,
                     query: {
                         presets: ['react', 'es2015', 'stage-2']
                     }

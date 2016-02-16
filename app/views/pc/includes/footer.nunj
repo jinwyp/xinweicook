@@ -1,0 +1,30 @@
+<footer class="site-footer footer">
+    <div class="footer-nav clearfix">
+        <span class="copyright">Copyright © 2016 XinweiCook.com</span>
+        <span class="icp">沪ICP备13038601号</span>
+    </div>
+    <div class="footer-body">
+        <div class="wrapper">
+            <ul class="left">
+                <li class="download-link">
+                    <a id="download" href="http://itunes.apple.com/us/app/id991712290">
+                        <img src="/pc/src/images/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="app store badge"/>
+                    </a>
+                </li>
+                <li><img src="/pc/src/images/wechat-icon.png" alt="weichat"/>{{ __("Search") }} "xinweicook"</li>
+                <li><a href="http://weibo.com/xinweicook" target="_blank"><img src="/pc/src/images/weibo-icon.png" alt="weibo"/>{{ __("Follow us on Weibo") }}</a></li>
+            </ul>
+        </div>
+        <img src="/pc/src/images/app-qrcode.png" alt="what to place here"/>
+        <div class="wrapper">
+            <ul class="contact">
+                <li>{{ __("Feel free to chat") }}:</li>
+                <li>{{ __("Chat With Us") }} 9:00am-7:00pm</li>
+                <li><span class="email">Email:</span> customer@xinweicook.com</li>
+                <li><span>{{ __('Tel') }}:</span> (021) 5153 4950</li>
+                <li><span>QQ:</span> 263 064 2809</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script>if(location.hostname!='localhost'){var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?bd3701195d6b839a7858b504dea63bb5";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();}</script>
