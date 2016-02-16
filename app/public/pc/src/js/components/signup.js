@@ -1,13 +1,31 @@
 import React from 'react'
 import {__} from '../utils/locale'
 
+import errCode from '../../../../../libs/errcode'
+import errInfo from '../constants/ErrInfo'
+
+var wrongMobile = errCode.user.wrongMobile
+var alreadyExist = errCode.user.alreadyExist
+var wrongCode = errCode.sms.wrongCode
+var expired = errCode.sms.expired
+var invalidCode = errCode.sms.invalidCode
+
 var SignUp = React.createClass({
 
     getInitialState: function () {
         var state = {
             isSending: false
-        };
-        ['mobile', 'smsCode', 'pwd', 'rePwd']
+        }
+
+        // async validation states,
+        // should be reset after blurred(assuming it be changed)
+        state[wrongMobile] = false
+        state[alreadyExist] = false
+        state[wrongCode] = false
+        state[expired] = false
+        state[invalidCode] = false
+
+        ;['mobile', 'smsCode', 'pwd', 'rePwd']
             .forEach(key => state[key + 'ValidateOn'] = false);
         return state;
     },
@@ -30,11 +48,31 @@ var SignUp = React.createClass({
                 pwd: this.refs.pwd.value
             })
             .then(()=>location.href = __PCPREFIX__ + '/')
-            .catch(()=>alert('Sign up failed, try it later'))
+            .catch(res => res.then(data => data.validationStatus &&
+                this.setState({[data.validationStatus]: true})))
             .then(()=>{this.setState({isSending: false})})
         }
 
     },
+
+    onBlur (name) {
+        var state = {
+            [name + 'ValidateOn']: true
+        }
+
+        // for async validation
+        if (name == 'mobile') {
+            state[wrongMobile] = false
+            state[alreadyExist] = false
+        } else if (name == 'smsCode') {
+            state[wrongCode] = false
+            state[expired] = false
+            state[invalidCode] = false
+        }
+
+        this.setState(state)
+    },
+
 
     validate: function (type) {
         switch (type) {
@@ -65,14 +103,19 @@ var SignUp = React.createClass({
                 <form onSubmit={this.onSubmit}>
                     <label className="lab">{__('Mobile number')}</label>
                     <div className="form-control-group">
-                        <input ref="mobile" defaultValue={this.props.mobile} onChange={this._mobileChange} onBlur={()=>this.setState({mobileValidateOn: true})} id="signup_tel" type="text"/>
+                        <input ref="mobile" defaultValue={this.props.mobile} onChange={this._mobileChange} onBlur={()=>this.onBlur('mobile')} id="signup_tel" type="text"/>
                         { this.state.mobileValidateOn && !this.validate('mobile') && <span className="err-tip">{__('Please enter the 11 digits mobile number')}</span>}
+                        {this.state[wrongMobile] && <span className="err-tip">{__(errInfo[wrongMobile])}</span>}
+                        {this.state[alreadyExist] && <span className="err-tip">{__(errInfo[alreadyExist])}</span>}
                     </div>
 
                     <label className="lab" id="sms-code" style={{marginTop: 87}}>{__('Verification code')}</label>
                     <div className="form-control-group">
-                        <input ref="smsCode" defaultValue={this.props.smsCode} onBlur={()=>this.setState({smsCodeValidateOn: true})} id="signup_code" type="text"/>
+                        <input ref="smsCode" defaultValue={this.props.smsCode} onBlur={()=>this.onBlur('smsCode')} id="signup_code" type="text"/>
                         {this.state.smsCodeValidateOn && !this.validate('smsCode') && <span className="err-tip">{__("Please enter the 6 digits verification code")}</span>}
+                        {this.state[wrongCode] && <span className="err-tip">{__(errInfo[wrongMobile])}</span>}
+                        {this.state[invalidCode] && <span className="err-tip">{__(errInfo[invalidCode])}</span>}
+                        {this.state[expired] && <span className="err-tip">{__(errInfo[expired])}</span>}
                     </div>
 
                     <label className="lab">{__('Enter your password')}</label>
