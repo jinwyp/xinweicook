@@ -22,7 +22,7 @@ angular.module('xw.controllers').controller('promotion01', function (Coupon, $sc
             {
                 name: '开工大吉券',
                 price: 5,
-                code: 'XWPRM00201'
+                code: 'XWPRM99901'
             }
         ];
 
