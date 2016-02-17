@@ -42,7 +42,7 @@ var warehouseList = [
 
         "polygonPointList" : [
             {
-                "sortId" : "0",
+                "sortId" : 1,
                 "title"  : "浦电路崂山路",
 
                 "longitude" : "121.53231",
@@ -50,7 +50,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "1",
+                "sortId" : 2,
                 "title"  : "浦电路福山路",
 
                 "longitude" : "121.538858",
@@ -58,7 +58,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "2",
+                "sortId" : 3,
                 "title"  : "世纪大道1666号",
 
                 "longitude" : "121.543188", //121.5413912432196
@@ -66,7 +66,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "3",
+                "sortId" : 4,
                 "title"  : "松林路浦电路",
 
                 "longitude" : "121.542925",
@@ -74,7 +74,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "4",
+                "sortId" : 5,
                 "title"  : "源深路浦电路",
 
                 "longitude" : "121.544073",
@@ -82,7 +82,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "5",
+                "sortId" : 6,
                 "title"  : "浦东大道源深路",
 
                 "longitude" : "121.535898",
@@ -90,7 +90,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "6",
+                "sortId" : 7,
                 "title"  : "昌邑路源深路",
 
                 "longitude" : "121.534522",
@@ -98,7 +98,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "7",
+                "sortId" : 8,
                 "title"  : "滨江大道源深路",
 
                 "longitude" : "121.533805",
@@ -106,7 +106,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "8",
+                "sortId" : 9,
                 "title"  : "黄浦江点1",
 
                 "longitude" : "121.533457",
@@ -114,7 +114,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "9",
+                "sortId" : 10,
                 "title"  : "黄浦江点2",
 
                 "longitude" : "121.5125",
@@ -122,7 +122,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "10",
+                "sortId" : 11,
                 "title"  : "黄浦江点3",
 
                 "longitude" : "121.499546",
@@ -130,7 +130,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "11",
+                "sortId" : 12,
                 "title"  : "黄浦江点4",
 
                 "longitude" : "121.501924",
@@ -138,7 +138,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "12",
+                "sortId" : 13,
                 "title"  : "黄浦江点5",
 
                 "longitude" : "121.511303",
@@ -146,7 +146,7 @@ var warehouseList = [
 
             },
             {
-                "sortId" : "13",
+                "sortId" : 14,
                 "title"  : "黄浦江点6",
 
                 "longitude" : "121.517663",
@@ -168,28 +168,32 @@ var warehouseList = [
 
         "polygonPointList" : [
             {
-                "sortId" : "0",
-                "title"  : "浦电路崂山路",
+                "sortId" : 1,
+                "title"  : "浦星公路陈行公路",
 
-                "longitude" : "121.53231",
-                "latitude"  : "31.225758"
-
+                "longitude" : "121.512929",
+                "latitude"  : "31.100967"
             },
             {
-                "sortId" : "1",
-                "title"  : "浦电路福山路",
+                "sortId" : 2,
+                "title"  : "大刘家宅陈行公路",
 
-                "longitude" : "121.538858",
-                "latitude"  : "31.22802"
-
+                "longitude" : "121.517425",
+                "latitude"  : "31.103614"
             },
             {
-                "sortId" : "2",
-                "title"  : "世纪大道1666号",
+                "sortId" : 3,
+                "title"  : "大刘家宅",
 
-                "longitude" : "121.543188", //121.5413912432196
-                "latitude"  : "31.229294"   //31.22950665779515
+                "longitude" : "121.516423",
+                "latitude"  : "31.1063"
+            },
+            {
+                "sortId" : 4,
+                "title"  : "浦星公路",
 
+                "longitude" : "121.511303",
+                "latitude"  : "31.105342"
             }
         ]
 
