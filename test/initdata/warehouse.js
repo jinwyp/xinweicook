@@ -157,7 +157,7 @@ var warehouseList = [
     },
     {
         "_id"                  : "56c41a9e632771df68dbae0b",
-        "name"                 : "pujiangzhen",
+        "name"                 : "pujiangzhen1",
         "locationGeoLatitude"  : 31.102757,
         "locationGeoLongitude" : 121.513828,
         "displayName"          : {"zh" : "浦江镇仓库", "en" : "Pujiangzhen Warehouse"},

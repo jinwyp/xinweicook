@@ -42,7 +42,7 @@ module.exports =
       for placeBaidu, placeBaiduIndex in distanceArray
 #        console.log("-------- 仓库到用户地址点: ", placeBaidu)
 
-        if placeBaidu.name isnt "lujiazui1" and  placeBaidu.name isnt "pujiangzhen"
+        if placeBaidu.name isnt "lujiazui1" and  placeBaidu.name isnt "pujiangzhen1"
 
           if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange
 
@@ -63,7 +63,7 @@ module.exports =
           if placeBaidu.name is "lujiazui1"
             polygonPointList = require("../../test/initdata/warehouse.js")[2].polygonPointList
 
-          if placeBaidu.name is "pujiangzhen"
+          if placeBaidu.name is "pujiangzhen1"
             polygonPointList = require("../../test/initdata/warehouse.js")[3].polygonPointList
 
           polygonList = []
