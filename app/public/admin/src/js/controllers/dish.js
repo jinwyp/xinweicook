@@ -249,6 +249,10 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             {
                 name : '陆家嘴仓库',
                 value : 'lujiazui1'
+            },
+            {
+                name : '浦江镇仓库',
+                value : 'pujiangzhen1'
             }
         ],
 
@@ -840,7 +844,6 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             var categoryIndex = $scope.data.dish.preferences.indexOf(preference);
             $scope.data.dish.preferences.splice(categoryIndex, 1);
         }
-
     };
 
     $scope.showInventory = function (filter) {

@@ -99,6 +99,17 @@ angular.module('RDash').filter('warehousefilter', ['$filter', function($filter){
                     "sortId"               : 800,
                     "isActivated"          : true
 
+                },
+                {
+                    "_id"                  : "56c41a9e632771df68dbae0b",
+                    "name"                 : "pujiangzhen1",
+                    "locationGeoLatitude"  : 31.102757,
+                    "locationGeoLongitude" : 121.513828,
+                    "displayName"          : {"zh" : "浦江镇仓库", "en" : "Pujiangzhen Warehouse"},
+                    "address"              : "陈行公路2388号浦江科技广场",
+                    "deliveryRange"        : 300,
+                    "sortId"               : 700,
+                    "isActivated"          : true
                 }
 
             ];
