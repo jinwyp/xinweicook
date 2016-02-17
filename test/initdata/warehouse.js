@@ -15,7 +15,7 @@ var warehouseList = [
         "displayName"          : {"zh" : "新味办公室", "en" : "Xinwei Office"},
         "address"              : "中山南二路510号",
         "deliveryRange"        : 6100,
-        "sortId"               : 1000,
+        "sortId"               : 100,
         "isActivated"          : true
     },
     {
@@ -26,7 +26,7 @@ var warehouseList = [
         "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
         "address"              : "虹梅路2008号虹梅大楼",
         "deliveryRange"        : 1500,
-        "sortId"               : 900,
+        "sortId"               : 95,
         "isActivated"          : true
     },
     {
@@ -37,7 +37,7 @@ var warehouseList = [
         "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui warehouse"},
         "address"              : "东方路286号",
         "deliveryRange"        : 2500,
-        "sortId"               : 800,
+        "sortId"               : 90,
         "isActivated"          : true,
 
         "polygonPointList" : [
@@ -151,6 +151,45 @@ var warehouseList = [
 
                 "longitude" : "121.517663",
                 "latitude"  : "31.221801"
+            }
+        ]
+
+    },
+    {
+        "_id"                  : "56c41a9e632771df68dbae0b",
+        "name"                 : "pujiangzhen",
+        "locationGeoLatitude"  : 31.102757,
+        "locationGeoLongitude" : 121.513828,
+        "displayName"          : {"zh" : "浦江镇", "en" : "Pujiangzhen  warehouse"},
+        "address"              : "陈行公路2388号浦江科技广场",
+        "deliveryRange"        : 300,
+        "sortId"               : 80,
+        "isActivated"          : true,
+
+        "polygonPointList" : [
+            {
+                "sortId" : "0",
+                "title"  : "浦电路崂山路",
+
+                "longitude" : "121.53231",
+                "latitude"  : "31.225758"
+
+            },
+            {
+                "sortId" : "1",
+                "title"  : "浦电路福山路",
+
+                "longitude" : "121.538858",
+                "latitude"  : "31.22802"
+
+            },
+            {
+                "sortId" : "2",
+                "title"  : "世纪大道1666号",
+
+                "longitude" : "121.543188", //121.5413912432196
+                "latitude"  : "31.229294"   //31.22950665779515
+
             }
         ]
 
