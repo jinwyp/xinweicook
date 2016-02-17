@@ -23,7 +23,7 @@ var warehouseList = [
         "name"                 : "caohejing1",
         "locationGeoLatitude"  : 31.17546886907618,
         "locationGeoLongitude" : 121.4051452465212,
-        "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing warehouse"},
+        "displayName"          : {"zh" : "漕河泾仓库", "en" : "Caohejing Warehouse"},
         "address"              : "虹梅路2008号虹梅大楼",
         "deliveryRange"        : 1500,
         "sortId"               : 95,
@@ -34,7 +34,7 @@ var warehouseList = [
         "name"                 : "lujiazui1",
         "locationGeoLatitude"  : 31.24232042013846,
         "locationGeoLongitude" : 121.5277729316883,
-        "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui warehouse"},
+        "displayName"          : {"zh" : "陆家嘴仓库", "en" : "Lujiazui Warehouse"},
         "address"              : "东方路286号",
         "deliveryRange"        : 2500,
         "sortId"               : 90,
@@ -160,7 +160,7 @@ var warehouseList = [
         "name"                 : "pujiangzhen",
         "locationGeoLatitude"  : 31.102757,
         "locationGeoLongitude" : 121.513828,
-        "displayName"          : {"zh" : "浦江镇", "en" : "Pujiangzhen  warehouse"},
+        "displayName"          : {"zh" : "浦江镇仓库", "en" : "Pujiangzhen Warehouse"},
         "address"              : "陈行公路2388号浦江科技广场",
         "deliveryRange"        : 300,
         "sortId"               : 80,
@@ -196,7 +196,6 @@ var warehouseList = [
                 "latitude"  : "31.105342"
             }
         ]
-
     }
 
 ];
