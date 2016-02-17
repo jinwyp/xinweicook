@@ -170,8 +170,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     function orderData(type) {
         if (!orderData._data) {
             orderData._data = {
-                cookingType:  cart.cookList && cart.cookList.length
-                    ? 'ready to cook' : 'ready to eat',
+                cookingType:  cart.eatList && cart.eatList.length
+                    ? 'ready to eat' : 'ready to cook',
                 addressId: $localStorage.orderAddress._id
             };
             angular.extend(orderData._data, $filter('dishes')(cart, 'order', 'displayCart'))

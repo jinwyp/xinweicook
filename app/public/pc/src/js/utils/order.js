@@ -21,7 +21,7 @@ export function orderData(state, isOrder) {
         }
     })
     cookingType = Object.keys(cookingType)
-    cookingType = cookingType.length > 1 ? 'ready to cook' : cookingType[0]
+    cookingType = cookingType.length > 1 ? 'ready to eat' : cookingType[0]
 
     var selectedAddress = address.addresses.filter(el => el.selected)[0]
     var ret = {
