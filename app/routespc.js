@@ -231,6 +231,14 @@ render.cook = function (req, res, next, path) {
     models.dish.findOne({
         _id: req.params.id
     }).populate('recommendSet.dish').execAsync().then(function(dish){
+        if (dish.recommendSet) {
+            dish.recommendSet = dish.recommendSet.filter(function (el) {
+                return el.dish.isPublished
+            })
+            if (dish.recommendSet.length < 2) {
+                dish.recommendSet.length = 0
+            }
+        }
         res.render(path, {
             dish: dish,
             showPositionSelector: true

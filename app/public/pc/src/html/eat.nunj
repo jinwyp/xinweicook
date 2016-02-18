@@ -37,6 +37,35 @@
         </div>
     </div>
 
+    {% if dish.infoCookingStep.length %}
+        <div class="recipe eat">
+
+            {#<div class="chef"></div>#}
+            <ul class="recips clearfix">
+                {% for step in dish.infoCookingStep %}
+                    {% if loop.index0 % 2 == 0 %}
+                        <li>
+                    {% endif %}
+                    {% if step.contentType == 'pic' %}
+                        <img src="{{ step.value[locale] }}"/>
+                    {% endif %}
+                    {% if step.contentType == 'txt' %}
+                        <div class="text clearfix">
+                            <span class="num">{{ loop.index / 2 }}.</span>
+                            <div class="string">
+                                <h5 class="recipname">{{ step.title[locale] }}</h5>
+                                <p class="reciptext">{{ step.value[locale] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if loop.index0 % 2 == 1 %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     {#<div class="recommend"><h3>- 新味推荐 -</h3>#}
 
         {#<div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img#}

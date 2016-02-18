@@ -108,39 +108,9 @@ angular.module('xw.filters').filter('orderTime', function () {
 });
 
 angular.module('xw.filters').filter('cookTimeUnion', function () {
-    return function (times, isCJDish, isQRJDish, isInRange4KM) {
+    return function (times) {
         if (!times) {
             return times
-        }
-
-        if (isCJDish) {
-            times = []
-        }
-
-        if (isQRJDish) {
-            if (isInRange4KM) {
-                times = [
-                    {
-                        "day":"2016-02-13",
-                        "segment":[
-                            {"name":"10","text":"10:00-20:00","status":true}
-                        ]
-                    },
-                    {
-                        "day":"2016-02-14",
-                        "segment":[
-                            {"name":"10","text":"10:00-20:00","status":true}
-                        ]
-                    }
-                ]
-            } else times = [
-                {
-                    "day":"2016-02-14",
-                    "segment":[
-                        {"name":"10","text":"10:00-20:00","status":true}
-                    ]
-                }
-            ]
         }
 
         var hasSegment = !!times[0].segment;

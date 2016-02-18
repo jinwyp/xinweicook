@@ -16,9 +16,6 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         }
     };
 
-    var CJDishId = '56988143247c25ce3fa59a01'
-    var QRJDishId = '56a4dc2097fdeb3361dcc7b1'
-
     var model = $scope.model = {
         time: {},
         coupon: {},
@@ -28,9 +25,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     var isWeixin = $scope.isWeixin = Weixin.isWeixin;
 
     function init() {
-        var isCityShanghai, isNearAddress;
-        // todo: 春节情人节套餐特殊处理
-        var isCJDish, isQRJDish
+        var isCityShanghai;
 
         // 购物车
         cart = data.cart = $localStorage.confirmedBag;
@@ -39,24 +34,10 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             location.href = '/mobile'
             return
         }
-        // 春节,情人节特殊处理
-        cart.cookList && cart.cookList.length && cart.cookList.forEach(function (el) {
-            if (el.dish && el.dish._id == CJDishId) {
-                isCJDish = true
-            }
-            if (el.dish && el.dish._id == QRJDishId) {
-                isQRJDish = true
-            }
-        })
-        if (!cart) {
-            location.href = '/mobile';
-            return;
-        }
 
         // 地址
         address = data.address = $localStorage.orderAddress;
         isCityShanghai = address.province.indexOf('上海') != -1;
-        isNearAddress = /浙江|江苏|安徽/.test(address.province);
 
         // 配送费用
         Orders.price(orderData('freight')).then(function (res) {
@@ -76,7 +57,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
             isInRange4KM: address.warehouse == '56332187594b09af6e6c7dd2'
                 && address.isAvailableForEat
         }).then(function (res) {
-            time.cook = $filter('cookTimeUnion')(res.data, isCJDish, isQRJDish, address.warehouse == '56332187594b09af6e6c7dd2');
+            time.cook = $filter('cookTimeUnion')(res.data);
             //model.time.cook = {day: time.cook[0]};
         });
 

@@ -27,9 +27,6 @@ import * as header from '../pages/header'
 
 import {price as dishPrice} from "../utils/dish"
 
-var CJDishId =  '56988143247c25ce3fa59a01'
-var QRJDishId = '56a4dc2097fdeb3361dcc7b1'
-
 var App = React.createClass({
     componentDidMount: function () {
         this.props.dispatch(cartAction.getCart()).then(res => {
@@ -78,30 +75,8 @@ var App = React.createClass({
 
         var cartMethods = {
             selectOne: id=> {
-                // todo: 情人节特殊处理
-                var isQRJSelected, isCJSelected
                 var item = cart.filter(el => el._id == id)[0]
                 var _id = item.dish._id
-                cart.filter(el => el.dish.cookingType == 'ready to cook' && el.selected)
-                    .forEach(el => {
-                        if (el.dish._id == QRJDishId) {
-                            isQRJSelected = true
-                        } else if (el.dish._id == CJDishId) {
-                            isCJSelected = true
-                        }
-                    })
-                if (isQRJSelected) {
-                    if (_id == CJDishId) {
-                        alert(__('Clash info for the two days'))
-                        return
-                    }
-                }
-                if (isCJSelected) {
-                    if (_id == QRJDishId) {
-                        alert(__('Clash info for the two days'))
-                        return
-                    }
-                }
                 var selectedAddress
                 address.addresses.some(el => {
                     if (el.selected) {
@@ -109,29 +84,12 @@ var App = React.createClass({
                         return true
                     }
                 })
-                var JZHW = ['江苏', '浙江', '上海', '安徽']
-                var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
-                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && _id == QRJDishId) ||
-                    (!hasJZHWAddress && _id == QRJDishId)
-                ) {
-                    alert(__('Valentine day only for JZHW'))
-                    return
-                }
 
                 dispatch(cartAction.selectOne(id, !item.selected))
                 dispatch(timeAction.getTimeIfNeeded())
                 this.getFreightIfNeeded(cart, address, dispatch)
             },
             selectAll: cookingType=> {
-                // todo: 情人节特殊处理
-                var hasQRJ, hasCJ
-                var cookList = cart.filter(el => el.dish.cookingType == 'ready to cook')
-                hasQRJ = cookList.some(el => el.dish._id == QRJDishId)
-                hasCJ = cookList.some(el => el.dish._id == CJDishId)
-                if (hasQRJ && hasCJ) {
-                    alert(__('Clash info for the two days'))
-                    return
-                }
                 var selectedAddress
                 address.addresses.some(el => {
                     if (el.selected) {
@@ -139,14 +97,6 @@ var App = React.createClass({
                         return true
                     }
                 })
-                var JZHW = ['江苏', '浙江', '上海', '安徽']
-                var hasJZHWAddress = address.addresses.some(el => JZHW.indexOf(el.province) != -1)
-                if ((selectedAddress && JZHW.indexOf(selectedAddress.province) == -1 && hasQRJ) ||
-                    (!hasJZHWAddress && hasQRJ)
-                ) {
-                    alert(__('Valentine day only for JZHW'))
-                    return
-                }
 
                 dispatch(cartAction.selectAll(cookingType))
                 dispatch(timeAction.getTimeIfNeeded())
@@ -177,21 +127,6 @@ var App = React.createClass({
             clearStreet: () => dispatch(addressAction.clearStreet()),
             getRange: () => dispatch(addressAction.getRangeIfNeeded()),
             select: (id, _address) => {
-
-                // todo: 情人节特殊处理
-                var isQRJSelected
-                cart.filter(el => el.dish.cookingType == 'ready to cook' && el.selected)
-                    .forEach(el => {
-                        if (el.dish._id == QRJDishId) {
-                            isQRJSelected = true
-                        }
-                    })
-                var JZHW = ['江苏', '浙江', '上海', '安徽']
-                if (JZHW.indexOf(_address.province) == -1 && isQRJSelected) {
-                    alert(__('Valentine day only for JZHW'))
-                    return
-                }
-
                 dispatch(addressAction.select(id, _address))
                 dispatch(timeAction.getTimeIfNeeded())
                 this.getFreightIfNeeded(cart, address, dispatch)

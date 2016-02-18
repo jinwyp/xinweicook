@@ -258,7 +258,7 @@
       border: 1px solid $color_mine_shaft_approx;
       margin: 50px auto;
     }
-    ul.recips {
+    .recips {
       width: 1000px;
       margin: 0 auto;
       li {
@@ -305,6 +305,13 @@
             text-align: center;
           }
         }
+      }
+    }
+    &.eat {
+      border-top: 1px solid $color_celeste_approx;
+      padding-top: 40px;
+      .recips img {
+        margin-bottom: 37px;
       }
     }
   }
