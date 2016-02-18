@@ -253,6 +253,12 @@ module.exports =
 #            # 给客服发送短信
 #            models.sms.sendSMSToCSOutOfStock(dishNow.title.zh)
 
+        # 如果库存为0 删除指定仓库的库存元素，
+        tempStockLength = dishNow.stockWarehouse.length - 1
+        for i in [tempStockLength..0]
+          if dishNow.stockWarehouse[i].stock is 0
+            dishNow.stockWarehouse.splice(i, 1);
+
         dishNow.saveAsync()
 
 
@@ -317,6 +323,7 @@ module.exports =
             models.inventory.createAsync(newInventoryChange)
 
           dishNow.stock = dishNow.stock + dishNow.stockWarehouse[warehouseIndex].stock
+
 
         dishNow.saveAsync()
 
