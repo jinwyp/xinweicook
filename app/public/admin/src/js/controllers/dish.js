@@ -607,7 +607,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 });
             }
 
-            Warehouses.getList(Util.formatParam({sort:'-sortId'}, true)).then(function (resultWarehouses) {
+            Warehouses.getList(Util.formatParam({sort:'-sortId', query:{isActivated:true}}, true)).then(function (resultWarehouses) {
                 $scope.data.warehouseList = resultWarehouses;
 
                 angular.forEach($scope.data.warehouseList, function(warehouse, warehouseIndex){

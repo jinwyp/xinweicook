@@ -185,22 +185,48 @@ module.exports =
 
     reduceStock : (stockNumber, warehouseId, user, remark, order ) ->
 
+      tempStockWarehouseObject = {}
+      tempStockWarehouseIdList = []
+      warehouseIdList = []
+      deleteWarehouseIdList = []
+
       dishNow = @
 
       if not @stockWarehouse
         @stockWarehouse = []
+      else
+        for stock, stockIndex in @stockWarehouse
+          tempStockWarehouseObject[stock.warehouse] = stock.stock;
+          tempStockWarehouseIdList.push(stock.warehouse.toString())
 
-      models.warehouse.find99({}).then (resultWarehouseList) ->
+
+      models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
         # 补齐所缺的仓库的库存数组
         for warehouse, warehouseIndex in resultWarehouseList
-          if not dishNow.stockWarehouse[warehouseIndex]
+          warehouseIdList.push(warehouse._id.toString())
+
+          if tempStockWarehouseIdList.indexOf(warehouse._id.toString()) is -1
+            tempStockWarehouseObject[warehouse._id] = 0;
             dishNow.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
 
-        # 减少每个仓库的库存，
+        tempLength = dishNow.stockWarehouse.length - 1
+
+        deleteWarehouseIdList = _.difference(tempStockWarehouseIdList, warehouseIdList)
+
+        # 根据仓库的顺序 调整仓库库存在数组中的顺序 注意如果减少仓库,需要调整顺序后 还要保留删除的仓库的库存记录
+        for warehouse, warehouseIndex in resultWarehouseList
+          if warehouse._id.toString() isnt dishNow.stockWarehouse[warehouseIndex].warehouse.toString()
+            dishNow.stockWarehouse[warehouseIndex].warehouse = warehouse._id;
+            dishNow.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[warehouse._id];
+
+        for delWarehouseId, delWarehouseIdIndex in deleteWarehouseIdList
+          dishNow.stockWarehouse[tempLength - delWarehouseIdIndex].warehouse = delWarehouseId;
+          dishNow.stockWarehouse[tempLength - delWarehouseIdIndex].stock = tempStockWarehouseObject[delWarehouseId];
+
+        # 减少指定仓库的库存，
         dishNow.stock = 0   # 每次重新计算总库存
 
         for warehouse, warehouseIndex in resultWarehouseList
-
           if warehouse._id.toString() is warehouseId.toString()
             dishNow.stockWarehouse[warehouseIndex].stock = dishNow.stockWarehouse[warehouseIndex].stock - Number(stockNumber)
 
@@ -234,30 +260,47 @@ module.exports =
     addStock : (stockNumber, warehouseId, user, remark) ->
 
       tempStockWarehouseObject = {}
+      tempStockWarehouseIdList = []
+      warehouseIdList = []
+      deleteWarehouseIdList = []
+
       dishNow = @
 
       if not @stockWarehouse
         @stockWarehouse = []
       else
         for stock, stockIndex in @stockWarehouse
-          tempStockWarehouseObject[stock.warehouse] = stock;
+          tempStockWarehouseObject[stock.warehouse] = stock.stock;
+          tempStockWarehouseIdList.push(stock.warehouse.toString())
 
-      models.warehouse.find99({}).then (resultWarehouseList) ->
+
+      models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
         # 补齐所缺的仓库的库存数组
         for warehouse, warehouseIndex in resultWarehouseList
-          if not dishNow.stockWarehouse[warehouseIndex]
+          warehouseIdList.push(warehouse._id.toString())
+
+          if tempStockWarehouseIdList.indexOf(warehouse._id.toString()) is -1
+            tempStockWarehouseObject[warehouse._id] = 0;
             dishNow.stockWarehouse.push({warehouse : warehouse._id, stock : 0})
 
+        tempLength = dishNow.stockWarehouse.length - 1
 
-        # 增加每个仓库的库存，并调整仓库在数组中的顺序
-        dishNow.stock = 0   # 每次重新计算总库存
+        deleteWarehouseIdList = _.difference(tempStockWarehouseIdList, warehouseIdList)
 
+        # 根据仓库的顺序 调整仓库库存在数组中的顺序 注意如果减少仓库,需要调整顺序后 还要保留删除的仓库的库存记录
         for warehouse, warehouseIndex in resultWarehouseList
           if warehouse._id.toString() isnt dishNow.stockWarehouse[warehouseIndex].warehouse.toString()
             dishNow.stockWarehouse[warehouseIndex].warehouse = warehouse._id;
-            dishNow.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[warehouse._id].stock;
+            dishNow.stockWarehouse[warehouseIndex].stock = tempStockWarehouseObject[warehouse._id];
 
+        for delWarehouseId, delWarehouseIdIndex in deleteWarehouseIdList
+          dishNow.stockWarehouse[tempLength - delWarehouseIdIndex].warehouse = delWarehouseId;
+          dishNow.stockWarehouse[tempLength - delWarehouseIdIndex].stock = tempStockWarehouseObject[delWarehouseId];
 
+        # 增加指定仓库的库存
+        dishNow.stock = 0   # 每次重新计算总库存
+
+        for warehouse, warehouseIndex in resultWarehouseList
           if warehouse._id.toString() is warehouseId.toString()
             dishNow.stockWarehouse[warehouseIndex].stock = dishNow.stockWarehouse[warehouseIndex].stock + Number(stockNumber)
 
