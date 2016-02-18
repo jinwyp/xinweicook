@@ -52,7 +52,7 @@
 
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$valid, 'has-error':searchForm.showForWarehouse.$dirty&&searchForm.showForWarehouse.$invalid}">
                     <label for="inputShowForWarehouse" class="col-lg-2 control-label" >仓库</label>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label class="radio-inline" ng-repeat="status in data.showForWarehouseList">
                             <input type="radio" name="showForWarehouse" id="inputShowForWarehouse" ng-value="status.value" ng-model="data.searchOptions.query.showForWarehouse">{{status.name}}
                         </label>
