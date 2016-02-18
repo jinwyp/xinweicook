@@ -828,6 +828,8 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
 
 exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
 
+  models.warehouse.validationId(req.body._id)
+
   models.warehouse.find99({isActivated:true}).then (resultWarehouseList) ->
 
     tempWarehouse = {}
@@ -840,17 +842,25 @@ exports.deliveryTimeArithmeticForEatWithWareHouse = (req, res, next) ->
       warehouseIdList.push(warehouse._id.toString())
 
 
-    if req.body.warehouseName is "xinweioffice" or req.body._id is "56332187594b09af6e6c7dd2"
-      if req.body.warehouseName is "xinweioffice"
-        result = tempWarehouse[req.body.warehouseName]
-        result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
-      else if req.body._id is "56332187594b09af6e6c7dd2"
-        result = tempWarehouse[req.body._id]
-        result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
-
-    else if warehouseIdList.indexOf(req.body._id) > -1
+    if warehouseIdList.indexOf(req.body._id) > -1
       result = tempWarehouse[req.body._id]
-      result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
+
+      if req.body._id is "56332187594b09af6e6c7dd2"  # xinweioffice
+        result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+      else if req.body._id is "564ab6de2bde80bd10a9bc60"  # lujiazui1
+        result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtLujiazui()
+      else if req.body._id is "56332196594b09af6e6c7dd7"  # caohejing1
+        result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtCaohejing()
+      else if req.body._id is "56c41a9e632771df68dbae0b"  # pujiangzhen1
+        result.timeList = models.order.deliveryTimeArithmeticForReadyToEatAtPujiangzhen()
+
+
+#    if req.body.warehouseName is "xinweioffice"
+#      result = tempWarehouse[req.body.warehouseName]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
+#    else if req.body._id is "56332187594b09af6e6c7dd2"
+#      result = tempWarehouse[req.body._id]
+#      result.timeList = models.order.deliveryTimeArithmeticForReadyToEat()
 
 
 #    if req.body.warehouseName is "caohejing1"

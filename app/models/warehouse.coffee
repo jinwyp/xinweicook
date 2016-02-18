@@ -42,14 +42,16 @@ module.exports =
       for placeBaidu, placeBaiduIndex in distanceArray
 #        console.log("-------- 仓库到用户地址点: ", placeBaidu)
 
-        if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange and placeBaidu.name isnt "lujiazui1"
+        if placeBaidu.name isnt "lujiazui1" and  placeBaidu.name isnt "pujiangzhen1"
 
-          if nearest.warehouseDistance is 0 or nearest.warehouseDistance > placeBaidu.distance.value
-            nearest.warehouseDistance = placeBaidu.distance.value
-            nearest.warehouseName = placeBaidu.name
+          if placeBaidu.distance.value < warehouseListObj[placeBaidu.name].deliveryRange
 
-        else if placeBaidu.name is "lujiazui1"
-          # 判断陆家嘴仓库 特例 根据是否在多边形内容判断
+            if nearest.warehouseDistance is 0 or nearest.warehouseDistance > placeBaidu.distance.value
+              nearest.warehouseDistance = placeBaidu.distance.value
+              nearest.warehouseName = placeBaidu.name
+
+        else
+          # 根据是否在多边形内容判断 判断陆家嘴仓库 和 浦江镇仓库 特例
 
           bd09togcj02 = coordtransform.bd09togcj02(address.geoLongitude, address.geoLatitude)
           gcj02towgs84 = coordtransform.gcj02towgs84(bd09togcj02[0], bd09togcj02[1])
@@ -58,7 +60,11 @@ module.exports =
             lng : gcj02towgs84[0]
             lat : gcj02towgs84[1]
 
-          polygonPointList = require("../../test/initdata/warehouse.js")[2].polygonPointList
+          if placeBaidu.name is "lujiazui1"
+            polygonPointList = require("../../test/initdata/warehouse.js")[2].polygonPointList
+
+          if placeBaidu.name is "pujiangzhen1"
+            polygonPointList = require("../../test/initdata/warehouse.js")[3].polygonPointList
 
           polygonList = []
           for pointOne, pIndex in polygonPointList

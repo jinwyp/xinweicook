@@ -533,7 +533,6 @@ module.exports =
       resultTime = []
 
       timeNow = moment()
-
       worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:11"));
       worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 19:01"));
 
@@ -557,9 +556,10 @@ module.exports =
         for i in [1..17]
           timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-          #春节放假前最后一天
+          # 春节放假前最后一天
           if timeNow.month() is 1 and timeNow.date() is 6
-            worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 14:20"));
+            worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 14:20"))
+
           # 如果计算出来的时间超过 worktimeEnd 点  将不在push进去
           if timeSectionTemp.isBefore(worktimeEnd)
             segmentHour =
@@ -611,21 +611,33 @@ module.exports =
         else
           startPoint = timeNow.clone().add(30, 'minutes').subtract(timeNow.minute()%30, 'minutes')
 
-      # 处理当天时间点 # 周六周日不发
-      if timeNow.day() isnt 0 and timeNow.day() isnt 6
+      # 处理当天时间点 # 周六周日不发 # 并且排除元旦
+      if timeNow.day() > 0 and timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
         for i in [1..17]
           timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
 
-          # 处理如果计算出来的时间超过14点  将不在push进去 并且周六周日不送
-          if timeSectionTemp.isBefore(worktimeEnd) and timeNow.day() > 0 and timeNow.day() < 6
+          # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd)
             segmentHour =
               hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
             resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六和星期天 但如果是星期天过20点 后会换菜单也可以下周一订单
-      if (timeNow.day() > 0 and timeNow.day() < 5) or (timeNow.hour() >= 18 and timeNow.minute() > 40 and timeNow.day() is 0)
+      # 排除元旦
+      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
+
+        if timeNow.day() >= 0 and timeNow.day() < 5
+          startPointTomorrow = tomorrow11AM.clone()
+
+        if timeNow.day() is 5
+          startPointTomorrow = today11AM.clone().add(3, 'days');
+
+        if timeNow.day() is 6
+          startPointTomorrow = today11AM.clone().add(2, 'days');
+
         for i in [1..6]
-          timeSectionTemp = tomorrow11AM.clone().add(30*(i-1), 'minutes')
+          timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
+
           segmentHour =
             hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
           resultTime.push(segmentHour)
@@ -636,7 +648,6 @@ module.exports =
       resultTime = []
 
       timeNow = moment()
-
       worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:41"));
       worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 13:31"));
 
@@ -662,7 +673,6 @@ module.exports =
 
           # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
           if timeSectionTemp.isBefore(worktimeEnd)
-
             segmentHour =
               hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
             resultTime.push(segmentHour)
@@ -689,6 +699,54 @@ module.exports =
 
       resultTime
 
+    deliveryTimeArithmeticForReadyToEatAtPujiangzhen : () ->
+      resultTime = []
+
+      timeNow = moment()
+      worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:01"));
+      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 11:01"));
+
+      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
+      tomorrow11AM = today11AM.clone().add(1, 'days');
+
+      if timeNow.isBefore(worktimeStart)
+        startPoint = today11AM.clone()
+      else
+        startPoint = tomorrow11AM.clone()
+
+
+      # 处理当天时间点 # 周六周日不发 # 并且排除元旦
+      if timeNow.day() > 0 and timeNow.day() < 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
+        for i in [1..1]
+          timeSectionTemp = startPoint.clone().add(30*(i-1), 'minutes')
+
+          # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
+          if timeSectionTemp.isBefore(worktimeEnd)
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
+
+      # 处理第二天的时间点 不包括周六周日 但如果是星期五 过 worktimeEnd  后 会换下周菜单 也可以预订下周一
+      # 排除元旦
+      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
+
+        if timeNow.day() >= 0 and timeNow.day() < 5
+          startPointTomorrow = tomorrow11AM.clone()
+
+        if timeNow.day() is 5
+          startPointTomorrow = today11AM.clone().add(3, 'days');
+
+        if timeNow.day() is 6
+          startPointTomorrow = today11AM.clone().add(2, 'days');
+
+        for i in [1..1]
+          timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
+
+          segmentHour =
+            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+          resultTime.push(segmentHour)
+
+      resultTime
 
 
 
