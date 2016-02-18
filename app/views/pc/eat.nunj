@@ -5,7 +5,7 @@
     {% include "./includes/meta.nunj" %}
     {#<link rel="stylesheet" href="/pc/src/css/style.css">#}
     
-    <link rel="stylesheet" href="/pc/dist/webpack-common.22b7c6ac883f3d751e3923c28fe550ca.css"/>
+    <link rel="stylesheet" href="/pc/dist/webpack-common.f1135162e461d32eebe5412a8804efa0.css"/>
     
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
 </head>
@@ -37,6 +37,35 @@
         </div>
     </div>
 
+    {% if dish.infoCookingStep.length %}
+        <div class="recipe eat">
+
+            {#<div class="chef"></div>#}
+            <ul class="recips clearfix">
+                {% for step in dish.infoCookingStep %}
+                    {% if loop.index0 % 2 == 0 %}
+                        <li>
+                    {% endif %}
+                    {% if step.contentType == 'pic' %}
+                        <img src="{{ step.value[locale] }}"/>
+                    {% endif %}
+                    {% if step.contentType == 'txt' %}
+                        <div class="text clearfix">
+                            <span class="num">{{ loop.index / 2 }}.</span>
+                            <div class="string">
+                                <h5 class="recipname">{{ step.title[locale] }}</h5>
+                                <p class="reciptext">{{ step.value[locale] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if loop.index0 % 2 == 1 %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     {#<div class="recommend"><h3>- 新味推荐 -</h3>#}
 
         {#<div class="recommend-main clearfix"><a href="javascript:;" class="recommend-product"><img#}
@@ -63,7 +92,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.367402e99b32c6d318dd.js"></script>
+<script src="/pc/dist/webpack-common.e8d5cd82b40a7d15ef21.js"></script>
 <script src="/pc/dist/eat.44b4362e5c6761ab5cf4.js"></script>
 
 </body>
