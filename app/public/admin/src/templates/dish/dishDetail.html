@@ -446,7 +446,7 @@
                     <label class="col-lg-2 control-label" >推荐搭配</label>
 
                     <div class="col-lg-4">
-                        <select class="form-control" ng-model="data.currentRecommendSet" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishAllList | filter:{sideDishType:'main', cookingType:'ready to cook'}"></select>
+                        <select class="form-control" ng-model="data.currentRecommendSet" ng-options="dish as dish.title.zh + ' ' + dish._id for dish in data.dishAllList | filter:{sideDishType:'main', cookingType:'ready to cook', isPublished: true}"></select>
                     </div>
                     <div class=" col-lg-4">
                         <button type="button" class="btn info btn-sm" ng-click="addNewRecommendSet()"> <span class="glyphicon glyphicon-plus"></span>添加推荐搭配</button>
