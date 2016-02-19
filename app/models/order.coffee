@@ -448,12 +448,38 @@ module.exports =
 
       @find(options).sort("-createdAt").limit(limit).select(@fields()).execAsync()
 
-    deliveryDateTypeIsNextDayChecker : (date) ->
+    getDishTotalPrice : (dishList, dishQuantityObj) ->
+      dishIdList = []
+      dishCookIdList = []
+      dishEatIdList = []
+      dishDrinkIdList = []
+
+      freightCook = 24
+      freightEat = 6
+
+
+      result =
+        dishQuantity : 0
+        freight : 6
+        dishesPrice : 0
+        totalPrice : 0
+
       deliveryDate =  moment(date)
       timeToday = moment().startOf('day')
       timeTomorrow = timeToday.add(1, 'days')
 
-#      console.log deliveryDate.format("YYYY-MM-DD HH:mm:ss A")
+      if timeTomorrow.isSame(deliveryDate, "day")
+        result = "tomorrow"
+      else
+        result = "today"
+
+      result
+
+
+    deliveryDateTypeIsNextDayChecker : (date) ->
+      deliveryDate =  moment(date)
+      timeToday = moment().startOf('day')
+      timeTomorrow = timeToday.add(1, 'days')
 
       if timeTomorrow.isSame(deliveryDate, "day")
         result = "tomorrow"

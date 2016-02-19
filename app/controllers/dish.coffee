@@ -41,8 +41,8 @@ exports.dishSingleInfo = (req, res, next) ->
   models.dish.validationDishId req.params._id
 
   models.dish.find1({_id: req.params._id, isPublished : true}).then (resultDish) ->
-
     models.dish.checkNotFound resultDish
+
     res.json resultDish
   .catch next
 

@@ -365,7 +365,7 @@ module.exports =
     )
 
     schema.virtual("stockWarehouseObj").get( ()->
-      result = {}
+      result = {"56332187594b09af6e6c7dd2": -999}
       if @stockWarehouse and @stockWarehouse.length > 0
         for warehouse, warehouseIndex in @stockWarehouse
           result[warehouse.warehouse] = warehouse.stock
