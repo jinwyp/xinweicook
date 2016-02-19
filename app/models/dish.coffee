@@ -94,9 +94,8 @@ module.exports =
     stockWarehouse: [ # 每个仓库的库存
       warehouse: type: Schema.ObjectId, ref: "warehouse"
       stock: type: Number, default: 0 # 库存
+      isPublished: type: Boolean, default: true # 是否针对该仓库显示
     ]
-
-
 
 
 
@@ -369,6 +368,16 @@ module.exports =
       if @stockWarehouse and @stockWarehouse.length > 0
         for warehouse, warehouseIndex in @stockWarehouse
           result[warehouse.warehouse] = warehouse.stock
+
+      result
+    )
+
+    schema.virtual("stockWarehouseIsPublished").get( ()->
+      result = []
+      if @stockWarehouse and @stockWarehouse.length > 0
+        for warehouse, warehouseIndex in @stockWarehouse
+          if not warehouse.isPublished
+            result.push(warehouse._id.toString())
 
       result
     )
