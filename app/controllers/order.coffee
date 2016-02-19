@@ -220,12 +220,7 @@ exports.calculateOrderPrice = (req, res, next) ->
 
   dishIdList = []
   dishNumberList = {}
-  dishCookIdList = []
-  dishEatIdList = []
-
-  freightCook = 24
-  freightEat = 6
-
+  resultDishList = []
 
   result =
     dishQuantity : 0
@@ -233,57 +228,29 @@ exports.calculateOrderPrice = (req, res, next) ->
     dishesPrice : 0
     totalPrice : 0
 
-  if req.body.cookingType is models.dish.constantCookingType().cook
-    result.freight = 24
 
   for dish,dishIndex in req.body.dishList
     dishIdList.push dish.dish
     dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
-    result.dishQuantity = result.dishQuantity + dish.number
 
     if dish.subDish
       for subDish,subDishIndex in dish.subDish
         dishIdList.push subDish.dish
         dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
-        result.dishQuantity = result.dishQuantity + subDish.number
-
 
 
   models.dish.find99({"_id" : {$in:dishIdList}}).then (resultDishes) ->
-
-    # 处理订单菜品数量和总价
-    for dish,dishIndex in resultDishes
-      result.dishesPrice = result.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
-      if dish.cookingType is models.dish.constantCookingType().cook
-        dishCookIdList.push(dish._id.toString())
-      else
-        dishEatIdList.push(dish._id.toString())
+    resultDishList = resultDishes
 
     models.useraddress.findOneAsync({_id:req.body.addressId})
   .then (resultAddress) ->
 
-    # 计算订单总金额 食材包
-    if dishCookIdList.length > 0 and resultAddress
+    tempResult = models.order.getDishTotalPrice(resultDishList, dishNumberList, resultAddress)
 
-      isCityShanghai = resultAddress.province.indexOf("上海") isnt -1
-      isNearProvince = /浙江|江苏|安徽/.test(resultAddress.province)
-
-      freightCook = 12 if isNearProvince
-      freightCook = 6 if isCityShanghai
-
-
-    # 计算订单总金额 便当 满100免运费
-    if dishEatIdList.length > 0 and result.dishesPrice >= 100
-      freightEat = 0
-
-    if dishCookIdList.length > 0 and dishEatIdList.length > 0
-      result.freight = freightCook + freightEat
-    else if dishCookIdList.length > 0
-      result.freight = freightCook
-    else
-      result.freight = freightEat
-
-    result.totalPrice = result.dishesPrice + result.freight
+    result.dishQuantity = tempResult.dishQuantity
+    result.freight = tempResult.freight
+    result.dishesPrice = tempResult.dishPrice
+    result.totalPrice = tempResult.totalPrice
 
     res.json result
   .catch next
@@ -552,19 +519,16 @@ exports.addNewOrder = (req, res, next) ->
     # 处理订单菜品数量和总价
     for dish,dishIndex in resultDishes
       # 判断菜品库存
-
       models.dish.checkOutOfStock(dish, newOrder.warehouse)
-
-      newOrder.dishesPrice = newOrder.dishesPrice + dish.getPrice(dishNumberList[dish._id]) * dishNumberList[dish._id]
       dishHistoryList.push({dish:dish, number:dishNumberList[dish._id]})
       dishDataList[dish._id] = dish
 
+    allPrice = models.order.getDishTotalPrice(resultDishes, dishNumberList, newOrder.address)
 
-    # 计算订单总金额 满100免运费
-    if newOrder.dishesPrice >= 100 and req.body.cookingType is models.dish.constantCookingType().eat
-      newOrder.freight = 0
+    newOrder.dishesPrice = allPrice.dishPrice
+    newOrder.freight = allPrice.freight
 
-    newOrder.totalPrice = newOrder.dishesPrice + newOrder.freight
+    newOrder.totalPrice = allPrice.totalPrice
 
 
     # 计算感恩节优惠
