@@ -704,15 +704,15 @@ module.exports =
 
       timeNow = moment()
       worktimeStart = moment(timeNow.clone().format("YYYY-MM-DD 10:01"));
-      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 11:01"));
+      worktimeEnd = moment(timeNow.clone().format("YYYY-MM-DD 10:01"));
 
-      today11AM = moment(timeNow.clone().format("YYYY-MM-DD 11:00"));
-      tomorrow11AM = today11AM.clone().add(1, 'days');
+      today12AM = moment(timeNow.clone().format("YYYY-MM-DD 12:00"));
+      tomorrow12AM = today12AM.clone().add(1, 'days');
 
       if timeNow.isBefore(worktimeStart)
-        startPoint = today11AM.clone()
+        startPoint = today12AM.clone()
       else
-        startPoint = tomorrow11AM.clone()
+        startPoint = tomorrow12AM.clone()
 
 
       # 处理当天时间点 # 周六周日不发 # 并且排除元旦
@@ -728,16 +728,16 @@ module.exports =
 
       # 处理第二天的时间点 不包括周六周日 但如果是星期五 过 worktimeEnd  后 会换下周菜单 也可以预订下周一
       # 排除元旦
-      if tomorrow11AM.dayOfYear() isnt 1 and tomorrow11AM.dayOfYear() isnt 2 and tomorrow11AM.dayOfYear() isnt 3
+      if tomorrow12AM.dayOfYear() isnt 1 and tomorrow12AM.dayOfYear() isnt 2 and tomorrow12AM.dayOfYear() isnt 3
 
         if timeNow.day() >= 0 and timeNow.day() < 5
-          startPointTomorrow = tomorrow11AM.clone()
+          startPointTomorrow = tomorrow12AM.clone()
 
         if timeNow.day() is 5
-          startPointTomorrow = today11AM.clone().add(3, 'days');
+          startPointTomorrow = today12AM.clone().add(3, 'days');
 
         if timeNow.day() is 6
-          startPointTomorrow = today11AM.clone().add(2, 'days');
+          startPointTomorrow = today12AM.clone().add(2, 'days');
 
         for i in [1..1]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
