@@ -516,6 +516,10 @@ module.exports =
       else
         result.freightEat = 6
 
+      if userAddress and userAddress.warehouse
+        # 浦江镇免运费
+        if userAddress.warehouse.toString() is "56c41a9e632771df68dbae0b"
+          result.freightEat = 0
 
       # 计算 食材包 运费
       if result.dishCookIdList.length is 0
