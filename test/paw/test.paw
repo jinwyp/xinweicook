@@ -823,7 +823,7 @@
     </object>
     <object type="LMREQUEST" id="z197">
         <attribute name="uuid" type="string">FF830F3E-AD30-4C74-9B95-E5E9A03ED168</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/dishes?showForWarehouse=caohejing1\u2600limit=-3"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/dishes?cookingType=ready to eat"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -834,7 +834,7 @@
         <attribute name="name" type="string">dish-getDishList</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z207 z211 z208"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z207 z208 z211"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z198">
         <attribute name="value" type="string">http</attribute>
