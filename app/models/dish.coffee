@@ -372,7 +372,7 @@ module.exports =
       result
     )
 
-    schema.virtual("stockWarehouseIsPublished").get( ()->
+    schema.virtual("stockWarehouseNotPublished").get( ()->
       result = []
       if @stockWarehouse and @stockWarehouse.length > 0
         for warehouse, warehouseIndex in @stockWarehouse
