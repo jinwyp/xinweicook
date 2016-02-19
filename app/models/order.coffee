@@ -448,31 +448,92 @@ module.exports =
 
       @find(options).sort("-createdAt").limit(limit).select(@fields()).execAsync()
 
-    getDishTotalPrice : (dishList, dishQuantityObj) ->
-      dishIdList = []
-      dishCookIdList = []
-      dishEatIdList = []
-      dishDrinkIdList = []
-
-      freightCook = 24
-      freightEat = 6
-
+    getDishTotalPrice : (dishList, dishQuantityObj, userAddress) ->
 
       result =
+        dishIdList : []
+        dishCookIdList : []
+        dishEatIdList : []
+        dishDrinkIdList : []
+        dishPreferenceIdList : []
+
+        dishPrice : 0
+        dishCookPrice : 0
+        dishEatPrice : 0
+        dishDrinkPrice : 0
+        dishPreferencePrice : 0
+
         dishQuantity : 0
+        dishCookQuantity : 0
+        dishEatQuantity : 0
+        dishDrinkQuantity : 0
+        dishPreferenceQuantity : 0
+
         freight : 6
-        dishesPrice : 0
+        freightCook : 24
+        freightEat : 6
+
         totalPrice : 0
 
-      deliveryDate =  moment(date)
-      timeToday = moment().startOf('day')
-      timeTomorrow = timeToday.add(1, 'days')
+      # 处理订单菜品数量和总价
+      for dish, dishIndex in dishList
+        tempDishQuantity = 0
 
-      if timeTomorrow.isSame(deliveryDate, "day")
-        result = "tomorrow"
+        if dishQuantityObj[dish._id.toString()]
+          tempDishQuantity = dishQuantityObj[dish._id.toString()]
+
+        result.dishIdList.push(dish._id.toString())
+        result.dishPrice = result.dishPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+        result.dishQuantity = result.dishQuantity + tempDishQuantity
+
+        if dish.sideDishType is models.dish.constantSideDishType().main
+
+          if dish.cookingType is models.dish.constantCookingType().cook
+            result.dishCookIdList.push(dish._id.toString())
+            result.dishCookPrice = result.dishCookPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+            result.dishCookQuantity = result.dishCookQuantity + tempDishQuantity
+
+          else if dish.cookingType is models.dish.constantCookingType().eat
+            result.dishEatIdList.push(dish._id.toString())
+            result.dishEatPrice = result.dishEatPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+            result.dishEatQuantity = result.dishEatQuantity + tempDishQuantity
+
+        else if dish.sideDishType is models.dish.constantSideDishType().drink
+          result.dishDrinkIdList.push(dish._id.toString())
+          result.dishDrinkPrice = result.dishDrinkPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+          result.dishDrinkQuantity = result.dishDrinkQuantity + tempDishQuantity
+
+        else
+          result.dishPreferenceIdList.push(dish._id.toString())
+          result.dishPreferencePrice = result.dishPreferencePrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+          result.dishPreferenceQuantity = result.dishPreferenceQuantity + tempDishQuantity
+
+
+
+      # 计算 便当 运费
+      if result.dishEatPrice >= 100 or result.dishEatIdList.length is 0
+        result.freightEat = 0
       else
-        result = "today"
+        result.freightEat = 6
 
+
+      # 计算 食材包 运费
+      if result.dishCookIdList.length is 0
+        result.freightCook = 0
+      else if userAddress
+
+        isCityShanghai = userAddress.province.indexOf("上海") isnt -1
+        isNearProvince = /浙江|江苏|安徽/.test(userAddress.province)
+
+        result.freightCook = 12 if isNearProvince
+        result.freightCook = 6 if isCityShanghai
+
+      if result.freightCook is 6 and result.freightEat is 6
+        result.freight = result.freightCook
+      else
+        result.freight = result.freightCook + result.freightEat
+
+      result.totalPrice = result.freight + result.dishPrice
       result
 
 
