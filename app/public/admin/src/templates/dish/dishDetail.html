@@ -610,8 +610,11 @@
                 <td>
                     <span ng-show="warehouse.isPublished" class="text-info" >已上架</span>
                     <span ng-hide="warehouse.isPublished" class="text-danger">已下架</span>
-                    <button type="submit" class="btn btn-primary" ng-show="warehouse.isPublished" ng-click="updateDishWarehouseIsPublished(dishForm, warehouse._id, false)">下架</button>
-                    <button type="submit" class="btn btn-primary" ng-hide="warehouse.isPublished" ng-click="updateDishWarehouseIsPublished(dishForm, warehouse._id, true)">上架</button>
+                    <div ng-if="warehouse.stock > -999 ">
+                        <button type="submit" class="btn btn-primary" ng-show="warehouse.isPublished" ng-click="updateDishWarehouseIsPublished(dishForm, warehouse._id, false)">下架</button>
+                        <button type="submit" class="btn btn-primary" ng-hide="warehouse.isPublished" ng-click="updateDishWarehouseIsPublished(dishForm, warehouse._id, true)">上架</button>
+                    </div>
+
                 </td>
             </tr>
             </tbody>

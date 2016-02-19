@@ -603,7 +603,11 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
             if (angular.isArray($scope.data.dish.stockWarehouse) && $scope.data.dish.stockWarehouse.length > 0){
                 angular.forEach($scope.data.dish.stockWarehouse, function(warehouseStock){
+                    if (typeof warehouseStock.isPublished === 'undefined'){
+                        warehouseStock.isPublished = true;
+                    }
                     tempStockWarehouseObject[warehouseStock.warehouse] = warehouseStock;
+
                 });
             }
 
