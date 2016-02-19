@@ -595,15 +595,19 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     };
 
-    var tempStockWarehouseObject = {};
-    $scope.getSingleDishInfo = function (){
 
+    $scope.getSingleDishInfo = function (){
+        var tempStockWarehouseObject = {};
         Dishes.one($stateParams.id).get().then(function (resultDish) {
             $scope.data.dish = resultDish;
 
             if (angular.isArray($scope.data.dish.stockWarehouse) && $scope.data.dish.stockWarehouse.length > 0){
                 angular.forEach($scope.data.dish.stockWarehouse, function(warehouseStock){
+                    if (typeof warehouseStock.isPublished === 'undefined'){
+                        warehouseStock.isPublished = true;
+                    }
                     tempStockWarehouseObject[warehouseStock.warehouse] = warehouseStock;
+
                 });
             }
 
@@ -613,6 +617,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 angular.forEach($scope.data.warehouseList, function(warehouse, warehouseIndex){
                     if (typeof tempStockWarehouseObject[warehouse._id] !== 'undefined'){
                         warehouse.stock = tempStockWarehouseObject[warehouse._id].stock;
+                        warehouse.isPublished = tempStockWarehouseObject[warehouse._id].isPublished;
                     }
                 });
 
@@ -699,6 +704,30 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
             Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
 
+    };
+
+    $scope.updateDishWarehouseIsPublished = function (form, warehouseId, isPlus) {
+        if (form.$invalid) {
+            return;
+        }
+        Util.delAllProperty($scope.data.dish);
+        if (angular.isArray($scope.data.dish.stockWarehouse) && $scope.data.dish.stockWarehouse.length > 0){
+            angular.forEach($scope.data.dish.stockWarehouse, function(warehouseStock){
+                if(warehouseId === warehouseStock.warehouse){
+                    warehouseStock.isPublished = isPlus;
+                    return;
+                }
+            });
+        }
+
+        $scope.data.dish.put().then(function (resultDish) {
+            $scope.getSingleDishInfo();
+
+            Notification.success({message: 'Update Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Update Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
     };
 
 
