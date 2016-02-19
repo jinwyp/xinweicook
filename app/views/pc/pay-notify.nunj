@@ -35,7 +35,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.e8d5cd82b40a7d15ef21.js"></script>
+<script src="/pc/dist/webpack-common.851689f39d2c79db03da.js"></script>
 <script src="/pc/dist/pay-notify.7dec7de3a7b63d7437fa.js"></script>
 
 </body>
