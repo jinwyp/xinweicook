@@ -615,6 +615,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
                 $scope.data.warehouseList = resultWarehouses;
 
                 angular.forEach($scope.data.warehouseList, function(warehouse, warehouseIndex){
+                    warehouse.isPublished = true;
                     if (typeof tempStockWarehouseObject[warehouse._id] !== 'undefined'){
                         warehouse.stock = tempStockWarehouseObject[warehouse._id].stock;
                         warehouse.isPublished = tempStockWarehouseObject[warehouse._id].isPublished;
