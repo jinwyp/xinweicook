@@ -69,8 +69,8 @@ export function renderOutOfRange(id, outOfRange, soldOut, hide=false, selector='
         $parent.parent(':not(.product)').append($parent)
     }
     if (hide) {
-        $parent.remove()
-    }
+        $parent.hide()
+    } else $parent.show()
 }
 
 

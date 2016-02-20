@@ -128,14 +128,14 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     };
 
     function filterEatByWarehouse() {
-        if (dishList.eatList && $scope.warehouse) {
-            //dishList.eatList = dishList.eatList.filter(function (dish) {
-            //    return dish.stockWarehouseObj[$scope.warehouse] > 0
-            //});
-            //
-            //$timeout(function () {
-            //    window.scrollTo(0, window.scrollY + 1);
-            //})
+        if (dishList.eatList && ($scope.warehouse == '56c41a9e632771df68dbae0b')) {
+            dishList.eatList = dishList.eatList.filter(function (dish) {
+                return dish.stockWarehouseNotPublished.indexOf($scope.warehouse) == -1
+            });
+
+            $timeout(function () {
+                window.scrollTo(0, window.scrollY + 1);
+            })
         }
     }
 
