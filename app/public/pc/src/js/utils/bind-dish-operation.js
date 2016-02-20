@@ -78,7 +78,11 @@ export default function (cart, dishes, parent) {
             if (dish.cookingType == 'ready to cook') return
             dish.outOfRange = !beforeLogin && (!warehouse || dish.stockWarehouseObj[warehouse] <= 0)
             dish.soldOut = dish.stockWarehouse.every(el => el.stock<=0)
-            dishDom.renderOutOfRange(dish._id, !!dish.outOfRange, dish.soldOut)
+
+            // 如果当前仓库出现此处,那说明应该隐藏掉
+            var shouldHide = dish.stockWarehouseNotPublished.indexOf(warehouse) != -1
+
+            dishDom.renderOutOfRange(dish._id, !!dish.outOfRange, dish.soldOut, shouldHide)
         })
     }
 
