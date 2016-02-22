@@ -415,17 +415,21 @@
         <thead>
             <tr>
                 <th>日期</th>
-                <th>新用户数</th>
+                <th>每日下单新用户数</th>
+                <th>每日下单总用户数</th>
+                <th>新用户数占总用户比例</th>
                 <th>用户详细</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="onedate in data.userStatisticChartNewFirstOrderUserDaily | orderBy:css.searchUserStatisticSortBy">
                 <td> {{onedate.date | date:'yyyy-MM-dd'}}</td>
-                <td>{{onedate.userQuantity}}</td>
+                <td>{{onedate.userFisrtOrderQuantity}}</td>
+                <td>{{onedate.userDailyCount}}</td>
+                <td>{{onedate.userFisrtOrderPercent}}</td>
                 <td><button class="btn btn-info" ng-click="data.currentDailyUserIndex=onedate.date"> 显示详细</button> <br/>
                     <span ng-if="data.currentDailyUserIndex === onedate.date">
-                        <span ng-repeat="user in onedate.userList">
+                        <span ng-repeat="user in onedate.userFisrtOrderList">
                             <a ui-sref="menu.updateUser({ id: user.user })">{{user.user}}</a> / {{user.orderContactPerson}}/{{user.orderContactMobile}} <br/>
                         </span>
                     </span>

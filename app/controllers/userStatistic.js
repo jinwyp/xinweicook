@@ -981,9 +981,8 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
 
             if (typeof tempObj[user.date] !== 'undefined'){
                 user.userFisrtOrderQuantity = tempObj[user.date].userQuantity;
-                user.userFisrtOrderPercent = tempObj[user.date].userFisrtOrderPercent / user.userDailyCount * 100;
+                user.userFisrtOrderPercent = (tempObj[user.date].userQuantity / user.userDailyCount * 100).toFixed(0);
                 user.userFisrtOrderList = tempObj[user.date].userList;
-
             }
         });
 
