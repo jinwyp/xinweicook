@@ -856,7 +856,7 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
         }},
 
         { "$sort": { "date" : 1} },
-        { "$limit": 1000 }
+        { "$limit": 20000 }
     );
 
 
