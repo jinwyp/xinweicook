@@ -183,7 +183,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                         result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
                         //result[1].type = 'line';
-                        result[1].name = '每日下单新用户数数';
+                        result[1].name = '每日下单新用户数';
 
                         result[2].data.push(Math.abs(value.userFisrtOrderPercent));
                         //result[1].type = 'line';
