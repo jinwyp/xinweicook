@@ -426,7 +426,7 @@
                 <td> {{onedate.date | date:'yyyy-MM-dd'}}</td>
                 <td>{{onedate.userFisrtOrderQuantity}}</td>
                 <td>{{onedate.userDailyCount}}</td>
-                <td>{{onedate.userFisrtOrderPercent}}</td>
+                <td>{{onedate.userFisrtOrderPercent}}%</td>
                 <td><button class="btn btn-info" ng-click="data.currentDailyUserIndex=onedate.date"> 显示详细</button> <br/>
                     <span ng-if="data.currentDailyUserIndex === onedate.date">
                         <span ng-repeat="user in onedate.userFisrtOrderList">
