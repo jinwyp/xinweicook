@@ -226,7 +226,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="dish in data.dishStatisticChartByDaily track by $index | orderBy:css.searchDishStatisticSortBy ">
+        <tr ng-repeat="dish in data.dishStatisticChartByDaily | orderBy:css.searchDishStatisticSortBy ">
             <td>{{dish.date}}</td>
             <td>{{dish.dishSaleQuantity}}</td>
         </tr>
