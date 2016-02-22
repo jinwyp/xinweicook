@@ -605,7 +605,7 @@ module.exports =
           day : timeNow.clone().add(i, 'days').format("YYYY-MM-DD HH:mm:ss")
           segment : [models.order.constantDeliverTimeSegment().time24]
 
-        if timeNow.hour() < 11 # 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
+        if timeNow.hour() < 11 and timeNow.day() isnt 0 # (周日不工作) 可选时间段： 无。 只能选择某一天，不能保证到底哪一个时间段送到。 当天11:00 前下单，可以选择明天在内的5天。 当天11:00 后下单，可以选择后天在内的5天。
           segmentDay.day = timeNow.clone().add(i, 'days').format("YYYY-MM-DD")
         else
           segmentDay.day = timeNow.clone().add(i+1, 'days').format("YYYY-MM-DD")
