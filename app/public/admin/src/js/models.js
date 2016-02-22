@@ -168,6 +168,24 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                     })
 
+                }else if (typeof chartData[0].userFisrtOrderQuantity !== 'undefined'){
+
+                    result.push( { name : "值",  showInLegend: false, data : [] });
+                    result.push( { name : "值",  showInLegend: false, data : [] });
+
+
+                    angular.forEach(chartData, function(value, key) {
+
+                        result[0].data.push(Math.abs(value.userDailyCount));
+                        //result[0].type = 'line';
+                        result[0].name = '每日下单总用户数';
+
+                        result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
+                        //result[1].type = 'line';
+                        result[1].name = '每日下单新用户数占比' + value.userFisrtOrderPercent.toFixed(1) + ' 数量';
+
+                    })
+
                 }
 
             }

@@ -195,7 +195,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         },
         series: [],
         title: {
-            text: '每日有下单新用户'
+            text: '每日有下单新用户与所有用户'
         },
         credits: {
             enabled: true
@@ -474,7 +474,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             $scope.chartNewFirstOrderUserDaily.series = Util.chartDataFormat($scope.data.userStatisticChartNewFirstOrderUserDaily);
             $scope.chartNewFirstOrderUserDaily.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartNewFirstOrderUserDaily);
 
-
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
@@ -501,7 +500,6 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
             $scope.chartOrderUserMonthly.series = Util.chartDataFormat($scope.data.userStatisticChartOrderUserMonthly);
             $scope.chartOrderUserMonthly.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartOrderUserMonthly);
-
 
             Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){

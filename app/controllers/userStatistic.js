@@ -760,10 +760,11 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
     }
 
 
+    var pipelineUserFirstOrder = [];
     var pipeline = [];
 
     // Grouping pipeline
-    pipeline.push(
+    pipelineUserFirstOrder.push(
         { "$match":matchList},
 
         { $sort: { user: 1, createdAt: 1 } },
@@ -860,11 +861,137 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
 
 
 
+    pipeline.push(
+        { "$match":matchList},
 
-    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
-        res.send(resultOrderList);
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { day : "$day", month : "$month", year : "$year", user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+            "day" : "$_id.day",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+            "orderList": 1
+
+        }},
+
+        { "$group": {
+            "_id": { day : "$day", month : "$month", year : "$year"},
+
+            "userDailyCount": { "$sum": 1 },
+            "userDailyList": { "$push": {  "userId": "$userId", "saleQuantity": "$saleQuantity", "saleTotalPrice": "$saleTotalPrice"   } }
+        }},
+
+        { $project :{
+            _id : 0,
+            "day" : "$_id.day",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
+
+            "userDailyCount": 1,
+            "userDailyList": 1
+
+        }},
+
+
+        { "$sort": { "year" : 1, "month": 1, "day": 1  } },
+        { "$limit": 20000 }
+
+
+    );
+
+    var promiseList = [
+        models.order.aggregateAsync( pipelineUserFirstOrder),
+        models.order.aggregateAsync( pipeline)
+    ];
+
+
+    Promise.all(promiseList).spread(function(resultUserFirstOrder, resultOrder){
+
+        var tempObj = {};
+        resultUserFirstOrder.map(function(user){
+            tempObj[user.date] = user
+        });
+
+
+        resultOrder.forEach(function(user){
+            user.userFisrtOrderQuantity = 0;
+            user.userFisrtOrderPercent = 0;
+            user.userFisrtOrderList = [];
+
+            if (typeof tempObj[user.date] !== 'undefined'){
+                user.userFisrtOrderQuantity = tempObj[user.date].userQuantity;
+                user.userFisrtOrderPercent = tempObj[user.date].userFisrtOrderPercent / user.userDailyCount * 100;
+                user.userFisrtOrderList = tempObj[user.date].userList;
+
+            }
+        });
+
+        res.send(resultOrder);
+
     }).catch(next);
+
+
 
 };
 
@@ -1021,7 +1148,7 @@ exports.userGetOrderWeekly = function(req, res, next) {
             });
 
             weekList.forEach(function(week){
-                var week = {
+                var weekResult = {
                     date : week,
                     date2 : week,
                     typeAll : 0,
@@ -1035,25 +1162,25 @@ exports.userGetOrderWeekly = function(req, res, next) {
 
                 resultOrderList.map(function(user){
 
-                    if (week.date === user.date){
-                        week.date2 = user.date2;
+                    if (weekResult.date === user.date){
+                        weekResult.date2 = user.date2;
 
                         if (user.cookTypeList.length > 1){
-                            week.typeAll = week.typeAll + 1;
-                            week.typeAllUsers.push(user);
+                            weekResult.typeAll = weekResult.typeAll + 1;
+                            weekResult.typeAllUsers.push(user);
                         }else if (user.cookTypeList.indexOf('ready to eat') > -1){
-                            week.typeEat = week.typeEat + 1;
-                            week.typeEatUsers.push(user);
+                            weekResult.typeEat = weekResult.typeEat + 1;
+                            weekResult.typeEatUsers.push(user);
                         }else{
-                            week.typeCook = week.typeCook + 1;
-                            week.typeCookUsers.push(user);
+                            weekResult.typeCook = weekResult.typeCook + 1;
+                            weekResult.typeCookUsers.push(user);
                         }
 
 
                     }
                 });
 
-                result.push(week);
+                result.push(weekResult);
 
             });
 
@@ -1186,14 +1313,13 @@ exports.userGetOrderMonthly = function(req, res, next) {
 
         if (resultOrderList.length > 0){
             resultOrderList.map(function(user){
-
                 if (monthList.indexOf(user.date) === -1 ){
                     monthList.push(user.date);
                 }
             });
 
             monthList.forEach(function(month){
-                var month = {
+                var monthResult = {
                     date : month,
                     typeAll : 0,
                     typeAllUsers : [],
@@ -1206,24 +1332,24 @@ exports.userGetOrderMonthly = function(req, res, next) {
 
                 resultOrderList.map(function(user){
 
-                    if (month.date === user.date){
+                    if (monthResult.date === user.date){
 
                         if (user.cookTypeList.length > 1){
-                            month.typeAll = month.typeAll + 1;
-                            month.typeAllUsers.push(user);
+                            monthResult.typeAll = monthResult.typeAll + 1;
+                            monthResult.typeAllUsers.push(user);
                         }else if (user.cookTypeList.indexOf('ready to eat') > -1){
-                            month.typeEat = month.typeEat + 1;
-                            month.typeEatUsers.push(user);
+                            monthResult.typeEat = monthResult.typeEat + 1;
+                            monthResult.typeEatUsers.push(user);
                         }else{
-                            month.typeCook = month.typeCook + 1;
-                            month.typeCookUsers.push(user);
+                            monthResult.typeCook = monthResult.typeCook + 1;
+                            monthResult.typeCookUsers.push(user);
                         }
 
 
                     }
                 });
 
-                result.push(month);
+                result.push(monthResult);
 
             });
 
@@ -1346,7 +1472,6 @@ exports.userGetOrderYearly = function(req, res, next) {
     );
 
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
-        console.log(resultOrderList)
         var result = {
 
             typeAll : 0,
