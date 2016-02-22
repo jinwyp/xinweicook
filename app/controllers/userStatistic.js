@@ -985,7 +985,7 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
                 user.userFisrtOrderList = tempObj[user.date].userList;
             }
         });
-
+        resultOrder[0].all = tempObj
         res.send(resultOrder);
 
     }).catch(next);
