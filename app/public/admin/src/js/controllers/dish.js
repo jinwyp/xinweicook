@@ -898,7 +898,7 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
     $scope.showSingleDishDaily = function(dishId){
         $scope.data.searchOptions.query._id = dishId;
-        $scope.searchDishStatisticByDaily();
+        $scope.searchDishStatisticByDaily(null, '-');
     };
 
 
