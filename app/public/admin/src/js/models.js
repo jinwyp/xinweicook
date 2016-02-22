@@ -119,7 +119,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                 { name : "值",  showInLegend: false, data : [] }
             ];
 
-            if (angular.isArray(chartData)){
+            if (angular.isArray(chartData) && chartData.length > 0){
                 angular.forEach(chartData, function(value, key) {
 
                     if(typeof value.dishSaleQuantity !== 'undefined'){
@@ -144,7 +144,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
 
 
-            if (angular.isArray(chartData)){
+            if (angular.isArray(chartData) && chartData.length > 0){
 
                 if (typeof chartData[0].typeAll !== 'undefined'){
 

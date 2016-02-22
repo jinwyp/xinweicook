@@ -323,7 +323,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     $scope.css = {
         isAddNewStatus : true,
         showTable : 'dishes',
-        searchDishStatisticSortBy : 'salesToday'
+        searchDishStatisticSortBy : 'salesToday',
+        showDishStat : false
     };
 
 
@@ -471,7 +472,9 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
 
     $scope.searchDishStatisticByDaily = function (form, sortBy) {
+        $scope.css.showDishStat = false;
         $scope.css.showTable = 'statisticDaily';
+
         $scope.css.searchDishStatisticSortBy = sortBy;
 
         var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
