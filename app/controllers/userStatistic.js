@@ -809,39 +809,41 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
         }},
 
 
-        { $project :{
-            _id : 1,
-            firstOrderDate : 1,
-            firstOrderId : 1,
-            firstOrderNumber: 1,
-            "firstOrderTotalPrice": 1,
-            "firstOrderContactPerson": 1,
-            "firstOrderContactMobile": 1,
-            orderList : 1,
-
-            year: 1,
-            month: 1,
-            day: 1,
-            hour: 1,
-            "minute" : 1,
-            "second" : 1,
-            "millisecond" : 1,
-            dayOfYear: 1,
-            dayOfWeek: 1,
-            week: 1,
-
-            date : {"$subtract" : [ {$add:["$firstOrderDate",28800000]},
-                {"$add" : [ "$millisecond",
-                    {"$multiply" : ["$second", 1000]},
-                    {"$multiply" : ["$minute",60,1000]},
-                    {"$multiply" : ["$hour", 60, 60,1000]}
-                ]}
-            ]}
-        }},
+        //{ $project :{
+        //    _id : 1,
+        //    firstOrderDate : 1,
+        //    firstOrderId : 1,
+        //    firstOrderNumber: 1,
+        //    "firstOrderTotalPrice": 1,
+        //    "firstOrderContactPerson": 1,
+        //    "firstOrderContactMobile": 1,
+        //    orderList : 1,
+        //
+        //    year: 1,
+        //    month: 1,
+        //    day: 1,
+        //    hour: 1,
+        //    "minute" : 1,
+        //    "second" : 1,
+        //    "millisecond" : 1,
+        //    dayOfYear: 1,
+        //    dayOfWeek: 1,
+        //    week: 1,
+        //
+        //    date : {"$subtract" : [ {$add:["$firstOrderDate",28800000]},
+        //        {"$add" : [ "$millisecond",
+        //            {"$multiply" : ["$second", 1000]},
+        //            {"$multiply" : ["$minute",60,1000]},
+        //            {"$multiply" : ["$hour", 60, 60,1000]}
+        //        ]}
+        //    ]}
+        //}},
 
 
         { "$group": {
-            "_id":  "$date",
+            "_id": { day : "$day", month : "$month", year : "$year"},
+            //"_id":  "$date",
+
             "userQuantity": { "$sum": 1 },
             "userList": { "$push": { "_id": "$firstOrderId", "orderCreatedAt": "$firstOrderDate", "user": "$_id", "orderNumber": "$firstOrderNumber",  "orderContactPerson": "$firstOrderContactPerson", "orderContactMobile": "$firstOrderContactMobile", "totalPrice": "$firstOrderTotalPrice"   } }
         }},
@@ -849,7 +851,12 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
 
         { $project :{
             _id : 0,
-            "date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
+            "day" : "$_id.day",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
+
+            //"date" :  { $concat: [  {$substr: ["$_id", 0, 10]}] },
             "userQuantity": 1,
             "userList": 1
 
@@ -985,7 +992,6 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
                 user.userFisrtOrderList = tempObj[user.date].userList;
             }
         });
-        resultOrder[0].all = tempObj
         res.send(resultOrder);
 
     }).catch(next);

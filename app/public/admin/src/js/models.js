@@ -172,6 +172,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                     result.push( { name : "值",  showInLegend: false, data : [] });
                     result.push( { name : "值",  showInLegend: false, data : [] });
+                    result.push( { name : "百分比",  showInLegend: false, data : [] });
 
 
                     angular.forEach(chartData, function(value, key) {
@@ -182,8 +183,12 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
                         result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
                         //result[1].type = 'line';
-                        result[1].name = '每日下单新用户数占比' + value.userFisrtOrderPercent.toString() + ' 数量';
-                        console.log(value.userFisrtOrderPercent);
+                        result[1].name = '每日下单新用户数数';
+
+                        result[2].data.push(Math.abs(value.userFisrtOrderPercent));
+                        //result[1].type = 'line';
+                        result[2].name = '每日下单新用户数占比';
+
 
                     })
 
