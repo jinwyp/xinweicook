@@ -11,7 +11,7 @@ module.exports =
   statics:
 
     constantSMSType : () ->
-      type = ["signUp", "resetPassword", "verifyMobile", "orderShipped", "orderShipped2", "moneyRefund"]
+      type = ["signUp", "resetPassword", "verifyMobile", "orderShipped", "orderShipped2", "moneyRefund", "newCoupon1"]
 
     constantTemplateVerifyCode: (code, lang) ->
       if lang is "en-US"
@@ -36,6 +36,12 @@ module.exports =
         "【新味Cook】您好，您的款项已经退回原账户，请查收。如有疑问，请及时联系我们021-51534950"
       else
         "【新味Cook】您好，您的款项已经退回原账户，请查收。如有疑问，请及时联系我们021-51534950"
+
+    constantTemplateNewCoupon1: (lang) ->
+      if lang is "en-US"
+        "【新味Cook】亲爱的新味用户，由于天气原因导致订单延误，为了表示歉意，已有一张致歉优惠券发放到您的账户中。"
+      else
+        "【新味Cook】亲爱的新味用户，由于天气原因导致订单延误，为了表示歉意，已有一张致歉优惠券发放到您的账户中。"
 
     constantTemplateOrderShipped2: (orderNo, expressName, expressNumber, lang) ->
       if lang is "en-US"

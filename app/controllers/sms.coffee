@@ -90,6 +90,9 @@ exports.sendSMSFromCSToUser = (req, res, next) ->
       if type is "moneyRefund"
         text = models.sms.constantTemplateMoneyRefund()
 
+      if type is "newCoupon1"
+        text = models.sms.constantTemplateNewCoupon1()
+
       yp.sendSMSAsync(resultOrder.address.mobile, text).then (result) ->
         if result and result.code isnt 0
           throw new Err "Send SMS CSToUser failed:" + type + ", "+ result.msg, 400, Err.code.sms.sendFailed
