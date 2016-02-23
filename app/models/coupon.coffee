@@ -10,7 +10,7 @@ module.exports =
     couponType : String   # 目前有两种类型 优惠码 promocode promocodepercentage 和 优惠券 coupon 和 充值卡码 accountchargecode
     price: Number
     code: String
-    priceLimit: type: Number, default: 10 # 订单金额高于限制才可以使用优惠券
+    priceLimit: type: Number, default: 26 # 订单金额高于限制才可以使用优惠券
     usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 

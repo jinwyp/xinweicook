@@ -140,7 +140,7 @@ exports.addNewCouponBatch = (req, res, next) ->
         zh : "TLC礼品卡"
         en : "TLC Gift Card"
       price : 20
-      priceLimit : 10
+      priceLimit : 26
 #      startDate: moment().add(30, 'days')
 #      endDate: moment().add(7, 'months')
       couponType : req.body.couponType
