@@ -29,14 +29,20 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
                 _id : '',
                 user : '',
                 fromCoupon : '',
-                code : ''
-
+                code : '',
+                createdAt: ''
             }
 
         },
 
         datePickerIsOpenStart : false,
         datePickerIsOpenEnd : false,
+
+        datePickerSearchIsOpenStart : false,
+        datePickerSearchIsOpenEnd : false,
+
+        searchDateFrom : '',
+        searchDateTo : '',
 
         couponListCount : 0,
         couponListCurrentPage : 1,
@@ -88,11 +94,32 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         }
     };
 
+    $scope.datePickerSearchOpen = function (isStart) {
+        if (isStart === 'start') {
+            $scope.data.datePickerSearchIsOpenStart = true;
+        } else {
+            $scope.data.datePickerSearchIsOpenEnd = true;
+        }
+    }
+
 
 
     $scope.searchCouponCount = function (){
 
         $scope.css.showTable = 'coupons';
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+            var createdAt = $scope.data.searchOptions.query.createdAt = {}
+
+            if ($scope.data.searchDateFrom) {
+                createdAt['$gte'] = '' + new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                createdAt['$lt'] = '' + new Date($scope.data.searchDateTo)
+            }
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
+        }
 
         console.log($scope.data.searchOptions.query);
         Util.delProperty($scope.data.searchOptions.query);
