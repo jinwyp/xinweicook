@@ -63,21 +63,21 @@ function positionController($scope, $timeout, $state, $stateParams, Notification
                 value : ''
             },
             {
-                name : '首页轮播',
+                name : '首页轮播(660*300)',
                 value : 'index1'
-            },
-            {
-                name : '首页轮播上部三格',
-                value : 'index2'
-            },
-            {
-                name : '首页轮播下部三格',
-                value : 'index3'
-            },
-            {
-                name : '食材包首页推荐位',
-                value : 'indexcook1'
             }
+            //{
+            //    name : '首页轮播上部三格(600*400)',
+            //    value : 'index2'
+            //},
+            //{
+            //    name : '首页轮播下部三格(600*400)',
+            //    value : 'index3'
+            //},
+            //{
+            //    name : '食材包首页推荐位(660*440)',
+            //    value : 'indexcook1'
+            //}
 
         ]
 
