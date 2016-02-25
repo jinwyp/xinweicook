@@ -8017,7 +8017,7 @@
     </object>
     <object type="LMREQUEST" id="z960">
         <attribute name="uuid" type="string">7EA97CB4-2B99-4D72-B0CE-AFB5B863E449</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"3C75BB5C-A7EC-4A5B-A4C5-6554CEA11E74"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/export\\/userall"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"8E44817B-7A91-475B-8E71-E45603F2F31A"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/statistic\\/userall"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -8091,7 +8091,7 @@
     </object>
     <object type="LMREQUEST" id="z967">
         <attribute name="uuid" type="string">1185715E-A7AA-4274-9EDD-3C94C117DB14</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"3C75BB5C-A7EC-4A5B-A4C5-6554CEA11E74"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/export\\/userall2"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"8E44817B-7A91-475B-8E71-E45603F2F31A"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/statistic\\/userall2"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
