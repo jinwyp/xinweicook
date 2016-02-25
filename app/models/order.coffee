@@ -155,6 +155,7 @@ module.exports =
     promotionDiscount: Number # 优惠码金额
 
     coupon: String # 优惠券ID
+    couponFromChargeCode: String # 优惠券兑换码ID
     couponDiscount: Number # 优惠券金额
 
     accountUsedDiscount: Number # 使用的余额

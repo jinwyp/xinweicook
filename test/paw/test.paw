@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>481</integer>
+                    <integer>641</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z315 z313 z314 z311 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 3B5:WkM2kBkCeG3LiOWQv/cQovtDOqEx5Yxe</attribute>
+        <attribute name="value" type="string">Bearer 2Cp:PUIBnRuiwwcnTRgFXVDIFtDru0r4F5Bh</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2368,12 +2368,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to eat\\",\\n  \\"clientFrom\\": \\"wechat\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 5,\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateEat\\": \\"2015-12-09\\",\\n  \\"deliveryTimeEat\\": \\"12:00\\",\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n \\n  \\"addressId\\": \\"565ead2c5633c1fa5b993d6c\\",\\n    \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"56440123eeb6dde1379430bb\\",\\n      \\"number\\": 2,\\n      \\"subDish\\": [\\n        {\\n          \\"dish\\": \\"55cd9fed9cbe20902858618e\\",\\n          \\"number\\": 2\\n        }\\n      ]\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to eat\\",\\"clientFrom\\":\\"wechat\\",\\"credit\\":0,\\"freight\\":5,\\"payment\\":\\"alipay direct\\",\\"paymentUsedCash\\":false,\\"deliveryDateEat\\":\\"2015-12-09\\",\\"deliveryTimeEat\\":\\"12:00\\",\\"deliveryDateCook\\":\\"2015-06-13\\",\\"deliveryTimeCook\\":\\"12:00\\",\\"addressId\\":\\"565ead2c5633c1fa5b993d6c\\",\\"dishList\\":[{\\"dish\\":\\"56440123eeb6dde1379430bb\\",\\"number\\":2,\\"subDish\\":[{\\"dish\\":\\"55cd9fed9cbe20902858618e\\",\\"number\\":2}]}]}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">39</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z381 z383 z378 z379 z380 z376 z382"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z380 z379 z376 z381 z378 z382 z383"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z378">
         <attribute name="value" type="string">application/json</attribute>
@@ -4825,12 +4825,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">["{\\n  \\"cookingType\\": \\"ready to cook\\",\\n  \\"clientFrom\\": \\"ios\\",\\n  \\"credit\\": 0,\\n  \\"freight\\": 20,\\n  \\"coupon\\": \\"5608bd83520644b71da825c8\\",\\n\\n  \\"payment\\": \\"alipay direct\\",\\n  \\"paymentUsedCash\\": false,\\n  \\"deliveryDateCook\\": \\"2015-06-13\\",\\n  \\"deliveryTimeCook\\": \\"12:00\\",\\n  \\"address\\": {\\n    \\"geoLatitude\\": 30,\\n    \\"geoLongitude\\": 30,\\n    \\"country\\": \\"\\",\\n    \\"province\\": \\"shanghai\\",\\n    \\"city\\": \\"shanghai\\",\\n    \\"district\\": \\"shanghai\\",\\n    \\"street\\": \\"shanghai\\",\\n    \\"address\\": \\"xxxxx\\",\\n    \\"contactPerson\\": \\"王宇鹏\\",\\n    \\"mobile\\": \\"13564568304\\",\\n    \\"remark\\": \\"comment\\"\\n  },\\n  \\"dishList\\": [\\n    {\\n      \\"dish\\": \\"55b5f77921a1f2d059c362bf\\",\\n      \\"number\\": 1,\\n      \\"subDish\\": []\\n    }\\n  ]\\n}"]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to cook\\",\\"clientFrom\\":\\"ios\\",\\"credit\\":0,\\"freight\\":20,\\"coupon\\":\\"56cea6f13e86136510bfb626\\",\\"payment\\":\\"alipay direct\\",\\"paymentUsedCash\\":false,\\"deliveryDateCook\\":\\"2015-06-13\\",\\"deliveryTimeCook\\":\\"12:00\\",\\"address\\":{\\"geoLatitude\\":30,\\"geoLongitude\\":30,\\"country\\":\\"\\",\\"province\\":\\"shanghai\\",\\"city\\":\\"shanghai\\",\\"district\\":\\"shanghai\\",\\"street\\":\\"shanghai\\",\\"address\\":\\"xxxxx\\",\\"contactPerson\\":\\"\\\\u738b\\\\u5b87\\\\u9e4f\\",\\"mobile\\":\\"13564568304\\",\\"remark\\":\\"comment\\"},\\"dishList\\":[{\\"dish\\":\\"5636e17245a39ea057573028\\",\\"number\\":1,\\"subDish\\":[]}]}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">41</attribute>
         <attribute name="name" type="string">user-addNewOrder Alipay Coupon</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z650 z648 z654 z655 z652 z653 z651"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z653 z648 z655 z651 z650 z654 z652"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z650">
         <attribute name="value" type="string">application/json</attribute>
@@ -6664,7 +6664,7 @@
     </object>
     <object type="LMREQUEST" id="z828">
         <attribute name="uuid" type="string">6C82B50C-9F99-422B-8C34-85607FCC48EA</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user\\/coupon\\/code\\/XWTNIFXWC7"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"965C599D-33AB-4CBE-A04E-8557D9184866"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":\\/\\/",{"data":{"environmentVariable":"F54513C2-1396-429B-A18C-85F2B0AA4478"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},":",{"data":{"environmentVariable":"3F560FAA-A555-431A-9E0E-C1BDA871AB61"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/",{"data":{"environmentVariable":"DDB2C5C2-A7B3-4BBC-BD08-99FE5C4D82BF"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user\\/coupon\\/code\\/XINWEICOOK"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -6675,7 +6675,7 @@
         <attribute name="name" type="string">user-getCouponFromChargeCode</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z832 z829 z831 z833 z834 z835 z830"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z834 z835 z829 z833 z832 z831 z830"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z829">
         <attribute name="value" type="string">Mon, 18 May 2015 08:49:58 GMT</attribute>
