@@ -539,7 +539,6 @@ module.exports =
         result.freight = result.freightCook + result.freightEat
 
       result.totalPrice = result.freight + result.dishPrice
-      console.log(result)
       result
 
 
