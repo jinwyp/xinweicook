@@ -1,0 +1,46 @@
+{
+  "name": "cook-pc",
+  "version": "0.0.1",
+  "description": "Cook Frontend PC",
+  "scripts": {
+    "test": "karma test",
+    "dev-pc": "node node_modules/.bin/webpack-dev-server --inline --port 8081",
+    "build-pc": "gulp clean-pc && webpack --config webpack.build.js -p && gulp pc-replace"
+  },
+  "engines": {
+    "node": ">=0.12.x"
+  },
+  "private": true,
+  "devDependencies": {
+    "autoprefixer": "^6.2.3",
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-polyfill": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-2": "^6.1.18",
+    "css-loader": "^0.23.1",
+    "del": "^2.0.2",
+    "event-emitter": "^0.3.4",
+    "extract-text-webpack-plugin": "^1.0.0",
+    "fbjs": "^0.4.0",
+    "file-loader": "^0.8.5",
+    "gulp": "^3.9.0",
+    "handlebars": "^4.0.5",
+    "isomorphic-fetch": "^2.2.0",
+    "jquery": "^1.11.3",
+    "json-loader": "^0.5.4",
+    "postcss-loader": "^0.8.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-modal": "^0.6.1",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "redux-thunk": "^1.0.0",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.0",
+    "webpack-sources": "^0.1.0"
+  }
+}

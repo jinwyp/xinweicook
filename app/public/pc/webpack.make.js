@@ -9,7 +9,7 @@ module.exports = function makeWebpackConfig(options) {
     var BUILD = !!options.BUILD;
 
     var config = {
-        context: path.join(__dirname, "./app/public/pc/src/js"),
+        context: path.join(__dirname, "./src/js"),
         entry: {
             sign: './pages/sign.js',
             'reset-password': './pages/reset-password.js',
@@ -25,7 +25,7 @@ module.exports = function makeWebpackConfig(options) {
             'pay-notify': './pages/pay-notify.js'
         },
         output: {
-            path: path.join(__dirname, "./app/public/pc/dist/"),
+            path: path.join(__dirname, "./dist/"),
             publicPath: BUILD ? '' : '/webpackdevserver/pc/dist/',
             filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
             chunkFilename: BUILD ? "[id].[chunkhash].js" : "[id].js"
@@ -36,7 +36,7 @@ module.exports = function makeWebpackConfig(options) {
                 {
                     test: /\.js$/,
                     loader: 'babel-loader',
-                    exclude: /node_modules|\bapp\\libs/,
+                    exclude: /node_modules|errcode\.js/,
                     query: {
                         presets: ['react', 'es2015', 'stage-2']
                     }

@@ -1,10 +1,5 @@
 Error.stackTraceLimit = 1
 
-GLOBAL.chai     = require "chai"
-chaiAsPromised  = require "chai-as-promised"
-chai.use chaiAsPromised
-chai.should()
-
 GLOBAL._       = require "lodash"
 GLOBAL.Base62  = require "base62"
 GLOBAL.bcrypt  = require "bcryptjs"
