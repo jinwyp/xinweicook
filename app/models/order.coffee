@@ -455,20 +455,20 @@ module.exports =
         dishIdList : []
         dishCookIdList : []
         dishEatIdList : []
-        dishDrinkIdList : []
-        dishPreferenceIdList : []
+        dishEatDrinkIdList : []
+        dishEatPreferenceIdList : []
 
         dishPrice : 0
         dishCookPrice : 0
         dishEatPrice : 0
-        dishDrinkPrice : 0
-        dishPreferencePrice : 0
+        dishEatDrinkPrice : 0
+        dishEatPreferencePrice : 0
 
         dishQuantity : 0
         dishCookQuantity : 0
         dishEatQuantity : 0
-        dishDrinkQuantity : 0
-        dishPreferenceQuantity : 0
+        dishEatDrinkQuantity : 0
+        dishEatPreferenceQuantity : 0
 
         freight : 6
         freightCook : 24
@@ -487,32 +487,31 @@ module.exports =
         result.dishPrice = result.dishPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
         result.dishQuantity = result.dishQuantity + tempDishQuantity
 
-        if dish.sideDishType is models.dish.constantSideDishType().main
+        if dish.cookingType is models.dish.constantCookingType().cook
+          result.dishCookIdList.push(dish._id.toString())
+          result.dishCookPrice = result.dishCookPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+          result.dishCookQuantity = result.dishCookQuantity + tempDishQuantity
 
-          if dish.cookingType is models.dish.constantCookingType().cook
-            result.dishCookIdList.push(dish._id.toString())
-            result.dishCookPrice = result.dishCookPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
-            result.dishCookQuantity = result.dishCookQuantity + tempDishQuantity
-
-          else if dish.cookingType is models.dish.constantCookingType().eat
+        if dish.cookingType is models.dish.constantCookingType().eat
+          if dish.sideDishType is models.dish.constantSideDishType().main
             result.dishEatIdList.push(dish._id.toString())
             result.dishEatPrice = result.dishEatPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
             result.dishEatQuantity = result.dishEatQuantity + tempDishQuantity
 
-        else if dish.sideDishType is models.dish.constantSideDishType().drink
-          result.dishDrinkIdList.push(dish._id.toString())
-          result.dishDrinkPrice = result.dishDrinkPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
-          result.dishDrinkQuantity = result.dishDrinkQuantity + tempDishQuantity
+          else if dish.sideDishType is models.dish.constantSideDishType().drink
+            result.dishEatDrinkIdList.push(dish._id.toString())
+            result.dishEatDrinkPrice = result.dishEatDrinkPrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+            result.dishEatDrinkQuantity = result.dishEatDrinkQuantity + tempDishQuantity
 
-        else
-          result.dishPreferenceIdList.push(dish._id.toString())
-          result.dishPreferencePrice = result.dishPreferencePrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
-          result.dishPreferenceQuantity = result.dishPreferenceQuantity + tempDishQuantity
+          else
+            result.dishEatPreferenceIdList.push(dish._id.toString())
+            result.dishEatPreferencePrice = result.dishEatPreferencePrice + dish.getPrice(tempDishQuantity) * tempDishQuantity
+            result.dishEatPreferenceQuantity = result.dishEatPreferenceQuantity + tempDishQuantity
 
 
 
       # 计算 便当 运费
-      if result.dishEatPrice >= 100 or result.dishEatIdList.length is 0
+      if result.dishEatPrice + result.dishEatDrinkPrice + result.dishEatPreferencePrice >= 100 or result.dishEatIdList.length is 0
         result.freightEat = 0
       else
         result.freightEat = 6
@@ -533,12 +532,14 @@ module.exports =
         result.freightCook = 12 if isNearProvince
         result.freightCook = 6 if isCityShanghai
 
+      # 计算 总运费
       if result.freightCook is 6 and result.freightEat is 6
         result.freight = result.freightCook
       else
         result.freight = result.freightCook + result.freightEat
 
       result.totalPrice = result.freight + result.dishPrice
+      console.log(result)
       result
 
 
