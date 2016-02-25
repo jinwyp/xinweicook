@@ -40,6 +40,6 @@ gulp.task('clean-dist-pc', function () {
     return del('dist/')
 })
 gulp.task('clean-view-pc', function () {
-    return del('../../views/pc/')
+    return del('../../views/pc/', {force: true})
 })
 gulp.task('clean-pc', ['clean-dist-pc', 'clean-view-pc'])

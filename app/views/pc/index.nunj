@@ -158,8 +158,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.1e4d495b0a1a3c23d5da.js"></script>
-<script src="/pc/dist/index.ab86dda68edabe0020b2.js"></script>
+<script src="/pc/dist/webpack-common.e748f52167c6881ca5bb.js"></script>
+<script src="/pc/dist/index.4033415b0168ea627974.js"></script>
 
 </body>
 </html>
