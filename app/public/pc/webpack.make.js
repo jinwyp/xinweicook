@@ -7,10 +7,11 @@ var fs = require("fs");
 
 module.exports = function makeWebpackConfig(options) {
     var BUILD = !!options.BUILD;
+    var TEST = !!options.TEST;
 
     var config = {
         context: path.join(__dirname, "./src/js"),
-        entry: {
+        entry: TEST ? {} : {
             sign: './pages/sign.js',
             'reset-password': './pages/reset-password.js',
             cart: './pages/cart.js',
@@ -24,13 +25,13 @@ module.exports = function makeWebpackConfig(options) {
             'why-us': './pages/why-us.js',
             'pay-notify': './pages/pay-notify.js'
         },
-        output: {
+        output: TEST ? {} : {
             path: path.join(__dirname, "./dist/"),
             publicPath: BUILD ? '' : '/webpackdevserver/pc/dist/',
             filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
             chunkFilename: BUILD ? "[id].[chunkhash].js" : "[id].js"
         },
-        devtool: BUILD ? '' : 'source-map', //generating too many large files
+        devtool: BUILD ? '' : TEST ? 'inline-source-map' : 'source-map',
         module: {
             loaders: [
                 {
@@ -43,7 +44,8 @@ module.exports = function makeWebpackConfig(options) {
                 },
                 {
                     test: /\.scss/,
-                    loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap')
+                    loader: TEST ? 'null' :
+                        ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap')
                 },
                 {
                     test: /\.(?:png|jpg)$/, loader: 'file-loader'
@@ -65,11 +67,9 @@ module.exports = function makeWebpackConfig(options) {
                 __TODO__: BUILD ? '' : 'console.warn("todo: to be completed")',
                 __PCPREFIX__: BUILD ? "''" : "'/pc'"
             }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: 'webpack-common',
-                filename: BUILD ? 'webpack-common.[chunkhash].js' : 'webpack-common.js'
-            }),
-            new ExtractTextPlugin(BUILD ? "[name].[contenthash].css" : "[name].css")
+            new ExtractTextPlugin(BUILD ? "[name].[contenthash].css" : "[name].css", {
+                disabled: TEST
+            })
         ],
         devServer : {
             contentBase: 'app/public',
@@ -89,6 +89,15 @@ module.exports = function makeWebpackConfig(options) {
         postcss: function () {
             return [autoprefixer({browsers: ['last 3 versions', '> 3% in CN']})]
         }
+    }
+
+    if (!TEST) {
+        config.plugins.push(
+            new webpack.optimize.CommonsChunkPlugin({
+                name: 'webpack-common',
+                filename: BUILD ? 'webpack-common.[chunkhash].js' : 'webpack-common.js'
+            })
+        )
     }
 
     if (BUILD) {
