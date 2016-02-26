@@ -1670,7 +1670,7 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
     var promiseList = [
         models.accountdetail.aggregateAsync( pipelineCharged),
-        models.accountdetail.aggregateAsync( pipelinePurchased),
+        models.accountdetail.aggregateAsync( pipelinePurchased)
     ];
 
 
@@ -1697,7 +1697,16 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
 exports.userList = function(req, res, next) {
 
-    models.user.find({}).sort("-createdAt").limit (20000).execAsync().then(function(resultUserList){
+    var today = moment().startOf('day');
+    var last4month = today.clone().subtract(4, 'months');
+
+
+    query = {
+        "createdAt": { "$gte": last4month.toDate() },
+        sharedInvitationSendCodeTotalCount: 1
+    };
+
+    models.user.find(query).sort("-createdAt").limit (20000).execAsync().then(function(resultUserList){
 
         res.send(resultUserList);
 
@@ -1706,4 +1715,159 @@ exports.userList = function(req, res, next) {
 
 };
 
+
+
+exports.userList2 = function(req, res, next) {
+
+    var today = moment().startOf('month');
+    var last2month = today.clone().subtract(1, 'months');
+
+    query = {
+        "createdAt": { "$gte": last2month.toDate() },
+        sharedInvitationSendCodeTotalCount: { "$gte": 2 }
+    };
+
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+    var cookingType = [models.dish.constantCookingType().eat];
+
+    var matchList = {
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus},
+        //"cookingType"  : {$in : cookingType},
+        "createdAt"    : {"$gte" : last2month.toDate()}
+    };
+
+
+    var pipeline = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        { "$match":matchList},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { month : "$month", year : "$year", user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+            "month" : "$_id.month",
+            "year" : "$_id.year",
+            "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}] },
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$sort": { "year" : 1, "month": 1 } },
+        { "$limit": 20000 }
+
+
+    );
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrderList){
+
+        var monthList = [];
+        var userListFirstMonth = [];
+        var userListSecondMonth = [];
+        var userList = [];
+
+        if (resultOrderList.length > 0){
+            resultOrderList.map(function(user){
+                if (monthList.indexOf(user.date) === -1 ){
+                    monthList.push(user.date);
+                }
+
+                if (monthList.length > 0){
+                    if (monthList[0] === user.date){
+                        userListFirstMonth.push(user.userId)
+                    }
+                }
+
+                if (monthList.length > 1){
+                    if (monthList[1] === user.date){
+                        userListSecondMonth.push(user.userId)
+                    }
+                }
+            });
+
+
+            userListFirstMonth.forEach(function(user){
+                if (userListSecondMonth.indexOf(user) === -1){
+                    userList.push(user);
+                }
+            });
+
+        }
+
+        models.user.find({_id:{$in:userList}} ).sort("-createdAt").limit (20000).execAsync().then(function(resultUserList){
+
+            res.send(resultUserList);
+
+        })
+
+
+    }).catch(next);
+
+
+};
 

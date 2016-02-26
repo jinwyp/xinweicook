@@ -460,6 +460,7 @@ exports.addNewOrder = (req, res, next) ->
       models.coupon.checkExpired resultCoupon
       models.coupon.checkUsed(resultCoupon, req.u)
       coupon = resultCoupon
+      newOrder.couponFromChargeCode = resultCoupon.fromCoupon if resultCoupon.fromCoupon
 
     models.useraddress.findOneAsync({_id:req.body.addressId})
   .then (resultAddress) ->
