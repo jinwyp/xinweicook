@@ -3,6 +3,8 @@
 import "../../sass/style.scss"
 import 'babel-polyfill'
 
+// including react into webpack-common
+import React from "react"
 import {init as initHeader, place} from './header'
 
 import ee from 'event-emitter'

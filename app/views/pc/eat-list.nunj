@@ -82,8 +82,8 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.0e0041b182e053fbecd0.js"></script>
-<script src="/pc/dist/eat-list.6fa5726cf78254054387.js"></script>
+<script src="/pc/dist/webpack-common.91bbee30023ae6c21f2c.js"></script>
+<script src="/pc/dist/eat-list.51f04619fe8120874ecf.js"></script>
 
 </body>
 </html>
