@@ -63,7 +63,7 @@
                     <li data-id="{{ item.dish._id }}" class="{{ 'act' if loop.first else '' }}">
                         {#<h5>{{ item.dish.title[locale] }}</h5>#}
                         <a href="{{ pcPrefix }}/{{ "cook/" if item.dish.cookingType == 'ready to cook' else "eat#" }}{{ item.dish._id }}">
-                            <img title="{{ item.dish.title[locale] }}" src="{{ item.imgUrl }}" alt="{{ item.dish.title[locale] }}"/>
+                            <img title="{{ item.dish.title[locale] }}" src="{{ item.imgUrl }}?imageView2/2/w/800" alt="{{ item.dish.title[locale] }}"/>
                         </a>
                     </li>
                 {% endfor %}
