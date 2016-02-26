@@ -1734,7 +1734,7 @@ exports.userList2 = function(req, res, next) {
     var matchList = {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
-        "cookingType"  : {$in : cookingType},
+        //"cookingType"  : {$in : cookingType},
         "createdAt"    : {"$gte" : last2month.toDate()}
     };
 
