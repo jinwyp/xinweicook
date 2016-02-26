@@ -154,7 +154,6 @@ render.index = function renderIndex(req, res, next, path) {
 
     Promise.all(promiseList).spread(function(dishes, promotionposition){
         var bannerType = models.promotionposition.constantPosition().index1
-        var eatType = models.promotionposition.constantPosition().index3
 
         var data = {
             // 识别为首页的头部
@@ -171,10 +170,8 @@ render.index = function renderIndex(req, res, next, path) {
             promotions: promotionposition.filter(function (el) {
                 return el.position == bannerType
             }),
-            eats: promotionposition.filter(function (el) {
-                return el.position == eatType
-            }).map(function (el) {
-                return el.dish
+            eats: dishes.filter(function (dish) {
+                return dish.cookingType == 'ready to eat'
             }).slice(0, 3)
 
         };
