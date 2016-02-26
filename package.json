@@ -4,9 +4,7 @@
   "description": "Cook API",
   "scripts": {
     "start": "make start",
-    "test": "make test",
-    "dev-pc": "node node_modules/.bin/webpack-dev-server --inline --port 8081",
-    "build-pc": "gulp clean-pc && webpack --config webpack.build.js -p && gulp pc-replace"
+    "test": "make test"
   },
   "engines": {
     "node": ">=0.12.x"

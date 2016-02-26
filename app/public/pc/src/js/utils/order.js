@@ -1,3 +1,9 @@
+/**
+ * 根据相关数据生成提交订单所需数据
+ * @param {Object} state - 来自react的state对象,其实就是个包含订单数据的普通对象
+ * @param isOrder
+ * @returns {{}}
+ */
 export function orderData(state, isOrder) {
     var {cart, coupon, balance, address,
         freight, time, comment, warehouse} = state

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Cook Frontend PC",
   "scripts": {
+    "test-debug": "karma test --singleRun false",
     "test": "karma test",
     "dev-pc": "node node_modules/.bin/webpack-dev-server --inline --port 8081",
     "build-pc": "gulp clean-pc && webpack --config webpack.build.js -p && gulp pc-replace"
