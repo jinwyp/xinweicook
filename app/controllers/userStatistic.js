@@ -1670,7 +1670,7 @@ exports.userAccountDetailsStatistic = function(req, res, next) {
 
     var promiseList = [
         models.accountdetail.aggregateAsync( pipelineCharged),
-        models.accountdetail.aggregateAsync( pipelinePurchased),
+        models.accountdetail.aggregateAsync( pipelinePurchased)
     ];
 
 
