@@ -1729,10 +1729,12 @@ exports.userList2 = function(req, res, next) {
 
 
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+    var cookingType = [models.dish.constantCookingType().eat];
 
     var matchList = {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
+        "cookingType"  : {$in : cookingType},
         "createdAt"    : {"$gte" : last2month.toDate()}
     };
 
