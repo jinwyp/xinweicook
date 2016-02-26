@@ -44,7 +44,7 @@
 
 {% include "./includes/footer.nunj" %}
 
-<script src="/pc/dist/webpack-common.e748f52167c6881ca5bb.js"></script>
+<script src="/pc/dist/webpack-common.0e0041b182e053fbecd0.js"></script>
 <script src="/pc/dist/sign.83ced2d5620f3f03be0d.js"></script>
 
 <script async=true src="//api.geetest.com/get.php?callback=initGeetest"></script>
