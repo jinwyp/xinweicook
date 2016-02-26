@@ -294,7 +294,7 @@ exports.addNewOrder = (req, res, next) ->
   dishNumberList = {}
   dishDataList = {}
 
-  promotionCode = {}
+  promotionCode = null
   coupon = {}
   userAccount = {}
   isUsedAccountBalance = false
@@ -424,14 +424,7 @@ exports.addNewOrder = (req, res, next) ->
         models.coupon.checkExpired resultPromotionCode
         models.coupon.checkUsed(resultPromotionCode, req.u)
 
-        # 员工85折福利
-        if resultPromotionCode.code is "XWCOOK85ZC"
-          if req.u.group isnt models.user.constantUserRole().member
-            promotionCode = resultPromotionCode
-            newOrder.freight = 0
-
-        else
-          promotionCode = resultPromotionCode
+        promotionCode = resultPromotionCode
       else
         # 15W 活动优惠码
         if models.coupon.verifyCoupon15W(req.body.promotionCode)
@@ -528,6 +521,11 @@ exports.addNewOrder = (req, res, next) ->
 
     newOrder.dishesPrice = allPrice.dishPrice
     newOrder.freight = allPrice.freight
+
+    # 员工85折福利
+    if req.body.promotionCode.code is "XWCOOK85ZC" and promotionCode
+      if req.u.group isnt models.user.constantUserRole().member
+        newOrder.freight = 0
 
     newOrder.totalPrice = allPrice.totalPrice
 
