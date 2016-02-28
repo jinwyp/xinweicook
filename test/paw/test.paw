@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>641</integer>
+                    <integer>481</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>LMCookieJar</key>
@@ -1950,7 +1950,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z312 z315 z313 z314 z311 z316 z317"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z319">
-        <attribute name="value" type="string">Bearer 2Cp:/XIC1J5rfYRnU4Ea7nKIMtPtAm3DhZSL</attribute>
+        <attribute name="value" type="string">Bearer 3B5:WkM2kBkCeG3LiOWQv/cQovtDOqEx5Yxe</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z193"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z320"></relationship>
     </object>
@@ -2573,12 +2573,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to cook\\",\\"isCityShanghai\\":false,\\"isInRange4KM\\":false}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"cookingType\\":\\"ready to cook\\",\\"isCityShanghai\\":true,\\"isInRange4KM\\":true}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">34</attribute>
         <attribute name="name" type="string">user-getOrdersDeliveryTime</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z399 z394 z392 z393 z396 z395 z398"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z394 z395 z393 z392 z398 z396 z399"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z398">
         <attribute name="value" type="string">application/vnd.cook.v1+json</attribute>

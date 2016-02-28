@@ -560,7 +560,7 @@ module.exports =
       resultTime = []
 
       if isInRange4KM
-        if timeNow.hour() < 17 # 公司6公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
+        if timeNow.hour() < 17 and timeNow.day() isnt 0 # (周日不工作) 公司6公里范围内： 当天17:00前下单，可以选择当天的下午或者傍晚 以及之后4天的任何时间段。 当天17:00后下单，可以选择明天在内的5填的任何时间段。
           startPoint = timeNow.clone()
         else
           startPoint = timeNow.clone().add(1, 'days')
