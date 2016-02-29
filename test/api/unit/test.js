@@ -8,6 +8,16 @@ var path = {
 
 var apiPath = path.local + 'api/';
 
+var postUserData = {
+    "grant_type": "password",
+    "username": "18621870070",
+    "password": "xwcook789",
+    "deviceToken": "0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a",
+    "couponcode": "XWSALES003"
+};
+
+
+
 
 describe('Test Case', function () {
     it('should respond equal 1', function () {
@@ -47,17 +57,10 @@ describe("API Get Dish List Data", function() {
 describe("API Login", function() {
 
     var url = apiPath + "user/token";
-    var postdata = {
-        "grant_type": "password",
-        "username": "13564568304",
-        "password": "xwcook789",
-        "deviceToken": "0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a",
-        "couponcode": "XWSALES003"
-    };
 
     it("returns status 200", function(done) {
 
-        request.post({url:url, form: postdata}, function(error, response, body) {
+        request.post({url:url, form: postUserData}, function(error, response, body) {
             expect(response.statusCode).to.equal(200);
             done();
         });
@@ -66,7 +69,7 @@ describe("API Login", function() {
 
     it("returns access_token should be string", function(done) {
 
-        request.post({url:url, form: postdata}, function(error, response, body) {
+        request.post({url:url, form: postUserData}, function(error, response, body) {
             var result = JSON.parse(body);
             expect(result.access_token).to.be.a('string');
             expect(result.access_token.length).to.above(10);
@@ -84,45 +87,72 @@ describe("API Login", function() {
 describe("API Submit New Order", function() {
 
     var url = apiPath + "user/token";
+    var url2 = apiPath + "orders";
 
-    var token = null;
+    var token = {
+        Authorization : 'Bearer '
+    };
+
 
     var postdata = {
-        "grant_type": "password",
-        "username": "13564568304",
-        "password": "xwcook789",
-        "deviceToken": "0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a",
-        "couponcode": "XWSALES003"
+        "cookingType": "ready to eat",
+        "clientFrom": "wechat",
+        "credit": 0,
+        "freight": 5,
+        "payment": "alipay direct",
+        "paymentUsedCash": false,
+        "deliveryDateEat": "2016-02-25",
+        "deliveryTimeEat": "12:00",
+        "deliveryDateCook": "2016-02-25",
+        "deliveryTimeCook": "12:00",
+        "addressId": "56d41b76628ca753a757bf13",
+        "dishList": [
+            {
+                "dish": "5636e1c345a39ea057573101",
+                "number": 3,
+                "subDish": [
+                    {
+                        "dish": "55cd9fed9cbe20902858618e",
+                        "number": 1
+                    }
+                ]
+            },
+            {
+                "dish": "55d57351473236af447f6fa1",
+                "number": 1,
+                "subDish": []
+            }
+        ]
     };
 
 
     before(function(done) {
-        request(url)
-            .post('/user/token')
-            .send({ _id: user1._id, password: user1.password })
-            .end(function(err, res) {
-                token = res.body.token; // Or something
-                done();
-            });
+        request.post({url:url, form: postUserData}, function(error, response, body) {
+            var result = JSON.parse(body);
+            token.Authorization = token.Authorization + result.access_token;
+            //console.log(token.Authorization);
+            done();
+        });
     });
+
 
     it("returns status 200", function(done) {
 
-        request.post({url:url, form: postdata}, function(error, response, body) {
+        request.post({url:url2, form: postdata, headers:token}, function(error, response, body) {
             expect(response.statusCode).to.equal(200);
             done();
         });
     });
 
 
-    it("returns access_token should be string", function(done) {
+    it("returns new order should be string", function(done) {
 
-        request.post({url:url, form: postdata}, function(error, response, body) {
+        request.post({url:url2, form: postdata, headers:token}, function(error, response, body) {
             var result = JSON.parse(body);
-            expect(result.access_token).to.be.a('string');
-            expect(result.access_token.length).to.above(10);
+            expect(result._id).to.be.a('string');
+            expect(result._id.length).to.above(23);
             done();
-        });
+        })
     });
 
 
@@ -131,11 +161,3 @@ describe("API Submit New Order", function() {
 
 
 
-
-
-
-it('should get a valid token for user: user1', function(done) {
-    request('/get/user')
-        .set('Authorization', token)
-        .expect(200, done);
-});
