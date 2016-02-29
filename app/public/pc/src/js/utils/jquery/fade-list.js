@@ -2,6 +2,8 @@ import $ from  'jquery'
 
 // DOM淡如淡出
 $.fn.fadeList = function (options) {
+    if (this.length < 2) return
+
     options = options || {}
     var actClass = options.actClass || 'act'
     var fadeInClass = options.fadeInClass || 'fade-in'
