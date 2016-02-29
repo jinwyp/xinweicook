@@ -523,7 +523,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.freight = allPrice.freight
 
     # 员工85折福利
-    if req.body.promotionCode.code is "XWCOOK85ZC" and promotionCode
+    if req.body.promotionCode is "XWCOOK85ZC" and promotionCode
       if req.u.group isnt models.user.constantUserRole().member
         newOrder.freight = 0
 
