@@ -3556,7 +3556,7 @@
         <attribute name="name" type="string">user-Login obtain access token</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z134"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z517 z512 z510 z511 z513 z515 z514"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z515 z511 z517 z513 z514 z512 z510"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z517">
         <attribute name="value" type="string">Bearer </attribute>
