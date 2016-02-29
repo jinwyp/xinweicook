@@ -237,7 +237,9 @@ exports.orderExportList = function(req, res, next) {
 
     req.query.limit = 40000;
 
-    models.order.find({}).skip (0).limit (req.query.limit)
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+
+    models.order.find({"status" : {$in : orderStatus}}).skip (0).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()
@@ -369,8 +371,9 @@ exports.dishInventoryExportList = function(req, res, next) {
 
 exports.orderList = function(req, res, next) {
 
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    models.order.find({}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).lean().execAsync().then(function(resultOrderList){
+    models.order.find({"status" : {$in : orderStatus}}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).lean().execAsync().then(function(resultOrderList){
 
         resultOrderList.forEach(function(order){
             var dishListTitle = '';
