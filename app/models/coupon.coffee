@@ -10,7 +10,7 @@ module.exports =
     couponType : String   # 目前有两种类型 优惠码 promocode promocodepercentage 和 优惠券 coupon 和 充值卡码 accountchargecode
     price: Number
     code: String
-    priceLimit: type: Number, default: 26 # 订单金额高于限制才可以使用优惠券
+    priceLimit: type: Number, default: 50 # 订单金额高于限制才可以使用优惠券
     usedTime : type: Number, default: 0  # 优惠码使用次数限制, 默认为0 即优惠码没有次数限制 0为无限次 / 1为一次. 当为0时 isUsed就没用了
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
@@ -181,6 +181,7 @@ module.exports =
           zh : "新注册用户优惠券"
           en : "NewUserCoupon"
         price : 5
+        priceLimit : 10
         couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : user._id.toString()
@@ -196,6 +197,7 @@ module.exports =
           zh : "新APP注册用户优惠券"
           en : "New App User Coupon"
         price : 10
+        priceLimit : 10
         couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : user._id.toString()
@@ -240,7 +242,7 @@ module.exports =
             zh : zhName
             en : enName
           price : couponData.price
-          priceLimit: couponData.priceLimit or 10
+          priceLimit: couponData.priceLimit or 50
           couponType : models.coupon.constantCouponType().coupon
           usedTime : 1
           user : user._id.toString()
@@ -296,6 +298,7 @@ module.exports =
               zh : "好友邀请优惠券"
               en : "Friend Invitation Coupon"
             price : 10
+            priceLimit: 10
             couponType : models.coupon.constantCouponType().coupon
             usedTime : 1
             user : user._id.toString()
@@ -321,6 +324,7 @@ module.exports =
                 zh : "邀请的好友首次下单返利优惠券"
                 en : "Friend First Order Rebate Coupon"
               price : 10
+              priceLimit: 10
               couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
@@ -331,6 +335,7 @@ module.exports =
                 zh : "邀请5名好友并下单返利优惠券"
                 en : "5 Friends Order Rebate Coupon"
               price : 35
+              priceLimit: 10
               couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
@@ -341,6 +346,7 @@ module.exports =
                 zh : "邀请10名好友并下单返利优惠券"
                 en : "10 Friends Order Rebate Coupon"
               price : 50
+              priceLimit: 10
               couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
@@ -351,6 +357,7 @@ module.exports =
                 zh : "邀请20名好友并下单返利优惠券"
                 en : "20 Friends Order Rebate Coupon"
               price : 100
+              priceLimit: 10
               couponType : models.coupon.constantCouponType().coupon
               usedTime : 1
               user : fromUser._id.toString()
