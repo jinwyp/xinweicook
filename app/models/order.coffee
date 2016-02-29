@@ -173,6 +173,8 @@ module.exports =
 
     packageType : String  # 纸盒 paperbox 或者泡沫箱 foambox
 
+    statisticsReferrer : String  # 销售来源 从USER MODEL 的 Referrer 字段来源
+
   statics:
     fields : ->
       selectFields = "-__v"

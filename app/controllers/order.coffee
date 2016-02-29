@@ -354,7 +354,7 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.deliveryDateTime = moment(req.body.deliveryDateEat + "T" + req.body.deliveryTimeEat + ":00")
     newOrder.deliveryDateType = models.order.deliveryDateTypeIsNextDayChecker(req.body.deliveryDateEat)
 
-
+  newOrder.statisticsReferrer = req.u.referrer if req.u.referrer
 
   newOrderReadyToCook =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
