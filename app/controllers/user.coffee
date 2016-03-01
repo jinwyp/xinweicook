@@ -460,8 +460,7 @@ exports.userSignUp = (req, res, next) ->
         mobile : mobile
         pwd    : pwd
 
-      newUser.referrer if referrer
-
+      newUser.referrer = referrer if referrer
       ua = req.get("user-agent")
       re = /MicroMessenger/
 

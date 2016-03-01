@@ -16,7 +16,6 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
         hasVoiceSent: false // 表示是否已经尝试发送语音短信
     };
 
-    var pwdErrTimes = 0;
     $scope.login = function () {
         $scope.css.pending = true;
         User.login($scope.loginData.username, $scope.loginData.password, couponcode)
@@ -25,11 +24,7 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
             resetPending();
             if (res.data) {
                 if (res.data.validationStatus == 1111) {
-                    if (++pwdErrTimes >= 2) {
-                        alert('密码错误, 请重试. \n提示: 新味PC网站(xinweicook.com)的帐号与新味便当暂不兼容, 如果您是PC版老用户, 烦请重新注册!')
-                    } else {
-                        alert('密码错误, 请重试');
-                    }
+                    alert('密码错误, 请重试');
                 } else Alert.show(res.data.validationStatus, '登录失败, 请稍后再试')
             } else {
                 alert('登录失败, 请稍后再试');
@@ -43,7 +38,8 @@ function loginCtrl($scope, User, $location, Alert, Weixin, $localStorage) {
             $scope.signupData.mobile,
             $scope.signupData.pwd,
             $scope.signupData.code,
-            couponcode
+            couponcode,
+            searches.referrer
         ).then(function () {
             // todo: redirect
             alert('注册成功!');
