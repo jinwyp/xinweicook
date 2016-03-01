@@ -78,11 +78,12 @@ angular.module('xw.models').factory('User', function ($http, $localStorage) {
                 return res;
             })
         },
-        signup: function (mobile, pwd, code, couponcode) {
+        signup: function (mobile, pwd, code, couponcode, referrer) {
             var opts = {
                 mobile: mobile,
                 pwd: pwd,
-                code: code
+                code: code,
+                referrer: referrer || ''
             };
             if (couponcode) {
                 opts.couponcode = couponcode;
