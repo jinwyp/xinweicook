@@ -4,7 +4,7 @@
   "description": "Cook API",
   "scripts": {
     "start": "make start",
-    "test": "make test"
+    "test": "mocha test/api/**"
   },
   "engines": {
     "node": ">=0.12.x"

@@ -242,7 +242,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
         }},
 
         { "$sort": { "year" : -1, "month": -1, "day": -1 } },
-        { "$limit": 1000 }
+        { "$limit": 2000 }
     );
 
 
@@ -289,7 +289,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
         }},
 
         { "$sort": { "week": -1 } },
-        { "$limit": 1000 }
+        { "$limit": 2000 }
     );
 
 
@@ -588,7 +588,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantity":1 } },
-            { "$limit": 8000 }
+            { "$limit": 20000 }
         );
 
 
@@ -637,7 +637,7 @@ exports.dishDailySales = function(req, res, next) {
             }},
 
             { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantityDeliveryDate":1 } },
-            { "$limit": 2000 }
+            { "$limit": 20000 }
         );
 
 

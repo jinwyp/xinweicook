@@ -54,6 +54,7 @@ module.exports =
     isSpam: type: Boolean, default: false
     isPromoOn: type: Boolean, default: true
     lang: String #zh #en
+
     referrer: String #来源于销售推荐
 
     shoppingCart: [

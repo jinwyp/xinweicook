@@ -14,8 +14,8 @@
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >注册时间</label>
-                    <div class="col-lg-3" >
-                        <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} 来源:{{data.user.statisticsClientFrom}}</span>
+                    <div class="col-lg-4" >
+                        <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} | 平台来源:{{data.user.statisticsClientFrom}} </span>
                     </div>
 
                     <label  class="col-lg-2 control-label" >最后下单时间</label>
@@ -153,7 +153,7 @@
 
 
                 <div class="form-group has-feedback" ng-class="{'has-success':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$valid, 'has-error':userForm.userStatisticsClientFrom.$dirty&&userForm.userStatisticsClientFrom.$invalid}">
-                    <label class="col-lg-2 control-label" >来源</label>
+                    <label class="col-lg-2 control-label" >平台来源</label>
 
                     <div class="col-lg-8">
                         <label class="radio-inline">
@@ -194,7 +194,8 @@
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >销售来源标识</label>
                     <div class="col-lg-8" >
-                        <input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >
+                        <span class="help-block" aria-hidden="true">{{data.user.referrer}} </span>
+                        <!--<input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >-->
                     </div>
                 </div>
 
