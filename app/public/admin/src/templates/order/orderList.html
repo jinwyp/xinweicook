@@ -90,7 +90,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid, 'has-error':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid}">
                     <label for="inputUserReferrer" class="col-lg-2 control-label" >销售来源(4位码)</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserReferrer" placeholder="销售来源代码" name="userReferrer" ng-model="data.searchOptions.query.referrer" ng-minlength="4">
+                        <input type="text" class="form-control" id="inputUserReferrer" placeholder="销售来源代码" name="userReferrer" ng-model="data.searchOptions.query.statisticsReferrer" ng-minlength="4">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid"></span>
                     </div>
@@ -103,7 +103,17 @@
 
                 <div class="form-group has-feedback">
                     <label class="col-lg-2 control-label" >创建时间范围</label>
-                    <div class="col-lg-4">
+
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.searchDateFrom" is-open="data.datePickerIsOpen" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
                         <div class="input-group">
                             <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.searchDateFrom" is-open="data.datePickerIsOpen" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
                             <span class="input-group-btn">
