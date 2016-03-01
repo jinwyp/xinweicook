@@ -38,8 +38,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         datePickerIsOpenStart : false,
         datePickerIsOpenEnd : false,
 
-        datePickerSearchIsOpenStart : false,
-        datePickerSearchIsOpenEnd : false,
+        datePickerForSearchIsOpenDateFrom : false,
+        datePickerForSearchIsOpenDateTo : false,
 
         searchDateFrom : '',
         searchDateTo : '',
@@ -85,6 +85,20 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
     };
 
 
+    $scope.datePickerOptions = {
+        maxDate: new Date(2060, 12, 30),
+        minDate: new Date(2015,1,1),
+        startingDay: 1
+    };
+
+    $scope.datePickerForSearchOpen = function (type) {
+        if (type === 'datefrom'){
+            $scope.data.datePickerForSearchIsOpenDateFrom = true;
+        }else{
+            $scope.data.datePickerForSearchIsOpenDateTo = true;
+        }
+    };
+
     $scope.datePickerOpen = function(isStart, $event) {
 
         if (isStart === 'start'){
@@ -94,13 +108,7 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         }
     };
 
-    $scope.datePickerSearchOpen = function (isStart) {
-        if (isStart === 'start') {
-            $scope.data.datePickerSearchIsOpenStart = true;
-        } else {
-            $scope.data.datePickerSearchIsOpenEnd = true;
-        }
-    }
+
 
 
 
@@ -109,19 +117,20 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         $scope.css.showTable = 'coupons';
 
         if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
             $scope.data.searchOptions.query.createdAt = {};
 
             if ($scope.data.searchDateFrom) {
-                $scope.data.searchOptions.query.createdAt['$gte'] = '' + new Date($scope.data.searchDateFrom)
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
             }
             if ($scope.data.searchDateTo) {
-                $scope.data.searchOptions.query.createdAt['$lte'] = '' + new Date($scope.data.searchDateTo)
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
             }
+
         }else{
             $scope.data.searchOptions.query.createdAt = '';
         }
 
-        console.log($scope.data.searchOptions.query);
         Util.delProperty($scope.data.searchOptions.query);
 
         Coupons.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (resultCoupons) {
@@ -191,8 +200,8 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
             if(typeof $scope.data.coupon.couponType === 'undefined'){
                 $scope.data.coupon.couponType = 'promocode'
             }
-
-
+            $scope.data.coupon.startDate = new Date($scope.data.coupon.startDate);
+            $scope.data.coupon.endDate = new Date($scope.data.coupon.endDate);
         });
     }
 

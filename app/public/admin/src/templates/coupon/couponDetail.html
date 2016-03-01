@@ -198,9 +198,9 @@
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label class="col-lg-2 control-label" >有效期起始时间</label>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.coupon.startDate" is-open="data.datePickerIsOpenStart" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
+                            <input type="text" class="form-control" placeholder="起始时间" uib-datepicker-popup ng-model="data.coupon.startDate" is-open="data.datePickerIsOpenStart" datepicker-options="datePickerOptions" close-text="Close" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="datePickerOpen('start')"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
@@ -210,9 +210,9 @@
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label class="col-lg-2 control-label" >有效期结束时间</label>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.coupon.endDate" is-open="data.datePickerIsOpenEnd" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
+                            <input type="text" class="form-control" placeholder="结束时间" uib-datepicker-popup ng-model="data.coupon.endDate" is-open="data.datePickerIsOpenEnd" datepicker-options="datePickerOptions" close-text="Close" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="datePickerOpen('end')"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>

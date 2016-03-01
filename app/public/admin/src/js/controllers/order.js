@@ -635,7 +635,6 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         }else{
             $scope.data.datePickerIsOpenDateTo = true;
         }
-
     };
 
 
