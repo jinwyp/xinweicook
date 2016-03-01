@@ -139,7 +139,7 @@
                 <div class="form-group has-feedback" ng-class="{'has-success':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid, 'has-error':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid}">
                     <label for="inputUserReferrer" class="col-lg-2 control-label" >销售来源(4位码)</label>
                     <div class="col-lg-4">
-                        <input type="text" class="form-control" id="inputUserReferrer" placeholder="销售来源代码" name="userReferrer" ng-model="data.searchOptions.query.referrer" ng-minlength="4">
+                        <input type="text" class="form-control" id="inputUserReferrer" placeholder="销售来源代码" name="userReferrer" ng-model="data.searchOptions.query.statisticsReferrer" ng-minlength="4">
                         <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid"></span>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid"></span>
                     </div>

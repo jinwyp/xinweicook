@@ -32,7 +32,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 isChildOrder : '',
                 cookingType : '',
                 clientFrom : '',
-                deliveryDateType : ''
+                deliveryDateType : '',
+                statisticsReferrer : ''
             }
         },
         exportOrderIdList : [],
