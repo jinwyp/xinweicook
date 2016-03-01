@@ -109,13 +109,13 @@ function couponController($scope, $timeout, $state, $stateParams, Notification, 
         $scope.css.showTable = 'coupons';
 
         if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
-            var createdAt = $scope.data.searchOptions.query.createdAt = {}
+            $scope.data.searchOptions.query.createdAt = {};
 
             if ($scope.data.searchDateFrom) {
-                createdAt['$gte'] = '' + new Date($scope.data.searchDateFrom)
+                $scope.data.searchOptions.query.createdAt['$gte'] = '' + new Date($scope.data.searchDateFrom)
             }
             if ($scope.data.searchDateTo) {
-                createdAt['$lt'] = '' + new Date($scope.data.searchDateTo)
+                $scope.data.searchOptions.query.createdAt['$lte'] = '' + new Date($scope.data.searchDateTo)
             }
         }else{
             $scope.data.searchOptions.query.createdAt = '';

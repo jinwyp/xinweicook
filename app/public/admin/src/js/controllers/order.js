@@ -39,7 +39,8 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         exportOrderIdList : [],
 
 
-        datePickerIsOpen : false,
+        datePickerIsOpenDateFrom : false,
+        datePickerIsOpenDateTo : false,
 
         searchDateFrom : '',
         searchDateTo : '',
@@ -622,8 +623,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     };
 
 
-    $scope.datePickerOpen = function($event) {
-        $scope.data.datePickerIsOpen = true;
+    $scope.datePickerOptions = {
+        maxDate: new Date(2060, 12, 30),
+        minDate: new Date(2015,1,1),
+        startingDay: 1
+    };
+
+    $scope.datePickerOpen = function(type) {
+        if (type === 'datefrom'){
+            $scope.data.datePickerIsOpenDateFrom = true;
+        }else{
+            $scope.data.datePickerIsOpenDateTo = true;
+        }
+
     };
 
 
@@ -633,9 +645,17 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.searchOrderCount = function (){
         $scope.css.showTable = 'orders';
 
-        if ($scope.data.searchDateFrom){
-            //console.log (new Date($scope.data.searchDateFrom));
-            $scope.data.searchOptions.query.createdAt = '>=' + new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
         }else{
             $scope.data.searchOptions.query.createdAt = '';
         }
@@ -664,9 +684,9 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $localStorage.orderSearchOptions = {
 
                 status : $scope.data.searchOptions.query.status,
+                cookingType : $scope.data.searchOptions.query.cookingType,
                 isSplitOrder : $scope.data.searchOptions.query.isSplitOrder,
                 isChildOrder : $scope.data.searchOptions.query.isChildOrder,
-                cookingType : $scope.data.searchOptions.query.cookingType,
                 clientFrom : $scope.data.searchOptions.query.clientFrom,
                 deliveryDateType : $scope.data.searchOptions.query.deliveryDateType
             };
@@ -898,24 +918,12 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             $scope.data.searchOptions.query = $localStorage.orderSearchOptions;
         }
 
-        //if ($scope.data.searchOptions.query.createdAt){
-        //    if ($scope.data.searchOptions.query.createdAt.toString().indexOf('>') > -1){
-        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt.substring(2);
-        //    }else{
-        //        $scope.data.searchDateFrom = $scope.data.searchOptions.query.createdAt;
-        //    }
-        //
-        //}else{
-        //    $scope.data.searchDateFrom = '';
-        //}
-
         $scope.searchOrderCount();
 
     }
 
     if ($state.current.data.type === 'update'){
         $scope.getOrderById();
-
 
         Users.getList({query : {group : 'courier'}}).then(function (resultUsers) {
             $scope.data.couriersList = resultUsers;
@@ -934,8 +942,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.searchOrderStatisticByAddress = function () {
         $scope.css.showTable = 'statisticByAddress';
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 
@@ -954,8 +973,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
     $scope.searchOrderStatisticByAddressAuto = function () {
         $scope.css.showTable = 'statisticByAddressAuto';
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
         Util.delProperty($scope.data.searchOptions.query);
@@ -978,8 +1008,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByMonthlySales';
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 
@@ -1007,8 +1048,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByWeeklySales';
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 
@@ -1036,8 +1088,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByDailySales';
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 
@@ -1067,8 +1130,19 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
         $scope.css.showTable = 'statisticByHourSales';
         $scope.css.searchOrderStatisticSortBy = sortBy;
 
-        if ($scope.data.searchDateFrom !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateFrom);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
 

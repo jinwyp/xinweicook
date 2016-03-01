@@ -239,7 +239,18 @@ exports.orderExportList = function(req, res, next) {
 
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    models.order.find({"status" : {$in : orderStatus}}).skip (0).limit (req.query.limit)
+    var query = {
+        "status" : {$in : orderStatus}
+    };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        query.createdAt = {};
+        if (date['$gte']) query.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
+    }
+
+    models.order.find(query).skip(0).limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()
@@ -480,14 +491,23 @@ exports.orderExportInternalList = function(req, res, next) {
         }
     }
 
-
-
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        query.$and.push({createdAt : { $gte: new Date(req.query.createdAt)} }) ;
+        var date = JSON.parse(req.query.createdAt);
+        var createdAt = {};
+        if (date['$gte']) createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) createdAt['$lte'] = new Date(date['$lte']);
+
+        query.$and.push({createdAt : createdAt }) ;
     }
+
+
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         query.$and.push( {cookingType : req.query.cookingType});
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        query.$and.push( {status : req.query.status});
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -498,9 +518,6 @@ exports.orderExportInternalList = function(req, res, next) {
         query.$and.push( {deliveryDateType : req.query.deliveryDateType});
     }
 
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        query.$and.push( {status : req.query.status});
-    }
 
     if (query.$and.length === 0 ){
         query ={}
@@ -567,13 +584,20 @@ exports.orderStatisticByAddress = function(req, res, next) {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
-
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
+
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -584,9 +608,7 @@ exports.orderStatisticByAddress = function(req, res, next) {
         matchList.deliveryDateType = req.query.deliveryDateType
     }
 
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
-    }
+
 
     pipeline.push(
         { "$match":matchList}
@@ -672,13 +694,20 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
-
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
+
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -689,9 +718,7 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
         matchList.deliveryDateType = req.query.deliveryDateType
     }
 
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
-    }
+
 
     var pipeline = [];
 
@@ -788,11 +815,18 @@ exports.orderMonthlySales = function(req, res, next) {
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -801,10 +835,6 @@ exports.orderMonthlySales = function(req, res, next) {
 
     if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
         matchList.deliveryDateType = req.query.deliveryDateType
-    }
-
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
     }
 
     if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
@@ -939,11 +969,18 @@ exports.orderWeeklySales = function(req, res, next) {
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -952,10 +989,6 @@ exports.orderWeeklySales = function(req, res, next) {
 
     if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
         matchList.deliveryDateType = req.query.deliveryDateType
-    }
-
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
     }
 
     if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
@@ -1094,11 +1127,18 @@ exports.orderDailySales = function(req, res, next) {
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -1107,10 +1147,6 @@ exports.orderDailySales = function(req, res, next) {
 
     if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
         matchList.deliveryDateType = req.query.deliveryDateType
-    }
-
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
     }
 
     if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
@@ -1307,11 +1343,19 @@ exports.orderHourSales = function(req, res, next) {
 
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        matchList.createdAt = { $gte: new Date(req.query.createdAt)}
+        var date = JSON.parse(req.query.createdAt);
+        matchList.createdAt = {};
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
     }
+
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {
         matchList.cookingType = req.query.cookingType
+    }
+
+    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
+        matchList.status = req.query.status
     }
 
     if (typeof req.query.clientFrom !== 'undefined' && req.query.clientFrom !== '') {
@@ -1320,10 +1364,6 @@ exports.orderHourSales = function(req, res, next) {
 
     if (typeof req.query.deliveryDateType !== 'undefined' && req.query.deliveryDateType !== '') {
         matchList.deliveryDateType = req.query.deliveryDateType
-    }
-
-    if (typeof req.query.status !== 'undefined' && req.query.status !== '') {
-        matchList.status = req.query.status
     }
 
     if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
