@@ -250,7 +250,7 @@ exports.orderExportList = function(req, res, next) {
         if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
     }
 
-    models.order.find(query).skip(0).limit (req.query.limit)
+    models.order.find(query).skip(0).sort("-createdAt").limit (req.query.limit)
     .populate({path: 'dishList.dish', select: models.dish.fields()})
     .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
     .lean()
@@ -344,7 +344,7 @@ exports.dishInventoryExportList = function(req, res, next) {
     req.query.limit = 50000;
 
 
-    models.inventory.find({}).skip (0).limit (req.query.limit)
+    models.inventory.find({}).skip (0).sort("-createdAt").limit (req.query.limit)
     .lean()
     .execAsync()
     .then(function(resultInventory){
@@ -384,7 +384,7 @@ exports.orderList = function(req, res, next) {
 
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
-    models.order.find({"status" : {$in : orderStatus}}).sort("-createdAt").limit (400).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).lean().execAsync().then(function(resultOrderList){
+    models.order.find({"status" : {$in : orderStatus}}).sort("-createdAt").limit (500).populate({path: 'dishList.dish', select: models.dish.fields()}).populate({path: 'dishList.subDish.dish', select: models.dish.fields()}).lean().execAsync().then(function(resultOrderList){
 
         resultOrderList.forEach(function(order){
             var dishListTitle = '';
@@ -589,7 +589,6 @@ exports.orderStatisticByAddress = function(req, res, next) {
         matchList.createdAt = {};
         if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
         if (date['$lte']) matchList.createdAt['$lte'] = new Date(date['$lte']);
-
     }
 
     if (typeof req.query.cookingType !== 'undefined' && req.query.cookingType !== '') {

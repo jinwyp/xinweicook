@@ -28,7 +28,8 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         },
 
-        datePickerIsOpen : false,
+        datePickerIsOpenDateFrom : false,
+        datePickerIsOpenDateTo : false,
 
         searchDateFrom : '',
         searchDateTo   : '',
@@ -442,8 +443,18 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
     };
 
 
-    $scope.datePickerOpen = function($event) {
-        $scope.data.datePickerIsOpen = true;
+    $scope.datePickerOptions = {
+        maxDate: new Date(2060, 12, 30),
+        minDate: new Date(2015,1,1),
+        startingDay: 1
+    };
+
+    $scope.datePickerOpen = function(type) {
+        if (type === 'datefrom'){
+            $scope.data.datePickerIsOpenDateFrom = true;
+        }else{
+            $scope.data.datePickerIsOpenDateTo = true;
+        }
     };
 
 
@@ -453,7 +464,20 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statistic';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
+        var options = angular.extend({}, $scope.data.searchOptions.query);
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            options.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                options.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                options.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+        }
+
 
         if ($scope.css.searchDishStatisticSortBy === 'salesToday' || $scope.data.dishStatisticByStock.length === 0){
             Util.delProperty(options);
@@ -477,7 +501,21 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
 
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
+        var options = angular.extend({}, $scope.data.searchOptions.query);
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            options.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                options.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                options.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+        }
+
+
 
         Util.delProperty(options);
 
@@ -508,7 +546,20 @@ function dishController($scope, $timeout, $state, $stateParams, $localStorage, N
         $scope.css.showTable = 'statisticWeek';
         $scope.css.searchDishStatisticSortBy = sortBy;
 
-        var options = angular.extend({}, $scope.data.searchOptions.query, {searchDateFrom : $scope.data.searchDateFrom});
+        var options = angular.extend({}, $scope.data.searchOptions.query);
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            options.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                options.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                options.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+        }
+
 
         Util.delProperty(options);
 

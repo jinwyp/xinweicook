@@ -293,10 +293,23 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
     );
 
 
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        pipelinePerDay[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
-        pipelinePerWeek[0]["$match"].createdAt = { $gte: new Date(req.query.searchDateFrom)};
+    
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        pipelinePerDay[0]["$match"].createdAt = {};
+        pipelinePerWeek[0]["$match"].createdAt = {};
+
+        if (date['$gte']){
+            pipelinePerDay[0]["$match"].createdAt['$gte'] = new Date(date['$gte']);
+            pipelinePerWeek[0]["$match"].createdAt['$gte'] = new Date(date['$gte']);
+        }
+        if (date['$lte']) {
+            pipelinePerDay[0]["$match"].createdAt['$lte'] = new Date(date['$lte']);
+            pipelinePerWeek[0]["$match"].createdAt['$lte'] = new Date(date['$lte']);
+        }
     }
+
 
     var dishHashListTotal = {};
     var dishHashListToday = {};
@@ -530,8 +543,11 @@ exports.dishDailySales = function(req, res, next) {
         "deliveryDateTime" : { $exists: true}
     };
 
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        match.createdAt = { $gte: new Date(req.query.searchDateFrom) };
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        match.createdAt = {};
+        if (date['$gte']) match.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) match.createdAt['$lte'] = new Date(date['$lte']);
     }
 
     models.dish.find(query).lean().execAsync().then(function(resultDishList) {
@@ -747,8 +763,11 @@ exports.dishDailySalesChart = function(req, res, next) {
         "deliveryDateTime" : { $exists: true}
     };
 
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        match.createdAt = { $gte: new Date(req.query.searchDateFrom) };
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        match.createdAt = {};
+        if (date['$gte']) match.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) match.createdAt['$lte'] = new Date(date['$lte']);
     }
 
     var project = {
@@ -878,9 +897,13 @@ exports.dishWeeklySalesChart = function(req, res, next) {
         "deliveryDateTime" : { $exists: true}
     };
 
-    if (typeof req.query.searchDateFrom !== 'undefined' && req.query.searchDateFrom !== '') {
-        match.createdAt = { $gte: new Date(req.query.searchDateFrom) };
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        match.createdAt = {};
+        if (date['$gte']) match.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) match.createdAt['$lte'] = new Date(date['$lte']);
     }
+
 
     var project = {
         _id : 1,
