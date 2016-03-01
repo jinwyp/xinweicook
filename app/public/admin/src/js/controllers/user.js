@@ -41,7 +41,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         sharedInvitationSendCodeUsedTimeNumber: 0,
 
 
-        datePickerIsOpen : false,
+        datePickerIsOpenDateFrom : false,
+        datePickerIsOpenDateTo : false,
 
         searchDateFrom : '',
         searchDateTo : '',
@@ -303,8 +304,18 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         size: {}
     };
 
-    $scope.datePickerOpen = function($event) {
-        $scope.data.datePickerIsOpen = true;
+    $scope.datePickerOptions = {
+        maxDate: new Date(2060, 12, 30),
+        minDate: new Date(2015,1,1),
+        startingDay: 1
+    };
+
+    $scope.datePickerOpen = function(type) {
+        if (type === 'datefrom'){
+            $scope.data.datePickerIsOpenDateFrom = true;
+        }else{
+            $scope.data.datePickerIsOpenDateTo = true;
+        }
     };
 
 
@@ -313,8 +324,17 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         $scope.css.showTable = 'users';
 
-        if ($scope.data.searchDateTo){
-            $scope.data.searchOptions.query.createdAt = '<=' + new Date($scope.data.searchDateTo);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom)
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
         }else{
             $scope.data.searchOptions.query.createdAt = '';
         }
@@ -401,8 +421,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     $scope.showUserStatistic = function () {
         $scope.css.showTable = 'stat';
 
-        if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
         $scope.searchUserStatisticOfNewComers();
@@ -461,8 +492,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.css.searchUserStatisticSortBy = sortBy;
 
 
-        if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
         Util.delProperty($scope.data.searchOptions.query);
@@ -489,8 +531,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.css.searchUserStatisticSortBy = sortBy;
 
 
-        if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
         Util.delProperty($scope.data.searchOptions.query);
@@ -524,8 +577,19 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         $scope.css.searchUserStatisticSortBy = sortBy;
 
 
-        if ($scope.data.searchDateTo !==''){
-            $scope.data.searchOptions.query.createdAt = new Date($scope.data.searchDateTo);
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
         }
 
         Util.delProperty($scope.data.searchOptions.query);
