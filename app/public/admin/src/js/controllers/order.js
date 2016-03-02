@@ -320,6 +320,10 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
             {
                 name : '陆家嘴仓库',
                 value : '564ab6de2bde80bd10a9bc60'
+            },
+            {
+                name : '浦江镇仓库',
+                value : '56c41a9e632771df68dbae0b'
             }
         ]
     };
