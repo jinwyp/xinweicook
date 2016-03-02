@@ -32,7 +32,8 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
                 statisticsClientFrom : '',
                 oldWebsiteId : '',
                 statisticsIsOldWebsite : '',
-                warehouse : ''
+                warehouse : '',
+                referrer : ''
             }
 
         },
