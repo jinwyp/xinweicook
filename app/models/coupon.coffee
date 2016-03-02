@@ -15,7 +15,7 @@ module.exports =
     usedCountLimitOfOneUser : type: Number, default: 1 # 每个用户使用几次, 默认每人只能使用一次 0为每人无限次
 
     startDate: type: Date, default: moment().startOf('day')
-    endDate: type: Date, default: moment().startOf('day').add(90, 'days')
+    endDate: type: Date, default: moment().startOf('day').add(31, 'days')
     isExpired : type: Boolean, default:false
     isUsed : type: Boolean, default:false   # 当usedTime为1时 isUsed 才起作用
     isUsedCount : type: Number, default: 0 # 已使用过的次数
@@ -185,6 +185,7 @@ module.exports =
         couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : user._id.toString()
+        endDate: moment().startOf('day').add(90, 'days')
 
       newCouponList = []
       newCouponList.push(newCoupon)
@@ -201,6 +202,7 @@ module.exports =
         couponType : models.coupon.constantCouponType().coupon
         usedTime : 1
         user : user._id.toString()
+        endDate: moment().startOf('day').add(90, 'days')
 
       if not user.firstTimeRegFromApp and req.get("user-agent") is "Xinwei Cook"
         newCouponList.push(newCouponIOS)
