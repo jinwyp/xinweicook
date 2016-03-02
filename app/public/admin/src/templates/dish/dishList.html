@@ -78,15 +78,26 @@
 
 
                 <div class="form-group has-feedback" >
-                    <label class="col-lg-2 control-label" >日期范围起始</label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-2 control-label" >统计日期范围</label>
+
+                    <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="data.searchDateFrom" is-open="data.datePickerIsOpen" min-date="'2015-01-01'" max-date="'2050-01-30'"  />
+                            <input type="text" class="form-control" placeholder="起始时间" uib-datepicker-popup ng-model="data.searchDateFrom" is-open="data.datePickerIsOpenDateFrom" datepicker-options="datePickerOptions" close-text="Close" />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="datePickerOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen('datefrom')"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </div>
                     </div>
+
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="截至时间" uib-datepicker-popup ng-model="data.searchDateTo" is-open="data.datePickerIsOpenDateTo" datepicker-options="datePickerOptions" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen('dateto')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
 
 

@@ -52,7 +52,11 @@ exports.userNewComerRate = function(req, res, next) {
     //console.log(today.format("YYYY-MM-DD hh:mm:ss"));
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) {
+            today = moment(date['$lte']).startOf('day');
+        }
     }
 
     var last7Day = today.clone().subtract(7, 'days');
@@ -311,7 +315,7 @@ exports.userNewComerRate = function(req, res, next) {
 
 
 
-
+// 该算法暂时不用了
 exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
     // 购买便当两次和两次以上的用户 已支付 已完成订单, 每次订单时间间隔平均值
@@ -328,13 +332,22 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
 
     var today = moment().startOf('day');
+    queryUser = { createdAt:{"$lt": today.toDate() }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
+
+    console.log(req.query.createdAt);
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) {
+            today = moment(date['$lte']).startOf('day');
+            queryUser.createdAt['$lt'] = new Date(date['$lte']);
+        }
+
+        if (date['$gte']) queryUser.createdAt['$gte'] = new Date(date['$gte']);
+
     }
 
-    //query = { createdAt:{"$gte": new Date(req.query.createdAt), "$lt": today }, sharedInvitationSendCodeTotalCount:{"$gte": 2} };
-    queryUser = { createdAt:{"$lt": today.toDate() }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
     var last7Day = today.clone().subtract(7, 'days');
 
@@ -460,17 +473,20 @@ exports.userOrderFrequency = function(req, res, next) {
 
     var today = moment().startOf('day');
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
-
-
     var matchList = {
         isChildOrder : false,
         status       : {$in : orderStatus},
         createdAt    :  {"$lt" : today.toDate()}
     };
 
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) matchList.createdAt['$lt'] = new Date(date['$lte']);
+
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+    }
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
@@ -738,17 +754,21 @@ exports.userGetFirstEatOrderDaily = function(req, res, next) {
 
     var today = moment().startOf('day');
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
-
-
     var matchList = {
         "isChildOrder" : false,
         "cookingType"  : {$in : cookingType},
         "status"       : {$in : orderStatus},
         "createdAt"    : {"$lt" : today.toDate()}
     };
+
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) matchList.createdAt['$lt'] = new Date(date['$lte']);
+
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+    }
 
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
@@ -1026,16 +1046,22 @@ exports.userGetOrderWeekly = function(req, res, next) {
 
     var today = moment().startOf('day');
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
-
 
     var matchList = {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
         "createdAt"    : {"$lt" : today.toDate()}
     };
+
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) matchList.createdAt['$lt'] = new Date(date['$lte']);
+
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+    }
+
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
@@ -1207,15 +1233,21 @@ exports.userGetOrderMonthly = function(req, res, next) {
 
     var today = moment().startOf('day');
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
 
     var matchList = {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
         "createdAt"    : {"$lt" : today.toDate()}
     };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) matchList.createdAt['$lt'] = new Date(date['$lte']);
+
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+    }
+
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
@@ -1376,15 +1408,20 @@ exports.userGetOrderYearly = function(req, res, next) {
 
     var today = moment().startOf('day');
 
-    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
-        today = moment(req.query.createdAt).startOf('day');
-    }
 
     var matchList = {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
         "createdAt"    : {"$lt" : today.toDate()}
     };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+
+        if (date['$lte']) matchList.createdAt['$lt'] = new Date(date['$lte']);
+
+        if (date['$gte']) matchList.createdAt['$gte'] = new Date(date['$gte']);
+    }
 
     if (typeof req.query.statisticsClientFrom !== 'undefined' && req.query.statisticsClientFrom !== '') {
         matchList.clientFrom  = req.query.statisticsClientFrom;
