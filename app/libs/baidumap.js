@@ -178,7 +178,7 @@ baiduMap.prototype.getDistanceFromMultiPoint = function(query, callback){
 
                 callback(null, distanceArray);
             }else{
-                logger.error("BaiduMap Failed, get result err : " + body );
+                logger.error("BaiduMap Failed, Route Matrix API, get result err : " + body + " query:" + JSON.stringify(query) + " URL:" + url);
                 callback(null, result);
             }
         }
@@ -277,7 +277,7 @@ baiduMap.prototype.getPlaceSearch = function(query, callback){
 
                 callback(null, placeList);
             }else{
-                logger.error("BaiduMap Failed, get result err : " + body );
+                logger.error("BaiduMap Failed, Place API, get result err : " + body + " query:" + JSON.stringify(query) + " URL:" + url);
                 callback(null, result);
             }
         }
@@ -370,7 +370,7 @@ baiduMap.prototype.getPlaceSuggestion = function(query, callback){
 
                callback(null, placeList);
            }else{
-               logger.error("BaiduMap Failed, get result err : " + body );
+               logger.error("BaiduMap Failed, Place Suggestion API, get result err : " + body + " query:" + JSON.stringify(query) + " URL:" + url);
                callback(null, result);
            }
        }
