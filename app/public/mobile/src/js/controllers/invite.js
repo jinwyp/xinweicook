@@ -17,7 +17,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     ];
 
     $scope.places = [
-        '三栗屯', '仁敏广场', '老地方', '他家', '她家',
+        '陆家嘴', '仁敏广场', '老地方', '他家', '她家',
         '鹿夹嘴', '海腩岛', '续加惠', '精鹌撕', '馨舔底',
         '麻耳呆夫', '挤粥岛'
     ].map(function (place) {
