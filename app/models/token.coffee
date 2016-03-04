@@ -53,10 +53,11 @@ module.exports =
           access_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
           refresh_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
 
-        console.log(newToken)
 
         if req.get("User-Agent")
           newToken.userAgent = req.get("User-Agent")
+
+        console.log(newToken)
 
         if req.device.type is models.token.constantDeviceType().desktop
           newToken.deviceType = models.token.constantDeviceType().desktop
