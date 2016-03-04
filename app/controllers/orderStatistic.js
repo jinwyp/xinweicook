@@ -308,6 +308,8 @@ exports.orderExportList = function(req, res, next) {
             'userComment',
             'csComment',
 
+            'statisticsReferrer',
+
             'dishList'
 
 
@@ -322,6 +324,116 @@ exports.orderExportList = function(req, res, next) {
         res.download(path.join(__dirname, '../../app/public/admin/src/excel/output1.xlsx'));
 
     }).catch(next);
+
+
+};
+
+
+
+exports.orderExportReferrerList = function(req, res, next) {
+
+    //models.order.validationGetOrderList(req.query);
+
+    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+    /* DO SOMETHING WITH workbook HERE */
+
+    var first_sheet_name = workbook.SheetNames[0];
+    var first_worksheet = workbook.Sheets[first_sheet_name];
+
+    //var first_cell= first_worksheet['A1'];
+    //console.log (first_cell);
+
+    req.query.limit = 10000;
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+
+    var query = {
+        "status" : {$in : orderStatus},
+        "statisticsReferrer" : "1001",
+        "cookingType" : models.dish.constantCookingType().eat
+
+    };
+
+    if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
+        var date = JSON.parse(req.query.createdAt);
+        query.createdAt = {};
+        if (date['$gte']) query.createdAt['$gte'] = new Date(date['$gte']);
+        if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
+    }
+
+    models.order.find(query).skip(0).limit (req.query.limit)
+        .populate({path: 'dishList.dish', select: models.dish.fields()})
+        .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
+        .lean()
+        .execAsync()
+        .then(function(resultOrders){
+
+            var propertyList = [
+                'createdAt',
+                '_id',
+
+                'orderNumber',
+                'user',
+                'warehouse',
+
+                'isSplitOrder',
+                'isChildOrder',
+                'childOrderList',
+                'cookingType',
+                'packageType',
+                'language',
+
+                'clientFrom',
+                'payment',
+                'paymentUsedCash',
+                'isPaymentPaid',
+
+                'status',
+
+                'address',
+                'addressId',
+
+                'deliveryDateTime',
+                'deliveryDate',
+                'deliveryTime',
+                'deliveryDateType',
+
+                'express',
+                'expressStatus',
+                'expressPersonId',
+                'expressPersonName',
+                'expressPersonMobile',
+                'expressComment',
+
+
+                'promotionCode',
+                'promotionDiscount',
+                'coupon',
+                'couponDiscount',
+                'accountUsedDiscount',
+                'credit',
+                'dishesPrice',
+                'freight',
+                'totalPrice',
+
+                'userComment',
+                'csComment',
+
+                'statisticsReferrer',
+
+                'dishList'
+
+
+            ];
+
+            var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
+            workbook.Sheets[first_sheet_name] = newSheet;
+
+            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+            res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+        }).catch(next);
 
 
 };

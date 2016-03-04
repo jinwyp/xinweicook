@@ -25,6 +25,7 @@
     "cron": "^1.0.9",
     "ejs": "^2.3.3",
     "express": "^4.13.3",
+    "express-device": "^0.4.2",
     "express-restify-mongoose": "^2.3.0",
     "express-winston": "^0.3.1",
     "geetest": "^0.4.0",

@@ -155,6 +155,7 @@ expressRoutes = (app) ->
 
   app.get("/api/administrator/export/orderall", orderStatController.orderList)
   app.get("/api/administrator/export/orders", orderStatController.orderExportList)
+  app.get("/api/administrator/export/orders/referrer", orderStatController.orderExportReferrerList)
   app.get("/api/administrator/export/ordersinternal", orderStatController.orderExportInternalList)
   app.get("/api/administrator/export/orderadmin", orderStatController.orderListByAdmin)
 
