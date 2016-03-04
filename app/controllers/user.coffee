@@ -486,7 +486,7 @@ exports.userSignUp = (req, res, next) ->
         )
 
 
-    models.token.findTokenByMobilePwd(mobile, pwd)
+    models.token.findTokenByMobilePwd(req, mobile, pwd)
   .then (t) ->
     libs.cache.setHeader res
 
