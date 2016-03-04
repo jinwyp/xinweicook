@@ -53,11 +53,9 @@ module.exports =
           access_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
           refresh_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
 
-
         if req.get("User-Agent")
           newToken.userAgent = req.get("User-Agent")
 
-        console.log(newToken)
 
         if req.device.type is models.token.constantDeviceType().desktop
           newToken.deviceType = models.token.constantDeviceType().desktop
@@ -68,6 +66,7 @@ module.exports =
         if req.device.type is models.token.constantDeviceType().tablet
           newToken.deviceType = models.token.constantDeviceType().tablet
 
+        console.log(newToken)
         @findOneAndUpdateAsync({user:u._id, deviceType:newToken.deviceType}, newToken, {upsert:true, new:true})
       )
     findTokenByAccessToken: (access_token) ->
