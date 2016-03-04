@@ -70,8 +70,6 @@ module.exports =
             newToken.deviceType = models.token.constantDeviceType().tablet
 
 
-
-        console.log(newToken)
         @findOneAndUpdateAsync({user:u._id, deviceType:newToken.deviceType}, newToken, {upsert:true, new:true})
       )
     findTokenByAccessToken: (access_token) ->
