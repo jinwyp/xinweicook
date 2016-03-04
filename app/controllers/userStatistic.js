@@ -1875,25 +1875,29 @@ exports.userListOfHaveLastMonthOrder = function(req, res, next) {
                 if (monthList.indexOf(user.date) === -1 ){
                     monthList.push(user.date);
                 }
+            });
 
+            resultOrderList.map(function(user){
                 if (monthList.length > 0){
-                    if (monthList[0] === user.date){
-                        userListFirstMonth.push(user.userId)
+                    if (monthList[0] === user.date && userListFirstMonth.indexOf(user.userId.toString()) === -1){
+                        userListFirstMonth.push(user.userId.toString())
                     }
                 }
 
                 if (monthList.length > 1){
-                    if (monthList[1] === user.date){
-                        userListSecondMonth.push(user.userId)
+                    if (monthList[1] === user.date && userListSecondMonth.indexOf(user.userId.toString()) === -1){
+                        userListSecondMonth.push(user.userId.toString())
                     }
                 }
 
                 if (monthList.length > 2){
-                    if (monthList[2] === user.date){
-                        userListThirdMonth.push(user.userId)
+                    if (monthList[2] === user.date && userListThirdMonth.indexOf(user.userId.toString()) === -1){
+                        userListThirdMonth.push(user.userId.toString())
                     }
                 }
+
             });
+
             console.log(monthList);
             console.log(userListFirstMonth);
             console.log(userListSecondMonth);
