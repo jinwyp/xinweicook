@@ -1898,12 +1898,6 @@ exports.userListOfHaveLastMonthOrder = function(req, res, next) {
 
             });
 
-            console.log(monthList);
-            console.log(userListFirstMonth);
-            console.log(userListSecondMonth);
-            console.log(userListThirdMonth);
-
-
             userListFirstMonth.forEach(function(user){
                 if (userListSecondMonth.indexOf(user) === -1 && userListThirdMonth.indexOf(user) === -1){
                     if ( userList.indexOf(user) === -1){
