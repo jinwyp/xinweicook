@@ -1894,7 +1894,7 @@ exports.userListOfHaveLastMonthOrder = function(req, res, next) {
                     }
                 }
             });
-
+            console.log(monthList);
 
             userListFirstMonth.forEach(function(user){
                 if (userListSecondMonth.indexOf(user) === -1 || userListThirdMonth.indexOf(user) === -1){
