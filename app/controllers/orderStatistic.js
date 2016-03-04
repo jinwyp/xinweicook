@@ -1428,7 +1428,7 @@ exports.orderDailySales = function(req, res, next) {
         }},
 
         { "$sort": { "date" : 1} },
-        { "$limit": 200 }
+        { "$limit": 1000 }
     );
 
 
