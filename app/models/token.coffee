@@ -13,6 +13,7 @@ module.exports =
         desktop : "desktop"
         mobilephone : "phone"
         tablet : "tablet"
+        iosapp : "iosapp"
 
     getAccessTokenFromReqHeaders: (req)->
       req.get("authorization")?.split("Bearer ")[1]
@@ -56,15 +57,19 @@ module.exports =
         if req.get("User-Agent")
           newToken.userAgent = req.get("User-Agent")
 
+        if req.get("user-agent") is "Xinwei Cook"
+          newToken.deviceType = models.token.constantDeviceType().iosapp
+        else
+          if req.device.type is models.token.constantDeviceType().desktop
+            newToken.deviceType = models.token.constantDeviceType().desktop
 
-        if req.device.type is models.token.constantDeviceType().desktop
-          newToken.deviceType = models.token.constantDeviceType().desktop
+          if req.device.type is models.token.constantDeviceType().mobilephone
+            newToken.deviceType = models.token.constantDeviceType().mobilephone
 
-        if req.device.type is models.token.constantDeviceType().mobilephone
-          newToken.deviceType = models.token.constantDeviceType().mobilephone
+          if req.device.type is models.token.constantDeviceType().tablet
+            newToken.deviceType = models.token.constantDeviceType().tablet
 
-        if req.device.type is models.token.constantDeviceType().tablet
-          newToken.deviceType = models.token.constantDeviceType().tablet
+
 
         console.log(newToken)
         @findOneAndUpdateAsync({user:u._id, deviceType:newToken.deviceType}, newToken, {upsert:true, new:true})
