@@ -20,9 +20,13 @@ angular.module('xw.controllers').controller('promotion01', function (Coupon, $sc
     function init() {
         var cards = $scope.cards = [
             {
-                name: '开工大吉券',
-                price: 5,
-                code: 'XWPRM99901'
+                name: '美丽公主礼券',
+                price: 6,
+                code: 'XWPRM00301'
+            }, {
+                name: '气场女王礼券',
+                price: 6,
+                code: 'XWPRM00302'
             }
         ];
 
