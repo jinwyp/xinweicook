@@ -4,7 +4,17 @@ module.exports =
     access_token: String
     refresh_token: String
     user: type: Schema.ObjectId, ref: "user"
+    userAgent: type: String
+    deviceType: type: String
+
   statics:
+    constantDeviceType : () ->
+      type =
+        desktop : "desktop"
+        mobilephone : "phone"
+        tablet : "tablet"
+        iosapp : "iosapp"
+
     getAccessTokenFromReqHeaders: (req)->
       req.get("authorization")?.split("Bearer ")[1]
     tokenFound: (t) ->
@@ -18,7 +28,7 @@ module.exports =
         throw new Err "Access Token 已过期", 401
       else
         t
-    findTokenByMobilePwd: (mobile, pwd, deviceToken, couponcode) ->
+    findTokenByMobilePwd: (req, mobile, pwd, deviceToken, couponcode) ->
       models.user.findUserByMobilePwd(mobile,pwd)
       .bind(@)
       .then((u)->
@@ -37,17 +47,30 @@ module.exports =
 #            else
 #              models.device.createAsync({deviceToken:deviceToken, user: u._id})
         @u = u
-        @findOneAsync(user:u._id)
-      ).then((t)->
-        t or @createAsync(user:@u._id)
-      ).then((t)->
-        if conf.token.sso
-          t.genAccessToken(@u).genRefreshToken(@u).saveAsync().get(0)
+
+        newToken =
+          user : @u._id
+          deviceType : models.token.constantDeviceType().mobilephone
+          access_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
+          refresh_token : Base62.encode(u.autoIncrementId)+":"+libs.crypto.random(24)
+
+        if req.get("User-Agent")
+          newToken.userAgent = req.get("User-Agent")
+
+        if req.get("user-agent") is "Xinwei Cook"
+          newToken.deviceType = models.token.constantDeviceType().iosapp
         else
-          if t.isAccessTokenExpired()
-            t.genAccessToken(@u).saveAsync().get(0)
-          else
-            t
+          if req.device.type is models.token.constantDeviceType().desktop
+            newToken.deviceType = models.token.constantDeviceType().desktop
+
+          if req.device.type is models.token.constantDeviceType().mobilephone
+            newToken.deviceType = models.token.constantDeviceType().mobilephone
+
+          if req.device.type is models.token.constantDeviceType().tablet
+            newToken.deviceType = models.token.constantDeviceType().tablet
+
+
+        @findOneAndUpdateAsync({user:u._id, deviceType:newToken.deviceType}, newToken, {upsert:true, new:true})
       )
     findTokenByAccessToken: (access_token) ->
       @findOne(access_token: access_token).execAsync()

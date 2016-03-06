@@ -1754,13 +1754,14 @@ exports.userList = function(req, res, next) {
 
 
 
-exports.userList2 = function(req, res, next) {
+exports.userListOfHaveLastMonthOrder = function(req, res, next) {
 
     var today = moment().startOf('month');
     var last2month = today.clone().subtract(1, 'months');
+    var last3month = today.clone().subtract(2, 'months');
 
     query = {
-        "createdAt": { "$gte": last2month.toDate() },
+        "createdAt": { "$gte": last3month.toDate() },
         sharedInvitationSendCodeTotalCount: { "$gte": 2 }
     };
 
@@ -1772,7 +1773,7 @@ exports.userList2 = function(req, res, next) {
         "isChildOrder" : false,
         "status"       : {$in : orderStatus},
         //"cookingType"  : {$in : cookingType},
-        "createdAt"    : {"$gte" : last2month.toDate()}
+        "createdAt"    : {"$gte" : last3month.toDate()}
     };
 
 
@@ -1866,6 +1867,7 @@ exports.userList2 = function(req, res, next) {
         var monthList = [];
         var userListFirstMonth = [];
         var userListSecondMonth = [];
+        var userListThirdMonth = [];
         var userList = [];
 
         if (resultOrderList.length > 0){
@@ -1873,24 +1875,34 @@ exports.userList2 = function(req, res, next) {
                 if (monthList.indexOf(user.date) === -1 ){
                     monthList.push(user.date);
                 }
+            });
 
+            resultOrderList.map(function(user){
                 if (monthList.length > 0){
-                    if (monthList[0] === user.date){
-                        userListFirstMonth.push(user.userId)
+                    if (monthList[0] === user.date && userListFirstMonth.indexOf(user.userId.toString()) === -1){
+                        userListFirstMonth.push(user.userId.toString())
                     }
                 }
 
                 if (monthList.length > 1){
-                    if (monthList[1] === user.date){
-                        userListSecondMonth.push(user.userId)
+                    if (monthList[1] === user.date && userListSecondMonth.indexOf(user.userId.toString()) === -1){
+                        userListSecondMonth.push(user.userId.toString())
                     }
                 }
+
+                if (monthList.length > 2){
+                    if (monthList[2] === user.date && userListThirdMonth.indexOf(user.userId.toString()) === -1){
+                        userListThirdMonth.push(user.userId.toString())
+                    }
+                }
+
             });
 
-
             userListFirstMonth.forEach(function(user){
-                if (userListSecondMonth.indexOf(user) === -1){
-                    userList.push(user);
+                if (userListSecondMonth.indexOf(user) === -1 && userListThirdMonth.indexOf(user) === -1){
+                    if ( userList.indexOf(user) === -1){
+                        userList.push(user);
+                    }
                 }
             });
 

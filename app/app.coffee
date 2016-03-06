@@ -4,8 +4,10 @@ bodyParser = require "body-parser"
 cookieParser = require "cookie-parser"
 
 cors = require "cors"
-favicon = require "serve-favicon";
+favicon = require "serve-favicon"
 compression = require "compression"
+userAgentDevice = require('express-device')
+
 nunjucks = require "nunjucks"
 i18n = require "i18n"
 
@@ -62,6 +64,7 @@ app.use cookieParser()
 app.use bodyParser.json({limit: '1mb'})
 app.use bodyParser.urlencoded({ extended: true})
 app.use methodOverride("X-HTTP-Method-Override")
+app.use(userAgentDevice.capture());
 
 #app.use libs.logger.middleware() if conf.debug
 app.use(morgan('dev'))
