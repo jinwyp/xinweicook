@@ -249,6 +249,7 @@ module.exports =
           usedTime : 1
           user : user._id.toString()
           fromCoupon : resultCoupon._id.toString()
+          endDate: couponData.endDate
 
         models.coupon.createAsync(newCoupon)
       .then (resultCouponList)->
