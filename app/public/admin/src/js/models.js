@@ -176,18 +176,32 @@ angular.module('RDash.models').factory('Util', function ($http) {
 
 
                     angular.forEach(chartData, function(value, key) {
+                        if(typeof value.userDailyCount !== 'undefined'){
+                            result[0].data.push(Math.abs(value.userDailyCount));
+                            //result[0].type = 'line';
+                            result[0].name = '每日下单总用户数';
 
-                        result[0].data.push(Math.abs(value.userDailyCount));
-                        //result[0].type = 'line';
-                        result[0].name = '每日下单总用户数';
+                            result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
+                            //result[1].type = 'line';
+                            result[1].name = '每日下单新用户数';
 
-                        result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
-                        //result[1].type = 'line';
-                        result[1].name = '每日下单新用户数';
+                            result[2].data.push(Math.abs(value.userFisrtOrderPercent));
+                            //result[1].type = 'line';
+                            result[2].name = '每日下单新用户数占比';
+                        }else if(typeof value.userMonthlyCount !== 'undefined'){
+                            result[0].data.push(Math.abs(value.userMonthlyCount));
+                            //result[0].type = 'line';
+                            result[0].name = '每月下单总用户数';
 
-                        result[2].data.push(Math.abs(value.userFisrtOrderPercent));
-                        //result[1].type = 'line';
-                        result[2].name = '每日下单新用户数占比';
+                            result[1].data.push(Math.abs(value.userFisrtOrderQuantity));
+                            //result[1].type = 'line';
+                            result[1].name = '每月下单新用户数';
+
+                            result[2].data.push(Math.abs(value.userFisrtOrderPercent));
+                            //result[1].type = 'line';
+                            result[2].name = '每月下单新用户数占比';
+                        }
+
 
 
                     })
@@ -411,6 +425,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
 
         getUserStatisticLoyalPurchaseFrequency: function (params) {
             return $http.get('/api/admin/statistic/user/frequency', {
+                params: params
+            });
+        },
+
+        getUserStatisticNewFirstOrderUserMonthly: function (params) {
+            return $http.get('/api/admin/statistic/user/firstorder/monthly', {
                 params: params
             });
         },

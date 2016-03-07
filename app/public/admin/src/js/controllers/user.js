@@ -83,6 +83,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userStatisticOrderFrequency : {},
 
         userStatisticChartNewFirstOrderUserDaily : [],
+        userStatisticChartNewFirstOrderUserMonthly : [],
         userStatisticChartOrderUserWeekly : [],
         userStatisticChartOrderUserMonthly : [],
         userStatisticChartOrderUserYearly : {},
@@ -179,6 +180,47 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
     };
 
 
+
+    $scope.chartNewFirstOrderUserMonthly = {
+        options: {
+            chart: {
+                type: 'line'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        legend: {
+            enabled: false
+            //align : 'right'
+        },
+        series: [],
+        title: {
+            text: '每月有下单新用户与所有用户'
+        },
+        credits: {
+            enabled: true
+        },
+
+        xAxis: {
+            title: {
+                text: '月份'
+            },
+            categories: []
+            //labels: {
+            //    enabled: i === 0
+            //}
+        },
+        yAxis : {
+            title: {
+                text: '用户数'
+            }
+        },
+        loading: false,
+        size: {}
+    };
 
     $scope.chartNewFirstOrderUserDaily = {
         options: {
@@ -486,6 +528,43 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
     };
 
+
+    $scope.searchUserStatisticNewFirstOrderUserMonthly = function (form, sortBy) {
+
+        $scope.css.showTable = 'statNewFirstOrderUserMonthly';
+        $scope.css.searchUserStatisticSortBy = sortBy;
+
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
+        }
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserStatisticNewFirstOrderUserMonthly($scope.data.searchOptions.query).then(function (result) {
+
+            $scope.data.userStatisticChartNewFirstOrderUserMonthly = result.data;
+
+            $scope.chartNewFirstOrderUserMonthly.series = Util.chartDataFormat($scope.data.userStatisticChartNewFirstOrderUserMonthly);
+            $scope.chartNewFirstOrderUserMonthly.xAxis.categories = Util.chartxAxisFormat($scope.data.userStatisticChartNewFirstOrderUserMonthly);
+
+            Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+    };
 
     $scope.searchUserStatisticNewFirstOrderUserDaily = function (form, sortBy) {
 
