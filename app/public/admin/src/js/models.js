@@ -188,7 +188,7 @@ angular.module('RDash.models').factory('Util', function ($http) {
                             result[2].data.push(Math.abs(value.userFisrtOrderPercent));
                             //result[1].type = 'line';
                             result[2].name = '每日下单新用户数占比';
-                        }else if(typeof value.userMonthlyCount !== 'undefined'){{
+                        }else if(typeof value.userMonthlyCount !== 'undefined'){
                             result[0].data.push(Math.abs(value.userMonthlyCount));
                             //result[0].type = 'line';
                             result[0].name = '每月下单总用户数';
