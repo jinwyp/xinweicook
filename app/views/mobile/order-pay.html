@@ -98,7 +98,7 @@
 
         <div class="block price-group">
             <div>订单金额:<span class="rmb-char fee">{{data.orderPrice}}</span></div>
-            <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice()|number:1}}</span></div>
+            <div>优惠金额:<span class="rmb-char fee negative">{{couponPrice(form)|number:1}}</span></div>
             <div>运费:<span class="rmb-char fee">{{data.freight}}</span></div>
             <div ng-if="data.balance.total">新味币:<span class="rmb-char fee negative">{{usedBalance()|number:1}}</span></div>
             <div class="total">应付总额<span class="rmb-char fee">{{payPrice()|number:1}}</span></div>
@@ -116,6 +116,6 @@
 
 <%- include('includes/js.html') %>
 
-<script src="/mobile/dist/js/controllers/order-pay-af45a4feaa.js"></script>
+<script src="/mobile/dist/js/controllers/order-pay-e687efa67e.js"></script>
 
 </html>
