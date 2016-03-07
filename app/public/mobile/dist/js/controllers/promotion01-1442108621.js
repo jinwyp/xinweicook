@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('promotion01', function (Coupon, $scope, Debug, Alert, User) {
+angular.module('xw.controllers').controller('promotion01', function (Coupon, $scope, Debug, Alert, User, $location) {
 
     $scope.exchange = function (code) {
         var card;
@@ -18,13 +18,34 @@ angular.module('xw.controllers').controller('promotion01', function (Coupon, $sc
     };
 
     function init() {
-        var cards = $scope.cards = [
-            {
-                name: '开工大吉券',
-                price: 5,
-                code: 'XWPRM99901'
-            }
-        ];
+        var cards = $scope.cards = []
+        //var cards = $scope.cards = [
+        //    {
+        //        name: '美丽公主礼券',
+        //        price: 6,
+        //        code: 'XWPRM00301'
+        //    }, {
+        //        name: '气场女王礼券',
+        //        price: 6,
+        //        code: 'XWPRM00302'
+        //    }
+        //];
+
+        var path = $location.path()
+
+        if (path == '/queen') {
+            cards.push({
+                name: '气场女王礼券',
+                price: 6,
+                code: 'XWPRM00302'
+            })
+        } else {
+            $scope.cards.push(            {
+                name: '美丽公主礼券',
+                price: 6,
+                code: 'XWPRM00301'
+            })
+        }
 
         User.getUserInfo().then(function (res) {
             res.data.couponList.forEach(function (el) {
