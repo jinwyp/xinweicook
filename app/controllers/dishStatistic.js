@@ -4,6 +4,12 @@
 
 
 
+var warehouseObj = {
+    "xinweioffice" : {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60'), ObjectId('56c41a9e632771df68dbae0b')]},
+    "lujiazui1" : ObjectId('564ab6de2bde80bd10a9bc60'),
+    "caohejing1" : ObjectId('56332196594b09af6e6c7dd7'),
+    "pujiangzhen1" : ObjectId('56c41a9e632771df68dbae0b')
+};
 
 
 
@@ -90,15 +96,7 @@ exports.dishStatisticByStockLast7Day = function(req, res, next) {
 
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'xinweioffice') {
-            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
-
-        }else if (req.query.showForWarehouse === 'caohejing1'){
-            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
-
-        }else if (req.query.showForWarehouse === 'lujiazui1'){
-            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
-        }
+        matchQueryWarehouse = warehouseObj[req.query.showForWarehouse];
     }else{
         matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
@@ -515,19 +513,10 @@ exports.dishDailySales = function(req, res, next) {
 
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'xinweioffice') {
-            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
-
-        }else if (req.query.showForWarehouse === 'caohejing1'){
-            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
-
-        }else if (req.query.showForWarehouse === 'lujiazui1'){
-            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
-        }
+        matchQueryWarehouse = warehouseObj[req.query.showForWarehouse];
     }else{
         matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
-
 
 
     var dishIdList = [];
@@ -735,15 +724,7 @@ exports.dishDailySalesChart = function(req, res, next) {
 
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'xinweioffice') {
-            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
-
-        }else if (req.query.showForWarehouse === 'caohejing1'){
-            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
-
-        }else if (req.query.showForWarehouse === 'lujiazui1'){
-            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
-        }
+        matchQueryWarehouse = warehouseObj[req.query.showForWarehouse];
     }else{
         matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
@@ -869,15 +850,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
 
     if (typeof req.query.showForWarehouse !== 'undefined' && req.query.showForWarehouse !== '') {
 
-        if (req.query.showForWarehouse === 'xinweioffice') {
-            matchQueryWarehouse = {$nin : [ObjectId('56332196594b09af6e6c7dd7'), ObjectId('564ab6de2bde80bd10a9bc60')]};
-
-        }else if (req.query.showForWarehouse === 'caohejing1'){
-            matchQueryWarehouse = ObjectId('56332196594b09af6e6c7dd7');
-
-        }else if (req.query.showForWarehouse === 'lujiazui1'){
-            matchQueryWarehouse = ObjectId('564ab6de2bde80bd10a9bc60');
-        }
+        matchQueryWarehouse = warehouseObj[req.query.showForWarehouse];
     }else{
         matchQueryWarehouse = {$nin : [ObjectId('564ab6de2bde80bd10a9bc61')]};
     }
