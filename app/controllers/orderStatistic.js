@@ -719,7 +719,13 @@ exports.orderStatisticByAddress = function(req, res, next) {
         matchList.deliveryDateType = req.query.deliveryDateType
     }
 
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
 
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
+    }
 
     pipeline.push(
         { "$match":matchList}
@@ -829,7 +835,13 @@ exports.orderStatisticByAddressAuto = function(req, res, next) {
         matchList.deliveryDateType = req.query.deliveryDateType
     }
 
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
 
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
+    }
 
     var pipeline = [];
 
