@@ -71,6 +71,9 @@ gulp.task('mobileCopyImg', ['delDist'], function () {
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
 });
 
+
+
+
 gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
