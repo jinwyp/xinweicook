@@ -1522,7 +1522,7 @@ exports.orderHourSales = function(req, res, next) {
     if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
         matchList.couponFromChargeCode = req.query.couponFromChargeCode
     }
-    
+
     var pipeline = [];
 
     pipeline.push(
