@@ -103,7 +103,7 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         return data.orderPrice + data.freight;
     };
 
-    $scope.couponPrice = function () {
+    $scope.couponPrice = function (form) {
         var cardPrice,
             codePrice = 0,
             totalPrice = 0;
@@ -111,6 +111,16 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
         if (data.coupon.codeType == 'promocodepercentage') {
             totalPrice = $scope.totalPrice() - cardPrice
             codePrice = (100 - data.coupon.codePrice) / 100 * totalPrice
+
+            if (form) {
+                if (form.couponcode.$viewValue.length < 10 && form.couponcode.$viewValue.length !=8 && form.couponcode.$error.pattern
+                    || (form.couponcode.$viewValue.length == 8 && form.couponcode.$error.pattern)
+                    || form.$error.couponCode
+                ) {
+                    codePrice = 0
+                    console.log('wtf')
+                }
+            }
         } else {
             codePrice = data.coupon.codePrice || 0
         }
