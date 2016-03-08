@@ -38,7 +38,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-
-<script src="/mobile/dist/js/controllers/wxpay-91faf7fdc8.js"></script>
-
+<!-- build-replace-->
+<!-- build:wxpay(app/public/mobile/src) ../js/controllers/wxpay.js -->
+<script src="/mobile/src/js/controllers/wxpay.js"></script>
+<!-- endbuild -->
+<!-- end-build-replace-->
 </html>

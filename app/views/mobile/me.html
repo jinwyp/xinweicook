@@ -56,7 +56,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-
-<script src="/mobile/dist/js/controllers/me-3ba9c47274.js"></script>
-
+<!-- build-replace-->
+<!-- build:me(app/public/mobile/src) ../js/controllers/me.js -->
+<script src="/mobile/src/js/controllers/me.js"></script>
+<!-- endbuild -->
+<!-- end-build-replace-->
 </html>

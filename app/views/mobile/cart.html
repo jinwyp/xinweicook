@@ -65,7 +65,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-
-<script src="/mobile/dist/js/controllers/cart-fe6c7bd7b4.js"></script>
-
+<!-- build-replace-->
+<!-- build:cart(app/public/mobile/src) ../js/controllers/cart.js -->
+<script src="/mobile/src/js/controllers/cart.js"></script>
+<!-- endbuild -->
+<!-- end-build-replace-->
 </html>

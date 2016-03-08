@@ -54,7 +54,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-
-<script src="/mobile/dist/js/controllers/fav-list-1f8f81e0f9.js"></script>
-
+<!-- build-replace-->
+<!-- build:favList(app/public/mobile/src) ../js/controllers/fav-list.js -->
+<script src="/mobile/src/js/controllers/fav-list.js"></script>
+<!-- endbuild -->
+<!-- end-build-replace-->
 </html>
