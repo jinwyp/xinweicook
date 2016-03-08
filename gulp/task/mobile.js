@@ -60,7 +60,16 @@ gulp.task('errcode', function () {
 });
 
 
+gulp.task('delDist', function () {
+    return del([
+        paths.baseStatic + paths.distMobile.all
+    ]);
+});
 
+gulp.task('mobileCopyImg', ['delDist'], function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.img)
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
+});
 
 gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
@@ -95,11 +104,7 @@ gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
         .pipe(gulpif('css.html', gulp.dest(paths.baseStatic + paths.distMobile.htmlDir + 'includes')))
 });
 
-gulp.task('delDist', function () {
-    return del([
-        paths.baseStatic + paths.distMobile.all
-    ]);
-});
+
 
 gulp.task('delMobileViewsAndIncludes', ['mobileUsemin'], function () {
     return del([
@@ -113,9 +118,6 @@ gulp.task('mobileCopy2Views', ['delMobileViewsAndIncludes'], function () {
         .pipe(gulp.dest(paths.baseView + 'mobile'))
 });
 
-gulp.task('mobileCopyImg', ['delDist'], function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.img)
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
-});
+
 
 gulp.task('mobileProduction', ['mobileCopy2Views']);
