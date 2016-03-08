@@ -8,7 +8,7 @@ var concat = require('gulp-concat');
 var minifyHtml = require("gulp-minify-html");
 var uglify = require("gulp-uglify");
 var ngTemplateCache = require('gulp-angular-templatecache');
-var ngAnnotate = require('gulp-ng-annotate');
+
 var gulpif = require("gulp-if");
 var fs = require("fs");
 var usemin = require('gulp-usemin');
@@ -19,6 +19,8 @@ var revAll = new GulpRevAll();
 var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
 
+var ngAnnotate = require('gulp-ng-annotate');
+
 
 var paths = {
     baseStatic : 'app/public/',
@@ -26,9 +28,9 @@ var paths = {
 
     sourceMobile : {
         root : 'mobile/src',
-        js : 'mobile/src/js/**/*.js',
+        js : 'mobile/src/js/*.js',
+        jsControllers : 'mobile/src/js/controllers/*.js',
         css: 'mobile/src/css/*.css',
-        html : 'mobile/src/html/**/*',
         img: 'mobile/src/img/**/*'
     },
 
@@ -72,7 +74,7 @@ gulp.task('delDist', function () {
 
 gulp.task('mobileCopyImg', ['delDist'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.img)
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgrootDir))
 });
 
 
@@ -81,9 +83,25 @@ gulp.task("mobileMinifyCss", function () {
         .pipe(sourcemaps.init())
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(sourcemaps.write('.'))
-        //.pipe(gulp.dest(paths.baseStatic + paths.distMobile.css))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.css));
+});
+
+
+gulp.task("mobileMinifyJs", function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
+        .pipe(ngAnnotate())
+        .pipe(concat('app.js'))
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js));
+
+});
+
+gulp.task("mobileRev", function () {
+    return gulp.src(paths.baseStatic + paths.distMobile.all)
         .pipe(revAll.revision())
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.css))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root))
         .pipe(revAll.manifestFile())
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
 });
