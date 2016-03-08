@@ -33,6 +33,7 @@ function orderController($scope, $timeout, $state, $stateParams, $localStorage, 
                 cookingType : '',
                 clientFrom : '',
                 deliveryDateType : '',
+                couponFromChargeCode : '',
                 statisticsReferrer : ''
             }
         },
