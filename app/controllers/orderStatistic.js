@@ -964,6 +964,13 @@ exports.orderMonthlySales = function(req, res, next) {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
+
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
+    }
 
     var pipelinePerMonth = [];
 
@@ -1116,6 +1123,14 @@ exports.orderWeeklySales = function(req, res, next) {
 
     if (typeof req.query.warehouse !== 'undefined' && req.query.warehouse !== '') {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
+    }
+
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
+
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
     }
 
 
@@ -1276,6 +1291,13 @@ exports.orderDailySales = function(req, res, next) {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
+
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
+    }
 
     var pipeline = [];
 
@@ -1493,6 +1515,14 @@ exports.orderHourSales = function(req, res, next) {
         matchList.warehouse = ObjectId(req.query.warehouse.toString())
     }
 
+    if (typeof req.query.statisticsReferrer !== 'undefined' && req.query.statisticsReferrer !== '') {
+        matchList.statisticsReferrer = req.query.statisticsReferrer
+    }
+
+    if (typeof req.query.couponFromChargeCode !== 'undefined' && req.query.couponFromChargeCode !== '') {
+        matchList.couponFromChargeCode = req.query.couponFromChargeCode
+    }
+    
     var pipeline = [];
 
     pipeline.push(
