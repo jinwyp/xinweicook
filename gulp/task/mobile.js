@@ -6,15 +6,18 @@ var useref = require('gulp-useref');
 var replace = require('gulp-replace');
 var concat = require('gulp-concat');
 var minifyHtml = require("gulp-minify-html");
-var minifyCss = require("gulp-minify-css");
 var uglify = require("gulp-uglify");
 var ngTemplateCache = require('gulp-angular-templatecache');
 var ngAnnotate = require('gulp-ng-annotate');
 var gulpif = require("gulp-if");
 var fs = require("fs");
 var usemin = require('gulp-usemin');
-var sourcemaps = require('gulp-sourcemaps');
 
+
+var GulpRevAll = require('gulp-rev-all');
+var revAll = new GulpRevAll();
+var cleanCSS = require('gulp-clean-css');
+var sourcemaps = require('gulp-sourcemaps');
 
 
 var paths = {
@@ -33,6 +36,7 @@ var paths = {
         all: 'mobile/dist/**',
         root : 'mobile/dist/',
         js : 'mobile/dist/js',
+        css : 'mobile/dist/css',
         htmlDir: 'mobile/dist/html/',
         html: 'mobile/dist/html/**/*',
         imgDir: 'mobile/dist/img/'
@@ -72,12 +76,23 @@ gulp.task('mobileCopyImg', ['delDist'], function () {
 });
 
 
+gulp.task("mobileMinifyCss", function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.css)
+        .pipe(sourcemaps.init())
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(sourcemaps.write('.'))
+        //.pipe(gulp.dest(paths.baseStatic + paths.distMobile.css))
+        .pipe(revAll.revision())
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.css))
+        .pipe(revAll.manifestFile())
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
+});
 
 
 gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
-        css: [sourcemaps.init(), minifyCss(), rev(), sourcemaps.write('.')],
+        css: [sourcemaps.init(),  rev(), sourcemaps.write('.')],
         js: [ngAnnotate(), sourcemaps.init(), uglify(), 'concat', rev(), sourcemaps.write('.')]
     };
     fs.readdirSync(paths.baseStatic + paths.sourceMobile.root + '/js/controllers')
