@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var del = require('del');
 var replace = require('gulp-replace');
 var concat = require('gulp-concat');
+var rename = require('gulp-rename');
+
 var minifyHtml = require("gulp-minify-html");
 var uglify = require("gulp-uglify");
 var ngTemplateCache = require('gulp-angular-templatecache');
@@ -24,16 +26,15 @@ var paths = {
     sourceMobile : {
         root : 'mobile/src',
         js : 'mobile/src/js/*.js',
-        jsControllers : 'mobile/src/js/controllers/*.js',
         css: 'mobile/src/css/*.css',
         img: 'mobile/src/img/**/*'
     },
 
     distMobile : {
-        all: 'mobile/dist/**',
+        all: ['app/public/mobile/src/js/app.min*', 'app/public/mobile/src/js/controllers/*.js', 'app/public/mobile/src/css/main.min*'],
         root : 'mobile/dist2/',
-        js : 'mobile/dist2/js',
-        css : 'mobile/dist2/css',
+        js : 'mobile/src/js',
+        css : 'mobile/src/css',
         htmlDir: 'mobile/dist2/html/',
         html: 'mobile/dist2/html/**/*',
         imgDir: 'mobile/dist2/img/'
@@ -75,9 +76,10 @@ gulp.task('mobileCopyImg', ['delDist'], function () {
 
 gulp.task("mobileMinifyCss", function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.css)
-        .pipe(sourcemaps.init())
+        .pipe(rename({suffix: '.min'}))
+        //.pipe(sourcemaps.init())
         .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(sourcemaps.write('.'))
+        //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.css));
 });
 
@@ -86,24 +88,20 @@ gulp.task("mobileMinifyJs", function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.js)
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js));
-});
-
-gulp.task("mobileMinifyJsControllers", function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.jsControllers)
-        .pipe(ngAnnotate())
+        .pipe(rename({suffix: '.min'}))
         //.pipe(sourcemaps.init())
-        //.pipe(uglify())
+        .pipe(uglify())
         //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js));
 });
 
-gulp.task("mobileRev", function () {
-    return gulp.src(paths.baseStatic + paths.distMobile.all)
+
+
+gulp.task("mobileRev", ['mobileMinifyCss', 'mobileMinifyJs'], function () {
+    return gulp.src(paths.distMobile.all)
+        .pipe(sourcemaps.init())
         .pipe(revAll.revision())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root))
         .pipe(revAll.manifestFile())
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
