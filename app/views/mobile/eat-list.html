@@ -56,9 +56,11 @@
 
 </body>
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:eatList(app/public/mobile/src) ../js/controllers/eat-list.js -->
-<script src="/mobile/src/js/controllers/eat-list.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/eat-list.js"></script>-->
+<script src="/mobile/dist2<%= rev('js/controllers/eat-list.js') %>"></script>
+
+
+
+
 </html>

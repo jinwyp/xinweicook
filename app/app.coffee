@@ -8,6 +8,7 @@ favicon = require "serve-favicon"
 compression = require "compression"
 userAgentDevice = require('express-device')
 
+manifestRev = require('./libs/manifest.js');
 nunjucks = require "nunjucks"
 i18n = require "i18n"
 
@@ -26,6 +27,13 @@ app.set("view engine", "ejs")
 app.engine("ejs", require('ejs').renderFile);
 app.engine("nunj", nunjucks.render);
 app.engine("html", require('ejs').renderFile);
+
+
+app.use(manifestRev({
+  manifest: 'app/public/mobile/dist2/rev-manifest.json',
+  prepend: ''
+}));
+
 
 envnunjucks = nunjucks.configure({
 #  watch: process.env.NODE_ENV == 'development' # caused 100% used of cpu.

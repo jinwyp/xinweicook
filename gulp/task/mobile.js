@@ -26,17 +26,17 @@ var paths = {
     sourceMobile : {
         root : 'mobile/src',
         js : 'mobile/src/js/*.js',
+        jsControllers : 'mobile/src/js/controllers/*.js',
         css: 'mobile/src/css/*.css',
         img: 'mobile/src/img/**/*'
     },
 
     distMobile : {
-        all: ['app/public/mobile/src/js/app.min*', 'app/public/mobile/src/js/controllers/*.js', 'app/public/mobile/src/css/main.min*'],
+        all: ['app/public/mobile/dist2/js/app.min*', 'app/public/mobile/dist2/js/controllers/*', 'app/public/mobile/dist2/css/main.min*' ],
         root : 'mobile/dist2/',
-        js : 'mobile/src/js',
-        css : 'mobile/src/css',
-        htmlDir: 'mobile/dist2/html/',
-        html: 'mobile/dist2/html/**/*',
+        js : 'mobile/dist2/js',
+        jsControllers : 'mobile/dist2/js/controllers',
+        css : 'mobile/dist2/css',
         imgDir: 'mobile/dist2/img/'
     }
 };
@@ -64,18 +64,20 @@ gulp.task('errcode', function () {
 
 gulp.task('delDist', function () {
     return del([
-        paths.baseStatic + paths.distMobile.all
+        paths.baseStatic + paths.distMobile.root
     ]);
 });
 
 gulp.task('mobileCopyImg', ['delDist'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.img)
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgrootDir))
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
 });
 
 
-gulp.task("mobileMinifyCss", function () {
+
+gulp.task("mobileMinifyCss", ['mobileCopyImg'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.css)
+        .pipe(concat('main.css'))
         .pipe(rename({suffix: '.min'}))
         //.pipe(sourcemaps.init())
         .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -84,7 +86,12 @@ gulp.task("mobileMinifyCss", function () {
 });
 
 
-gulp.task("mobileMinifyJs", function () {
+gulp.task('mobileCopyJsControllers', ['mobileMinifyCss'], function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.jsControllers)
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.jsControllers))
+});
+
+gulp.task("mobileMinifyJs", ['mobileCopyJsControllers'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.js)
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))
@@ -97,7 +104,7 @@ gulp.task("mobileMinifyJs", function () {
 
 
 
-gulp.task("mobileRev", ['mobileMinifyCss', 'mobileMinifyJs'], function () {
+gulp.task("mobileRev", [ 'mobileMinifyJs'], function () {
     return gulp.src(paths.distMobile.all)
         .pipe(sourcemaps.init())
         .pipe(revAll.revision())
@@ -107,54 +114,11 @@ gulp.task("mobileRev", ['mobileMinifyCss', 'mobileMinifyJs'], function () {
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
 });
 
-//
-//gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
-//    var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
-//    var useminOptions = {
-//        css: [sourcemaps.init(),  rev(), sourcemaps.write('.')],
-//        js: [ngAnnotate(), sourcemaps.init(), uglify(), 'concat', rev(), sourcemaps.write('.')]
-//    };
-//    fs.readdirSync(paths.baseStatic + paths.sourceMobile.root + '/js/controllers')
-//        .forEach(function (file) {
-//            file = file.split('.')[0].split('-');
-//            var name = file[0];
-//            for (var i = 1; i < file.length; i++) {
-//                name += file[i][0].toUpperCase() + file[i].slice(1);
-//            }
-//            useminOptions[name] = [rev()];
-//        });
-//
-//    return gulp.src([paths.baseStatic + paths.sourceMobile.html])
-//        .pipe(replace(replaceBlock, function (_, m) {
-//            return '<!-- build-replace-->'
-//                + m.replace(/\/mobile\/src\//g, '')
-//                + '<!-- end-build-replace-->';
-//        }))
-//        .pipe(usemin(useminOptions))
-//        .pipe(replace(replaceBlock, function (_, m) {
-//            return m.replace(/\b(href|src)="\.\.(.*?")/g, function (_, m1, m2) {
-//                return m1 + '="/mobile/dist' + m2
-//            })
-//        }))
-//        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.htmlDir))
-//        .pipe(gulpif('js.html', gulp.dest(paths.baseStatic + paths.distMobile.htmlDir + 'includes')))
-//        .pipe(gulpif('css.html', gulp.dest(paths.baseStatic + paths.distMobile.htmlDir + 'includes')))
-//});
 
 
 
-gulp.task('delMobileViewsAndIncludes', ['mobileUsemin'], function () {
-    return del([
-        paths.baseView + 'mobile',
-        paths.baseStatic + paths.distMobile.htmlDir + '{css.html,js.html}'
-    ])
-});
-
-gulp.task('mobileCopy2Views', ['delMobileViewsAndIncludes'], function () {
-    return gulp.src(paths.baseStatic + paths.distMobile.html)
-        .pipe(gulp.dest(paths.baseView + 'mobile'))
-});
 
 
 
-gulp.task('mobileProduction', ['mobileCopy2Views']);
+
+gulp.task('mobileProduction', ['mobileRev']);
