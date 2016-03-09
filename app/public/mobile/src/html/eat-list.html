@@ -13,15 +13,15 @@
 <address-selection animate-trigger="addressCount" show="addressLoaded" path="{{path}}"
                    address="address" no-address="!addresses.length"></address-selection>
 
-<div class="coupon-tip" ng-if="coupon.expiringCount && css.showCouponTip">
+<div flash-class="{exp: css.showCouponTip, duration: css.couponDuration}"  class="coupon-tip">
     <i class="icon sounder"></i>
     <span class="content">
         您有
         <strong>{{coupon.expiringCount}}</strong>张优惠券将在
-        <strong>{{coupon.expiringDays}}</strong>天后过期,请立即使用
-        <i class="icon entry"></i>
+        <strong>{{coupon.expiringDays + 1}}</strong>天后过期,请立即使用
+        <!--<i class="icon entry"></i>-->
     </span>
-    <i class="icon close"></i>
+    <!--<i class="icon close"></i>-->
 </div>
 
 <div class="eat-list-wrapper" ng-cloak>

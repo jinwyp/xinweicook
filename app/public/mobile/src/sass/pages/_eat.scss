@@ -49,6 +49,10 @@ $out-of-stock-bg-color: #B9B9B9; //#75A3B7;
   z-index: 1;
   line-height: 2.5;
   font-size: 13px;
+  -webkit-transition: opacity .5s;
+  -moz-transition: opacity .5s;
+  transition: opacity .5s;
+  opacity: 0;
   strong {
     color: #D20F1E;
     margin-right: 1px;
@@ -74,6 +78,9 @@ $out-of-stock-bg-color: #B9B9B9; //#75A3B7;
     //  right: 7px;
     //  top: 6px;
     //}
+  }
+  &.flash {
+    opacity: 1;
   }
 }
 

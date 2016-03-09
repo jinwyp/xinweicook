@@ -13,7 +13,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         expiringDays: 0
     }
     $scope.css = {
-        showCouponTip: true
+        showCouponTip: false,
+        couponDuration: 4500
     }
     var dishList = $scope.dishList = {}; // 将两个列表分开
 
@@ -184,10 +185,16 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                     }
 
                     // 过滤优惠券
-
+                    $scope.coupon = initCouponTip(res.data, new Date(res.headers('Date')))
+                    if ($scope.coupon.expiringCount > 0) {
+                        $scope.css.showCouponTip = true
+                        $timeout(function () {
+                            $scope.css.showCouponTip = false
+                        }, $scope.css.couponDuration)
+                    }
 
                     return $scope.user = res.data;
-            })
+                })
         ]).then(function (results) {
             //初始化用户的喜好到菜品
             var dishLikeList = results[1].dishLikeList;
@@ -201,16 +208,33 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         });
     }
 
-    function initCouponTip(user) {
-        var cards = user.couponList.filter(function (el) {
-            return !el.isUsed && !el.isExpired
+    function initCouponTip(user, now) {
+        var tips = []
+        var oneDayTime = 24 * 60 * 60 * 1000
+        var daySize = 3
+        var ret = {
+            expiringCount: 0,
+            expiringDays: 0
+        }
+        user.couponList.filter(function (el) {
+            return !el.isUsed && (new Date(el.endDate) > now)
+        }).forEach(function (el) {
+            var remain = Math.floor((new Date(el.endDate) - now) / oneDayTime)
+            if (!tips[remain]) {
+                tips[remain] = 1
+            } else tips[remain]++
         })
 
-        var daySize = 3
-        for (var i = 0; i < daySize; i++) {
-            var
+        // todo:暂时只按照3天内,所有优惠券中最大天数的那个优惠券来显示,否则按照worktile上的方案来,看着有点傻
+        // 例如: 1张1天内过期,1张2天内过期,那么显示2张2天内过期
+        tips.slice(0, daySize).forEach(function (count, i) {
+            if (count > 0) {
+                ret.expiringDays = i
+                ret.expiringCount += count
+            }
+        })
 
-        }
+        return ret
     }
 
     init();
