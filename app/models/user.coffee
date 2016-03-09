@@ -56,6 +56,7 @@ module.exports =
     lang: String #zh #en
 
     referrer: String #来源于销售推荐
+    referrerLevel: type: Number #来源于销售推荐 传销第几层级
 
     shoppingCart: [
       dish: type: Schema.ObjectId, ref: "dish"
