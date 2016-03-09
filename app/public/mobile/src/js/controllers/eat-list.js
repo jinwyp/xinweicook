@@ -8,6 +8,13 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.addresses = null;
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.warehouse = ''; // 作为筛选菜品使用
+    $scope.coupon = {
+        expiringCount: 1,
+        expiringDays: 0
+    }
+    $scope.css = {
+        showCouponTip: true
+    }
     var dishList = $scope.dishList = {}; // 将两个列表分开
 
     $scope.addDish = function (dish) {
@@ -151,32 +158,35 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             // 初始化user like list
             $scope.user ? $q.resolve($scope.user) :
                 User.getUserInfo().then(function (res) {
-                // 如果是微信用户, 但是并没有获取到用户的微信信息, 则提示用户重新登录以获取用户信息
-                if (Weixin.isWeixin) {
-                    if (!res.data.weixinId || !res.data.weixinId.openid) {
-                        if (confirm('由于需要您的微信支付授权,否则将无法完成微信支付付款.重新登录并获取微信支付授权吗?')) {
-                            User.logout().then(function () {
-                                location.href = '/mobile/login'
+                    // 如果是微信用户, 但是并没有获取到用户的微信信息, 则提示用户重新登录以获取用户信息
+                    if (Weixin.isWeixin) {
+                        if (!res.data.weixinId || !res.data.weixinId.openid) {
+                            if (confirm('由于需要您的微信支付授权,否则将无法完成微信支付付款.重新登录并获取微信支付授权吗?')) {
+                                User.logout().then(function () {
+                                    location.href = '/mobile/login'
+                                })
+                            }
+                        } else {
+                            User.getWeixinUserInfo(res.data._id).then(function (res) {
+                                if (res.data.subscribe) {
+                                    var promotion = storage.promotion;
+                                    if (promotion) {
+                                        Coupon.exchangeCouponCode(promotion).then(function () {
+                                            alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
+                                            delete storage.promotion;
+                                        })
+                                    }
+                                } else if (Weixin.isWeixin) {
+                                    location.replace( '/mobile/wxgzh');
+                                }
                             })
                         }
-                    } else {
-                        User.getWeixinUserInfo(res.data._id).then(function (res) {
-                            if (res.data.subscribe) {
-                                var promotion = storage.promotion;
-                                if (promotion) {
-                                    Coupon.exchangeCouponCode(promotion).then(function () {
-                                        alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
-                                        delete storage.promotion;
-                                    })
-                                }
-                            } else if (Weixin.isWeixin) {
-                                location.replace( '/mobile/wxgzh');
-                            }
-                        })
                     }
-                }
 
-                return $scope.user = res.data;
+                    // 过滤优惠券
+
+
+                    return $scope.user = res.data;
             })
         ]).then(function (results) {
             //初始化用户的喜好到菜品
@@ -189,6 +199,18 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
                 })
             })
         });
+    }
+
+    function initCouponTip(user) {
+        var cards = user.couponList.filter(function (el) {
+            return !el.isUsed && !el.isExpired
+        })
+
+        var daySize = 3
+        for (var i = 0; i < daySize; i++) {
+            var
+
+        }
     }
 
     init();

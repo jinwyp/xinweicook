@@ -13,6 +13,17 @@
 <address-selection animate-trigger="addressCount" show="addressLoaded" path="{{path}}"
                    address="address" no-address="!addresses.length"></address-selection>
 
+<div class="coupon-tip" ng-if="coupon.expiringCount && css.showCouponTip">
+    <i class="icon sounder"></i>
+    <span class="content">
+        您有
+        <strong>{{coupon.expiringCount}}</strong>张优惠券将在
+        <strong>{{coupon.expiringDays}}</strong>天后过期,请立即使用
+        <i class="icon entry"></i>
+    </span>
+    <i class="icon close"></i>
+</div>
+
 <div class="eat-list-wrapper" ng-cloak>
     <ul class="eat-list food-list" ng-repeat="(name, dishes) in dishList track by name" ng-if="(path == '/eat' && name == 'eatList') || (path == '/cook' && name == 'cookList')">
         <li ng-repeat="dish in dishes track by dish._id">

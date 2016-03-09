@@ -41,12 +41,49 @@ $out-of-stock-bg-color: #B9B9B9; //#75A3B7;
   }
 }
 
+.coupon-tip {
+  position: fixed;
+  top: 42px;
+  background-color: #FFFCC7;
+  width: 100%;
+  z-index: 1;
+  line-height: 2.5;
+  font-size: 13px;
+  strong {
+    color: #D20F1E;
+    margin-right: 1px;
+  }
+  .icon {
+    display: inline-block;
+    &.sounder {
+      @include retina-sprite-background(sounderIcon);
+      margin-right: 3px;
+      margin-left: 6px;
+      position: relative;
+      top: 2px;
+    }
+    &.entry {
+      @include retina-sprite-background(entryIcon);
+      margin-left: 2px;
+      position: relative;
+      top: 2px;
+    }
+    //&.close {
+    //  @include retina-sprite-background(CloseIcon);
+    //  position: absolute;
+    //  right: 7px;
+    //  top: 6px;
+    //}
+  }
+}
+
 .img-group {
   img {
     width: 100%;
     min-height: 202px; // for browsers not supporting vw.
     height: 66.66vw; // view port width * 2/3 (actual image's height/width ratio)
   }
+
 }
 
 .menu-body {
