@@ -461,6 +461,8 @@ exports.userSignUp = (req, res, next) ->
         pwd    : pwd
 
       newUser.referrer = referrer if referrer
+      newUser.referrerLevel = 1 if referrer
+
       ua = req.get("user-agent")
       re = /MicroMessenger/
 

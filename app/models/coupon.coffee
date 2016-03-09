@@ -297,6 +297,11 @@ module.exports =
           user.invitationFromCode = resultUser.invitationSendCode
           user.invitationFromUser = resultUser._id.toString()
 
+          #来源于销售推荐 通过朋友邀请的用户 传销第几层级
+          if resultUser.referrer
+            user.referrer = resultUser.referrer
+            user.referrerLevel = resultUser.referrerLevel + 1
+
           newCoupon =
             name :
               zh : "好友邀请优惠券"

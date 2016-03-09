@@ -59,6 +59,9 @@ gulp.task('errcode', function () {
         .pipe(gulp.dest('app/public/mobile/src/js'));
 });
 
+
+
+
 gulp.task("mobileUsemin", ['mobileCopyImg'], function () {
     var replaceBlock = /<!-- build-replace-->([\w\W]*?)<!-- end-build-replace-->/g;
     var useminOptions = {
