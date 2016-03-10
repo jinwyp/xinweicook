@@ -25,7 +25,7 @@ var paths = {
 
     sourceMobile : {
         root : 'mobile/src',
-        js : ['app/public/mobile/src/js/*.js', 'app/public/mobile/src/js/service/*.js', 'app/public/mobile/src/js/directives/*.js' ],
+        js : ['app/public/mobile/src/js/modules.js', 'app/public/mobile/src/js/*.js', '!app/public/mobile/src/js/_config.js', 'app/public/mobile/src/js/service/*.js', 'app/public/mobile/src/js/directives/*.js' ],
         jsControllers : 'mobile/src/js/controllers/*.js',
         css: 'mobile/src/css/*.css',
         img: 'mobile/src/img/**/*'
