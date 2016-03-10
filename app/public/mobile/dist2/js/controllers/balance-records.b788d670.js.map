@@ -1,1 +1,0 @@
-{"version":3,"names":[],"mappings":"","sources":["balance-records.js"],"sourcesContent":["angular.module('xw.controllers').controller('balanceRecordsCtrl', function ($scope, Balance) {\n    Balance.balanceRecords().then(function (res) {\n        $scope.records = res.data;\n    })\n});"],"file":"js/controllers/balance-records.b788d670.js","sourceRoot":"/source/"}
