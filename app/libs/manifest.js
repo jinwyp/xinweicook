@@ -12,7 +12,7 @@ module.exports = function(config) {
     var manifest;
     var prepend;
 
-    var config = _.merge({
+    config = _.merge({
         manifest: 'public/rev-manifest.json',
         prepend: 'src',
         prependProduction: 'dist',
@@ -29,6 +29,7 @@ module.exports = function(config) {
 
     if ( config.debug ) {
         prepend = config.prepend;
+        manifest = {};
     }else{
         prepend = config.prependProduction;
     }
