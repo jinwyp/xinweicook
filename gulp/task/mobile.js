@@ -68,14 +68,9 @@ gulp.task('delDist', function () {
     ]);
 });
 
-gulp.task('mobileCopyImg', ['delDist'], function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.img)
-        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
-});
 
 
-
-gulp.task("mobileMinifyCss", ['mobileCopyImg'], function () {
+gulp.task("mobileMinifyCss", ['delDist'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.css)
         .pipe(concat('main.css'))
         .pipe(rename({suffix: '.min'}))
@@ -115,10 +110,14 @@ gulp.task("mobileRev", [ 'mobileMinifyJs'], function () {
 });
 
 
+gulp.task('mobileCopyImg', ['mobileRev'], function () {
+    return gulp.src(paths.baseStatic + paths.sourceMobile.img)
+        .pipe(gulp.dest(paths.baseStatic + paths.distMobile.imgDir))
+});
 
 
 
 
 
 
-gulp.task('mobileProduction', ['mobileRev']);
+gulp.task('mobileProduction', ['mobileCopyImg']);
