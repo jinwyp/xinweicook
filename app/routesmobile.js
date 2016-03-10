@@ -17,14 +17,8 @@ var request = require('request');
 expressRoutes = function(app) {
 
 
-    var pathPrefix = '';
-    if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
-        // views dir: /views/  .see app.coffee
-        pathPrefix = 'mobile/'
-    } else {
-        // views dir: /public/
-        pathPrefix = 'mobile/src/html/'
-    }
+    var pathPrefix = 'mobile/'; // views dir
+
 
     app.get("/", function (req, res) {
         res.redirect('/mobile');
@@ -148,6 +142,7 @@ expressRoutes = function(app) {
             lng: 121.398949
         }
     };
+
     app.get('/mobile/distance', function (req, res, next) {
             // 使用gcj02坐标.
             var destinations = req.query.destinations || '';

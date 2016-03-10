@@ -66,8 +66,11 @@
 <menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 
 </body>
-<%- include('includes/js.html') %>
+<% include includes/js.html %>
 
-<script src="/mobile/dist/js/controllers/eat-list-f584bf5e08.js"></script>
+<!--<script src="/mobile/src/js/controllers/eat-list.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/eat-list.js') %>"></script>
+
+
 
 </html>
