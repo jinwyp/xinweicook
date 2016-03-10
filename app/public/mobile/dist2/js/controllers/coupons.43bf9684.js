@@ -44,9 +44,4 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
     }
 
     init();
-<<<<<<< HEAD:app/public/mobile/dist2/js/controllers/coupons.a3005290.js
 });
-=======
-});
-//# sourceMappingURL=coupons.43bf9684.js.map
->>>>>>> origin/develop:app/public/mobile/dist2/js/controllers/coupons.43bf9684.js
