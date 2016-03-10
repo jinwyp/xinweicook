@@ -25,7 +25,7 @@ var paths = {
 
     sourceMobile : {
         root : 'mobile/src',
-        js : 'mobile/src/js/*.js',
+        js : ['app/public/mobile/src/js/*.js', 'app/public/mobile/src/js/service/*.js', 'app/public/mobile/src/js/directives/*.js' ],
         jsControllers : 'mobile/src/js/controllers/*.js',
         css: 'mobile/src/css/*.css',
         img: 'mobile/src/img/**/*'
@@ -87,7 +87,7 @@ gulp.task('mobileCopyJsControllers', ['mobileMinifyCss'], function () {
 });
 
 gulp.task("mobileMinifyJs", ['mobileCopyJsControllers'], function () {
-    return gulp.src(paths.baseStatic + paths.sourceMobile.js)
+    return gulp.src(paths.sourceMobile.js)
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))
         .pipe(rename({suffix: '.min'}))
