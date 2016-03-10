@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
 
 
-    <% if(true){ %>
+    <% if(settings.env == "production"){ %>
     <link rel="stylesheet" href="/mobile/<%= rev('css/main.min.css') %>"/>
     <% } else{ %>
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>

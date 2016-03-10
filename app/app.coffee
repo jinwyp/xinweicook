@@ -33,7 +33,7 @@ app.use(manifestRev({
   manifest: 'app/public/mobile/dist2/rev-manifest.json',
   prependProduction: 'dist2'
   prepend: 'src'
-  debug : (if process.env.NODE_ENV is 'production' then false else false)
+  debug : (if process.env.NODE_ENV is 'production' then false else true)
 }));
 
 
