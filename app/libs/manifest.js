@@ -34,7 +34,6 @@ module.exports = function(config) {
     }
 
     return function(req, res, next) {
-        console.log(prepend)
         res.locals.rev = function(path) {
             return prepend.toString() + '/' + (manifest[path] || path);
         };
