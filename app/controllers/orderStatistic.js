@@ -377,7 +377,7 @@ exports.orderExportReferrerList = function(req, res, next) {
                 if (order.address){
                     order.person = order.address.contactPerson;
                     order.mobile = order.address.mobile;
-                    order.street = order.address.city + order.address.street + order.address.address
+                    order.street = order.address.city + order.address.street + ' ' + order.address.address
                 }
 
                 order.dishQuantity = 0;
@@ -422,7 +422,7 @@ exports.orderExportReferrerList = function(req, res, next) {
                 'deliveryDateTime',
                 'deliveryDate',
                 'deliveryTime',
-                
+
 
                 'promotionCode',
                 'promotionDiscount',
