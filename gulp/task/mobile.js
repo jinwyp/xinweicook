@@ -101,11 +101,11 @@ gulp.task("mobileMinifyJs", ['mobileCopyJsControllers'], function () {
 
 gulp.task("mobileRev", [ 'mobileMinifyJs'], function () {
     return gulp.src(paths.distMobile.all)
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(revAll.revision())
         //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root))
-        //.pipe(revAll.manifestFile())
+        .pipe(revAll.manifestFile())
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
 });
 
