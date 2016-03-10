@@ -20,7 +20,7 @@ localStorage.uid&&(window._trackJs.userId=localStorage.uid);
 
 
 
-<% if(settings.env == "production"){ %>
+<% if(settings.env == "production" || settings.env == "production2"){ %>
 <script src="/mobile/<%= rev('js/app.min.js') %>"></script>
 <% } else{ %>
 
