@@ -92,7 +92,7 @@ gulp.task("mobileMinifyJs", ['mobileCopyJsControllers'], function () {
         .pipe(concat('app.js'))
         .pipe(rename({suffix: '.min'}))
         //.pipe(sourcemaps.init())
-        .pipe(uglify())
+        //.pipe(uglify())
         //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.js));
 });
