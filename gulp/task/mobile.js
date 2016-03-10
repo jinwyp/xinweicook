@@ -32,7 +32,7 @@ var paths = {
     },
 
     distMobile : {
-        all: ['app/public/mobile/dist2/js/app.min*', 'app/public/mobile/dist2/js/controllers/*', 'app/public/mobile/dist2/css/main.min*' ],
+        all: ['app/public/mobile/dist2/js/app.min.*', 'app/public/mobile/dist2/js/controllers/*', 'app/public/mobile/dist2/css/main.min.*' ],
         root : 'mobile/dist2/',
         js : 'mobile/dist2/js',
         jsControllers : 'mobile/dist2/js/controllers',
@@ -74,9 +74,9 @@ gulp.task("mobileMinifyCss", ['delDist'], function () {
     return gulp.src(paths.baseStatic + paths.sourceMobile.css)
         .pipe(concat('main.css'))
         .pipe(rename({suffix: '.min'}))
-        //.pipe(sourcemaps.init())
+        .pipe(sourcemaps.init())
         .pipe(cleanCSS({compatibility: 'ie8'}))
-        //.pipe(sourcemaps.write('.'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.css));
 });
 
@@ -103,9 +103,9 @@ gulp.task("mobileRev", [ 'mobileMinifyJs'], function () {
     return gulp.src(paths.distMobile.all)
         .pipe(sourcemaps.init())
         .pipe(revAll.revision())
-        .pipe(sourcemaps.write('.'))
+        //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root))
-        .pipe(revAll.manifestFile())
+        //.pipe(revAll.manifestFile())
         .pipe(gulp.dest(paths.baseStatic + paths.distMobile.root)) ;
 });
 
