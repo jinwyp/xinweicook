@@ -22,7 +22,10 @@ requireDir('./gulp/task', { recurse: true });
 
 
 
-gulp.task('default', ['devjin']);
+gulp.task('default', ['dev']);
+gulp.task('pro', ['production']);
 
-gulp.task('ykc', ['mobile-ng-templates', 'devykc']);
+
+
+gulp.task('ykc', ['mobile-ng-templates', 'dev']);
 
