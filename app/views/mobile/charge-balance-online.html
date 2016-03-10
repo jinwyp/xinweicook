@@ -32,9 +32,10 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:chargeBalanceOnline(app/public/mobile/src) ../js/controllers/charge-balance-online.js -->
-<script src="/mobile/src/js/controllers/charge-balance-online.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+
+<!--<script src="/mobile/src/js/controllers/charge-balance-online.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/charge-balance-online.js') %>"></script>
+
+
 </html>

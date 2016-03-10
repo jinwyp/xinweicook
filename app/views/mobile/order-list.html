@@ -64,9 +64,8 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:orderList(app/public/mobile/src) ../js/controllers/order-list.js -->
-<script src="/mobile/src/js/controllers/order-list.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/order-list.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/order-list.js') %>"></script>
+
 </html>

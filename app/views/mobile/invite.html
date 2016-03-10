@@ -56,9 +56,8 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:invite(app/public/mobile/src) ../js/controllers/invite.js -->
-<script src="/mobile/src/js/controllers/invite.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/invite.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/invite.js') %>"></script>
+
 </html>

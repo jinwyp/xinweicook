@@ -66,9 +66,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:coupons(app/public/mobile/src) ../js/controllers/coupons.js -->
-<script src="/mobile/src/js/controllers/coupons.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/coupons.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/coupons.js') %>"></script>
+
+
 </html>

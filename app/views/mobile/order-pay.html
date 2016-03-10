@@ -115,9 +115,8 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:orderPay(app/public/mobile/src) ../js/controllers/order-pay.js -->
-<script src="/mobile/src/js/controllers/order-pay.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/order-pay.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/order-pay.js') %>"></script>
+
 </html>

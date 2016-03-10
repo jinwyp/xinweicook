@@ -21,9 +21,10 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:alipayNotify(app/public/mobile/src) ../js/controllers/alipay-notify.js -->
-<script src="/mobile/src/js/controllers/alipay-notify.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+
+<!--<script src="/mobile/src/js/controllers/alipay-notify.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/alipay-notify.js') %>"></script>
+
+
 </html>

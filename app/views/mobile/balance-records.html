@@ -29,9 +29,10 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:balanceRecords(app/public/mobile/src) ../js/controllers/balance-records.js -->
-<script src="/mobile/src/js/controllers/balance-records.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+
+<!--<script src="/mobile/src/js/controllers/balance-records.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/balance-records.js') %>"></script>
+
+
 </html>

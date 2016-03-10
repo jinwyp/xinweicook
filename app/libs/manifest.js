@@ -10,10 +10,13 @@ var path = require('path');
 module.exports = function(config) {
 
     var manifest;
+    var prepend;
 
     var config = _.merge({
         manifest: 'public/rev-manifest.json',
-        prepend: ''
+        prepend: 'src',
+        prependProduction: 'dist',
+        debug: true
     }, config);
 
 
@@ -21,6 +24,13 @@ module.exports = function(config) {
         manifest = require(path.resolve(process.cwd(), config.manifest));
     } catch(e) {
         manifest = {};
+    }
+
+
+    if ( config.debug ) {
+        prepend = config.prepend;
+    }else{
+        prepend = config.prependProduction;
     }
 
     return function(req, res, next) {
@@ -31,7 +41,7 @@ module.exports = function(config) {
 
 
         res.locals.rev = function(path) {
-            return config.prepend.toString() + '/' + (manifest[path] || path);
+            return prepend.toString() + '/' + (manifest[path] || path);
         };
 
         next();

@@ -77,9 +77,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:cook(app/public/mobile/src) ../js/controllers/cook.js -->
-<script src="/mobile/src/js/controllers/cook.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+
+<!--<script src="/mobile/src/js/controllers/cook.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/cook.js') %>"></script>
+
 </html>

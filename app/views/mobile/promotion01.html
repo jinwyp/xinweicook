@@ -23,10 +23,9 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:promotion01(app/public/mobile/src) ../js/controllers/promotion01.js -->
-<script src="/mobile/src/js/controllers/promotion01.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/promotion01.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/promotion01.js') %>"></script>
+
 
 </html>

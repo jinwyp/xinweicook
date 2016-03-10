@@ -124,9 +124,8 @@
 </body>
 
 <%- include('includes/js.html') %>
-<!-- build-replace-->
-<!-- build:login(app/public/mobile/src) ../js/controllers/login.js -->
-<script src="/mobile/src/js/controllers/login.js"></script>
-<!-- endbuild -->
-<!-- end-build-replace-->
+
+<!--<script src="/mobile/src/js/controllers/login.js"></script>-->
+<script src="/mobile/<%= rev('js/controllers/login.js') %>"></script>
+
 </html>

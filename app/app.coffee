@@ -31,7 +31,9 @@ app.engine("html", require('ejs').renderFile);
 
 app.use(manifestRev({
   manifest: 'app/public/mobile/dist2/rev-manifest.json',
-  prepend: ''
+  prependProduction: 'dist2'
+  prepend: 'src'
+  debug : (if process.env.NODE_ENV is 'production' then false else true)
 }));
 
 
