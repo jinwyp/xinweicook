@@ -195,6 +195,11 @@ $retina: sprite-map("icons/*.png");
 .rmb-char::before {
   content: '¥ '
 }
+.rmb-char-top::before {
+  content: '¥';
+  font-size: 0.8em;
+  vertical-align: text-top;
+}
 .rmb-char.negative::before {
   content: '- ¥ '
 }
