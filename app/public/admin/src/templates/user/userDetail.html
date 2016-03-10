@@ -193,17 +193,18 @@
 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >销售来源标识</label>
-                    <div class="col-lg-8" >
+                    <div class="col-lg-2" >
                         <span class="help-block" aria-hidden="true">{{data.user.referrer}} </span>
                         <!--<input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >-->
                     </div>
-                </div>
-                <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >销售来源传销层级</label>
-                    <div class="col-lg-8" >
-                        <input type="number" class="form-control"  ng-model="data.user.referrerLevel"  >
+                    <div class="col-lg-2" >
+                        <span class="help-block" aria-hidden="true">{{data.user.referrerLevel}} </span>
+                        <!--<input type="number" class="form-control"  ng-model="data.user.referrerLevel"  >-->
                     </div>
+
                 </div>
+
                 
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >微信 access_token</label>

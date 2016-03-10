@@ -235,6 +235,7 @@ module.exports =
               dish : dishNow._id
               isPlus : false
               quantity : -Number(stockNumber)
+              price : dishNow.priceOriginal
               remark : models.inventory.constantRemark().adminOperation
 
             newInventoryChange.remark = remark if remark
@@ -316,6 +317,7 @@ module.exports =
               dish : dishNow._id
               isPlus : true
               quantity : Number(stockNumber)
+              price : dishNow.priceOriginal
               remark : models.inventory.constantRemark().adminOperation
 
             newInventoryChange.remark = remark if remark

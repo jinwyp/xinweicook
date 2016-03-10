@@ -334,6 +334,12 @@ exports.orderExportReferrerList = function(req, res, next) {
 
     //models.order.validationGetOrderList(req.query);
 
+    var exportExcel = true;
+    if (typeof req.query.excel !== 'undefined' && req.query.excel !== '') {
+        exportExcel = true
+    }
+
+
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
 
@@ -368,42 +374,60 @@ exports.orderExportReferrerList = function(req, res, next) {
         .execAsync()
         .then(function(resultOrders){
 
+            resultOrders.forEach(function(order){
+
+                order.person = '';
+                order.mobile = '';
+                order.street = '';
+
+                if (order.address){
+                    order.person = order.address.contactPerson;
+                    order.mobile = order.address.mobile;
+                    order.street = order.address.city + order.address.street + ' ' + order.address.address
+                }
+
+                order.dishQuantity = 0;
+                if (order.dishHistory.length > 0){
+
+                    order.dishHistory.forEach(function(dish){
+                        if (dish.dish.sideDishType === models.dish.constantSideDishType().main){
+                            order.dishQuantity = order.dishQuantity + dish.number
+                        }
+
+                    })
+
+                }
+
+            });
+
+
             var propertyList = [
                 'createdAt',
                 '_id',
 
                 'orderNumber',
                 'user',
-                'warehouse',
+                'person',
+                'mobile',
+                'street',
+
+                'dishQuantity',
+                'totalPrice',
 
                 'isSplitOrder',
                 'isChildOrder',
-                'childOrderList',
-                'cookingType',
-                'packageType',
-                'language',
 
                 'clientFrom',
                 'payment',
-                'paymentUsedCash',
                 'isPaymentPaid',
 
                 'status',
 
                 'address',
-                'addressId',
 
                 'deliveryDateTime',
                 'deliveryDate',
                 'deliveryTime',
-                'deliveryDateType',
-
-                'express',
-                'expressStatus',
-                'expressPersonId',
-                'expressPersonName',
-                'expressPersonMobile',
-                'expressComment',
 
 
                 'promotionCode',
@@ -411,10 +435,7 @@ exports.orderExportReferrerList = function(req, res, next) {
                 'coupon',
                 'couponDiscount',
                 'accountUsedDiscount',
-                'credit',
-                'dishesPrice',
                 'freight',
-                'totalPrice',
 
                 'userComment',
                 'csComment',
@@ -426,12 +447,20 @@ exports.orderExportReferrerList = function(req, res, next) {
 
             ];
 
-            var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
-            workbook.Sheets[first_sheet_name] = newSheet;
 
-            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+            if (exportExcel){
 
-            res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+                var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
+                workbook.Sheets[first_sheet_name] = newSheet;
+
+                XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+                res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+            }else{
+                res.json(resultOrders);
+
+            }
 
         }).catch(next);
 
