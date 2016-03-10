@@ -334,6 +334,12 @@ exports.orderExportReferrerList = function(req, res, next) {
 
     //models.order.validationGetOrderList(req.query);
 
+    var exportExcel = true;
+    if (typeof req.query.excel !== 'undefined' && req.query.excel !== '') {
+        exportExcel = true
+    }
+
+
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
     /* DO SOMETHING WITH workbook HERE */
 
@@ -441,12 +447,20 @@ exports.orderExportReferrerList = function(req, res, next) {
 
             ];
 
-            var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
-            workbook.Sheets[first_sheet_name] = newSheet;
 
-            XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+            if (exportExcel){
 
-            res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+                var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
+                workbook.Sheets[first_sheet_name] = newSheet;
+
+                XLSX.writeFile(workbook, path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+                res.download(path.join(__dirname, '../../app/public/admin/src/excel/outputreferrer1.xlsx'));
+
+            }else{
+                res.json(resultOrders);
+
+            }
 
         }).catch(next);
 
