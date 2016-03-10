@@ -23,6 +23,15 @@ angular.module('xw.controllers').controller('couponsCtrl', function ($scope, Use
         User.getUserInfo().then(function (res) {
             $scope.user = res.data;
             $scope.couponList = res.data.couponList;
+
+            var now = new Date(res.headers('Date'))
+            $scope.goodCards = []
+            $scope.badCards = []
+            res.data.couponList.forEach(function (el) {
+                if (!el.isUsed && (new Date(el.endDate) > now))
+                    $scope.goodCards.push(el)
+                else $scope.badCards.push(el)
+            })
         });
 
         var invitationCode = location.search.substring(1).split('=');
