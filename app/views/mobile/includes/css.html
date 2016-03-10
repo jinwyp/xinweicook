@@ -1,8 +1,12 @@
 <style>[ng-cloak]{display:none;}</style>
     <link rel="stylesheet" href="/components/normalize.css/normalize.css"/>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
-    <!-- build-replace-->
-    <!-- build:css(app/public/mobile/src)  ../css/main.css -->
+
     <link rel="stylesheet" href="/mobile/src/css/main.css"/>
-    <!-- endbuild -->
-    <!-- end-build-replace-->
+
+
+    <% if(settings.env == "production"){ %>
+    <link rel="stylesheet" href="/mobile/<%= rev('css/main.min.css') %>"/>
+    <% } else{ %>
+    <link rel="stylesheet" href="/mobile/src/css/main.css"/>
+    <% } %>
