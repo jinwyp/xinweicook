@@ -71,7 +71,7 @@
             <!--<span ng-if="css.isWeixin && css.locating" class="location">定位中 ···</span>-->
         </div>
         <div>
-            <input name="address" type="text" minlength="2" placeholder="详细地址, 街道、楼层、门牌号" required ng-model="addr.address">
+            <input name="address" type="text" minlength="2" placeholder="详细地址, 楼层、门牌号" required ng-model="addr.address">
             <err-tip form="form" name="address" error="required">必填</err-tip>
             <err-tip form="form" name="address" error="minlength">至少2个字符</err-tip>
         </div>
