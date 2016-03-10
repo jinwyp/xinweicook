@@ -368,53 +368,68 @@ exports.orderExportReferrerList = function(req, res, next) {
         .execAsync()
         .then(function(resultOrders){
 
+            resultOrders.forEach(function(order){
+
+                order.person = '';
+                order.mobile = '';
+                order.street = '';
+
+                if (order.address){
+                    order.person = order.address.contactPerson;
+                    order.mobile = order.address.mobile;
+                    order.street = order.address.city + order.address.street + order.address.address
+                }
+
+                order.dishQuantity = 0;
+                if (order.dishHistory.length > 0){
+
+                    order.dishHistory.forEach(function(dish){
+                        if (dish.dish.sideDishType === models.dish.constantSideDishType().main){
+                            order.dishQuantity = order.dishQuantity + dish.number
+                        }
+
+                    })
+
+                }
+
+            });
+
+
             var propertyList = [
                 'createdAt',
                 '_id',
 
                 'orderNumber',
                 'user',
-                'warehouse',
+                'person',
+                'mobile',
+                'street',
+
+                'dishQuantity',
+                'totalPrice',
 
                 'isSplitOrder',
                 'isChildOrder',
-                'childOrderList',
-                'cookingType',
-                'packageType',
-                'language',
 
                 'clientFrom',
                 'payment',
-                'paymentUsedCash',
                 'isPaymentPaid',
 
                 'status',
 
                 'address',
-                'addressId',
 
                 'deliveryDateTime',
                 'deliveryDate',
                 'deliveryTime',
-                'deliveryDateType',
-
-                'express',
-                'expressStatus',
-                'expressPersonId',
-                'expressPersonName',
-                'expressPersonMobile',
-                'expressComment',
-
+                
 
                 'promotionCode',
                 'promotionDiscount',
                 'coupon',
                 'couponDiscount',
                 'accountUsedDiscount',
-                'credit',
-                'dishesPrice',
                 'freight',
-                'totalPrice',
 
                 'userComment',
                 'csComment',
