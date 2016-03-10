@@ -8,6 +8,14 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.addresses = null;
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.warehouse = ''; // 作为筛选菜品使用
+    $scope.coupon = {
+        expiringCount: 1,
+        expiringDays: 0
+    }
+    $scope.css = {
+        showCouponTip: false,
+        couponDuration: 4500
+    }
     var dishList = $scope.dishList = {}; // 将两个列表分开
 
     $scope.addDish = function (dish) {
@@ -151,33 +159,42 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
             // 初始化user like list
             $scope.user ? $q.resolve($scope.user) :
                 User.getUserInfo().then(function (res) {
-                // 如果是微信用户, 但是并没有获取到用户的微信信息, 则提示用户重新登录以获取用户信息
-                if (Weixin.isWeixin) {
-                    if (!res.data.weixinId || !res.data.weixinId.openid) {
-                        if (confirm('由于需要您的微信支付授权,否则将无法完成微信支付付款.重新登录并获取微信支付授权吗?')) {
-                            User.logout().then(function () {
-                                location.href = '/mobile/login'
+                    // 如果是微信用户, 但是并没有获取到用户的微信信息, 则提示用户重新登录以获取用户信息
+                    if (Weixin.isWeixin) {
+                        if (!res.data.weixinId || !res.data.weixinId.openid) {
+                            if (confirm('由于需要您的微信支付授权,否则将无法完成微信支付付款.重新登录并获取微信支付授权吗?')) {
+                                User.logout().then(function () {
+                                    location.href = '/mobile/login'
+                                })
+                            }
+                        } else {
+                            User.getWeixinUserInfo(res.data._id).then(function (res) {
+                                if (res.data.subscribe) {
+                                    var promotion = storage.promotion;
+                                    if (promotion) {
+                                        Coupon.exchangeCouponCode(promotion).then(function () {
+                                            alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
+                                            delete storage.promotion;
+                                        })
+                                    }
+                                } else if (Weixin.isWeixin) {
+                                    location.replace( '/mobile/wxgzh');
+                                }
                             })
                         }
-                    } else {
-                        User.getWeixinUserInfo(res.data._id).then(function (res) {
-                            if (res.data.subscribe) {
-                                var promotion = storage.promotion;
-                                if (promotion) {
-                                    Coupon.exchangeCouponCode(promotion).then(function () {
-                                        alert('扫二维码优惠券兑换成功!\n下订单时即可使用.');
-                                        delete storage.promotion;
-                                    })
-                                }
-                            } else if (Weixin.isWeixin) {
-                                location.replace( '/mobile/wxgzh');
-                            }
-                        })
                     }
-                }
 
-                return $scope.user = res.data;
-            })
+                    // 过滤优惠券
+                    $scope.coupon = initCouponTip(res.data, new Date(res.headers('Date')))
+                    if ($scope.coupon.expiringCount > 0) {
+                        $scope.css.showCouponTip = true
+                        $timeout(function () {
+                            $scope.css.showCouponTip = false
+                        }, $scope.css.couponDuration)
+                    }
+
+                    return $scope.user = res.data;
+                })
         ]).then(function (results) {
             //初始化用户的喜好到菜品
             var dishLikeList = results[1].dishLikeList;
@@ -191,7 +208,36 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
         });
     }
 
+    function initCouponTip(user, now) {
+        var tips = []
+        var oneDayTime = 24 * 60 * 60 * 1000
+        var daySize = 3
+        var ret = {
+            expiringCount: 0,
+            expiringDays: 0
+        }
+        user.couponList.filter(function (el) {
+            return !el.isUsed && (new Date(el.endDate) > now)
+        }).forEach(function (el) {
+            var remain = Math.floor((new Date(el.endDate) - now) / oneDayTime)
+            if (!tips[remain]) {
+                tips[remain] = 1
+            } else tips[remain]++
+        })
+
+        // todo:暂时只按照3天内,所有优惠券中最大天数的那个优惠券来显示,否则按照worktile上的方案来,看着有点傻
+        // 例如: 1张1天内过期,1张2天内过期,那么显示2张2天内过期
+        tips.slice(0, daySize).forEach(function (count, i) {
+            if (count > 0) {
+                ret.expiringDays = i
+                ret.expiringCount += count
+            }
+        })
+
+        return ret
+    }
+
     init();
 }
 
-//# sourceMappingURL=eat-list.3284b3f8.js.map
+//# sourceMappingURL=eat-list.f584bf5e.js.map

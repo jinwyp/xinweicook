@@ -112,20 +112,6 @@ function resetPasswordCtrl($scope, User, $location, Alert, Weixin, $localStorage
             $localStorage.promotion = promotion = couponcode;
             couponcode = '';
         }
-
-        User.getUserInfo().then(function (res) {
-            // 如果在登录页面获取到用户信息,那么跳转到首页
-
-            // 如果用户已经处于登录状态,并且有couponcode
-            if (couponcode) {
-                $location.path('/login');
-                return;
-            }
-
-            setTimeout(function () {
-                location.href = '/mobile/';
-            }, 120);
-        });
     }
 
     function redirect() {

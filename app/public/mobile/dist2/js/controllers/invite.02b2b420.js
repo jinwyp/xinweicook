@@ -17,9 +17,9 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
     ];
 
     $scope.places = [
-        '陆家嘴', '仁敏广场', '老地方', '他家', '她家',
-        '鹿夹嘴', '海腩岛', '续加惠', '精鹌撕', '馨舔底',
-        '麻耳呆夫', '挤粥岛'
+        '鹿夹嘴', '仁敏广场', '老地方', '他家', '她家',
+        '海腩岛', '续加惠', '精鹌撕', '馨舔底', '麻耳呆夫',
+        '挤粥岛'
     ].map(function (place) {
         return {
             inner: place,
@@ -56,7 +56,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 var queries = prefix +
                     '/' + Utils.utf2b64(name) +
                     '/' + Utils.utf2b64(place);
-                link = location.href.replace('invite.beb93227', 'invited' + queries).replace(/\?.*/, '');
+                link = location.href.replace('invite.02b2b420', 'invited' + queries).replace(/\?.*/, '');
                 var title = name + '约你一起去' + place + '吃便当';
 
                 Debug.alert(link);
@@ -137,4 +137,4 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
 
     init();
 })
-//# sourceMappingURL=invite.beb93227.js.map
+//# sourceMappingURL=invite.02b2b420.js.map
