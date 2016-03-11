@@ -243,7 +243,7 @@ module.exports =
             newInventoryChange.order = order._id.toString() if order
             newInventoryChange.deliveryDateTime = order.deliveryDateTime if order
             newInventoryChange.clientFrom = order.clientFrom if order
-            newInventoryChange.referrer = order.statisticsReferrer if order.statisticsReferrer
+#            newInventoryChange.referrer = order.statisticsReferrer if order.statisticsReferrer
 
 
             models.inventory.createAsync(newInventoryChange)
