@@ -332,33 +332,32 @@ exports.orderExportList = function(req, res, next) {
 
 exports.orderExportReferrerList = function(req, res, next) {
 
-    //models.order.validationGetOrderList(req.query);
+
+    console.log(req.query);
+
+
+
+    if (typeof req.query.limit !== 'undefined' && req.query.limit !== '') {
+        req.query.limit = Number(req.query.limit);
+    }else{
+        req.query.limit = 200;
+    }
+
+    models.order.validationGetOrderList(req.query);
+
+
 
     var exportExcel = false;
-
-
-
-    var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
-    /* DO SOMETHING WITH workbook HERE */
-
-    var first_sheet_name = workbook.SheetNames[0];
-    var first_worksheet = workbook.Sheets[first_sheet_name];
-
-    //var first_cell= first_worksheet['A1'];
-    //console.log (first_cell);
-
-    req.query.limit = 10000;
-
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
     var query = {
         "statisticsReferrer" : "1001",
         "cookingType" : models.dish.constantCookingType().eat
-
     };
 
     if (typeof req.query.excel !== 'undefined' && req.query.excel !== '') {
         exportExcel = true;
+        req.query.limit = 10000;
         query.status = {$in : orderStatus}
     }
 
@@ -371,7 +370,33 @@ exports.orderExportReferrerList = function(req, res, next) {
         if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
     }
 
-    models.order.find(query).skip(0).sort("-createdAt").limit (req.query.limit)
+    if (typeof req.query.query !== 'undefined' && req.query.createdAt !== '') {
+        var temp = JSON.parse(req.query.query);
+
+        if (temp.status){
+            query.status = temp.status;
+        }
+
+        if (temp.createdAt){
+            var date = temp.createdAt;
+            query.createdAt = {};
+            if (date['$gte']) query.createdAt['$gte'] = new Date(date['$gte']);
+            if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
+        }
+
+    }
+
+
+    if (req.query.count ){
+
+        models.order.count(query).execAsync().then(function(resultOrders){
+            res.json({count:resultOrders});
+
+        }).catch(next);
+
+    }else{
+
+        models.order.find(query).skip(req.query.skip).sort("-createdAt").limit(req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})
         .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
         .lean()
@@ -405,54 +430,66 @@ exports.orderExportReferrerList = function(req, res, next) {
             });
 
 
-            var propertyList = [
-                'createdAt',
-                '_id',
 
-                'orderNumber',
-                'user',
-                'person',
-                'mobile',
-                'street',
-
-                'dishQuantity',
-                'totalPrice',
-
-                'isSplitOrder',
-                'isChildOrder',
-
-                'clientFrom',
-                'payment',
-                'isPaymentPaid',
-
-                'status',
-
-                'address',
-
-                'deliveryDateTime',
-                'deliveryDate',
-                'deliveryTime',
-
-
-                'promotionCode',
-                'promotionDiscount',
-                'coupon',
-                'couponDiscount',
-                'accountUsedDiscount',
-                'freight',
-
-                'userComment',
-                'csComment',
-
-                'statisticsReferrer',
-
-                'dishList'
-
-
-            ];
 
 
             if (exportExcel){
+
+
+                var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
+                /* DO SOMETHING WITH workbook HERE */
+
+                var first_sheet_name = workbook.SheetNames[0];
+                var first_worksheet = workbook.Sheets[first_sheet_name];
+
+                //var first_cell= first_worksheet['A1'];
+                //console.log (first_cell);
+
+                var propertyList = [
+                    'createdAt',
+                    '_id',
+
+                    'orderNumber',
+                    'user',
+                    'person',
+                    'mobile',
+                    'street',
+
+                    'dishQuantity',
+                    'totalPrice',
+
+                    'isSplitOrder',
+                    'isChildOrder',
+
+                    'clientFrom',
+                    'payment',
+                    'isPaymentPaid',
+
+                    'status',
+
+                    'address',
+
+                    'deliveryDateTime',
+                    'deliveryDate',
+                    'deliveryTime',
+
+
+                    'promotionCode',
+                    'promotionDiscount',
+                    'coupon',
+                    'couponDiscount',
+                    'accountUsedDiscount',
+                    'freight',
+
+                    'userComment',
+                    'csComment',
+
+                    'statisticsReferrer',
+
+                    'dishList'
+
+
+                ];
 
                 var newSheet = generateSheetFromArray(first_worksheet, resultOrders, propertyList);
                 workbook.Sheets[first_sheet_name] = newSheet;
@@ -467,6 +504,10 @@ exports.orderExportReferrerList = function(req, res, next) {
             }
 
         }).catch(next);
+
+    }
+
+
 
 
 };
