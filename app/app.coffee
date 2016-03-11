@@ -21,7 +21,11 @@ app.use libs.req._id
 app.enable "trust proxy"
 app.disable "x-powered-by"
 
-app.set("views", path.join(__dirname, "views"))
+viewDirs = [path.join(__dirname, "views")]
+if process.env.NODE_ENV == 'development' then viewDirs.push(path.join(__dirname, "public"))
+app.set("views", viewDirs)
+
+
 app.set("view engine", "ejs")
 
 app.engine("ejs", require('ejs').renderFile);
