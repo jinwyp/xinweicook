@@ -15,7 +15,7 @@
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >注册时间</label>
                     <div class="col-lg-4" >
-                        <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} | 平台来源:{{data.user.statisticsClientFrom}} | 销售来源:{{data.user.referrer}}</span>
+                        <span class="help-block" aria-hidden="true">{{data.user.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}} | 平台来源:{{data.user.statisticsClientFrom}} </span>
                     </div>
 
                     <label  class="col-lg-2 control-label" >最后下单时间</label>
@@ -194,7 +194,8 @@
                 <div class="form-group has-feedback" ng-if="!css.isAddNewStatus">
                     <label  class="col-lg-2 control-label" >销售来源标识</label>
                     <div class="col-lg-8" >
-                        <input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >
+                        <span class="help-block" aria-hidden="true">{{data.user.referrer}} </span>
+                        <!--<input type="text" class="form-control" placeholder="referrer" ng-model="data.user.referrer"  >-->
                     </div>
                 </div>
 
