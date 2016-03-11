@@ -334,10 +334,8 @@ exports.orderExportReferrerList = function(req, res, next) {
 
     //models.order.validationGetOrderList(req.query);
 
-    var exportExcel = true;
-    if (typeof req.query.excel !== 'undefined' && req.query.excel !== '') {
-        exportExcel = true
-    }
+    var exportExcel = false;
+
 
 
     var workbook = XLSX.readFile(path.join(__dirname, '../../app/public/admin/src/excel/empty.xlsx'));
@@ -354,11 +352,17 @@ exports.orderExportReferrerList = function(req, res, next) {
     var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
 
     var query = {
-        "status" : {$in : orderStatus},
         "statisticsReferrer" : "1001",
         "cookingType" : models.dish.constantCookingType().eat
 
     };
+
+    if (typeof req.query.excel !== 'undefined' && req.query.excel !== '') {
+        exportExcel = true;
+        query.status = {$in : orderStatus}
+    }
+
+
 
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         var date = JSON.parse(req.query.createdAt);

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="RDash">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Xinwei Cook Admin</title>
+    <!-- STYLES -->
+    <!-- build:css(public,public/admin/src) lib/css/main.min.css -->
+    <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/components/angular-ui-notification/dist/angular-ui-notification.min.css">
+    <link rel="stylesheet" type="text/css" href="/components/rdash-ui/dist/css/rdash.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/admin/src/css/custom.css">
+    <!-- endbuild -->
+
+
+
+    <!-- SCRIPTS -->
+    <!-- build:js(public,public/admin/src) lib/js/main.min.js -->
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <script type="text/javascript" src="/components/highcharts/adapters/standalone-framework.js"></script>
+    <script type="text/javascript" src="/components/highcharts/highcharts.src.js"></script>
+    <script type="text/javascript" src="/components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="/components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="/components/ngstorage/ngStorage.min.js"></script>
+    <script type="text/javascript" src="/components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+    <script type="text/javascript" src="/components/lodash/lodash.min.js"></script>
+    <script type="text/javascript" src="/components/restangular/dist/restangular.min.js"></script>
+    <script type="text/javascript" src="/components/highcharts-ng/dist/highcharts-ng.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Custom Scripts -->
+    <!--<script type="text/javascript" src="js/dashboard.min.js"></script>-->
+    <script src="/admin/src/js/module.js"></script>
+    <script src="/admin/src/js/filter.js"></script>
+    <script src="/admin/src/js/models.js"></script>
+
+    <script src="/admin/src/js/controllers/order3rdsales.js"></script>
+
+
+    <script src="/admin/src/js/controllers/alert-ctrl.js"></script>
+    <script src="/admin/src/js/controllers/master-ctrl.js"></script>
+
+    <script src="/admin/src/js/directives/loading.js"></script>
+    <script src="/admin/src/js/directives/widget.js"></script>
+    <script src="/admin/src/js/directives/widget-body.js"></script>
+    <script src="/admin/src/js/directives/widget-footer.js"></script>
+    <script src="/admin/src/js/directives/widget-header.js"></script>
+
+    <!-- endbuild -->
+</head>
+
+
+<body ng-controller="Order3rdController">
+
+<div  id="page-wrapper" >
+
+
+<div class="row main">
+
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title panel-titlenew">Order 订单列表</h3>
+            </div>
+
+            <div class="panel-body">
+                <form class="form-horizontal" name="searchForm" novalidate ng-cloak>
+                    <div class="form-group has-feedback" ng-class="{'has-success':searchForm.keyword.$dirty&&searchForm.keyword.$valid, 'has-error':searchForm.keyword.$dirty&&searchForm.keyword.$invalid}">
+                        <label for="inputKeyword" class="col-lg-2 control-label" >关键字实时筛选</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputKeyword" placeholder="keyword" name="keyword" ng-model="data.searchFilter" required ng-minlength="2">
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$valid"></span>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$invalid"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.required">请填入信息！</span>
+                            <span class="form-validation help-block" ng-if="searchForm.keyword.$dirty&&searchForm.keyword.$error.minlength || searchForm.keyword.$dirty&&searchForm.keyword.$error.maxlength">输入的信息长度错误！</span>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.cookingType.$dirty&&searchForm.cookingType.$valid, 'has-error':searchForm.cookingType.$dirty&&searchForm.cookingType.$invalid}">-->
+                        <!--<label for="inputCookingType" class="col-lg-2 control-label" >订单菜品类型</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="cookingType in data.dishCookingTypeList">-->
+                                <!--<input type="radio" name="cookingType" id="inputCookingType" ng-value="cookingType.value" ng-model="data.searchOptions.query.cookingType">{{cookingType.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$valid, 'has-error':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$invalid}">-->
+                        <!--<label for="inputClientFromType" class="col-lg-2 control-label" >订单来源类型</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="clientFromType in data.clientFromTypeList">-->
+                                <!--<input type="radio" name="clientFromType" id="inputClientFromType" ng-value="clientFromType.value" ng-model="data.searchOptions.query.clientFrom">{{clientFromType.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$valid, 'has-error':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$invalid}">-->
+                        <!--<label for="inputOrderStatus" class="col-lg-2 control-label" >订单状态</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="status in data.orderStatusList">-->
+                                <!--<input type="radio" name="orderStatus" id="inputOrderStatus" ng-value="status.value" ng-model="data.searchOptions.query.status">{{status.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$valid, 'has-error':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$invalid}">-->
+                        <!--<label for="inputDeliveryDateType" class="col-lg-2 control-label" >配送时间类型</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="deliveryDateType in data.deliveryDateTypeList">-->
+                                <!--<input type="radio" name="deliveryDateType" id="inputDeliveryDateType" ng-value="deliveryDateType.value" ng-model="data.searchOptions.query.deliveryDateType">{{deliveryDateType.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$valid, 'has-error':searchForm.isSplitOrder.$dirty&&searchForm.isSplitOrder.$invalid}">-->
+                        <!--<label for="inputIsSplitOrder" class="col-lg-2 control-label" >是否拆单</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="status in data.isSplitOrderList">-->
+                                <!--<input type="radio" name="isSplitOrder" id="inputIsSplitOrder" ng-value="status.value" ng-model="data.searchOptions.query.isSplitOrder">{{status.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$valid, 'has-error':searchForm.isChildOrder.$dirty&&searchForm.isChildOrder.$invalid}">-->
+                        <!--<label for="inputIsChildOrder" class="col-lg-2 control-label" >是否为子订单</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="status in data.isChildOrderList">-->
+                                <!--<input type="radio" name="isChildOrder" id="inputIsChildOrder" ng-value="status.value" ng-model="data.searchOptions.query.isChildOrder">{{status.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.warehouse.$dirty&&searchForm.warehouse.$valid, 'has-error':searchForm.warehouse.$dirty&&searchForm.warehouse.$invalid}">-->
+                        <!--<label for="inputWarehouse" class="col-lg-2 control-label" >发货仓库</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" ng-repeat="warehouse in data.warehouseList">-->
+                                <!--<input type="radio" name="warehouse" id="inputWarehouse" ng-value="warehouse.value" ng-model="data.searchOptions.query.warehouse">{{warehouse.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback">-->
+                        <!--<label class="col-lg-2 control-label" >创建时间</label>-->
+
+                        <!--<div class="col-lg-3">-->
+                            <!--<div class="input-group">-->
+                                <!--<input type="text" class="form-control" placeholder="起始时间" uib-datepicker-popup ng-model="data.searchDateFrom" is-open="data.datePickerIsOpenDateFrom" datepicker-options="datePickerOptions" close-text="Close" />-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="datePickerOpen('datefrom')"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                            <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-3">-->
+                            <!--<div class="input-group">-->
+                                <!--<input type="text" class="form-control" placeholder="截至时间" uib-datepicker-popup ng-model="data.searchDateTo" is-open="data.datePickerIsOpenDateTo" datepicker-options="datePickerOptions" close-text="Close" />-->
+                            <!--<span class="input-group-btn">-->
+                                <!--<button type="button" class="btn btn-default" ng-click="datePickerOpen('dateto')"><i class="glyphicon glyphicon-calendar"></i></button>-->
+                            <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid, 'has-error':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid}">-->
+                        <!--<label for="inputUserReferrer" class="col-lg-2 control-label" >销售来源(4位码)</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputUserReferrer" placeholder="销售来源代码" name="userReferrer" ng-model="data.searchOptions.query.statisticsReferrer" ng-minlength="4" ng-maxlength="4">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.userReferrer.$dirty&&searchForm.userReferrer.$error.minlength || searchForm.userReferrer.$dirty&&searchForm.userReferrer.$error.maxlength">输入的信息长度错误 4-4！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$valid, 'has-error':searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$invalid}">-->
+                        <!--<label for="inputCouponFromChargeCode" class="col-lg-2 control-label" >优惠券兑换码_ID</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputCouponFromChargeCode" placeholder="优惠券兑换码_ID" name="couponFromChargeCode" ng-model="data.searchOptions.query.couponFromChargeCode" ng-minlength="23">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$error.minlength || searchForm.couponFromChargeCode.$dirty&&searchForm.couponFromChargeCode.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.userId.$dirty&&searchForm.userId.$valid, 'has-error':searchForm.userId.$dirty&&searchForm.userId.$invalid}">-->
+                        <!--<label for="inputUserId" class="col-lg-2 control-label" >订单所属用户_ID</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputUserId" placeholder="用户_ID" name="userId" ng-model="data.searchOptions.query.user" ng-minlength="23">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.userId.$dirty&&searchForm.userId.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.userId.$dirty&&searchForm.userId.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.userId.$dirty&&searchForm.userId.$error.minlength || searchForm.userId.$dirty&&searchForm.userId.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$valid, 'has-error':searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$invalid}">-->
+                        <!--<label for="inputOrderContactPerson" class="col-lg-2 control-label" >该订单联系人</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputOrderContactPerson" placeholder="联系人 (可能与该订单下单用户的信息不同)" name="orderContactPerson" ng-model="data.addressContactPerson" ng-minlength="2">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.minlength || searchForm.orderContactPerson.$dirty&&searchForm.orderContactPerson.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderMobile.$dirty&&searchForm.orderMobile.$valid, 'has-error':searchForm.orderMobile.$dirty&&searchForm.orderMobile.$invalid}">-->
+                        <!--<label for="inputOrderMobile" class="col-lg-2 control-label" >该订单手机</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputOrderMobile" placeholder="手机" name="orderMobile" ng-model="data.addressMobile" ng-minlength="2">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.minlength || searchForm.orderMobile.$dirty&&searchForm.orderMobile.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid, 'has-error':searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid}">-->
+                        <!--<label for="inputOrderNumber" class="col-lg-2 control-label" >订单号</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputOrderNumber" placeholder="订单号" name="orderNumber" ng-model="data.searchOptions.query.orderNumber" ng-minlength="6">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderNumber.$dirty&&searchForm.orderNumber.$error.minlength || searchForm.orderNumber.$dirty&&searchForm.orderNumber.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderId.$dirty&&searchForm.orderId.$valid, 'has-error':searchForm.orderId.$dirty&&searchForm.orderId.$invalid}">-->
+                        <!--<label for="inputOrderId" class="col-lg-2 control-label" >订单_ID</label>-->
+                        <!--<div class="col-lg-4">-->
+                            <!--<input type="text" class="form-control" id="inputOrderId" placeholder="订单ID" name="orderId" ng-model="data.searchOptions.query._id" ng-minlength="23">-->
+                            <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$valid"></span>-->
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$invalid"></span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$error.required">请填入信息！</span>-->
+                            <!--<span class="form-validation help-block" ng-if="searchForm.orderId.$dirty&&searchForm.orderId.$error.minlength || searchForm.orderId.$dirty&&searchForm.orderId.$error.maxlength">输入的信息长度错误！</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.isSort.$dirty&&searchForm.isSort.$valid, 'has-error':searchForm.isSort.$dirty&&searchForm.isSort.$invalid}">-->
+                        <!--<label  class="col-lg-2 control-label" >排序</label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<label class="radio-inline" >-->
+                                <!--<input type="radio" name="isSort"  ng-value="'-createdAt'" ng-model="data.searchOptions.sort">订单创建时间 从新到旧-->
+                            <!--</label>-->
+                            <!--<label class="radio-inline" >-->
+                                <!--<input type="radio" name="isSort"  ng-value="'-modifiedAt'" ng-model="data.searchOptions.sort">支付时间 从新到旧-->
+                            <!--</label>-->
+                            <!--<label class="radio-inline" >-->
+                                <!--<input type="radio" name="isSort"  ng-value="'-deliveryDateTime'" ng-model="data.searchOptions.sort">预计送达时间 从新到旧-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <!--<button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单</button>-->
+
+                            <a class="btn btn-default"  href="/api/administrator/export/orders/referrer?excel=true" target="_blank">导出已完成订单</a>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!--<nav >-->
+            <!--<ul class="pagination" >-->
+                <!--<li>-->
+                    <!--<span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>-->
+                <!--</li>-->
+
+                <!--<li>-->
+                    <!--<a aria-label="Previous" ng-hide="data.orderListCurrentPage==1"  ng-click="changePagination(data.orderListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>-->
+                <!--</li>-->
+                <!--<li ng-repeat="page in data.orderListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>-->
+                <!--<li>-->
+                    <!--<a aria-label="Next" ng-hide="data.orderListCurrentPage==data.orderListTotalPages"  ng-click="changePagination(data.orderListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</nav>-->
+
+
+        <table class="table table-striped table-bordered table-hover table-responsive" >
+            <thead>
+            <tr>
+                <th>订单号 / 创建时间</th>
+                <th>状态</th>
+
+                <th>联系人 / 手机</th>
+                <th>地址</th>
+
+                <th>支付方式</th>
+                <th>是否付款</th>
+                <!--<th>货到付款现金支付</th>-->
+                <th>菜品价</th>
+                <th>优惠码/券 </th>
+                <th>余额支付</th>
+                <th>运费</th>
+                <th>总价</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="order in data.orderList ">
+                <td>
+                    <a  style="font-size:18px;margin-right:.5em;">{{order.autoIncrementId.toString().substring(2)}}</a>
+                    <small>{{order.createdAt | date:'MM-dd HH:mm:ss'}}</small><br/>
+                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)" id="check{{order.orderNumber}}">
+                    <label for="check{{order.orderNumber}}" style="font-size:10px">{{order.orderNumber}}</label>
+                </td>
+                <td>
+                    <span ng-if="order.status === 'not paid'">未支付</span>
+                    <span ng-if="order.status === 'paid'">已支付</span>
+                    <span ng-if="order.status === 'confirmed'">已确认</span>
+                    <span ng-if="order.status === 'dish finished'">菜品已制作完成</span>
+                    <span ng-if="order.status === 'packaged'">已打包</span>
+                    <span ng-if="order.status === 'shipped'">已发货</span>
+                    <span ng-if="order.status === 'finished'">已完成</span>
+                    <span ng-if="order.status === 'canceled'">已取消</span>
+
+
+                </td>
+
+
+                <td>  {{order.address.contactPerson}}<br/>{{order.address.mobile}}</td>
+                <td>
+
+                    {{order.address.city}} {{order.address.district}}<br/>
+                    {{order.address.street}} / {{order.address.address}}
+                    <a ng-if="order.warehouse === '56332187594b09af6e6c7dd2'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.195693,121.467155|name:新味办公室&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味办公室|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
+                    <a ng-if="order.warehouse === '56332196594b09af6e6c7dd7'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.175474,121.40523|name:新味漕河泾&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味漕河泾|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
+                    <a ng-if="order.warehouse === '564ab6de2bde80bd10a9bc60'" target="_blank" href="http://api.map.baidu.com/direction?origin=latlng:31.243494,121.527943|name:新味陆家嘴&amp;destination={{order.address.street}}{{order.address.address}}&amp;mode=driving&amp;origin_region=上海&amp;output=html&amp;src=新味陆家嘴|定位&amp;destination_region={{order.address.city}}"> <i class="fa fa-search-plus"></i> {{order.address.distanceFrom}}米</a>
+                </td>
+
+
+                <td>
+                    <span ng-if="order.payment === 'alipay direct'">支付宝</span>
+                    <span ng-if="order.payment === 'weixinpay'">微信支付</span>
+                    <span ng-if="order.payment === 'account balance'">新味币</span>
+                </td>
+                <td>{{order.isPaymentPaid ? '是' : '否'}}</td>
+                <!--<td>{{order.paymentUsedCash}}</td>-->
+                <td>{{order.dishesPrice}}</td>
+
+                <td>{{order.promotionDiscount? ( -order.promotionDiscount ):''}} <br/> {{order.promotionCode ? ( order.promotionCode ):''}} / {{order.couponDiscount ? ( -order.couponDiscount ):''}}</td>
+
+                <td>{{order.accountUsedDiscount}} </td>
+                <td>{{order.freight}}</td>
+                <td>{{order.totalPrice}}</td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+    </div>
+</div>
+</div>
+<!-- End Page Wrapper -->
+
+
+</body>
+
+
+</html>

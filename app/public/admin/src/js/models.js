@@ -478,3 +478,22 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
         }
     };
 });
+
+
+
+
+
+angular.module('RDash.models').factory('Sales3rd', function ($http) {
+    return {
+        //orderSendSMS: function (postdata) {
+        //    return $http.post('/api/administrator/orders/sms', postdata);
+        //},
+
+        searchOrder: function (query) {
+            return $http.get('/api/administrator/export/orders/referrer', {
+                params: query
+            });
+        }
+
+    };
+});

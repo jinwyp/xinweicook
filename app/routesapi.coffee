@@ -37,7 +37,9 @@ expressRoutes = (app) ->
 #    res.render('admin/index.html', { title : 'XinWeiCook' })
 #  )
 
-
+  app.get("/adminsales", (req, res) ->
+    res.render('admin/sales/index.html', { title : 'XinWeiCook' })
+  )
 
 
   app.post("/api/orders/payment/alipay/mobile", orderController.updateOrderAlipayNotify)
