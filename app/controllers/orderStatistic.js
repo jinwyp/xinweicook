@@ -539,16 +539,18 @@ exports.dishInventoryExportList = function(req, res, next) {
             'createdAt',
             '_id',
 
-            'warehouse',
             'dish',
             'user',
             'order',
             'isPlus',
+            'price',
             'quantity',
+            'warehouse',
+            'cookingType',
             'remark',
             'deliveryDateTime',
-            'clientFrom'
-
+            'clientFrom',
+            'referrer'
 
         ];
 
