@@ -234,12 +234,14 @@
         <tr>
             <th>每日总销量</th>
             <th>销量</th>
+            <th>销售额</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="dish in data.dishStatisticChartByDaily | orderBy:css.searchDishStatisticSortBy ">
             <td>{{dish.date}}</td>
             <td>{{dish.dishSaleQuantity}}</td>
+            <td>{{dish.dishSaleAmount}}</td>
         </tr>
         </tbody>
     </table>
@@ -261,6 +263,7 @@
 
             <th>当日已支付含预订销量 / 预订量</th>
             <th>当日发货销量</th>
+            <th>当日发货销售额</th>
             <th>单价</th>
         </tr>
         </thead>
@@ -274,7 +277,7 @@
 
             <td>{{dish.dishSaleQuantity}} / {{dish.dishSaleQuantityPreOrder}}</td>
             <td>{{dish.dishSaleQuantityDeliveryDay}}</td>
-
+            <td>{{dish.dishSaleAmountDeliveryDate}}</td>
             <td>{{dish.priceOriginal}}</td>
 
             <!--<td>{{dish.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
@@ -320,12 +323,14 @@
         <tr>
             <th>每月销量</th>
             <th>销量</th>
+            <th>销售额</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="dish in data.dishStatisticChartByMonth | orderBy:css.searchDishStatisticSortBy ">
             <td>{{dish.date}}</td>
             <td>{{dish.dishSaleQuantity}}</td>
+            <td>{{dish.dishSaleAmount}}</td>
         </tr>
         </tbody>
     </table>
@@ -335,12 +340,14 @@
         <tr>
             <th>每周销量</th>
             <th>销量</th>
+            <th>销售额</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="dish in data.dishStatisticChartByWeek | orderBy:css.searchDishStatisticSortBy ">
             <td>{{dish.date}}</td>
             <td>{{dish.dishSaleQuantity}}</td>
+            <td>{{dish.dishSaleAmount}}</td>
         </tr>
         </tbody>
     </table>

@@ -277,7 +277,7 @@ module.exports =
         query.skip = 0
 
       if query.limit
-        unless libs.validator.isInt query.limit, {min: 0, max: 200}
+        unless libs.validator.isInt query.limit, {min: 0, max: 500}
           return throw new Err "Field validation error,  query limit must be integer 0-200", 400
       else
         query.limit = 100

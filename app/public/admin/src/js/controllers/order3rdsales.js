@@ -79,18 +79,18 @@ function order3rdController($scope, $timeout, $state, $stateParams, $localStorag
                 name : '已支付',
                 value : 'paid'
             },
-            {
-                name : '已确认',
-                value : 'confirmed'
-            },
-            {
-                name : '菜品已制作完成',
-                value : 'dish finished'
-            },
-            {
-                name : '已打包',
-                value : 'packaged'
-            },
+            //{
+            //    name : '已确认',
+            //    value : 'confirmed'
+            //},
+            //{
+            //    name : '菜品已制作完成',
+            //    value : 'dish finished'
+            //},
+            //{
+            //    name : '已打包',
+            //    value : 'packaged'
+            //},
             {
                 name : '已发货',
                 value : 'shipped'
@@ -347,7 +347,6 @@ function order3rdController($scope, $timeout, $state, $stateParams, $localStorag
 
 
     $scope.searchOrderCount = function (){
-        $scope.css.showTable = 'orders';
 
         if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
 
@@ -382,24 +381,12 @@ function order3rdController($scope, $timeout, $state, $stateParams, $localStorag
 
         Util.delProperty($scope.data.searchOptions.query);
 
-        Orders.one('count').get(Util.formatParam($scope.data.searchOptions)).then(function (orders) {
+        $scope.data.searchOptions.count = true;
 
+        Sales3rd.searchOrder(Util.formatParam($scope.data.searchOptions)).then(function (resultCount) {
 
-            $localStorage.orderSearchOptions = {
-
-                status : $scope.data.searchOptions.query.status,
-                cookingType : $scope.data.searchOptions.query.cookingType,
-                isSplitOrder : $scope.data.searchOptions.query.isSplitOrder,
-                isChildOrder : $scope.data.searchOptions.query.isChildOrder,
-                clientFrom : $scope.data.searchOptions.query.clientFrom,
-                deliveryDateType : $scope.data.searchOptions.query.deliveryDateType
-            };
-
-
-
-
-            $scope.data.orderListCount = orders.count;
-            $scope.data.orderListTotalPages = Math.ceil(orders.count / $scope.data.searchOptions.limit);
+            $scope.data.orderListCount = resultCount.data.count;
+            $scope.data.orderListTotalPages = Math.ceil($scope.data.orderListCount / $scope.data.searchOptions.limit);
 
             $scope.data.orderListPagesArray= [];
             for (var i = 1; i <= $scope.data.orderListTotalPages; i++){
@@ -415,6 +402,7 @@ function order3rdController($scope, $timeout, $state, $stateParams, $localStorag
     $scope.searchOrder = function (form) {
 
         Util.delProperty($scope.data.searchOptions.query);
+        $scope.data.searchOptions.count = false;
 
         Sales3rd.searchOrder(Util.formatParam($scope.data.searchOptions, true)).then(function (resultOrder) {
             console.log($scope.data.orderList);
@@ -439,7 +427,7 @@ function order3rdController($scope, $timeout, $state, $stateParams, $localStorag
 
 
 
-    $scope.searchOrder();
+    $scope.searchOrderCount();
 
 
 

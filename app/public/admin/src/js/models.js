@@ -100,6 +100,10 @@ angular.module('RDash.models').factory('Util', function ($http) {
                 result.limit = options.limit;
             }
 
+            if (typeof options.count !== 'undefined' && options.count){
+                result.count = options.count;
+            }
+
             //console.log(decodeURIComponent('http://localhost:3003/api/admin/accountdetails/count?limit=200&query=%7B%22isPlus%22:%22true%22%7D&sort=-createdAt'));
 
             return result;

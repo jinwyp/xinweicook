@@ -558,6 +558,7 @@ exports.dishDailySales = function(req, res, next) {
                 order: 1,
                 dish : 1,
                 quantity : 1,
+                price : 1,
                 isPlus : 1,
                 remark : 1,
                 deliveryDateTime : 1,
@@ -577,7 +578,8 @@ exports.dishDailySales = function(req, res, next) {
                 "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$price", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
             }},
 
             { $project :{
@@ -588,6 +590,7 @@ exports.dishDailySales = function(req, res, next) {
                 "year" : "$_id.year",
 
                 "dishSaleQuantity": 1,
+                "dishSaleAmount": 1,
                 "dishList": 1
 
             }},
@@ -607,6 +610,7 @@ exports.dishDailySales = function(req, res, next) {
                 order: 1,
                 dish : 1,
                 quantity : 1,
+                price : 1,
                 isPlus : 1,
                 remark : 1,
                 deliveryDateTime : 1,
@@ -626,7 +630,8 @@ exports.dishDailySales = function(req, res, next) {
                 "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantityDeliveryDate": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+                "dishSaleAmountDeliveryDate": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$price", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
             }},
 
             { $project :{
@@ -637,6 +642,7 @@ exports.dishDailySales = function(req, res, next) {
                 "year" : "$_id.year",
 
                 "dishSaleQuantityDeliveryDate": 1,
+                "dishSaleAmountDeliveryDate": 1,
                 "dishList": 1
 
             }},
@@ -661,6 +667,8 @@ exports.dishDailySales = function(req, res, next) {
 
                     inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
                     tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] = inventroy.dishSaleQuantityDeliveryDate;
+                    tempDishObject[inventroy.date + '-' + inventroy.dish.toString() + 'Amount'] = inventroy.dishSaleAmountDeliveryDate;
+
                 });
             }
 
@@ -675,6 +683,7 @@ exports.dishDailySales = function(req, res, next) {
                     inventroyPerDay.isPublished = dishHash[inventroyPerDay.dish.toString()].isPublished;
                     inventroyPerDay.date =  inventroyPerDay.year + "-" + inventroyPerDay.month + "-" + inventroyPerDay.day;
                     inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] || "";
+                    inventroyPerDay.dishSaleAmountDeliveryDate =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString() + 'Amount'] || "";
 
                     inventroyPerDay.dishSaleQuantityPreOrder = 0;
 
@@ -758,6 +767,7 @@ exports.dishDailySalesChart = function(req, res, next) {
         order: 1,
         dish : 1,
         quantity : 1,
+        price : 1,
         isPlus : 1,
         remark : 1,
         deliveryDateTime : 1,
@@ -789,7 +799,8 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "_id": { day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
             }},
 
             { $project :{
@@ -800,6 +811,7 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
 
                 "dishSaleQuantity": 1,
+                "dishSaleAmount": 1,
                 "dishList": 1
             }},
 
@@ -885,6 +897,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
         order: 1,
         dish : 1,
         quantity : 1,
+        price : 1,
         isPlus : 1,
         remark : 1,
         deliveryDateTime : 1,
@@ -917,7 +930,8 @@ exports.dishWeeklySalesChart = function(req, res, next) {
 
                 "firstDate" : { $first: "$createdAt" },
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
 
             }},
 
@@ -929,6 +943,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
 
                 "firstDate": 1,
                 "dishSaleQuantity": 1,
+                "dishSaleAmount": 1,
                 "dishList": 1
             }},
 
@@ -946,7 +961,8 @@ exports.dishWeeklySalesChart = function(req, res, next) {
                 "_id": { month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity",  "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus", "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
             }},
 
             { $project :{
@@ -956,6 +972,7 @@ exports.dishWeeklySalesChart = function(req, res, next) {
                 "date" :  { $concat: [  {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}] },
 
                 "dishSaleQuantity": 1,
+                "dishSaleAmount": 1,
                 "dishList": 1
             }},
 

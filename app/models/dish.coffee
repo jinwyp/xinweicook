@@ -236,13 +236,14 @@ module.exports =
               isPlus : false
               quantity : -Number(stockNumber)
               price : dishNow.priceOriginal
+              cookingType : dishNow.cookingType
               remark : models.inventory.constantRemark().adminOperation
 
             newInventoryChange.remark = remark if remark
             newInventoryChange.order = order._id.toString() if order
             newInventoryChange.deliveryDateTime = order.deliveryDateTime if order
             newInventoryChange.clientFrom = order.clientFrom if order
-            newInventoryChange.cookingType = dishNow.cookingType
+#            newInventoryChange.referrer = order.statisticsReferrer if order.statisticsReferrer
 
 
             models.inventory.createAsync(newInventoryChange)
@@ -318,6 +319,7 @@ module.exports =
               isPlus : true
               quantity : Number(stockNumber)
               price : dishNow.priceOriginal
+              cookingType : dishNow.cookingType
               remark : models.inventory.constantRemark().adminOperation
 
             newInventoryChange.remark = remark if remark

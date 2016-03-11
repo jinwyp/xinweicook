@@ -103,14 +103,14 @@
                         <!--</div>-->
                     <!--</div>-->
 
-                    <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$valid, 'has-error':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$invalid}">-->
-                        <!--<label for="inputOrderStatus" class="col-lg-2 control-label" >订单状态</label>-->
-                        <!--<div class="col-lg-8">-->
-                            <!--<label class="radio-inline" ng-repeat="status in data.orderStatusList">-->
-                                <!--<input type="radio" name="orderStatus" id="inputOrderStatus" ng-value="status.value" ng-model="data.searchOptions.query.status">{{status.name}}-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <div class="form-group has-feedback" ng-class="{'has-success':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$valid, 'has-error':searchForm.orderStatus.$dirty&&searchForm.orderStatus.$invalid}">
+                        <label for="inputOrderStatus" class="col-lg-2 control-label" >订单状态</label>
+                        <div class="col-lg-8">
+                            <label class="radio-inline" ng-repeat="status in data.orderStatusList">
+                                <input type="radio" name="orderStatus" id="inputOrderStatus" ng-value="status.value" ng-model="data.searchOptions.query.status">{{status.name}}
+                            </label>
+                        </div>
+                    </div>
 
                     <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$valid, 'has-error':searchForm.clientFromType.$dirty&&searchForm.clientFromType.$invalid}">-->
                         <!--<label for="inputDeliveryDateType" class="col-lg-2 control-label" >配送时间类型</label>-->
@@ -151,27 +151,27 @@
                     <!--</div>-->
 
 
-                    <!--<div class="form-group has-feedback">-->
-                        <!--<label class="col-lg-2 control-label" >创建时间</label>-->
+                    <div class="form-group has-feedback">
+                        <label class="col-lg-2 control-label" >创建时间</label>
 
-                        <!--<div class="col-lg-3">-->
-                            <!--<div class="input-group">-->
-                                <!--<input type="text" class="form-control" placeholder="起始时间" uib-datepicker-popup ng-model="data.searchDateFrom" is-open="data.datePickerIsOpenDateFrom" datepicker-options="datePickerOptions" close-text="Close" />-->
-                            <!--<span class="input-group-btn">-->
-                                <!--<button type="button" class="btn btn-default" ng-click="datePickerOpen('datefrom')"><i class="glyphicon glyphicon-calendar"></i></button>-->
-                            <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="起始时间" uib-datepicker-popup ng-model="data.searchDateFrom" is-open="data.datePickerIsOpenDateFrom" datepicker-options="datePickerOptions" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen('datefrom')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                            </div>
+                        </div>
 
-                        <!--<div class="col-lg-3">-->
-                            <!--<div class="input-group">-->
-                                <!--<input type="text" class="form-control" placeholder="截至时间" uib-datepicker-popup ng-model="data.searchDateTo" is-open="data.datePickerIsOpenDateTo" datepicker-options="datePickerOptions" close-text="Close" />-->
-                            <!--<span class="input-group-btn">-->
-                                <!--<button type="button" class="btn btn-default" ng-click="datePickerOpen('dateto')"><i class="glyphicon glyphicon-calendar"></i></button>-->
-                            <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="截至时间" uib-datepicker-popup ng-model="data.searchDateTo" is-open="data.datePickerIsOpenDateTo" datepicker-options="datePickerOptions" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="datePickerOpen('dateto')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <!--<div class="form-group has-feedback" ng-class="{'has-success':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$valid, 'has-error':searchForm.userReferrer.$dirty&&searchForm.userReferrer.$invalid}">-->
@@ -288,7 +288,7 @@
 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <!--<button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单</button>-->
+                            <button type="submit" class="btn btn-default" ng-click="searchOrderCount(searchForm)">搜索订单</button>
 
                             <a class="btn btn-default"  href="/api/administrator/export/orders/referrer?excel=true" target="_blank">导出已完成订单</a>
                         </div>
@@ -299,21 +299,21 @@
             </div>
         </div>
 
-        <!--<nav >-->
-            <!--<ul class="pagination" >-->
-                <!--<li>-->
-                    <!--<span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>-->
-                <!--</li>-->
+        <nav >
+            <ul class="pagination" >
+                <li>
+                    <span aria-hidden="true"> 共{{data.orderListCount}}条记录 </span>
+                </li>
 
-                <!--<li>-->
-                    <!--<a aria-label="Previous" ng-hide="data.orderListCurrentPage==1"  ng-click="changePagination(data.orderListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>-->
-                <!--</li>-->
-                <!--<li ng-repeat="page in data.orderListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>-->
-                <!--<li>-->
-                    <!--<a aria-label="Next" ng-hide="data.orderListCurrentPage==data.orderListTotalPages"  ng-click="changePagination(data.orderListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</nav>-->
+                <li>
+                    <a aria-label="Previous" ng-hide="data.orderListCurrentPage==1"  ng-click="changePagination(data.orderListCurrentPage - 1)"> <span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li ng-repeat="page in data.orderListPagesArray"><a ng-click="changePagination(page.value)">{{page.value}}</a></li>
+                <li>
+                    <a aria-label="Next" ng-hide="data.orderListCurrentPage==data.orderListTotalPages"  ng-click="changePagination(data.orderListCurrentPage + 1)"><span aria-hidden="true">&raquo;</span> </a>
+                </li>
+            </ul>
+        </nav>
 
 
         <table class="table table-striped table-bordered table-hover table-responsive" >
@@ -333,16 +333,17 @@
                 <th>余额支付</th>
                 <th>运费</th>
                 <th>总价</th>
+                <th>菜品</th>
 
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="order in data.orderList ">
+            <tr ng-repeat="order in data.orderList | filter: data.searchFilter">
                 <td>
-                    <a  style="font-size:18px;margin-right:.5em;">{{order.autoIncrementId.toString().substring(2)}}</a>
+                    <a style="font-size:18px;margin-right:.5em;">{{order.autoIncrementId.toString().substring(2)}}</a>
                     <small>{{order.createdAt | date:'MM-dd HH:mm:ss'}}</small><br/>
-                    <input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)" id="check{{order.orderNumber}}">
-                    <label for="check{{order.orderNumber}}" style="font-size:10px">{{order.orderNumber}}</label>
+                    <!--<input type="checkbox" name="exportOrderIdList[]" value="{{order._id}}" ng-checked="data.exportOrderIdList.indexOf(order._id) > -1" ng-click="toggleOrderSelection(order._id)" id="check{{order.orderNumber}}">-->
+                    <label for="check{{order.orderNumber}}" style="font-size:12px">{{order.orderNumber}}</label>
                 </td>
                 <td>
                     <span ng-if="order.status === 'not paid'">未支付</span>
@@ -353,7 +354,6 @@
                     <span ng-if="order.status === 'shipped'">已发货</span>
                     <span ng-if="order.status === 'finished'">已完成</span>
                     <span ng-if="order.status === 'canceled'">已取消</span>
-
 
                 </td>
 
@@ -383,7 +383,7 @@
                 <td>{{order.accountUsedDiscount}} </td>
                 <td>{{order.freight}}</td>
                 <td>{{order.totalPrice}}</td>
-
+                <td>{{order.dishQuantity}}</td>
 
             </tr>
             </tbody>
