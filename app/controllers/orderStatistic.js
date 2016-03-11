@@ -371,7 +371,7 @@ exports.orderExportReferrerList = function(req, res, next) {
         if (date['$lte']) query.createdAt['$lte'] = new Date(date['$lte']);
     }
 
-    models.order.find(query).skip(0).limit (req.query.limit)
+    models.order.find(query).skip(0).sort("-createdAt").limit (req.query.limit)
         .populate({path: 'dishList.dish', select: models.dish.fields()})
         .populate({path: 'dishList.subDish.dish', select: models.dish.fields()})
         .lean()
