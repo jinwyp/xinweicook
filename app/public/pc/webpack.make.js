@@ -72,10 +72,10 @@ module.exports = function makeWebpackConfig(options) {
             })
         ],
         devServer : {
-            contentBase: 'app/public',
+            contentBase: 'src/',
             proxy: {
                 '/pc/dist/*': {
-                    target: 'http://localhost:8081/webpackdevserver/',
+                    target: 'http://localhost:8082/webpackdevserver/',
                     secure: false
                 },
                 '/*': {
