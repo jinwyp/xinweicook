@@ -13,6 +13,7 @@ module.exports =
     name : zh:String, en:String
 
     isPaid :  type: Boolean, default: false
+    clientFrom : type: String  # 来自平台 iOS PC 微信
 
     paymentAlipay :
       notify_time : type: String
