@@ -456,6 +456,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressIsAvailableForEat_' + $index].$dirty&&uAForm['addressIsAvailableForEat_' + $index].$valid, 'has-error':uAForm['addressIsAvailableForEat_' + $index].$dirty&&uAForm['addressIsAvailableForEat_' + $index].$invalid}">
+                                <label class="col-lg-2 control-label" >便当是否可送</label>
+
+                                <div class="col-lg-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressIsAvailableForEat_{{$index}}" ng-value="false" ng-model="address.isAvailableForEat">否
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="addressIsAvailableForEat_{{$index}}" ng-value="true" ng-model="address.isAvailableForEat">是
+                                    </label>
+
+                                </div>
+                            </div>
+
                             <div class="form-group has-feedback" ng-class="{'has-success':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$valid, 'has-error':uAForm['addressWarehouse_' + $index].$dirty&&uAForm['addressWarehouse_' + $index].$invalid}">
                                 <label class="col-lg-2 control-label" >可送达的仓库</label>
 
