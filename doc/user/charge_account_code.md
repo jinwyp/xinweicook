@@ -6,6 +6,7 @@ POST `/api/user/account/chargecode`
 
 | Name       | Type   | Desc     |
 |:-------    |:-------|:-------  |
+| clientFrom | String   |  website, mobileweb, ios, android, wechat(公众号支付)                   |
 | accountChargeCode  | String | 充值码  |
 | remark     | String | 备注     |
 
