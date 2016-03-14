@@ -2140,7 +2140,6 @@ exports.userListAbove4Orders = function(req, res, next) {
     models.order.aggregateAsync( pipeline).then(function(resultOrderList){
 
         var result = {};
-        var resultAbove = {};
 
         resultOrderList.map(function(user){
 
@@ -2148,17 +2147,11 @@ exports.userListAbove4Orders = function(req, res, next) {
                 if (typeof result['userOrder' + i.toString()] === 'undefined'){
                     result['userOrder' + i.toString()] = {
                         users : 0,
-                        userList : []
+                        userList : [],
+                        usersAbove : 0,
+                        userListAbove : []
                     };
                 }
-
-                if (typeof resultAbove['userOrder' + i.toString()] === 'undefined'){
-                    resultAbove['userOrder' + i.toString()] = {
-                        users : 0,
-                        userList : []
-                    };
-                }
-
 
                 if (user.saleQuantity === i ){
                     result['userOrder' + i.toString()].users = result['userOrder' + i.toString()].users + 1;
@@ -2166,14 +2159,14 @@ exports.userListAbove4Orders = function(req, res, next) {
                 }
 
                 if (user.saleQuantity >= i ){
-                    resultAbove['userOrder' + i.toString()].users = resultAbove['userOrder' + i.toString()].users + 1;
-                    resultAbove['userOrder' + i.toString()].userList.push(user.userId.toString());
+                    result['userOrder' + i.toString()].usersAbove = result['userOrder' + i.toString()].usersAbove + 1;
+                    result['userOrder' + i.toString()].userListAbove.push(user.userId.toString());
                 }
             }
 
         });
 
-        res.send(resultAbove);
+        res.send(result);
 
 
 

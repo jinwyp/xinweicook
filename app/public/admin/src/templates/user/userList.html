@@ -395,11 +395,26 @@
                 <th>用户下单数量大于xx用户数</th>
                 <th>用户详细</th>
 
+                <th>用户下单数量等于xx用户数</th>
+                <th>用户详细</th>
+
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="(key, value) in data.userStatisticOrderAbove " ng-if="value.users">
                 <td>{{key}} </td>
+                
+                <td>{{value.usersAbove}} </td>
+
+                <td>
+                    <button class="btn btn-info" ng-click="data.currentUserOrderAboveIndex=key"> 显示详细</button> <br/>
+                    <span ng-if="data.currentUserOrderAboveIndex === key">
+                        <span ng-repeat="userid in value.userListAbove">
+                            <a ui-sref="menu.updateUser({ id: userid })" target="_blank">{{userid}}</a>  <br/>
+                        </span>
+                    </span>
+                </td>
+
                 <td>{{value.users}} </td>
 
                 <td>
@@ -410,6 +425,8 @@
                         </span>
                     </span>
                 </td>
+
+
 
             </tr>
 
