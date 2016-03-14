@@ -469,6 +469,12 @@ angular.module('RDash.models').factory('Statistic', function ($http) {
             });
         },
 
+        getUserStatisticOrderAbove: function (params) {
+            return $http.get('/api/admin/statistic/user/order/more4', {
+                params: params
+            });
+        },
+
         getUserStatisticCouponByName: function (params) {
             return $http.get('/api/admin/statistic/user/coupon/name', {
                 params: params
