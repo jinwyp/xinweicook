@@ -843,7 +843,7 @@ exports.addNewAddress = (req, res, next) ->
       throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
 
-
+    console.log(resultBaidu)
     # 漕河泾仓库使用直线距离
     resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, tempAddress)
 
