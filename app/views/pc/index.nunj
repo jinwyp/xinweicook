@@ -158,7 +158,7 @@
 {% include "./includes/footer.nunj" %}
 
 
-<script src="/pc/dist/webpack-common.78076d0eac74499206e9.js"></script>
+<script src="/pc/dist/webpack-common.823828c50200793a73f8.js"></script>
 <script src="/pc/dist/index.1055b6f7ed571fdb1e04.js"></script>
 
 </body>
