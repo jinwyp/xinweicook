@@ -1717,3 +1717,220 @@ exports.orderHourSales = function(req, res, next) {
         res.status(200).json(resultOrder)
     }).catch(next)
 };
+
+
+
+
+
+
+
+
+
+exports.orderDishDailySales = function(req, res, next) {
+
+    var today = moment().startOf('day');
+    var last3month = today.clone().subtract(3, 'months');
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+
+    var pipeline = [];
+
+
+    pipeline.push(
+        { "$match":{
+            isChildOrder : false,
+            status       : {$in : orderStatus},
+            createdAt    :   {"$gte" : last3month.toDate()}
+        }}
+    );
+
+    pipeline.push (
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+            dishHistory : 1,
+
+
+            year: { $year: {$add:["$deliveryDateTime",28800000]}  },
+            month: { $month: {$add:["$deliveryDateTime",28800000]}  },
+            day: { $dayOfMonth: {$add:["$deliveryDateTime",28800000]}  },
+            hour: { $hour: {$add:["$deliveryDateTime",28800000]}  },
+            minute: { $minute: {$add:["$deliveryDateTime",28800000]}  },
+            "second" : { "$second" : {$add:["$deliveryDateTime",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$deliveryDateTime",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$deliveryDateTime",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$deliveryDateTime",28800000]}  },
+            week: { $week: {$add:["$deliveryDateTime",28800000]}  }
+
+
+        }},
+
+        { $unwind : "$dishHistory" },
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+            "dishId" : "$dishHistory.dish._id",
+            "dishPrice" : "$dishHistory.dish.priceOriginal",
+            "dishCookingType" : "$dishHistory.dish.cookingType",
+            "dishSideDishType" : "$dishHistory.dish.sideDishType",
+            "dishQuantity" : "$dishHistory.number",
+
+            year: 1,
+            month:1,
+            day: 1,
+            hour: 1,
+            minute: 1,
+            "second" : 1,
+            "millisecond" : 1,
+            dayOfYear: 1,
+            dayOfWeek: 1,
+            week: 1
+
+
+        }}
+    );
+
+
+    // Grouping pipeline
+    //pipeline.push (
+    //    { "$group": {
+    //        "_id": {dish:'$dishId', day : "$day", month : "$month", year : "$year"},
+    //
+    //        "dishSaleQuantityDeliveryDate": { "$sum": "$dishQuantity" },
+    //        "dishSaleAmountDeliveryDate": { "$sum": { $multiply: [ "$dishPrice", "$dishQuantity" ] } },
+    //        "dishList": { "$push": {  "dish": "$dishId", "user": "$user", "order": "$_id", "quantity": "$dishQuantity", "price": "$dishPrice", "createdAt": "$createdAt", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+    //    }},
+    //
+    //    { $project :{
+    //        _id : 0,
+    //        "dish" : "$_id.dish",
+    //        "day" : "$_id.day",
+    //        "month" : "$_id.month",
+    //        "year" : "$_id.year",
+    //
+    //        "dishSaleQuantityDeliveryDate": 1,
+    //        //"dishSaleAmountDeliveryDate": 1,
+    //        "dishList": 1
+    //
+    //    }},
+    //
+    //    { "$sort": { "year" : -1, "month": -1, "day": -1 , "dishSaleQuantityDeliveryDate":1 } },
+    //    { "$limit": 20000 }
+    //);
+
+
+
+    models.order.aggregateAsync( pipeline).then(function(resultOrder){
+
+        resultOrder.forEach(function(dish){
+
+            if (typeof dish.dishQuantity === 'string' || typeof dish.dishPrice === 'string'){
+                console.log("---: ", dish._id, dish.dishQuantity, dish.dishPrice, typeof dish.dishQuantity, typeof dish.dishPrice)
+            }
+
+        })
+
+        res.status(200).json(resultOrder)
+    }).catch(next)
+
+
+
+
+    //
+    //
+    //pipelinePerDay.push (
+    //    { "$match":match},
+    //
+    //    { $project :project},
+    //
+    //    { "$group": {
+    //        "_id": { day : "$day", month : "$month", year : "$year"},
+    //
+    //        "dishSaleQuantity": { "$sum": "$quantity" },
+    //        "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity", -1 ] } },
+    //        "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+    //    }},
+    //
+    //    { $project :{
+    //        _id : 0,
+    //        "day" : "$_id.day",
+    //        "month" : "$_id.month",
+    //        "year" : "$_id.year",
+    //        "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
+    //
+    //        "dishSaleQuantity": 1,
+    //        "dishSaleAmount": 1,
+    //        "dishList": 1
+    //    }},
+    //
+    //    { "$sort": { "year" : 1, "month": 1, "day": 1 } },
+    //    { "$limit": 500 }
+    //);
+    //
+    //
+    //models.inventory.aggregateAsync( pipelinePerDay).then(function( resultInventroyPerDay){
+    //    res.status(200).json(resultInventroyPerDay);
+    //}).catch(next);
+
+
+
+
+
+
+
+};
