@@ -42,6 +42,7 @@ export const SELECT_COUPON_CARD = 'SELECT_COUPON_CARD';
 // balance
 export const TOGGLE_BALANCE = 'TOGGLE_BALANCE';
 export const GET_BALANCE = 'GET_BALANCE';
+export const CHARGE_BALANCE = 'CHARGE_BALANCE';
 
 // order
 export const POST_ORDER = 'POST_ORDER';

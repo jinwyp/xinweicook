@@ -19,6 +19,7 @@ import * as userAction from '../actions/user'
 
 import AddressList from "../components/address/address-list"
 import OrderList from "../components/order/order-list"
+import BalanceCharging from "../components/balance"
 
 var App = React.createClass({
 
@@ -58,6 +59,9 @@ var App = React.createClass({
                 clearStreet: () => dispatch(addressAction.clearStreet()),
                 getRange: () => dispatch(addressAction.getRangeIfNeeded())
             }
+            this.methods.balanceCharging = {
+                getBalance: () => this.props.dispatch(balanceAction.getBalance())
+            }
         }
 
         var Child
@@ -67,6 +71,9 @@ var App = React.createClass({
                 break;
             case 'userinfo':
                 Child = <AddressList hideRadio={true} title={__('Delivery Address')} {...this.methods.addressList} {...address}/>;
+                break;
+            case 'balance':
+                Child = <BalanceCharging {...this.methods.balanceCharging} balance={balance.totalBalance}/>
                 break;
             default: Child = null;
         }
@@ -78,6 +85,8 @@ var App = React.createClass({
                         <li className={route == 'orders' && 'act'}><a href="#orders">{__('My Orders')}</a></li>
 
                         <li className={route == 'userinfo' && 'act'}><a href="#userinfo">{__('My Information')}</a></li>
+
+                        <li className={route == 'balance' && 'act'}><a href="#balance">{__('I Want Charge')}</a></li>
 
                     </ul>
                 </nav>
