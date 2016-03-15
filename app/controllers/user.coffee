@@ -12,7 +12,7 @@ Map = require "../libs/baidumap.js"
 configAlipay =
   notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/notify/account"
   mobile_return_url : "http://m.xinweicook.com/mobile/alipay/returnaccountdetail"
-  website_return_url : "http://xinweicook.com/paymentresult"
+  website_return_url : "http://xinweicook.com/balance/payresult/alipay"
 
 alipay = AliPay(configAlipay)
 

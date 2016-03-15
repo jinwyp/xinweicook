@@ -34,7 +34,7 @@ function chargeBalanceDone(res) {
     return {
         type: types.CHARGE_BALANCE,
         status: 'success',
-        alipayUrl: res.alipaySign.fullurl
+        aliPayUrl: res.aliPaySign.fullurl
     }
 }
 
@@ -43,7 +43,7 @@ export function chargeBalance(price) {
         return post('/api/user/account/details', {
             addAmount: price,
             payment: 'alipay direct',
-            device_info: 'WEB'
-        })
+            clientFrom: 'website'
+        }).then(res => dispatch(chargeBalanceDone(res)))
     }
 }

@@ -60,7 +60,8 @@ var App = React.createClass({
                 getRange: () => dispatch(addressAction.getRangeIfNeeded())
             }
             this.methods.balanceCharging = {
-                getBalance: () => this.props.dispatch(balanceAction.getBalance())
+                getBalance: () => dispatch(balanceAction.getBalance()),
+                chargeBalance: price => dispatch(balanceAction.chargeBalance(price))
             }
         }
 

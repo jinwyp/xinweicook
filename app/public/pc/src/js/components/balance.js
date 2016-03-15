@@ -1,11 +1,11 @@
 import {__} from '../utils/locale'
-import cls from '../utils/class-name'
+import {go} from '../utils/utils'
 
 import React from 'react'
 
 const BalanceItem = props =>
-    <label>
-        <input name="chargeRadios" onClick={props.selectItem} type="radio"/>
+    <label className="h-bg-trans">
+        <input defaultChecked={props.checked} name="chargeRadios" onClick={props.selectItem} type="radio"/>
         <span className="rmb-char">{props.price}</span>
         <span>{props.coin - props.price} -></span>
         <span className="rmb-char">{props.coin}</span>
@@ -53,7 +53,8 @@ var BalanceCharging = React.createClass({
         if (this.state.isSending) return
         this.setState({isSending: true})
         this.props.chargeBalance(chargeOptions[this.state.curIndex].price)
-            .catch(() => {})
+            .then(res => go(res.aliPayUrl))
+            .catch(err => {console.error(err)})
             .then(() => {this.setState({isSending: false})})
     },
 
@@ -73,18 +74,18 @@ var BalanceCharging = React.createClass({
                     </h5>
                     <div className="charge-options">
                         {
-                            chargeOptions.map((el, index) =>
-                                <BalanceItem {...el} selectItem={() => this.setState({curIndex: index})}/>)
+                            chargeOptions.map((el, i) =>
+                                <BalanceItem checked={i==this.state.curIndex} key={i} {...el} selectItem={() => this.setState({curIndex: i})}/>)
                         }
                     </div>
-                    <div className="charged-balance">
+                    <div className="charged-balance tr">
                         <span>{__('Your Balance Will Be:')}</span>
-                        <span className="rmb-char">{props.balance + chargeOptions[this.state.curIndex]}</span>
+                        <span className="rmb-char">{props.balance + chargeOptions[this.state.curIndex].price}</span>
                     </div>
                 </div>
-                <div className="btn-wrapper">
+                <div className="btn-wrapper tr">
                     <span>{__('Get discounts with charging balances!')}</span>
-                    <span onClick={this.chargeBalance} className={"btn" + this.state.isSending ? " disabled" : ""}>{__('Charge Now')}</span>
+                    <span onClick={this.chargeBalance} className={"btn" + (this.state.isSending ? " disabled" : "")}>{__('Charge Now')}</span>
                 </div>
             </div>
         )

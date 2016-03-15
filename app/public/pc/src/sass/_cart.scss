@@ -329,7 +329,7 @@
             overflow: auto;
           }
           li {
-            border-bottom: 1px solid #E8E8E8;
+            border-bottom: 1px solid $color_cart_price_border;
             margin: 0 5px;
             padding: 13px;
             transition: .4s background-color;
@@ -342,7 +342,7 @@
 
       .comment-section {
         margin-bottom: 1em;
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid $color_cart_price_border;
         padding-bottom: 1em;
         label {
           vertical-align: middle;
@@ -393,7 +393,7 @@
               overflow: auto;
             }
             li {
-              border-bottom: 1px solid #E8E8E8;
+              border-bottom: 1px solid $color_cart_price_border;
               margin: 0 5px;
               padding: 13px;
               transition: .4s background-color;

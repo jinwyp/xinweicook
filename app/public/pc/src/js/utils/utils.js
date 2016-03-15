@@ -86,3 +86,10 @@ export function search(search) {
         return obj;
     }, {});
 }
+
+/**
+ * behave like: location.href = ''. for unit test, and mock.
+ */
+export function go(url) {
+    location.href = url
+}
