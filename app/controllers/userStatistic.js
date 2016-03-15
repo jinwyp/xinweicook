@@ -2282,8 +2282,6 @@ exports.userListAbove4Orders = function(req, res, next) {
             }
         });
 
-        console.log(userListTemp)
-        console.log(userListObjTemp)
 
         models.user.findAsync({_id: {$in:userListTemp}}).then(function(resultUser){
 
