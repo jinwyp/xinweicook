@@ -689,13 +689,12 @@ exports.dishDailySales = function(req, res, next) {
                     inventroyPerDay.dishSaleQuantityPreOrder = 0;
 
                     inventroyPerDay.dishList.forEach(function(inventroySingle){
-                        console.log(inventroySingle.quantity);
                         if (moment(inventroySingle.createdAt).date() !== moment(inventroySingle.deliveryDateTime).date()){
                             inventroyPerDay.dishSaleQuantityPreOrder = inventroyPerDay.dishSaleQuantityPreOrder + inventroySingle.quantity;
                         }
                     });
 
-                    console.log(inventroyPerDay.dishname, inventroyPerDay.dishSaleQuantityPreOrder)
+
                 });
             }
 
