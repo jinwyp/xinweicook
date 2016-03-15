@@ -578,8 +578,8 @@ exports.dishDailySales = function(req, res, next) {
                 "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$price", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity", -1] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
             }},
 
             { $project :{
@@ -630,8 +630,8 @@ exports.dishDailySales = function(req, res, next) {
                 "_id": {dish:'$dish', day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantityDeliveryDate": { "$sum": "$quantity" },
-                "dishSaleAmountDeliveryDate": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$price", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
+                "dishSaleAmountDeliveryDate": { "$sum": { $multiply: [ "$price", "$quantity", -1 ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"  } }
             }},
 
             { $project :{
@@ -673,6 +673,7 @@ exports.dishDailySales = function(req, res, next) {
             }
 
 
+
             if (resultInventroyPerDay  && resultInventroyPerDay.length > 0 ) {
 
                 resultInventroyPerDay.forEach(function(inventroyPerDay){
@@ -692,6 +693,8 @@ exports.dishDailySales = function(req, res, next) {
                             inventroyPerDay.dishSaleQuantityPreOrder = inventroyPerDay.dishSaleQuantityPreOrder + inventroySingle.quantity;
                         }
                     });
+
+
                 });
             }
 
@@ -799,8 +802,8 @@ exports.dishDailySalesChart = function(req, res, next) {
                 "_id": { day : "$day", month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity", -1 ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
             }},
 
             { $project :{
@@ -930,8 +933,8 @@ exports.dishWeeklySalesChart = function(req, res, next) {
 
                 "firstDate" : { $first: "$createdAt" },
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity", -1 ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus" , "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
 
             }},
 
@@ -961,8 +964,8 @@ exports.dishWeeklySalesChart = function(req, res, next) {
                 "_id": { month : "$month", year : "$year"},
 
                 "dishSaleQuantity": { "$sum": "$quantity" },
-                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity" ] } },
-                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$quantity", "isPlus": "$isPlus", "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
+                "dishSaleAmount": { "$sum": { $multiply: [ "$price", "$quantity", -1 ] } },
+                "dishList": { "$push": { "_id": "$_id", "dish": "$dish", "user": "$user", "order": "$order", "quantity": "$quantity", "price": "$price", "isPlus": "$isPlus", "createdAt": "$createdAt", "remark": "$remark", "deliveryDateTime":"$deliveryDateTime", "clientFrom":"$clientFrom"   } }
             }},
 
             { $project :{
@@ -999,6 +1002,5 @@ exports.dishWeeklySalesChart = function(req, res, next) {
 
 
 
-
-
 };
+
