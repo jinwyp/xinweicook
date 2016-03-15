@@ -80,7 +80,7 @@ var BalanceCharging = React.createClass({
                     </div>
                     <div className="charged-balance tr">
                         <span>{__('Your Balance Will Be:')}</span>
-                        <span className="rmb-char">{props.balance + chargeOptions[this.state.curIndex].price}</span>
+                        <span className="rmb-char">{props.balance + chargeOptions[this.state.curIndex].coin}</span>
                     </div>
                 </div>
                 <div className="btn-wrapper tr">
