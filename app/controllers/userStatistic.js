@@ -1013,7 +1013,7 @@ exports.userListAbove4Orders = function(req, res, next) {
 
             var userIdList = resultUser.map(function(user){
                 return user._id.toString();
-            })
+            });
             console.log('userOrderMore7Different111: ', _.difference(userIdList, result['userOrder7'].userListAbove))
             console.log('userOrderMore7Different222: ', _.difference(result['userOrder7'].userListAbove), userIdList )
 
