@@ -73,7 +73,7 @@ module.exports =
 
   methods:
 
-    chargeAccountDetail : (amount, name, remark, chargeType) ->
+    chargeAccountDetail : (amount, name, remark, chargeType, clientFrom) ->
 
       newAccountDetail =
         chargeType : models.accountdetail.constantChargeType().alipaydirect
@@ -81,6 +81,7 @@ module.exports =
         isPlus : true
         amount : Number(amount)
         amountXinwei : models.useraccount.chargeAmountArithmetic(Number(amount))
+        clientFrom : models.order.constantClientFrom().wechat
         name :
           zh : "在线充值"
           en : "Online Recharge"
@@ -88,17 +89,18 @@ module.exports =
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
       newAccountDetail.chargeType = chargeType if chargeType
+      newAccountDetail.clientFrom = clientFrom if clientFrom
 
       models.accountdetail.createAsync(newAccountDetail)
 
-    chargeAccountDetailByChargeCode : (amount, name, remark, couponid) ->
+    chargeAccountDetailByChargeCode : (amount, name, remark, couponid, clientFrom) ->
       @balance = @balance + Number(amount)
 
       newAccountDetail =
         chargeType : models.accountdetail.constantChargeType().chargecode
         user : @user
         isPlus : true
-
+        clientFrom : models.order.constantClientFrom().wechat
         amountXinwei : Number(amount)
         name :
           zh : "使用充值码充值"
@@ -107,6 +109,7 @@ module.exports =
       newAccountDetail.remark = remark if remark
       newAccountDetail.name = name if name
       newAccountDetail.coupon = couponid if couponid
+      newAccountDetail.clientFrom = clientFrom if clientFrom
 
       models.accountdetail.createAsync(newAccountDetail)
       @saveAsync()

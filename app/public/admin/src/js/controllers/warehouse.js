@@ -243,39 +243,89 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
         var polygonPointList = [
             {
-                "sortId" : "0",
+                "sortId" : 10,
                 "title"  : "浦电路崂山路",
 
                 "longitude" : "121.53231",
                 "latitude"  : "31.225758"
+            },
 
+            {
+                "sortId" : 11,
+                "title"  : "浦电路东方路",
+
+                "longitude" : "121.53514",
+                "latitude"  : "31.226636"
             },
             {
-                "sortId" : "1",
-                "title"  : "浦电路福山路",
+                "sortId" : 12,
+                "title"  : "东方路1130号",
 
-                "longitude" : "121.538858",
-                "latitude"  : "31.22802"
-
+                "longitude" : "121.535742",
+                "latitude"  : "31.224637"
             },
             {
-                "sortId" : "2",
-                "title"  : "世纪大道1666号",
+                "sortId" : 13,
+                "title"  : "东方路1264号",
 
-                "longitude" : "121.543188",
-                "latitude"  : "31.229294"
-
+                "longitude" : "121.535796",
+                "latitude"  : "31.221892"
             },
             {
-                "sortId" : "3",
-                "title"  : "松林路浦电路",
+                "sortId" : 14,
+                "title"  : "东方路峨山路",
 
-                "longitude" : "121.542925",
-                "latitude"  : "31.231473"
-
+                "longitude" : "121.535526",
+                "latitude"  : "31.220531"
             },
             {
-                "sortId" : "4",
+                "sortId" : 15,
+                "title"  : "东方路杨高南路",
+
+                "longitude" : "121.540939",
+                "latitude"  : "31.22062"
+            },
+            {
+                "sortId" : 16,
+                "title"  : "杨高南路378",
+
+                "longitude" : "121.543014",
+                "latitude"  : "31.225881"
+            },
+            {
+                "sortId" : 17,
+                "title"  : "源深路杨高中路",
+
+                "longitude" : "121.545457",
+                "latitude"  : "31.229058"
+            },
+
+
+            //{
+            //    "sortId" : 22,
+            //    "title"  : "浦电路福山路",
+            //
+            //    "longitude" : "121.538858",
+            //    "latitude"  : "31.22802"
+            //},
+            //{
+            //    "sortId" : 23,
+            //    "title"  : "世纪大道1666号",
+            //
+            //    "longitude" : "121.543188", //121.5413912432196
+            //    "latitude"  : "31.229294"   //31.22950665779515
+            //
+            //},
+            //{
+            //    "sortId" : 24,
+            //    "title"  : "松林路浦电路",
+            //
+            //    "longitude" : "121.542925",
+            //    "latitude"  : "31.231473"
+            //
+            //},
+            {
+                "sortId" : 25,
                 "title"  : "源深路浦电路",
 
                 "longitude" : "121.544073",
@@ -283,7 +333,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "5",
+                "sortId" : 26,
                 "title"  : "浦东大道源深路",
 
                 "longitude" : "121.535898",
@@ -291,7 +341,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "6",
+                "sortId" : 27,
                 "title"  : "昌邑路源深路",
 
                 "longitude" : "121.534522",
@@ -299,7 +349,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "7",
+                "sortId" : 28,
                 "title"  : "滨江大道源深路",
 
                 "longitude" : "121.533805",
@@ -307,7 +357,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "8",
+                "sortId" : 29,
                 "title"  : "黄浦江点1",
 
                 "longitude" : "121.533457",
@@ -315,7 +365,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "9",
+                "sortId" : 30,
                 "title"  : "黄浦江点2",
 
                 "longitude" : "121.5125",
@@ -323,7 +373,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "10",
+                "sortId" : 31,
                 "title"  : "黄浦江点3",
 
                 "longitude" : "121.499546",
@@ -331,7 +381,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "11",
+                "sortId" : 32,
                 "title"  : "黄浦江点4",
 
                 "longitude" : "121.501924",
@@ -339,7 +389,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "12",
+                "sortId" : 33,
                 "title"  : "黄浦江点5",
 
                 "longitude" : "121.511303",
@@ -347,7 +397,7 @@ function warehouseController($scope, $timeout, $state, $stateParams, Notificatio
 
             },
             {
-                "sortId" : "13",
+                "sortId" : 34,
                 "title"  : "黄浦江点6",
 
                 "longitude" : "121.517663",

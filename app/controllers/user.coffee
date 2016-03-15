@@ -12,6 +12,7 @@ Map = require "../libs/baidumap.js"
 configAlipay =
   notify_url : "http://m.xinweicook.com/api/orders/payment/alipay/notify/account"
   mobile_return_url : "http://m.xinweicook.com/mobile/alipay/returnaccountdetail"
+  website_return_url : "http://xinweicook.com/paymentresult"
 
 alipay = AliPay(configAlipay)
 
@@ -843,7 +844,7 @@ exports.addNewAddress = (req, res, next) ->
       throw(new Err resultBaidu.message, 400, Err.code.user.addressBaiduMapNotFoundError)
 
 
-
+    console.log(resultBaidu)
     # 漕河泾仓库使用直线距离
     resultBaidu = models.warehouse.correctDistanceForCaohejing1Warehouse(resultBaidu, tempAddress)
 
@@ -1124,13 +1125,22 @@ exports.chargeAccount = (req, res, next) ->
     models.order.validationWeixinPayUnifiedOrder req.body
     chargeType = models.accountdetail.constantChargeType().weixinpay
 
+  clientFrom = models.order.constantClientFrom().wechat
+
+  if req.body.clientFrom is models.order.constantClientFrom().website
+    clientFrom = models.order.constantClientFrom().website
+  else if req.get("user-agent") is "Xinwei Cook"
+    clientFrom = models.order.constantClientFrom().ios
+  else if mobileBrowser(req)
+    clientFrom = models.order.constantClientFrom().mobileweb
+
 
   WXPayCharge = WXPay(configWeiXinPay)
 
   models.useraccount.findOneAsync({user : req.u._id.toString()}).then (resultAccount)->
     models.useraccount.checkNotFound(resultAccount)
 
-    resultAccount.chargeAccountDetail(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark, chargeType)
+    resultAccount.chargeAccountDetail(req.body.addAmount, {zh : "在线充值", en : "Online Recharge"}, req.body.remark, chargeType, clientFrom)
 
   .then (resultAccountDetail)->
 
@@ -1250,7 +1260,13 @@ exports.chargeAccount = (req, res, next) ->
       if req.u.mobile is "15900719671" or req.u.mobile is "18629641521" or req.u.mobile is "13564568304" or req.u.mobile is "18621870070"  # 内测帐号1分钱下单
         alipayOrder.totalPrice = 0.01
 
-      aliPaySign = alipay.generateWapCreateDirectPayUrl(alipayOrder)
+
+      if clientFrom is models.order.constantClientFrom().website
+        aliPaySign = alipay.generateWapCreateDirectPayUrl(alipayOrder, false)
+      else
+        aliPaySign = alipay.generateWapCreateDirectPayUrl(alipayOrder, true)
+
+
       resultTemp = resultAccountDetail.toJSON()
       resultTemp.aliPaySign = aliPaySign
 
@@ -1402,6 +1418,17 @@ exports.chargeAccountWeixinPayNotify = (req, res, next) ->
 exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
 
   models.coupon.validationCouponCode(req.body.accountChargeCode)
+
+  clientFrom = models.order.constantClientFrom().wechat
+
+  if req.body.clientFrom is models.order.constantClientFrom().website
+    clientFrom = models.order.constantClientFrom().website
+  else if req.get("user-agent") is "Xinwei Cook"
+    clientFrom = models.order.constantClientFrom().ios
+  else if mobileBrowser(req)
+    clientFrom = models.order.constantClientFrom().mobileweb
+
+
   couponData = {}
   models.coupon.findOneAsync({code : req.body.accountChargeCode, couponType:models.coupon.constantCouponType().accountchargecode, isExpired : false, isUsed : false})
   .then (resultCoupon)->
@@ -1414,7 +1441,7 @@ exports.chargeAccountFromAccoutChargeCode = (req, res, next) ->
   .then (resultAccount)->
       models.useraccount.checkNotFound(resultAccount)
 
-      resultAccount.chargeAccountDetailByChargeCode(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString())
+      resultAccount.chargeAccountDetailByChargeCode(couponData.price, {zh : "使用充值码充值", en : "Code Recharge"}, req.body.remark, couponData._id.toString(), clientFrom)
   .then (resultAccount)->
       couponData.used(req.u)
       res.json resultAccount[0]

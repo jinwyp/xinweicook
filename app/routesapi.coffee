@@ -243,10 +243,12 @@ expressRoutes = (app) ->
   app.get("/api/admin/statistic/user/firstorder/daily", userStatController.userGetFirstEatOrderDaily)
   app.get("/api/admin/statistic/user/firstorder/monthly", userStatController.userGetFirstEatOrderMonthly)
   app.get("/api/admin/statistic/user/order/frequency", userStatController.userOrderFrequency)
+  app.get("/api/admin/statistic/user/order/more4", userStatController.userListAbove4Orders)
 
   app.get("/api/admin/statistic/userall", userStatController.userList)
   app.get("/api/admin/statistic/userall2", userStatController.userListOfHaveLastMonthOrder)
-  
+
+
 
   app.get("/api/admin/statistic/user/order/yearly", userStatController.userGetOrderYearly)
   app.get("/api/admin/statistic/user/order/monthly", userStatController.userGetOrderMonthly)

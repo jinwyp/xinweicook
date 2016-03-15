@@ -729,7 +729,7 @@ exports.addNewOrder = (req, res, next) ->
       resultOrder.totalPrice = 0.01
 
 
-    if resultOrder.clientFrom is 'website'
+    if resultOrder.clientFrom is models.order.constantClientFrom().website
       aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, false)
     else
       aliPaySign = alipay.generateWapCreateDirectPayUrl(resultOrder, true)

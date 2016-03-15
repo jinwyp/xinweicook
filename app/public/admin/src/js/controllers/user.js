@@ -59,6 +59,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         currentDailyUserIndex : '',
         currentMonthlyUserIndex : '',
+        currentUserOrderAboveIndex : '',
 
         userList     : [],
         user         : {
@@ -81,12 +82,14 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
         userStatisticOfNewComers : {},
         userStatisticLoyalPurchaseFrequency : {},
         userStatisticOrderFrequency : {},
+        userStatisticOrderAbove : {},
 
         userStatisticChartNewFirstOrderUserDaily : [],
         userStatisticChartNewFirstOrderUserMonthly : [],
         userStatisticChartOrderUserWeekly : [],
         userStatisticChartOrderUserMonthly : [],
         userStatisticChartOrderUserYearly : {},
+
 
         userGroupList: [
             {
@@ -481,6 +484,7 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         $scope.searchUserStatisticOfNewComers();
         $scope.searchUserStatisticOrderFrequency();
+        $scope.searchUserStatisticOrderAbove();
         //$scope.searchUserStatisticLoyalPurchaseFrequency();
     };
 
@@ -520,6 +524,21 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
 
         Statistic.getUserStatisticOrderFrequency($scope.data.searchOptions.query).then(function (result) {
             $scope.data.userStatisticOrderFrequency = result.data;
+            //Notification.success({message: 'Search Success! ', delay: 4000});
+        }).catch(function(err){
+            console.log(err);
+            Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
+        });
+
+    };
+
+    $scope.searchUserStatisticOrderAbove = function () {
+
+        Util.delProperty($scope.data.searchOptions.query);
+
+        Statistic.getUserStatisticOrderAbove($scope.data.searchOptions.query).then(function (result) {
+
+            $scope.data.userStatisticOrderAbove = result.data;
             //Notification.success({message: 'Search Success! ', delay: 4000});
         }).catch(function(err){
             console.log(err);
@@ -686,6 +705,34 @@ function userController($scope, $timeout, $state, $stateParams, Notification, Ut
             console.log(err);
             Notification.error({message: "Search Failure! Status:" + err.status + " Reason: " + err.data.message , delay: 7000});
         });
+
+    };
+
+
+
+    $scope.searchUserStatisticOrderUserAbove = function (form, sortBy) {
+
+        $scope.css.showTable = 'statOrderUserAbove';
+        $scope.css.searchUserStatisticSortBy = sortBy;
+
+
+        if ($scope.data.searchDateFrom || $scope.data.searchDateTo){
+
+            $scope.data.searchOptions.query.createdAt = {};
+
+            if ($scope.data.searchDateFrom) {
+                $scope.data.searchOptions.query.createdAt['$gte'] = new Date($scope.data.searchDateFrom);
+            }
+            if ($scope.data.searchDateTo) {
+                $scope.data.searchOptions.query.createdAt['$lte'] = new Date($scope.data.searchDateTo)
+            }
+
+        }else{
+            $scope.data.searchOptions.query.createdAt = '';
+        }
+
+        Util.delProperty($scope.data.searchOptions.query);
+
 
     };
 

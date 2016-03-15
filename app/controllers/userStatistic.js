@@ -315,6 +315,12 @@ exports.userNewComerRate = function(req, res, next) {
 
 
 
+
+
+
+
+
+
 // 该算法暂时不用了
 exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
 
@@ -335,7 +341,6 @@ exports.userLoyalUserPurchaseFrequency = function(req, res, next) {
     queryUser = { createdAt:{"$lt": today.toDate() }, sharedInvitationSendCodeTotalCount:{"$gte": 3} };
 
 
-    console.log(req.query.createdAt);
     if (typeof req.query.createdAt !== 'undefined' && req.query.createdAt !== '') {
         var date = JSON.parse(req.query.createdAt);
 
@@ -666,7 +671,7 @@ exports.userOrderFrequency = function(req, res, next) {
                 user.totalUserIntervalCount = totalUserIntervalCount;
 
                 if (totalUserIntervalCount === 0){
-                    console.log("----:", user.user, user.cookingType, user.orderList.length)
+                    //console.log("----:", user.user, user.cookingType, user.orderList.length)
                     user.avgIntervalTime = 0;
                 }else{
                     user.avgIntervalTime = user.totalUserOrderTime / user.totalUserIntervalCount;
@@ -733,6 +738,283 @@ exports.userOrderFrequency = function(req, res, next) {
 
 
 
+
+
+
+
+
+
+exports.userListAbove4Orders = function(req, res, next) {
+
+    var orderStatus = [models.order.constantStatus().paid, models.order.constantStatus().shipped, models.order.constantStatus().finished];
+    var cookingType = [models.dish.constantCookingType().eat];
+
+    var monthmow = moment().startOf('months');
+    var last3month = monthmow.clone().subtract(3, 'months');
+
+
+    var matchList = {
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus}
+        //"cookingType"  : {$in : cookingType},
+        //"createdAt"    : {"$gte" : last3month.toDate()}
+    };
+
+    var matchListMonthNow = {
+        "isChildOrder" : false,
+        "status"       : {$in : orderStatus},
+        //"cookingType"  : {$in : cookingType},
+        "createdAt"    : {"$gte" : monthmow.toDate()}
+    };
+
+    var pipeline = [];
+    var pipelineMonthNow = [];
+
+    // Grouping pipeline
+    pipeline.push(
+        { "$match":matchList},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "cookingType": "$cookingType", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$limit": 20000 }
+
+
+    );
+
+
+    pipelineMonthNow.push(
+        { "$match":matchListMonthNow},
+
+
+        { $project :{
+            _id : 1,
+            createdAt : 1,
+            user : 1,
+            orderNumber: 1,
+            isSplitOrder : 1,
+            isChildOrder : 1,
+            childOrderList : 1,
+            cookingType : 1,
+
+            clientFrom : 1,
+            payment : 1,
+            paymentUsedCash : 1,
+            isPaymentPaid : 1,
+
+            deliveryDateTime : 1,
+
+
+            promotionCode : 1,
+            promotionDiscount : 1,
+            coupon : 1,
+            couponDiscount : 1,
+            accountUsedDiscount : 1,
+
+            dishesPrice : 1,
+            freight : 1,
+            totalPrice : 1,
+
+            packageType : 1,
+
+
+            year: { $year: {$add:["$createdAt",28800000]}  },
+            month: { $month: {$add:["$createdAt",28800000]}  },
+            day: { $dayOfMonth: {$add:["$createdAt",28800000]}  },
+            hour: { $hour: {$add:["$createdAt",28800000]}  },
+            minute: { $minute: {$add:["$createdAt",28800000]}  },
+            "second" : { "$second" : {$add:["$createdAt",28800000]} },
+            "millisecond" : {"$millisecond" : {$add:["$createdAt",28800000]} },
+            dayOfYear: { $dayOfYear: {$add:["$createdAt",28800000]}  },
+            dayOfWeek: { $dayOfWeek: {$add:["$createdAt",28800000]}  },
+            week: { $week: {$add:["$createdAt",28800000]}  }
+
+        }},
+
+        { "$group": {
+            "_id": { user : "$user"},
+
+            "saleQuantity": { "$sum": 1 },
+            "saleTotalPrice": { "$sum": "$totalPrice" },
+
+
+            "cookTypeList": { "$addToSet":  "$cookingType" },
+            "orderList": { "$push": { "_id": "$_id", "createdAt": "$createdAt", "user": "$user", "orderNumber": "$orderNumber", "cookingType": "$cookingType", "totalPrice": "$totalPrice"   } }
+        }},
+
+
+        { $project :{
+            _id : 0,
+            "userId" : "$_id.user",
+
+            "saleQuantity": 1,
+            "saleTotalPrice": 1,
+
+
+            "cookTypeList": 1,
+            "orderList": 1
+
+        }},
+
+        { "$limit": 20000 }
+
+
+    );
+
+
+
+    var promiseList = [
+        models.order.aggregateAsync( pipeline),
+        models.order.aggregateAsync( pipelineMonthNow)
+    ];
+
+
+    Promise.all(promiseList).spread(function(resultOrderList, resultUserMonthNow){
+
+        var result = {};
+        var userListTemp = [];
+        var userListObjTemp = {};
+
+
+        resultOrderList.map(function(user){
+
+            if (userListTemp.indexOf(user.userId.toString()) === -1){
+                userListTemp.push(user.userId.toString())
+
+                userListObjTemp[user.userId.toString()] = user.saleQuantity
+            }
+
+
+            for (var i = 1; i < 90; i++) {
+                if (typeof result['userOrder' + i.toString()] === 'undefined'){
+                    result['userOrder' + i.toString()] = {
+                        users : 0,
+                        userList : [],
+                        usersAbove : 0,
+                        userListAbove : [],
+                        usersAboveHaveOrderThisMonth : 0,
+                        userListAboveHaveOrderThisMonth : []
+                    };
+                }
+
+                if (user.saleQuantity === i ){
+                    result['userOrder' + i.toString()].users = result['userOrder' + i.toString()].users + 1;
+                    result['userOrder' + i.toString()].userList.push(user.userId.toString());
+                }
+
+                if (user.saleQuantity >= i ){
+                    result['userOrder' + i.toString()].usersAbove = result['userOrder' + i.toString()].usersAbove + 1;
+                    result['userOrder' + i.toString()].userListAbove.push(user.userId.toString());
+                }
+            }
+
+        });
+
+
+        resultUserMonthNow.map(function(user){
+            for (var i = 1; i < 90; i++) {
+
+                if (result['userOrder' + i.toString()].userListAbove.indexOf(user.userId.toString()) > -1){
+                    result['userOrder' + i.toString()].usersAboveHaveOrderThisMonth = result['userOrder' + i.toString()].usersAboveHaveOrderThisMonth + 1;
+                    result['userOrder' + i.toString()].userListAboveHaveOrderThisMonth.push(user.userId.toString());
+                }
+
+            }
+        });
+
+
+        models.user.findAsync({_id: {$in:userListTemp}}).then(function(resultUser){
+
+            if (resultUser){
+                resultUser.forEach(function(user){
+                    if (user.sharedInvitationSendCodeTotalCount < userListObjTemp[user._id.toString()] + 1){
+                        user.sharedInvitationSendCodeTotalCount = userListObjTemp[user._id.toString()] + 1 ;
+                        user.saveAsync()
+                    }
+
+                    if (user.sharedInvitationSendCodeTotalCount !== userListObjTemp[user._id.toString()] + 1){
+                        console.log("sharedInvitationSendCodeTotalCount:", user.sharedInvitationSendCodeTotalCount, userListObjTemp[user._id.toString()])
+                    }
+                })
+            }
+        });
+
+
+        res.send(result);
+
+
+
+    }).catch(next);
+
+
+};
 
 
 
@@ -2023,6 +2305,16 @@ exports.userList = function(req, res, next) {
     .catch(next);
 
 };
+
+
+
+
+
+
+
+
+
+
 
 
 

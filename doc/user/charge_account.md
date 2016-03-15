@@ -12,6 +12,7 @@ POST `/api/user/account/details`
 
 | Name       | Type   | Desc     |
 |:-------    |:-------|:-------  |
+| clientFrom | String   |  website, mobileweb, ios, android, wechat(公众号支付)                   |
 | addAmount  | Number | 充值金额  |
 | remark     | String | 备注     |
 | payment    | String | 支付方式 alipay direct / weixinpay  默认不传为alipay direct  |
