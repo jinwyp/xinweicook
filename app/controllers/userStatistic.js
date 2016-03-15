@@ -998,6 +998,10 @@ exports.userListAbove4Orders = function(req, res, next) {
                         user.sharedInvitationSendCodeTotalCount = userListObjTemp[user._id.toString()] + 1 ;
                         user.saveAsync()
                     }
+
+                    if (user.sharedInvitationSendCodeTotalCount !== userListObjTemp[user._id.toString()] + 1){
+                        console.log("sharedInvitationSendCodeTotalCount:", user.sharedInvitationSendCodeTotalCount, userListObjTemp[user._id.toString()])
+                    }
                 })
             }
         });
