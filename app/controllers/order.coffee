@@ -308,12 +308,12 @@ exports.addNewOrder = (req, res, next) ->
 
 
   for dish,dishIndex in req.body.dishList
-    dishIdList.push dish.dish
-    dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
+    dishIdList.push(dish.dish)
+    dishNumberList[dish.dish] = Number(dish.number) + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
     if dish.subDish
       for subDish,subDishIndex in dish.subDish
         dishIdList.push subDish.dish
-        dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
+        dishNumberList[subDish.dish] = Number(subDish.number) + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
 
   newOrder =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
