@@ -65,17 +65,20 @@ module.exports = function makeWebpackConfig(options) {
             new webpack.DefinePlugin({
                 __DEV__: BUILD ? 'false' : 'true',
                 __TODO__: BUILD ? '' : 'console.warn("todo: to be completed")',
-                __PCPREFIX__: BUILD ? "''" : "'/pc'"
+                __PCPREFIX__: BUILD ? "''" : "'/pc'",
+
+                // http://facebook.github.io/react/downloads.html#npm
+                NODE_ENV: BUILD ? 'production' : 'development'
             }),
             new ExtractTextPlugin(BUILD ? "[name].[contenthash].css" : "[name].css", {
                 disabled: TEST
             })
         ],
         devServer : {
-            contentBase: 'app/public',
+            contentBase: 'src/',
             proxy: {
                 '/pc/dist/*': {
-                    target: 'http://localhost:8081/webpackdevserver/',
+                    target: 'http://localhost:8082/webpackdevserver/',
                     secure: false
                 },
                 '/*': {

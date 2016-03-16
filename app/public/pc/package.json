@@ -5,7 +5,7 @@
   "scripts": {
     "test-debug": "karma start --singleRun false",
     "test": "karma start",
-    "dev-pc": "node node_modules/.bin/webpack-dev-server --inline --port 8081",
+    "dev-pc": "node node_modules/.bin/webpack-dev-server --inline --port 8082",
     "build-pc": "gulp clean-pc && webpack --config webpack.build.js -p && gulp pc-replace"
   },
   "engines": {

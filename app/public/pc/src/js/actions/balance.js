@@ -1,4 +1,4 @@
-import fetch from "../utils/xw-fetch"
+import fetch, {post} from "../utils/xw-fetch"
 import * as types from "../constants/ActionTypes"
 
 export function toggleBalance(payPrice) {
@@ -27,5 +27,23 @@ export function getBalance() {
         dispatch(getBalanceStart())
         return fetch('/api/user/account').then(res =>
             dispatch(getBalanceDone(res.balance)))
+    }
+}
+
+function chargeBalanceDone(res) {
+    return {
+        type: types.CHARGE_BALANCE,
+        status: 'success',
+        aliPayUrl: res.aliPaySign.fullurl
+    }
+}
+
+export function chargeBalance(price) {
+    return function (dispatch) {
+        return post('/api/user/account/details', {
+            addAmount: price,
+            payment: 'alipay direct',
+            clientFrom: 'website'
+        }).then(res => dispatch(chargeBalanceDone(res)))
     }
 }

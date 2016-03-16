@@ -41,7 +41,6 @@
   "Reset Done": "Reset Done",
   "Slide to fetch the verification code": "Slide to fetch the verification code",
   "Please write your mobile number before this": "Please write your mobile number before this",
-  "Sign in": "Sign in",
   "Mobile number": "Mobile number",
   "Please enter the 11 digits mobile number": "Please enter the 11 digits mobile number",
   "Password": "Password",
@@ -70,7 +69,6 @@
 
   "##### 购物车 ####":"",
   "My Shopping Cart": "My Shopping Cart",
-  "All":"All",
   "Quantity":"Quantity",
   "Price":"Price",
   "Remark": "Remark",
@@ -137,9 +135,18 @@
   "Canceled":"Canceled",
   "Pay": "Pay",
 
+  "##### 余额充值 #####":"",
+  "I Want Charge": "Balances",
+  "Current Balance:": "Current Balance: ",
+  "Charge": "Charge",
+  "Get Bonus": "Bonus",
+  "Will Get": "Will Get",
+  "Your Balance Will Be:": "Your Balance Will Be: ",
+  "Get discounts with charging balances!": "Get discounts with charging balances!",
+  "Charge Now": "Charge Now",
+
   "##### 便当列表 #####":"",
   "Order Now":"Order Now",
-  "Quantity": "Quantity",
   "Add to Cart": "Add to Cart",
 
   "##### 食材包列表 #####":"",
@@ -174,6 +181,7 @@
   "##### 支付成功 #####": "",
   "Pay successfully": "Thank you for your payment!",
   "See Order Detail": "Go to Order List",
+  "See Your Balance": "See Your Balance",
   "Pay failed": "Your payment failed.",
   "Payment Result": "Payment Result",
 

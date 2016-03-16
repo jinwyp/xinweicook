@@ -41,7 +41,6 @@
   "Reset Done": "重置成功",
   "Slide to fetch the verification code": "滑动获取验证码",
   "Please write your mobile number before this": "请先填写手机号码",
-  "Sign in": "登录",
   "Mobile number": "手机号",
   "Please enter the 11 digits mobile number": "请填写11位手机号码",
   "Password": "密码",
@@ -69,8 +68,6 @@
 
   "##### 购物车 ####":"",
   "My Shopping Cart": "我的购物车",
-  "All":"全选",
-  "Quantity":"数量",
   "Price":"价格",
   "Remark": "留言",
   "Promo code":"优惠码",
@@ -136,6 +133,16 @@
   "Canceled":"已取消",
   "Pay": "支付",
 
+  "##### 余额充值 #####":"",
+  "I Want Charge": "我要充值",
+  "Current Balance:": "您的当前余额: ",
+  "Charge": "充值",
+  "Get Bonus": "送",
+  "Will Get": "实际获得",
+  "Your Balance Will Be:": "将有余额: ",
+  "Get discounts with charging balances!": "现在充值, 即可享受折扣优惠",
+  "Charge Now": "立刻充值",
+
   "##### 便当列表 #####":"",
   "Order Now":"立即结算",
   "Quantity": "数量",
@@ -174,6 +181,7 @@
   "##### 支付成功 #####": "",
   "Pay successfully": "支付成功!",
   "See Order Detail": "点此查看订单详情",
+  "See Your Balance": "点此查看余额",
   "Pay failed": "支付失败.",
   "Payment Result": "支付结果",
 

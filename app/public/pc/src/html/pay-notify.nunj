@@ -20,12 +20,12 @@
             <p class="">
                 {{ __('Pay successfully') }}
             </p>
-            <a href="{{ pcPrefix }}/me">{{ __('See Order Detail') }}</a>
+            <a href="{{ pcPrefix }}/{{ 'me' if type == 'orderPay' else 'me#balance' }}">{{ __('See Order Detail') if type == 'orderPay' else __('See Your Balance') }}</a>
         </div>
         <div class="failed">
             <i class="fa fa-close"></i>
             <p class="">{{ __('Pay failed') }}</p>
-            <a href="{{ pcPrefix }}/me">{{ __('See Order Detail') }}</a>
+            <a href="{{ pcPrefix }}/{{ 'me' if type == 'orderPay' else 'me#balance' }}">{{ __('See Order Detail') if type == 'orderPay' else __('See Your Balance') }}</a>
         </div>
     </div>
 

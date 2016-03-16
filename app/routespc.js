@@ -32,10 +32,13 @@ var routes = function(app) {
         res.render(viewsPrefix + 'why-choose-us.nunj', {curNav: 'whyus'})
     })
     app.get(publicPrefix + "/paymentresult", function (req, res) {
-        res.render(viewsPrefix + 'pay-notify.nunj')
+        res.render(viewsPrefix + 'pay-notify.nunj', {type: 'orderPay'})
     })
     app.get(publicPrefix + "/app", function (req, res) {
         res.render(viewsPrefix + 'app.nunj')
+    })
+    app.get(publicPrefix + "/balance/payresult/alipay", function (req, res) {
+        res.render(viewsPrefix + 'pay-notify.nunj', {type: 'balanceCharge'})
     })
 
 

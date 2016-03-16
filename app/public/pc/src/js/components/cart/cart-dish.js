@@ -15,10 +15,10 @@ var CartDish = React.createClass({
             ('(' + subDish.map((el) => el.dish.title[l] + ' ').join() + ')') : '')
         return (
             <div className={'cart-dish' + (props.noStock ? ' no-stock': '')}>
-                <span onClick={() => props.selectOne(_id)} className={selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}></span>
+                <span onClick={() => props.selectOne(_id)} className={selected ? 'fa fa-check-square-o' : 'fa fa-square-o'}/>
                 <div className="dish-info">
                     <div className="content-wrapper">
-                        <img src={dish.cover[0][l]}/>
+                        <img src={dish.cover[0][l] + '?imageView2/5/w/80/h/80'}/>
                         <span className="main-dish" title={dishName}>
                             {dishName}
                         </span>
@@ -31,7 +31,7 @@ var CartDish = React.createClass({
                     <span className="square-icon" onClick={() => props.plusDish(_id)}>+</span>
                 </div>
                 <div className="price rmb-char">{price}</div>
-                <span className="fa fa-times" onClick={() => props.delDish(_id)}></span>
+                <span className="fa fa-times" onClick={() => props.delDish(_id)}/>
             </div>
         )
     }

@@ -92,6 +92,16 @@ body {
 .tl {
   text-align: left;
 }
+.tr {
+  text-align: right;
+}
+
+.h-bg-trans {
+  transition: background-color 0.4s;
+  &:hover {
+    background-color: $color_cart_list_hover
+  }
+}
 
 // should append display:not inline, width?
 .ellipsis {
