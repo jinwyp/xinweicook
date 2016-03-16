@@ -2,6 +2,7 @@
 
 
 字段 stockWarehouse 是一个数组, 为每个仓库的库, 为了方便增加辅助字段 stockWarehouseObj 把数组转成了对象
+字段 stockWarehouseNotPublished 为了方便增加辅助字段 用来控制对应仓库不显示, 该数组里面为仓库ID, 则用户当前地址(对应仓库)不显示的该商品
 
 
 
