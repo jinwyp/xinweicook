@@ -1866,7 +1866,7 @@ exports.orderDishDailySales = function(req, res, next) {
             "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
 
             "dishSaleQuantityDeliveryDate": 1,
-            //"dishSaleAmountDeliveryDate": 1,
+            "dishSaleAmountDeliveryDate": 1,
             "dishList": 1
 
         }},
