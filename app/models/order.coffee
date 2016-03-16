@@ -845,7 +845,24 @@ module.exports =
 
 
 
-  methods: {}
+  methods:
+    reduceInventory : (userId)->
+      # 扣除商品库存
+      order = @
+      dishHistoryIdList = []
+      dishQuantityObj = {}
+
+      for dish, dishIndex in @dishHistory
+        dishHistoryIdList.push(dish.dish._id)
+        dishQuantityObj[dish.dish._id] = dish.number
+
+      models.inventory.findAsync({order:@_id}).then (resultInventoryList)->
+        if resultInventoryList and resultInventoryList.length is 0
+          models.dish.findAsync({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+            if resultDishList
+              for dish, dishIndex in resultDishList
+                dish.reduceStock(dishQuantityObj[dish._id.toString()], order.warehouse, userId, "userOrder", order)
+
   rest:
 
 #    postRead : (req, res, next) ->

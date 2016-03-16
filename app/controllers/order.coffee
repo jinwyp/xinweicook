@@ -686,16 +686,7 @@ exports.addNewOrder = (req, res, next) ->
     if resultOrder.totalPrice is 0 and resultOrder.accountUsedDiscount > 0
 
       # 扣除商品库存
-      dishHistoryIdList = []
-      dishIdList = {}
-      for dish, dishIndex in resultOrder.dishHistory
-        dishHistoryIdList.push(dish.dish._id)
-        dishIdList[dish.dish._id] = dish.number
-
-      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
-        if resultDishList
-          for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
+      resultOrder.reduceInventory(req.u._id)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -959,16 +950,8 @@ exports.updateOrder = (req, res, next) ->
           childOrder.saveAsync()
 
       # 扣除商品库存
-      dishHistoryIdList = []
-      dishIdList = {}
-      for dish, dishIndex in resultOrder.dishHistory
-        dishHistoryIdList.push(dish.dish._id)
-        dishIdList[dish.dish._id] = dish.number
+      resultOrder.reduceInventory(req.u._id)
 
-      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
-        if resultDishList
-          for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -1101,6 +1084,9 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
           childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
 
+      # 扣除商品库存
+      resultOrder.reduceInventory(resultOrder.user)
+
       resultOrder.saveAsync()
     .spread (resultOrder2, numberAffected) ->
       res.set('Content-Type', 'text/plain');
@@ -1132,8 +1118,6 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
       resultOrder.isPaymentPaid = true
 
 
-
-
     resultOrder.paymentWeixinpay =
       out_trade_no : req.body.out_trade_no
       openid : req.body.openid
@@ -1153,6 +1137,9 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
         childOrder.isPaymentPaid = true
         childOrder.status = models.order.constantStatus().paid
         childOrder.saveAsync()
+
+    # 扣除商品库存
+    resultOrder.reduceInventory(resultOrder.user)
 
     resultOrder.saveAsync()
   .spread (resultOrder2, numberAffected) ->

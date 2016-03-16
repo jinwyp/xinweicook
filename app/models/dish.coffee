@@ -182,7 +182,7 @@ module.exports =
         finalPrice
 
 
-    reduceStock : (stockNumber, warehouseId, user, remark, order ) ->
+    reduceStock : (stockNumber, warehouseId, userId, remark, order ) ->
 
       tempStockWarehouseObject = {}
       tempStockWarehouseIdList = []
@@ -231,7 +231,7 @@ module.exports =
 
             newInventoryChange =
               warehouse : warehouseId
-              user : user._id
+              user : userId.toString()
               dish : dishNow._id
               isPlus : false
               quantity : -Number(stockNumber)
@@ -355,7 +355,7 @@ module.exports =
             models.warehouse.findOneAsync({_id:req.body.reduceInventoryWarehouseId}).then (resultWarehouse) ->
 
               if resultDish and resultWarehouse
-                resultDish.reduceStock(req.body.reduceInventoryWarehouseStock, resultWarehouse._id, req.u, models.inventory.constantRemark().adminOperation )
+                resultDish.reduceStock(req.body.reduceInventoryWarehouseStock, resultWarehouse._id, req.u._id, models.inventory.constantRemark().adminOperation )
 
       next()
 
