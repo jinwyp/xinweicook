@@ -523,14 +523,15 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.dishesPrice = allPrice.dishPrice
     newOrder.freight = allPrice.freight
 
+    newOrder.totalPrice = allPrice.totalPrice
+
     # 员工85折福利
     if req.body.promotionCode is "XWCOOK85ZC" and promotionCode
       if req.u.group isnt models.user.constantUserRole().member
         newOrder.freight = 0
+        newOrder.totalPrice = allPrice.totalPrice - allPrice.freight
 
-    newOrder.totalPrice = allPrice.totalPrice
-
-
+    console.log()
     # 计算感恩节优惠
     timeNow = moment()
     if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.month() is 10 and timeNow.date() < 28 and timeNow.date() > 21 and timeNow.day() is 4
