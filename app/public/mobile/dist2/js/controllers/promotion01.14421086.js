@@ -1,4 +1,4 @@
-angular.module('xw.controllers').controller('promotion01.5c3d8e55', function (Coupon, $scope, Debug, Alert, User, $location) {
+angular.module('xw.controllers').controller('promotion01', function (Coupon, $scope, Debug, Alert, User, $location) {
 
     $scope.exchange = function (code) {
         var card;
