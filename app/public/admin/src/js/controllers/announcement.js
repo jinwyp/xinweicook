@@ -91,11 +91,11 @@ function announcementController($scope, $timeout, $state, $stateParams, Notifica
             },
 
             {
-                name : '一般',
+                name : '一般(首页)',
                 value : 10
             },
             {
-                name : '重要',
+                name : '重要(订单结算页面)',
                 value : 20
             }
         ],
