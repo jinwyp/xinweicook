@@ -531,7 +531,6 @@ exports.addNewOrder = (req, res, next) ->
         newOrder.freight = 0
         newOrder.totalPrice = allPrice.totalPrice - allPrice.freight
 
-    console.log()
     # 计算感恩节优惠
     timeNow = moment()
     if req.u.sharedInvitationSendCodeTotalCount > 2 and timeNow.month() is 10 and timeNow.date() < 28 and timeNow.date() > 21 and timeNow.day() is 4
