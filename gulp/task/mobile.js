@@ -12,7 +12,7 @@ var usemin = require('gulp-usemin');
 
 
 var GulpRevAll = require('gulp-rev-all');
-var revAll = new GulpRevAll({ dontSearchFile: ['.js'] });
+var revAll = new GulpRevAll({ dontSearchFile: ['.js', '.css'] });
 var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
 
