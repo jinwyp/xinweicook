@@ -785,6 +785,12 @@ exports.deliveryAddressForCook = function(req, res, next) {
                         "青山区"
                     ],
                     "city" : "武汉"
+                },
+                {
+                    "areas" : [
+                        "猇亭区"
+                    ],
+                    "city" : "宜昌"
                 }
             ],
             "state" : "湖北"
