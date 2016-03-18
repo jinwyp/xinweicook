@@ -6,7 +6,7 @@ function meCtrl($scope, User, $localStorage, Debug) {
 
     $scope.logout = function () {
         User.logout().then(function () {
-            location.href = 'login.e6766899'
+            location.href = 'login'
         })
     };
 

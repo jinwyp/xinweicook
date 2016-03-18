@@ -56,7 +56,7 @@ angular.module('xw.controllers').controller('inviteCtrl', function ($scope, Debu
                 var queries = prefix +
                     '/' + Utils.utf2b64(name) +
                     '/' + Utils.utf2b64(place);
-                link = location.href.replace('invite.02b2b420', 'invited' + queries).replace(/\?.*/, '');
+                link = location.href.replace('invite', 'invited' + queries).replace(/\?.*/, '');
                 var title = name + '约你一起去' + place + '吃便当';
 
                 Debug.alert(link);

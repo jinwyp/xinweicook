@@ -588,6 +588,7 @@ exports.dishDailySales = function(req, res, next) {
                 "day" : "$_id.day",
                 "month" : "$_id.month",
                 "year" : "$_id.year",
+                "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
 
                 "dishSaleQuantity": 1,
                 "dishSaleAmount": 1,
@@ -640,6 +641,7 @@ exports.dishDailySales = function(req, res, next) {
                 "day" : "$_id.day",
                 "month" : "$_id.month",
                 "year" : "$_id.year",
+                "date" :  { $concat: [ {$substr: ["$_id.year", 0, 4]}, "-", {$substr: ["$_id.month", 0, 2]}, "-", {$substr: ["$_id.day", 0, 2]}] },
 
                 "dishSaleQuantityDeliveryDate": 1,
                 "dishSaleAmountDeliveryDate": 1,
@@ -660,15 +662,16 @@ exports.dishDailySales = function(req, res, next) {
         Promise.all(promiseList).spread(function( resultInventroyPerDay, resultInventroyPerDeliveryDay){
 
             var tempDishObject ={};
+            var tempDishObject2 ={};
 
             if (resultInventroyPerDeliveryDay  && resultInventroyPerDeliveryDay.length > 0 ) {
 
                 resultInventroyPerDeliveryDay.forEach(function(inventroy){
 
-                    inventroy.date =  inventroy.year + "-" + inventroy.month + "-" + inventroy.day;
-                    tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] = inventroy.dishSaleQuantityDeliveryDate;
-                    tempDishObject[inventroy.date + '-' + inventroy.dish.toString() + 'Amount'] = inventroy.dishSaleAmountDeliveryDate;
-
+                    tempDishObject[inventroy.date + '-' + inventroy.dish.toString()] = {
+                        dishSaleQuantityDeliveryDate : inventroy.dishSaleQuantityDeliveryDate,
+                        dishSaleAmountDeliveryDate : inventroy.dishSaleAmountDeliveryDate
+                    };
                 });
             }
 
@@ -682,9 +685,12 @@ exports.dishDailySales = function(req, res, next) {
                     inventroyPerDay.sideDishType = dishHash[inventroyPerDay.dish.toString()].sideDishType;
                     inventroyPerDay.priceOriginal = dishHash[inventroyPerDay.dish.toString()].priceOriginal;
                     inventroyPerDay.isPublished = dishHash[inventroyPerDay.dish.toString()].isPublished;
-                    inventroyPerDay.date =  inventroyPerDay.year + "-" + inventroyPerDay.month + "-" + inventroyPerDay.day;
-                    inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] || "";
-                    inventroyPerDay.dishSaleAmountDeliveryDate =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString() + 'Amount'] || "";
+
+                    if (tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()]){
+                        inventroyPerDay.dishSaleQuantityDeliveryDay =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()].dishSaleQuantityDeliveryDate || "";
+                        inventroyPerDay.dishSaleAmountDeliveryDate =  tempDishObject[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()].dishSaleAmountDeliveryDate || "";
+                    }
+
 
                     inventroyPerDay.dishSaleQuantityPreOrder = 0;
 
@@ -694,9 +700,53 @@ exports.dishDailySales = function(req, res, next) {
                         }
                     });
 
+                    tempDishObject2[inventroyPerDay.date + '-' + inventroyPerDay.dish.toString()] = inventroyPerDay
 
                 });
             }
+
+            // 补上缺的DISH DeliveryDate
+            if (resultInventroyPerDeliveryDay  && resultInventroyPerDeliveryDay.length > 0 ) {
+
+                resultInventroyPerDeliveryDay.forEach(function(inventroy){
+
+                    if (!tempDishObject2[inventroy.date + '-' + inventroy.dish.toString()]){
+                        var newdish = {
+                            "dish" : inventroy.dish,
+                            "day" : inventroy.day,
+                            "month" : inventroy.month,
+                            "year" : inventroy.year,
+
+                            "dishSaleQuantity": 0,
+                            "dishSaleAmount": 0,
+                            "dishList": [],
+
+                            dishSaleQuantityDeliveryDay : inventroy.dishSaleQuantityDeliveryDate,
+                            dishSaleAmountDeliveryDate : inventroy.dishSaleAmountDeliveryDate,
+                            date : inventroy.date,
+
+                            dishname : dishHash[inventroy.dish.toString()].title.zh,
+                            cookingType : dishHash[inventroy.dish.toString()].cookingType,
+                            sideDishType : dishHash[inventroy.dish.toString()].sideDishType,
+                            priceOriginal : dishHash[inventroy.dish.toString()].priceOriginal,
+                            isPublished : dishHash[inventroy.dish.toString()].isPublished
+                        };
+
+                        resultInventroyPerDay.push(newdish);
+                    }
+                });
+            }
+
+
+            resultInventroyPerDay.sort(function(a, b){
+                var keyA = new Date(a.date),
+                    keyB = new Date(b.date);
+                // Compare the 2 dates
+                if(keyA < keyB) return 1;
+                if(keyA > keyB) return -1;
+                return 0;
+            });
+
 
             res.status(200).json(resultInventroyPerDay);
 

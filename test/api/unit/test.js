@@ -10,7 +10,7 @@ var apiPath = path.local + 'api/';
 
 var postUserData = {
     "grant_type": "password",
-    "username": "18621870070",
+    "username": "18621870070", //汤圣罡
     "password": "xwcook789",
     "deviceToken": "0a8b9e7cbe68616cd5470e4c8abb4c1a3f4ba2bee4ca113ff02ae2c325948b8a",
     "couponcode": "XWSALES003"
@@ -113,7 +113,7 @@ describe("API Submit New Order", function() {
                 "subDish": [
                     {
                         "dish": "55cd9fed9cbe20902858618e",
-                        "number": 1
+                        "number": 3
                     }
                 ]
             },
@@ -147,10 +147,10 @@ describe("API Submit New Order", function() {
 
     it("returns new order should be string", function(done) {
 
-        request.post({url:url2, form: postdata, headers:token}, function(error, response, body) {
-            var result = JSON.parse(body);
-            expect(result._id).to.be.a('string');
-            expect(result._id.length).to.above(23);
+        request.post({url:url2, json: postdata, headers:token}, function(error, response, body) {
+            //var result = JSON.parse(body);
+            expect(body._id).to.be.a('string');
+            expect(body._id.length).to.above(23);
             done();
         })
     });

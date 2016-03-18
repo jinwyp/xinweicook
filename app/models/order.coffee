@@ -585,7 +585,11 @@ module.exports =
 
         # 排除元旦
         if startPoint.clone().add(i-1, 'days').dayOfYear() isnt 1 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 2 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 3
-          resultTime.push(segmentDay)
+
+          # 停止营业
+          dateClosed = moment("2016-03-20");
+          if startPoint.clone().add(i-1, 'days').isBefore(dateClosed)
+            resultTime.push(segmentDay)
 
         # 排除春节
 #        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 6) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
@@ -615,7 +619,10 @@ module.exports =
 
         # 排除元旦
         if timeNow.clone().add(i, 'days').dayOfYear() isnt 1 and timeNow.clone().add(i, 'days').dayOfYear() isnt 2 and timeNow.clone().add(i, 'days').dayOfYear() isnt 3
-          resultTime.push(segmentDay)
+          # 停止营业
+          dateClosed = moment("2016-03-19");
+          if timeNow.clone().add(i, 'days').isBefore(dateClosed)
+            resultTime.push(segmentDay)
 
         # 排除春节
 #        if timeNow.clone().add(i, 'days').month() isnt 1 or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() < 6) or (timeNow.clone().add(i, 'days').month() is 1 and timeNow.clone().add(i, 'days').date() > 13)
@@ -645,6 +652,7 @@ module.exports =
         else
           startPoint = timeNow.clone().add(1, 'hours').subtract(timeNow.minute()%30, 'minutes')
 
+
       # 处理当天时间段 # 周六周日不发 # 排除元旦
       if timeNow.day() isnt 0 and timeNow.day() isnt 6 and timeNow.dayOfYear() isnt 1 and timeNow.dayOfYear() isnt 2 and timeNow.dayOfYear() isnt 3
         for i in [1..17]
@@ -656,9 +664,14 @@ module.exports =
 
           # 如果计算出来的时间超过 worktimeEnd 点  将不在push进去
           if timeSectionTemp.isBefore(worktimeEnd)
-            segmentHour =
-              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-            resultTime.push(segmentHour)
+
+            # 停止营业
+            dateClosed = moment("2016-03-19");
+            if timeSectionTemp.isBefore(dateClosed)
+
+              segmentHour =
+                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+              resultTime.push(segmentHour)
 
       # 处理第二天的处理第二天的时间点 不包括周六周日 但如果是星期五后过19点 后会换下周菜单, 也可以下周一订单
       # 排除元旦
@@ -676,9 +689,13 @@ module.exports =
         for i in [1..17]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
 
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-          resultTime.push(segmentHour)
+          # 停止营业
+          dateClosed = moment("2016-03-19");
+          if timeSectionTemp.isBefore(dateClosed)
+
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       resultTime
 
@@ -767,9 +784,12 @@ module.exports =
 
           # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
           if timeSectionTemp.isBefore(worktimeEnd)
-            segmentHour =
-              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-            resultTime.push(segmentHour)
+            # 停止营业
+            dateClosed = moment("2016-03-19");
+            if timeSectionTemp.isBefore(dateClosed)
+              segmentHour =
+                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+              resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六周日 但如果是星期五 过 worktimeEnd  后 会换下周菜单 也可以预订下周一
       # 排除元旦
@@ -786,10 +806,13 @@ module.exports =
 
         for i in [1..6]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
+          # 停止营业
+          dateClosed = moment("2016-03-19");
+          if timeSectionTemp.isBefore(dateClosed)
 
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-          resultTime.push(segmentHour)
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       resultTime
 
@@ -816,9 +839,14 @@ module.exports =
 
           # 处理如果计算出来的时间超过 worktimeEnd  将不在push进去
           if timeSectionTemp.isBefore(worktimeEnd)
-            segmentHour =
-              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-            resultTime.push(segmentHour)
+
+            # 停止营业
+            dateClosed = moment("2016-03-19");
+            if timeSectionTemp.isBefore(dateClosed)
+
+              segmentHour =
+                hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+              resultTime.push(segmentHour)
 
       # 处理第二天的时间点 不包括周六周日 但如果是星期五 过 worktimeEnd  后 会换下周菜单 也可以预订下周一
       # 排除元旦
@@ -836,16 +864,37 @@ module.exports =
         for i in [1..1]
           timeSectionTemp = startPointTomorrow.clone().add(30*(i-1), 'minutes')
 
-          segmentHour =
-            hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
-          resultTime.push(segmentHour)
+          # 停止营业
+          dateClosed = moment("2016-03-19");
+          if timeSectionTemp.isBefore(dateClosed)
+
+            segmentHour =
+              hour : timeSectionTemp.clone().format("YYYY-MM-DD HH:mm")
+            resultTime.push(segmentHour)
 
       resultTime
 
 
 
 
-  methods: {}
+  methods:
+    reduceInventory : (userId)->
+      # 扣除商品库存
+      order = @
+      dishHistoryIdList = []
+      dishQuantityObj = {}
+
+      for dish, dishIndex in @dishHistory
+        dishHistoryIdList.push(dish.dish._id)
+        dishQuantityObj[dish.dish._id] = dish.number
+
+      models.inventory.findAsync({order:@_id}).then (resultInventoryList)->
+        if resultInventoryList and resultInventoryList.length is 0
+          models.dish.findAsync({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
+            if resultDishList
+              for dish, dishIndex in resultDishList
+                dish.reduceStock(dishQuantityObj[dish._id.toString()], order.warehouse, userId, "userOrder", order)
+
   rest:
 
 #    postRead : (req, res, next) ->

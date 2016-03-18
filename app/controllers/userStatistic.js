@@ -2496,3 +2496,58 @@ exports.userListOfHaveLastMonthOrder = function(req, res, next) {
 
 };
 
+
+
+
+exports.userListBak = function(req, res, next) {
+
+
+    models.user.find({}).limit(99999999).lean().then(function(resultUserList) {
+
+        var tempUserAccountObj = {}
+        var tempUserAccountDetailsObj = {}
+
+        var promistList = [] ;
+
+        resultUserList.forEach(function(user){
+
+            var p = models.useraccount.findOneAsync({user : user._id}).then(function(resultUseraccount) {
+                if (resultUseraccount){
+                    tempUserAccountObj[resultUseraccount.user.toString()] = resultUseraccount.balance;
+
+
+                    return models.accountdetail.findAsync({user : resultUseraccount.user, isPaid:true}).then(function(resultUserAccountdetails) {
+                        if (resultUserAccountdetails.length > 0){
+                            tempUserAccountDetailsObj[resultUserAccountdetails[0].user.toString()] = resultUserAccountdetails
+                        }
+                        return resultUserAccountdetails.length
+                    });
+                }
+
+            });
+
+            promistList.push(p);
+
+
+        });
+
+        Promise.all(promistList).then(function(result){
+
+            resultUserList.forEach(function(user){
+
+                user.xinweibi = tempUserAccountObj[user._id.toString()] || "";
+                user.xinweibiChargeDetail = tempUserAccountDetailsObj[user._id.toString()] || "";
+
+            });
+
+
+            res.send(resultUserList);
+
+        }).catch(next);
+
+
+
+
+
+    })
+};

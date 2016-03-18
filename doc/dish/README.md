@@ -2,6 +2,7 @@
 
 
 字段 stockWarehouse 是一个数组, 为每个仓库的库, 为了方便增加辅助字段 stockWarehouseObj 把数组转成了对象
+字段 stockWarehouseNotPublished 为了方便增加辅助字段 用来控制对应仓库不显示, 该数组里面为仓库ID, 则用户当前地址(对应仓库)不显示的该商品
 
 
 
@@ -176,17 +177,20 @@
   "stockWarehouse": [
     {
       "warehouse": "56332187594b09af6e6c7dd2",
-      "_id": "564d3680ce5a3e4618bbcac1",
-      "stock": 35
+      "_id": "564d3680ce5a3e4618bbc9bb",
+      "isPublished": true,
+      "stock": 947
     },
     {
       "warehouse": "56332196594b09af6e6c7dd7",
-      "_id": "564d3680ce5a3e4618bbcac2",
-      "stock": 200
+      "_id": "564d3680ce5a3e4618bbc9bc",
+      "isPublished": true,
+      "stock": 0
     },
     {
       "warehouse": "564ab6de2bde80bd10a9bc60",
-      "_id": "564ee4e32519323efe1819d4",
+      "_id": "569c91a90a5845ef24e4cbc0",
+      "isPublished": true,
       "stock": 0
     }
   ],
@@ -216,11 +220,15 @@
   },
   "isFromAdminPanel": true,
   "isPublished": true,
-  "publishedAt": "2015-09-21T08:44:01.502Z",
+
+  "stockWarehouseNotPublished": [
+    "56332187594b09af6e6c7dd2"
+  ],
   "stockWarehouseObj": {
+    "56c41a9e632771df68dbae0b": 0,
     "564ab6de2bde80bd10a9bc60": 0,
-    "56332196594b09af6e6c7dd7": 200,
-    "56332187594b09af6e6c7dd2": 35
+    "56332196594b09af6e6c7dd7": 0,
+    "56332187594b09af6e6c7dd2": 28
   },
   "outOfStock": false,
   "id": "55ffc3517e6977d44a77bc71"

@@ -308,12 +308,12 @@ exports.addNewOrder = (req, res, next) ->
 
 
   for dish,dishIndex in req.body.dishList
-    dishIdList.push dish.dish
-    dishNumberList[dish.dish] = dish.number + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
+    dishIdList.push(dish.dish)
+    dishNumberList[dish.dish] = Number(dish.number) + if dishNumberList[dish.dish] then dishNumberList[dish.dish] else 0
     if dish.subDish
       for subDish,subDishIndex in dish.subDish
         dishIdList.push subDish.dish
-        dishNumberList[subDish.dish] = subDish.number + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
+        dishNumberList[subDish.dish] = Number(subDish.number) + if dishNumberList[subDish.dish] then dishNumberList[subDish.dish] else 0
 
   newOrder =
     orderNumber : moment().format('YYYYMMDDHHmmssSSS') + (Math.floor(Math.random() * 9000) + 1000)
@@ -523,13 +523,13 @@ exports.addNewOrder = (req, res, next) ->
     newOrder.dishesPrice = allPrice.dishPrice
     newOrder.freight = allPrice.freight
 
+    newOrder.totalPrice = allPrice.totalPrice
+
     # 员工85折福利
     if req.body.promotionCode is "XWCOOK85ZC" and promotionCode
       if req.u.group isnt models.user.constantUserRole().member
         newOrder.freight = 0
-
-    newOrder.totalPrice = allPrice.totalPrice
-
+        newOrder.totalPrice = allPrice.totalPrice - allPrice.freight
 
     # 计算感恩节优惠
     timeNow = moment()
@@ -686,16 +686,7 @@ exports.addNewOrder = (req, res, next) ->
     if resultOrder.totalPrice is 0 and resultOrder.accountUsedDiscount > 0
 
       # 扣除商品库存
-      dishHistoryIdList = []
-      dishIdList = {}
-      for dish, dishIndex in resultOrder.dishHistory
-        dishHistoryIdList.push(dish.dish._id)
-        dishIdList[dish.dish._id] = dish.number
-
-      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
-        if resultDishList
-          for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
+      resultOrder.reduceInventory(req.u._id)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -757,6 +748,8 @@ exports.deliveryTimeArithmetic = (req, res, next) ->
       result = models.order.deliveryTimeArithmeticForReadyToEat()
     else
       result = []
+
+
 
   res.status(200).json(result)
 
@@ -959,16 +952,8 @@ exports.updateOrder = (req, res, next) ->
           childOrder.saveAsync()
 
       # 扣除商品库存
-      dishHistoryIdList = []
-      dishIdList = {}
-      for dish, dishIndex in resultOrder.dishHistory
-        dishHistoryIdList.push(dish.dish._id)
-        dishIdList[dish.dish._id] = dish.number
+      resultOrder.reduceInventory(req.u._id)
 
-      models.dish.find({_id:{ $in:dishHistoryIdList} }).then (resultDishList) ->
-        if resultDishList
-          for dish, dishIndex in resultDishList
-            dish.reduceStock(dishIdList[dish._id.toString()], resultOrder.warehouse, req.u, "userOrder", resultOrder)
 
       # 给客服发送新订单短信
       #models.sms.sendSMSToCSNewOrder(resultOrder.orderNumber)
@@ -1101,6 +1086,9 @@ exports.updateOrderAlipayNotify = (req, res, next) ->
           childOrder.status = models.order.constantStatus().paid
           childOrder.saveAsync()
 
+      # 扣除商品库存
+      resultOrder.reduceInventory(resultOrder.user)
+
       resultOrder.saveAsync()
     .spread (resultOrder2, numberAffected) ->
       res.set('Content-Type', 'text/plain');
@@ -1132,8 +1120,6 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
       resultOrder.isPaymentPaid = true
 
 
-
-
     resultOrder.paymentWeixinpay =
       out_trade_no : req.body.out_trade_no
       openid : req.body.openid
@@ -1153,6 +1139,9 @@ exports.updateOrderWeixinPayNotify = (req, res, next) ->
         childOrder.isPaymentPaid = true
         childOrder.status = models.order.constantStatus().paid
         childOrder.saveAsync()
+
+    # 扣除商品库存
+    resultOrder.reduceInventory(resultOrder.user)
 
     resultOrder.saveAsync()
   .spread (resultOrder2, numberAffected) ->
