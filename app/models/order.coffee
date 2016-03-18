@@ -587,7 +587,7 @@ module.exports =
         if startPoint.clone().add(i-1, 'days').dayOfYear() isnt 1 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 2 and startPoint.clone().add(i-1, 'days').dayOfYear() isnt 3
 
           # 停止营业
-          dateClosed = moment("2016-03-19");
+          dateClosed = moment("2016-03-20");
           if startPoint.clone().add(i-1, 'days').isBefore(dateClosed)
             resultTime.push(segmentDay)
 
@@ -620,7 +620,7 @@ module.exports =
         # 排除元旦
         if timeNow.clone().add(i, 'days').dayOfYear() isnt 1 and timeNow.clone().add(i, 'days').dayOfYear() isnt 2 and timeNow.clone().add(i, 'days').dayOfYear() isnt 3
           # 停止营业
-          dateClosed = moment("2016-03-18");
+          dateClosed = moment("2016-03-19");
           if timeNow.clone().add(i, 'days').isBefore(dateClosed)
             resultTime.push(segmentDay)
 
