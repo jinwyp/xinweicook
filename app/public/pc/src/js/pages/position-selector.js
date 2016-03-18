@@ -39,10 +39,31 @@ var modalStyle = {
     }
 }
 
+var modalAnnounceStyle = {
+    content: {
+        position                   : 'absolute',
+        top                        : '0',
+        left                       : '0',
+        right                      : '0',
+        bottom                     : '0',
+        border                     : 'none',
+        width                      : '470px',
+        height                     : '177px',
+        background                 : '#fff',
+        overflow                   : 'visible',
+        WebkitOverflowScrolling    : 'touch',
+        borderRadius               : '0',
+        outline                    : 'none',
+        padding                    : '0',
+        margin                     : 'auto'
+    }
+}
+
 var App = React.createClass({
     getInitialState() {
         return {
-            shakeButton: false
+            shakeButton: false,
+            showAnnounce: Date.now() > new Date('Fri Mar 21 2016 00:00:00 GMT+0800 (CST)')
         }
     },
 
@@ -89,6 +110,9 @@ var App = React.createClass({
             // action中会自动设置isDefault为true
             this.methods.addressList.putOne(newAddress)
         }
+    },
+    close() {
+        this.setState({showAnnounce: false})
     },
 
     methods: {},
@@ -143,6 +167,16 @@ var App = React.createClass({
                 </div>
                 <Modal style={modalStyle} isOpen={positionSelector.showSelector} onRequestClose={this.methods.close} closeTimeoutMS={250}>
                     <AddressList hideList={hideAddressList} title={__('Please choose an address')} {...this.methods.addressList} {...address} className='position-selector'/>
+                </Modal>
+                <Modal style={modalAnnounceStyle} isOpen={this.state.showAnnounce} onRequestClose={this.close} closeTimeoutMS={250}>
+                    <div className="farewell-announce">
+                        <span className="close fa fa-times" onClick={this.close}/>
+                        <h5>亲爱的新味用户:</h5>
+                        <p>为了给广大消费者提供更好的产品和服务，新味将进行业务全面升级，即日起暂停营业，会尽快回归。给您带来的不便，我们表示深深的歉意！希望升级后的新味能得到您一如既往的喜爱与支持！</p>
+                        <p className="tr">新味<br/>
+                            2016年3月21日
+                        </p>
+                    </div>
                 </Modal>
             </div>
         );
