@@ -93,4 +93,13 @@ production =
     base: ENV.BASE or "https://xinweicook.com"
 
 
-module.exports = if ENV.NODE_ENV is "production" then _.assign(conf, production) else conf
+
+resultConf = conf
+
+if ENV.NODE_ENV is "production"
+  resultConf = _.assign(conf, production)
+
+if ENV.NODE_ENV is "production2"
+  resultConf = _.assign(conf, {db:"mongodb://127.0.0.1/cookapinew"})
+
+module.exports = resultConf
