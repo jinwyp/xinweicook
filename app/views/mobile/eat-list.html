@@ -65,7 +65,7 @@
 
 <menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
 <!---->
-<modal class="announce" default="<%= Date.now() > new Date('Fri Mar 21 2016 00:00:00 GMT+0800 (CST)') ? 'show' : 'close' %>">
+<modal ng-cloak class="announce" default="<%= Date.now() > new Date('Fri Mar 21 2016 00:00:00 GMT+0800 (CST)') ? 'show' : 'close' %>">
     <div class="farewell-announce">
         <span class="close fa fa-times"></span>
         <h5>亲爱的新味用户:</h5>

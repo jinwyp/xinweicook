@@ -34,6 +34,9 @@ var App = React.createClass({
             initCommon(res)
         })
         this.props.dispatch(balanceAction.getBalance())
+        setTimeout(() => {
+            alert('由于系统升级，暂时无法下单')
+        })
     },
     componentDidUpdate: function (prevProps) {
         // update the header which is not a react component

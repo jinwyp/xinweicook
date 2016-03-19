@@ -27,6 +27,8 @@ angular.module('xw.controllers').controller('orderPayCtrl', function (Alert, $sc
     function init() {
         var isCityShanghai;
 
+        alert('由于系统升级，暂时无法下单')
+
         // 购物车
         cart = data.cart = $localStorage.confirmedBag;
 
