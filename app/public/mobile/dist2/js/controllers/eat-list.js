@@ -8,6 +8,8 @@ function eatCtrl($scope, Dishes, $localStorage, Debug, User, $timeout,
     $scope.addresses = null;
     $scope.curDish = null; // 点击购买后被选中的菜品
     $scope.warehouse = ''; // 作为筛选菜品使用
+    $scope.showAnnounce = null;
+    $scope.closeAnounce = null;
     $scope.coupon = {
         expiringCount: 1,
         expiringDays: 0
