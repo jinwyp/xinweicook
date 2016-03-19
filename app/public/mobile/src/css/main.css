@@ -722,30 +722,52 @@ form .err-tip {
   background-color: #C7C7C7;
 }
 
+/* line 328, ../sass/pages/_eat.scss */
+.announce .xw-modal-content {
+  height: 200px;
+  background: transparent !important;
+}
+/* line 331, ../sass/pages/_eat.scss */
+.announce .xw-modal-content .farewell-announce {
+  background-color: white;
+  width: 285px;
+  margin: auto;
+  padding: 2px 15px;
+}
+/* line 336, ../sass/pages/_eat.scss */
+.announce .xw-modal-content .farewell-announce h5 {
+  font-weight: 500;
+}
+/* line 339, ../sass/pages/_eat.scss */
+.announce .xw-modal-content .farewell-announce p {
+  font-size: 0.95em;
+  color: #484848;
+}
+
 @media (max-width: 414px) {
-  /* line 329, ../sass/pages/_eat.scss */
+  /* line 347, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 330px;
   }
 }
 @media (max-width: 375px) {
-  /* line 335, ../sass/pages/_eat.scss */
+  /* line 353, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 290px;
   }
 
-  /* line 338, ../sass/pages/_eat.scss */
+  /* line 356, ../sass/pages/_eat.scss */
   .selections-container .block h4 {
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  /* line 344, ../sass/pages/_eat.scss */
+  /* line 362, ../sass/pages/_eat.scss */
   .detail .title {
     max-width: 250px;
   }
 
-  /* line 347, ../sass/pages/_eat.scss */
+  /* line 365, ../sass/pages/_eat.scss */
   .selections-container .block h4 {
     font-size: 14px;
   }

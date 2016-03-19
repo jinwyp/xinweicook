@@ -64,6 +64,17 @@
 <add-dish-bar user="user" dish="curDish" local-bag="localBag"></add-dish-bar>
 
 <menu-nav path="{{path}}" local-bag="localBag" is-address-ok="isAddressOk(isClick)"></menu-nav>
+<!---->
+<modal class="announce" default="<%= Date.now() > new Date('Fri Mar 21 2016 00:00:00 GMT+0800 (CST)') ? 'show' : 'close' %>">
+    <div class="farewell-announce">
+        <span class="close fa fa-times"></span>
+        <h5>亲爱的新味用户:</h5>
+        <p>为了给广大消费者提供更好的产品和服务，新味将进行业务全面升级，即日起暂停营业，会尽快回归。给您带来的不便，我们表示深深的歉意！希望升级后的新味能得到您一如既往的喜爱与支持！</p>
+        <p class="tr">新味<br/>
+            2016年3月21日
+        </p>
+    </div>
+</modal>
 
 </body>
 <% include includes/js.html %>

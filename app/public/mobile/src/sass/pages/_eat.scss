@@ -325,6 +325,24 @@ $sc-h5-font-size: 15px;
   }
 }
 
+.announce .xw-modal-content {
+  height: 200px;
+  background: transparent !important;
+  .farewell-announce {
+    background-color: white;
+    width: 285px;
+    margin: auto;
+    padding: 2px 15px;
+    h5 {
+      font-weight: 500;
+    }
+    p {
+      font-size: 0.95em;
+      color: #484848;
+    }
+  }
+}
+
 @media (max-width: 414px) {
   .detail .title{
     max-width: 330px;
