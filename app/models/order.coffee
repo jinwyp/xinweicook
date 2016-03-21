@@ -595,7 +595,9 @@ module.exports =
 #        if startPoint.clone().add(i-1, 'days').month() isnt 1 or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() < 6) or (startPoint.clone().add(i-1, 'days').month() is 1 and startPoint.clone().add(i-1, 'days').date() > 13)
 #          resultTime.push(segmentDay)
 
-      if isInRange4KM and timeNow.hour() < 17
+      # 停止营业
+      dateClosed = moment("2016-03-20");
+      if isInRange4KM and timeNow.hour() < 17 and startPoint.clone().add(i-1, 'days').isBefore(dateClosed)
         if timeNow.hour() < 12
           resultTime[0].segment.splice(0, 1)
         else
