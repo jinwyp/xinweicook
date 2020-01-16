@@ -5,7 +5,7 @@ var replace = require('gulp-replace');
 var del = require('del');
 
 // 用webpack生成的带hash的文件替换掉webpack-dev-server的字符
-gulp.task('pc-replace', ['clean-view-pc'], function () {
+function pcReplace() {
     var replaceBlock = /<!-- build-replace -->([\w\W]*?)<!-- end-build-replace -->/g;
     var replaceContent = /(href|src)=("|')\/pc\/dist\/([\w\W]+?)\2/g;
 
@@ -31,14 +31,19 @@ gulp.task('pc-replace', ['clean-view-pc'], function () {
             })
         }))
         .pipe(gulp.dest('app/views/pc'))
-})
+}
 
+exports.pcReplace = gulp.series(cleanViewPc, pcReplace);
 
 // clean
-gulp.task('clean-dist-pc', function () {
+function cleanDistPc() {
     return del('app/public/pc/dist/')
-})
-gulp.task('clean-view-pc', function () {
+}
+
+
+function cleanViewPc() {
     return del('app/views/pc/')
-})
-gulp.task('clean-pc', ['clean-dist-pc', 'clean-view-pc'])
+}
+
+exports.cleanPc = gulp.series(cleanDistPc, cleanViewPc);
+// gulp.task('clean-pc', ['clean-dist-pc', 'clean-view-pc'])

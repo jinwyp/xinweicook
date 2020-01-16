@@ -33,23 +33,27 @@ var nodemonConfig = {
 
 
 /********************  使用nodemon 自动重启服务器  ********************/
-gulp.task('dev', function() {
+function dev() {
     return nodemon(nodemonConfig).on('restart', function () {
         console.log('-------------------- Nodejs server restarted! --------------------');
     });
-});
+}
 
-gulp.task('production', function() {
+exports.dev = dev;
+
+function production() {
     nodemonConfig.env.NODE_ENV = 'production2';
     return nodemon(nodemonConfig).on('restart', function () {
         console.log('-------------------- Nodejs server restarted! --------------------');
     });
-});
+}
+
+exports.production = production;
 
 
+function devold(){
+    shell.task([ "nodemon index.coffee"], {ignoreErrors: false});
+}
 
-gulp.task("devold",
-    shell.task([ "nodemon index.coffee"], {ignoreErrors: false})
-);
 
-
+exports.devold = devold;

@@ -7,19 +7,18 @@ var shell = require("gulp-shell");
 
 
 
-gulp.task( "generatedoc" ,
-    shell.task([
-        "cd doc; gitbook build"
-    ], {ignoreErrors: false})
-);
+function generatedoc () {
+    shell.task(["cd doc; gitbook build"], {ignoreErrors: false})
+}
+
+exports.generatedoc = generatedoc;
+
+function watchdoc () {
+    gulp.watch( ["doc/**/*.md"], generatedoc )
+}
+
+exports.watchdoc = watchdoc;
 
 
-gulp.task( "watchdoc", function(){
-    gulp.watch( ["doc/**/*.md"], ["generatedoc"] )
-});
-
-
-
-gulp.task( "doc", ["generatedoc"]);
-
+// gulp.task( "doc", ["generatedoc"]);
 
