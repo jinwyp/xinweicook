@@ -1,7 +1,7 @@
 
 var publicPrefix = conf.pcPrefix
 var viewsPrefix = '';
-if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true') {
+if (process.env.NODE_ENV == 'production' || process.env.PREVIEW == 'true' || process.env.NODE_ENV == 'development') {
     // views dir: /views/  .see app.coffee
     viewsPrefix = 'pc/'
 } else {
