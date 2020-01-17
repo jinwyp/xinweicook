@@ -1,11 +1,11 @@
 winston = require "winston"
-require("winston-mongodb").MongoDB
+require("winston-mongodb")
 expressWinston = require "express-winston"
 
 
 module.exports =
   logger: ->
-    logger = new (winston.Logger)(
+    logger = winston.createLogger(
       transports: [
         new (winston.transports.Console)(
           level: conf.level.console
@@ -23,6 +23,9 @@ module.exports =
           storeHost : true
           includeIds: true
           handleExceptions: true
+          options:
+            useUnifiedTopology: true
+
         )
       ]
       exitOnError: false
@@ -46,4 +49,4 @@ module.exports =
 
     requestLogger = new winston.transports.Console({ json: true, colorize: true, prettyPrint:true, humanReadableUnhandledException:true, debugStdout:true})
 
-    expressWinston.logger({transports: [requestLogger], level: conf.level.db, statusLevels: false, meta: true, expressFormat: true, colorStatus: true})
+    expressWinston.logger({transports: [requestLogger], level: conf.level.db, statusLevels: false, meta: true, expressFormat: true, colorize: true})

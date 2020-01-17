@@ -18,7 +18,7 @@ global.paths = {
 var taskObj = requireDir('./gulp/task', { recurse: true });
 
 
-console.log(taskObj);
+// console.log(taskObj);
 
 /**
  *  gulp 3.9

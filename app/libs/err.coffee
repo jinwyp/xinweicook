@@ -1,11 +1,10 @@
-prettify = require "prettify-error"
 errcode = require "./errcode"
 
 module.exports =
   Err: ->
     Err = (message="错误的请求", status=400, validationStatus=1000) ->
       Error.call @
-      Error.captureStackTrace @, arguments.callee
+      Error.captureStackTrace @, this.constructor
       @message = message
       @status = status
       @validationStatus = validationStatus
@@ -33,7 +32,7 @@ module.exports =
 
       error.req.user = req.u._id if req.u
 
-      tempError = prettify(error)
+      tempError = error
       if not tempError
         tempError = error
 

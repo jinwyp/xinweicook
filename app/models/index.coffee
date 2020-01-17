@@ -8,12 +8,12 @@ errs = []
 connection = mongoose.connection
 
 connect = () ->
-  dbConnection = mongoose.connect conf.db,
-    server:
-      auto_reconnect: true
-      socketOptions:
-        keepAlive: 1
-        connectTimeoutMS: 5000
+  mongooseOptions =
+    useMongoClient: true
+    autoReconnect: true
+    socketTimeoutMS: 5000
+
+  dbConnection = mongoose.connect conf.db, mongooseOptions
   autoIncrement.initialize dbConnection
 connect()
 
